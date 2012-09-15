@@ -1,0 +1,165 @@
+/* kRap */
+div.kRap {
+	margin: 50px;
+	h1 {
+		&.title {
+			margin-bottom: 50px !important;
+			text-align: center;
+			font-size: 42px;
+		}
+		&.smaller {
+			font-weight: normal;
+			font-size: 30px;
+			span {
+				font-weight: bold;
+			}
+		}
+	}
+	img.floated {
+		border: solid 1px #DADADA;
+		margin: 0px 20px 20px;
+		background: #FFF;
+		height: 130px;
+		padding: 4px;
+	}
+	p {
+		font-size: 18px;
+	}
+	div.button_wrap {
+		text-align: center;
+		margin: 50px auto;
+		display: block;
+		clear: both;
+	}
+	form {
+		table {
+			border-collapse: collapse;
+			border-spacing: 10px;
+			width: 100%;
+			td:last-child {
+				border-bottom: 1px dashed rgba(200, 200, 200, 0.3);
+				border-left: 1px solid #DADADA;
+				padding: 3px 3px 7px 20px;
+				vertical-align: bottom;
+				width: 50%;
+				&:first-child {
+					vertical-align: middle;
+					padding: 0px;
+					border: none;
+					width: auto;
+				}
+			}
+		}
+		input, select {
+			padding: 9px 12px;
+			margin: auto 0px;
+			font-size: 15px;
+			display: block;
+			width: 100%;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+		textarea {
+			padding: 9px 12px;
+			margin: auto 0px;
+			font-size: 15px;
+			display: block;
+			width: 100%;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			min-height: 125px;
+		}
+		label {
+			padding: 9px 12px;
+			font-size: 15px;
+			display: block;
+			width: 100%;
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			&.inline {
+				display: inline;
+			}
+			&.radio, &.checkbox {
+				padding-top: 12px;
+			}
+			&.radio span, &.checkbox input {
+				line-height: 0px;
+				display: inline;
+				width: 25px;
+			}
+			input {
+				&[type="radio"], &[type="checkbox"] {
+					line-height: 0px;
+					display: inline;
+					width: 25px;
+				}
+			}
+			select {
+				display: inline;
+				width: 200px;
+			}
+			.chzn-container span {
+				margin: -2px 0px 0px;
+				padding: 0px;
+			}
+			&.radio span, &.checkbox span {
+				display: inline;
+			}
+		}
+		table td {
+			&:first-child label {
+				padding-right: 12px;
+			}
+			p {
+				font-style: italic;
+				font-size: 11px;
+				margin: 0px;
+			}
+		}
+		label span {
+			margin: 8px auto 3px;
+			display: block;
+		}
+	}
+	p.note {
+		font-style: italic;
+		margin: 15px auto;
+		font-size: 12px;
+	}
+	ul.token-input-list-facebook {
+		p, span {
+			font-weight: normal;
+			display: inline;
+			margin: 0px 3px;
+		}
+	}
+	div.skill_cloud {
+		margin: 25px auto;
+		display: block;
+		h3 {
+			display: block;
+		}
+		a.skill {
+			border: 1px solid #CCD5E4;
+			background: #EFF2F7;
+			padding: 3px 7px;
+			display: block;
+			margin: 3px;
+			float: left;
+			border-radius: 4px;
+			&.active {
+				border: 1px solid #6A6A6A;
+				background: #CCD5E4;
+			}
+			&:hover {
+				text-decoration: none;
+				background: #CCD5E4;
+			}
+		}
+	}
+}
