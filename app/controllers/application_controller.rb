@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
 	before_filter :current_user
-	layout 'standard'
+	#layout 'standard'
 
 	protect_from_forgery
 	def login_required

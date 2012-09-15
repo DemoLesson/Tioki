@@ -7,7 +7,7 @@
 		<% @post.getModels.each do |x| %>
 			<% next unless x.is_a?(User) %>
 			<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), x.teacher.url if x.avatar? %>
-			<%= link_to image_tag("no_image_tiny.jpg"), x.teacher.url unless x.avatar? %>
+			<%= link_to image_tag("dl_icons/no_image_tiny.jpg"), x.teacher.url unless x.avatar? %>
 		<% end %>
 	</div>
 	<p><%= raw @post.getMessage %></p>

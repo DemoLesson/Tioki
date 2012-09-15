@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-	layout 'standard', :except => [:list]
 
 	# GET /events
 	# GET /events.json
