@@ -8,6 +8,8 @@
 //= require jquery_ujs
 //= require jquery-ui.min
 //= require tinymce-jquery
+//= require jquery.form
+//= require jquery.remotipart
 //= require_tree ./tioki
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
