@@ -7,6 +7,8 @@
 //= require jquery.min
 //= require jquery_ujs
 //= require jquery-ui.min
+//= require tinymce-jquery
 //= require_tree ./tioki
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
+//= require_tree ./jquery-extensions
