@@ -19,7 +19,7 @@
 		<div id="search_events" style="margin-bottom:5px;">
 			<% if @topics != nil %>
 				<form action="/events/list" class="filterEvents" style="text-align:right;position:relative;">
-					<div style="display:none;top:0px;left:-4px;position:absolute;background:#FFF;border:solid 1px #000;line-height:0px;" id="loader"><img src="/assets/ajax_loader_large.gif" style="width:30px;height:30px;margin:5px;" /></div>
+					<div style="display:none;top:0px;left:-4px;position:absolute;background:#FFF;border:solid 1px #000;line-height:0px;" id="loader"><% image_tag 'tioki/icons/alt_loading.gif', :style => "width:30px;height:30px;margin:5px;" %></div>
 
 					<span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px;">Search</span>
 					<input type="text" name="search" placeholder="Keyword (i.e Happy Hour)" size="25" />
