@@ -1,13 +1,19 @@
-/tmp
-/log
-*.DS_Store
-*/.DS_Store
-app/.DS_Store
-public/assets
-script/deploy_logs
-solr
-*.swp
-*~
+# Ignore rails files
 app/assets/stylesheets/scaffold.css
-script/deploy_logs/
+public/assets
+tmp
+log
+
+# Ignore mac resource forks
+.DS_Store
+
+# Ignore deploy script logs
+script/deploy_logs
+
+# Ignore uploads
 public/uploads/*
+
+# Ignore Misc
+*.swp
+solr
+*~
