@@ -82,7 +82,7 @@ GEM
       carrierwave
       fog
       uuid
-    chronic (0.7.0)
+    chronic (0.8.0)
     clamp (0.4.0)
     cloudsponge (0.9.9)
       json (>= 1.6.1)

@@ -1,5 +1,5 @@
 class EventMailer < ActionMailer::Base
-  default :from => "Demo Lesson <demolesson@demolesson.com>"
+  default :from => "Tioki <Tioki@Tioki.com>"
 
   def approved(user, event)
   	
