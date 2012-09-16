@@ -40,7 +40,7 @@ body.wizard {
 			margin: 25px auto 0px;
 			background: #FFF;
 			padding: 10px;
-			width: 100%;
+			width: 100% auto;
 			div.about {
 				background: #585858;
 				margin: 10px -10px -10px;
@@ -122,107 +122,44 @@ body.wizard {
 		height: 45px;
 		width: 45px;
 		border-radius: 45px;
-		background: #3b3b3b url(/assets/badges/teacher-leadership.png) no-repeat center center;
+		background: #3b3b3b url(image_path('card_badges/teacher-leadership.png')) no-repeat center center;
 		margin: 10px;
 		position: relative;
-	}
-}
-
-div.badge em {
-	display: none;
-	background-image: url(/assets/images/up-arrow.png);
-	position: absolute;
-	height: 8px;
-	width: 16px;
-	bottom: -20px;
-	left: 30%;
-}
-
-body.wizard div {
-	&.badge {
 		&:hover {
 			background-color: #0084af;
 		}
 		&.assessment {
-			background-image: url(/assets/badges/assessment.png);
+			background-image: url(image_path('card_badges/assessment.png'));
 		}
 		&.career-development {
-			background-image: url(/assets/badges/career-development.png);
+			background-image: url(image_path('card_badges/career-development.png'));
 		}
 		&.culture-building {
-			background-image: url(/assets/badges/culture-building.png);
+			background-image: url(image_path('card_badges/culture-building.png'));
 		}
 		&.lesson-materials {
-			background-image: url(/assets/badges/lesson-materials.png);
+			background-image: url(image_path('card_badges/lesson-materials.png'));
 		}
 		&.lesson-plans {
-			background-image: url(/assets/badges/lesson-plans.png);
+			background-image: url(image_path('card_badges/lesson-plans.png'));
 		}
 		&.life-skills {
-			background-image: url(/assets/badges/life-skills.png);
+			background-image: url(image_path('card_badges/life-skills.png'));
 		}
 		&.pedagogy-themes {
-			background-image: url(/assets/badges/pedagogy-themes.png);
+			background-image: url(image_path('card_badges/pedagogy-themes.png'));
 		}
 		&.specialized-training {
-			background-image: url(/assets/badges/specialized-training.png);
+			background-image: url(image_path('card_badges/specialized-training.png'));
 		}
 		&.teacher-leadership {
-			background-image: url(/assets/badges/teacher-leadership.png);
+			background-image: url(image_path('card_badges/teacher-leadership.png'));
 		}
 		&.technology {
-			background-image: url(/assets/badges/technology.png);
+			background-image: url(image_path('card_badges/technology.png'));
 		}
-	}
-	&.badge_long {
-		height: 45px;
-		width: 45px;
-		border-radius: 45px;
-		background: #3b3b3b url(/assets/badges/teacher-leadership.png) no-repeat center center;
-		margin: 10px;
-		position: relative;
-	}
-}
-
-div.badge em {
-	display: none;
-	background-image: url(/assets/images/up-arrow.png);
-	position: absolute;
-	height: 8px;
-	width: 16px;
-	bottom: -20px;
-	left: 30%;
-}
-
-body.wizard div.badge_long {
-	&.assessment {
-		background-image: url(/assets/badges/assessment.png);
-	}
-	&.career-development {
-		background-image: url(/assets/badges/career-development.png);
-	}
-	&.culture-building {
-		background-image: url(/assets/badges/culture-building.png);
-	}
-	&.lesson-materials {
-		background-image: url(/assets/badges/lesson-materials.png);
-	}
-	&.lesson-plans {
-		background-image: url(/assets/badges/lesson-plans.png);
-	}
-	&.life-skills {
-		background-image: url(/assets/badges/life-skills.png);
-	}
-	&.pedagogy-themes {
-		background-image: url(/assets/badges/pedagogy-themes.png);
-	}
-	&.specialized-training {
-		background-image: url(/assets/badges/specialized-training.png);
-	}
-	&.teacher-leadership {
-		background-image: url(/assets/badges/teacher-leadership.png);
-	}
-	&.technology {
-		background-image: url(/assets/badges/technology.png);
+		&.long {
+			float: none;
+		}
 	}
 }
