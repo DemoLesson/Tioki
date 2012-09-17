@@ -5,8 +5,9 @@
  <div id="myConnections">
       <img src="/assets/contacts.png" id="myConnectionsPic" class="icon" width="34" alt="contacts.png">
       <h4>Connections</h4>
-    <a href="/my_connections">My Connections</a><br>
-    <a href="/pending_connections">Pending Connections (0)</a>
+      <%= link_to "Add Connections", :inviteconnections %><br />
+      <%= link_to 'My Connections', :my_connections %></br>
+      <%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
   </div>
   <!--<div id = "connectionSearch">
     <img src = "/assets/magnifying_glass.png" style = "margin-bottom: -9px;" /> <input type = "search" id = "connectSearch" placeholder = "name" /> <br />

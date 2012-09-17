@@ -39,6 +39,9 @@
 		</table>
 
 		<p class="note"><strong>*</strong>Your temporary password will be sent to you via email.</p>
+                <% if params[:user_connection] %>
+                  <%= hidden_field_tag :user_connection, params[:user_connection] %>
+                <% end %>
 
 		<div class="button_wrap">
 			<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />

@@ -30,11 +30,6 @@ class TeachersController < ApplicationController
 			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
 		
-		# Get the guest pass
-		guest_pass = params[:guest_pass]
-
-		# If the guest code is bad redirect to the root
-		redirect_to :root if guest_pass.to_s != @teacher.guest_code && self.current_user.nil?
 		
 		# If the there is currently a user logged in
 		if self.current_user != nil
@@ -108,7 +103,7 @@ class TeachersController < ApplicationController
 		if @teacher == nil
 			redirect_to :root
 			flash[:alert]  = "Not found"
-		else @teacher.currently_seeking == true
+		else 
 			respond_to do |format|
 				format.html # profile.html.erb
 				format.json  { render :json => @teacher } # profile.json

@@ -6,8 +6,8 @@ development:
 production:
   cloudsponge:
     # DemoLesson.com
-    domainKey: "3Z4S85SUET5Z5AJEEERR"
-    domainPassword: "422NkRAnq4Y9EGn4"
+    #domainKey: "3Z4S85SUET5Z5AJEEERR"
+    #domainPassword: "422NkRAnq4Y9EGn4"
     # Tioki.com
-    #domainKey: "HKY55PWXKBCMNTYWSAV7"
-    #domainPassword: "3QglPk583veJMRNo"
+    domainKey: "HKY55PWXKBCMNTYWSAV7"
+    domainPassword: "3QglPk583veJMRNo"

@@ -12,17 +12,23 @@
 				<h2>
 				Educators Join Free
 				</h2>
-		<form action="/welcome_wizard?x=step1" id="signup-form" method="post">
+		<form action="/create" id="signup-form" method="post">
 			<input type="hidden" name="_ak" value="splash" />
 			<fieldset>
 				<input name="user[first_name]" type="text" placeholder="First Name" />
 			</fieldset>
-			<fieldset>
+			<fieldset id="lastnm">
 				<input name="user[last_name]" type="text" placeholder="Last Name" />
 			</fieldset>
 			<fieldset>
-				<input name="user[email]" type="text" placeholder="Email" />
+				<input name="user[email]" type="email" placeholder="Email" />
 			</fieldset>
+                        <fieldset id="enterpwd">
+                          <input name="user[password]" type="password" placeholder="Password" />
+                        </fieldset>
+                        <fieldset id="confirmpwd">
+                          <input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
+                        </fieldset>
 			<fieldset>
 				<input type="submit" class="button huge-button" value="Sign up for Tioki" />
 			</fieldset>
@@ -31,9 +37,6 @@
 			<br />* We will email your password to you.
 			</p>
 		</form>
-					<iframe src="http://www.facebook.com/plugins/facepile.php? 
-href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;  
-overflow:hidden; width:300px;" allowTransparency="true"></iframe> 
 			</div>
 			<div class="featured-quote">
 				<blockquote>
