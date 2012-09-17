@@ -1,4 +1,4 @@
-
+<section id="main-content" class="inner-content">
 <link type="text/css" href="/assets/jquery-ui-1.8.20.custom/css/blitzer/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />	
 <script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
@@ -64,7 +64,7 @@
             <% else %>
               Not Reviewed
             <% end %><br />
-            <%= link_to "Remove", {:controller => :jobs, :action => :apply, :id => application.job.id}, {:class => "btn" } %> <%= link_to "Attachments", {:controller => :teachers, :action => :appattachments, :id => application.id}, {:class => "btn"} %>
+            <%= link_to "Remove", {:controller => :jobs, :action => :apply, :id => application.job.id}, {:class => "button" } %> <%= link_to "Attachments", {:controller => :teachers, :action => :appattachments, :id => application.id}, {:class => "button"} %>
           </div>
         </div>
       <% end %>
@@ -96,11 +96,11 @@
               Scheduled
             <% end %><br />
             <% if interview.selected == 0 %>
-              <%= link_to 'Respond', {:controller => :interviews, :action => :respond, :id => interview.id }, {:class => "btn"} %>
+              <%= link_to 'Respond', {:controller => :interviews, :action => :respond, :id => interview.id }, {:class => "button"} %>
             <% else %>
-              <%= link_to 'Edit', { :controller => :interviews, :action => :respond, :id => interview.id }, { :class => "btn"} %>
+              <%= link_to 'Edit', { :controller => :interviews, :action => :respond, :id => interview.id }, { :class => "button"} %>
             <% end %>
-            <%= link_to 'Decline', interview, :confirm => 'Are you sure?', :method => :delete, :class => "btn" %>
+            <%= link_to 'Decline', interview, :confirm => 'Are you sure?', :method => :delete, :class => "button" %>
           </div>
         </div>
       <% end %>
@@ -114,3 +114,4 @@
                 $("ul").removeClass("ui-widget-header");
 	});
 </script>
+</section>
