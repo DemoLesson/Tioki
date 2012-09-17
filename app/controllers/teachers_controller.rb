@@ -1,6 +1,5 @@
 class TeachersController < ApplicationController
 	before_filter :login_required, :except => [:profile, :guest_entry]
-	layout :resolve_layout, :except => [:add_pin, :remove_pin, :add_star, :remove_star]
 	API_KEY, SECRET_KEY = "mgb6uz10qf31", "9WXAkgt6TyPdfJGI"
 
 	# GET /teachers/1
@@ -275,12 +274,17 @@ class TeachersController < ApplicationController
 
 	# GET /teachers/1/edit
 	def edit
-		@teacher = Teacher.find(params[:id])
+		if User.current.nil? || User.current.teacher.nil?
+			return render :json => {"message" => "Nothing"}
+		end
+
+		# Get the current teacher
+		@teacher = User.current.teacher
+
+		# Get the teachers skills
 		@skills = @teacher.skills
-                @video = @teacher.videos.last
-		render :nothing => true, :status => "Forbidden" if @teacher.id != self.current_user.teacher.id
-		
-		#REFACTOR : all editing pages should have a header/button row
+		# Get the teachers last video
+		@video = @teacher.videos.last
 	end
 
 	# POST /teachers
@@ -636,16 +640,5 @@ class TeachersController < ApplicationController
 		end
 
 		render :json => @skills
-	end
-
-	private
-
-	def resolve_layout
-		case action_name
-		when "profile"
-			"standard"
-		else
-			"application"
-		end
 	end
 end

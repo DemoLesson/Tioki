@@ -147,6 +147,12 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tex
 	}
 }
 
+a.button {
+	background: $salmon;
+	padding: 3px 5px;
+	color: #FFF;
+}
+
 .huge-button {
 	width: 300px;
 	font: 22px/1.6 $oswald !important;
