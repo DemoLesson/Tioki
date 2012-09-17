@@ -1,4 +1,6 @@
 <section id="main-content" class="inner-content">
+  <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/c/video.js"></script>
 	<section class="profile group">
 		<nav class="subpage">
 			<ul>
@@ -19,7 +21,7 @@
 		</nav>
 		<section class="sidebar">
 			<div class="profile-thumb-large">
-			<%= @teacher.user.avatar(:large) if @teacher.user.avatar? %>
+                          <%= image_tag( @teacher.user.avatar.url(:medium), :height => 160, :width => 160) if @teacher.user.avatar? %>
 			<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
 			</div>
 			<h3>
@@ -84,14 +86,18 @@
 			</section>
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
-			<% unless @teacher.video_embed_html == nil %>
-				<div class="profile-video panel">
-					<%= @teacher.video_embed_html.html_safe %>
-				</div>
-			<% end %>
+                        <% if @teacher.video_embed_html %>
+                          <div class="profile-video panel">
+                            <%= @teacher.video_embed_html.html_safe %>
+                          </div>
+                        <% elsif @video != nil%>
+                          <div class="profile-video panel">
+                            <%= @embed_code.html_safe %>
+                          </div>
+                        <% end %>
 			<section class="video-actions group">
 				<% if self.current_user && self.current_user.teacher == @teacher %>
-					<% unless @teacher.video_embed_html == nil %>
+					<% unless @teacher.video_embed_html == nil && @video == nil%>
 						<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 						Edit Video
 						</a>
@@ -105,7 +111,7 @@
 						Connect
 					</a>
 				<% end %>
-				<% unless @teacher.video_embed_html == nil %>
+				<% unless @teacher.video_embed_html == nil && @video == nil%>
 					<ul class="stats">
 						<li>
 							<div class="count favorites">

@@ -58,7 +58,7 @@ class Teacher < ActiveRecord::Base
 
   def vjs_embed_code(output_url)
     return "<video id=\"my_video_1\" class=\"video-js vjs-default-skin\" controls
-		  preload=\"auto\" width=\"545\" height=\"429\"
+		  preload=\"auto\" width=\"640\" height=\"480\"
 		  data-setup=\"{}\"><source src=\"#{output_url}\" type='video/mp4'>
 		</video>"
   end
@@ -70,7 +70,7 @@ class Teacher < ActiveRecord::Base
   def snippet_watchvideo_button
     @video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
     if @video != nil
-      embedstring= "<a rel=\"shadowbox;width=545;height=429;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
+      embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
 
       begin
         if @video.encoded_state == 'queued'
@@ -97,7 +97,7 @@ class Teacher < ActiveRecord::Base
   def snippet_watchvideo_test
     @video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
     if @video != nil
-      embedstring = "<a rel=\"shadowbox;width=545;height=429;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
+      embedstring = "<a rel=\"shadowbox;width=640;height=480;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
     begin
       if @video.encoded_state == 'queued'
         Zencoder.api_key = 'ebbcf62dc3d33b40a9ac99e623328583'
@@ -128,7 +128,7 @@ class Teacher < ActiveRecord::Base
     @video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, false], :order => 'created_at DESC')
     if @video != nil
       embedstring=   "<video id=\"my_video_1\" class=\"video-js vjs-default-skin\" controls
-                  preload=\"auto\" width=\"545\" height=\"429\"
+                  preload=\"auto\" width=\"640\" height=\"480\"
                   data-setup=\"{}\"><source src=\"#{@video.output_url}\" type='video/mp4'>
                 </video>"
       begin
@@ -155,7 +155,7 @@ class Teacher < ActiveRecord::Base
   # Viddler API helpers
   
   def viddler_embed_code(video_info)
-   return "<object width=\"545\" height=\"429\" id=\"viddlerOuter-386968dc\" type=\"application/x-shockwave-flash\" data=\"//www.viddler.com/mini/#{video_info}\"> <param name=\"movie\" value=\"//www.viddler.com/mini/#{video_info}\"> <param name=\"allowScriptAccess\" value=\"always\"><param name=\"allowNetworking\" value=\"all\"><param name=\"allowFullScreen\" value=\"true\"><param name=\"flashVars\" value=\"f=1&autoplay=f&disablebranding=1&loop=0&hd=0\"></object>"
+   return "<object width=\"640\" height=\"480\" id=\"viddlerOuter-386968dc\" type=\"application/x-shockwave-flash\" data=\"//www.viddler.com/mini/#{video_info}\"> <param name=\"movie\" value=\"//www.viddler.com/mini/#{video_info}\"> <param name=\"allowScriptAccess\" value=\"always\"><param name=\"allowNetworking\" value=\"all\"><param name=\"allowFullScreen\" value=\"true\"><param name=\"flashVars\" value=\"f=1&autoplay=f&disablebranding=1&loop=0&hd=0\"></object>"
   end
   
   def error_embed_code
