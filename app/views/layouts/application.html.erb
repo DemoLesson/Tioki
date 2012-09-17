@@ -215,6 +215,17 @@
 					</li>
                                       <% elsif User.current.is_admin? %>
 					<li>
+                                        <%= link_to "My Schools", "/my_schools" %>
+                                        </li>
+                                        <li>
+                                        <%= link_to "My Favorites", "/favorites" %>
+                                        </li>
+					<li>
+						<a href="/events">
+						Events
+						</a>
+					</li>
+					<li>
                                         <%= link_to "My Jobs", :my_jobs %>
 					</li>
 					<li>
