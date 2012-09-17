@@ -235,6 +235,10 @@
 				</ul>
 			</nav><!-- End Nav -->
 		<% end %>
+		<!-- Display Notices -->
+  		<% if notice != nil %>
+  			<p class="notice"><%= notice %></p>
+  		<% end %>
 		
 		<!-- Import page here -->
 		<%= yield %>
