@@ -20,7 +20,14 @@ class WelcomeWizardController < ApplicationController
 			flash[:notice] = "You cannot go to step 1 of the welcome wizard after you have joined the site."
 			return redirect_to :root
 		end
-		
+
+                #check if this account is part of a mass invite email
+                if params[:invitestring]
+                  @invite=ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+                  if @invite == nil
+                    params[:invitestring]=nil
+                  end
+                end
 		# Detect post variables
 		if request.post?
 
@@ -46,6 +53,19 @@ class WelcomeWizardController < ApplicationController
                                 #user was came from the attempting to connect from another users profile
                                 if params[:user_connection]
                                   return redirect_to :controller => :connections, :action => :add_connection, :user_id => params[:user_connection], :to_wizard => true
+                                elsif params[:invitestring]
+                                  #Mass invite emails connections
+
+                                  @invite=ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+
+                                  if @invite.pending
+                                    Connection.create(:owned_by => @user.id, :user_id => @invite.user_id, :pending => false)
+                                    Connection.create(:owned_by => @invite.user_id, :user_id => @user.id, :pending => false)
+
+                                    @invite.update_attribute(:pending, false)
+
+                                    session[:_ak] = "unlock_external_email"
+                                  end
                                 end
 
 				# Wizard Key

@@ -41,6 +41,8 @@
 		<p class="note"><strong>*</strong>Your temporary password will be sent to you via email.</p>
                 <% if params[:user_connection] %>
                   <%= hidden_field_tag :user_connection, params[:user_connection] %>
+                <% elsif params[:invitestring] %>
+                  <%= hidden_field_tag :invitestring, params[:invitestring] %>
                 <% end %>
 
 		<div class="button_wrap">

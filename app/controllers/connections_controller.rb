@@ -158,7 +158,7 @@ class ConnectionsController < ApplicationController
 
   def inviteconnections
     @my_connection = Connection.find_for_user(self.current_user.id)
-    @default_message = "Hey! I'd absolutely love to add you to my educator network on DemoLesson."
+    @default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
   end
 
   def inviteconnection
@@ -215,7 +215,7 @@ class ConnectionsController < ApplicationController
             @invite.update_attribute(:url, invitestring + @invite.id.to_s)
 
             # Generate the invitation url to be added to the email
-            url = "http://#{request.host_with_port}/card?i=" + @invite.url
+            url = "http://#{request.host_with_port}/welcome_wizard?x=step1&invitestring=" + @invite.url
 
             # Send out the email
             mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
