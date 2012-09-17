@@ -40,27 +40,39 @@
 				 fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
 			});
 			
-			// Drawer Handle
-			/*
-			$('#drawer-handle').click(function() {
-				$('#login-drawer').animate({
-					marginTop: '0px'
-				}, 400, function() {
-					// Animation complete.
-				});
-			});
-			
-			// Close Drawer
-			$('#close-drawer').click(function() {
-				$('#login-drawer').animate({
-					marginTop: '-60px'
-
-				}, 400, function() {
-					// Animation complete.
-				});
-			});
-			*/
 		});
+			
+	</script>
+
+        <script>
+          $(document).ready(function() {
+            $('#drawer-handle').click(function() {
+              $('#login-drawer').animate({
+                marginTop: '0px'
+
+                }, 400, function() {
+                // Animation complete.
+              });
+            });
+
+          });
+
+        </script>
+	<script>
+		$(document).ready(function() {
+			
+			$('#close-drawer').click(function() {
+				  $('#login-drawer').animate({
+				    marginTop: '-60px'
+				    
+				  }, 400, function() {
+				    // Animation complete.
+				  });
+			});
+
+			
+		});
+		
 	</script>
 
 </head>
@@ -86,20 +98,12 @@
 					<a href="#" id="close-drawer">
 					Close
 					</a>
-					<form action="/" id="login-form">
-						<fieldset>
-							<input type="email" placeholder="Email" />
-						</fieldset>
-						<fieldset>
-							<input type="password" placeholder="Password" />
-						</fieldset>
-						<fieldset>
-							<input type="submit" class="button primary-button" value="Login" />
-						</fieldset>
-						<a href="#" class="forgot-password">
-						Forgot Password?
-						</a>
-					</form>
+						<%= form_tag :controller => 'users', :action=> "login" do %>
+							<%= email_field "user", "email", :placeholder => "Email" %>
+							<%= password_field "user", "password", :placeholder => "Password" %>
+							<%= submit_tag "Login", :class => "button primary-button" %>
+                                                <%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
+                                              <% end %>
 				</div>
 			</section>
 		<% end %>
