@@ -91,8 +91,8 @@
 	}(document, 'script', 'facebook-jssdk'));
 	</script>
 			
-	<div id="page-wrapper" class="<%= "logged-in" unless User.current.nil? %>">
-		<% if User.current.nil? %>
+	<div id="page-wrapper" class="<%= "logged-in" unless self.current_user.nil? %>">
+		<% if self.current_user.nil? %>
 			<section id="login-drawer" class="wrapper">
 				<div class="drawer-wrapper inner-content">
 					<a href="#" id="close-drawer">
@@ -115,20 +115,20 @@
 					Tioki
 					</div>
 				</a>
-				<% if User.current.nil? %>
+				<% if self.current_user.nil? %>
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>
-                                <% elsif User.current.is_admin? %>
+                                <% elsif self.current_user.is_admin? %>
 					<div id="user-actions">
 						<ul>
 							<li class="user-name">
-								<%= User.current.name %>
+								<%= self.current_user.name %>
 								<div class="gear">
 								</div>
 								
 								<ul>
-                                                                  <% if !User.current.is_limited %>
+                                                                  <% if !self.current_user.is_limited %>
                                                                     <li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
                                                                   <% else %>
                                                                     <li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
@@ -152,7 +152,7 @@
 						<ul>
 							<li class="user-name">
 								<a href="/me/profile">
-								<%= User.current.name %>
+								<%= self.current_user.name %>
 								<div class="gear">
 								</div>
 								</a>
@@ -180,7 +180,7 @@
 				<% end %>
 			</header>
 		</section>
-		<% unless User.current.nil? %>
+		<% unless self.current_user.nil? %>
 			<nav class="wrapper top-nav">
 				<ul class="inner-content">
 					<li>
@@ -188,7 +188,7 @@
 						Home
 						</a>
 					</li>
-                                        <% if User.current.teacher %>
+                                        <% if self.current_user.teacher %>
 					<li>
 						<a href="/me/profile">
 						Profile
@@ -214,7 +214,7 @@
 						Inbox
 						</a>
 					</li>
-                                      <% elsif User.current.is_admin? %>
+                                      <% elsif self.current_user.is_admin? %>
 					<li>
                                         <%= link_to "My Schools", "/my_schools" %>
                                         </li>
