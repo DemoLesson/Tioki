@@ -1,236 +1,59 @@
-<section id="main-content" class="inner-content">
-	<h1>Edit Profile</h1>
-
-	<p class="notice">View a <%= link_to 'sample profile', '/Mandela' %> to see what your completed one will look like.</p>
-
-	<div style="margin-bottom:10px;">	
-		<%= link_to 'Education', '/education', :class => "button salmon" %>
-		<%= link_to 'Experience', '/experience', :class => "button salmon" %>
-		<%= link_to 'Credentials', '/credentials', :class => "button salmon" %>
-		
-		<div style="float:right">
-			<%= link_to 'Change Profile Picture', '/change_picture', :class => "button salmon" %>
-			<% if @video == nil && @teacher.video_embed_url == nil %>
-				<%= link_to "Upload Video", '/videos/new', :class => "button salmon" %>
-			<% else %>
-				<%= link_to "Edit Video", '/myvideo', :class => "button salmon" %>
-			<% end %>
-		</div>
-	</div>
-
-	<section id="panels">
-		<section class="panel">
-			<h3>My Guest Passcode</h3>
-			<section class="panel-actions">
-				<% if @teacher.guest_code != nil %>
-					<%= text_field :a, :b, :value => "http://demolesson.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
-				<% end %>
-
-				<p>Send this to people who don’t have a DemoLesson account to allow them to view your profile.</p>
-			</section>
-		</section>
-		<section class="panel">
-			<h3>Profile File Attachments</h3>
-			<section class="panel-actions">
-				<% for asset in @teacher.assets %>
-					<% if asset.assetType != 1 %>
-						<p>
-						<img src="<%= asset_path 'file.png' %>" />
-						<%= link_to asset.name, asset.file.url %> <span class="purge"><%= link_to 'Remove?', '/purge/'+asset.id.to_s, :confirm => 'Are you sure you want to remove "'+asset.name+'" from your profile? The file be permanently deleted.' %></span><br />
-						<%= asset.description %>
-						</p>
-					<% end %>
-				<% end %>
-
-				<div id="attach_form" style="display: none">
-					<%= form_for @asset, :as => :asset, :url => '/attach', :html => { :multipart => true } do |f| %>
-
-						<fieldset>
-							<%= f.text_field :name, :placeholder => "Name" %>
-						</fieldset>
-
-						<fieldset>
-							<%= f.text_field :description, :placeholder => "Description" %>
-						</fieldset>
-
-						<fieldset>
-							<%= f.label :file %>
-							<%= f.file_field :file %>
-						</fieldset>
-
-						<fieldset>
-							<input name="commit" type="submit" value="Upload File" onclick="$('#loader').show('fast');" class="btn btn-success" />
-						</fieldset>
-
-						<div id="loader" style="display: none">
-							<img src="<%= asset_path 'loader.gif' %>" />
-						</div>
-
-					<% end %>
+<section id="main-content" class="inner-content">	
+	<%= form_for @teacher, :html => { :multipart => true } do |f| %>
+		<section class="profile group">
+			<section class="left-sidebar">
+				<h1>
+				Edit Profile
+				</h1>
+				<p>
+				View a <a href="/profile/Mandela">sample profile</a> to see what your completed one will look like.
+				</p>
+				<div class="profile-thumb-medium">
+					<%= @teacher.user.avatar(:medium) if @teacher.user.avatar? %>
+					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @teacher.user.avatar? %>
 				</div>
-
-				<div id="attach_new_btn">
-					<a href="javascript:void(0);" onclick="$('#attach_form').show('fast');$('#attach_new_btn').hide();return false;" class="button">Attach new file</a>
-				</div>	
-				<p>Suggested uploads: <span style="font-size:0.8em;">Resume &middot; Letter of recommendation &middot; Certificates or credentials &middot; Unit plan &middot; Pacing plan &middot; Lesson plan &middot; Assessment &middot; Assessment tracker &middot; Classroom management plan &middot; Classroom procedures and protocol</span></p>
-			</section>
-		</section>
-		<%= form_for @teacher, :as => :teacher, :url => '/teachers/'+@teacher.id.to_s, :html => { :multipart => true } do |f| %>
-			<section class="panel">
-				<h3>Import from LinkedIn</h3>
-				<section class="panel-actions">
-					<%= link_to 'Import from Linkedin!', '/linkedinprofile', :class => "button" %>
-
-					<p>Already have a LinkedIn Profile? You can import your experience, education, contact info, and other information directly from LinkedIn, saving you precious time. It only takes a few seconds.</p>
-
-					<fieldset>
-						<%= f.label "Attach your LinkedIn profile" %>
-						<% if @teacher.linkedin == nil %>
-							<%= f.text_field :linkedin, :value => "http://linkedin.com/" %>
-						<% else %>
-							<%= f.text_field :linkedin %>
-						<% end %>
-					</fieldset>
+				<h3>
+				<%= @teacher.user.name %>
+				</h3>
+				<section class="profile-info group">
+					<p class="heading top-line">
+					Headline
+					</p>
+					<p>
+					The headline is limited to 140 characters.
+					</p>
+					<%= f.text_area :headline, :maxlength => 140 %>
+					<p class="bold">
+					Phone
+					</p>
+					<%= f.text_field :phone %>
+					<p class="bold">
+					LinkedIn Profile
+					</p>
+					<%= f.text_field :linkedin %>
 				</section>
-			</section>
-			<section class="panel">
-				<h3>Headline</h3>
-
-				<section class="panel-actions">
-					<p>The headline is limited to 140 characters</p>
-					<fieldset id="headlineTextField" class="field">
-						<p id="headlineCounter">140 chars</p>
-						<%= f.text_area :headline, :rows => 7 , :maxlength => 140, :style => 'width:100%;' %>
-					</fieldset>
-
-					<script type="text/javascript">
-					$(function() {
-						var counter = 140;
-						$("#headlineTextField").bind('keydown', function(e) {
-							if (counter < 140 && e.which === 8) {
-								counter = counter + 1;
-							} else if (counter === 140 && e.which === 8) {
-								counter = 140;
-							}
-							$("#headlineCounter").text(counter + " chars");
-						});
-						$("#headlineTextField").bind('keyup', function(e) {
-							if (e.which !== 8) {
-								counter = counter - 1;
-								if (counter < 0) {
-									counter = 0;
-								}
-							}
-							$("#headlineCounter").text(counter + " chars");
-						});
-					});
-					</script>
+				<section class="profile-info group">
+					<p class="heading top-line">
+					Current Position
+					</p>
+					<p class="bold">
+					Position
+					</p>
+					<%= f.text_field :position %>
+					<p class="bold">
+					School
+					</p>
+					<%= f.text_field :school %>
+					<p class="bold">
+					Location
+					</p>
+					<%= f.text_field :location %>
 				</section>
+			</section> <!-- End Sidebar -->
+			<section class="right-sidebar">
+			
+			<input type="submit" class="huge-button" value="Save Changes">
 			</section>
-			<section class="panel">
-				<h3>Current Position</h3>
-
-				<section class="panel-actions">
-					<fieldset>
-						<%= f.label :position %>
-						<%= f.text_field :position %>
-					</fieldset>
-					<fieldset>
-						<%= f.label :school %>
-						<%= f.text_field :school %>
-					</fieldset>
-					<fieldset>
-						<%= f.label :location %>
-						<%= f.text_field :location %>
-					</fieldset>
-				</section>
-
-				<h3 class="break">Seeking</h3>
-
-				<section class="panel-actions">
-					<fieldset style="margin-bottom:10px;">
-						<%= f.check_box :currently_seeking, :style => "display:inline;" %>
-						<%= f.label :currently_seeking, :style => "display:inline;" %>
-					</fieldset>
-					<fieldset style="margin-bottom:10px;">
-						<%= f.check_box :willing_to_move, :style => "display:inline;" %>
-						<%= f.label :willing_to_move, :style => "display:inline;" %>
-	  				</fieldset>
-					<fieldset>
-						<%= f.label :seeking_subject %>
-						<%= f.text_field :seeking_subject %>
-					</fieldset>
-					<fieldset>
-						<%= f.label :seeking_grade %>
-						<%= f.text_field :seeking_grade %>
-					</fieldset>
-					<fieldset>
-						<%= f.label :seeking_location %>
-						<%= f.text_field :seeking_location %>
-					</fieldset>
-				</section>
-			</section>
-			<section class="panel">
-				<h3>Additional Information</h3>
-
-				<section class="panel-actions">
-					<fieldset>
-						<%= f.text_area :additional_information, :rows => 7 %>
-					</fieldset>
-					<fieldset>
-						<%= f.label :phone %>
-						<%= f.text_field :phone %>
-					</fieldset>
-				</section>
-			</section>
-			<section class="panel">
-				<h3>Skills</h3>
-
-				<section class="panel-actions">
-					<fieldset>
-						<%= select 'skill', 'skillList', Skill.all.collect { |skill| [skill.name, skill.id] } %>
-		 				<button type="button" id="addSkill">Add Skill</button>
-						<div style="height:150px;width:300px;display:block;margin:10px inherit;" id="skills"></div>
-
-						<script type="text/javascript">
-						$(document).ready(function () {
-							"use strict";
-							var skillId, skillValue, tab, counter = 0;
-
-							//Populate with current skills
-							<% @skills.each do |skill| %>
-								skillValue = "<%= skill.name %>";
-								skillId = <%= skill.id%>;
-								tab = document.createElement('div');
-								tab.count = counter;
-								$(tab).addClass('skillTab');
-								$(tab).append('<a href="/teacherskills/' + skillId + '" id = "tabLink">' + skillValue + '</a>');
-								$(tab).append('<input type="hidden" name="skills[]" value="' + skillId + '" />'); 
-								$("#skills").append(tab);
-								$(tab).append('<img class = "closePic" src="/assets/x-icon.png" style="z-index: 1;margin-bottom:-3px;cursor:pointer;">');
-								counter += 1;
-							<% end %>
-							$("#addSkill").click(function () {
-								skillValue = $("#skill_skillList option:selected").text();
-								skillId = $("#skill_skillList option:selected").val();
-								tab = document.createElement('div');
-								tab.count = counter;
-								$(tab).addClass('skillTab');
-								$(tab).append('<a href="/teacherskills/' + skillId + '" id = "tabLink">' + skillValue + '</a>');
-								$(tab).append('<input type="hidden" name="skills[]" value="' + skillId + '" />'); 
-								$("#skills").append(tab);
-								$(tab).append('<img class = "closePic" src="/assets/x-icon.png" style="z-index: 1;margin-bottom:-3px;cursor:pointer;">');
-								counter += 1;
-							});
-							$("img.closePic").live("click", function () {
-								$(this).closest("div.skillTab").remove();
-							});
-						});
-						</script>
-					</fieldset>
-				</section>
-			</section>
-			<%= f.submit "Save Changes", :class => "btn btn-success" %>
-		<% end %>
-	</section>
-</section>
+		</section> <!-- End Profile -->
+	<% end %>
+</section> <!-- End Main Content -->

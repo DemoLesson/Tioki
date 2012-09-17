@@ -117,12 +117,44 @@
 					</a> -->
 					<a href="#" id="drawer-handle" class="button">
 					Login
+
 					</a
+=======
+					</a-->
+                                <% elsif User.current.is_admin? %>
+					<div id="user-actions">
+						<ul>
+							<li class="user-name">
+								<%= User.current.name %>
+								<div class="gear">
+								</div>
+								
+								<ul>
+                                                                  <% if !User.current.is_limited %>
+                                                                    <li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+                                                                  <% else %>
+                                                                    <li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+                                                                  <% end %>
+									<li>
+										<a href="/me/settings">
+										Account Settings
+										</a> 
+									</li>
+									<li>
+										<a href="/logout">
+										Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
 				<% else %>
 					<div id="user-actions">
 						<ul>
 							<li class="user-name">
-								<a href="profile.html">
+								<a href="/me/profile">
 								<%= User.current.name %>
 								<div class="gear">
 								</div>
@@ -130,12 +162,12 @@
 								
 								<ul>
 									<li>
-										<a href="/profile/edit">
+										<a href="/me/profile/edit">
 										Edit Profile
 										</a>
 									</li>
 									<li>
-										<a href="/account_settings">
+										<a href="/me/settings">
 										Account Settings
 										</a> 
 									</li>
@@ -155,35 +187,58 @@
 			<nav class="wrapper top-nav">
 				<ul class="inner-content">
 					<li>
-						<a href="#">
+						<a href="/">
 						Home
 						</a>
 					</li>
+                                        <% if User.current.teacher %>
 					<li>
-						<a href="#">
+						<a href="/me/profile">
 						Profile
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="/connections">
 						Connections
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="/events">
 						Events
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="/jobs">
 						Jobs
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="/messages">
 						Inbox
 						</a>
 					</li>
+                                      <% elsif User.current.is_admin? %>
+					<li>
+                                        <%= link_to "My Schools", "/my_schools" %>
+                                        </li>
+                                        <li>
+                                        <%= link_to "My Favorites", "/favorites" %>
+                                        </li>
+					<li>
+						<a href="/events">
+						Events
+						</a>
+					</li>
+					<li>
+                                        <%= link_to "My Jobs", :my_jobs %>
+					</li>
+					<li>
+						<a href="/messages">
+						Inbox
+						</a>
+					</li>
+
+                                      <% end %>
 				</ul>
 			</nav><!-- End Nav -->
 		<% end %>
@@ -306,10 +361,11 @@
 		</section> <!-- End Footer Wrapper -->
 	</div> <!-- End Page Wrapper -->
 
-<script>
-  $(function() {
-  $('input, textarea').placeholder();
-  });
+<script type="text/javascript">
+// Create placeholder
+$(document).ready(function() {
+	$('input, textarea').placeholder();
+});
 </script>
 
 <!-- Google Analytics Pixel -->

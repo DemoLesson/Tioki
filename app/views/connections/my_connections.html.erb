@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <!-- Include these scripts to import address books with CloudSponge -->
 <script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -30,7 +31,7 @@ var csPageOptions = {
   <% if @connections.size == 0 %>
   <div id="whiteBox" style="width:600px;height:400px">
     <%= form_tag connections_path, :method => :get do %>
-      <strong>Search for colleagues on DemoLesson:</strong> <%= text_field_tag :connectsearch, params[:connectsearch] %><%= submit_tag "Search", :class => "btn btn-success" %>
+      <strong>Search for colleagues on DemoLesson:</strong> <%= text_field_tag :connectsearch, params[:connectsearch], :style => "width:150px" %><%= submit_tag "Search", :class => "btn btn-success" %>
     <% end %>
 
     <strong>OR</strong><br />
@@ -87,7 +88,7 @@ var csPageOptions = {
       <% if connection.user.avatar? %>
         <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/card'+connection.user.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("no_image.png"), '/card/'+connection.user.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/card/'+connection.user.teacher.url.to_s %><% end %>
     </div>
 
     <div id ="connection_desc">
@@ -104,3 +105,4 @@ var csPageOptions = {
   </div>
 <% end %>
 </div>
+</section>

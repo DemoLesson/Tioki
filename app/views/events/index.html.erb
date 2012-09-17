@@ -1,53 +1,65 @@
-<div id="wrapper_global" class="events-wrapper">
+<section id="main-content" class="inner-content events-wrapper">
+	<h1>Events<sup style="font-size:0.6em;color:#008080">BETA</sup></h1>
+	<section id="panels">
+		<section class="panel two-column right-side">
+			<h3>Events List</h3>
 
-	<div class="right" style="float:right;">
-		<div id="whiteBox">
-			Webinars, PLN Meetups, conferences...we have it all on our calendar! Search by location, topic, and organization to find the events that appeal to you. You can even add an event of your own.
-		</div>
-		<%= link_to "Submit a new Event", new_event_path, :class => 'btn btn-success', :style => 'display:block;color:#FFF;margin:0px 5px 10px;' unless self.current_user.nil? %>
-		<div class="datepicker"></div>
+			<section class="panel-actions">
+				<div id="search_events" style="margin-bottom:5px;">
+					<% if @topics != nil %>
+						<form action="/events/list" class="filterEvents" style="text-align:right;position:relative;">
+							<div style="display:none;top:0px;left:-4px;position:absolute;background:#FFF;border:solid 1px #000;line-height:0px;" id="loader"><% image_tag 'tioki/icons/alt_loading.gif', :style => "width:30px;height:30px;margin:5px;" %></div>
 
-		<% unless self.current_user.nil? %>
-			<a href="#datepicker-showonlymine" class="btn" style="display:block;margin-top:10px;">Show only my Events</a>
-		<% end %>
-		<a href="#datepicker-showall" class="btn" style="display:block;">Show all Dates</a>
-	</div>
-
-	<div class="left" style="margin-right:260px;">
-
-		<h5>Upcoming Events<sup style="font-size:12px;color:#008080">BETA</sup></h5>	  
-		<div id="search_events" style="margin-bottom:5px;">
-			<% if @topics != nil %>
-				<form action="/events/list" class="filterEvents" style="text-align:right;position:relative;">
-					<div style="display:none;top:0px;left:-4px;position:absolute;background:#FFF;border:solid 1px #000;line-height:0px;" id="loader"><% image_tag 'tioki/icons/alt_loading.gif', :style => "width:30px;height:30px;margin:5px;" %></div>
-
-					<span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px;">Search</span>
-					<input type="text" name="search" placeholder="Keyword (i.e Happy Hour)" size="25" />
-					<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px;">or</span>
-					<select name="topic">
-						<option value="" >-- TOPIC --</option>
-						<% @topics.each do |t| %>
-							<option><%= t.name %></option>
-						<% end %>
-					</select>
-					<%= submit_tag "GO", :class => "btn btn-success" %>
-				</form>
-			<% end %>
-		</div>
-
-		<div class="events">
-			<% @events.sort_by{|x| x.start_time}.each do |event| %>
-				<div style="padding:5px 0px;border-bottom:dashed 1px #DADADA;">
-					<h6><%= link_to(event.name + ' — ' + event.start_time.localtime.to_datetime.strftime("%m/%d/%Y at %l:%M%P") , event) %></h6>
-					<p><%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %></p>
+							<span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px;">Search</span>
+							<input type="text" name="search" placeholder="Keyword (i.e Happy Hour)" size="25" />
+							<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px;">or</span>
+							<select name="topic">
+								<option value="" >-- TOPIC --</option>
+								<% @topics.each do |t| %>
+									<option><%= t.name %></option>
+								<% end %>
+							</select>
+							<%= submit_tag "GO", :class => "btn btn-success" %>
+						</form>
+					<% end %>
 				</div>
-			<% end %>
-			<%= will_paginate @events %>
-		</div>
 
-	</div>
+				<div class="events">
+					<% @events.sort_by{|x| x.start_time}.each do |event| %>
+						<div style="padding:5px 0px;border-bottom:dashed 1px #DADADA;">
+							<h3><%= link_to(event.name + ' — ' + event.start_time.localtime.to_datetime.strftime("%m/%d/%Y at %l:%M%P") , event) %></h3>
+							<p>
+							<%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %>
+							</p>
+						</div>
+					<% end %>
+					<%= will_paginate @events %>
+				</div>
+			</section>
+		</section>
+		<section class="panel one-column left-side">
+			<h3>Limit Dates / Other</h3>
 
-</div>
+			<section class="panel-actions">
+				<p style="width:auto;">
+				Webinars, PLN Meetups, conferences...we have it all on our calendar! Search by location, topic, and organization to find the events that appeal to you. You can even add an event of your own.
+				</p>
+				
+				<% unless self.current_user.nil? %>
+					<%= link_to "Submit a new Event", new_event_path, :class => 'button', :style => "display:block;" %>
+				<% end %>
+
+				<div class="datepicker" style="margin:10px inherit;"></div>
+
+				<% unless self.current_user.nil? %>
+					<a href="#datepicker-showonlymine" class="button" style="display:block;">Show only my Events</a>
+				<% end %>
+				<a href="#datepicker-showall" class="button" style="display:block;margin-top:10px;">Show all Dates</a>
+			</section>
+		</section>
+	</section>
+	<div class="clearfloat"></div>
+</section><!-- End Main Content -->
 
 <% if @_events != nil %>
 	<script type="text/javascript">
@@ -73,6 +85,14 @@
 
 		// By default make all all result be in the future
 		window.searchQueries.future = true;
+
+		var loader = function(id, method) {
+			if(method == null) var method = 'show';
+
+			if(method == 'show')
+				$(id).fadeIn(500);
+			else $(id).fadeOut(500);
+		}
 
 		/**
 		 * Query string generator

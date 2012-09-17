@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;"><%= @user.name%>'s Connections</span><br />
 
 <div id="sidebar" class="job_browser">
@@ -24,13 +25,13 @@
   <div class="item_jobs">
     <div class="item_picture">
       <% if connection.user.avatar? %>
-        <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/card/'+connection.user.teacher.url.to_s %>
+        <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.user.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("no_image.png"), '/card/'+connection.user.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.user.teacher.url.to_s %><% end %>
     </div>
 
 	<div id ="connection_desc">
-    <strong><%= link_to connection.user.name, '/card/'+connection.user.teacher.url.to_s %></strong><br />
+    <strong><%= link_to connection.user.name, '/'+connection.user.teacher.url.to_s %></strong><br />
     <% if connection.user.teacher.position.present? && connection.user.teacher.school.present?%>
       <%= connection.user.teacher.position %> at <%= connection.user.teacher.school %>
     <% end %><br />
@@ -47,3 +48,4 @@
   </div>
 <% end %>
 </div>
+</section>

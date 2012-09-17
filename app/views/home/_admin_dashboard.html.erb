@@ -1,70 +1,53 @@
 
-<div id="userMenu" class="job_browser">
-
   <h1>Welcome, <%= self.current_user.first_name %>!</h1>
 
-  <div id = "jobs">
-     <img src="/assets/file.png" id = "file" class = "icon" height = "34" alt="file.png"/>
-     <h_admin_dashboard>My Jobs</h_admin_dashboard></br>
+<div id="sidebar" class="job_browser">
 
-     <% if @applicants == 0 %>
-     <%= link_to 'No New Applicants', my_jobs_path %>
-     <% elsif @applicants == 1 %>
-     <%= link_to '1 New Applicant', my_jobs_path %>
-     <% else %>
-     <%= link_to @applicants.to_s+' New Applicants', my_jobs_path %>
-     <% end %>
+<h4>Actions</h4>
 
-     <br />
-     <%= @interviews %> Interviews<br />
-     <% if @jobs.count == 0 %>
-     No Active Job Posts
-     <% else %>
-     <%= link_to @jobs.count.to_s+" Active Job Posts", my_jobs_path %>
-     <%= link_to "+", {:controller => :jobs, :action => :new}%>
-     <% end %>
-  </div>
-
-  <div id = "favorites">
-     <img src="/assets/favorite_star.png" id = "flag" class = "icon" height = "34" alt="placeholder.png"/>
-     <h_admin_dashboard>Favorites</h_admin_dashboard><br />
-     <% if @pins == 1 %>
-       <%= link_to "1 total favorite", "/favorites" %>
-     <% else %>
-       <%= link_to @pins.to_s + " total favorites", "/favorites" %>
-     <% end %>
-  </div>
-
-
-  <div id = "post">
-	  <%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "btn btn-success"} %>
-  </div>
-
-  <div id = "inbox">
-     <img src="/assets/sfs_icon_forward.png" id = "inboxPic" class = "icon" height = "34" alt="sfs_icon_forward.png"/>
-     <h_admin_dashboard>Inbox</h_admin_dashboard></br>
-
-     <% if unread_messages == 0 %>
-     <%= link_to "No New Messages", :messages %>
-     <% else %>
-     <%= link_to unread_messages.to_s+" Unread Messages", :messages %>
-    <% end %>
-  </div>
-
-  <div id = "myOrg">
-    <img src="/assets/admin_organization.png" id = "pic" class = "icon" height = "34" alt="placeholder.png"/>
-    <h_admin_dashboard>My Organization</h_admin_dashboard></br>
-    <%= pluralize(self.current_user.all_schools.count, "School") %> 
-    <% if !self.current_user.is_limited %>
-    <a href="/schools/new" id = "schools">+</a><br />
-    <%= pluralize(@administrators, "Administrator") %> 
-      <a href="/accounts/<%= self.current_user.id %>" id = "administrators">+</a><br />
-    <% end %>
-  </div>
-  
+<div>
+	<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "btn btn-success"} %>
 </div>
 
-<div id="page">
+<h4>Status</h4>
+
+<% if unread_messages == 0 %>
+<%= link_to "No New Messages", :messages %>
+<% else %>
+<%= link_to unread_messages.to_s+" Unread Messages", :messages %>
+<% end %>
+
+<br />
+
+<% if @jobs.count == 0 %>
+No Active Job Posts
+<% else %>
+<%= link_to @jobs.count.to_s+" Active Job Posts", my_jobs_path %>
+<% end %>
+
+<br />
+<% if @applicants == 0 %>
+	<%= link_to 'No New Applicants', my_jobs_path %>
+<% elsif @applicants == 1 %>
+	<%= link_to '1 New Applicant', my_jobs_path %>
+<% else %>
+	<%= link_to @applicants.to_s+' New Applicants', my_jobs_path %>
+<% end %>
+<br />
+
+<% if @pins == 0 %>
+	No Favorite Teachers
+<% elsif @pins == 1 %>
+  <%= link_to "1 Total Favorite", "/favorites" %>
+<% elsif %>
+  <%= link_to @pins.to_s + " Total Favorites", "/favorites" %>
+<% end %>
+
+<br />
+No Starred Teachers
+</div>
+
+<div id="content">
 <h4>News Feed</h4>
 
 <% if @activities.count == 0 %>
@@ -97,4 +80,10 @@
 <% end %>
 </div>
 
-
+<script type="text/javascript">
+var CE_SNAPSHOT_NAME = "School Dashboard";
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/8633.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>

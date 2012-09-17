@@ -1,11 +1,11 @@
-<div id="wrapper_global" class="events-wrapper">
+<section id="main-content" class="inner-content events-wrapper">
 
-	<h5>Editing event</h5><br /><br />
-
+	<h1>Editing event</h1>
+	
 	<% if self.current_user.is_admin || @event.user == self.current_user %>
 		<%= render 'form' %>
 	<% else %>
 		<p>You must be an administration to edit an event.</p>
 	<% end %>
 
-</div>
+</section>

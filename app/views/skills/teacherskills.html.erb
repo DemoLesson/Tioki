@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Teachers with skills in <%=@skill.name %></span><br />
 
 <div id="content">
@@ -8,7 +9,7 @@
         <% if teacher.user.avatar? %>
           <%= link_to image_tag(teacher.user.avatar.url(:thumb)), '/'+teacher.url.to_s %>
         <% else %>
-          <%= link_to image_tag("no_image.png"), '/'+teacher.url.to_s %><% end %>
+          <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+teacher.url.to_s %><% end %>
       </div>
 
       <div id ="connection_desc">
@@ -41,3 +42,4 @@
   <% end %>
 <%= will_paginate @teachers %>
 </div>
+</section>

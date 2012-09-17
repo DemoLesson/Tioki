@@ -29,9 +29,16 @@ Preview::Application.routes.draw do
 	match 'login' => 'users#login'
 
 	# Profile pages
-	scope '/profile' do
-		match 'edit' => 'teachers#edit'
+	scope 'me' do
+		scope 'profile' do
+			match 'edit' => 'teachers#edit'
+			root :to => 'teachers#profile'
+		end
+		match 'settings' => 'users#edit'
 	end
+
+	# Public profiles
+	match '/profile/:url' => 'teachers#profile'
 
 	# Static pages by default route the action
 	# Sub folders a bit trickier
@@ -41,9 +48,11 @@ Preview::Application.routes.draw do
 	end
 
 	# Event action routing
-	match 'events/:id/invite' => 'events#invite'
-	match 'events/:id/invite_email' => 'events#invite_email'
-	match 'events/:id/rsvp' => 'events#rsvp'
+	scope 'events' do
+		match ':id/invite' => 'events#invite'
+		match ':id/invite_email' => 'events#invite_email'
+		match ':id/rsvp' => 'events#rsvp'
+	end
 	
 	#Actions
 	match 'signup', :to => 'users#create', :as => 'signup'

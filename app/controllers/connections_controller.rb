@@ -124,7 +124,7 @@ class ConnectionsController < ApplicationController
   end
 
   def my_connections
-    @default_message = "Hey! I'd absolutely love to add you to my educator network on DemoLesson."
+    @default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
     @connections= Connection.not_pending.find(:all, :conditions => ['owned_by = ?', self.current_user.id])
   end
 

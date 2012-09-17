@@ -45,7 +45,7 @@
       <% @applications.each do |application| %>
         <div class="item_jobs">
           <div class="item_picture" style="float:left;white-space:nowrap;">
-            <% if application.job.school.picture? %><%= link_to image_tag(application.job.school.picture.url(:thumb)), application.job %><% else %><%= link_to image_tag("no_image.png"), application.job %><% end %>
+            <% if application.job.school.picture? %><%= link_to image_tag(application.job.school.picture.url(:thumb)), application.job %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), application.job %><% end %>
 			<%= application.job.title %><br />
             <%= application.job.school.name %><br />
 			<div style= " margin-left: 123px">
@@ -74,7 +74,7 @@
       <% @interviews.each do |interview| %>
         <div class="item_jobs">
           <div class="item_picture" style="float:left;white-space:nowrap;">
-            <% if interview.job.school.picture? %><%= link_to image_tag(interview.job.school.picture.url(:thumb)), interview.job %><% else %><%= link_to image_tag("no_image.png"), interview.job %><% end %>
+            <% if interview.job.school.picture? %><%= link_to image_tag(interview.job.school.picture.url(:thumb)), interview.job %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), interview.job %><% end %>
             <%= interview.job.title %><br />
             <%= interview.job.school.name %><br />
             Interview Date:

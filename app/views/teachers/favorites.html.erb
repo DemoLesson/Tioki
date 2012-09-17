@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h3>My Favorites:</h3>
 <div id="content">
 <% @pins.each do |pin| %>
@@ -6,7 +7,7 @@
       <% if pin.teacher.user.avatar? %>
         <%= link_to image_tag(pin.teacher.user.avatar.url(:thumb)), '/'+pin.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("no_image.png"), '/'+pin.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+pin.teacher.url.to_s %><% end %>
     </div>
     <strong><%= link_to pin.teacher.user.name, '/'+pin.teacher.url.to_s %></strong><br />
     <% if pin.teacher.position != nil && pin.teacher.school != nil%>
@@ -22,3 +23,4 @@
 <% end %>
 <%= will_paginate @pins %>
 </div>
+</section>
