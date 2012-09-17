@@ -10,8 +10,9 @@
 
 			<div class="done" style="display:none;">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;" value="Next Step" />
-				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in blue. Select a few more that you would like to connect with.</p>
+				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in black. Select a few more that you would like to connect with.</p>
 				<p class="no-pre" style="display:none;">Select some contacts that you would like to connect with.</p>
+				<a href="#deselect" class="button">Deselect All</a>
 			</div>
 
 			<div class="detected" style="display:none;">
@@ -250,7 +251,7 @@ $(document).ready(function() {
 				selectedContacts = new Array;
 
 			// Remove secondary class
-			$(this).removeClass('secondary');
+			$(this).removeClass('secondary').css({'background': '#000'});
 
 			// Add the email to the invite array
 			selectedContacts.push($(this).attr('x-data-email'));
@@ -260,7 +261,7 @@ $(document).ready(function() {
 		else {
 
 			// Add the secondary class
-			$(this).addClass('secondary');
+			$(this).addClass('secondary').css({'background': '#F66C4C'});
 
 			// Remove the email from the invite array
 			var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
@@ -278,6 +279,22 @@ $(document).ready(function() {
 
 		// Submit the form
 		$(this).get(0).submit();
+
+		return false;
+	});
+
+	$('a[href="#deselect"]').live('click', function(e) {
+		e.preventDefault();
+
+		var int1 = setInterval(function() {
+			if(selectedContacts.length == 0)
+				clearTimeout(int1);
+
+			var tmp = selectedContacts;
+			for(var i in tmp) $('a[x-data-email="' + tmp[i] + '"]').each(function() {
+				$(this).click();
+			});
+		}, 20);
 
 		return false;
 	});
