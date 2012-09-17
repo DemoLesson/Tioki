@@ -84,14 +84,14 @@
 			</section>
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
-			<% unless @teacher.video_embed_html.empty? %>
+			<% unless @teacher.video_embed_html == nil %>
 				<div class="profile-video panel">
 					<%= @teacher.video_embed_html.html_safe %>
 				</div>
 			<% end %>
 			<section class="video-actions group">
 				<% if self.current_user && self.current_user.teacher == @teacher %>
-					<% unless @teacher.video_embed_html.empty? %>
+					<% unless @teacher.video_embed_html == nil %>
 						<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 						Edit Video
 						</a>
@@ -105,7 +105,7 @@
 						Connect
 					</a>
 				<% end %>
-				<% unless @teacher.video_embed_html.empty? %>
+				<% unless @teacher.video_embed_html == nil %>
 					<ul class="stats">
 						<li>
 							<div class="count favorites">
