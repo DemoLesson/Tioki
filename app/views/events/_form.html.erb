@@ -1,213 +1,210 @@
-<%= form_for(@event) do |f| %>
-  <% if @event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+<%= form_for @event, :html => { :multipart => true } do |f| %>
+	<% if @event.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-      <ul>
-      <% @event.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <h7>Event Information</h7><br />
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.check_box :virtual %>
-    <%= f.label :virtual, "Is this a virtual event?" %>
-  </div>
-  <div class="field">
-    <%= f.check_box :public_event %>
-    <%= f.label :public_event, "Is this a public event?" %>
-  </div>
-  <div class="field">
-    <%= f.check_box :rsvp_req %>
-    <%= f.label :rsvp_req, "Require attendees to RSVP?" %>
-  </div>
-  <div class="field rsvp" style="<%= 'display:none;' unless @event.rsvp_req %>">
-    <hr />
-    <%= f.label :rsvp_deadline, "RSVP Deadline" %><br />
-    <%= f.text_field :rsvp_deadline, :class => "datetime", :value => date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M %P") %>
-  </div>
-  <div class="field rsvp" style="<%= 'display:none;' unless @event.rsvp_req %>">
-    <%= f.label :rsvp_external, "External RSVP URL (ex. EventBrite URL)" %><br />
-    <%= f.url_field :rsvp_external, :placeholder => "http://google.com" %>
-    <div class="help-field">Please enter the web address including the "http://"<br />Filling this out disables the DemoLesson RSVP system.</div>
-    <hr />
-  </div>
-  <div class="field">
-    <%= f.label :attandance_cost, "Cost for attendance" %><br />
-    <%= f.number_field :attendance_cost %>
-  </div>
-  <div class="field">
-    <%= f.label "eventformat", "Select a Event Format" %><br />
-    <select name="eventformat">
-      <% Eventformat.all.each do |e| %>
-        <option <%= @event.eventformats.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>">[<%= e.virtual ? "Virtual" : "Physical" %>] <%= e.name %></option>
-      <% end %>
-    </select>
-  </div>
-   <div class="field">
-    <% unless OS.mac? %>
-      <%= f.label "eventtopic", "Select one (or more) Event Topic(s). Hold \"Ctrl\" to select multiple." %><br />
-    <% else %>
-      <%= f.label "eventtopic", html_entity_decode("Select one (or more) Event Topic(s). Hold \"Command &#8984;\" to select multiple.") %><br />
-    <% end %>
-    <select name="eventtopic[]" multiple="multiple" style="height:100px;">
-      <% Eventtopic.all.each do |e| %>
-        <option <%= @event.eventtopics.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>"><%= e.name %></option>
-      <% end %>
-    </select>
-  </div>
-
-  <h7>Event Timeframe</h7><br />
-  <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.text_field :start_time, :class => "datetime", :value => date2format(@event, "start_time", "%m/%d/%Y %l:%M %P") %>
-  </div>
-  <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.text_field :end_time, :class => "datetime", :value => date2format(@event, "end_time", "%m/%d/%Y %l:%M %P") %>
-  </div>
-
-  <% # If this is a new event show physical event details until the above checkbox is selected %>
-  <div id="physical_event" style="<%= 'display:none;' if @event.virtual %>">
-    <h7>Physical Event Details</h7><br />
-
-    <div class="field">
-      <%= f.label :loc_name, "Location Name" %><br />
-      <%= f.text_field :loc_name %>
-    </div>
-    <div class="field">
-      <%= f.label :loc_address, "Street Address" %><br />
-      <%= f.text_field :loc_address %>
-    </div>
-    <div class="field">
-      <%= f.label :loc_address1, "Suite Number" %><br />
-      <%= f.text_field :loc_address1 %>
-    </div>
-    <div class="field">
-      <%= f.label :loc_city, "City / County" %><br />
-      <%= f.text_field :loc_city %>
-    </div>
-    <div class="field">
-      <%= f.label :loc_state, "State / Province / Region" %><br />
-      <%= f.text_field :loc_state %>
-    </div>
-    <div class="field">
-      <%= f.label :loc_zip, "ZIP / Postal Code" %><br />
-      <%= f.text_field :loc_zip %>
-    </div>
-  </div>
-
-  <% # If this is a new event hide the virtual event details by default %>
-  <div id="virtual_event" style="<%= 'display:none;' unless @event.virtual %>">
-    <h7>Virtual Event Details</h7><br />
-
-    <div class="field">
-      <%= f.label :virtual_phone, "Call in phone number" %><br />
-      <%= f.phone_field :virtual_phone %>
-    </div>
-    <div class="field">
-      <%= f.label :virtual_phone_access, "Phone access code" %><br />
-      <%= f.text_field :virtual_phone_access %>
-    </div>
-    <div class="field">
-      <%= f.label :virtual_web_link, "Webinar access link" %><br />
-      <%= f.url_field :virtual_web_link, :placeholder => "http://google.com/" %>
-      <div class="help-field">Please enter the web address including the "http://"</div>
-    </div>
-    <div class="field">
-      <%= f.label :virtual_web_access, "Webinar access code" %><br />
-      <%= f.text_field :virtual_web_access %>
-    </div>
-    <div class="field">
-      <%= f.label :virtual_tv_station, "TV Station and Channel" %><br />
-      <%= f.text_field :virtual_tv_station %>
-    </div>
-  </div>
-
-  <% if self.current_user.is_admin %>
-    <div class="field" style="border:solid 1px #DADADA;padding:5px;background:#DDD;">
-      <p>You are an admin. You decide. Should this event be published into the public listing of events?</p>
-      <%= f.check_box :published %>
-      <%= f.label :published, "Big admin seal of approval ^_^" %>
-    </div>
-  <% end %>
-
-  <div>
-    <%= f.submit "Submit", :class => "btn btn-success" %>
-    <% if @event.id && self.current_user.is_admin %>
-      <%= link_to 'Delete Event', @event, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger', :style => 'color:#fff;' %>
-    <% end %>
-  </div>
-
-  <script type="text/javascript">
-  $('#event_start_time').datetimepicker({
-    onClose: function(dateText, inst) {
-      var endDateTextBox = $('#event_end_time');
-      if (endDateTextBox.val() != '') {
-        var testStartDate = new Date(dateText);
-        var testEndDate = new Date(endDateTextBox.val());
-        if (testStartDate > testEndDate)
-          endDateTextBox.val(dateText);
-      }
-      else {
-        endDateTextBox.val(dateText);
-      }
-    },
-    onSelect: function (selectedDateTime){
-      var start = $(this).datetimepicker('getDate');
-      $('#event_end_time').datetimepicker('option', 'minDate', new Date(start.getTime()));
-    },
-    ampm: true,
-    addSliderAccess: true
-  });
-  $('#event_end_time').datetimepicker({
-    onClose: function(dateText, inst) {
-      var startDateTextBox = $('#event_start_time');
-      if (startDateTextBox.val() != '') {
-        var testStartDate = new Date(startDateTextBox.val());
-        var testEndDate = new Date(dateText);
-        if (testStartDate > testEndDate)
-          startDateTextBox.val(dateText);
-      }
-      else {
-        startDateTextBox.val(dateText);
-      }
-    },
-    onSelect: function (selectedDateTime){
-      var end = $(this).datetimepicker('getDate');
-      $('#event_start_time').datetimepicker('option', 'maxDate', new Date(end.getTime()) );
-    },
-    ampm: true,
-    addSliderAccess: true
-  });
-  $('#event_rsvp_deadline').datetimepicker({
-    ampm: true
-  });
-  $('input#event_virtual').change(function(e) {
-    if($(this).prop('checked')) {
-      $('div#physical_event').slideUp(500);
-      $('div#virtual_event').slideDown(500);
-    }
-    else {
-      $('div#virtual_event').slideUp(500);
-      $('div#physical_event').slideDown(500); 
-    }
-  });
-  $('input#event_rsvp_req').change(function(e) {
-    if($(this).prop('checked'))
-      $('div.field.rsvp').each(function() { $(this).slideDown(500); });
-    else $('div.field.rsvp').each(function() { $(this).slideUp(500); });
-  });
-  </script>
+			<ul>
+			<% @event.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<section class="profile group">
+		<section class="left-sidebar">
+			<h1>
+			Edit Event
+			</h1>
+			<section class="profile-info group">
+				<p class="heading top-line">
+				Event Name
+				</p>
+				<%= f.text_field :name %>
+				<p class="bold">
+				Event Description
+				</p>
+				<%= f.text_area :name %>
+				<p class="bold">
+				Event Start Date/Time
+				</p>
+				<%= f.text_field :start_time, :value => date2format(@event, "start_time", "%m/%d/%Y %l:%M %P") %>
+				<p class="bold">
+				Event End Date/Time
+				</p>
+				<%= f.text_field :end_time, :value => date2format(@event, "end_time", "%m/%d/%Y %l:%M %P") %>
+				<p class="bold"></p>
+				<%= f.check_box :virtual, :style => "display:inline;" %>
+				<%= f.label :virtual, "Is this a virtual event?", :style => "display:inline;" %>
+			</section>
+			<section class="profile-info group">
+				<p class="heading top-line">
+				Would you like people to RSVP?
+				</p>
+				<%= f.check_box :rsvp_req, :style => "display:inline;" %>
+				<%= f.label :rsvp_req, "Require attendees to RSVP?", :style => "display:inline;" %>
+				<p class="bold">
+					RSVP Deadline
+				</p>
+				<%= f.text_field :rsvp_deadline, :class => "datetime", :value => date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M %P") %>
+				<p class="bold">
+				External RSVP URL (e.g. Eventbrite URL)<br />
+				Please enter the web address including the "http://"
+				</p>
+				<%= f.text_field :rsvp_external, :placeholder => "http://google.com" %>
+			</section>
+			<section class="profile-info group">
+				<p class="heading top-line">
+				Does your event cost anything?
+				</p>
+				<%= f.text_field :attendance_cost, :placeholder => "$10.00" %>
+			</section>
+			<section class="profile-info group">
+				<p class="heading top-line">
+				What kind of event is this?
+				</p>
+				<select name="eventformat">
+					<% Eventformat.all.each do |e| %>
+						<option <%= @event.eventformats.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>">[<%= e.virtual ? "Virtual" : "Physical" %>] <%= e.name %></option>
+					<% end %>
+				</select>
+				<p class="bold">
+					What kind of topics are you planning to cover.<br />
+					<% unless OS.mac? %>
+					Select one (or more) Event Topic(s). Hold "Ctrl" to select multiple.
+					<% else %>
+					<%= html_entity_decode "Select one (or more) Event Topic(s). Hold \"Command &#8984;\" to select multiple." %>
+					<% end %>
+				</p>
+				<select name="eventtopic[]" multiple="multiple" style="height:100px;">
+					<% Eventtopic.all.each do |e| %>
+						<option <%= @event.eventtopics.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>"><%= e.name %></option>
+					<% end %>
+				</select>
+			</section>
+			<section class="profile-info group" id="physical_event" style="<%= 'display:none;' if @event.virtual %>">
+			    <p class="heading top-line">
+			    Physical Event Details
+				</p>
+				<p class="bold">
+				Location Name
+				</p>
+				<%= f.text_field :loc_name %>
+			    <p class="bold">
+			    Street Address
+				</p>
+				<%= f.text_field :loc_address %>
+				<p class="bold">
+				Suite Number
+				</p>
+				<%= f.text_field :loc_address1 %>
+				<p class="bold">
+				City / County
+				</p>
+				<%= f.text_field :loc_city %>
+			    <p class="bold">
+			    State / Province / Region
+				</p>
+				<%= f.text_field :loc_state %>
+			    <p class="bold">
+			    ZIP / Postal Code
+			   	</p>
+				<%= f.text_field :loc_zip %>
+			</section>
+			<section class="profile-info group" id="virtual_event" style="<%= 'display:none;' unless @event.virtual %>">
+			    <p class="heading top-line">
+			    Virtual Event Details
+			   	</p>
+			   	<p class="bold">
+			   	Call in phone number
+			   	</p>
+				<%= f.text_field :virtual_phone %>
+			    <p class="bold">
+			    Phone access code
+				</p>
+				<%= f.text_field :virtual_phone_access %>
+			    <p class="bold">
+			    Webinar access link<br />
+			    Please enter the web address including the "http://"
+			   	</p>
+			   	<%= f.text_field :virtual_web_link, :placeholder => "http://google.com/" %>
+			    <p class="bold">
+			    Webinar access code
+				</p>
+				<%= f.text_field :virtual_web_access %>
+			    <p class="bold">
+			    TV Station and Channel
+			   	</p>
+				<%= f.text_field :virtual_tv_station %>
+			</section>
+			<% if self.current_user.is_admin %>
+				<section class="profile-info group">
+					<p class="top-line">You are an admin. You decide. Should this event be published into the public listing of events?</p>
+					<%= f.check_box :published, :style => 'display:inline;' %>
+					<%= f.label :published, "Bigger admin seal of approval (^_^)", :style => 'display:inline;' %>
+				</section>
+			<% end %>
+		</section> <!-- End Sidebar -->
+		<section class="right-sidebar">
+		
+		<input type="submit" class="huge-button" value="Save Changes">
+		</section>
+	</section> <!-- End Profile -->
 <% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#event_start_time').datetimepicker({
+		onClose: function(dateText, inst) {
+			var endDateTextBox = $('#event_end_time');
+			if (endDateTextBox.val() != '') {
+				var testStartDate = new Date(dateText);
+				var testEndDate = new Date(endDateTextBox.val());
+				if (testStartDate > testEndDate)
+					endDateTextBox.val(dateText);
+			}
+			else {
+				endDateTextBox.val(dateText);
+			}
+		},
+		onSelect: function (selectedDateTime){
+			var start = $(this).datetimepicker('getDate');
+			$('#event_end_time').datetimepicker('option', 'minDate', new Date(start.getTime()));
+		},
+		ampm: true,
+		addSliderAccess: true
+	});
+	$('#event_end_time').datetimepicker({
+		onClose: function(dateText, inst) {
+			var startDateTextBox = $('#event_start_time');
+			if (startDateTextBox.val() != '') {
+				var testStartDate = new Date(startDateTextBox.val());
+				var testEndDate = new Date(dateText);
+				if (testStartDate > testEndDate)
+					startDateTextBox.val(dateText);
+			}
+			else {
+				startDateTextBox.val(dateText);
+			}
+		},
+		onSelect: function (selectedDateTime){
+			var end = $(this).datetimepicker('getDate');
+			$('#event_start_time').datetimepicker('option', 'maxDate', new Date(end.getTime()) );
+		},
+		ampm: true,
+		addSliderAccess: true
+	});
+	$('#event_rsvp_deadline').datetimepicker({
+		ampm: true
+	});
+	$('input#event_virtual').change(function(e) {
+		if($(this).prop('checked')) {
+			$('section#physical_event').slideUp(500);
+			$('section#virtual_event').slideDown(500);
+		}
+		else {
+			$('section#virtual_event').slideUp(500);
+			$('section#physical_event').slideDown(500); 
+		}
+	});
+});
+</script>
