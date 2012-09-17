@@ -106,11 +106,11 @@
 			<% unless @teacher.user.skill_groups.empty? %>
 				<section class="profile-info group skill-groups">
 					<p class="heading">
-					Skill Groups
+					Skill Groups <span style="margin-left:15px;color:#F66C4C;" data-skillgroup-name="true"></span>
 					</p>
 
 					<% @teacher.user.skill_groups.each do |skill_group| %>
-						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>">
+						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>" data-skillgroup-name="<%= skill_group.name %>" style="float:left;">
 							<% if @teacher.user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
 								<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
 							<% end %>
@@ -215,11 +215,13 @@ $(document).ready(function() {
 			console.log('over');
 			$(this).css({'color': '#F66C4C'});
 		});
+		$('span[data-skillgroup-name="true"]').text($(this).attr('data-skillgroup'));
 	},function() {
 		$('a[data-skillgroup="' + $(this).attr('data-skillgroup') + '"]').each(function() {
 			console.log($(this));
 			$(this).css({'color': '#2AA99B'});
 		});
+		$('span[data-skillgroup-name="true"]').text('');
 	});
 });
 </script>

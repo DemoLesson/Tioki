@@ -8,6 +8,13 @@
 				<p>
 				View a <a href="/profile/Mandela">sample profile</a> to see what your completed one will look like.
 				</p>
+				<p>
+				Guest Access Code:
+				</p>
+				<% if @teacher.guest_code != nil %>
+					<%= text_field :a, :b, :value => "http://tioki.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
+					<p></p>
+				<% end %>
 				<div class="profile-thumb-medium">
 					<%= @teacher.user.avatar(:medium) if @teacher.user.avatar? %>
 					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @teacher.user.avatar? %>
