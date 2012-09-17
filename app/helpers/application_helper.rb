@@ -7,8 +7,4 @@ module ApplicationHelper
     @messages = Message.find(:all, :conditions => {:read => false, :user_id_to => self.current_user.id})
     return @messages.size
   end
-
-  def pendingcount
-    self.current_user.pending_count
-  end
 end

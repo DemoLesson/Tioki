@@ -19,7 +19,7 @@
 					top: 13px;
 					width: 16px;
 					height: 17px;
-					background: url('../images/icons/gear.png') no-repeat;
+					background: url(image_path('tioki/icons/gear.png')) no-repeat;
 				}
 				ul {
 					margin: 0;
@@ -180,14 +180,14 @@
 		font-weight: 300;
 	}
 	.connections {
-		background: url('../images/icons/connections.png') no-repeat;
+		background: url(image_path('tioki/icons/connections.png')) no-repeat;
 	}
 	.inbox {
-		background: url('../images/icons/mail.png') 0 2px no-repeat;
+		background: url(image_path('tioki/icons/mail.png')) 0 2px no-repeat;
 		padding-left: 40px;
 	}
 	.applications {
-		background: url('../images/icons/jobs.png') no-repeat;
+		background: url(image_path('tioki/icons/jobs.png')) no-repeat;
 		padding-left: 40px;
 	}
 	
@@ -290,14 +290,14 @@
 				height: 20px;
 			}
 			.star-gold {
-				background: url('../images/icons/star-gold.png') no-repeat;
+				background: url(image_path('tioki/icons/star-gold.png')) no-repeat;
 				}
 			.star-empty {
-				background: url('../images/icons/star-empty.png') no-repeat;
+				background: url(image_path('tioki/icons/star-empty.png')) no-repeat;
 				visibility: hidden;
 			}
 			.close {
-				background: url('../images/icons/close_20px.png') no-repeat;
+				background: url(image_path('tioki/icons/close_20px.png')) no-repeat;
 				visibility: hidden;
 			}
 			.video-thumb-small {
@@ -310,7 +310,7 @@
 					top: 9px;
 					left: 9px;
 					visibility: hidden;
-					background: url('../images/icons/play-icon.png') no-repeat;
+					background: url(image_path('tioki/icons/play-icon.png')) no-repeat;
 				}
 				&:hover {
 					.play-button {
@@ -346,7 +346,7 @@
 						border: 3px solid $salmon;
 						padding: 0;
 						background-color: #fff;
-						background: url('../images/icons/pencil.png') 6px 4px no-repeat;
+						background: url(image_path('tioki/icons/pencil.png')) 6px 4px no-repeat;
 						color: $salmon;
 						text-indent: -999em;
 						-moz-border-radius: 	0;
@@ -387,7 +387,7 @@
 			background: $green;
 		}
 		.icon {
-			background: url('../images/icons/play-icon.png') no-repeat;
+			background: url(image_path('tioki/icons/play-icon.png')) no-repeat;
 		}
 	}
 	.events {
@@ -401,7 +401,7 @@
 			width: 28px;
 			height: 29px;
 			top: 16px;
-			background: url('../images/icons/calendar.png') no-repeat;
+			background: url(image_path('tioki/icons/calendar.png')) no-repeat;
 		}
 	}
 }

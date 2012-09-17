@@ -1,3 +1,325 @@
+<section id="main-content" class="inner-content">
+	<section id="updates">
+		<div class="profile-thumb-medium">
+			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
+			<%= image_tag("dl_icons/no_avatar.png") unless @user.avatar? %>
+		</div>
+		<div>
+			<h3 class="greeting">
+			Welcome back, <%= @user.first_name %>
+			</h3>
+			<ul class="stats">
+				<li>
+					<a href="connections.html">
+					<div class="count connections">
+					<%= User.current.pending_connections(false).count %>
+					</div>
+					My Connections
+					</a>
+				</li>
+				<li>
+					<a href="inbox.html">
+					<div class="count inbox">
+					<%= unread_messages %>
+					</div>
+					New Messages
+					</a>
+				</li>
+				<li>
+					<a href="applications.html">
+					<div class="count applications">
+					2
+					</div>
+					Job Applications
+					</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section id="panels">
+		<section id="whiteboard" class="panel two-column left-side">
+			<h3>
+				<a href="#">
+				Whiteboard
+				</a>
+			</h3>
+			<section class="panel-actions">
+				<div class="profile-thumb-small">
+				</div>
+				<div id="submit-whiteboard">	
+					<form>
+						<fieldset>
+							<input type="text" placeholder="Write something on the whiteboard..." />
+							<input type="submit" class="button" />
+						</fieldset>
+					</form>
+				</div>
+			</section>
+			<ul>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu, <a href="#">vitae fringilla</a> massa ornare sed. Praesent massa odio, ultrices non pretium vitae, lobortis in velit. Donec. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec justo felis, tristique sed malesuada quis, consequat non leo. Suspendisse leo lacus, fermentum eu viverra quis, dictum bibendum elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a> 
+					</p>
+					<div class=" quick-action star-empty">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu, vitae fringilla massa ornare sed. Praesent massa odio, ultrices non pretium vitae, lobortis in velit. Donec. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-empty">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec justo felis, tristique sed malesuada quis, consequat non leo. Suspendisse leo lacus, fermentum eu viverra quis, dictum bibendum elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>						</p>
+					<div class=" quick-action star-empty">
+					</div>
+				</li>
+			</ul>
+		</section> <!-- END WHITEBOARD -->
+		
+		<section class="panel one-column right-side">
+			<h3>
+				<a href="#">
+				My Favorites
+				</a>
+			</h3>
+			
+			<ul>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				<li>
+					<div class="profile-thumb-small">
+					</div>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action close">
+					</div>
+				</li>
+				
+			</ul>
+		</section> <!-- END MY FAVORITES -->
+		<section class="panel one-column left-side">
+			<h3>
+				<a href="demolessons.html">
+				Latest Demo Lessons
+				</a>
+			</h3>
+			<ul>
+				<li>
+					<div class="video-thumb-small">
+						<div class="play-button">
+						</div>
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-empty">
+					</div>
+				</li>
+				<li>
+					<div class="video-thumb-small">
+						<div class="play-button">
+						</div>
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="video-thumb-small">
+						<div class="play-button">
+						</div>
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="video-thumb-small">
+						<div class="play-button">
+						</div>
+					</div>
+					<p>
+					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+					</p>
+					<div class=" quick-action star-empty">
+					</div>
+				</li>
+			</ul>
+			<section class="panel-actions demolesson">
+				<a href="upload_video.html" class="action-button">
+				Upload Demo Lesson
+				</a>
+				<a href="demolessons.html" class="icon">
+				</a>
+			</section>
+		</section> <!-- END DEMO LESSONS -->
+		<section class="panel one-column left-side">
+			<h3>
+				<a href="#">
+				Upcoming Events
+				</a>
+			</h3>
+			<ul>
+				<li>
+					<div class="calendar-thumb">
+						<div class="cal-month">
+						Aug
+						</div>
+						<div class="cal-date">
+						21
+						</div>
+						</div>
+						<p>
+						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+						</p>
+						<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="calendar-thumb">
+						<div class="cal-month">
+						Aug
+						</div>
+						<div class="cal-date">
+						21
+						</div>
+						</div>
+						<p>
+						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+						</p>
+						<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="calendar-thumb">
+						<div class="cal-month">
+						Aug
+						</div>
+						<div class="cal-date">
+						28
+						</div>
+						</div>
+						<p>
+						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+						</p>
+						<div class=" quick-action star-gold">
+					</div>
+				</li>
+				<li>
+					<div class="calendar-thumb">
+						<div class="cal-month">
+						Sep
+						</div>
+						<div class="cal-date">
+						4
+						</div>
+						</div>
+						<p>
+						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
+						</p>
+						<div class=" quick-action star-gold">
+					</div>
+				</li>
+			</ul>
+			<section class="panel-actions events">
+				<a href="create_event.html" class="action-button">
+				Create New Event
+				</a>
+				<a href="events.html" class="icon">
+				</a>
+			</section>
+		</section> <!-- END UPCOMING EVENTS -->
+	<div class="clearfloat"></div>
+	</section>
+
+	<div class="clearfloat"></div>
+	
+</section> <!-- End Main Content -->
+
 <h6>
 	<%= image_tag @user.avatar.url(:tiny) if @user.avatar? %>
 	Welcome, <%= self.current_user.first_name %>!
@@ -14,7 +336,6 @@
 		<h4>Connections</h4>
 		<%= link_to "Add Connections", :inviteconnections %></br>
 		<%= link_to 'My Connections', :my_connections %></br>
-        <%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
 	</div>
 
 	<div id = "messages">
