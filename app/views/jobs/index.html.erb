@@ -1,13 +1,13 @@
-
+<section id="main-content" class="inner-content">
 <div id="content_full">
 	
 <%= form_tag jobs_path, :method => :get do %>
   <div id = "search">
-    <!--<span style:"margin-top: 6px"><img src="/assets/magnifying_glass.png" alt="magnifying_glass.png" /></span>--><span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#056ba7; text-shadow:#ccc 1px 1px 2px; margin-left:5px;"> Search Jobs </span>
+    <!--<span style:"margin-top: 6px"><img src="/assets/magnifying_glass.png" alt="magnifying_glass.png" /></span>--><span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#4D4D4D; text-shadow:#ccc 1px 1px 2px; margin-left:5px;"> Search Jobs </span>
     <%= text_field_tag :searchkey, params[:searchkey], :placeholder => 'Search Keyword (job title, subject)', :size => 40 %>
     <%= text_field :location, 'city', :placeholder => "Type a city or address", :size => 40 %> 
     <%= submit_tag "GO", :id => "go", :class => "btn btn-success" %>
-    <div id = "advanced">Advanced</div>
+    <div id = "advanced" style="color:#4D4D4D">Advanced</div>
 
 
     <div id = "jobSearchMenu" class="hideAdvancedSearch" > 
@@ -222,6 +222,11 @@
 
 </div>
 
+</section>
 <!--END Job Search Results-->
 
-<%= javascript_tag "$(\"#subject\").chosen()" %>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#subject").chosen();
+});
+</script>

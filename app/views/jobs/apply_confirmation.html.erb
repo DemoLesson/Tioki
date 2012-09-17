@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h1>Submitting Application</h1>
 
 Add additional attachments that <%= link_to @job.school.name, @job.school %> will only be able to view. For example, a cover letter relating specifically to this job posting. 	
@@ -54,6 +55,7 @@ Add additional attachments that <%= link_to @job.school.name, @job.school %> wil
 
 
 <div>
-	 <%= link_to "Submit Application", {:controller => :jobs, :action => :apply}, {:class => "btn btn-success"}%>
+	 <%= link_to "Submit Application", {:controller => :jobs, :action => :apply}, {:class => "button"}%>
 	 <%= link_to 'Back', :back, :class => "btn" %>
 </div>
+</section>
