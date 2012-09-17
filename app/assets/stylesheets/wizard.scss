@@ -33,6 +33,16 @@ body.wizard {
 			p {
 				list-style: square inside;
 				font-size: 14px;
+				
+				a {
+					color: $salmon;
+					&:active, &:visited {
+						color: $salmon;
+					}
+					&:hover {
+						color: lighten( $salmon,12% );
+					}
+				}
 			}
 		}
 		&.card {
