@@ -272,24 +272,45 @@ class UsersController < ApplicationController
 		end
 	end
 	
-	def update
-          @user=self.current_user
-          if !(params[:user][:avatar].content_type.include? "image")
-            redirect_to :back, :notice => "The file was not an image."
-          else
-            #move tempoary file created by uploader 
-            #to a file that won't disapper after the completion of the request
-            directory = Rails.root.join('public/uploads')
-            path = File.join(directory, params[:user][:avatar].original_filename)
-            File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
-            @user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
-            @user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
-            #redirect_to :crop_temp, :notice => "Successfully uploaded file"
-            respond_to do |format|
-              format.js
-            end
-          end
-	end
+	#def update
+        #  @user=self.current_user
+        #  if !(params[:user][:avatar].content_type.include? "image")
+        #    redirect_to :back, :notice => "The file was not an image."
+        #  else
+        #    #move tempoary file created by uploader 
+        #    #to a file that won't disapper after the completion of the request
+        #    directory = Rails.root.join('public/uploads')
+        #    path = File.join(directory, params[:user][:avatar].original_filename)
+        #    File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
+        #    @user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
+        #    @user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
+        #    #redirect_to :crop_temp, :notice => "Successfully uploaded file"
+        #    respond_to do |format|
+        #      format.js
+        #    end
+        #  end
+	#end
+        
+        def update
+		@user = User.find(self.current_user.id)
+		flash[:error] = "Not authorized" and return unless @user.id == self.current_user.id
+
+		#dump params[:user][:avatar].class.name
+
+		respond_to do |format|
+			if @user.update_attribute(:avatar, params[:user][:avatar])
+				self.log_analytic(:user_changed_avatar, "A user changed their avatar.")
+
+				# Make a Whiteboard Post
+				Whiteboard.createActivity(:avatar_update, "{user.teacher.profile_link} updated their avatar.")
+
+				format.html { redirect_to('/change_picture',  :notice => 'Picture successfully uploaded.') }
+				format.json  { head :ok }
+			else
+				format.html { redirect_to("/change_picture", :notice => 'Picture could not be uploaded.') }
+			end
+		end
+        end
 
         def crop_temp
           @user=self.current_user

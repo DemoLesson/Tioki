@@ -31,10 +31,6 @@ class WelcomeWizardController < ApplicationController
 		# Detect post variables
 		if request.post?
 
-			# Generate a new password
-			params[:user][:password] = User.random_string(10)
-			params[:user][:confirm_password] = params[:user][:password]
-
 			# Create a new user
 			@user = User.new(params[:user])
 			
@@ -45,7 +41,7 @@ class WelcomeWizardController < ApplicationController
 				@user.create_teacher
 
 				# Go ahead and email the user with their login details
-				UserMailer.teacher_welcome_email_temppassword(@user.id, params[:user][:password]).deliver
+				UserMailer.teacher_welcome_email(@user.id).deliver
 
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
