@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h2>Change Picture for <%= @school.name %></h2>
 
 <% if @school.picture? %><p>Current picture<br /><%= image_tag @school.picture.url(:medium) %></p><% else %><p>No picture uploaded yet.</p><% end %>
@@ -12,3 +13,4 @@
   	<%= f.submit "Upload Picture" %>
   </div>
 <% end %>
+</section>
