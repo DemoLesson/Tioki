@@ -6,7 +6,7 @@
       <% if pin.teacher.user.avatar? %>
         <%= link_to image_tag(pin.teacher.user.avatar.url(:thumb)), '/'+pin.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("no_image.png"), '/'+pin.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+pin.teacher.url.to_s %><% end %>
     </div>
     <strong><%= link_to pin.teacher.user.name, '/'+pin.teacher.url.to_s %></strong><br />
     <% if pin.teacher.position != nil && pin.teacher.school != nil%>
