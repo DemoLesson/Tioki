@@ -10,11 +10,11 @@
 					Card Profile
 					</a>
 				</li-->
-				<li>
+				<!--li>
 					<a href="privacy.html">
 					Profile Stats
 					</a>
-				</li>
+				</li-->
 			</ul>
 		</nav>
 		<section class="sidebar">
@@ -85,8 +85,9 @@
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
 			<div class="profile-video panel">
-				<video class="video-placeholder">
-				</video>
+				<% if @teacher.video_embed_html %>
+					<%= @teacher.video_embed_html.html_safe %>
+				<% end %>
 			</div>
 			<section class="video-actions group">
 				<a href="edit_profile.html" class="action-button edit-video bg-green">
