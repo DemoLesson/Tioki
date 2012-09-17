@@ -1,6 +1,5 @@
 class SchoolsController < ApplicationController
   before_filter :login_required, :except => ['show']
-  layout :resolve_layout
 
   # GET /schools/1
   # GET /schools/1.xml
@@ -113,12 +112,4 @@ class SchoolsController < ApplicationController
     @school = School.find(params[:id])
   end
   
-  def resolve_layout
-    case action_name
-    when "show"
-      "standard"
-    else
-      "application"
-    end
-  end
 end

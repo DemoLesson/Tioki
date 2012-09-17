@@ -127,7 +127,7 @@
 								</div>
 								
 								<ul>
-                                                                  <% if !self.current_user.is_limited %>
+                                                                  <% if !User.current.is_limited %>
                                                                     <li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
                                                                   <% else %>
                                                                     <li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>

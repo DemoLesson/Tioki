@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h1><%= link_to "Messages", :messages %> → <%= @message.subject %></h1>
 
 <p class="table"><strong>From:</strong> <%= link_to @message.sender.name, @message.sender %>
@@ -19,3 +20,4 @@
 	<%= link_to 'Back to Messages', messages_path %>
 	<%= link_to 'Reply', '/messages/new?user_id_to='+@message.sender.id.to_s+'&subject='+@message.subject %>
 </div>
+</section>
