@@ -29,7 +29,9 @@
 						<div style="padding:5px 0px;border-bottom:dashed 1px #DADADA;">
 							<h3><%= link_to(event.name + ' — ' + event.start_time.localtime.to_datetime.strftime("%m/%d/%Y at %l:%M%P") , event) %></h3>
 							<p>
-							<%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %>
+                                                        <% if event.description.present? %>
+                                                          <%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %>
+                                                        <% end %>
 							</p>
 						</div>
 					<% end %>

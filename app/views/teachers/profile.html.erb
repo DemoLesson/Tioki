@@ -41,13 +41,13 @@
 					<%= @teacher.user.email %>
 					</p>
 				<% end %>
-				<% unless @teacher.phone.empty? %>
+				<% unless @teacher.phone == nil %>
 					<p>
 					<span class="bold black">Phone:</span>
 					<%= @teacher.phone %>
 					</p>
 				<% end %>
-				<% unless @teacher.linkedin.empty? || @teacher.linkedin == 'http://linkedin.com/' %>
+				<% unless @teacher.linkedin == nil || @teacher.linkedin == 'http://linkedin.com/' %>
 					<a href="<%= @teacher.linkedin %>" target="_blank">
 						<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png') %>
 					</a>
@@ -90,10 +90,14 @@
 				<% end %>
 			</div>
 			<section class="video-actions group">
-				<% if !User.current.nil? && User.current.teacher == @teacher %>
+				<% if self.current_user && self.current_user.teacher == @teacher %>
 					<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 					Edit Video
 					</a>
+                                <% elsif !self.current_user %>
+                                  <a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button edit-video bg-salmon">
+                                    Connect
+                                  </a>
 				<% end %>
 				<ul class="stats">
 					<li>
