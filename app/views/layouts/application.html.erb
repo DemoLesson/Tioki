@@ -112,15 +112,9 @@
 					</div>
 				</a>
 				<% if User.current.nil? %>
-					<!--<a href="/signup" id="drawer-handle" class="button">
-					Contact me when Tioki is available
-					</a> -->
 					<a href="#" id="drawer-handle" class="button">
 					Login
-
-					</a
-=======
-					</a-->
+					</a>
                                 <% elsif User.current.is_admin? %>
 					<div id="user-actions">
 						<ul>
@@ -149,7 +143,6 @@
 							</li>
 						</ul>
 					</div>
-
 				<% else %>
 					<div id="user-actions">
 						<ul>
