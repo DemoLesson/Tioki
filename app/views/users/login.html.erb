@@ -1,19 +1,22 @@
-<%= form_tag :action => "login" do %>
-  <h1 class="green">Login</h1> 
-
-  <p><label for="user_email">Email</label><br/>
-  <%= text_field "user", "email", :size => 45 %></p>
-
-  <p><label for="user_password">Password</label><br/>
-  <%= password_field "user", "password", :size => 45 %></p>
-
-<p><input type="checkbox" name="remember_me" value="remember_me"/> <label for="remember_me">Stay Signed In</label></p>
-
-	<div>
-		<%= submit_tag "Login", :class => "btn btn-success"%>
+<section id="main-content" class="inner-content signup-page">
+	<h3>
+	Welcome back to Tioki! Please login.
+	</h3>
+	<div class="signup-form">
+		<%= form_tag :action => "login", :id => "signup-form" do %>
+			<fieldset>
+				<%= email_field :user, "email", :placeholder => "Email" %>
+			</fieldset>
+			<fieldset id="enterpwd">
+				<%= password_field :user, "password", :placeholder => "Password" %>
+			</fieldset>
+			<fieldset>
+				<%= submit_tag "Login to Tioki", :class => "button huge-button" %>
+			</fieldset>
+			<p class="smalltext">
+			By logging in, I agree to the <span><a href="#">terms</a></span>.
+			</p>
+		<% end %>
+		<iframe src="http://www.facebook.com/plugins/facepile.php? href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;overflow:hidden; width:300px;" allowTransparency="true"></iframe>
 	</div>
-
-    <%= link_to 'Register', :action => 'create' %> &middot;
-    <%= link_to 'Forgot my password', :action => 'forgot_password' %>     
-
-<% end %>
+</section><!-- End Main Content -->
