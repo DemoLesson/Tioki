@@ -90,9 +90,11 @@
 				<% end %>
 			</div>
 			<section class="video-actions group">
-				<a href="edit_profile.html" class="action-button edit-video bg-green">
-				Edit Video
-				</a>
+				<% if User.current.teacher == @teacher %>
+					<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
+					Edit Video
+					</a>
+				<% end %>
 				<ul class="stats">
 					<li>
 						<div class="count favorites">

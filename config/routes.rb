@@ -31,7 +31,10 @@ Preview::Application.routes.draw do
 	# Profile pages
 	scope 'me' do
 		scope 'profile' do
-			match 'edit' => 'teachers#edit'
+			scope 'edit' do
+				match 'upload-video' => 'videos#new'
+				root :to => 'teachers#edit'
+			end
 			root :to => 'teachers#profile'
 		end
 		match 'settings' => 'users#edit'
