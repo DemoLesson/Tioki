@@ -1,79 +1,87 @@
-<h2>Education</h2>
+<section id="main-content" class="inner-content">
+	<h1>Education</h1>
 
-<div class="attached">
-  <% for education in @teacher.educations %>
-    <p>
-    <span class="purge" style="float:right"><%= link_to 'Edit', '/edit_education/'+education.id.to_s %><br /><%= link_to 'Remove?', '/remove_education/'+education.id.to_s, :confirm => 'Are you sure you want to remove '+education.school+' from your profile?' %></span>	
-    <strong><%= education.school %></strong>
-    <% if education.current == true %>
-      Currently Attending 
-      <% if education.start_year != nil && education.start_year != "" %>
-        Since <%= education.start_year %>
-      <% end %><br />
-      <% if education.year != "" %>
-        Expected Graduation: <%= education.year %><br />
-      <% end %>
-    <% else %>
-      <% if education.year == "" %>
-      <% else %>
-        <% if education.start_year == nil || education.start_year == "" %>
-          <%= education.year %><br />
-        <% else %>
-          <%= education.start_year %>-<%= education.year %><br />
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= education.degree %><br />
-    <%= education.concentrations %>
-    </p>
-  <% end %>
-</div>
+	<div class="attached">
+		<% for education in @teacher.educations %>
+			<p>
+			<span class="purge" style="float:right"><%= link_to 'Edit', '/edit_education/'+education.id.to_s %><br /><%= link_to 'Remove?', '/remove_education/'+education.id.to_s, :confirm => 'Are you sure you want to remove '+education.school+' from your profile?' %></span>	
+			<strong><%= education.school %></strong>
+			<% if education.current == true %>
+				Currently Attending 
+				<% if education.start_year != nil && education.start_year != "" %>
+					Since <%= education.start_year %>
+				<% end %><br />
+				<% if education.year != "" %>
+					Expected Graduation: <%= education.year %><br />
+				<% end %>
+			<% else %>
+				<% if education.year == "" %>
+				<% else %>
+					<% if education.start_year == nil || education.start_year == "" %>
+						<%= education.year %><br />
+					<% else %>
+						<%= education.start_year %>-<%= education.year %><br />
+					<% end %>
+				<% end %>
+			<% end %>
+			<%= education.degree %><br />
+			<%= education.concentrations %>
+			</p>
+		<% end %>
+	</div>
 
-<div id="attach_new_btn">
-<input name="attach" type="button" value="Add Education Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="btn"/>
-<%= link_to 'Back', :back %>
-</div>
+	<div id="attach_new_btn">
+		<input name="attach" type="button" value="Add Education Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+		<%= link_to 'Back', :back %>
+	</div>
 
-<div id="attach_form" style="display: none">
-<%= form_for @education, :as => :education, :url => '/update_education' do |f| %>
+	<div id="attach_form" style="display: none">
+		<%= form_for @education, :as => :education, :url => '/update_education' do |f| %>
+			<fieldset>
+				<p>
+				School/University
+				</p>
+				<%= f.text_field :school %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Degree
+				</p>
+				<%= f.text_field :degree %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Major
+				</p>
+				<%= f.text_field :concentrations %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Year
+				</p>
+				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+			</fielset>
+			<fieldset>
+				<p>
+				Graduation Year
+				</p>
+				<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+			</fieldset>	
+			<fieldset>
+				<label>
+					<%= f.check_box :current %> 
+					I am currently attending here
+				</label>
+			</fieldset>
+			<fieldset>
+				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Back', :back %>
+			</fieldset>
 
-<div class="field">
-	<label>School/University</label><br />
-	<%= f.text_field :school %>
-</div>
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
 
-<div class="field">
-	<%= f.label :degree %><br />
-	<%= f.text_field :degree %>
-</div>
-
-<div class="field">
-	<label>Major</label><br />
-	<%= f.text_field :concentrations %>
-</div>
-
-<div class="field">
-  <%= f.label "Start Year" %><br />
-  <%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-</div>
-
-<div class="field">
-	<%= f.label "Graduation Year" %><br />
-        <%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-</div>	
-
-<div class="field">
-	<%= f.check_box :current %> <label>I am currently attending here</label>
-</div>
-
-<div>
-    <input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="btn btn-success" />
-	<%= link_to 'Back', :back %>
-</div>
-
-<div id="loader" style="display: none">
-	<img src="<%= asset_path 'loader.gif' %>" />
-</div>
-
-<% end %>
-</div>
+		<% end %>
+	</div>
+</section>
