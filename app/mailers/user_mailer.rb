@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "Demo Lesson <demolesson@demolesson.com>"
+  default :from => "Tioki <tioki@tioki.com>"
   
   def teacher_welcome_email(user_id)
     @user = User.find(user_id)
@@ -9,7 +9,7 @@ class UserMailer < ActionMailer::Base
     ab = Abtests.use("email:teacher_welcome", 1).to_s
     template "teacher_welcome_email_" + ab
 
-    mail = mail(:to => @user.email, :subject => 'Welcome to DemoLesson!') do |f|
+    mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
       f.html { render template }
     end
 
@@ -25,7 +25,7 @@ class UserMailer < ActionMailer::Base
     @teacher = Teacher.find_by_user_id(user_id)
     @password = password
 
-    mail = mail(:to => @user.email, :subject => 'Welcome to DemoLesson!')
+    mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!')
 
     if mail.delivery_method.respond_to?('tag')
       mail.delivery_method.tag('teacher_welcome_email_temppassword')
@@ -92,7 +92,7 @@ class UserMailer < ActionMailer::Base
     @teacher = Teacher.find(teacher_id)
     @teacher_user = User.find(@teacher.user_id)
     
-    message_body = "Please login to demolesson.com to respond to this request."
+    message_body = "Please login to tioki.com to respond to this request."
     subject = @teacher_user.name+' applied to your job posting: '+@job.title
     
     mail(:to => @admin_user.email, :subject => subject)
@@ -120,7 +120,7 @@ class UserMailer < ActionMailer::Base
     @school = School.find(@job.school_id)
     @admin_user = User.find(@school.owned_by)
     
-    message_body = "Please login to demolesson.com to view your interviewee's request."
+    message_body = "Please login to tioki.com to view your interviewee's request."
     
     mail(:to => @admin_user.email, :subject => @teacher_user.name+' has scheduled an interview', :body => message_body)
 
@@ -140,7 +140,7 @@ class UserMailer < ActionMailer::Base
   end
   
   def deliver_forgot_password(email, name, pass)
-    mail = mail(:to => email, :subject => '[DemoLesson] Password Reset', :body => "You have requested a password reset through our site. Your new password is:\n\n#{pass}\n\nPlease login and change it at your earliest convenience.\n\nRegards,\nThe Demo Lesson Team\nhttp://demolesson.com")
+    mail = mail(:to => email, :subject => '[Tioki] Password Reset', :body => "You have requested a password reset through our site. Your new password is:\n\n#{pass}\n\nPlease login and change it at your earliest convenience.\n\nRegards,\nThe Tioki Team\nhttp://tioki.com")
 
     if mail.delivery_method.respond_to?('tag')
       mail.delivery_method.tag('deliver_forgot_password')
@@ -155,7 +155,7 @@ class UserMailer < ActionMailer::Base
     @passcode.sent_to = email
     @passcode.save!
     
-    mail = mail(:to => email, :subject => 'Welcome to Demo Lesson!', :body => "Hello and Welcome to Demo Lesson!\n\nWe are thrilled to give you access to our revolutionary online hiring platform and cannot wait for you to start building your very own Demo Lesson profile! Below you will find your personalized code that will grant you access to the site, as well as important terms of service you are agreeing to by signing up as a beta tester.\n\n 1) In appreciation for signing up as a beta tester, we will grant you FREE access to our site through March 31, 2012!\n\n 2) Please note that the site you are accessing is a soft launch of the site and does not represent the final product. We will add additional features in the future to optimize your experience!\n\n 3) Once you are on the site, please be sure to check out our exemplar profile page (the link is in the \"Edit Profile\" section of the site).  Also, please take the time to participate in our beta user survey, which will be emailed to you after you access the platform.\n\n 4) By clicking on the link below, you agree that this is a private and individual code for beta-testing purposes and that it is NOT TO BE SHARED with others. By clicking on the link below, you will gain access to the site, and be directed to create your personal url:\n\nhttp://demolesson.com/signup?passcode=#{@passcode.code}\n\nIf you have any questions or need additional support please contact us at support@demolesson.com.\n\nAgain, welcome to Demo Lesson! We look forward to working with you to meet all your job searching needs!\n\nThe Demo Lesson Team\n(323) 786-3366\ninfo@demolesson.com")
+    mail = mail(:to => email, :subject => 'Welcome to Tioki!', :body => "Hello and Welcome to Tioki!\n\nWe are thrilled to give you access to our revolutionary online hiring platform and cannot wait for you to start building your very own Tioki profile! Below you will find your personalized code that will grant you access to the site, as well as important terms of service you are agreeing to by signing up as a beta tester.\n\n 1) In appreciation for signing up as a beta tester, we will grant you FREE access to our site through March 31, 2012!\n\n 2) Please note that the site you are accessing is a soft launch of the site and does not represent the final product. We will add additional features in the future to optimize your experience!\n\n 3) Once you are on the site, please be sure to check out our exemplar profile page (the link is in the \"Edit Profile\" section of the site).  Also, please take the time to participate in our beta user survey, which will be emailed to you after you access the platform.\n\n 4) By clicking on the link below, you agree that this is a private and individual code for beta-testing purposes and that it is NOT TO BE SHARED with others. By clicking on the link below, you will gain access to the site, and be directed to create your personal url:\n\nhttp://tioki.com/signup?passcode=#{@passcode.code}\n\nIf you have any questions or need additional support please contact us at support@tioki.com.\n\nAgain, welcome to Tioki! We look forward to working with you to meet all your job searching needs!\n\nThe Tioki Team\n(323) 786-3366\ninfo@tioki.com")
 
     if mail.delivery_method.respond_to?('tag')
       mail.delivery_method.tag('send_passcode')
@@ -176,7 +176,7 @@ class UserMailer < ActionMailer::Base
       end
     end
   
-    mail = mail(:to => 'demolesson@demolesson.com', :subject => '[DemoLesson] New Beta Signup', :body => "A new user has registered via the landing page.\n\nName: #{name}\nEmail: #{email}\n\nUser Type: #{userTypes[userType-1]}\nBeta Program: #{betaProgram}")
+    mail = mail(:to => 'tioki@tioki.com', :subject => '[Tioki] New Beta Signup', :body => "A new user has registered via the landing page.\n\nName: #{name}\nEmail: #{email}\n\nUser Type: #{userTypes[userType-1]}\nBeta Program: #{betaProgram}")
 
     if mail.delivery_method.respond_to?('tag')
       mail.delivery_method.tag('beta_notification')
@@ -190,7 +190,7 @@ class UserMailer < ActionMailer::Base
     @name = name
     @teachername = teachername
      
-    subject =  @teachername+' has referred you to a job, '+@job.title+' on Demo Lesson!!'
+    subject =  @teachername+' has referred you to a job, '+@job.title+' on Tioki!!'
 
     # Which template to use
     ab = Abtests.use("email:refer_job", 0).to_s
@@ -200,7 +200,7 @@ class UserMailer < ActionMailer::Base
     mail = mail(:to => emails, :subject => subject) do |f|
       f.html { render template }
     end
-    #:body => "Hi #{name}! "+@teacher_user.name+" wants you too check out the job, "+@job.title+", posted by "+@job.school.name+" on Demo Lesson! Click on the following link to view the job posting: http://www.demolesson.com/jobs/#{@job.id}\n\nIf you have any questions or need additional support please contact us at support@demolesson.com.")
+    #:body => "Hi #{name}! "+@teacher_user.name+" wants you too check out the job, "+@job.title+", posted by "+@job.school.name+" on Demo Lesson! Click on the following link to view the job posting: http://www.demolesson.com/jobs/#{@job.id}\n\nIf you have any questions or need additional support please contact us at support@tioki.com.")
     
     if mail.delivery_method.respond_to?('tag')
       mail.delivery_method.tag('refer_job_email:ab-' + ab)
@@ -220,7 +220,7 @@ class UserMailer < ActionMailer::Base
     @referer = user.id unless user.nil?
 
     # Set the subject for the email
-    subject =  @teachername+' wants you to check out Demo Lesson!'
+    subject =  @teachername+' wants you to check out Tioki!'
 
     # Which template to use
     ab = Abtests.use("email:refer_site_generic", 1).to_s
@@ -251,7 +251,7 @@ class UserMailer < ActionMailer::Base
     @referer = user.id unless user.nil?
 
     # Set the subject for the email
-    subject =  @teachername+' wants you to check out an upcoming event on Demo Lesson!'
+    subject =  @teachername+' wants you to check out an upcoming event on Tioki!'
 
     # Which template to use
     ab = Abtests.use("email:event_invite", 1).to_s
@@ -276,11 +276,11 @@ class UserMailer < ActionMailer::Base
     @email = email
     @phonenumber = phonenumber
      
-    subject =  @schoolname+' just signed up to Demo Lesson for a free trial, please contact them to discuss their free trial.'
-    body = "Name:"+@name+"\n\nSchool name:"+@schoolname+"\n\nPhone Number:"+@phonenumber+"\n\nhttp://www.demolesson.com/schools/"+school.id.to_s
+    subject =  @schoolname+' just signed up to Tioki for a free trial, please contact them to discuss their free trial.'
+    body = "Name:"+@name+"\n\nSchool name:"+@schoolname+"\n\nPhone Number:"+@phonenumber+"\n\nhttp://www.tioki.com/schools/"+school.id.to_s
         
-    mail(:to => 'schumacher.hodge@demolesson.com', :subject => subject, :body => body)
-    mail(:to => 'support@demolesson.com', :subject => subject, :body => body)
+    mail(:to => 'schumacher.hodge@tioki.com', :subject => subject, :body => body)
+    mail(:to => 'support@tioki.com', :subject => subject, :body => body)
   end
   
   def rejection_notification(teacher_id, job_id, name)  
@@ -374,7 +374,7 @@ class UserMailer < ActionMailer::Base
     end
 
     if @jobs.size > 0
-      mail = mail(:to => teacher.user.email, :subject => "New job postings at demolesson.com")
+      mail = mail(:to => teacher.user.email, :subject => "New job postings at tioki.com")
     end
 
     if mail.delivery_method.respond_to?('tag')
@@ -394,7 +394,7 @@ class UserMailer < ActionMailer::Base
     template = "vouch_request_" + ab
 
     # Send out the email
-    mail = mail(:to => emails, :subject => @teachername + " has requested to verify their skills on demolesson") do |f|
+    mail = mail(:to => emails, :subject => @teachername + " has requested to verify their skills on tioki") do |f|
       f.html { render template }
     end
 
@@ -416,7 +416,7 @@ class UserMailer < ActionMailer::Base
     template = "connection_invite_" + ab
 
     # Send out the email
-    mail = mail(:to => emails, :subject => @teachername + " wants you to checkout demolesson!") do |f|
+    mail = mail(:to => emails, :subject => @teachername + " wants you to checkout tioki!") do |f|
       f.html { render template }
     end
 
