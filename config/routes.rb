@@ -24,24 +24,34 @@ Preview::Application.routes.draw do
 	# Whiteboard JSON Access
 	resource :whiteboard
 
-	# Users Controller
+	# Signup / Login
 	match 'signup' => 'users#signup'
 	match 'login' => 'users#login'
 
-	# Profile pages
+	# Anything involving me
 	scope 'me' do
+
+		# Anything involving my profile
 		scope 'profile' do
+
+			# Anything involving editing my profile
 			scope 'edit' do
 				match 'upload-video' => 'videos#new'
 				root :to => 'teachers#edit'
 			end
+
+			# Misc
+			match 'card' => 'card#get'
 			root :to => 'teachers#profile'
 		end
+
+		# Misc
 		match 'settings' => 'users#edit'
 	end
 
 	# Public profiles
 	match '/profile/:url' => 'teachers#profile'
+	match '/card/:url' => 'card#get'
 
 	# Static pages by default route the action
 	# Sub folders a bit trickier
