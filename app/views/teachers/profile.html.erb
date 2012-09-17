@@ -86,7 +86,7 @@
 			</section>
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
-                        <% if @teacher.video_embed_html %>
+                        <% if @teacher.video_embed_url? %>
                           <div class="profile-video panel">
                             <%= @teacher.video_embed_html.html_safe %>
                           </div>
