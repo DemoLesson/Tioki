@@ -88,7 +88,7 @@ var csPageOptions = {
       <% if connection.user.avatar? %>
         <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/card'+connection.user.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("no_image.png"), '/card/'+connection.user.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/card/'+connection.user.teacher.url.to_s %><% end %>
     </div>
 
     <div id ="connection_desc">

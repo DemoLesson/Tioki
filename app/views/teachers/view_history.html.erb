@@ -77,20 +77,20 @@ $(function () {
 		<div class="item_picture">
 			<% # Not a User %>
 			<% if connection.user.nil? %>
-				<%= image_tag("no_image.png") %>
+				<%= image_tag("dl_icons/no_avatar_medium.jpg") %>
 			<% # If the teacher is nil (School) %>
 			<% elsif connection.user.teacher.nil? %>
 				<% if connection.user.avatar? %>
 					<%= image_tag(connection.user.avatar.url(:thumb)) %>
 				<% else %>
-					<%= image_tag("no_image.png") %>
+					<%= image_tag("dl_icons/no_avatar_medium.jpg") %>
 				<% end %>
 			<% # If this is a teacher %>
 			<% else %>
 				<% if connection.user.avatar? %>
 					<%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.user.teacher.url.to_s %>
 				<% else %>
-					<%= link_to image_tag("no_image.png"), '/'+connection.user.teacher.url.to_s %>
+					<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.user.teacher.url.to_s %>
 				<% end %>
 			<% end %>
 		</div>
