@@ -245,6 +245,31 @@ class DeployCLI
 		end
 	end
 
+	def rake(type = 'staging', command = nil)
+
+		# If no command given then exit
+		return echo "No rake task given." if command.nil? || !command.is_a?(String)
+
+		# Save the current rails environment
+		renvironment = ENV["RAILS_ENV"]
+
+		# Set the new rails environment
+		echo "Setting the rails environment to #{type}...\n"
+		ENV["RAILS_ENV"] = type
+
+		if confirm "Confirm you want to run \`rake #{command}\`..."
+			ENV["COMMAND"] = command
+			system('cap rubber:rake')
+			echo "\nFinished..."
+		else
+			echo "\nCancelled..."
+		end
+
+		# Restore the original rails env
+		echo "\nFinished! Restoring the environment to #{renvironment}..."
+		ENV["RAILS_ENV"] = renvironment
+	end
+
 end
 
 # Get the command to run
@@ -263,8 +288,9 @@ rescue
 	echo './script/deploy update [staging|production]           # Installs / Updates all packages and gems as well as stages new code from publishing', 'red'
 	echo './script/deploy publish [staging|production]          # Publishes pending code from `./script/deploy update`', 'red'
 	echo './script/deploy rollback [staging|production]         # Rolls all [staging|production] servers back to the previously live codebase', 'red'
-	echo './script/deploy create [staging|production] [alias]   # Creates a new server in [staging|production] mode. With the specified alias.', 'red'
+	echo './script/deploy create <staging|production> [alias]   # Creates a new server in [staging|production] mode. With the specified alias.', 'red'
 	echo './script/deploy create_staging                        # Creates a staging server', 'red'
+	echo './script/deploy rake <staging|production> <command>   # Runs rake task on server. Command should be task without preceding "rake".', 'red'
 	echo './script/deploy setup                                 # Installs / Updates Rubber and syncs /etc/hosts aliases', 'red'
 	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
 	puts "\n"

@@ -85,7 +85,13 @@ namespace :rubber do
 
       end
       send task_name
-    end    
+    end
+  end
 
+  desc <<-DESC
+    Run rake tasks in the current current release
+  DESC
+  task :rake do
+    rsudo "cd #{current_release} && RAILS_ENV=#{Rubber.env} #{fetch(:rake, 'rake')} " + ENV['COMMAND']
   end
 end
