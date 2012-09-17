@@ -118,6 +118,34 @@
 					<!--a href="#" id="drawer-handle" class="button">
 					Login
 					</a-->
+                                <% elsif User.current.is_admin? %>
+					<div id="user-actions">
+						<ul>
+							<li class="user-name">
+								<%= User.current.name %>
+								<div class="gear">
+								</div>
+								
+								<ul>
+                                                                  <% if !self.current_user.is_limited %>
+                                                                    <li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+                                                                  <% else %>
+                                                                    <li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+                                                                  <% end %>
+									<li>
+										<a href="/me/settings">
+										Account Settings
+										</a> 
+									</li>
+									<li>
+										<a href="/logout">
+										Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				<% else %>
 					<div id="user-actions">
 						<ul>
@@ -159,6 +187,7 @@
 						Home
 						</a>
 					</li>
+                                        <% if User.current.teacher %>
 					<li>
 						<a href="/me/profile">
 						Profile
@@ -184,6 +213,17 @@
 						Inbox
 						</a>
 					</li>
+                                      <% elsif User.current.is_admin? %>
+					<li>
+                                        <%= link_to "My Jobs", :my_jobs %>
+					</li>
+					<li>
+						<a href="/messages">
+						Inbox
+						</a>
+					</li>
+
+                                      <% end %>
 				</ul>
 			</nav><!-- End Nav -->
 		<% end %>
