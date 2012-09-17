@@ -94,6 +94,10 @@
 					<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 					Edit Video
 					</a>
+                                <% elsif !self.current_user %>
+                                  <a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button edit-video bg-salmon">
+                                    Connect
+                                  </a>
 				<% end %>
 				<ul class="stats">
 					<li>

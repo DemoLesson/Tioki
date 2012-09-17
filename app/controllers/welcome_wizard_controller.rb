@@ -43,6 +43,11 @@ class WelcomeWizardController < ApplicationController
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
+                                #user was came from the attempting to connect from another users profile
+                                if params[:user_connection]
+                                  return redirect_to :controller => :connections, :action => :add_connection, :user_id => params[:user_connection], :to_wizard => true
+                                end
+
 				# Wizard Key
 				wKey = "welcome_wizard_step1" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
 
