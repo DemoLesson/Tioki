@@ -18,61 +18,41 @@
 	<![endif]-->
 
 	<script type="text/javascript">
-		$(document).ready(function() {
-
-			// Orbit
-			$('#featured').orbit({
-				 animation: 'fade',         // fade, horizontal-slide, vertical-slide, horizontal-push
-				 animationSpeed: 700,                // how fast animations are
-				 timer: false, 			 // true or false to have the timer
-				 advanceSpeed: 5000, 		 // if timer is enabled, time between transitions 
-				 pauseOnHover: true, 		 // if you hover pauses the slider
-				 startClockOnMouseOut: true, 	 // if clock should start on MouseOut
-				 startClockOnMouseOutAfter: 1000, 	 // how long after MouseOut should the timer start again
-				 directionalNav: true, 		 // manual advancing directional navs
-				 captions: true, 			 // do you want captions?
-				 captionAnimation: 'fade', 		 // fade, slideOpen, none
-				 captionAnimationSpeed: 800, 	 // if so how quickly should they animate in
-				 bullets: false,			 // true or false to activate the bullet navigation
-				 bulletThumbs: false,		 // thumbnails for the bullets
-				 bulletThumbLocation: '',		 // location from this file where thumbs will be
-				 afterSlideChange: function(){}, 	 // empty function 
-				 fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
-			});
-			
+	$(document).ready(function() {
+		// Orbit
+		$('#featured').orbit({
+			animation: 'fade',         // fade, horizontal-slide, vertical-slide, horizontal-push
+			animationSpeed: 700,                // how fast animations are
+			timer: false, 			 // true or false to have the timer
+			advanceSpeed: 5000, 		 // if timer is enabled, time between transitions 
+			pauseOnHover: true, 		 // if you hover pauses the slider
+			startClockOnMouseOut: true, 	 // if clock should start on MouseOut
+			startClockOnMouseOutAfter: 1000, 	 // how long after MouseOut should the timer start again
+			directionalNav: true, 		 // manual advancing directional navs
+			captions: true, 			 // do you want captions?
+			captionAnimation: 'fade', 		 // fade, slideOpen, none
+			captionAnimationSpeed: 800, 	 // if so how quickly should they animate in
+			bullets: false,			 // true or false to activate the bullet navigation
+			bulletThumbs: false,		 // thumbnails for the bullets
+			bulletThumbLocation: '',		 // location from this file where thumbs will be
+			afterSlideChange: function(){}, 	 // empty function 
+			fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
 		});
-			
-	</script>
-
-        <script>
-          $(document).ready(function() {
-            $('#drawer-handle').click(function() {
-              $('#login-drawer').animate({
-                marginTop: '0px'
-
-                }, 400, function() {
-                // Animation complete.
-              });
-            });
-
-          });
-
-        </script>
-	<script>
-		$(document).ready(function() {
-			
-			$('#close-drawer').click(function() {
-				  $('#login-drawer').animate({
-				    marginTop: '-60px'
-				    
-				  }, 400, function() {
-				    // Animation complete.
-				  });
+		$('#drawer-handle').click(function() {
+			$('#login-drawer').animate({
+				marginTop: '0px'
+			}, 400, function() {
+				// Animation complete.
 			});
-
-			
 		});
-		
+		$('#close-drawer').click(function() {
+			$('#login-drawer').animate({
+				marginTop: '-60px'
+			}, 400, function() {
+				// Animation complete.
+			});
+		});
+	});
 	</script>
 
 </head>
@@ -119,7 +99,7 @@
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>
-                                <% elsif self.current_user.is_admin? %>
+				<% elsif self.current_user.is_admin? %>
 					<div id="user-actions">
 						<ul>
 							<li class="user-name">
@@ -239,9 +219,9 @@
 			</nav><!-- End Nav -->
 		<% end %>
 		<!-- Display Notices -->
-  		<% if notice != nil %>
-  			<p class="notice"><%= notice %></p>
-  		<% end %>
+		<% if notice != nil %>
+			<p class="notice"><%= notice %></p>
+		<% end %>
 		
 		<!-- Import page here -->
 		<%= yield %>
@@ -389,15 +369,15 @@ adroll_pix_id = "NM7SDILLX5CTJM4Q6LW4UX";
 (function () {
 var oldonload = window.onload;
 window.onload = function(){
-   __adroll_loaded=true;
-   var scr = document.createElement("script");
-   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
-   scr.setAttribute('async', 'true');
-   scr.type = "text/javascript";
-   scr.src = host + "/j/roundtrip.js";
-   ((document.getElementsByTagName('head') || [null])[0] ||
-    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
-   if(oldonload){oldonload()}};
+	__adroll_loaded=true;
+	var scr = document.createElement("script");
+	var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+	scr.setAttribute('async', 'true');
+	scr.type = "text/javascript";
+	scr.src = host + "/j/roundtrip.js";
+	((document.getElementsByTagName('head') || [null])[0] ||
+	document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+	if(oldonload){oldonload()}};
 }());
 </script>
 
