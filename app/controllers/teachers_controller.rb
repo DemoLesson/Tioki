@@ -251,7 +251,7 @@ class TeachersController < ApplicationController
 
 		respond_to do |format|
 			if @teacher.url?
-				format.html { redirect_to '/card/'+self.current_user.teacher.url }
+				format.html { redirect_to '/profile/' + self.current_user.teacher.url }
 			else
 				format.html { redirect_to :create_profile }
 			end
@@ -317,8 +317,14 @@ class TeachersController < ApplicationController
 	# PUT /teachers/1
 	# PUT /teachers/1.json
 	def update
+		# Get the teacher
 		@teacher = Teacher.find(params[:id])
-		flash[:error] = "Not authorized" and return unless @teacher.id == self.current_user.teacher.id
+
+		# Flash an error if the user if not autorized
+		unless @teacher.id == self.current_user.teacher.id
+			flash[:error] = "Not authorized"
+			redirect_to :root
+		end
 
 		respond_to do |format|
 			if @teacher.update_attributes(params[:teacher])
