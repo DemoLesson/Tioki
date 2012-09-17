@@ -109,7 +109,9 @@
 			color: $dkgray;
 			text-decoration: none;
 		}
-		
+		&.button {
+			color: #fff;
+		}
 	}
 	div {
 		display: inline-block;
@@ -248,6 +250,9 @@
 	margin-bottom: 15px;
 	h3 {
 		padding: 15px !important;
+		&.break {
+			border-top: 1px solid $ltgray;
+		}
 	}
 	ul {
 		li {
