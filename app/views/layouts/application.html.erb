@@ -79,28 +79,31 @@
 	}(document, 'script', 'facebook-jssdk'));
 	</script>
 			
-	<div id="page-wrapper">
-		<section id="login-drawer" class="wrapper">
-			<div class="drawer-wrapper inner-content">
-				<a href="#" id="close-drawer">
-				Close
-				</a>
-				<form action="/" id="login-form">
-					<fieldset>
-						<input type="email" placeholder="Email" />
-					</fieldset>
-					<fieldset>
-						<input type="password" placeholder="Password" />
-					</fieldset>
-					<fieldset>
-						<input type="submit" class="button primary-button" value="Login" />
-					</fieldset>
-					<a href="#" class="forgot-password">
-					Forgot Password?
+	<div id="page-wrapper" class="<%= "logged-in" unless User.current.nil? %>">
+		<% if User.current.nil? %>
+			<section id="login-drawer" class="wrapper">
+				<div class="drawer-wrapper inner-content">
+					<a href="#" id="close-drawer">
+					Close
 					</a>
-				</form>
-			</div>
-		</section>
+					<form action="/" id="login-form">
+						<fieldset>
+							<input type="email" placeholder="Email" />
+						</fieldset>
+						<fieldset>
+							<input type="password" placeholder="Password" />
+						</fieldset>
+						<fieldset>
+							<input type="submit" class="button primary-button" value="Login" />
+						</fieldset>
+						<a href="#" class="forgot-password">
+						Forgot Password?
+						</a>
+					</form>
+				</div>
+			</section>
+		<% end %>
+
 		<section class="login-header wrapper">
 			<header class="inner-content">
 				<a href="/">
@@ -108,14 +111,82 @@
 					Tioki
 					</div>
 				</a>
-				<a href="/signup" id="drawer-handle" class="button">
-				Contact me when Tioki is available
-				</a>
-				<!--a href="#" id="drawer-handle" class="button">
-				Login
-				</a-->
+				<% if User.current.nil? %>
+					<a href="/signup" id="drawer-handle" class="button">
+					Contact me when Tioki is available
+					</a>
+					<!--a href="#" id="drawer-handle" class="button">
+					Login
+					</a-->
+				<% else %>
+					<div id="user-actions">
+						<ul>
+							<li class="user-name">
+								<a href="profile.html">
+								<%= User.current.name %>
+								<div class="gear">
+								</div>
+								</a>
+								
+								<ul>
+									<li>
+										<a href="edit_profile.html">
+										Edit Profile
+										</a>
+									</li>
+									<li>
+										<a href="account_settings.html">
+										Account Settings
+										</a> 
+									</li>
+									<li>
+										<a href="index.html">
+										Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				<% end %>
 			</header>
 		</section>
+		<% unless User.current.nil? %>
+			<nav class="wrapper top-nav">
+				<ul class="inner-content">
+					<li>
+						<a href="#">
+						Home
+						</a>
+					</li>
+					<li>
+						<a href="#">
+						Profile
+						</a>
+					</li>
+					<li>
+						<a href="#">
+						Connections
+						</a>
+					</li>
+					<li>
+						<a href="#">
+						Events
+						</a>
+					</li>
+					<li>
+						<a href="#">
+						Jobs
+						</a>
+					</li>
+					<li>
+						<a href="#">
+						Inbox
+						</a>
+					</li>
+				</ul>
+			</nav><!-- End Nav -->
+		<% end %>
 		
 		<!-- Import page here -->
 		<%= yield %>

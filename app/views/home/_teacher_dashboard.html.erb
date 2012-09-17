@@ -2,7 +2,7 @@
 	<section id="updates">
 		<div class="profile-thumb-medium">
 			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
-			<%= image_tag("dl_icons/no_avatar.png") unless @user.avatar? %>
+			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
 		</div>
 		<div>
 			<h3 class="greeting">
@@ -45,52 +45,23 @@
 			</h3>
 			<section class="panel-actions">
 				<div class="profile-thumb-small">
+					<%= image_tag @user.avatar.url(:tiny) if @user.avatar? %>
+					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @user.avatar? %>
 				</div>
 				<div id="submit-whiteboard">	
-					<form>
+					<form action="/share_on_whiteboard" method="post">
 						<fieldset>
-							<input type="text" placeholder="Write something on the whiteboard..." />
+							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
 							<input type="submit" class="button" />
 						</fieldset>
 					</form>
 				</div>
 			</section>
 			<ul>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu, <a href="#">vitae fringilla</a> massa ornare sed. Praesent massa odio, ultrices non pretium vitae, lobortis in velit. Donec. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec justo felis, tristique sed malesuada quis, consequat non leo. Suspendisse leo lacus, fermentum eu viverra quis, dictum bibendum elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a> 
-					</p>
-					<div class=" quick-action star-empty">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu, vitae fringilla massa ornare sed. Praesent massa odio, ultrices non pretium vitae, lobortis in velit. Donec. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-empty">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec justo felis, tristique sed malesuada quis, consequat non leo. Suspendisse leo lacus, fermentum eu viverra quis, dictum bibendum elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>						</p>
-					<div class=" quick-action star-empty">
-					</div>
-				</li>
+				<% @whiteboard.each do |post| %>
+					<%= raw post %>
+				<% end %>
+				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
 		</section> <!-- END WHITEBOARD -->
 		
@@ -244,66 +215,23 @@
 				</a>
 			</h3>
 			<ul>
-				<li>
-					<div class="calendar-thumb">
-						<div class="cal-month">
-						Aug
+				<% @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)}.each do |event| %>
+					<li>
+						<div class="calendar-thumb">
+							<div class="cal-month">
+							<%= event.start_time.localtime.strftime("%^b") %>
+							</div>
+							<div class="cal-date">
+							<%= event.start_time.localtime.strftime("%e") %>
+							</div>
+							</div>
+							<p>
+							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+							</p>
+							<div class=" quick-action star-gold">
 						</div>
-						<div class="cal-date">
-						21
-						</div>
-						</div>
-						<p>
-						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-						</p>
-						<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="calendar-thumb">
-						<div class="cal-month">
-						Aug
-						</div>
-						<div class="cal-date">
-						21
-						</div>
-						</div>
-						<p>
-						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-						</p>
-						<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="calendar-thumb">
-						<div class="cal-month">
-						Aug
-						</div>
-						<div class="cal-date">
-						28
-						</div>
-						</div>
-						<p>
-						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-						</p>
-						<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="calendar-thumb">
-						<div class="cal-month">
-						Sep
-						</div>
-						<div class="cal-date">
-						4
-						</div>
-						</div>
-						<p>
-						Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-						</p>
-						<div class=" quick-action star-gold">
-					</div>
-				</li>
+					</li>
+				<% end %>
 			</ul>
 			<section class="panel-actions events">
 				<a href="create_event.html" class="action-button">
@@ -319,98 +247,7 @@
 	<div class="clearfloat"></div>
 	
 </section> <!-- End Main Content -->
-
-<h6>
-	<%= image_tag @user.avatar.url(:tiny) if @user.avatar? %>
-	Welcome, <%= self.current_user.first_name %>!
-	
-	<div align="right" style=" margin-top:-25px">
-			<%= link_to "Add Connections", inviteconnections_path, :class => 'btn btn-success'%>
-	</div>
-</h6>
-
-<div id="sidebar" class="job_browser">
-
-	<div id="myConnections">
-		<img src="/assets/dl_icons/contacts.png" id = "myConnectionsPic" class = "icon" width = "34" alt="contacts.png"/>
-		<h4>Connections</h4>
-		<%= link_to "Add Connections", :inviteconnections %></br>
-		<%= link_to 'My Connections', :my_connections %></br>
-	</div>
-
-	<div id = "messages">
-		<img src="/assets/dl_icons/envelope.png" id = "messagesPic" class = "icon" width = "35" alt="envelope.png"/>
-		<h4>Inbox</h4>
-
-		<% if unread_messages == 0 %>
-			<%= link_to "No New Messages", :messages %>
-		<% elsif unread_messages == 1 %>
-			<%= link_to "1 Unread Message", :messages %>
-		<% else %>
-			<%= link_to unread_messages.to_s+" Unread Messages", :messages %>
-		<% end %><br />
-	</div>
-
-</div>
-
-<div id="content">
-
-	<% unless @user.rsvp.empty? %>
-		<div id="recentActivity">
-			<h4 style="font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif;color:#000;text-shadow:#ccc 1px 1px 2px; float:left;margin-left:5px;width:100%;">Upcoming Events On Your Calendar</h4><br />
-
-			<div style="clear:both;"></div>
-			
-			<% @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)}.each do |event| %>
-				<div style="display:block;border-bottom:2px #DADADA solid;margin-bottom:10px;">
-					<h7><%= link_to(event.name + ' — ' + event.start_time.localtime.to_datetime.strftime("%m/%d/%Y at %l:%M%P") , event) %></h7>
-					<p><%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %></p>
-				</div>
-			<% end %>	
-		</div>
-	<% end %>
-
-	<div id="recentActivity">
-		<h4 style="font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left; margin-left: -3px; width:100%;">My Bulletin Board</h4><br />
-
-		<form action="/share_on_whiteboard" style="position:relative;left:-3px;">
-			<table style="width:100%;">
-				<td>
-					<textarea name="message" class="css3-border-box" style="width:100%;height:50px;" placeholder="Share Something..."></textarea>
-				</td>
-				<td style="width:10px;">
-					<input type="submit" class="btn btn-success css3-border-box" value="Share" />
-				</td>
-			</table>
-		</form>
-		
-		<% @whiteboard.each do |post| %>
-			<%= raw post %>
-		<% end %>
-		<a href="#whiteboard-more" class="btn" style="text-align:center;display:block;">Show More</a>
-	</div>
-</div>
 <script type="text/javascript">
-$(function() {
-	$(".item_jobs").each(function(index, item) {
-		if(index > 2) {
-			$(item).css("display", "none");
-		}
-	});
-	$("#more").click(function() {
-		$(".item_jobs").css("display", "block");
-			$("#more").text("Less");
-			$("#more").addClass("less");
-	});
-	$(".less").click(function() {
-		$(".item_jobs").each(function(index, item) {
-			if(index > 2) {
-				$(item).css("display", "none");
-			}
-		});
-	});
-});
-
 // White board more
 $(document).ready(function() {
 	window.whiteboardPage = 1;
@@ -435,7 +272,6 @@ $(document).ready(function() {
 				more.animate({"opacity": 0}, 700, function() {
 					window.whiteboardMax = true;
 					more.text('No More Updates');
-					more.addClass('btn-danger');
 					setTimeout(function() {
 						more.animate({"opacity": 1}, 1000);
 					}, 50);
@@ -446,7 +282,7 @@ $(document).ready(function() {
 			for(var x in data) {
 
 				// Create the object, insert, and fade it in
-				$(data[x]).css('display','none').insertBefore(more).fadeIn(700);
+				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
 			}
 		});
 
