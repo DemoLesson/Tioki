@@ -20,10 +20,10 @@
 			</ul>
 		</nav>
 		<section class="sidebar">
-			<div class="profile-thumb-large">
-                          <%= image_tag( @teacher.user.avatar.url(:medium), :height => 160, :width => 160) if @teacher.user.avatar? %>
+                <!--<div class="profile-thumb-large">-->
+                          <%= image_tag( @teacher.user.avatar.url(:medium)) if @teacher.user.avatar? %>
 			<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
-			</div>
+                      <!--</div>-->
 			<h3>
 			<%= @teacher.user.name %>
 			</h3>
