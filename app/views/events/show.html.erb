@@ -1,99 +1,100 @@
-<div id="wrapper_global" class="events-wrapper">
-  <div style="display:block;border-bottom:solid 1px #DADADA;margin:-15px;padding:10px 15px 5px;margin-bottom:15px;">
-    <%= link_to "Back to Events List", events_path, :class => "btn" %>
-    <%= link_to "Share Event", event_path(@event) + '/invite', :class => "btn btn-primary", :style => "color:#FFF;" if @event.published %>
-    <%= link_to "Edit this Event", edit_event_path(@event), :class => "btn btn-success", :style => "float:right;color:#FFF;" if !self.current_user.nil? && (@event.user == self.current_user || self.current_user.is_admin) %>
+<section id="main-content" class="inner-content events-wrapper">
+	<h1><%= @event.name %></h1>
+	<section>
+		<%= link_to "Back to Events List", events_path, :class => "button" %>
+		<%= link_to "Share Event", event_path(@event) + '/invite', :class => "button" if @event.published %>
+		<%= link_to "Edit this Event", edit_event_path(@event), :class => "button", :style => "float:right;" if !self.current_user.nil? && (@event.user == self.current_user || self.current_user.is_admin) %>
 
-    <% # If the event is published and would like RSVP then allow RSVPing %>
-    <% if @event.published && @event.rsvp_req %>
-      <% unless @event.rsvp_external.nil? || @event.rsvp_external.empty? %>
-        <%= link_to "RSVP For This Event (Remote Site)", @event.rsvp_external, :class => 'btn', :style => "float:right;margin-right:4px;", :target => "_blank" %>
-      <% else %>
-        <%= link_to "RSVP For This Event", event_path(@event) + '/rsvp', :class => 'btn', :style => "float:right;margin-right:4px;" if !self.current_user.nil? && self.current_user.rsvp.index(@event) == nil %>
-        <%= link_to "Cancel your RSVP", event_path(@event) + '/rsvp?disconnect=1', :class => 'btn btn-danger', :style => "float:right;margin-right:4px;" if !self.current_user.nil? && self.current_user.rsvp.index(@event) != nil %>
-        <%= link_to "Login / Register to RSVP", '#login-register', :class => 'btn', :kmodal => '1', :style => "float:right;margin-right:4px;" if self.current_user.nil? %>
-      <% end %>
-    <% end %>
-  </div>
+		<% # If the event is published and would like RSVP then allow RSVPing %>
+		<% if @event.published && @event.rsvp_req %>
+			<% unless @event.rsvp_external.nil? || @event.rsvp_external.empty? %>
+				<%= link_to "RSVP For This Event (Remote Site)", @event.rsvp_external, :class => 'button', :style => "float:right;margin-right:4px;", :target => "_blank" %>
+			<% else %>
+				<%= link_to "RSVP For This Event", event_path(@event) + '/rsvp', :class => 'button', :style => "float:right;margin-right:4px;" if !self.current_user.nil? && self.current_user.rsvp.index(@event) == nil %>
+				<%= link_to "Cancel your RSVP", event_path(@event) + '/rsvp?disconnect=1', :class => 'button', :style => "float:right;margin-right:4px;" if !self.current_user.nil? && self.current_user.rsvp.index(@event) != nil %>
+				<%= link_to "Login / Register to RSVP", '#login-register', :class => 'button', :kmodal => '1', :style => "float:right;margin-right:4px;" if self.current_user.nil? %>
+			<% end %>
+		<% end %>
+	</section>
 
-  <% if @event.published || (!self.current_user.nil? && (self.current_user.is_admin || @event.user == self.current_user)) %>
+	<% if @event.published || (!self.current_user.nil? && (self.current_user.is_admin || @event.user == self.current_user)) %>
 
-    <% unless @event.published %>
-      <div style="border:solid 1px #DADADA;background:#DDD;padding:15px;margin-bottom:15px;">
-        <h3>This event is pending approval</h3>
-        <p>This event is pending approval from the DemoLesson Team to be publically listed. You may revise your submission until it’s approved.</p>
-      </div>
-    <% end %>
+		<% unless @event.published %>
+			<div style="border:solid 1px #DADADA;background:#DDD;padding:15px;margin-bottom:15px;">
+				<h3>This event is pending approval</h3>
+				<p>This event is pending approval from the DemoLesson Team to be publically listed. You may revise your submission until it’s approved.</p>
+			</div>
+		<% end %>
 
-    <% unless @event.virtual %>
-      <div class="map" style="float:right;width:350px;">
-        <iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<%= @event.loc_address + ', ' + @event.loc_address1 + ', ' + @event.loc_city + ', ' + @event.loc_state + ', ' + @event.loc_zip %>&amp;output=embed"></iframe>
-      </div>
-    <% end %>
+		<% unless @event.virtual %>
+			<div class="map" style="float:right;width:350px;">
+				<iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<%= @event.loc_address + ', ' + @event.loc_address1 + ', ' + @event.loc_city + ', ' + @event.loc_state + ', ' + @event.loc_zip %>&amp;output=embed"></iframe>
+			</div>
+		<% end %>
 
-    <div style="<%= "margin-right:360px;" unless @event.virtual %>">
+		<div style="<%= "margin-right:360px;" unless @event.virtual %>">
 
-      <h5><%= @event.name %> <%= "[" + @event.eventformats[0].name + "]" unless @event.eventformats.nil? || @event.eventformats.empty? %></h5>
+			<h3><%= @event.name %> <%= "[" + @event.eventformats[0].name + "]" unless @event.eventformats.nil? || @event.eventformats.empty? %></h3>
 
-      <% topics = []
-      @event.eventtopics.each do |topic|
-        topics << topic.name
-      end %>
-      
-      <span style="font-style:italic;">
-        <%= topics.join(', ') %>
-      </span>
+			<% topics = []
+			@event.eventtopics.each do |topic|
+				topics << topic.name
+			end %>
+			
+			<span style="font-style:italic;">
+				<%= topics.join(', ') %>
+			</span>
 
-      <p><%= @event.description %></p>
+			<p><%= @event.description %></p>
 
-      <h7>Event Hours</h7><br />
-      <%= event_hours @event %><br/><br />
+			<h7>Event Hours</h7><br />
+			<%= event_hours @event %><br/><br />
 
-      <% unless !@event.rsvp_req && @event.rsvp_deadline.nil? %>
-        <h7>RSVP Deadline</h7><br />
-        <%= date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M%P") %><br /><br />
-      <% end %>
+			<% unless !@event.rsvp_req && @event.rsvp_deadline.nil? %>
+				<h7>RSVP Deadline</h7><br />
+				<%= date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M%P") %><br /><br />
+			<% end %>
 
-      <% if !@event.attendance_cost.nil? && @event.attendance_cost > 0 %>
-        <h7>Attendance Cost</h7><br />
-        <%= number_to_currency @event.attendance_cost %> / person<br /><br />
-      <% end %>
+			<% if !@event.attendance_cost.nil? && @event.attendance_cost > 0 %>
+				<h7>Attendance Cost</h7><br />
+				<%= number_to_currency @event.attendance_cost %> / person<br /><br />
+			<% end %>
 
-      <% unless @event.virtual %>
-        <h7>Event Location</h7><br/>
-        <blockquote>
-          <span class="bold"><%= @event.loc_name %></span><br />
-          <%= @event.loc_address %> <%= @event.loc_address1 %><br />
-          <%= @event.loc_city %>, <%= @event.loc_state %><br />
-          <%= @event.loc_zip %>
-        </blockquote>
-      <% else %>
-        <h7>Virtual Access</h7><br />
-        <blockquote>
-          <% unless @event.virtual_phone == nil %>
-            Phone Call In Number: <%= @event.virtual_phone %><br />
-            <%= "Phone Access Code: " + @event.virtual_phone_access unless @event.virtual_phone_access == nil %><br />
-          <% end %>
-          <% unless @event.virtual_web_link == nil %>
-             Website Event: <a href="<%= @event.virtual_web_link %>" target="_blank"><%= @event.virtual_web_link %></a><br />
-            <%= "Website Access Code: " + @event.virtual_web_access unless @event.virtual_web_access == nil %><br />
-          <% end %>
-          <%= "TV Station: " + @event.virtual_tv_station unless @event.virtual_tv_station == nil %>
-        </blockquote>
-      <% end %>
+			<% unless @event.virtual %>
+				<h7>Event Location</h7><br/>
+				<blockquote>
+					<span class="bold"><%= @event.loc_name %></span><br />
+					<%= @event.loc_address %> <%= @event.loc_address1 %><br />
+					<%= @event.loc_city %>, <%= @event.loc_state %><br />
+					<%= @event.loc_zip %>
+				</blockquote>
+			<% else %>
+				<h7>Virtual Access</h7><br />
+				<blockquote>
+					<% unless @event.virtual_phone == nil %>
+						Phone Call In Number: <%= @event.virtual_phone %><br />
+						<%= "Phone Access Code: " + @event.virtual_phone_access unless @event.virtual_phone_access == nil %><br />
+					<% end %>
+					<% unless @event.virtual_web_link == nil %>
+						 Website Event: <a href="<%= @event.virtual_web_link %>" target="_blank"><%= @event.virtual_web_link %></a><br />
+						<%= "Website Access Code: " + @event.virtual_web_access unless @event.virtual_web_access == nil %><br />
+					<% end %>
+					<%= "TV Station: " + @event.virtual_tv_station unless @event.virtual_tv_station == nil %>
+				</blockquote>
+			<% end %>
 
-      <% unless @event.host_organization == nil %>
-        <h7>Hosting Organization</h7><br />
-        Name: <%= @event.host_organization %><br />
-        <% unless @event.host_organization_website == nil %>
-          Organization Webite: <a href="<%= @event.host_organization_website %>" target="_blank"><%= @event.host_organization_website %></a>
-        <% end %>
-      <% end %>
+			<% unless @event.host_organization == nil %>
+				<h7>Hosting Organization</h7><br />
+				Name: <%= @event.host_organization %><br />
+				<% unless @event.host_organization_website == nil %>
+					Organization Webite: <a href="<%= @event.host_organization_website %>" target="_blank"><%= @event.host_organization_website %></a>
+				<% end %>
+			<% end %>
 
-    </div>
+		</div>
 
-  <% else %>
-    <p>We're sorry this event is still awaiting approval before it will be published.</p>
-  <% end %>
+	<% else %>
+		<p>We're sorry this event is still awaiting approval before it will be published.</p>
+	<% end %>
 
-</div>
+</section>

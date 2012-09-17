@@ -76,7 +76,7 @@
 				</p>
 				<% @teacher.skills.each do |skill| %>
 					<p class="skills">
-						<a href="#">
+						<a href="#" data-skillgroup="<%= skill.skill_group.badge_name %>">
 						<%= skill.name %>
 						</a>
 					</p>
@@ -100,6 +100,21 @@
 					</li>
 				</ul>
 			</section>
+			<% unless @teacher.user.skill_groups.empty? %>
+				<section class="profile-info group skill-groups">
+					<p class="heading">
+					Skill Groups
+					</p>
+
+					<% @teacher.user.skill_groups.each do |skill_group| %>
+						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>">
+							<% if @teacher.user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
+								<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
+							<% end %>
+						</div>
+					<% end %>
+				</section>
+			<% end %>
 			<% unless @teacher.educations.empty? %>
 				<section class="profile-info group">
 					<p class="heading">
@@ -189,3 +204,19 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div.badge').hover(function() {
+		$('a[data-skillgroup="' + $(this).attr('data-skillgroup') + '"]').each(function() {
+			console.log('over');
+			$(this).css({'color': '#F66C4C'});
+		});
+	},function() {
+		$('a[data-skillgroup="' + $(this).attr('data-skillgroup') + '"]').each(function() {
+			console.log($(this));
+			$(this).css({'color': '#2AA99B'});
+		});
+	});
+});
+</script>
