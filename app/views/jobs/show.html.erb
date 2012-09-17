@@ -1,6 +1,8 @@
+<section id="main-content" class="inner-content">
+
 <h1><%= @job.title %></h1>
 
-<div id="sidebar">
+<div id="jobs_sidebar">
 
 <div class="bordered_image">
 	<% if @job.school.picture? %><%= image_tag(@job.school.picture.url(:medium)) %><% else %><%= image_tag("no_image.png") %><% end %>
@@ -19,37 +21,37 @@
 <div>
 	<% if self.current_user == nil %>
 		<h4>Apply now</h4>
-		<%= link_to "Sign Up", :root, :class => "btn btn-success"%>
+		<%= link_to "Sign Up", :root, :class => "button"%>
 		<%= link_to "Login", :login, :class => "btn" %>
 		</br><%= link_to "Refer Job to a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "btn"} %>
 	<% else %>
 		<% if self.current_user.teacher != nil %>
 			<% if @application == nil %>
 				<% if @owner.id == 100111 %>
-                                  <%= link_to "Apply Now", {:controller => :jobs, :action => :tfa_apply, :id => @job.id}, {:class => "btn btn-success"} %>				
+                                  <%= link_to "Apply Now", {:controller => :jobs, :action => :tfa_apply, :id => @job.id}, {:class => "button"} %>				
                                 <% elsif @owner.id == 19 %>
                                   <%if @job.external_url.present? %>
                                     <% if @job.external_url.include? '//'  %>
-                                      <%= link_to "Apply Now", @job.external_url, {:class => "btn btn-success", :target => '_blank'} %>
+                                      <%= link_to "Apply Now", @job.external_url, {:class => "button", :target => '_blank'} %>
                                     <% else %>
-                                      <%= link_to "Apply Now", '//'+@job.external_url, {:class => "btn btn-success",:target => '_blank' }%>
+                                      <%= link_to "Apply Now", '//'+@job.external_url, {:class => "button",:target => '_blank' }%>
                                     <% end %>
                                   <% else %>
-                                    <%= link_to "Apply Now", "http://go.kippla.org/teach", {:class => "btn btn-success", :target => "_blank"} %>
+                                    <%= link_to "Apply Now", "http://go.kippla.org/teach", {:class => "button", :target => "_blank"} %>
                                   <% end %>
                                 <% else %>
                                   <% if self.current_user.teacher.tfa == 1 %> <% else %>
-                                    <%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "btn btn-success"} %><% end %>
+                                    <%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "button"} %><% end %>
                                 <% end %>
 			<% else %>
-				<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "btn"} %>
+				<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "button"} %>
 			<% end %>
 			<%= link_to 'Back', jobs_path, :class => "btn" %>
 			</br><%= link_to "Refer Job to a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "btn"} %>
 		<% elsif self.current_user.school != nil || self.current_user.is_shared %>
 			<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user)%>
 				<%= link_to "Edit Posting", job_path+'/edit', :class => "btn" %>
-				<%= link_to "View Applicants", {:controller => :applications, :action => :index, :id => @job.id}, {:class => "btn btn-success"} %>
+				<%= link_to "View Applicants", {:controller => :applications, :action => :index, :id => @job.id}, {:class => "button"} %>
 			<% end %>
 			<%= link_to 'Back', my_jobs_path, :class => "btn" %>
 		<% end %>
@@ -130,3 +132,4 @@
 
 <% end %>
 </div>
+</section>

@@ -163,28 +163,28 @@
 	});
     </script>
     <input type="text" id = "date" class="datePicker" placeholder = "mm/dd/yyyy" name=date>
-    <input type = "text" id = "hour" placeholder = "00" size = "1" maxlength = "2" name=hour> :
-    <input type = "text" id = "minute" placeholder = "00" size = "1" maxlength = "2" name=minute>
+    <input type = "text" id = "hour" placeholder = "00" style="width:20px" maxlength = "2" name=hour> :
+    <input type = "text" id = "minute" placeholder = "00" style="width:20px" maxlength = "2" name=minute>
     <input type = "radio" id = "am" class = "daynight" name = "ampm" value = "AM" checked = "checked" size = "1"/> 
-    <label for="am">AM</label>
+    <strong>AM</strong>
     <input type = "radio" id = "pm" class = "daynight" name = "ampm" value = "PM" />
-    <label for="pm">PM</label><br />
+    <strong>PM</strong><br />
     <label for="alternateDate">Alternate Date & Time:</label><br />
     <input type="text" id = "alternateDate" class="datePicker" placeholder = "mm/dd/yyyy" name=alternateDate >
-    <input type = "text" id = "hour1" placeholder = "00" size = "1" maxlength = "2" name=hour1> :
-    <input type = "text" id = "minute1" placeholder = "00" size = "1" maxlength = "2" name=minute1>
+    <input type = "text" id = "hour1" placeholder = "00" style="width:20px" maxlength = "2" name=hour1> :
+    <input type = "text" id = "minute1" placeholder = "00" style="width:20px" maxlength = "2" name=minute1>
     <input type = "radio" id = "am1" class = "daynight" name = "ampm1" value = "AM" checked = "checked" /> 
-    <label for="am1">AM</label>
+    <strong>AM</strong>
     <input type = "radio" id = "pm1" class = "daynight" name = "ampm1" value = "PM" />
-    <label for="pm1">PM</label><br />
+    <strong>PM</strong><br />
     <label for="alternateDate2">Alternate Date & Time:</label><br />
     <input type="text" id = "alternateDate2" class="datePicker" placeholder = "mm/dd/yyyy" name=alternateDate2>
-    <input type = "text" id = "hour2" placeholder = "00" size = "1" maxlength = "2" name=hour2> :
-    <input type = "text" id = "minute2" placeholder = "00" size = "1" maxlength = "2" name=minute2>
+    <input type = "text" id = "hour2" placeholder = "00" style="width:20px" maxlength = "2" name=hour2> :
+    <input type = "text" id = "minute2" placeholder = "00" style="width:20px" maxlength = "2" name=minute2>
     <input type = "radio" id = "am2" class = "daynight" name = "ampm2" value = "AM" checked = "checked" /> 
-    <label for="am2">AM</label>
+    <strong>AM</strong>
     <input type = "radio" id = "pm2" class = "daynight" name = "ampm2" value = "PM" />
-    <label for="pm2">PM</label><br />
+    <strong>PM</strong><br />
   </div>
 
   <%= f.text_field :teacher_id, :value => @teacher.id.to_s, :hidden => true %>
