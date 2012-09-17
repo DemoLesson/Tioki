@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h2>Change Profile Picture</h2>
 
 <% if @user.avatar? %><p>Current picture<br /><div class="bordered_image"><%= image_tag @user.avatar.url(:medium) %></div><%= link_to "Crop Picture", '/crop' %></p><% else %><p>No picture uploaded yet.</p><% end %>
@@ -16,3 +17,4 @@
 
 <div id="picture_frame">
 </div>
+</section>
