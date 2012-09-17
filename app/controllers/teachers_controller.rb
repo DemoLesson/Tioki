@@ -4,32 +4,39 @@ class TeachersController < ApplicationController
 
 	# GET /teachers/1
 	# GET /teachers/1.json
-	def profile 
-		@teacher = Teacher.find_by_url(params[:url])
+	def profile
+
+		# If we got a url argument then load that user
+		unless params[:url].nil? || params[:url].empty?
+			@teacher = Teacher.find_by_url(params[:url])
+
+		# Otherwise load the currently logged in user
+		else; unless self.current_user.nil? || self.current_user.teacher.nil?
+				@teacher = self.current_user.teacher
+		end; end
 
 		# If the teacher could not be found then raise an exception
 		raise ActiveRecord::RecordNotFound, "Teacher not found." if @teacher.nil?
 
 		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
-		self.log_analytic(:view_teacher_profile, "Someone viewed a teacher profile", @teacher) unless self.current_user.teacher == @teacher
+		if !self.current_user.nil? && !self.current_user.teacher.nil? && self.current_user.teacher != @teacher
+			self.log_analytic(:view_teacher_profile, "Someone viewed a teacher profile", @teacher)
+		end
 
+		# Load up an application
 		@application = nil
 		if params[:application] != nil
 			@application = Application.find(params[:application])
-			if @application.belongs_to_me(self.current_user)
-			else
-				@application = nil
-			end
+			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
 		
+		# Get the guest pass
 		guest_pass = params[:guest_pass]
 
-		if self.current_user.nil?
-			redirect_to :root if guest_pass.to_s != @teacher.guest_code
-		end
+		# If the guest code is bad redirect to the root
+		redirect_to :root if guest_pass.to_s != @teacher.guest_code && self.current_user.nil?
 		
-		puts guest_pass.to_s == @teacher.guest_code
-		
+		# If the there is currently a user logged in
 		if self.current_user != nil
 			@pin = Pin.find(:first, :conditions => ['teacher_id = ? and user_id =?', @teacher.id, self.current_user.id], :limit => 1)
 			@star = Star.find(:first, :conditions => ['teacher_id = ? and voter_id = ?', @teacher.id, self.current_user.id], :limit => 1)
@@ -37,10 +44,13 @@ class TeachersController < ApplicationController
 			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @teacher.user.id, self.current_user.id])
 		end
 
+		# Get a list of all the stars
 		@stars = Star.find(:all, :conditions => ['teacher_id = ?', @teacher.id])
 		
+		# Load in viddler config
 		@config = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'viddler.yml'))).result)[Rails.env]
 		
+		# Get the latest video the user posted
 		@video = Video.find(:all, :conditions => ['teacher_id = ? AND is_snippet=?', @teacher.id, false], :order => 'created_at DESC')
 		@video = @video.first
 		

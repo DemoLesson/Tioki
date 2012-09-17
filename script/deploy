@@ -245,6 +245,7 @@ rescue
 	echo './script/deploy create [staging|production] [alias]   # Creates a new server in [staging|production] mode. With the specified alias.', 'red'
 	echo './script/deploy create_staging                        # Creates a staging server', 'red'
 	echo './script/deploy setup                                 # Installs / Updates Rubber and syncs /etc/hosts aliases', 'red'
+	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
 	puts "\n"
 end
 

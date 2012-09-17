@@ -32,9 +32,13 @@ Preview::Application.routes.draw do
 	scope 'me' do
 		scope 'profile' do
 			match 'edit' => 'teachers#edit'
+			root :to => 'teachers#profile'
 		end
 		match 'settings' => 'users#edit'
 	end
+
+	# Public profiles
+	match '/profile/:url' => 'teachers#profile'
 
 	# Static pages by default route the action
 	# Sub folders a bit trickier
