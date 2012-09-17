@@ -57,3 +57,62 @@
 	border: 1px solid #999;
 	opacity: 0.8;
 }
+
+#connection_desc {
+	width: 520px;
+	text-align: left;
+	float:right;
+	margin-right: 10px;
+}
+#content {
+	margin-left: 230px;
+	width: 688px;
+}
+
+#sidebar {
+	width: 220px;
+	margin: 0px;
+	padding: 0px;
+    padding-bottom: 100px;
+	float: left;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+
+#profilesidebar {
+	width: 220px;
+	margin: 0px;
+	padding: 0px;
+    padding-bottom: 70px;
+	float: left;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+#sidebar h2 {
+	padding: 0px;
+	margin-top: 5px;
+}
+
+#sidebar h3 {
+	padding: 5px 0px 0px 0px;
+	margin-top: 0px;
+	margin-bottom: 1px;
+	margin-right: 20px;
+	border-top: 1px solid #CCC;
+}
+
+
+.job_browser {
+	display: block;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+
+.job_browser h3 {
+	margin-top: 10px !important;
+}
