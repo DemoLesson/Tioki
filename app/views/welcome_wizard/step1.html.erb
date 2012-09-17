@@ -1,50 +1,66 @@
-<div class="kRap">
-	<h1 class="smaller">Let's get started by collecting some information about you.</h1>
+<div class="row kRap" style="position:relative;">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">User, create your Tioki account to join Invitor's professional network.</h1>
+	</div>
 
-	<form method="POST">
-		<table>
-			<tr>
-				<td>
-					<label>
-						<span>First Name</span>
-						<input type="text" name="user[first_name]" />
-					</label>
-				</td>
-				<td>
-					<p>Your first name for your profile.</p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>
-						<span>Last Name</span>
-						<input type="text" name="user[last_name]" />
-					</label>
-				</td>
-				<td>
-					<p>Your last name for your profile.</p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>
-						<span>Email Address</span>
-						<input type="text" name="user[email]" />
-					</label>
-				</td>
-				<td>
-					<p>Your email address (this will also be your sign in name).</p>
-				</td>
-			</tr>
-		</table>
+	<div class="seven columns">
+		<form method="POST">
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span>First Name</span>
+							<input type="text" name="user[first_name]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Last Name</span>
+							<input type="text" name="user[last_name]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Email Address</span>
+							<input type="text" name="user[email]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Password</span>
+							<input type="text" name="user[password]" />
+						</label>
+					</td>
+				</tr>
+			</table>
 
-		<p class="note"><strong>*</strong>Your temporary password will be sent to you via email.</p>
-                <% if params[:user_connection] %>
-                  <%= hidden_field_tag :user_connection, params[:user_connection] %>
-                <% end %>
+                	<% if params[:user_connection] %>
+                  		<%= hidden_field_tag :user_connection, params[:user_connection] %>
+                		<% end %>
 
-		<div class="button_wrap">
-			<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
+			<div class="button_wrap" style="text-align:left">
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
+				<br />
+				<p style="font-size: 12px">Already have a Tioki account? <span><a href="/login">Login.</a></span></p>
+				<p style="font-size: 12px">By clicking Next Step, you are agreeing to the <span><a href="static/resources/terms">terms</a> and <span><a href="/static/resources/privacy">privacy policy.</a></p>	
+			</div>
+		</form>
+	</div>
+	
+	<div class="four columns">
+		<div class="fyi" style="margin-top: 15px">
+			<h3><span class="green bold">Tioki helps you</span></h3>
+			<ul>
+				<li>Establish your online presence as an educator</li>
+				<li>Connect with others for collaboration & growth</li>
+				<li>Find education events that appeal to you</li>
+			</ul>
 		</div>
-	</form>
+	</div>
 </div>
