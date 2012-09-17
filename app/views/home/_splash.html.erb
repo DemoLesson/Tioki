@@ -12,28 +12,28 @@
 				<h2>
 				Educators Join Free
 				</h2>
-				<!--form action="/" id="signup-form">
-					<fieldset>
-						<input type="email" placeholder="Email" />
-					</fieldset>
-					<fieldset id="enterpwd">
-						<input type="password" placeholder="Password" />
-					</fieldset>
-					<fieldset id="confirmpwd">
-						<input type="password" placeholder="Confirm Password" />
-					</fieldset>
-					<fieldset>
-						<input type="submit" class="button huge-button" value="Sign up for Tioki" />
-					</fieldset>
-					<p class="smalltext">
-					By signing up, I agree to the <span><a href="#">terms</a></span>.
-					</p>
-				</form-->
-				<p>Tioki will be launched soon! Be the first to know by clicking below.</p>
-				<a href="/signup" style="background:#F66C4C;color:#FFF;margin:10px inherit;display:block;text-align:center;" class="button huge-button">Click here</a>
-				<iframe src="http://www.facebook.com/plugins/facepile.php? 
-	href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;  
-	overflow:hidden; width:300px;" allowTransparency="true"></iframe> 
+		<form action="/welcome_wizard?x=step1" id="signup-form" method="post">
+			<input type="hidden" name="_ak" value="splash" />
+			<fieldset>
+				<input name="user[first_name]" type="text" placeholder="First Name" />
+			</fieldset>
+			<fieldset>
+				<input name="user[last_name]" type="text" placeholder="Last Name" />
+			</fieldset>
+			<fieldset>
+				<input name="user[email]" type="text" placeholder="Email" />
+			</fieldset>
+			<fieldset>
+				<input type="submit" class="button huge-button" value="Sign up for Tioki" />
+			</fieldset>
+			<p class="smalltext">
+			By signing up, I agree to the <span><a href="#">terms</a></span>.
+			<br />* We will email your password to you.
+			</p>
+		</form>
+					<iframe src="http://www.facebook.com/plugins/facepile.php? 
+href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;  
+overflow:hidden; width:300px;" allowTransparency="true"></iframe> 
 			</div>
 			<div class="featured-quote">
 				<blockquote>
@@ -51,9 +51,9 @@
 				<p>
 				To find the job of your dreams
 				</p>
-				<!--a href="signup.html" class="goto-signup">
+				<a href="signup.html" class="goto-signup">
 				Sign up now!
-				</a-->
+				</a>
 			</div>
 		</span>
 		<span class="orbit-caption" id="three-caption">
@@ -68,9 +68,9 @@
 				and build your network of<br />
 				colleagues and schools
 				</p>
-				<!--a href="signup.html" class="goto-signup">
+				<a href="signup.html" class="goto-signup">
 				Sign up now!
-				</a-->
+				</a>
 			</div>
 		</span>
 		<span class="orbit-caption" id="four-caption">
@@ -83,9 +83,9 @@
 				<p>
 				and upload your demo lessons
 				</p>
-				<!--a href="signup.html" class="goto-signup button">
+				<a href="signup.html" class="goto-signup button">
 				Sign up now!
-				</a-->
+				</a>
 			</div>
 		</span>
 	</div>
