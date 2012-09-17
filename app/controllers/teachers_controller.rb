@@ -652,4 +652,39 @@ class TeachersController < ApplicationController
 
 		render :json => @skills
 	end
+	
+	def edit_skills
+		
+		# Detect post variables
+		if request.post?
+
+			# Load the teach and update
+			@teacher = self.current_user.teacher
+			@teacher.user.skills.delete_all
+			
+			# Install the skills
+			skills = Skill.where(:id => params[:skills].split(','))
+			skills.each do |skill|
+				SkillClaim.create(:user_id => @teacher.user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
+			end
+
+			#dump skills
+			@teacher.skills = skills
+			
+			# Attempt to save the user
+			if @teacher.save
+
+				# Notice and redirect
+				session[:wizard] = true
+				flash[:notice] = "Skills Updated"
+			else
+
+				# If the user save failed then notice and redirect
+				flash[:notice] = @teacher.errors.full_messages.to_sentence
+			end
+		end
+
+		# Get a list of existing skills
+		@existing_skills = teacher_path(self.current_user.teacher) + '/skills'
+	end
 end

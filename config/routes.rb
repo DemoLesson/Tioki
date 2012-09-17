@@ -37,6 +37,7 @@ Preview::Application.routes.draw do
 			# Anything involving editing my profile
 			scope 'edit' do
 				match 'credentials' => 'credentials#index'
+				match 'skills' => 'teachers#edit_skills'
 				match 'experience' => 'teachers#experience'
 				match 'education' => 'teachers#education'
 				match 'upload-avatar' => 'users#change_picture'
