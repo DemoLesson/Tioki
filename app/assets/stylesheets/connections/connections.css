@@ -1,0 +1,118 @@
+.item p {
+	display: block;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 5px;
+}
+
+.item_list p {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.item_list ul {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	list-style-type: square;
+	border-bottom: 1px solid #CCC;
+}
+
+.item_list ol {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	list-style-type: decimal;
+	border-bottom: 1px solid #CCC;
+}
+.item_jobs {
+	height: 118px;
+	display: block;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 5px;
+}
+
+.item_desc {
+	width: 750px;
+	
+}
+
+.item_jobs p {
+	margin-left: 123px;
+}
+
+.item_jobs span {
+	color: #999;
+}
+
+.item_picture img {
+	padding: 3px;
+	border: 1px solid #CCC;
+	margin-right: 15px;
+	background-color: #FFF;
+	float: left;
+	-webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+  	-moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+  	box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+}
+
+.item_picture img:hover {
+	border: 1px solid #999;
+	opacity: 0.8;
+}
+
+#connection_desc {
+	width: 520px;
+	text-align: left;
+	float:right;
+	margin-right: 10px;
+}
+#content {
+	margin-left: 230px;
+	width: 688px;
+}
+
+#sidebar {
+	width: 220px;
+	margin: 0px;
+	padding: 0px;
+    padding-bottom: 100px;
+	float: left;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+
+#profilesidebar {
+	width: 220px;
+	margin: 0px;
+	padding: 0px;
+    padding-bottom: 70px;
+	float: left;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+#sidebar h2 {
+	padding: 0px;
+	margin-top: 5px;
+}
+
+#sidebar h3 {
+	padding: 5px 0px 0px 0px;
+	margin-top: 0px;
+	margin-bottom: 1px;
+	margin-right: 20px;
+	border-top: 1px solid #CCC;
+}
+
+
+.job_browser {
+	display: block;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+
+.job_browser h3 {
+	margin-top: 10px !important;
+}
