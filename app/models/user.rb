@@ -89,6 +89,10 @@ class User < ActiveRecord::Base
     SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
   end
 
+  def pending_count
+    Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.id]).count + Connection.find(:all, :conditions => ['owned_by = ? AND pending = true', self.id]).count
+  end
+
   def pending_connections(pending = true)
     connections.where('`pending` = ?', pending)
   end

@@ -1,0 +1,59 @@
+.item p {
+	display: block;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 5px;
+}
+
+.item_list p {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.item_list ul {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	list-style-type: square;
+	border-bottom: 1px solid #CCC;
+}
+
+.item_list ol {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	list-style-type: decimal;
+	border-bottom: 1px solid #CCC;
+}
+.item_jobs {
+	height: 118px;
+	display: block;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 5px;
+}
+
+.item_desc {
+	width: 750px;
+	
+}
+
+.item_jobs p {
+	margin-left: 123px;
+}
+
+.item_jobs span {
+	color: #999;
+}
+
+.item_picture img {
+	padding: 3px;
+	border: 1px solid #CCC;
+	margin-right: 15px;
+	background-color: #FFF;
+	float: left;
+	-webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+  	-moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+  	box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+}
+
+.item_picture img:hover {
+	border: 1px solid #999;
+	opacity: 0.8;
+}
