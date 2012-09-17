@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <h1>Applications</h1>
 
 <div id="sidebar" class="job_browser">
@@ -16,7 +17,7 @@
         <strong><%= link_to application.teacher.user.name, '/'+application.teacher.url.to_s+'?application='+application.id.to_s() %></strong><br />
 	<%= application.teacher.position %> at <%= application.teacher.school %><br />
 	<% if @owner.id == 100111 %>
-	<a href="http://demolesson.com/u/<%= application.teacher.guest_code %>">http://demolesson.com/u/<%= application.teacher.guest_code %></a>
+	<a href="http://tioki.com/u/<%= application.teacher.guest_code %>">http://tioki.com/u/<%= application.teacher.guest_code %></a>
 	<% end %>
 	<br />
 	
@@ -44,3 +45,4 @@
 </div>
 <% end %>
 </div>
+</section>
