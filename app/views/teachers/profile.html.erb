@@ -29,7 +29,7 @@
 			<%= @teacher.headline %>
 			</p>
 			<% # IF this is my profile allow me to edit %>
-			<% if @teacher == User.current.teacher %>
+			<% if !User.current.nil? && User.current.teacher== @teacher %>
 				<a href="/me/profile/edit" class="action-button bg-salmon">
 				Edit Profile
 				</a>
@@ -90,7 +90,7 @@
 				<% end %>
 			</div>
 			<section class="video-actions group">
-				<% if User.current.teacher == @teacher %>
+				<% if !User.current.nil? && User.current.teacher == @teacher %>
 					<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 					Edit Video
 					</a>

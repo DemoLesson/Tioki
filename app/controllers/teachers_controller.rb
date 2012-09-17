@@ -73,7 +73,7 @@ class TeachersController < ApplicationController
 		end
 
 		# Generate Progress Values
-		if self.current_user.teacher == @teacher
+		if !self.current_user.nil? && !self.current_user.teacher.nil? && self.current_user.teacher == @teacher
 			@progress = 0
 
 			# Image
