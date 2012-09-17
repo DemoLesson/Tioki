@@ -18,61 +18,41 @@
 	<![endif]-->
 
 	<script type="text/javascript">
-		$(document).ready(function() {
-
-			// Orbit
-			$('#featured').orbit({
-				 animation: 'fade',         // fade, horizontal-slide, vertical-slide, horizontal-push
-				 animationSpeed: 700,                // how fast animations are
-				 timer: false, 			 // true or false to have the timer
-				 advanceSpeed: 5000, 		 // if timer is enabled, time between transitions 
-				 pauseOnHover: true, 		 // if you hover pauses the slider
-				 startClockOnMouseOut: true, 	 // if clock should start on MouseOut
-				 startClockOnMouseOutAfter: 1000, 	 // how long after MouseOut should the timer start again
-				 directionalNav: true, 		 // manual advancing directional navs
-				 captions: true, 			 // do you want captions?
-				 captionAnimation: 'fade', 		 // fade, slideOpen, none
-				 captionAnimationSpeed: 800, 	 // if so how quickly should they animate in
-				 bullets: false,			 // true or false to activate the bullet navigation
-				 bulletThumbs: false,		 // thumbnails for the bullets
-				 bulletThumbLocation: '',		 // location from this file where thumbs will be
-				 afterSlideChange: function(){}, 	 // empty function 
-				 fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
-			});
-			
+	$(document).ready(function() {
+		// Orbit
+		$('#featured').orbit({
+			animation: 'fade',         // fade, horizontal-slide, vertical-slide, horizontal-push
+			animationSpeed: 700,                // how fast animations are
+			timer: false, 			 // true or false to have the timer
+			advanceSpeed: 5000, 		 // if timer is enabled, time between transitions 
+			pauseOnHover: true, 		 // if you hover pauses the slider
+			startClockOnMouseOut: true, 	 // if clock should start on MouseOut
+			startClockOnMouseOutAfter: 1000, 	 // how long after MouseOut should the timer start again
+			directionalNav: true, 		 // manual advancing directional navs
+			captions: true, 			 // do you want captions?
+			captionAnimation: 'fade', 		 // fade, slideOpen, none
+			captionAnimationSpeed: 800, 	 // if so how quickly should they animate in
+			bullets: false,			 // true or false to activate the bullet navigation
+			bulletThumbs: false,		 // thumbnails for the bullets
+			bulletThumbLocation: '',		 // location from this file where thumbs will be
+			afterSlideChange: function(){}, 	 // empty function 
+			fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
 		});
-			
-	</script>
-
-        <script>
-          $(document).ready(function() {
-            $('#drawer-handle').click(function() {
-              $('#login-drawer').animate({
-                marginTop: '0px'
-
-                }, 400, function() {
-                // Animation complete.
-              });
-            });
-
-          });
-
-        </script>
-	<script>
-		$(document).ready(function() {
-			
-			$('#close-drawer').click(function() {
-				  $('#login-drawer').animate({
-				    marginTop: '-60px'
-				    
-				  }, 400, function() {
-				    // Animation complete.
-				  });
+		$('#drawer-handle').click(function() {
+			$('#login-drawer').animate({
+				marginTop: '0px'
+			}, 400, function() {
+				// Animation complete.
 			});
-
-			
 		});
-		
+		$('#close-drawer').click(function() {
+			$('#login-drawer').animate({
+				marginTop: '-60px'
+			}, 400, function() {
+				// Animation complete.
+			});
+		});
+	});
 	</script>
 
 </head>
@@ -98,12 +78,12 @@
 					<a href="#" id="close-drawer">
 					Close
 					</a>
-						<%= form_tag :controller => 'users', :action=> "login" do %>
-							<%= email_field "user", "email", :placeholder => "Email" %>
-							<%= password_field "user", "password", :placeholder => "Password" %>
-							<%= submit_tag "Login", :class => "button primary-button" %>
-                                                <%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
-                                              <% end %>
+					<%= form_tag :controller => 'users', :action=> "login" do %>
+						<%= email_field "user", "email", :placeholder => "Email" %>
+						<%= password_field "user", "password", :placeholder => "Password" %>
+						<%= submit_tag "Login", :class => "button primary-button" %>
+						<%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
+					<% end %>
 				</div>
 			</section>
 		<% end %>
@@ -119,7 +99,7 @@
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>
-                                <% elsif self.current_user.is_admin? %>
+				<% elsif self.current_user.is_admin? %>
 					<div id="user-actions">
 						<ul>
 							<li class="user-name">
@@ -128,11 +108,11 @@
 								</div>
 								
 								<ul>
-                                                                  <% if !self.current_user.is_limited %>
-                                                                    <li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-                                                                  <% else %>
-                                                                    <li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
-                                                                  <% end %>
+									<% if !self.current_user.is_limited %>
+										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+									<% else %>
+										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+									<% end %>
 									<li>
 										<a href="/me/settings">
 										Account Settings
@@ -188,61 +168,60 @@
 						Home
 						</a>
 					</li>
-                                        <% if self.current_user.teacher %>
-					<li>
-						<a href="/me/profile">
-						Profile
-						</a>
-					</li>
-					<li>
-						<a href="/connections">
-						Connections
-						</a>
-					</li>
-					<li>
-						<a href="/events">
-						Events
-						</a>
-					</li>
-					<li>
-						<a href="/jobs">
-						Jobs
-						</a>
-					</li>
-					<li>
-						<a href="/messages">
-						Inbox
-						</a>
-					</li>
-                                      <% elsif self.current_user.is_admin? %>
-					<li>
-                                        <%= link_to "My Schools", "/my_schools" %>
-                                        </li>
-                                        <li>
-                                        <%= link_to "My Favorites", "/favorites" %>
-                                        </li>
-					<li>
-						<a href="/events">
-						Events
-						</a>
-					</li>
-					<li>
-                                        <%= link_to "My Jobs", :my_jobs %>
-					</li>
-					<li>
-						<a href="/messages">
-						Inbox
-						</a>
-					</li>
-
-                                      <% end %>
+					<% if self.current_user.teacher %>
+						<li>
+							<a href="/me/profile">
+							Profile
+							</a>
+						</li>
+						<li>
+							<a href="/connections">
+							Connections
+							</a>
+						</li>
+						<li>
+							<a href="/events">
+							Events
+							</a>
+						</li>
+						<li>
+							<a href="/jobs">
+							Jobs
+							</a>
+						</li>
+						<li>
+							<a href="/messages">
+							Inbox
+							</a>
+						</li>
+					<% elsif self.current_user.is_admin? %>
+						<li>
+							<%= link_to "My Schools", "/my_schools" %>
+						</li>
+						<li>
+							<%= link_to "My Favorites", "/favorites" %>
+						</li>
+						<li>
+							<a href="/events">
+							Events
+							</a>
+						</li>
+						<li>
+							<%= link_to "My Jobs", :my_jobs %>
+						</li>
+						<li>
+							<a href="/messages">
+							Inbox
+							</a>
+						</li>
+					<% end %>
 				</ul>
 			</nav><!-- End Nav -->
 		<% end %>
 		<!-- Display Notices -->
-  		<% if notice != nil %>
-  			<p class="notice"><%= notice %></p>
-  		<% end %>
+		<% if notice != nil %>
+			<p class="notice"><%= notice %></p>
+		<% end %>
 		
 		<!-- Import page here -->
 		<%= yield %>
@@ -371,7 +350,6 @@ $(document).ready(function() {
 
 <!-- Google Analytics Pixel -->
 <script type="text/javascript">
-
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-34398774-1']);
   _gaq.push(['_setDomainName', 'tioki.com']);
@@ -382,7 +360,6 @@ $(document).ready(function() {
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
 
 <!-- AdRoll Pixel -->
@@ -392,15 +369,15 @@ adroll_pix_id = "NM7SDILLX5CTJM4Q6LW4UX";
 (function () {
 var oldonload = window.onload;
 window.onload = function(){
-   __adroll_loaded=true;
-   var scr = document.createElement("script");
-   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
-   scr.setAttribute('async', 'true');
-   scr.type = "text/javascript";
-   scr.src = host + "/j/roundtrip.js";
-   ((document.getElementsByTagName('head') || [null])[0] ||
-    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
-   if(oldonload){oldonload()}};
+	__adroll_loaded=true;
+	var scr = document.createElement("script");
+	var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+	scr.setAttribute('async', 'true');
+	scr.type = "text/javascript";
+	scr.src = host + "/j/roundtrip.js";
+	((document.getElementsByTagName('head') || [null])[0] ||
+	document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+	if(oldonload){oldonload()}};
 }());
 </script>
 
@@ -411,7 +388,6 @@ window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https
 olark.identify('5400-146-10-5745');/*]]>{/literal}*/</script>
 
 <noscript><a href="https://www.olark.com/site/5400-146-10-5745/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
-
 
 </body>
 </html>
