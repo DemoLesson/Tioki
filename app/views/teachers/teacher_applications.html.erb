@@ -8,7 +8,6 @@
 <div id="sidebar" class="job_browser">
 
 	<div id="myConnections">
-	    <img src="/assets/Briefcase.png" id = "myConnectionsPic" class = "icon" width = "34" alt="Briefcase.png"/>
 	    <h4>Applications</h4>
 		<%= link_to 'My Applications', :teacher_applications %></br>
 	    <% if @interviews == nil %>
@@ -21,7 +20,6 @@
 	</div>
 
 	<div id="myApplication">
-	    <img src="/assets/envelope.png" id = "myApplicationPic" class = "icon" width = "34" alt="envelope.png"/>
 	    <h4>Inbox</h4>
 		<% if unread_messages == 0 %>
 		    <%= link_to "No New Messages", :messages %>
