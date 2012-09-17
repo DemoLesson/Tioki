@@ -68,7 +68,7 @@ Preview::Application.routes.draw do
 	end
 	
 	#Actions
-	match 'signup', :to => 'users#create', :as => 'signup'
+	match 'create', :to => 'users#create'
 	match 'login', :to => 'users#login', :as => 'login'
 	match 'jlogin' => 'users#login_json'
 	match 'jregister' => 'users#create_json'
