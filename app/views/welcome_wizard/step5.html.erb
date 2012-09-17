@@ -16,11 +16,11 @@ tr.seeking, tr.student {
 
 <div class="row kRap" style="position:relative;">
 	<div class="twelve columns">
-		<h1 class="smaller"><span>Congratulations!</span> You've just created your DemoLesson profile.</h1>
+		<h1 class="smaller"><span>Congratulations!</span> You've just created your Tioki profile.</h1>
 	</div>
 	<div class="clear"></div>
 
-	<div class="one columns">
+	<div class="one columns" style="width: 35px">
 		&nbsp;
 	</div>
 
@@ -40,7 +40,7 @@ tr.seeking, tr.student {
 				<%= @user.teacher.position + ' at ' + @user.teacher.school unless @user.teacher.position.empty? || @user.teacher.school.empty? %>
 			</h2>
 			<h2 class="job"><%= @user.teacher.educations.first.school unless @user.teacher.educations.empty? %></h2>
-			<h3 class="location"><%= @user.teacher.location %></h3>
+			<h3 class="location"><%= @user.teacher.location %> <span style="float:right; margin-right: 15p0">My Skills</span></h3>
 			<div class="about">
 				<table>
 					<td><span class="label">About me</span></td>
