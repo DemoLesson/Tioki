@@ -72,7 +72,7 @@
 }
 
 #page-wrapper {
-	&.logged-in {
+	//&.logged-in {
 		header {
 			position: relative;
 			z-index: 999;
@@ -305,9 +305,8 @@
 				margin: 2px 0;
 			}
 			
-		} /* END .profile */ 
-	
-	}
+		} /* END .profile */ 	
+	//}
 }
 
 #updates, #panels, .profile-content {
