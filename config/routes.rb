@@ -29,8 +29,11 @@ Preview::Application.routes.draw do
 	match 'login' => 'users#login'
 
 	# Profile pages
-	scope '/profile' do
-		match 'edit' => 'teachers#edit'
+	scope 'me' do
+		scope 'profile' do
+			match 'edit' => 'teachers#edit'
+		end
+		match 'settings' => 'users#edit'
 	end
 
 	# Static pages by default route the action

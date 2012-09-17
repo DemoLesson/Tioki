@@ -8,6 +8,17 @@ def echo(text, color = 'green', _sleep = nil)
 	sleep _sleep unless _sleep.nil? || !_sleep.is_a?(Integer)
 end
 
+# Confirm the message
+def confirm(text, color = 'red')
+	echo text + " [y/N]", color
+	yesno = STDIN.gets.chomp
+	if !yesno.empty? && yesno[0].downcase == "y"
+		return true
+	else
+		return false
+	end
+end
+
 # Load serialization engine
 require 'yaml'
 require 'socket'
@@ -45,9 +56,7 @@ class DeployCLI
 
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."
-		echo "Would you like to publish now? [y/N]", 'red'
-		yesno = STDIN.gets.chomp
-		if yesno[0].downcase == "y"
+		if confirm "Would you like to publish now?"
 			echo "This may take awhile...\n"
 			system('cap deploy:create_symlink')
 			system('cap rubber:passenger_nginx:restart')
@@ -193,6 +202,27 @@ class DeployCLI
 		end; ENV["RAILS_ENV"] = renvironment
 
 		echo "That should be everything! ^_^"
+	end
+
+	def prep
+
+		# Warn
+		echo "Ok so were gonna bundle install your Gemfile and rake assets and db migrate. Lets go!"
+		if confirm "Everything sound good?"
+
+			# Bundle Install/Update
+			system('bundle install && bundle update')
+
+			# Rake Assets
+			system('rake assets:precompile')
+
+			# Rake DB
+			system('rake db:migrate')
+
+			echo "\nFinished Prep...", 'red'
+		else
+			echo "\nCancelled...", 'red'
+		end
 	end
 
 end
