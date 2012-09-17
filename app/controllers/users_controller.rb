@@ -4,40 +4,7 @@ class UsersController < ApplicationController
 	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage ]
 
 	def signup
-		# Make sure we have post data
-		if request.post?
-
-			# Create a new user with the paramaters provided
-			@user = User.new(params[:user])
-			@success = ""
-		
-			# Attempt to save the user
-			if @user.save
-
-				# Authenticate the user
-				session[:user] = User.authenticate(@user.email, @user.password)
-
-				# Log the signup
-				self.log_analytic(:user_signup, "New user signed up.", @user)
-
-				# Create the teacher record on the user
-				self.create_teacher_and_redirect false
-
-				# Notice the signup was successful
-				flash[:notice] = "Signup successful"
-
-				# Set to splash for analytics
-				session[:_ak] = "splash"
-
-				# Redirect to the wizard
-				return redirect_to '/welcome_wizard?x=step2'
-
-			# If there were any errors flash them and send :root
-			else
-				flash[:notice] = @user.errors.full_messages.to_sentence
-			 	return redirect_to '/signup'
-			end
-		end
+		redirect_to :root unless User.current.nil?
 	end
 
 	# Deprecate
@@ -97,6 +64,8 @@ class UsersController < ApplicationController
 	end
 
 	def login
+		redirect_to :root unless User.current.nil?
+		
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 				self.log_analytic(:user_logged_in, "User logged in.")
