@@ -145,7 +145,7 @@ class VideosController < ApplicationController
   def add_embed
     @teacher = Teacher.find(:first, :conditions => ["user_id = ?", self.current_user.id])
     @teacher.video_embed_url = params[:video_embed_url]
-    response = HTTParty.get "http://noembed.com/embed", { :query => { :url => params[:video_embed_url] } }
+    response = HTTParty.get "http://noembed.com/embed", { :query => { :url => params[:video_embed_url], :maxwidth => '640', :maxheight => '500' } }
     json = JSON.parse response.body
     @teacher.video_embed_html = json['html']
     if @teacher.video_embed_html
