@@ -92,7 +92,7 @@ class UsersController < ApplicationController
 	end
 
 	def login
-		redirect_to :root unless User.current.nil?
+		return redirect_to :root unless self.current_user.nil?
 		
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
@@ -105,7 +105,7 @@ class UsersController < ApplicationController
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 				end
-				redirect_to_stored
+				return redirect_to_stored
 			else
 			#logger.info "Login unsuccessful"
 				flash[:notice] = "Login unsuccessful"
