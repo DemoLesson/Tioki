@@ -28,3 +28,6 @@ Preview::Application.configure do
   config.assets.compress = false
   config.assets.debug = false
 end
+
+# On production go ahead and be ready to log
+Rails.logger = GELF::Logger.new("tools.tioki.com", 12201)
