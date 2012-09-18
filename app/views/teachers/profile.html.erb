@@ -127,10 +127,14 @@
 					</ul>
 				<% end %>
 			</section>
-			<% unless @teacher.user.skill_groups.empty? %>
+			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
 				<section class="profile-info group skill-groups">
 					<p class="heading">
 					Skill Groups <span style="margin-left:15px;color:#F66C4C;" data-skillgroup-name="true"></span>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						 &mdash; 
+						<a href="/me/profile/edit/skills">Edit</a>
+					<% end %>
 					</p>
 
 					<% @teacher.user.skill_groups.each do |skill_group| %>
@@ -142,7 +146,7 @@
 					<% end %>
 				</section>
 			<% end %>
-			<% unless @teacher.educations.empty? %>
+			<% unless @teacher.educations.empty? && self.current_user == nil %>
 				<section class="profile-info group">
 					<p class="heading">
 					Education
@@ -168,15 +172,15 @@
 					<% end %>
 				</section>
 			<% end %>
-			<% unless @teacher.credentials.empty? %>
+			<% unless @teacher.credentials.empty? && self.current_user == nil %>
 				<section class="profile-info group">
-					<div class="heading">
+					<p class="heading">
 					Credentials
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/credentials">Edit</a>
 					<% end %>
-					</div>
+					<p>
 					<% @teacher.credentials.each do |credential| %>
 						<p>
 						<%= credential.name %>
@@ -190,7 +194,7 @@
 					<% end %>
 				</section>
 			<% end %>
-			<% unless @teacher.experiences.empty? %>
+			<% unless @teacher.experiences.empty? && self.current_user == nil %>
 				<section class="profile-info group">
 					<p class="heading">
 					Experience
