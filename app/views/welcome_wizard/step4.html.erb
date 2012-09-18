@@ -4,20 +4,20 @@
 	</div>
 	<div class="clear"></div>
 
-	<div class="twelve columns">
+	<div class="eleven columns" style="margin-left:25px">
 		<form class="person_form" method="POST">
 			<input type="hidden" name="people" />
 
 			<div class="done" style="display:none;">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;" value="Next Step" />
-				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in black. Select a few more that you would like to connect with.</p>
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
+				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.</p>
 				<p class="no-pre" style="display:none;">Select some contacts that you would like to connect with.</p>
 				<a href="#deselect" class="button">Deselect All</a>
 			</div>
 
 			<div class="detected" style="display:none;">
 				<span id="service-icon" style="float:right;"></span>
-				<h3>Type in your email address so you can start inviting your friends.</h3>
+				<h3>Type in your email address so you can start connecting with your friends.</h3>
 
 				<div style="float:left;width:165px;text-align:right;padding-top:7px;">
 					<span style="font-weight:bold;font-size:18px;">Your Email:</span>
@@ -25,9 +25,9 @@
 
 				<div style="margin-left: 175px;">
 					<input id="email" value="<%= @user.email %>" style="margin-bottom:3px;" placeholder="Email Address" />
-					<input id="password" type="password" style="display:none;margin-bottom:3px;" placeholder="Password" />
+					<input id="password" type="password" style="display:none;margin-bottom:3px;" placeholder="Password" /><br/>
 					<a id="submit" class="medium button">Continue</a>
-					<p id="password" style="margin:0px;margin-top:10px;">You can trust us! We won't store your password or email you or your contacts without your permission.</p>
+					<p id="password" style="margin:0px;margin-top:10px;font-size:12px">We won't store your password or email you or your contacts without your permission.</p>
 				</div>
 			</div>
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
 					duplicatePrevention.push(contact.emails[e]);
 
 					// Generate link and add it to the flow
-					link = $('<a href="#contact" x-data-email="'+contact.emails[e]+'" class="button secondary" />');
+					link = $('<a href="#contact" x-data-email="'+contact.emails[e]+'" class="button secondary" style="background:#ccc" />');
 					link.html('<span class="name">'+name+'</span><span class="email">'+contact.emails[e]+'</span>');
 					$('div.person_cloud').prepend(link);
 				}
@@ -251,7 +251,7 @@ $(document).ready(function() {
 				selectedContacts = new Array;
 
 			// Remove secondary class
-			$(this).removeClass('secondary').css({'background': '#000'});
+			$(this).removeClass('secondary').css({'background': '#F66C4C'});
 
 			// Add the email to the invite array
 			selectedContacts.push($(this).attr('x-data-email'));
@@ -261,7 +261,7 @@ $(document).ready(function() {
 		else {
 
 			// Add the secondary class
-			$(this).addClass('secondary').css({'background': '#F66C4C'});
+			$(this).addClass('secondary').css({'background': '#CCC'});
 
 			// Remove the email from the invite array
 			var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
