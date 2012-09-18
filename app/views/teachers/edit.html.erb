@@ -27,7 +27,7 @@
 					<p></p>
 				<% end %>
 				<div class="profile-thumb-medium">
-					<%= @teacher.user.avatar(:medium) if @teacher.user.avatar? %>
+					<%= image_tag(@teacher.user.avatar(:medium)) if @teacher.user.avatar? %>
 					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @teacher.user.avatar? %>
 				</div>
 				<h3>
