@@ -9,6 +9,22 @@ body.wizard {
 		min-width: 650px;
 		margin: 0 auto;
 	}
+	.button {
+		-moz-border-radius: 	3px;
+		-webkit-border-radius: 	3px;
+		border-radius: 			3px;
+		border: 1px solid transparent;
+		&:hover {
+			color: #000 !important;
+		}
+	}
+
+	a.button {
+		background: #F66C4C;
+		padding: 3px 5px;
+		color: #FFF;
+	}
+	
 	div {
 		&.header {
 			margin: 0px auto 25px;
@@ -116,7 +132,7 @@ body.wizard {
 			margin-bottom: 6px;
 			margin-left: 6px;
 			font-size: 16px;
-			width: 308px;
+			width: 285px;
 			float: left;
 			&:nth-child(3n-2) {
 				margin-left: 0px;

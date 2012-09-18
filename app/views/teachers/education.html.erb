@@ -8,16 +8,16 @@
 			<strong><%= education.school %></strong>
 			<% if education.current == true %>
 				Currently Attending 
-				<% if education.start_year != nil && education.start_year != "" %>
+				<% if education.start_year.present? %>
 					Since <%= education.start_year %>
 				<% end %><br />
-				<% if education.year != "" %>
+				<% if education.year.present? %>
 					Expected Graduation: <%= education.year %><br />
 				<% end %>
 			<% else %>
-				<% if education.year == "" %>
+				<% if !education.year.present? %>
 				<% else %>
-					<% if education.start_year == nil || education.start_year == "" %>
+					<% if !education.start_year.present? %>
 						<%= education.year %><br />
 					<% else %>
 						<%= education.start_year %>-<%= education.year %><br />

@@ -157,7 +157,25 @@
 					</p>
 					<% @teacher.educations.each do |edu| %>
 						<p>
-						<%= edu.school %> <%= edu.year %>
+                                                <%= edu.school %> 
+                                                <% if edu.current == true %>
+                                                        Currently Attending 
+                                                        <% if edu.start_year.present? %>
+                                                                Since <%= edu.start_year %>
+                                                        <% end %><br />
+                                                        <% if edu.year.present?  %>
+                                                                Expected Graduation: <%= edu.year %><br />
+                                                        <% end %>
+                                                <% else %>
+                                                        <% if !edu.year.present? %>
+                                                        <% else %>
+                                                                <% if !edu.start_year.present? %>
+                                                                        <%= edu.year %><br />
+                                                                <% else %>
+                                                                        <%= edu.start_year %>-<%= edu.year %><br />
+                                                                <% end %>
+                                                        <% end %>
+                                                <% end %>
 						</p>
 						<% unless edu.degree.nil? || edu.degree.empty? %>
 							<p>
