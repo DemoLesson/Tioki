@@ -1,3 +1,5 @@
+<section id="main-content" class="inner-content">
+
 <%= form_for @experience, :as => :experience, :url => '/update_existing_experience/'+@experience.id.to_s do |f| %>
 
 <div class="field">
@@ -45,3 +47,4 @@
 	<img src="<%= asset_path 'loader.gif' %>" />
 </div>
 <% end %>
+</section>

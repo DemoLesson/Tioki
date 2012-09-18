@@ -1,9 +1,11 @@
 <section id="main-content" class="inner-content">
+  <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/c/video.js"></script>
 	<section class="profile group">
 		<nav class="subpage">
 			<ul>
 				<li class="current">
-					Job Profile
+					Tioki Profile
 				</li>
 				<!--li>
 					<a href="terms.html">
@@ -18,10 +20,10 @@
 			</ul>
 		</nav>
 		<section class="sidebar">
-			<div class="profile-thumb-large">
-			<%= @teacher.user.avatar(:large) if @teacher.user.avatar? %>
+                <!--<div class="profile-thumb-large">-->
+                          <%= image_tag( @teacher.user.avatar.url(:medium)) if @teacher.user.avatar? %>
 			<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
-			</div>
+                      <!--</div>-->
 			<h3>
 			<%= @teacher.user.name %>
 			</h3>
@@ -33,6 +35,16 @@
 				<a href="/me/profile/edit" class="action-button bg-salmon">
 				Edit Profile
 				</a>
+                        <% elsif !User.current %>
+                                <a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+                                   Connect
+                                 </a>
+                        <% elsif User.current.connections.collect(&:user_id).include? @teacher.user_id %>
+                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+                        <% elsif User.current.school != nil %>
+                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+                        <% elsif User.current.teacher != nil %>
+                          <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 			<% end %>
 			<section class="info">
 				<% unless @teacher.user.email.empty? %>
@@ -84,14 +96,18 @@
 			</section>
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
-			<% unless @teacher.video_embed_html.empty? %>
-				<div class="profile-video panel">
-					<%= @teacher.video_embed_html.html_safe %>
-				</div>
-			<% end %>
+                        <% if @teacher.video_embed_url? %>
+                          <div class="profile-video panel">
+                            <%= @teacher.video_embed_html.html_safe %>
+                          </div>
+                        <% elsif @video != nil%>
+                          <div class="profile-video panel">
+                            <%= @embed_code.html_safe %>
+                          </div>
+                        <% end %>
 			<section class="video-actions group">
 				<% if self.current_user && self.current_user.teacher == @teacher %>
-					<% unless @teacher.video_embed_html.empty? %>
+					<% unless @teacher.video_embed_html == nil && @video == nil%>
 						<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 						Edit Video
 						</a>
@@ -100,12 +116,8 @@
 						Add a Video
 						</a>
 					<% end %>
-				<% elsif !self.current_user %>
-					<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button edit-video bg-salmon">
-						Connect
-					</a>
 				<% end %>
-				<% unless @teacher.video_embed_html.empty? %>
+				<% unless @teacher.video_embed_html == nil && @video == nil%>
 					<ul class="stats">
 						<li>
 							<div class="count favorites">
@@ -134,7 +146,7 @@
 				<section class="profile-info group">
 					<p class="heading">
 					Education
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/education">Edit</a>
 					<% end %>
@@ -160,7 +172,7 @@
 				<section class="profile-info group">
 					<div class="heading">
 					Credentials
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/credentials">Edit</a>
 					<% end %>
@@ -182,7 +194,7 @@
 				<section class="profile-info group">
 					<p class="heading">
 					Experience
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/experience">Edit</a>
 					<% end %>
