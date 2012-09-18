@@ -33,5 +33,54 @@
   zone: us-west-2a
   platform: linux
   root_device_type: instance-store
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: tools
+  domain: tioki.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web_tools
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_server
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger_nginx
+    options: {}
+  instance_id: i-832956b0
+  image_type: m1.small
+  image_id: ami-2add531a
+  security_groups:
+  - tioki_production_default
+  - tioki_production_web_tools
+  - tioki_production_tools
+  - tioki_production_graylog_web
+  - tioki_production_graylog_server
+  - tioki_production_graylog_mongodb
+  - tioki_production_mongodb
+  - tioki_production_graylog_elasticsearch
+  - tioki_production_elasticsearch
+  - tioki_production_passenger_nginx
+  external_host: ec2-54-245-45-59.us-west-2.compute.amazonaws.com
+  external_ip: 54.245.45.59
+  internal_host: ip-10-244-13-99.us-west-2.compute.internal
+  internal_ip: 10.244.13.99
+  zone: us-west-2c
+  platform: linux
+  root_device_type: instance-store
 - volumes: {}
   static_ips: {}

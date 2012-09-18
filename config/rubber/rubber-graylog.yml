@@ -38,6 +38,14 @@ security_groups:
         from_port: "#{graylog_server_syslog_port}"
         to_port: "#{graylog_server_syslog_port}"
         source_ips: [0.0.0.0/0]
+      - protocol: udp
+        from_port: "#{graylog_server_port}"
+        to_port: "#{graylog_server_port}"
+        source_ips: [0.0.0.0/0]
+      - protocol: udp
+        from_port: "#{graylog_server_syslog_port}"
+        to_port: "#{graylog_server_syslog_port}"
+        source_ips: [0.0.0.0/0]
 
 role_dependencies:
   web_tools: [graylog_web, graylog_server, passenger_nginx]
