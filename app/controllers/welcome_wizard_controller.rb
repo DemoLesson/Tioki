@@ -105,16 +105,6 @@ class WelcomeWizardController < ApplicationController
 
 			unless params[:edu].nil? || params[:edu].empty?
 
-				# Get full date objects for start and end dates
-				start_date = params[:date][:edu_start_month] + '/' + params[:date][:edu_start_year]
-				start_date = Time.strptime(start_date, "%m/%Y")
-				end_date = params[:date][:edu_end_month] + '/' + params[:date][:edu_end_year]
-				end_date = Time.strptime(end_date, "%m/%Y")
-
-				# Go ahead and make that just years cause the db structure is lame
-				params[:edu][:start_year] = start_date.strftime("%Y")
-				params[:edu][:year] = end_date.strftime("%Y")
-
 				# Build the education data
 				@teacher.educations.build(params[:edu])
 			end

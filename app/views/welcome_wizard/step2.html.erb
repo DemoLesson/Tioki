@@ -98,25 +98,39 @@ tr.seeking, tr.student {
 				<tr class="student">
 					<td>
 						<label>
-							<span>Start Date</span>
-							<%= select_month Date.today, :field_name => 'edu_start_month', :add_month_numbers => false, :class => 'chzn' %>
-							<%= select_year Date.today, :field_name => 'edu_start_year', :start_year => 1900, :end_year => Time.now.year + 1, :class => 'chzn' %>
+							<span>Degree</span>
+							<input type="text" name="edu[degree]" />
 						</label>
 					</td>
 				</tr>
-				<tr class="student end_date">
+				<tr class="student">
+					<td>
+						<label>
+							<span>Major</span>
+							<input type="text" name="edu[concentrations]" />
+						</label>
+					</td>
+				</tr>
+				<tr class="student">
+					<td>
+						<label>
+							<span>Start Date</span>
+						</label>
+                                                <%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+					</td>
+				</tr>
+				<tr class="student">
 					<td>
 						<label>
 							<span>End Date</span>
-							<%= select_month Date.today, :field_name => 'edu_end_month', :add_month_numbers => false, :class => 'chzn' %>
-							<%= select_year Date.today, :field_name => 'edu_end_year', :start_year => 1900, :end_year => Time.now.year + 1, :class => 'chzn' %>
+                                                        <%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
 						</label>
 					</td>
 				</tr>
 				<tr class="student">
 					<td>
 						<label class="checkbox">
-							<input type="checkbox" name="edu[attending]" />
+							<%= check_box_tag "edu[current]" %>
 							<span>Currently Attending</span>
 						</label>
 					</td>
