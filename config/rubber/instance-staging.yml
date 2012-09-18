@@ -1,3 +1,51 @@
 ---
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: tools01
+  domain: tioki.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web_tools
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_server
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger_nginx
+    options: {}
+  instance_id: i-d9dda1ea
+  image_type: m1.small
+  image_id: ami-2add531a
+  security_groups:
+  - tioki_staging_default
+  - tioki_staging_web_tools
+  - tioki_staging_tools01
+  - tioki_staging_graylog_web
+  - tioki_staging_graylog_server
+  - tioki_staging_graylog_mongodb
+  - tioki_staging_mongodb
+  - tioki_staging_graylog_elasticsearch
+  - tioki_staging_elasticsearch
+  external_host: ec2-50-112-41-152.us-west-2.compute.amazonaws.com
+  external_ip: 50.112.41.152
+  internal_host: ip-10-244-20-42.us-west-2.compute.internal
+  internal_ip: 10.244.20.42
+  zone: us-west-2c
+  platform: linux
+  root_device_type: instance-store
 - volumes: {}
   static_ips: {}

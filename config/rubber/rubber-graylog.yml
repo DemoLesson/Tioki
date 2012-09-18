@@ -26,9 +26,21 @@ web_tools_proxies:
     port: "#{graylog_web_port}"
     path: /
 
+security_groups:
+  graylog_server:
+    description: "To open up port #{graylog_server_port}/#{graylog_server_syslog_port} for graylog_server role"
+    rules:
+      - protocol: tcp
+        from_port: "#{graylog_server_port}"
+        to_port: "#{graylog_server_port}"
+        source_ips: [0.0.0.0/0]
+      - protocol: tcp
+        from_port: "#{graylog_server_syslog_port}"
+        to_port: "#{graylog_server_syslog_port}"
+        source_ips: [0.0.0.0/0]
+
 role_dependencies:
-  app: [passenger_nginx]
-  web_tools: [graylog_web, graylog_server]
+  web_tools: [graylog_web, graylog_server, passenger_nginx]
   graylog_server: [graylog_mongodb, graylog_elasticsearch]
   graylog_mongodb: [mongodb]
   graylog_elasticsearch: [elasticsearch]
