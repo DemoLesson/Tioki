@@ -45,21 +45,21 @@ class DeployCLI
 		echo "(Installing new Software/Gems)"
 		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
 		echo "This may take awhile...\n"
-		system('cap rubber:bootstrap')
+		system('cap rubber:bootstrap FILTER=-tools')
 
 		# Deploy the code run assets
 		echo "\nCopying the rails app to the server and deploying."
 		echo "(Runs rake assets:precompile and rake db:migrate)"
 		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
 		echo "This may take awhile...\n"
-		system('cap deploy:cold')
+		system('cap deploy:cold FILTER=-tools')
 
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."
 		if confirm "Would you like to publish now?"
 			echo "This may take awhile...\n"
-			system('cap deploy:create_symlink')
-			system('cap rubber:passenger_nginx:restart')
+			system('cap deploy:create_symlink FILTER=-tools')
+			system('cap rubber:passenger_nginx:restart FILTER=-tools')
 			echo "The new code is now live. You can rollback by running:"
 			echo "\`./script/deploy rollback #{type}\`", 'red'
 		else
@@ -94,8 +94,8 @@ class DeployCLI
 		echo "This may take awhile...\n"
 
 		# Do It Now
-		system('cap deploy:create_symlink')
-		system('cap rubber:passenger_nginx:restart')
+		system('cap deploy:create_symlink FILTER=-tools')
+		system('cap rubber:passenger_nginx:restart FILTER=-tools')
 
 		# Remind
 		echo "\nThe new code is now live. You can rollback by running:"
@@ -121,8 +121,8 @@ class DeployCLI
 		echo "This may take awhile...\n"
 
 		# Do It Now
-		system('cap deploy:rollback:code')
-		system('cap rubber:passenger_nginx:restart')
+		system('cap deploy:rollback:code FILTER=-tools')
+		system('cap rubber:passenger_nginx:restart FILTER=-tools')
 
 		# Notify
 		echo "\nThe old code is now live."
@@ -159,8 +159,8 @@ class DeployCLI
 		ENV['ALIAS'] = _alias
 		ENV['ROLES'] = 'web,app,db:primary=false'
 		system('cap rubber:create')
-		system('cap rubber:bootstrap')
-		system('cap deploy:cold')
+		system('cap rubber:bootstrap FILTER=-tools')
+		system('cap deploy:cold FILTER=-tools')
 
 		# Restore the original rails env
 		echo "\n\nFinished! Restoring the environment to #{renvironment}..."
@@ -187,7 +187,7 @@ class DeployCLI
 		echo "Type (CTRL + C) to exit when you are done", 'red', 2
 
 		# Tail the logs
-		system('cap rubber:tail_logs')
+		system('cap rubber:tail_logs FILTER=-tools')
 
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
@@ -259,7 +259,7 @@ class DeployCLI
 
 		if confirm "Confirm you want to run \`rake #{command}\`..."
 			ENV["COMMAND"] = command
-			system('cap rubber:rake')
+			system('cap rubber:rake FILTER=-tools')
 			echo "\nFinished..."
 		else
 			echo "\nCancelled..."
