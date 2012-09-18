@@ -140,7 +140,7 @@
 				<section class="profile-info group">
 					<p class="heading">
 					Education
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/education">Edit</a>
 					<% end %>
@@ -166,7 +166,7 @@
 				<section class="profile-info group">
 					<div class="heading">
 					Credentials
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/credentials">Edit</a>
 					<% end %>
@@ -188,7 +188,7 @@
 				<section class="profile-info group">
 					<p class="heading">
 					Experience
-					<% if @teacher == self.current_user.teacher %>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 &mdash; 
 						<a href="/me/profile/edit/experience">Edit</a>
 					<% end %>
