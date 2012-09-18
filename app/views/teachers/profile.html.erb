@@ -35,6 +35,16 @@
 				<a href="/me/profile/edit" class="action-button bg-salmon">
 				Edit Profile
 				</a>
+                        <% elsif !User.current %>
+                                <a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+                                   Connect
+                                 </a>
+                        <% elsif User.current.connections.collect(&:user_id).include? @teacher.user_id %>
+                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+                        <% elsif User.current.school != nil %>
+                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+                        <% elsif User.current.teacher != nil %>
+                          <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 			<% end %>
 			<section class="info">
 				<% unless @teacher.user.email.empty? %>
@@ -106,10 +116,6 @@
 						Add a Video
 						</a>
 					<% end %>
-				<% elsif !self.current_user %>
-					<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button edit-video bg-salmon">
-						Connect
-					</a>
 				<% end %>
 				<% unless @teacher.video_embed_html == nil && @video == nil%>
 					<ul class="stats">
