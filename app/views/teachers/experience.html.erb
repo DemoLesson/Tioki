@@ -23,7 +23,7 @@
 
 	<div id="attach_new_btn">
 		<input name="attach" type="button" value="Add Experience Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="btn"/>
-		<%= link_to 'Back', :back %>
+		<%= link_to 'Edit Profile', '/me/profile/edit' %>
 	</div>
 
 	<div id="attach_form" style="display: none">
@@ -68,7 +68,7 @@
 			</fieldset>
 			<fieldset>
 				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
-				<%= link_to 'Back', :back %>
+				<%= link_to 'Edit Profile', '/me/profile/edit' %>
 			</fieldset>
 
 			<div id="loader" style="display: none">
