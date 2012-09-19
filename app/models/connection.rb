@@ -2,6 +2,30 @@ class Connection < ActiveRecord::Base
   belongs_to :user
   scope :not_pending, where(:pending => false)
 
+  # Get information on my connections
+  def self.mine(args = {})
+    # Set the user to lookup
+    a = User.current.id if args[:user].nil?
+    a = args[:user] unless args[:user].nil?
+
+    # Get only the connections I instigated
+    tmp = self.where('`owned_by` = ?', a) unless args[:creator].nil? || !args[:creator]
+
+    # Get all connections involving me
+    tmp = self.where('`owned_by` = ? || `user_id` = ?', a, a) if args[:creator].nil? || !args[:creator]
+
+    # Set pending true or false
+    tmp = tmp.where('`pending` = ?', args[:pending]) unless args[:pending].nil?
+
+    # Return the modified object
+    return tmp
+  end
+
+  # Get information on another user
+  def self.user(user_id)
+    self.mine(:user => user_id, :pending => false)
+  end
+
   def self.find_for_user(user_id)
     Connection.find(:all, :conditions => ['owned_by = ?', user_id])
   end

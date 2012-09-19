@@ -1,269 +1,284 @@
 require 'mail'
 class ConnectionsController < ApplicationController
-  before_filter :login_required
+	before_filter :login_required
 
-  # GET /connections
-  # GET /connections.json
-  def index
-    if params[:connectsearch]
-      @connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
-    else
-      @connections = Teacher.paginate(:page=> params[:page], :per_page => 25)
-    end
-    @my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
+	# GET /connections
+	# GET /connections.json
+	def index
+		if params[:connectsearch]
+			@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+		else
+			@connections = Teacher.paginate(:page=> params[:page], :per_page => 25)
+		end
+		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @connections }
-    end
-  end
+		respond_to do |format|
+			format.html # index.html.erb
+			format.json { render json: @connections }
+		end
+	end
 
-  def add_connection(respond = true)
-    # Check and see if we are already connected
-    @previous = Connection.find(:first, :conditions => ['owned_by = ? AND user_id = ?', self.current_user.id, params[:user_id]])
+	def add_connection(respond = true)
 
-    # If we are not go ahead and initiate the connection
-    if @previous == nil
+		# Check and see if we are already connected (or are pending)
+		a = self.current_user.id
+		b = params[:user_id]
+		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
 
-      # Create the connection
-      @connection = Connection.new
-      @connection.owned_by = self.current_user.id
-      @connection.user_id = params[:user_id]
+		# If we are not go ahead and initiate the connection
+		if @previous == nil
 
-      # If everything saved ok
-      if @connection.save
-        # Notify the other user of my connection request
-        UserMailer.userconnect(self.current_user.id, params[:user_id]).deliver
+			# Create the connection
+			@connection = Connection.new
+			@connection.owned_by = a
+			@connection.user_id = b
 
-        # If respond is set to true then lets redirect
-        if respond
+			# If everything saved ok
+			if @connection.save
 
-          # Redirect to "My Connections"
-          respond_to do |format|
-            if params[:to_wizard]
-              session[:_ak] = "unlock_connection_request"
-              format.html { redirect_to '/welcome_wizard?x=step2' }
-            else
-              format.html { redirect_to :pending_connections }
-            end
-          end
-        end
-      end
+				# Notify the other user of my connection request
+				UserMailer.userconnect(a, b).deliver
 
-    # Whoops we're already connected
-    else
+				# If respond is set to true then lets redirect
+				if respond
 
-      # If respond is set to true then lets redirect
-      if respond
+					# Redirect to "My Connections"
+					respond_to do |format|
+						if params[:to_wizard]
+							session[:_ak] = "unlock_connection_request"
+							format.html { redirect_to '/welcome_wizard?x=step2' }
+						else
+							format.html { redirect_to :pending_connections }
+						end
+					end
+				end
+			end
 
-        # Redirect to "My Connections"
-        respond_to do |format|
-          format.html { redirect_to :my_connections }
-        end
-      end
-    end
-  end
+		# Were actually still pending
+		elsif @previous.pending == true
 
-  def remove_connection
-    @connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id ,params[:user_id]])
-    @oconnection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', params[:user_id], self.current_user.id])
-    @connection.destroy
-    if @oconnection != nil
-      @oconnection.destroy
-    end
-    
-    respond_to do |format|
-      format.html { redirect_to :my_connections }
-    end
-  end
+			# Dry way of accepting the connection
+			self.send('accept_connection', respond)
 
-  def remove_pending
-    @connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', params[:user_id], self.current_user.id])
-    @connection.destroy
-    
-    respond_to do |format|
-      format.html { redirect_to :pending_connections }
-    end
-  end
+		# Whoops we're already connected
+		else
 
-  def accept_connection
-    # Get the connection in question (A -> B)
-    @connect= Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', params[:user_id], self.current_user.id])
+			# If respond is set to true then lets redirect
+			if respond
 
-    # Make the connection no longer pending
-    @connect.pending = false
+				# Redirect to "My Connections"
+				respond_to do |format|
+					format.html { redirect_to :my_connections }
+				end
+			end
+		end
+	end
 
-    # If the connection saves
-    if @connect.save
+	# Remove any pending connections
+	# @TODO Deprecate this method
+	def remove_pending(*args)
 
-      # Create a second connection from point (B -> A)
-      @connection = Connection.new
+		# Redirect to remove connection since it is an unbiased connection removed and would do this anyway
+		self.send('remove_connection', *args)
+	end
 
-      # Add the current user and the owner
-      @connection.owned_by=self.current_user.id
-      @connection.user_id=params[:user_id]
+	# Remove any connections between two users
+	def remove_connection
 
-      # Since were accepting the original connection don't make this pending
-      @connection.pending=false
+		# Set A and B
+		a = self.current_user.id
+		b = params[:user_id]
 
-      # Save this connection
-      if @connection.save
-        #Activity.create(:creator_id => @connection.user_id, :user_id => @connection.owned_by, :activityType => 10)
-        #Activity.create(:creator_id => @connection.owned_by, :user_id => @connection.user_id, :activityType => 10)
+		# Delete both A -> B and B -> A (If we missed any duplicated records)
+		Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).each do |x|
+			x.destroy
+		end
+		
+		# Return to my connections
+		respond_to do |format|
+			format.html { redirect_to :my_connections }
+		end
+	end
 
-        # Create a whiteboard activity log
-        Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(@connection.user_id))
-        self.log_analytic(:user_connection_accepted, "Two users connection", @connection)
+	# Accept a connection invitation
+	def accept_connection(respond = false)
 
-        # Redirect to My Connections page
-        respond_to do |format|
-          format.html { redirect_to :my_connections }
-        end
-      end
-    end
-  end
+		# Set A and B
+		a = self.current_user.id
+		b = params[:user_id]
 
-  def my_connections
-    @default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
-    @connections= Connection.not_pending.find(:all, :conditions => ['owned_by = ?', self.current_user.id])
-  end
+		# Get the connection in question (A <-> B)
+		@connect = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
 
-  def pending_connections
-    @connections= Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.current_user.id])
-    @my_pending_connections=Connection.find(:all, :conditions => ['owned_by = ? AND pending = true', self.current_user.id])
-  end
+		# Make the connection no longer pending
+		@connect.pending = false
 
-  def userconnections
-    @user= User.find(params[:id])
-    @connections = Connection.not_pending.find_for_user(params[:id])
-    @my_connections = Connection.find_for_user(self.current_user.id)
-  end
+		# If the connection saves
+		if @connect.save
 
-  def add_and_redir
+			Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(@connection.user_id))
+			self.log_analytic(:user_connection_accepted, "Two users connection", @connection)
 
-    # Make sure we have a user_id
-    unless params.has_key?("user_id")
-      raise StandardError, "Were missing the user id to connect to"
-    end
+			# Redirect to My Connections page
+			respond_to do |format|
+				format.html { redirect_to :my_connections }
+			end
+		end
+	end
 
-    # Make sure we have a redirection url
-    unless params.has_key?("redir")
-      raise StandardError, "We can't redirect you anywhere unless you provide us with the url"
-    end
+	def my_connections
+		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
 
-    # Create the connection and redirect
-    self.add_connection(false)
-    redirect_to params['redir']
-  end
+		# User ID
+		a = self.current_user.id
 
-  def inviteconnections
-    @my_connection = Connection.find_for_user(self.current_user.id)
-    @default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
-  end
+		# Get all not pending connections
+		@connections = Connection.mine(:pending => false)
+	end
 
-  def inviteconnection
-    if params[:emails].size == 0
-      redirect_to :back, :notice => "Must have at least one email."
-    end
-    notice = []
-    params[:emails].split(',').each do |email|
-      # Clean up the email
-      email = email.strip
+	def pending_connections
 
-      begin
-        # Parse the email address
-        mail = Mail::Address.new(email)
-        demail = mail.address
+		# User ID
+		a = self.current_user.id
 
-        # Find the user by the provided email
-        @user = User.find(:first, :conditions => ["email = ?", email])
+		# Get not pending connections
+		@connections = Connection.mine(:pending => false)
 
-        # If the user exists run a add connection
-        if @user != nil
+		# Get all pending connections
+		@my_pending_connections = Connection.mine(:pending => true, :creator => true)
+	end
 
-          # Make sure the user has a teacher profile
-          if @user.teacher
-            # This connection is now like a normal connection request
-            if Connection.add_connect(self.current_user.id, @user.id)
-              notice << "Your connection request to " + demail + " has been sent."
-            else
-              notice << demail + " has already been connected to."
-            end
+	def userconnections
+		@user = User.find(params[:id])
+		@connections = Connection.user(params[:id])
+		@my_connections = Connection.mine
+	end
 
-            # Notify the current session user
+	def add_and_redir
 
-          # If the user is not a teacher then do notify that a connection cannot be made
-          else
-            notice << email + " cannot be connected with."
-          end
+		# Make sure we have a user_id
+		unless params.has_key?("user_id")
+			raise StandardError, "Were missing the user id to connect to"
+		end
 
-        # If the email is not tied to a member then invite them
-        else
+		# Make sure we have a redirection url
+		unless params.has_key?("redir")
+			raise StandardError, "We can't redirect you anywhere unless you provide us with the url"
+		end
 
-          # Create a new invitation record
-          @invite = ConnectionInvite.new
-          @invite.user_id = self.current_user.id
-          @invite.email = demail
+		# Create the connection and redirect
+		self.add_connection(false)
+		redirect_to params['redir']
+	end
 
-          # Try to save the invite
-          if @invite.save
+	def inviteconnections
+		@my_connection = Connection.find_for_user(self.current_user.id)
+		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
+	end
 
-            # Create a random string for inviting
-            invitestring = User.random_string(20)
+	def inviteconnection
+		if params[:emails].size == 0
+			redirect_to :back, :notice => "Must have at least one email."
+		end
+		notice = []
+		params[:emails].split(',').each do |email|
+			# Clean up the email
+			email = email.strip
 
-            # Add the generated invitation string into the invitation
-            @invite.update_attribute(:url, invitestring + @invite.id.to_s)
+			begin
+				# Parse the email address
+				mail = Mail::Address.new(email)
+				demail = mail.address
 
-            # Generate the invitation url to be added to the email
-            url = "http://#{request.host_with_port}/welcome_wizard?x=step1&invitestring=" + @invite.url
+				# Find the user by the provided email
+				@user = User.find(:first, :conditions => ["email = ?", email])
 
-            # Send out the email
-            mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+				# If the user exists run a add connection
+				if @user != nil
 
-            # Notify the current session member that ht e email was sent
-            notice << "Your invite to " + demail + " has been sent."
+					# Make sure the user has a teacher profile
+					if @user.teacher
+						# This connection is now like a normal connection request
+						if Connection.add_connect(self.current_user.id, @user.id)
+							notice << "Your connection request to " + demail + " has been sent."
+						else
+							notice << demail + " has already been connected to."
+						end
 
-            # Log an analytic
-            self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
+						# Notify the current session user
 
-          # If there were errors saving then let the current session member know
-          else 
-            notice << email + ": "+ @invite.errors.full_messages.to_sentence
-          end
-        end
+					# If the user is not a teacher then do notify that a connection cannot be made
+					else
+						notice << email + " cannot be connected with."
+					end
 
-        unless session[:wizard].nil?
-          # Wizard Key
-          wKey = "welcome_wizard_step5" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+				# If the email is not tied to a member then invite them
+				else
 
-          # And create an analytic
-          self.log_analytic(wKey, "User completed step 5 of the welcome wizard.", self.current_user)
+					# Create a new invitation record
+					@invite = ConnectionInvite.new
+					@invite.user_id = self.current_user.id
+					@invite.email = demail
 
-          # Delete this identifier
-          session.delete(:wizard)
-        end
+					# Try to save the invite
+					if @invite.save
 
-      # If the email could not be parsed let the current session member know
-      rescue Mail::Field::ParseError
-        notice << "Could not parse " + email
-      rescue
-        notice << "Unknown Error"
-      end
-    end
+						# Create a random string for inviting
+						invitestring = User.random_string(20)
 
-    # Take us home
-    redirect_to :root, :notice => notice.join(' ')
-  end
+						# Add the generated invitation string into the invitation
+						@invite.update_attribute(:url, invitestring + @invite.id.to_s)
 
-  # DELETE /connections/1
-  # DELETE /connections/1.json
-  def destroy
-    @connection = Connection.find(params[:id])
-    @connection.destroy
+						# Generate the invitation url to be added to the email
+						url = "http://#{request.host_with_port}/welcome_wizard?x=step1&invitestring=" + @invite.url
 
-    respond_to do |format|
-      format.html { redirect_to connections_url }
-      format.json { head :ok }
-    end
-  end
+						# Send out the email
+						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+
+						# Notify the current session member that ht e email was sent
+						notice << "Your invite to " + demail + " has been sent."
+
+						# Log an analytic
+						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
+
+					# If there were errors saving then let the current session member know
+					else 
+						notice << email + ": "+ @invite.errors.full_messages.to_sentence
+					end
+				end
+
+				unless session[:wizard].nil?
+					# Wizard Key
+					wKey = "welcome_wizard_step5" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+
+					# And create an analytic
+					self.log_analytic(wKey, "User completed step 5 of the welcome wizard.", self.current_user)
+
+					# Delete this identifier
+					session.delete(:wizard)
+				end
+
+			# If the email could not be parsed let the current session member know
+			rescue Mail::Field::ParseError
+				notice << "Could not parse " + email
+			rescue
+				notice << "Unknown Error"
+			end
+		end
+
+		# Take us home
+		redirect_to :root, :notice => notice.join(' ')
+	end
+
+	# DELETE /connections/1
+	# DELETE /connections/1.json
+	def destroy
+		@connection = Connection.find(params[:id])
+		@connection.destroy
+
+		respond_to do |format|
+			format.html { redirect_to connections_url }
+			format.json { head :ok }
+		end
+	end
 end
