@@ -558,6 +558,10 @@ class TeachersController < ApplicationController
 		@teacher = Teacher.find(self.current_user.teacher.id)
 	end
 
+        def profileattachments
+          @teacher = User.current.teacher
+        end
+
 	# See who has recently viewed my profile
 	def view_history
 		

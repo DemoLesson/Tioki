@@ -1,0 +1,44 @@
+<section id="main-content" class="inner-content">
+<h3>Attachments</h3>
+
+<% for asset in @teacher.assets %>
+  <% if asset.assetType != 1 %>
+    <p>
+    <%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %>
+    <span class="purge"><%= link_to 'Remove?', '/purge/'+asset.id.to_s, :confirm => 'Are you sure you want to remove "'+asset.name+'" from your profile? The file be permanently deleted.' %></span><br />
+    <%= asset.description %>
+    </p>
+  <% end %>
+<% end %>
+
+<div id="attach_form" style="display: none">
+  <%= form_for @asset, :as => :asset, :url => '/attach', :html => { :multipart => true } do |f| %>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description %>
+    </div>
+
+    <div class="field">
+      <%= f.label :file %><br />
+      <%= f.file_field :file %>
+    </div>
+
+
+    <div>
+      <input name="commit" type="submit" value="Upload File" class="btn" />
+    </div>
+
+  <% end %>
+</div>
+<div id="attach_new_btn">
+  <input name="attach" type="button" value="Attach New File" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="btn btn-success" />
+</div>
+
+<%= link_to 'Back', {:controller => "teachers", :action => "edit"}, :class => "btn" %>
+</section>

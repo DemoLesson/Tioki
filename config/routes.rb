@@ -134,6 +134,7 @@ Preview::Application.routes.draw do
 	match 'update_existing_education/:id' => 'teachers#update_existing_education'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
+        match 'profileattachments' => 'teachers#profileattachments'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
