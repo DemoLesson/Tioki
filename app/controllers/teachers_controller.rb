@@ -323,12 +323,6 @@ class TeachersController < ApplicationController
 
 		respond_to do |format|
 			if @teacher.update_attributes(params[:teacher])
-				#delete all skills, the array being received is all skills currently selected by the teacher
-				@teacher.user.skills.delete_all
-				skills = Skill.where(:id => params[:skills])
-				skills.each do |skill|
-					SkillClaim.create(:user_id => @teacher.user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
-				end
 
 				# Make a Whiteboard Post
 				Whiteboard.createActivity(:profile_update, "{user.teacher.profile_link} updated their profile.")

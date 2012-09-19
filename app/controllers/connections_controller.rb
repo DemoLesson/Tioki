@@ -177,9 +177,10 @@ class ConnectionsController < ApplicationController
 	end
 
 	def inviteconnection
-		if params[:emails].size == 0
+		if params[:emails].nil? || params[:emails].size == 0
 			redirect_to :back, :notice => "Must have at least one email."
 		end
+		
 		notice = []
 		params[:emails].split(',').each do |email|
 			# Clean up the email
