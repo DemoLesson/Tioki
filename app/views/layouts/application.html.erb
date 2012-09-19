@@ -179,7 +179,6 @@
 							Profile
 							</a>
 							<ul>
-								<li><a href="/me/profile/card">Card Profile</a></li>
 								<li><a href="/me/profile/edit">Edit My Profile</a></li>
 							</ul>
 						</li>
@@ -187,20 +186,30 @@
 							<a href="/my_connections">
 							Connections
 							</a>
+							<ul>
+								<li><a href="/pending_connections">Pending Connections</a></li>
+								<li><a href="/inviteconnections">Invite Connections</a></li>
+							</ul>
 						</li>
 						<li>
 							<a href="/events">
 							Events
 							</a>
+							<ul>
+								<li><a href="/events/new">Submit an Event</a></li>
+							</ul>
 						</li>
 						<li>
 							<a href="/jobs">
 							Jobs
 							</a>
+							<ul>
+								<li><a href="/teacher_applications">My Applications</a></li>
+							</ul>
 						</li>
 						<li>
 							<a href="/messages">
-							Inbox
+							<%= "Inbox [" + unread_messages.to_s + "]" %>
 							</a>
 						</li>
 					<% elsif self.current_user.is_admin? %>
