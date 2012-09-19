@@ -36,9 +36,10 @@ var csPageOptions = {
   <div class="item_jobs">
     <div class="item_picture">
       <% if connection.not_me.avatar? %>
-        <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
+        <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/profile/'+connection.not_me.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/'+connection.not_me.teacher.url.to_s %>
+      <% end %>
     </div>
 
     <div id ="connection_desc">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120919221228) do
+ActiveRecord::Schema.define(:version => 20120919234712) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -486,7 +486,7 @@ ActiveRecord::Schema.define(:version => 20120919221228) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                                       :null => false
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
