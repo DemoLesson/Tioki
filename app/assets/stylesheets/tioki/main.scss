@@ -9,14 +9,14 @@
 
 .group:before,
 .group:after {
-    content:"";
-    display:table;
+	content:"";
+	display:table;
 }
 .group:after {
-    clear:both;
+	clear:both;
 }
 .group {
-    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+	zoom:1; /* For IE 6/7 (trigger hasLayout) */
 } 
 
 .profile-thumb-large {
@@ -123,12 +123,12 @@
 								}
 							}
 							opacity: 0;
-						    -webkit-transition: opacity 300ms linear;
-						    -moz-transition: 	opacity 300ms linear;
-						    -o-transition: 		opacity 300ms linear;
-						    -ms-transition: 	opacity 300ms linear;    
-						    transition: 		opacity 300ms linear;
-						    transition: visibility 0s linear 0.5s;
+							-webkit-transition: opacity 300ms linear;
+							-moz-transition: 	opacity 300ms linear;
+							-o-transition: 		opacity 300ms linear;
+							-ms-transition: 	opacity 300ms linear;    
+							transition: 		opacity 300ms linear;
+							transition: visibility 0s linear 0.5s;
 						}
 						&:hover ul {
 							visibility: visible;
@@ -153,10 +153,35 @@
 						padding: 8px 20px;
 						margin: 0;
 						-webkit-transition: all 100ms linear;
-					    -moz-transition: 	all 100ms linear;
-					    -o-transition: 		all 100ms linear;
-					    -ms-transition: 	all 100ms linear;
-					    transition: 		all 100ms linear;
+						-moz-transition: 	all 100ms linear;
+						-o-transition: 		all 100ms linear;
+						-ms-transition: 	all 100ms linear;
+						transition: 		all 100ms linear;
+						position: relative;
+						ul {
+							border-top: solid 1px #000;
+							position: absolute;
+							background: $green;
+							display: none;
+							z-index: 10;
+							width: auto;
+							top: 40px;
+							left: 0;
+
+							li {
+								display: block;
+
+								&, * {
+									white-space: nowrap;
+								}
+								&:hover {
+									background: #000;
+								}
+							}
+						}
+						&:hover ul {
+							display: block;
+						}
 						&:hover, &.current {
 							background: #000;
 						}
