@@ -241,10 +241,14 @@
 					<% end %>
 				</section>
 			<% end %>
-			<% unless @teacher.assets.empty? %>
+			<% unless @teacher.assets.empty? && self.current_user == nil %>
 				<section class="profile-info group">
 					<p class="heading">
 					Attachments
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						 &mdash; 
+						<a href="/profileattachments">Edit</a>
+					<% end %>
 					</p>
 
 					<% if User.current.nil? %>
