@@ -1,7 +1,6 @@
 <%
   @read_cmd = 'crontab -l'
   @write_cmd = 'crontab -'
-
 %>
 
 # cron clears out environment variables, but Rubber.root/script/rubber uses

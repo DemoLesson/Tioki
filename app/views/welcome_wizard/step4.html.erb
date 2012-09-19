@@ -12,7 +12,8 @@
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
 				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.</p>
 				<p class="no-pre" style="display:none;">Select some contacts that you would like to connect with.</p>
-				<a href="#deselect" class="button">Deselect All</a>
+				<a href="#select" class="button">Select All</a>
+				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
 			</div>
 
 			<div class="detected" style="display:none;">
@@ -295,6 +296,17 @@ $(document).ready(function() {
 				$(this).click();
 			});
 		}, 20);
+
+		return false;
+	});
+
+	$('a[href="#select"]').live('click', function(e) {
+		e.preventDefault();
+
+		$('a[href="#contact"]').each(function() {
+			if($(this).hasClass('secondary'))
+				$(this).click();
+		});
 
 		return false;
 	});

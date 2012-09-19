@@ -92,7 +92,7 @@ namespace :rubber do
             bundle install
 
             # Create the Graylog Web admin account.
-            ./script/rails runner "User.create(:login => '#{rubber_env.graylog_web_username}', :email => '#{rubber_env.graylog_web_email}', :password => '#{rubber_env.graylog_web_password}', :password_confirmation => '#{rubber_env.graylog_web_password}', :role => 'admin') if User.count == 0"
+            ./script/rails runner "User.create(:login => '#{rubber_env.graylog_web_username}', :email => '#{rubber_env.graylog_web_email}', :password => '#{rubber_env.graylog_web_password}', :password_confirmation => '#{rubber_env.graylog_web_password}', :role => 'admin')"
           ENDSCRIPT
 
           restart

@@ -155,6 +155,9 @@ a.button {
 	background: $salmon;
 	padding: 3px 5px;
 	color: #FFF;
+	&.bg-green {
+		background: $green;
+	}
 }
 
 .huge-button {
