@@ -2,6 +2,8 @@
   @read_cmd = 'crontab -l'
   @write_cmd = 'crontab -'
 
+  graylog_server = rubber_instances.for_role("graylog_server").first
+  is_graylog_instance = rubber_instances[rubber_env.host].role_names.include?('graylog_server')
 %>
 
 # cron clears out environment variables, but Rubber.root/script/rubber uses
@@ -16,3 +18,8 @@ RAILS_ENV=<%= Rubber.env %>
 
 # Roll all rails logs at midnight
 0 0 * * * <%= Rubber.root %>/script/rubber cron --task util:rotate_logs --directory=<%= Rubber.root %>/log
+
+<% if graylog_server && !is_gray_log_instance %>
+*/5 * * * * cd <%= rubber_env.graylog_web_dir %> && rake streamalarms:send
+*/5 * * * * cd <%= rubber_env.graylog_web_dir %> && rake subscriptions:send
+<% end %>
