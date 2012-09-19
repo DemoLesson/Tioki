@@ -31,20 +31,20 @@
 			<%= @teacher.headline %>
 			</p>
 			<% # IF this is my profile allow me to edit %>
-			<% if !User.current.nil? && User.current.teacher== @teacher %>
+			<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 				<a href="/me/profile/edit" class="action-button bg-salmon">
 				Edit Profile
 				</a>
-                        <% elsif !User.current %>
-                                <a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
-                                   Connect
-                                 </a>
-                        <% elsif User.current.connections.collect(&:user_id).include? @teacher.user_id %>
-                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
-                        <% elsif User.current.school != nil %>
-                          <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
-                        <% elsif User.current.teacher != nil %>
-                          <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+			<% elsif !self.current_user %>
+				<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+					   Connect
+				</a>
+			<% elsif User.current.connections.collect(&:user_id).include? @teacher.user_id %>
+			  <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+			<% elsif User.current.school != nil %>
+			  <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+			<% elsif User.current.teacher != nil %>
+			  <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 			<% end %>
 			<section class="info">
 				<% unless @teacher.user.email.empty? %>
@@ -96,15 +96,15 @@
 			</section>
 		</section> <!-- End Sidebar -->
 		<section class="profile-content">
-                        <% if @teacher.video_embed_url? %>
-                          <div class="profile-video panel">
-                            <%= @teacher.video_embed_html.html_safe %>
-                          </div>
-                        <% elsif @video != nil%>
-                          <div class="profile-video panel">
-                            <%= @embed_code.html_safe %>
-                          </div>
-                        <% end %>
+						<% if @teacher.video_embed_url? %>
+						  <div class="profile-video panel">
+							<%= @teacher.video_embed_html.html_safe %>
+						  </div>
+						<% elsif @video != nil%>
+						  <div class="profile-video panel">
+							<%= @embed_code.html_safe %>
+						  </div>
+						<% end %>
 			<section class="video-actions group">
 				<% if self.current_user && self.current_user.teacher == @teacher %>
 					<% unless @teacher.video_embed_html == nil && @video == nil%>
@@ -157,25 +157,25 @@
 					</p>
 					<% @teacher.educations.each do |edu| %>
 						<p>
-                                                <%= edu.school %> 
-                                                <% if edu.current == true %>
-                                                        Currently Attending 
-                                                        <% if edu.start_year.present? %>
-                                                                Since <%= edu.start_year %>
-                                                        <% end %><br />
-                                                        <% if edu.year.present?  %>
-                                                                Expected Graduation: <%= edu.year %><br />
-                                                        <% end %>
-                                                <% else %>
-                                                        <% if !edu.year.present? %>
-                                                        <% else %>
-                                                                <% if !edu.start_year.present? %>
-                                                                        <%= edu.year %><br />
-                                                                <% else %>
-                                                                        <%= edu.start_year %>-<%= edu.year %><br />
-                                                                <% end %>
-                                                        <% end %>
-                                                <% end %>
+												<%= edu.school %> 
+												<% if edu.current == true %>
+														Currently Attending 
+														<% if edu.start_year.present? %>
+																Since <%= edu.start_year %>
+														<% end %><br />
+														<% if edu.year.present?  %>
+																Expected Graduation: <%= edu.year %><br />
+														<% end %>
+												<% else %>
+														<% if !edu.year.present? %>
+														<% else %>
+																<% if !edu.start_year.present? %>
+																		<%= edu.year %><br />
+																<% else %>
+																		<%= edu.start_year %>-<%= edu.year %><br />
+																<% end %>
+														<% end %>
+												<% end %>
 						</p>
 						<% unless edu.degree.nil? || edu.degree.empty? %>
 							<p>
