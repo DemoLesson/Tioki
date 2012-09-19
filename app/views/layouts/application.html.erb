@@ -163,6 +163,11 @@
 		<% unless self.current_user.nil? %>
 			<nav class="wrapper top-nav">
 				<ul class="inner-content">
+					<li class="searchBox">
+						<form style="margin:0px;" action="/connections">
+							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search Connections" />
+						</form>
+					</li>
 					<li>
 						<a href="/">
 						Home
