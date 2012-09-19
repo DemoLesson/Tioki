@@ -210,7 +210,7 @@ class EventsController < ApplicationController
 		end
 
 		# What is the default message for the email
-		@default_message = "I thought you might be interested in joining me at \"#{@event.name}\" check it out on Demo Lesson.\n\n-#{name}"
+		@default_message = "I thought you might be interested in joining me at \"#{@event.name}\" check it out on Tioki.\n\n-#{name}"
 	end
 
 	def invite_email
