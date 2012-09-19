@@ -116,7 +116,7 @@ class ConnectionsController < ApplicationController
 		# If the connection saves
 		if @connect.save
 
-			Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(@connection.user_id))
+			Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(a == @connection.user_id ? @connection.owned_by : @connection.user_id))
 			self.log_analytic(:user_connection_accepted, "Two users connection", @connection)
 
 			# Redirect to My Connections page
@@ -180,7 +180,7 @@ class ConnectionsController < ApplicationController
 		if params[:emails].nil? || params[:emails].size == 0
 			redirect_to :back, :notice => "Must have at least one email."
 		end
-		
+
 		notice = []
 		params[:emails].split(',').each do |email|
 			# Clean up the email
