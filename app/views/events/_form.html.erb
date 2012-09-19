@@ -147,7 +147,8 @@
 		<section class="right-sidebar">
 		
 		<input type="submit" class="huge-button" value="Save Changes">
-		<a href="#" class="bg-green button">Delete</a>
+		<p style="display: block;"></p>
+		<%= link_to 'Delete this Event', @event, method: :delete, data: { confirm: 'Are you sure?' }, :class => "button bg-green" %>
 		</section>
 	</section> <!-- End Profile -->
 <% end %>
