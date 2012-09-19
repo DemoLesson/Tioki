@@ -43,8 +43,15 @@ class Connection < ActiveRecord::Base
   end
 
   def self.add_connect(current_user_id, user_id)
-    @previous = Connection.find(:first, :conditions => ['owned_by = ? AND user_id = ?', current_user_id, user_id])
 
+    # Get users as A and B
+    a = current_user_id
+    b = user_id
+
+    # Get a previous connection attempt
+    @previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
+
+    # If no previous one connect
     if @previous == nil
 
       # Create the connection
@@ -59,6 +66,19 @@ class Connection < ActiveRecord::Base
         UserMailer.userconnect(current_user_id, user_id).deliver
         return true
       else
+        return false
+      end
+
+    # If this user did not instigate original connection go ahead and connect
+    elsif @previous.pending == true && @previous.user_id == a
+      @previous.pending = false
+
+      if @previous.save
+        Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
+        self.log_analytic(:user_connection_accepted, "Two users connection", @previous)
+
+        return true
+      else 
         return false
       end
     else
