@@ -55,14 +55,14 @@
     <br />
     <div class="item_jobs">
       <div class="item_picture">
-        <% if connection.user.avatar? %>
-          <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.url.to_s %>
+        <% if connection.not_me.avatar? %>
+          <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.url.to_s %>
         <% else %>
           <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.url.to_s %><% end %>
       </div>
 
       <div id ="connection_desc">
-        <strong><%= link_to connection.user.name, '/'+connection.url.to_s %></strong><br />
+        <strong><%= link_to connection.not_me.name, '/'+connection.url.to_s %></strong><br />
         <% if connection.position.present?  && connection.school.present? %>
           <%= connection.position %> at <%= connection.school %>
         <% end %><br />
@@ -70,16 +70,16 @@
         <% if self.current_user != connection.user %>
           <% if self.current_user.teacher %>	
             <% if @my_connections.include? connection.id %>
-                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
+                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-green"} %>
             <% else %>
               <div>
-                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
-                <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.user.id }, :class => "button" %>
+                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-green"} %>
+                <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me.id }, :class => "button" %>
               </div>
             <% end %>
           <% else %>
             <div>
-              <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
+              <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-green"} %>
             </div>
           <% end %>
         <% end %>

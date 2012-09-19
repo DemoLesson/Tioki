@@ -28,77 +28,28 @@ var csPageOptions = {
 
 <div id="content">
   <% if @connections.size == 0 %>
-  <div id="whiteBox" style="width:600px;height:400px">
-<!--    <%= form_tag connections_path, :method => :get do %>
-      <strong>Search for colleagues on DemoLesson:</strong> <%= text_field_tag :connectsearch, params[:connectsearch], :style => "width:150px" %><%= submit_tag "Search", :class => "btn btn-success" %>
-    <% end %>
-
-    <strong>OR</strong><br />-->
-    <%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
-      <label>
-        <span>Invite colleagues now:</span>
-        <div class="addressBooks">
-          <a href="#" onclick="return cloudsponge.launch('yahoo');">
-            <img src="/assets/cs_icons/yahoo.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('windowslive');">
-            <img src="/assets/cs_icons/msn.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('gmail');">
-            <img src="/assets/cs_icons/google.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('aol');">
-            <img src="/assets/cs_icons/aol.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('plaxo');">
-            <img src="/assets/cs_icons/plaxo.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('addressbook');">
-            <img src="/assets/cs_icons/apple.png" />
-          </a>
-          <a href="#" onclick="return cloudsponge.launch('outlook');">
-            <img src="/assets/cs_icons/microsoft.png" />
-          </a>
-          <a id="email_fields_button">Add addresses manually</a>
-        </div>
-      </label>
-          <label>
-            <br /><%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43, :style => "display:none" %>
-          </label>
-          <label>
-            <br /><span>Your email message</span>
-            <br /><%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;" %>
-          </label>
-          <br /><%= f.submit "Invite Connections", :class => "btn btn-large btn-primary", :style => "padding:9px 50px;display:inline;width:auto;" %>
-    <% end %>
-    </div>
-          <script type="text/javascript">
-            $(document).ready(function() {
-                $("#email_fields_button").click(function () {
-                  $("#emails").toggle()
-                  });
-                });
-          </script>
+  <h3>You do not have any connections</h3>
   <% end %>
-<% @connections.each do |connection| %>
-<br />
+  
+  <% @connections.each do |connection| %>
+  <br />
   <div class="item_jobs">
     <div class="item_picture">
-      <% if connection.user.avatar? %>
-        <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.user.teacher.url.to_s %>
+      <% if connection.not_me.avatar? %>
+        <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.user.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
     </div>
 
     <div id ="connection_desc">
-      <span style ="float:right; text-align:right"><%= link_to "Connections: " + connection.user.connections.not_pending.count.to_s, 'userconnections/'+connection.user.id.to_s %></span>
-    <strong><%= link_to connection.user.name, '/'+connection.user.teacher.url.to_s %></strong><br />
-    <% if connection.user.teacher.position.present? && connection.user.teacher.school.present?%>
-      <%= connection.user.teacher.position %> at <%= connection.user.teacher.school %>
+      <span style ="float:right; text-align:right"><%= link_to "Connections: " + connection.not_me.connections.not_pending.count.to_s, 'userconnections/'+connection.not_me.id.to_s %></span>
+    <strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+    <% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
+      <%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
     <% end %><br />
-    <%= connection.user.teacher.location %><br />
+    <%= connection.not_me.teacher.location %><br />
     <div>
-      <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "btn"} %>
+      <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "btn"} %>
     </div>
 	</div>
   </div>

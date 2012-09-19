@@ -116,8 +116,8 @@ class ConnectionsController < ApplicationController
 		# If the connection saves
 		if @connect.save
 
-			Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(a == @connection.user_id ? @connection.owned_by : @connection.user_id))
-			self.log_analytic(:user_connection_accepted, "Two users connection", @connection)
+			Whiteboard.createActivity(:user_connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
+			self.log_analytic(:user_connection_accepted, "Two users connection", @connect)
 
 			# Redirect to My Connections page
 			respond_to do |format|
@@ -145,7 +145,7 @@ class ConnectionsController < ApplicationController
 		@connections = Connection.mine(:pending => false)
 
 		# Get all pending connections
-		@my_pending_connections = Connection.mine(:pending => true, :creator => true)
+		@my_pending_connections = Connection.mine(:pending => true)
 	end
 
 	def userconnections

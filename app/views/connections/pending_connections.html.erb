@@ -23,21 +23,21 @@
 <br />
   <div class="item_jobs">
     <div class="item_picture">
-      <% if connection.owner.avatar? %>
-        <%= link_to image_tag(connection.owner.avatar.url(:thumb)), '/'+connection.owner.teacher.url.to_s %>
+      <% if connection.not_me.avatar? %>
+        <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.owner.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
     </div>
 
 	<div id ="connection_desc">
-    <strong><%= link_to connection.owner.name, '/'+connection.owner.teacher.url.to_s %></strong><br />
-    <% if connection.owner.teacher.position.present? && connection.owner.teacher.school.present?%>
-      <%= connection.owner.teacher.position %> at <%= connection.owner.teacher.school %>
+    <strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+    <% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
+      <%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
     <% end %><br />
-    <%= connection.owner.teacher.location %><br />
+    <%= connection.not_me.teacher.location %><br />
     <div>
-      <%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id }, :class => "btn btn-success" %>
-      <%= link_to "Ignore", { :controller => 'connections', :action => 'remove_pending', :user_id => connection.owner.id }, :class => "btn" %>
+      <%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.not_me.id }, :class => "btn btn-success" %>
+      <%= link_to "Ignore", { :controller => 'connections', :action => 'remove_pending', :user_id => connection.not_me.id }, :class => "btn" %>
     </div>
 	</div>
   </div>
@@ -46,20 +46,20 @@
 <br />
   <div class="item_jobs">
     <div class="item_picture">
-      <% if connection.user.avatar? %>
-        <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.user.teacher.url.to_s %>
+      <% if connection.not_me.avatar? %>
+        <%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
       <% else %>
-        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.user.teacher.url.to_s %><% end %>
+        <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
     </div>
 
 	<div id ="connection_desc">
-    <strong><%= link_to connection.user.name, '/'+connection.user.teacher.url.to_s %></strong><br />
-    <% if connection.user.teacher.position.present? && connection.user.teacher.school.present?%>
-      <%= connection.user.teacher.position %> at <%= connection.user.teacher.school %>
+    <strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+    <% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
+      <%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
     <% end %><br />
-    <%= connection.user.teacher.location %><br />
+    <%= connection.not_me.teacher.location %><br />
     <div>
-      <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "btn"} %>
+      <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "btn"} %>
     </div>
 	</div>
   </div>

@@ -30,8 +30,16 @@ class Connection < ActiveRecord::Base
     Connection.find(:all, :conditions => ['owned_by = ?', user_id])
   end
 
+  def not_me
+    User.find(self.owned_by == User.current.id ? self.user_id : self.owned_by)
+  end
+
   def owner
-    return User.find(self.owned_by)
+    User.find(self.owned_by)
+  end
+
+  def icreated?
+    User.current.id == self.owned_by ? true : false
   end
 
   def self.add_connect(current_user_id, user_id)
