@@ -14,10 +14,3 @@
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
 //= require_tree ./jquery-extensions
-//= require_tree ./placeholder
-
-$(document).ready(function() {
-	$('input, textarea').each(function() {
-		$(this).placeholder();
-	});
-});
