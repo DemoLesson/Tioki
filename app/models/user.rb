@@ -291,8 +291,8 @@ class User < ActiveRecord::Base
 
   def send_new_password
     new_pass = User.random_string(10)
-    self.password = self.password_confirmation = new_pass
-    self.save!
+    self.update_attribute(:password, new_pass)
+    self.update_attribute(:password_confirmation, new_pass)
     UserMailer.deliver_forgot_password(self.email, self.name, new_pass).deliver
     #Notifications.deliver_forgot_password(self.email, self.name, new_pass)
   end
@@ -350,11 +350,13 @@ class User < ActiveRecord::Base
     @schools.map(&:destroy)
     @teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
     @teachers.map(&:destroy)
-    @sharedusers=SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
+    @sharedusers = SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
     @sharedusers.map(&:destroy)
-    @sharedschools=SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
+    @sharedschools = SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
     @sharedschools.map(&:destroy)
     @applications = Application.find(:all, :conditions => ['teacher_id = ?', self.id])
+    @connections = Connection.mine(:user => self.id)
+    @connections.map(&:destroy)
     @applications.each do |application|
       @activities = Activity.find(:all, :conditions => ['application_id = ?', application.id])
       @activities.map(&:destroy)
