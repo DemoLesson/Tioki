@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 				self.create_teacher_and_redirect false
 
 				# Notice the signup was successful
-				flash[:notice] = "Signup successful"
+				flash[:success] = "Signup successful"
 
 				# Set to splash for analytics
 				session[:_ak] = "splash"
@@ -32,7 +32,8 @@ class UsersController < ApplicationController
 
 			# If there were any errors flash them and send :root
 			else
-				flash[:notice] = @user.errors.full_messages.to_sentence
+				flash[:error] = error = @user.errors.full_messages.to_sentence
+				Rails.logger.warn = "User failed to register: " + error
 				return redirect_to :root
 			end
 		end
