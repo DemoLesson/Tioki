@@ -475,7 +475,7 @@ class UsersController < ApplicationController
 		@users.each do |user|
 
 			# Increment the amount of users
-			@usercount += 1
+			@usercount += 1 unless user.teacher.nil?
 
 			# Increment the number of videos uploaded
 			@videos += 1 if !user.teacher.nil? && user.teacher.videos.count != 0

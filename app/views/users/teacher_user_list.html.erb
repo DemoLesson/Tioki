@@ -15,6 +15,7 @@
 <%= form_tag '/admin' , :action => 'search', :method => 'get' do %>
   <p>
   <strong>Find User:</strong> <%= text_field_tag :tname, params[:tname] %>
+  <strong>Teacher?</strong><%= check_box_tag :teacher, params[:teacher] %>
   <strong>Video?</strong><%= check_box_tag :vid, params[:vid] %>
   <strong>Applied?</strong><%= check_box_tag :applied, params[:applied] %>
   <%= submit_tag "Search", :name => nil %>
@@ -26,7 +27,7 @@
 
 <div id="left" style="width: 905px"align="left">
 
-<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Teachers</strong></p>
+<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
 <table cellpadding = "5">
   <tr>
     <th>Teacher Name</th>
