@@ -201,12 +201,15 @@ ul {
 }
 
 section.notice {
-	width: 960px;
+	width: 1000px;
+	min-width: 960px;
 	position: relative;
 	padding: inherit 30px;
 	background: $dkgray;
 	margin: 0 auto;
 	border-top: none;
+	border-left: none;
+	border-right: none;
 	font-weight: bold;
 	color: #FFF;
 
