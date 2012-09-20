@@ -72,7 +72,7 @@ class UserMailer < ActionMailer::Base
     ab = Abtests.use("email:userconnect", 1).to_s
     template = "userconnect_" + ab
 
-    mail = mail(:to => @user.email, :subject => @owner.first_name+ 'wants to connect with you!') do |t|
+    mail = mail(:to => @user.email, :subject => @owner.first_name + ' wants to connect with you!') do |t|
       t.html { render template }
     end
 
