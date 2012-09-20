@@ -1,11 +1,16 @@
 <section id="main-content" class="inner-content">
 <h1><%= link_to "Messages", :messages %> → <%= @message.subject %></h1>
 
-<p class="table"><strong>From:</strong> <%= link_to @message.sender.name, @message.sender %>
+<p class="table">
+	<strong>From:</strong> 
+	<%= link_to @message.sender.name, @message.sender unless @message.sender.nil? %>
+	<%= "User no longer exists" if @message.sender.nil? %>
 </p>
 
 <p class="table">
-<strong>To:</strong> <%= @message.receiver.name %>
+	<strong>To:</strong> 
+	<%= @message.receiver.name unless @message.receiver.nil? %>
+	<%= "User no longer exists" if @message.receiver.nil? %>
 </p>
 
 <p class="table">
