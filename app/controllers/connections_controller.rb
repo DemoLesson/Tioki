@@ -178,7 +178,7 @@ class ConnectionsController < ApplicationController
 
 	def inviteconnection
 		if params[:emails].nil? || params[:emails].size == 0
-			redirect_to :back, :notice => "Must have at least one email."
+			return redirect_to :back, :notice => "Must have at least one email."
 		end
 
 		notice = []
