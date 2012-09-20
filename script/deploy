@@ -40,19 +40,27 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
-		# Boot strap the boxes
-		echo "Bootstrapping the EC2 instances."
-		echo "(Installing new Software/Gems)"
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-		system('cap rubber:bootstrap FILTER=-tools')
+		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
+			# Boot strap the boxes
+			echo "Bootstrapping the EC2 instances."
+			echo "(Installing new Software/Gems)"
+			echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
+			echo "This may take awhile...\n"
+			system('cap rubber:bootstrap FILTER=-tools')
+		end
 
 		# Deploy the code run assets
 		echo "\nCopying the rails app to the server and deploying."
-		echo "(Runs rake assets:precompile and rake db:migrate)"
+		echo "(Runs rake assets:precompile on finish)"
 		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
 		echo "This may take awhile...\n"
 		system('cap deploy:cold FILTER=-tools')
+
+		# Run DB Migrate
+		echo "\nMigrating database"
+		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
+		echo "This may take awhile...\n"
+		system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
 
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."
