@@ -33,7 +33,7 @@ class UsersController < ApplicationController
 			# If there were any errors flash them and send :root
 			else
 				flash[:error] = error = @user.errors.full_messages.to_sentence
-				Rails.logger.debug = "User failed to register: " + error
+				Rails.logger.debug "User failed to register: " + error
 				return redirect_to :root
 			end
 		end
