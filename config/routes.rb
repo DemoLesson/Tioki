@@ -71,6 +71,13 @@ Preview::Application.routes.draw do
 		match ':id/invite_email' => 'events#invite_email'
 		match ':id/rsvp' => 'events#rsvp'
 	end
+
+	# Admin Routing
+	scope 'admin' do
+		scope 'users' do
+			match 'create_teacher' => 'users#create_teacher_and_redirect'
+		end
+	end
 	
 	#Actions
 	match 'create', :to => 'users#create'

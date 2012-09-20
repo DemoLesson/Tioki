@@ -38,21 +38,52 @@
     <th>Applied?</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 <%- @users.each do |user| %>
-<% if user.teacher != nil %> 
   <tr>
-    <td><%= link_to user.name, '/'+user.teacher.url.to_s %></td>
+    <td>
+      <%= link_to user.name, '/'+user.teacher.url.to_s unless user.teacher.nil? %>
+      <%= user.name if user.teacher.nil? %>
+    </td>
     <td><%= link_to user.email, 'mailto:' + user.email %></td>
     <td><%= user.created_at.to_formatted_s(:short) %></td>
-    <td><% if user.last_login? %><%= user.last_login.to_formatted_s(:short) %><% else %>Unknown<% end %></td>
-    <td><% if user.login_count? %><%= user.login_count.to_s %><% else %>Unknown<% end %></td>
-    <td><% if user.teacher.videos.count > 0 %>Yes<% else %>No<% end %></td>
-    <td><% if user.teacher.applications.count > 0 %>Yes<% else %>No<% end %></td>
+    <td>
+      <% if user.last_login? %>
+        <%= user.last_login.to_formatted_s(:short) %>
+      <% else %>
+        Unknown
+      <% end %>
+    </td>
+    <td>
+      <% if user.login_count? %>
+        <%= user.login_count.to_s %>
+      <% else %>
+        Unknown
+      <% end %>
+    </td>
+    <td>
+      <% unless user.teacher.nil? %>
+        <% if user.teacher.videos.count > 0 %>
+          Yes
+        <% else %>
+          No
+        <% end %>
+      <% end %>
+    </td>
+    <td>
+      <% unless user.teacher.nil? %>
+        <% if user.teacher.applications.count > 0 %>
+          Yes
+        <% else %>
+          No
+        <% end %>
+      <% end %>
+    </td>
     <td><%= link_to 'Deactivate', user_path(user, :deactivate => true), :confirm => 'Are you sure?', :method => :delete %></td>
     <td><%= link_to 'Delete', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Create Teacher', "/admin/users/create_teacher?user_id=#{user.id}&redir=/admin" if user.teacher.nil? %></td>
   </tr>
-<% end %>
 <% end -%>
 </table>
 <%= will_paginate @users %>

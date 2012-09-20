@@ -154,23 +154,33 @@ class UsersController < ApplicationController
 		end
 	end
 
-		def create_teacher_and_redirect(redir = true)
-			self.current_user.create_teacher
-			
-			UserMailer.teacher_welcome_email(self.current_user).deliver
+	def create_teacher_and_redirect(redir = true)
 
-			# If we have a referer in the creation process
-			# then auto connect the other teacher to the new one
-			if session.has_key?(:_referer)
+		# Get the user to build the teacher on
+		user = self.current_user if params[:user_id].nil? || !self.current_user.is_admin
+		user = User.find(params[:user_id]) if !params[:user_id].nil? && self.current_user.is_admin
 
-				# Redirect to the connections controller and add the referer
-				redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
-			else
+		# Create the teacher
+		user.create_teacher
+		
+		# Send the teacher welcome email
+		UserMailer.teacher_welcome_email(user).deliver
 
-				# Redirect to the teacher path since we did not have a referer
-				redirect_to teacher_path(self.current_user.teacher.id) if redir
-			end
+		# Logged in user is an admin redirect wherever
+		return redirect_to params[:redir] if self.current_user.is_admin && params[:redir] = '/admin'
+
+		# If we have a referer in the creation process
+		# then auto connect the other teacher to the new one
+		if session.has_key?(:_referer)
+
+			# Redirect to the connections controller and add the referer
+			return redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
+		else
+
+			# Redirect to the teacher path since we did not have a referer
+			return redirect_to teacher_path(self.current_user.teacher.id) if redir
 		end
+	end
 
 	#  def choose_stored
 	#    if request.post?
@@ -441,37 +451,47 @@ class UsersController < ApplicationController
 	end
 	
 	def teacher_user_list
+
+		# Search for a specific user via name
 		if params[:tname]
-			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"],
-				:order => "created_at DESC"
+			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
-		@users=@users.reject{ |user| user.teacher == nil }
-		if params[:vid]
-			@users=@users.reject{ |user| user.videos.count == 0 }
-		end
-		if params[:applied]
-			@users=@users.reject{|user| user.applications.count == 0}
-		end
+
+		# Get rid of all users that have nil teachers
+		@users = @users.reject{ |user| user.teacher == nil } if params[:teacher]
+
+		# Limit to those that have at leasy 1 video
+		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
+		
+		# Limit to teachers that have job applications
+		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
+		
 		@usercount = 0
 		@videos = 0
+
+		# Loop through each teacher
 		@users.each do |user|
-			@usercount+=1
-			if user.teacher.videos.count != 0
-				@videos += 1
-			end
+
+			# Increment the amount of users
+			@usercount += 1
+
+			# Increment the number of videos uploaded
+			@videos += 1 if !user.teacher.nil? && user.teacher.videos.count != 0
 		end
-		@users=@users.paginate :page => params[:page], :per_page => 100
+
+		# Paginate the users
+		@users = @users.paginate :page => params[:page], :per_page => 100
 		
+		# Prepare the stats for the admin page
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
 		@stats.push({:name => 'Number of Teachers', :value => @usercount})
 		
-		respond_to do |format|
-			format.html { render :teacher_user_list }
-		end
+		# Render the page
+		render :teacher_user_list
 	end
 
 	def deactivated_user_list
