@@ -168,13 +168,28 @@ class ApplicationController < ActionController::Base
 
 	private
 		def render_404(exception)
-			#@not_found_path = exception.message
+			
+			# Log Error
+			error = String.new
+			error << "\nURL: #{request.fullpath}"
+			error << "\n#{exception.class} (#{exception.message}):"
+			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
+			Rails.logger.warn(error)
+			
+			# Path that was not found
 			@not_found_path = request.fullpath
 			render template: 'errors/error_404', layout: 'layouts/application', status: 404
 		end
 
 		def render_500(exception)
-			#@error = exception
+
+			# Log Error
+			error = String.new
+			error << "\nURL: #{request.fullpath}"
+			error << "\n#{exception.class} (#{exception.message}):"
+			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
+			Rails.logger.error(error)
+
 			render template: 'errors/error_500', layout: 'layouts/application', status: 500
 		end
 
