@@ -82,7 +82,10 @@
     </td>
     <td><%= link_to 'Deactivate', user_path(user, :deactivate => true), :confirm => 'Are you sure?', :method => :delete %></td>
     <td><%= link_to 'Delete', user, :confirm => 'Are you sure?', :method => :delete %></td>
-    <td><%= link_to 'Create Teacher', "/admin/users/create_teacher?user_id=#{user.id}&redir=/admin" if user.teacher.nil? %></td>
+    <td>
+      <%= link_to 'Create Teacher', "/admin/users/create_teacher?user_id=#{user.id}&redir=/admin" if user.teacher.nil? && user.school.nil? %>
+      <%= "School" unless user.school.nil? %>
+    </td>
   </tr>
 <% end -%>
 </table>
