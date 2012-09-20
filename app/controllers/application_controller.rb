@@ -174,7 +174,7 @@ class ApplicationController < ActionController::Base
 			error << "\nURL: #{request.fullpath}"
 			error << "\n#{exception.class} (#{exception.message}):"
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
-			Rails.logger.warn(error)
+			Rails.logger.error(error)
 			
 			# Path that was not found
 			@not_found_path = request.fullpath
@@ -188,7 +188,7 @@ class ApplicationController < ActionController::Base
 			error << "\nURL: #{request.fullpath}"
 			error << "\n#{exception.class} (#{exception.message}):"
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
-			Rails.logger.error(error)
+			Rails.logger.fatal(error)
 
 			render template: 'errors/error_500', layout: 'layouts/application', status: 500
 		end
