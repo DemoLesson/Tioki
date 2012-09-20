@@ -279,6 +279,9 @@ Preview::Application.routes.draw do
 
 	# Show the teacher who has recently viewed their profile
 	match 'teachers/:id/view_history', :to => 'teachers#view_history'
+
+	# Error 404
+	match '*not_found' => 'errors#error_404'
 	
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
