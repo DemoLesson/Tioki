@@ -98,7 +98,7 @@ class UsersController < ApplicationController
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 				self.log_analytic(:user_logged_in, "User logged in.")
 				self.current_user.update_login_count
-				logger.info "Login successful"
+				Rails.logger.info "Login successful: #{params[:user][:email]} logged in."
 
 				if params[:remember_me]
 					login_token = LoginToken.generate_token_for!(session[:user])
@@ -107,8 +107,8 @@ class UsersController < ApplicationController
 				end
 				return redirect_to_stored
 			else
-			#logger.info "Login unsuccessful"
-				flash[:notice] = "Login unsuccessful"
+				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
+				flash[:error] = "Your username or password was incorrect."
 			end
 		end
 	end

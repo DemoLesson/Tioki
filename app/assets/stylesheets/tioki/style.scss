@@ -200,6 +200,24 @@ ul {
 	margin: 0 auto;
 }
 
+section.notice {
+	width: 960px;
+	position: relative;
+	padding: inherit 30px;
+	background: $dkgray;
+	margin: 0 auto;
+	border-top: none;
+	font-weight: bold;
+	color: #FFF;
+
+	&.error {
+		background: $blood;
+	}
+	&.success {
+		background: $green;
+	}
+}
+
 #login-drawer {
 	position: relative;
 	margin-top: -60px;

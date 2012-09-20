@@ -237,9 +237,12 @@
 			</nav><!-- End Nav -->
 		<% end %>
 		<!-- Display Notices -->
-		<% if notice != nil %>
-			<p class="notice"><%= notice %></p>
-		<% end %>
+		<% flash.each do |type, message| %>
+			<% next unless message.is_a?(String) %>
+			<section class="notice <%= type %>">
+				<%= message %>
+			</section>
+		<% end unless flash.empty? %>
 		
 		<!-- Import page here -->
 		<%= yield %>
