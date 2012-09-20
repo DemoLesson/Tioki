@@ -28,6 +28,9 @@ Preview::Application.routes.draw do
 	match 'signup' => 'users#signup'
 	match 'login' => 'users#login'
 
+	# Home page
+	match 'index' => "home#index"
+
 	# Anything involving me
 	scope 'me' do
 
