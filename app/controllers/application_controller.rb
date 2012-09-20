@@ -168,12 +168,13 @@ class ApplicationController < ActionController::Base
 
 	private
 		def render_404(exception)
-			@not_found_path = exception.message
+			#@not_found_path = exception.message
+			@not_found_path = request.fullpath
 			render template: 'errors/error_404', layout: 'layouts/application', status: 404
 		end
 
 		def render_500(exception)
-			@error = exception
+			#@error = exception
 			render template: 'errors/error_500', layout: 'layouts/application', status: 500
 		end
 
