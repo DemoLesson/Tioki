@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
   end
 
   def pending_count
-    Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.id]).count + Connection.find(:all, :conditions => ['owned_by = ? AND pending = true', self.id]).count
+    Connection.mine(:user => self.id, :pending => true, :creator => false).count
   end
 
   def pending_connections(pending = true)

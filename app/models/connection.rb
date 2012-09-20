@@ -9,10 +9,13 @@ class Connection < ActiveRecord::Base
     a = args[:user] unless args[:user].nil?
 
     # Get only the connections I instigated
-    tmp = self.where('`owned_by` = ?', a) unless args[:creator].nil? || !args[:creator]
+    unless args[:creator].nil?
+      tmp = self.where('`owned_by` = ?', a) if args[:creator]
+      tmp = self.where('`user_id` = ?', a) unless args[:creator]
+    end
 
     # Get all connections involving me
-    tmp = self.where('`owned_by` = ? || `user_id` = ?', a, a) if args[:creator].nil? || !args[:creator]
+    tmp = self.where('`owned_by` = ? || `user_id` = ?', a, a) if args[:creator].nil?
 
     # Set pending true or false
     tmp = tmp.where('`pending` = ?', args[:pending]) unless args[:pending].nil?

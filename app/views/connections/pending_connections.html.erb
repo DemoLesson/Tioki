@@ -33,9 +33,11 @@
 			<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
 				<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
 			<% end %><br />
-			<%= connection.not_me.teacher.location %><br />
+			<%= connection.not_me.teacher.location %><br /><br />
 			<div>
-				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "btn"} %>
+				<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id }, :class => "button" %>
+				<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_pending', :user_id => connection.owner.id }, :class => "button bg-green" %>
+				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-gray"} %>
 			</div>
 		</div>
 	</div>
