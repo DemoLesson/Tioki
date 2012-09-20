@@ -16,12 +16,12 @@ class Message < ActiveRecord::Base
   end
 
   def sender
-    @user = User.unscoped.find(self.user_id_from)
+    @user = User.unscoped.find(self.user_id_from) rescue nil
     return @user
   end
 
   def receiver
-    @user = User.unscoped.find(self.user_id_to)
+    @user = User.unscoped.find(self.user_id_to) rescue nil
     return @user
   end
 
