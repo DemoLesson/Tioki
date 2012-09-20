@@ -108,3 +108,11 @@ form { margin: 0 0 19.416px; }
 label { font-size: 14px; color: #4d4d4d; cursor: pointer; display: block; font-weight: 500; margin-bottom: 3px; }
 label.right { float: none; text-align: right; }
 label.inline { line-height: 32px; margin: 0 0 12px 0; }
+
+.panel .events .icon {
+width: 28px;
+height: 29px;
+right: 185px;
+top: 14px;
+background: url("/assets/tioki/icons/calendar.png") no-repeat;
+}
