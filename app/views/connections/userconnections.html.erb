@@ -24,24 +24,24 @@
 	<br />
 	<div class="item_jobs">
 		<div class="item_picture">
-			<% if connection.not_me.avatar? %>
-				<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
+			<% if connection.not_me(params[:id]).avatar? %>
+				<%= link_to image_tag(connection.not_me(params[:id]).avatar.url(:thumb)), '/'+connection.not_me(params[:id]).teacher.url.to_s %>
 			<% else %>
-				<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
+				<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me(params[:id]).teacher.url.to_s %><% end %>
 		</div>
 
 	<div id ="connection_desc">
-		<strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
-		<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
-			<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
+		<strong><%= link_to connection.not_me(params[:id]).name, '/'+connection.not_me(params[:id]).teacher.url.to_s %></strong><br />
+		<% if connection.not_me(params[:id]).teacher.position.present? && connection.not_me(params[:id]).teacher.school.present?%>
+			<%= connection.not_me(params[:id]).teacher.position %> at <%= connection.not_me(params[:id]).teacher.school %>
 		<% end %><br />
-		<%= connection.not_me.teacher.location %><br />
+		<%= connection.not_me(params[:id]).teacher.location %><br />
 		<div>
-			<% if connection.not_me.id == self.current_user.id  %>
-			<% elsif @my_connections.collect(&:user_id).include? connection.not_me.id %>
-				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "btn"} %>
+			<% if connection.not_me(params[:id]).id == self.current_user.id  %>
+			<% elsif @my_connections.collect(&:user_id).include? connection.not_me(params[:id]).id %>
+				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me(params[:id]).id.to_s }, {:class => "btn"} %>
 			<% else %>
-				<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me.id }, :class => "btn btn-success" %>
+				<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me(params[:id]).id }, :class => "btn btn-success" %>
 			<% end%>
 		</div>
 	</div>
