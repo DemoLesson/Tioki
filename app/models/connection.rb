@@ -8,6 +8,9 @@ class Connection < ActiveRecord::Base
     a = User.current.id if args[:user].nil?
     a = args[:user] unless args[:user].nil?
 
+    # Store on the object
+    @_user_id = a
+
     # Get only the connections I instigated
     unless args[:creator].nil?
       tmp = self.where('`owned_by` = ?', a) if args[:creator]
@@ -33,8 +36,16 @@ class Connection < ActiveRecord::Base
     Connection.find(:all, :conditions => ['owned_by = ?', user_id])
   end
 
-  def not_me
-    User.find(self.owned_by == User.current.id ? self.user_id : self.owned_by)
+  def not_me(user_id = 'object')
+
+    # Get the userif from the object
+    user_id = @_user_id if user_id.is_a?(String)
+
+    # Get the user id from the current user
+    user_id = User.current.id if user_id.nil?
+
+    # Get the user that is not the connection member we are querying on
+    User.find(self.owned_by == user_id ? self.user_id : self.owned_by)
   end
 
   def owner
