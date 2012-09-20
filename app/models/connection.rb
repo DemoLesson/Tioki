@@ -4,6 +4,7 @@ class Connection < ActiveRecord::Base
 
   # Get information on my connections
   def self.mine(args = {})
+    
     # Set the user to lookup
     a = User.current.id if args[:user].nil?
     a = args[:user] unless args[:user].nil?
