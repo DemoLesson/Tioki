@@ -6,8 +6,10 @@
 
 		<nav class="subpage">
 			<ul>
-				<li class="current">
-					Tioki Profile
+				<li>
+					<a href="/me/profile">
+						Tioki Profile
+					</a>
 				</li>
 				<!--li>
 					<a href="terms.html">
@@ -15,10 +17,8 @@
 					</a>
 				</li-->
 				<% if @teacher == self.current_user.teacher %>
-					<li>
-						<a href="/me/profile/stats">
+					<li class="current">
 						Profile Stats
-						</a>
 					</li>
 				<% end %>
 			</ul>
@@ -39,7 +39,7 @@
 
 				<section class="panel-actions">
 
-					<div id="profile_last_week" style="width:600px;height:250px;margin:10px 10px 0px;"></div>
+					<div id="profile_last_week" style="width:600px;height:250px;margin:10px 10px;"></div>
 
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
