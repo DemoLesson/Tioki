@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
 	USER_ID, PASSWORD = "andreas", "dl2012"
-	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage ]
+	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list ]
 
 	def create(*args)
 		if request.post?
@@ -566,6 +566,14 @@ class UsersController < ApplicationController
 		@stats.push({:name => 'Total Jobs', :value => @jobcount})
 		@stats.push({:name => 'Total Applicants', :value => @applicants})
 	end
+
+        def referral_user_list
+          @teachers = Teacher.all
+
+          @teachers.select! { |teacher| teacher.user.successful_referrals.size > 0 }
+          @teachers = @teachers.paginate :per_page => 100, :page => params[:page]
+
+        end
 
 	def organization_user_list
 		if params[:orgname]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120920025829) do
+ActiveRecord::Schema.define(:version => 20120921182217) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -90,10 +90,11 @@ ActiveRecord::Schema.define(:version => 20120920025829) do
   create_table "connection_invites", :force => true do |t|
     t.string   "email"
     t.integer  "user_id"
-    t.boolean  "pending",    :default => true
+    t.boolean  "pending",         :default => true
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "created_user_id"
   end
 
   create_table "connections", :force => true do |t|
