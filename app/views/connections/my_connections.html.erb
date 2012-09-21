@@ -19,7 +19,7 @@
 			<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
 		</div>
 		<br /><br />
-		<div id="whiteBox" style="height:280px;width:190px;position:fixed;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
+		<div id="whiteBox" style="height:280px;width:190px;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
 			<strong>Connecting on DemoLesson</strong>
 			<ul style="list-style:disc;padding-left:12px">
 				<li>Helps you collarborate with those who share your interests</li>
@@ -27,12 +27,15 @@
 				<li>Helps you stay in touch with your colleagues</li>
 			</ul>
 			<% if @connections.size != 0 %>
-				<div style="text-align: center;">
+				<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
 					<a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner">
-						<img border="0" width="200" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn.">
+						<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn.">
 					</a>
-					<p>Refer your friend and get $5 towards and Donors Choose project - including your own!</p>
-					<a href="/inviteconnections" class="button">Refer a Friend</a>
+					<div>
+						<p>No connections? No good!</p>
+						<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
+						<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
+					</div>
 				</div>
 			<% end %>
 		</div>
@@ -44,9 +47,11 @@
 			<a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner">
 				<img border="0" width="468" height="60" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn.">
 			</a>
-			<p>No connections? No good!</p>
-			<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
-			<a href="/inviteconnections" class="button huge-button">Refer a Friend</a>
+			<div style="margin-left:62px;">
+				<p>No connections? No good!</p>
+				<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
+				<a href="/inviteconnections" class="button huge-button">Refer a Friend</a>
+			</div>
 		<% end %>
 		
 		<% @connections.each do |connection| %>
