@@ -13,7 +13,7 @@
 
 	<section>
 		<%= link_to "Back to Event", event_path(@event), :class => "button" %>
-		<%= link_to "Edit this Event", edit_event_path(@event), :class => "button", :style => "float:right;color:#FFF;" if !self.current_user.nil? && (@event.user == self.current_user || && self.current_user.is_admin) %>
+		<%= link_to "Edit this Event", edit_event_path(@event), :class => "button", :style => "float:right;color:#FFF;" if !self.current_user.nil? && (@event.user == self.current_user || self.current_user.is_admin) %>
 	</section>
 
 	<% if @event.published || (!self.current_user.nil? && (self.current_user.is_admin) || @event.user == self.current_user)) %>
