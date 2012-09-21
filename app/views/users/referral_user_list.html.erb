@@ -16,7 +16,7 @@
 <div id="left" style="width: 905px"align="left">
 
 <p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
-<table cellpadding = "5">
+<table border="1" cellpadding="10">
   <tr>
     <th>Teacher Name</th>
     <th>Email</th>
@@ -52,8 +52,10 @@
       <%= teacher.user.successful_referrals.size %>
     </td>
     <td>
+      <% numOfReferrals = 1 %>
       <% teacher.user.successful_referrals.each do |referral| %>
-        <%= referral.created_user.name %>- <%= referral.created_user.email %><br />
+		  <%= numOfReferrals %>. <%= referral.created_user.name %>- <%= referral.created_user.email %><br />
+		  <% numOfReferrals +=1 %>
       <% end %>
     </td>
   </tr>
