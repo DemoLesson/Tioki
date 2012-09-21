@@ -27,15 +27,10 @@
 				<li>Helps you stay in touch with your colleagues</li>
 			</ul>
 			<% if @connections.size != 0 %>
-				<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
-					<a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner">
-						<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn.">
-					</a>
-					<div>
-						<p>No connections? No good!</p>
-						<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
-						<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
-					</div>
+				<div style="text-align: center;border:solid 1px #2AA99B;background:#fff;padding:10px;">
+					<img border="0" style="width:100%;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+					<p style="margin:5px;">Refer a friend and get $5 towards a Donors Choose project - including your own!</p><br />
+					<a href="/inviteconnections" class="button">Refer a Friend</a>
 				</div>
 			<% end %>
 		</div>
@@ -44,13 +39,13 @@
 	<div id="content">
 		<% if @connections.size == 0 %>
 			<h3>You do not have any connections</h3>
-			<a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner">
-				<img border="0" width="468" height="60" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn.">
-			</a>
-			<div style="margin-left:62px;">
-				<p>No connections? No good!</p>
-				<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
-				<a href="/inviteconnections" class="button huge-button">Refer a Friend</a>
+			<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
+				<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+				<div>
+					<p>No connections? No good!</p>
+					<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
+					<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
+				</div>
 			</div>
 		<% end %>
 		
