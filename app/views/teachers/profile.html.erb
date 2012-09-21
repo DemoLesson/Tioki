@@ -24,12 +24,8 @@
 				<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") if @teacher.user.avatar? %>
 				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
 			</div>
-			<h3>
-			<%= @teacher.user.name %>
-			</h3>
-			<p>
-			<%= @teacher.headline %>
-			</p>
+			<h3><%= @teacher.user.name %></h3>
+			<p><%= @teacher.headline %></p>
 			<% # IF this is my profile allow me to edit %>
 			<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 				<a href="/me/profile/edit" class="action-button bg-salmon">
@@ -37,7 +33,7 @@
 				</a>
 			<% elsif !self.current_user %>
 				<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
-					   Connect
+				Connect
 				</a>
 			<% elsif User.current.connections.collect(&:user_id).include? @teacher.user_id %>
 			  <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
@@ -94,17 +90,17 @@
 					</p>
 				<% end %>
 			</section>
-		</section> <!-- End Sidebar -->
+		</section><!-- End Sidebar -->
 		<section class="profile-content">
-						<% if @teacher.video_embed_url? %>
-						  <div class="profile-video panel">
-							<%= @teacher.video_embed_html.html_safe %>
-						  </div>
-						<% elsif @video != nil%>
-						  <div class="profile-video panel">
-							<%= @embed_code.html_safe %>
-						  </div>
-						<% end %>
+			<% if @teacher.video_embed_url? %>
+				<div class="profile-video panel">
+					<%= @teacher.video_embed_html.html_safe %>
+				</div>
+			<% elsif @video != nil%>
+				<div class="profile-video panel">
+					<%= @embed_code.html_safe %>
+				</div>
+			<% end %>
 			<section class="video-actions group">
 				<% if self.current_user && self.current_user.teacher == @teacher %>
 					<% unless @teacher.video_embed_html == nil && @video == nil%>
