@@ -18,19 +18,35 @@
 			<%= link_to 'My Connections', :my_connections %><br />
 			<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
 		</div>
-		<div id="whiteBox" style="height:280px;width:190px;position:fixed;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
+		<br /><br />
+		<div id="whiteBox" style="height:280px;width:190px;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
 			<strong>Connecting on DemoLesson</strong>
 			<ul style="list-style:disc;padding-left:12px">
 				<li>Helps you collarborate with those who share your interests</li>
 				<li>Enhances your opportunites for professional growth</li>
 				<li>Helps you stay in touch with your colleagues</li>
 			</ul>
+			<% if @connections.size != 0 %>
+				<div style="text-align: center;border:solid 1px #2AA99B;background:#fff;padding:10px;">
+					<img border="0" style="width:100%;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+					<p style="margin:5px;">Refer a friend and get $5 towards a Donors Choose project - including your own!</p><br />
+					<a href="/inviteconnections" class="button">Refer a Friend</a>
+				</div>
+			<% end %>
 		</div>
 	</div>
 
 	<div id="content">
 		<% if @connections.size == 0 %>
 			<h3>You do not have any connections</h3>
+			<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
+				<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+				<div>
+					<p>No connections? No good!</p>
+					<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
+					<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
+				</div>
+			</div>
 		<% end %>
 		
 		<% @connections.each do |connection| %>

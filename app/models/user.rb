@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
 
 	has_many :skill_groups, :through => :skill_claims, :uniq => true
 	has_many :skill_group_descriptions, :dependent => :destroy
+        has_many :connection_invites
 
 	# Connecting to events
 	has_many :events
@@ -33,6 +34,9 @@ class User < ActiveRecord::Base
 	
 	has_many :owners, :class_name => 'SharedUsers', :foreign_key => :user_id, :dependent => :destroy
 	has_many :reverse_owners, :class_name => 'SharedUsers', :foreign_key => :owned_by, :dependent => :destroy
+
+        #users created through their referrals
+        has_many :connection_invites
 
 	has_many :managed_users, :through => :owners, :source => :owner
 
@@ -336,6 +340,10 @@ class User < ActiveRecord::Base
 			return "Your password was incorrect."
 		end
 	end
+
+        def successful_referrals
+		ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.id, "2012-09-20")
+        end
 	
 	def change_password(params)
 		@user = User.find(self.id)

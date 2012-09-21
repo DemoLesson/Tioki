@@ -1,46 +1,60 @@
 <section id="main-content" class="inner-content">
-<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Pending Connections</span><br />
+	<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Pending Connections</span><br />
 
-<div id="sidebar" class="job_browser">
-	<div id="myConnections">
-		<h4>Connections</h4>
-		<%= link_to "Add Connections", :inviteconnections %><br />
-		<%= link_to 'My Connections', :my_connections %></br>
-		<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
-	</div>
-	<div id="whiteBox" style="height:280px;width:190px;position:fixed;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
-		<strong>Connecting on DemoLesson</strong>
-		<ul style="list-style:disc;padding-left:12px">
-			<li>Helps you collarborate with those who share your interests</li>
-			<li>Enhances your opportunites for professional growth</li>
-			<li>Helps you stay in touch with your colleagues</li>
-		</ul>
-	</div>
-</div>
-
-<div id="content">
-<% @my_pending_connections.each do |connection| %>
-	<br />
-	<div class="item_jobs">
-		<div class="item_picture">
-			<% if connection.not_me.avatar? %>
-				<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
-			<% else %>
-				<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %><% end %>
+	<div id="sidebar" class="job_browser">
+		<div id="myConnections">
+			<h4>Connections</h4>
+			<%= link_to "Add Connections", :inviteconnections %><br />
+			<%= link_to 'My Connections', :my_connections %></br>
+			<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
 		</div>
-		<div id ="connection_desc">
-			<strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
-			<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
-				<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
-			<% end %><br />
-			<%= connection.not_me.teacher.location %><br /><br />
-			<div>
-				<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id }, :class => "button" %>
-				<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_pending', :user_id => connection.owner.id }, :class => "button bg-green" %>
-				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-gray"} %>
+		<br />
+		<div id="whiteBox" style="height:280px;width:190px;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
+			<strong>Connecting on DemoLesson</strong>
+			<ul style="list-style:disc;padding-left:12px">
+				<li>Helps you collarborate with those who share your interests</li>
+				<li>Enhances your opportunites for professional growth</li>
+				<li>Helps you stay in touch with your colleagues</li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="content">
+		<% if @my_pending_connections.size == 0 %>
+			<h3>You do not have any connections</h3>
+			<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
+				<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+				<div>
+					<p>No pending connections? No good!</p>
+					<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
+					<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
+				</div>
 			</div>
-		</div>
+		<% end %>
+
+		<% @my_pending_connections.each do |connection| %>
+			<br />
+			<div class="item_jobs">
+				<div class="item_picture">
+					<% if connection.not_me.avatar? %>
+						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/'+connection.not_me.teacher.url.to_s %>
+					<% else %>
+						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.not_me.teacher.url.to_s %>
+					<% end %>
+				</div>
+				<div id ="connection_desc">
+					<strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+					<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
+						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
+					<% end %><br />
+					<%= connection.not_me.teacher.location %><br /><br />
+					<div>
+						<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id }, :class => "button" %>
+						<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_pending', :user_id => connection.owner.id }, :class => "button bg-green" %>
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-gray"} %>
+					</div>
+				</div>
+			</div>
+		<% end %>
 	</div>
-<% end %>
-</div>
 </section>
