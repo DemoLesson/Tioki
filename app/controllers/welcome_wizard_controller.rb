@@ -57,8 +57,7 @@ class WelcomeWizardController < ApplicationController
 
 					if @invite.pending
 						Connection.create(:owned_by => @user.id, :user_id => @invite.user_id, :pending => false)
-						Connection.create(:owned_by => @invite.user_id, :user_id => @user.id, :pending => false)
-                                                @invite.update_attribute(:created_user_id, @user.id)
+						@invite.update_attribute(:created_user_id, @user.id)
 						@invite.update_attribute(:pending, false)
 
 						session[:_ak] = "unlock_external_email"
