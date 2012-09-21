@@ -14,4 +14,3 @@
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
 //= require_tree ./jquery-extensions
-//= require_tree ./videojs
