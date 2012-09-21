@@ -49,6 +49,7 @@ Preview::Application.routes.draw do
 			end
 
 			# Misc
+			match 'stats' => 'teachers#stats'
 			match 'card' => 'card#get'
 			root :to => 'teachers#profile'
 		end

@@ -10,11 +10,13 @@
 					Card Profile
 					</a>
 				</li-->
-				<!--li>
-					<a href="privacy.html">
-					Profile Stats
-					</a>
-				</li-->
+				<% if @teacher == self.current_user.teacher %>
+					<li>
+						<a href="/me/profile/stats">
+						Profile Stats
+						</a>
+					</li>
+				<% end %>
 			</ul>
 		</nav>
 		<section class="sidebar">

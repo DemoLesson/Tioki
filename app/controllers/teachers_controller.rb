@@ -199,11 +199,11 @@ class TeachersController < ApplicationController
 		@experience.startYear = params[:date][:startYear]
 		@experience.endMonth = params[:date][:endMonth]
 		@experience.endYear = params[:date][:endYear]
-                if params[:current]
-                  @experience.current=true
-                else
-                  @experience.current=false
-                end
+				if params[:current]
+				  @experience.current=true
+				else
+				  @experience.current=false
+				end
 		
 		@teacher.experiences.build(:company => @experience.company, :position => @experience.position, :description => @experience.description, :startMonth => @experience.startMonth, :startYear => @experience.startYear, :endMonth => @experience.endMonth, :endYear => @experience.endYear, :current => @experience.current)
 		
@@ -224,11 +224,11 @@ class TeachersController < ApplicationController
 		@experience.startYear = params[:date][:startYear]
 		@experience.endMonth = params[:date][:endMonth]
 		@experience.endYear = params[:date][:endYear]
-                if params[:current]
-                  @experience.current=true
-                else
-                  @experience.current=false
-                end
+				if params[:current]
+				  @experience.current=true
+				else
+				  @experience.current=false
+				end
 		
 		respond_to do |format|
 			if @prev_experience.update_attributes(:company => @experience.company, :position => @experience.position, :description => @experience.description, :startMonth => @experience.startMonth, :startYear => @experience.startYear, :endMonth => @experience.endMonth, :endYear => @experience.endYear, :current => @experience.current)
@@ -552,12 +552,12 @@ class TeachersController < ApplicationController
 		@teacher = Teacher.find(self.current_user.teacher.id)
 	end
 
-        def profileattachments
-          @teacher = User.current.teacher
-        end
+	def profileattachments
+	  @teacher = User.current.teacher
+	end
 
-	# See who has recently viewed my profile
-	def view_history
+	# Profile stats
+	def stats
 		
 		@pendingcount = self.current_user.pending_connections.count
 		# Get the teacher id of the currently logged in user

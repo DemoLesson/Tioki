@@ -1,0 +1,151 @@
+<section id="main-content" class="inner-content">
+	<h1>Profile View History</h1>
+
+	<section class="profile group">
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.min.js"></script>
+
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+					Tioki Profile
+				</li>
+				<!--li>
+					<a href="terms.html">
+					Card Profile
+					</a>
+				</li-->
+				<% if @teacher == self.current_user.teacher %>
+					<li>
+						<a href="/me/profile/stats">
+						Profile Stats
+						</a>
+					</li>
+				<% end %>
+			</ul>
+		</nav>
+
+		<section class="sidebar">
+			<div id="sidebar" class="job_browser">
+				<div id="myConnections">
+				    <h4>Connections</h4>
+					<%= link_to 'My Connections', :my_connections %></br>
+					<%= link_to "Pending Connections (" + @pendingcount.to_s + ")", :pending_connections %></br>
+				</div>
+			</div>
+		</section>
+
+		<section class="profile-content">
+
+			<h3>Profile views in the past week</h3><br /><br />
+
+			<div id="profile_last_week" style="width:680px;height:250px;"></div>
+
+			<h3>Card views in the past week</h3><br /><br />
+
+			<div id="card_last_week" style="width:680px;height:250px;"></div>
+
+			<!-- Load Plot Points -->
+			<script type="text/javascript">
+			$(function () {
+				var d = [<%= @data['profile_last_week'] %>];
+				
+				var options = {
+					xaxis: { 
+						mode: "time",
+						tickLength: 5,
+						timeformat: "%b %0d",
+						autoscaleMargin: 1,
+					},
+					yaxis: {
+						autoscaleMargin: 2,
+						tickFormatter: function(val, axis) {
+							return val + ' Visitors';
+						}
+					},
+					selection: { mode: "x" },
+				};
+				
+				var plot = $.plot($("#profile_last_week"), [d], options);
+			});
+
+			$(function () {
+				var d = [<%= @data['card_last_week'] %>];
+				
+				var options = {
+						xaxis: { 
+							mode: "time",
+							tickLength: 5,
+							timeformat: "%b %0d",
+							autoscaleMargin: 1,
+						},
+						yaxis: {
+							autoscaleMargin: 2,
+							tickFormatter: function(val, axis) {
+								return val + ' Visitors';
+							}
+						},
+						selection: { mode: "x" },
+				};
+				
+				var plot = $.plot($("#card_last_week"), [d], options);
+			});
+			</script>
+
+			<br />
+
+			<h3>Who has viewed your profile</h3><br />
+			<% @viewed.each do |connection| %>
+				<br />
+				<div class="item_jobs">
+					<div class="item_picture" style="display:inline;">
+						<% # Not a User %>
+						<% if connection.user.nil? %>
+							<%= image_tag("dl_icons/no_avatar_medium.jpg", :style => "margin-top:10px;") %>
+						<% # If the teacher is nil (School) %>
+						<% elsif connection.user.teacher.nil? %>
+							<% if connection.user.avatar? %>
+								<%= image_tag(connection.user.avatar.url(:thumb), :style => "margin-top:10px;") %>
+							<% else %>
+								<%= image_tag("dl_icons/no_avatar_medium.jpg", :style => "margin-top:10px;") %>
+							<% end %>
+						<% # If this is a teacher %>
+						<% else %>
+							<% if connection.user.avatar? %>
+								<%= link_to image_tag(connection.user.avatar.url(:thumb), :style => "margin-top:10px;"), '/'+connection.user.teacher.url.to_s %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :style => "margin-top:10px;"), '/'+connection.user.teacher.url.to_s %>
+							<% end %>
+						<% end %>
+					</div>
+
+					<div id="connection_desc" style="margin-top:10px;">
+						<% unless connection.user.nil? %>
+							<span style="float:right; text-align:right">
+								<%= link_to "Connections: " + connection.user.connections.count.to_s, '/userconnections/'+connection.user.id.to_s %>
+							</span>
+							<strong>
+								<%= link_to connection.user.name, '/'+connection.user.teacher.url.to_s unless connection.user.teacher.nil? %>
+								<%= connection.user.name + ' (' + connection.user.school.name + ')' unless connection.user.school.nil? %>
+								<%= connection.user.name if connection.user.teacher.nil? && connection.user.school.nil? %>
+							</strong>
+							<% unless connection.user.teacher.nil? %>
+								<br />
+								<% if connection.user.teacher.position.present? && connection.user.teacher.school.present?%>
+									<%= connection.user.teacher.position %> at <%= connection.user.teacher.school %>
+								<% end %>
+								<br />
+								<%= connection.user.teacher.location %>
+							<% end %>
+							<br />
+							<div>
+								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "btn"} %>
+							</div>
+						<% else %>
+							<strong>Anonymous</strong>
+						<% end %>
+					</div>
+				</div>
+			<% end %>
+		</section>
+	</section>
+</section>
