@@ -570,7 +570,7 @@ class UsersController < ApplicationController
         def referral_user_list
           @teachers = Teacher.all
 
-          @teachers.select! { |teacher| teacher.user.successful_referrals.size > 0 }
+          @teachers.select! { |teacher| teacher.user != nil && teacher.user.successful_referrals.size > 0 }
           @teachers = @teachers.paginate :per_page => 100, :page => params[:page]
 
         end
