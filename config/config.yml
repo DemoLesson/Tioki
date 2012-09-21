@@ -3,6 +3,11 @@ development:
   cloudsponge:
     domainKey: "8C7MFY8C7PDGQPDBNY3Y"
     domainPassword: "qBllL4lCeVqJoEGl"
+  twitter:
+    consumer_key: "dewkJscRfQ5aWCbEGosg"
+    consumer_secret: "YkFgn0vSsP4W7aK0Wpk9v8EeoUoBWzLijLqPg7zaE"
+    oauth_token: "16490339-JsI85ohqBbPz5IMYpNx7VQ5vZV8r9kLyaF04wLhFP"
+    oauth_token_secret: "4QGGFYerKWx2b9tk17uF1BBE1MYzSeHoaNrcteT0Yg"
 production:
   cloudsponge:
     # DemoLesson.com

@@ -15,6 +15,12 @@ gem 'sass-rails'
 gem "cloudsponge", "~> 0.9.9"
 gem "dnsruby"
 
+# Social Networking
+gem 'twitter'
+
+# Encryption
+gem 'gibberish'
+
 gem 'coffee-script'
 gem 'uglifier'
 gem 'sprockets'
