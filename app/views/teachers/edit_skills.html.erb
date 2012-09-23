@@ -36,7 +36,7 @@ var skillStore = {
 			this.storage[skillId] = name;
 
 			// If there are five select then enable submit
-			if(Object.keys(this.storage).length >= 5)
+			if(Object.keys(this.storage).length >= 0)
 				$('input[type="submit"]').removeClass('secondary').prop('disabled', false);
 
 			return true;
@@ -55,7 +55,7 @@ var skillStore = {
 			delete this.storage[skillId]
 
 			// If ther are less then 5 keys then disable the submit
-			if(Object.keys(this.storage).length < 5)
+			if(Object.keys(this.storage).length < 0)
 				$('input[type="submit"]').addClass('secondary').prop('disabled', true);
 
 			return true;
