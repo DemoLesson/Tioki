@@ -728,6 +728,12 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 						font-weight: bold;
 						text-align: left;
 					}
+					&.founder-title {
+						margin: -4px 0 4px 0;
+						font-weight: normal;
+						text-align: left;
+						color: #666;
+					} 
 				}
 				.profilelink {
 					display: block;
