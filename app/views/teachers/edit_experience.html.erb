@@ -1,50 +1,66 @@
 <section id="main-content" class="inner-content">
 
-<%= form_for @experience, :as => :experience, :url => '/update_existing_experience/'+@experience.id.to_s do |f| %>
+	<h1>
+	Edit Experience
+	</h1>
 
-<div class="field">
-	<%= f.label "Company, District or School" %><br />
-	<%= f.text_field :company %>
-</div>
+	<div id="attach_form">
+		<%= form_for @experience, :as => :experience, :url => '/update_existing_experience/'+@experience.id.to_s do |f| %>
 
-<div class="field">
-	<%= f.label "Start Date" %><br />
-	<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
-	<%= select_year(Date.today, :field_name => :startYear, :start_year => 1900, :end_year => Time.now.year+1) %>
-</div>
+			<fieldset>
+				<p>
+				Company, District or School
+				</p>
+				<%= f.text_field :company %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Date: 
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
+				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
 
-<div class="field">
-	<%= f.label "End Date" %><br />
-	<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
-	<%= select_year(Date.today, :field_name => :endYear, :start_year => 1900, :end_year => Time.now.year+1) %>
-</div>
+			<fieldset>
+				<p>
+				End Date:  
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
+				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<label>
+					<%= check_box_tag 'current', 'yes', false, :class => 'current' %> 
+					I currently work here
+				</label>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position
+				</p>
+				<%= f.text_field :position %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Description
+				</p>
+				<%= f.text_area :description %>
+			</fieldset>
 
-<div class="field">
-	<%= f.label :position %><br />
-	<%= f.text_field :position %>
-</div>
+			<%= javascript_tag "$(\"#date_startMonth\").chosen()" %>
+			<%= javascript_tag "$(\"#date_startYear\").chosen()" %>
+			<%= javascript_tag "$(\"#date_endMonth\").chosen()" %>
+			<%= javascript_tag "$(\"#date_endYear\").chosen()" %>
 
-<div class="field">
-	<%= f.label :description %><br />
-	<%= f.text_area :description %>
-</div>
+			<fieldset>
+    			<input name="commit" type="submit" value="Update" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Cancel', :back %>
+			</fieldset>
+			
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
 
-<div class="field">
-	<%= check_box_tag 'current', 'yes', false, :class => 'current' %> <label>I currently work here</label>
-</div>
-
-<%= javascript_tag "$(\"#date_startMonth\").chosen()" %>
-<%= javascript_tag "$(\"#date_startYear\").chosen()" %>
-<%= javascript_tag "$(\"#date_endMonth\").chosen()" %>
-<%= javascript_tag "$(\"#date_endYear\").chosen()" %>
-
-<div>
-    <input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="btn btn-success" />
-	<%= link_to 'Back', :back %>
-</div>
-
-<div id="loader" style="display: none">
-	<img src="<%= asset_path 'loader.gif' %>" />
-</div>
-<% end %>
+		<% end %>
+	</div>
 </section>

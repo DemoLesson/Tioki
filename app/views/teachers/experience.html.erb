@@ -8,21 +8,23 @@
 					<%= link_to 'Edit', '/edit_experience/'+experience.id.to_s %><br />
 					<%= link_to 'Remove?', '/remove_experience/'+experience.id.to_s, :confirm => 'Are you sure you want to remove '+experience.company+' from your profile?' %>
 				</span>	
+				<strong>
+				<%= experience.position %><br />
+				<%= experience.company %>
+				</strong><br />
 				<% if experience.current == true %>
-					<strong><%= experience.company %></strong> Since <%= experience.startMonth.to_s+"/"+experience.startYear.to_s %> <br />
-					<%= experience.position %><br />
-					<%= experience.description %>
+					 <%= experience.startMonth.to_s+"/"+experience.startYear.to_s %> - Present<br />
 				<% else %>
-					<strong><%= experience.company %></strong> <%= experience.startMonth.to_s+"/"+experience.startYear.to_s+"–"+experience.endMonth.to_s+"/"+experience.endYear.to_s %> <br />
-					<%= experience.position %><br />
-					<%= experience.description %>
+					<%=experience.startMonth.to_s+"/"+experience.startYear.to_s+" - "+experience.endMonth.to_s+"/"+experience.endYear.to_s %> <br />
 				<% end %>
+				<%= experience.description %>
+	
 			</p>
 		<% end %>
 	</div>
 
 	<div id="attach_new_btn">
-		<input name="attach" type="button" value="Add Experience Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="btn"/>
+		<input name="attach" type="submit" value="Add a New Position" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
 		<%= link_to 'Edit Profile', '/me/profile/edit' %>
 	</div>
 
@@ -36,35 +38,35 @@
 			</fieldset>
 			<fieldset>
 				<p>
-				Start Date
-				</p>
+				Start Date: 
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
-				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1900, :end_year => Time.now.year+1) %>
+				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
 			</fieldset>
 			<fieldset>
 				<p>
-				End Date
-				</p>
+				End Date:
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
-				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1900, :end_year => Time.now.year+1) %>
-			</fieldset>
-			<fieldset>
-				<p>
-				Position
+				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
 				</p>
-				<%= f.text_field :position %>
-			</fieldset>
-			<fieldset>
-				<p>
-				Description
-				</p>
-				<%= f.text_area :description %>
 			</fieldset>
 			<fieldset>
 				<label>
 					<%= check_box_tag 'current', 'yes', false, :class => 'current' %> 
 					I currently work here
 				</label>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position
+				</p>
+				<%= f.text_field :position %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Description (optional)
+				</p>
+				<%= f.text_area :description %>
 			</fieldset>
 			<fieldset>
 				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />

@@ -5,14 +5,18 @@
 		<% for education in @teacher.educations %>
 			<p>
 			<span class="purge" style="float:right"><%= link_to 'Edit', '/edit_education/'+education.id.to_s %><br /><%= link_to 'Remove?', '/remove_education/'+education.id.to_s, :confirm => 'Are you sure you want to remove '+education.school+' from your profile?' %></span>	
-			<strong><%= education.school %></strong>
+			<strong>
+			<%= education.school %>
+			</strong><br />
+			<%= education.degree %>,
+			<%= education.concentrations %><br />
+			
 			<% if education.current == true %>
-				Currently Attending 
 				<% if education.start_year.present? %>
-					Since <%= education.start_year %>
-				<% end %><br />
+					<%= education.start_year %> -
+				<% end %>
 				<% if education.year.present? %>
-					Expected Graduation: <%= education.year %><br />
+					<%= education.year %> (expected)<br />
 				<% end %>
 			<% else %>
 				<% if !education.year.present? %>
@@ -20,18 +24,17 @@
 					<% if !education.start_year.present? %>
 						<%= education.year %><br />
 					<% else %>
-						<%= education.start_year %>-<%= education.year %><br />
+						<%= education.start_year %> - <%= education.year %><br />
 					<% end %>
 				<% end %>
 			<% end %>
-			<%= education.degree %><br />
-			<%= education.concentrations %>
+			
 			</p>
 		<% end %>
 	</div>
 
 	<div id="attach_new_btn">
-		<input name="attach" type="button" value="Add Education Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+		<input name="attach" type="submit" value="Add Education Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
 			<%= link_to 'Edit Profile', '/me/profile/edit' %>
 	</div>
 
@@ -47,25 +50,25 @@
 				<p>
 				Degree
 				</p>
-				<%= f.text_field :degree %>
+				<%= f.text_field :degree, :placeholder => "(e.g. B.A, Masters, etc.)" %>
 			</fieldset>
 			<fieldset>
 				<p>
 				Major
 				</p>
-				<%= f.text_field :concentrations %>
+				<%= f.text_field :concentrations, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
 			</fieldset>
 			<fieldset>
 				<p>
-				Start Year
-				</p>
-				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+				Start Year: 
+				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+				</p>	
 			</fielset>
 			<fieldset>
 				<p>
-				Graduation Year
-				</p>
+				Graduation Year: 
 				<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+				</p>
 			</fieldset>	
 			<fieldset>
 				<label>
