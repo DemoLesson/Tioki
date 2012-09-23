@@ -141,11 +141,8 @@ class ConnectionsController < ApplicationController
 		# User ID
 		a = self.current_user.id
 
-		# Get not pending connections
-		@connections = Connection.mine(:pending => false)
-
 		# Get all pending connections
-		@my_pending_connections = Connection.mine(:pending => true)
+		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
 
 	def userconnections
@@ -172,6 +169,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def inviteconnections
+		@referred = ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.current_user.id, "2012-09-20").count
 		@my_connection = Connection.find_for_user(self.current_user.id)
 		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
 	end

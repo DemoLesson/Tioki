@@ -153,20 +153,44 @@ class ApplicationController < ActionController::Base
 
 		return analytic.all
 	end
-	
-	# # # # # #
-	# Custom Error Handling
-	# # # # # #
 
-	#rescue_from 'MyAppError::Base' do |exception|
-	#  render :xml => exception, :status => 500
-	#end
+	##################
+	# Error Handling #
+	##################
 
-	rescue_from ActiveRecord::RecordNotFound, :with => :show_errors
+	unless Preview::Application.config.consider_all_requests_local
+		rescue_from Exception, with: :render_500
+		rescue_from ActionController::RoutingError, with: :render_404
+		rescue_from ActionController::UnknownController, with: :render_404
+		rescue_from ActionController::UnknownAction, with: :render_404
+		rescue_from ActiveRecord::RecordNotFound, with: :render_404
+	end
 
-	protected
-		def show_errors(args)
-			raise args
+	private
+		def render_404(exception)
+			
+			# Log Error
+			error = String.new
+			error << "\nURL: #{request.fullpath}"
+			error << "\n#{exception.class} (#{exception.message}):"
+			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
+			Rails.logger.error(error)
+			
+			# Path that was not found
+			@not_found_path = request.fullpath
+			render template: 'errors/error_404', layout: 'layouts/application', status: 404
+		end
+
+		def render_500(exception)
+
+			# Log Error
+			error = String.new
+			error << "\nURL: #{request.fullpath}"
+			error << "\n#{exception.class} (#{exception.message}):"
+			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
+			Rails.logger.fatal(error)
+
+			render template: 'errors/error_500', layout: 'layouts/application', status: 500
 		end
 
 end

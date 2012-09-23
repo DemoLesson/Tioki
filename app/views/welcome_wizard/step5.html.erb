@@ -10,7 +10,7 @@ tr.seeking, tr.student {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=524783507547270";
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=440391786011809";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
@@ -92,11 +92,11 @@ $(document).ready(function() {
 		// Trigger the facebook method
 		FB.ui({
 			method: 'feed',
-			name: '<%= @user.name %> just joined DemoLesson',
-			link: 'http://www.demolesson.com/?_micro_referer=<%= @user.id %>',
-			picture: 'http://www.demolesson.com/assets/logo_new.png',
-			caption: 'Connect with <%= @user.name %> on DemoLesson',
-			description: '<%= @user.first_name %> just joined DemoLesson; a professional development site for educators. You should connect with them!'
+			name: '<%= @user.name %> just joined Tioki',
+			link: 'http://www.tioki.com/?_micro_referer=<%= @user.id %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Connect with <%= @user.name %> on Tioki',
+			description: '<%= @user.first_name %> just joined Tioki; a professional development site for educators. You should connect with them!'
 		}
 		/*function(response) {
 			if (response && response.post_id) {
@@ -115,9 +115,9 @@ $(document).ready(function() {
 
 		// Paramaters to build
 		var params = {
-			via: 'demolesson',
-			url: 'http://www.demolesson.com/?_micro_referer=<%= @user.id %>',
-			text: 'I just joined DemoLesson; a professional development site for educators. You should connect with me!'
+			via: 'tiokiapp',
+			url: 'http://www.tiok.com/?_micro_referer=<%= @user.id %>',
+			text: 'I just joined Tioki; a professional development site for educators. You should connect with me!'
 		}
 
 		// URL plus params

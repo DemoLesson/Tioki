@@ -4,15 +4,19 @@ class Connection < ActiveRecord::Base
 
   # Get information on my connections
   def self.mine(args = {})
+    
     # Set the user to lookup
     a = User.current.id if args[:user].nil?
     a = args[:user] unless args[:user].nil?
 
     # Get only the connections I instigated
-    tmp = self.where('`owned_by` = ?', a) unless args[:creator].nil? || !args[:creator]
+    unless args[:creator].nil?
+      tmp = self.where('`owned_by` = ?', a) if args[:creator]
+      tmp = self.where('`user_id` = ?', a) unless args[:creator]
+    end
 
     # Get all connections involving me
-    tmp = self.where('`owned_by` = ? || `user_id` = ?', a, a) if args[:creator].nil? || !args[:creator]
+    tmp = self.where('`owned_by` = ? || `user_id` = ?', a, a) if args[:creator].nil?
 
     # Set pending true or false
     tmp = tmp.where('`pending` = ?', args[:pending]) unless args[:pending].nil?
@@ -30,8 +34,9 @@ class Connection < ActiveRecord::Base
     Connection.find(:all, :conditions => ['owned_by = ?', user_id])
   end
 
-  def not_me
-    User.find(self.owned_by == User.current.id ? self.user_id : self.owned_by)
+  def not_me(user_id = nil)
+    user_id = User.current.id if user_id.nil?
+    User.find(self.owned_by.to_i == user_id.to_i ? self.user_id : self.owned_by)
   end
 
   def owner

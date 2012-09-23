@@ -3,6 +3,22 @@ class Application < ActiveRecord::Base
   belongs_to :job
 
   scope :is_active, where(:status => 1)
+
+  def self.mine(args = {})
+
+    # Set the user to lookup
+    a = User.current.teacher.id if args[:teacher].nil?
+    a = args[:teacher] unless args[:teacher].nil?
+
+    # Get all my applications
+    tmp = self.where('`teacher_id` = ?', a)
+
+    # Filter down
+    tmp = tmp.where('`viewed` = ?', args[:viewed]) unless args[:viewed].nil?
+    tmp = tmp.where('`status` = ?', args[:status]) unless args[:status].nil?
+
+    return tmp
+  end
   
   def belongs_to_me
   

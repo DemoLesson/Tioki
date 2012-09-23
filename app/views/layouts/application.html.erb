@@ -17,6 +17,11 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
+	<!-- Video JS -->
+	<!--link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet" />
+	<script src="http://vjs.zencdn.net/c/video.js"></script-->
+	<script src="http://api.html5media.info/1.1.5/html5media.min.js"></script>
+
 	<script type="text/javascript">
 	$(document).ready(function() {
 		// Orbit
@@ -180,6 +185,7 @@
 							</a>
 							<ul>
 								<li><a href="/me/profile/edit">Edit My Profile</a></li>
+								<li><a href="/me/profile/stats">Profile Stats</a></li>
 							</ul>
 						</li>
 						<li>
@@ -237,9 +243,12 @@
 			</nav><!-- End Nav -->
 		<% end %>
 		<!-- Display Notices -->
-		<% if notice != nil %>
-			<p class="notice"><%= notice %></p>
-		<% end %>
+		<% flash.each do |type, message| %>
+			<% next unless message.is_a?(String) %>
+			<section class="notice <%= type %>">
+				<%= message %>
+			</section>
+		<% end unless flash.empty? %>
 		
 		<!-- Import page here -->
 		<%= yield %>
@@ -392,6 +401,36 @@ window.onload = function(){
 	if(oldonload){oldonload()}};
 }());
 </script>
+
+
+<!--[if IE]>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('input, textarea').each(function() {
+		var placeholder = $(this).attr('placeholder');
+
+		// If no place holder dont bother doing this
+		if(placeholder == null || placeholder.length == 0)
+		return;
+
+	$(this).wrap('<span class="x-input-wrap" style="position:relative;" />');
+	$('<span class="x-placeholder" style="position:absolute;top:0px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
+	});
+
+	$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusin', function(e) {
+		$(this).next('span.x-placeholder').hide();
+	});
+	$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusout', function(e) {
+		if($(this).val().length == 0)
+		$(this).next('span.x-placeholder').show();
+	});
+	$('span.x-placeholder').live('click', function() {
+		$(this).prev('input').focus();
+		$(this).hide();
+	});
+});
+</script>
+<![endif]-->
 
 <!-- Olark Pixel -->
 <script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/

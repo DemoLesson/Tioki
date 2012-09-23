@@ -28,7 +28,7 @@
 				<li>
 					<a href="teacher_applications">
 					<div class="count applications">
-					2
+					<%= Application.mine(:status => true).count %>
 					</div>
 					Job Applications
 					</a>
@@ -234,7 +234,7 @@
 				<% end %>
 			</ul>
 			<section class="panel-actions events">
-				<a href="create_event.html" class="action-button">
+				<a href="/events/new" class="action-button">
 				Create New Event
 				</a>
 				<a href="events.html" class="icon">

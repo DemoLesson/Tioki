@@ -1,0 +1,92 @@
+<section id="main-content" class="inner-content">
+	<h1>Profile View History</h1>
+
+	<section class="profile group">
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.min.js"></script>
+
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/me/profile">
+						Tioki Profile
+					</a>
+				</li>
+				<!--li>
+					<a href="terms.html">
+					Card Profile
+					</a>
+				</li-->
+				<% if @teacher == self.current_user.teacher %>
+					<li class="current">
+						Profile Stats
+					</li>
+				<% end %>
+			</ul>
+		</nav>
+
+		<section class="sidebar">
+			<div class="profile-thumb-large">
+				<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") if @teacher.user.avatar? %>
+				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
+			</div>
+			<h3><%= @teacher.user.name %></h3>
+			<p><%= @teacher.headline %></p>
+		</section>
+
+		<section class="profile-content">
+			<section class="info panel">
+				<h3>Profile views in the past week</h3>
+
+				<section class="panel-actions">
+
+					<div id="profile_last_week" style="width:600px;height:250px;margin:10px 10px;"></div>
+
+					<!-- Load Plot Points -->
+					<script type="text/javascript">
+					$(function () {
+						var d = [<%= @data['profile_last_week'] %>];
+						
+						var options = {
+							xaxis: { 
+								mode: "time",
+								tickLength: 5,
+								timeformat: "%b %0d",
+								autoscaleMargin: 1,
+							},
+							yaxis: {
+								autoscaleMargin: 2,
+								tickFormatter: function(val, axis) {
+									return val + ' Visitors';
+								}
+							},
+							selection: { mode: "x" },
+						};
+						
+						var plot = $.plot($("#profile_last_week"), [d], options);
+					});
+					</script>
+
+				</section>
+			</section>
+			<section class="info panel">
+				<h3>Who has viewed your profile</h3>
+				<ul>
+					<% @viewed.each do |view| %>
+						<li style="display:block;">
+							<div class="profile-thumb-small">
+								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.teacher.url}" if view.user.avatar? && !view.user.teacher.nil? %>
+								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{view.user.teacher.url}" unless view.user.avatar? || view.user.teacher.nil? %>
+								<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless view.user.avatar? && !view.user.teacher.nil? %>
+							</div>
+							<p style="float:none;">
+								<%= link_to view.user.name, "/profile/#{view.user.teacher.url}" unless view.user.teacher.nil? %>
+								<%= "#{view.user.name} (#{view.user.school.name})" if view.user.teacher.nil? && !view.user.school.nil? %>
+								<%= view.user.name if view.user.teacher.nil? %>
+							</p>
+						</li>
+					<% end %>
+				</ul>
+			</section>
+		</section>
+	</section>
+</section>

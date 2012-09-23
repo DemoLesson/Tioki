@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
 	USER_ID, PASSWORD = "andreas", "dl2012"
-	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage ]
+	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list ]
 
 	def create(*args)
 		if request.post?
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 				self.create_teacher_and_redirect false
 
 				# Notice the signup was successful
-				flash[:notice] = "Signup successful"
+				flash[:success] = "Signup successful"
 
 				# Set to splash for analytics
 				session[:_ak] = "splash"
@@ -32,7 +32,8 @@ class UsersController < ApplicationController
 
 			# If there were any errors flash them and send :root
 			else
-				flash[:notice] = @user.errors.full_messages.to_sentence
+				flash[:error] = error = @user.errors.full_messages.to_sentence
+				Rails.logger.debug "User failed to register: " + error
 				return redirect_to :root
 			end
 		end
@@ -98,7 +99,7 @@ class UsersController < ApplicationController
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 				self.log_analytic(:user_logged_in, "User logged in.")
 				self.current_user.update_login_count
-				logger.info "Login successful"
+				Rails.logger.info "Login successful: #{params[:user][:email]} logged in."
 
 				if params[:remember_me]
 					login_token = LoginToken.generate_token_for!(session[:user])
@@ -107,8 +108,8 @@ class UsersController < ApplicationController
 				end
 				return redirect_to_stored
 			else
-			#logger.info "Login unsuccessful"
-				flash[:notice] = "Login unsuccessful"
+				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
+				flash[:error] = "Your username or password was incorrect."
 			end
 		end
 	end
@@ -153,23 +154,33 @@ class UsersController < ApplicationController
 		end
 	end
 
-		def create_teacher_and_redirect(redir = true)
-			self.current_user.create_teacher
-			
-			UserMailer.teacher_welcome_email(self.current_user).deliver
+	def create_teacher_and_redirect(redir = true)
 
-			# If we have a referer in the creation process
-			# then auto connect the other teacher to the new one
-			if session.has_key?(:_referer)
+		# Get the user to build the teacher on
+		user = self.current_user if params[:user_id].nil? || !self.current_user.is_admin
+		user = User.find(params[:user_id]) if !params[:user_id].nil? && self.current_user.is_admin
 
-				# Redirect to the connections controller and add the referer
-				redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
-			else
+		# Create the teacher
+		user.create_teacher
+		
+		# Send the teacher welcome email
+		UserMailer.teacher_welcome_email(user).deliver
 
-				# Redirect to the teacher path since we did not have a referer
-				redirect_to teacher_path(self.current_user.teacher.id) if redir
-			end
+		# Logged in user is an admin redirect wherever
+		return redirect_to params[:redir] if self.current_user.is_admin && params[:redir] = '/admin'
+
+		# If we have a referer in the creation process
+		# then auto connect the other teacher to the new one
+		if session.has_key?(:_referer)
+
+			# Redirect to the connections controller and add the referer
+			return redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
+		else
+
+			# Redirect to the teacher path since we did not have a referer
+			return redirect_to teacher_path(self.current_user.teacher.id) if redir
 		end
+	end
 
 	#  def choose_stored
 	#    if request.post?
@@ -440,37 +451,47 @@ class UsersController < ApplicationController
 	end
 	
 	def teacher_user_list
+
+		# Search for a specific user via name
 		if params[:tname]
-			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"],
-				:order => "created_at DESC"
+			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
-		@users=@users.reject{ |user| user.teacher == nil }
-		if params[:vid]
-			@users=@users.reject{ |user| user.videos.count == 0 }
-		end
-		if params[:applied]
-			@users=@users.reject{|user| user.applications.count == 0}
-		end
+
+		# Get rid of all users that have nil teachers
+		@users = @users.reject{ |user| user.teacher == nil } if params[:teacher]
+
+		# Limit to those that have at leasy 1 video
+		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
+		
+		# Limit to teachers that have job applications
+		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
+		
 		@usercount = 0
 		@videos = 0
+
+		# Loop through each teacher
 		@users.each do |user|
-			@usercount+=1
-			if user.teacher.videos.count != 0
-				@videos += 1
-			end
+
+			# Increment the amount of users
+			@usercount += 1 unless user.teacher.nil?
+
+			# Increment the number of videos uploaded
+			@videos += 1 if !user.teacher.nil? && user.teacher.videos.count != 0
 		end
-		@users=@users.paginate :page => params[:page], :per_page => 100
+
+		# Paginate the users
+		@users = @users.paginate :page => params[:page], :per_page => 100
 		
+		# Prepare the stats for the admin page
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
 		@stats.push({:name => 'Number of Teachers', :value => @usercount})
 		
-		respond_to do |format|
-			format.html { render :teacher_user_list }
-		end
+		# Render the page
+		render :teacher_user_list
 	end
 
 	def deactivated_user_list
@@ -545,6 +566,14 @@ class UsersController < ApplicationController
 		@stats.push({:name => 'Total Jobs', :value => @jobcount})
 		@stats.push({:name => 'Total Applicants', :value => @applicants})
 	end
+
+        def referral_user_list
+          @teachers = Teacher.all
+
+          @teachers.select! { |teacher| teacher.user != nil && teacher.user.successful_referrals.size > 0 }
+          @teachers = @teachers.paginate :per_page => 100, :page => params[:page]
+
+        end
 
 	def organization_user_list
 		if params[:orgname]

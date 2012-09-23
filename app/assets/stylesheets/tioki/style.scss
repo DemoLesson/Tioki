@@ -158,6 +158,9 @@ a.button {
 	&.bg-green {
 		background: $green;
 	}
+	&.bg-gray {
+		background: #BBB;
+	}
 }
 
 .huge-button {
@@ -195,6 +198,27 @@ ul {
 	position: relative;
 	padding: 0 30px;
 	margin: 0 auto;
+}
+
+section.notice {
+	width: 1000px;
+	min-width: 960px;
+	position: relative;
+	padding: inherit 30px;
+	background: $dkgray;
+	margin: 0 auto;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+	color: #FFF;
+
+	&.error {
+		background: $blood;
+	}
+	&.success {
+		background: $green;
+	}
 }
 
 #login-drawer {

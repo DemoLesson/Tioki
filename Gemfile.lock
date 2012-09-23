@@ -115,6 +115,8 @@ GEM
     excon (0.16.2)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faraday (0.8.4)
+      multipart-post (~> 1.1)
     fastercsv (1.5.5)
     fattr (2.2.1)
     fog (1.6.0)
@@ -132,6 +134,7 @@ GEM
       json
     geocoder (1.1.3)
     geokit (1.6.0)
+    gibberish (1.2.0)
     gmaps4rails (0.10.2)
       crack
     graylog2-resque (0.5.1)
@@ -174,6 +177,7 @@ GEM
     multi_json (1.3.6)
     multi_xml (0.5.1)
     multimap (1.1.2)
+    multipart-post (1.1.5)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -262,6 +266,7 @@ GEM
     scoped_search (2.4.0)
       activerecord (>= 2.1.0)
     sexp_processor (3.2.0)
+    simple_oauth (0.1.9)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -291,6 +296,10 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    twitter (3.7.0)
+      faraday (~> 0.8)
+      multi_json (~> 1.3)
+      simple_oauth (~> 0.1.6)
     tzinfo (0.3.33)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
@@ -327,6 +336,7 @@ DEPENDENCIES
   gelf
   geocoder
   geokit (= 1.6.0)
+  gibberish
   gmaps4rails (~> 0.10.2)
   graylog2-resque
   graylog2_exceptions!
@@ -358,6 +368,7 @@ DEPENDENCIES
   sunspot_rails
   therubyracer (~> 0.9.3.beta1)
   tinymce-rails
+  twitter
   uglifier
   uuidtools
   will_paginate (= 3.0.pre4)

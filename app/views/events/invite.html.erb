@@ -13,12 +13,12 @@
 
 	<section>
 		<%= link_to "Back to Event", event_path(@event), :class => "button" %>
-		<%= link_to "Edit this Event", edit_event_path(@event), :class => "button", :style => "float:right;color:#FFF;" if @event.user == self.current_user || self.current_user.is_admin %>
+		<%= link_to "Edit this Event", edit_event_path(@event), :class => "button", :style => "float:right;color:#FFF;" if !self.current_user.nil? && (@event.user == self.current_user || self.current_user.is_admin) %>
 	</section>
 
-	<% if @event.published || self.current_user.is_admin || @event.user == self.current_user %>
+	<% if @event.published || (!self.current_user.nil? && (self.current_user.is_admin) || @event.user == self.current_user)) %>
 
-		<% unless @event.published || @event.user != self.current_user %>
+		<% unless @event.published || (!self.current_user.nil? && @event.user != self.current_user) %>
 		<div style="border:solid 1px #DADADA;background:#DDD;padding:15px;margin-bottom:15px;">
 			<h3>This event is pending approval</h3>
 			<p>This event is pending approval from the Tioki Team to be publically listed. You may revise your submission until it’s approved.<br /><br />At this time you cannot invite people to this event.</p>

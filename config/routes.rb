@@ -28,6 +28,9 @@ Preview::Application.routes.draw do
 	match 'signup' => 'users#signup'
 	match 'login' => 'users#login'
 
+	# Home page
+	match 'index' => "home#index"
+
 	# Anything involving me
 	scope 'me' do
 
@@ -46,6 +49,7 @@ Preview::Application.routes.draw do
 			end
 
 			# Misc
+			match 'stats' => 'teachers#stats'
 			match 'card' => 'card#get'
 			root :to => 'teachers#profile'
 		end
@@ -70,6 +74,13 @@ Preview::Application.routes.draw do
 		match ':id/invite' => 'events#invite'
 		match ':id/invite_email' => 'events#invite_email'
 		match ':id/rsvp' => 'events#rsvp'
+	end
+
+	# Admin Routing
+	scope 'admin' do
+		scope 'users' do
+			match 'create_teacher' => 'users#create_teacher_and_redirect'
+		end
 	end
 	
 	#Actions
@@ -189,6 +200,7 @@ Preview::Application.routes.draw do
 	match 'deactivatedlist' => 'users#deactivated_user_list'
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
+	match 'referrallist' => 'users#referral_user_list'
 	match 'blogadmin' => 'blog_entries#list'
 	match 'fetch_code' => 'users#fetch_code'
 	match 'jobattachpurge/:id' => 'jobs#jobattachpurge'
@@ -272,6 +284,9 @@ Preview::Application.routes.draw do
 
 	# Show the teacher who has recently viewed their profile
 	match 'teachers/:id/view_history', :to => 'teachers#view_history'
+
+	# Error 404
+	match '*not_found' => 'errors#error_404'
 	
 	# The priority is based upon order of creation:
 	# first created -> highest priority.

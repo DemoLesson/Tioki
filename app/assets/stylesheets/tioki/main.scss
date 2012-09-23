@@ -683,3 +683,8 @@
 	padding: 0 25px;
 	float: right;
 }
+
+// Deprecate: Old Style Hacks
+#sidebar {
+	overflow: visible !important;
+}

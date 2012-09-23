@@ -57,10 +57,11 @@ class Teacher < ActiveRecord::Base
   end
 
   def vjs_embed_code(output_url)
-    return "<video id=\"my_video_1\" class=\"video-js vjs-default-skin\" controls
-		  preload=\"auto\" width=\"640\" height=\"480\"
-		  data-setup=\"{}\"><source src=\"#{output_url}\" type='video/mp4'>
-		</video>"
+    return "<video width=\"640\" height=\"480\" src=\"#{output_url}\" controls preload></video>"
+    #return "<video id=\"my_video_1\" class=\"video-js vjs-default-skin\" controls
+		#  preload=\"auto\" width=\"640\" height=\"480\"
+		#  data-setup=\"{}\"><source src=\"#{output_url}\" type='video/mp4'>
+		#</video>"
   end
   
   def no_embed_code
