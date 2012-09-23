@@ -10,7 +10,7 @@
 					Card Profile
 					</a>
 				</li-->
-				<% if @teacher == self.current_user.teacher %>
+				<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 					<li>
 						<a href="/me/profile/stats">
 						Profile Stats
