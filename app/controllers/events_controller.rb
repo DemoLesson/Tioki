@@ -5,8 +5,7 @@ class EventsController < ApplicationController
 	def index
 
 		# Filtered Events with pagination
-		yesterday = Time.now.yesterday.strftime("%Y-%m-%d")
-		@events = Event.where("`end_time` > ?", yesterday).page(params[:page]).all
+		@events = Event.where("`end_time` >= CURDATE()").page(params[:page]).all
 
 		# Unfiltered Events (We don't want pagination for this)
 		@_events = Event.all
@@ -28,13 +27,10 @@ class EventsController < ApplicationController
 		@events = Event.where("'1' = '1'") unless params.has_key?("mine") && !self.current_user.nil?
 
 		# Get events that span a specific date
-		if params.has_key?("date")
-			date = Time.strptime(params["date"], "%m/%d/%Y").utc.strftime("%Y-%m-%d")
-			@events = @events.where("date(`events`.`start_time`) = ?", date)
-		end
+		@events = @events.where("date(`events`.`start_time`) = CURDATE()") if params.has_key?("date")
 
 		# Make sure the event is today or later
-		@events = @events.where("`events`.`end_time` > ?", Time.now.yesterday.strftime("%Y-%m-%d")) if params.has_key?("future")
+		@events = @events.where("`events`.`end_time` >= CURDATE()") if params.has_key?("future")
 
 		# Search name and description
 		@events = @events.where("lower(`events`.`name`) LIKE ? OR lower(`events`.`description`) LIKE ?", "%" + params["search"].downcase + "%", "%" + params["search"].downcase + "%") if params.has_key?("search")

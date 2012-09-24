@@ -233,7 +233,7 @@
 				<% rsvp = @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)} %>
 				<% if rsvp.empty? %>
 					<li>You have no RSVP's. So here is some upcoming events.</li>
-					<% Event.where("`end_time` > CURDATE()").limit(5).each do |event| %>
+					<% Event.where("`end_time` >= CURDATE()").limit(5).each do |event| %>
 						<li>
 							<div class="calendar-thumb">
 								<div class="cal-month">
