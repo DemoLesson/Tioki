@@ -54,7 +54,7 @@
     <td>
       <% numOfReferrals = 1 %>
       <% teacher.user.successful_referrals.each do |referral| %>
-		  <%= numOfReferrals %>. <%= referral.created_user.name %>- <%= referral.created_user.email %><br />
+		  <%= numOfReferrals %>. <% if referral.created_user %><%= referral.created_user.name %>- <%= referral.created_user.email %><% end %><br />
 		  <% numOfReferrals +=1 %>
       <% end %>
     </td>
