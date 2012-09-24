@@ -5,7 +5,7 @@
 	<% if self.current_user.is_admin || @event.user == self.current_user %>
 		<%= render 'form' %>
 	<% else %>
-		<p>You must be an administration to edit an event.</p>
+		<p>You must be an administrator to edit an event.</p>
 	<% end %>
 
 </section>

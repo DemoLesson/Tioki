@@ -3,12 +3,13 @@ class EventsController < ApplicationController
 	# GET /events
 	# GET /events.json
 	def index
+
 		# Filtered Events with pagination
 		yesterday = Time.now.yesterday.strftime("%Y-%m-%d")
-		@events = Event.where("`published` = ? && `end_time` > ?", "1", yesterday).page(params[:page]).all
+		@events = Event.where("`end_time` > ?", yesterday).page(params[:page]).all
 
 		# Unfiltered Events (We don't want pagination for this)
-		@_events = Event.where("`published` = ?", "1").all
+		@_events = Event.all
 		# Topics for the select menu and what not
 		@topics = Eventtopic.all
 
@@ -20,11 +21,11 @@ class EventsController < ApplicationController
 	end
 
 	def list
-		# Get only the events that I created regardless of whether if it's published or not
+		# Get only the events that I created
 		@events = Event.where("`events`.`user_id` = ?", self.current_user.id) if params.has_key?("mine") && !self.current_user.nil?
 
-		# Get only published event unless we are requesting "Mine"
-		@events = Event.where("`events`.`published` = ?", "1") unless params.has_key?("mine") && !self.current_user.nil?
+		# Get all event unless we are requesting "Mine"
+		@events = Event.where("'1' = '1'") unless params.has_key?("mine") && !self.current_user.nil?
 
 		# Get events that span a specific date
 		if params.has_key?("date")
@@ -86,10 +87,6 @@ class EventsController < ApplicationController
 		# Create the event beginning with the data provided
 		@event = Event.new(params[:event])
 
-		# When a new event is created we do not want to publish it by default
-		# Unless it was set to published and the current user is an admin
-		@event.published = false unless params[:event]['published'].to_i === 1 && self.current_user.is_admin
-
 		# Link up the event format
 		if params.has_key?("eventformat")
 			@event.eventformats = []
@@ -141,18 +138,6 @@ class EventsController < ApplicationController
 		# Reformat and merge in
 		params[:event].merge!(_format_data(params[:event]))
 
-		begin
-			# If the event is approved (for the first time send out the notification email if applicable)
-			unless @event.email_sent
-				if params[:event]['published']
-					EventMailer.approved(@event.user, @event).deliver
-					params[:event].merge!({"email_sent" => true})
-				end
-			end
-		rescue
-			# Do nothing for now
-		end
-
 		respond_to do |format|
 			if @event.update_attributes(params[:event])
 				self.log_analytic(:event_update, "A user updated an event.", @event)
@@ -181,19 +166,13 @@ class EventsController < ApplicationController
 	# Admin Pane for Events
 	def admin_events
 		@events = Event.all
-		@published = Event.where("`published` = ?", "1").all
-		@pending = Event.where("`published` = ?", "0").all
 
 		# Get events stats
 		@stats = []
 		@stats.push({:name => 'Total Events', :value => @events.nil? ? 0 : @events.count})
-		@stats.push({:name => 'Published Events', :value => @published.nil? ? 0 : @published.count})
-		@stats.push({:name => 'Pending Events', :value => @pending.nil? ? 0 : @pending.count})
 
 		# Prepare pagination
 		@events = @events.paginate :page => params[:page], :per_page => 100 unless @events.nil?
-		@published = @published.paginate :page => params[:page], :per_page => 100 unless @published.nil?
-		@pending = @pending.paginate :page => params[:page], :per_page => 100 unless @pending.nil?
 	end
 
 	# Invite someone to attend event
