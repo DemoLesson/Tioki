@@ -19,6 +19,12 @@ class ApplicationController < ActionController::Base
 
 	def check_login_token
 
+		begin
+			raise StandardError, "Hello"
+		rescue => e
+			log_exception(e)
+		end
+
 		# HACK: Make this run on every page load.
 		# If there is a referer set in the page url then
 		# Save it to the session for use during registration
@@ -170,12 +176,8 @@ class ApplicationController < ActionController::Base
 		def render_404(exception)
 			
 			# Log Error
-			error = String.new
-			error << "\nURL: #{request.fullpath}"
-			error << "\n#{exception.class} (#{exception.message}):"
-			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
-			Rails.logger.error(error)
-			
+			log_exception(exception)
+
 			# Path that was not found
 			@not_found_path = request.fullpath
 			render template: 'errors/error_404', layout: 'layouts/application', status: 404
@@ -184,13 +186,28 @@ class ApplicationController < ActionController::Base
 		def render_500(exception)
 
 			# Log Error
-			error = String.new
-			error << "\nURL: #{request.fullpath}"
-			error << "\n#{exception.class} (#{exception.message}):"
-			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
-			Rails.logger.fatal(error)
-
+			log_exception(exception)
 			render template: 'errors/error_500', layout: 'layouts/application', status: 500
 		end
 
+		def log_exception(exception, severity = 4)
+
+			# Log Error
+			short = "#{exception.class} (#{exception.message})"
+
+			error = String.new
+			error << "\nURL: #{request.fullpath}"
+			error << "\n" + short + "\n"
+			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
+
+			file, line, method = exception.backtrace.first.split(':')
+			method = method [4..-2]
+
+			unless NOTIFY.nil?
+				NOTIFY.notify!(:short_message => short, :full_message => error, :level => severity, :file => file, :line => line, :method => method)
+			else
+				Rails.logger.error(error) if severity == 4
+				Rails.logger.fatal(error) if severity == 3
+			end
+		end
 end
