@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <%= form_tag "/updatevouch" do %>
   <h1>Vouch for <%= @vouch.vouchee.name %>'s Skills</h1><br />
   <%= @vouch.vouchee.first_name %> has asked to you to vouch for some of their skills. This will help verify <%= @vouch.vouchee.first_name %>'s teaching ability to their professional network.<br /><br />
@@ -8,3 +9,4 @@
   <%= hidden_field_tag :url, params[:u] %>
   <%= submit_tag "Vouch", :class => "button" %>
 <% end %>
+</section>

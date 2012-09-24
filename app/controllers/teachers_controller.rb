@@ -685,4 +685,9 @@ class TeachersController < ApplicationController
 		# Get a list of existing skills
 		@existing_skills = teacher_path(self.current_user.teacher) + '/skills'
 	end
+
+	def request_vouch
+		@teacher = User.current.teacher
+		@vouch = Vouch.new
+	end
 end
