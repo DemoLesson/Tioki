@@ -67,7 +67,7 @@
 		<section class="panel one-column right-side">
 			<h3 style="margin:0px;">Twitter Feed</h3>
 			<ul style="margin:0px;">
-				<% Twitter.search("#tioki OR #edtech OR #edchat").results.each do |t| %>
+				<% Twitter.search("#tioki OR #edtech OR #edchat", :rpp => 8).results.each do |t| %>
 					<li>
 						<div class="profile-thumb-small" style="float:left;">
 							<%= image_tag(t.profile_image_url) %>
@@ -230,7 +230,28 @@
 				</a>
 			</h3>
 			<ul>
-				<% @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)}.each do |event| %>
+				<% rsvp = @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)} %>
+				<% if rsvp.empty? %>
+					<li>You have no RSVP's. So here is some upcoming events.</li>
+					<% Event.where("`end_time` > CURDATE()").limit(5).each do |event| %>
+						<li>
+							<div class="calendar-thumb">
+								<div class="cal-month">
+								<%= event.start_time.localtime.strftime("%^b") %>
+								</div>
+								<div class="cal-date">
+								<%= event.start_time.localtime.strftime("%e") %>
+								</div>
+								</div>
+								<p>
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+								</p>
+								<div class=" quick-action star-gold">
+							</div>
+						</li>
+					<% end %>
+				<% end %>
+				<% rsvp.each do |event| %>
 					<li>
 						<div class="calendar-thumb">
 							<div class="cal-month">
