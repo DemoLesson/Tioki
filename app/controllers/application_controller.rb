@@ -19,12 +19,6 @@ class ApplicationController < ActionController::Base
 
 	def check_login_token
 
-		begin
-			raise StandardError, "Hello"
-		rescue => e
-			log_exception(e)
-		end
-
 		# HACK: Make this run on every page load.
 		# If there is a referer set in the page url then
 		# Save it to the session for use during registration
