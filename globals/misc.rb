@@ -77,6 +77,75 @@ class Hash
   	end
 end
 
+class String
+
+	# Grab url elements and turn into anchor links
+	def url2link(attrs = {})
+		return nil unless attrs.is_a?(Hash)
+
+		# Prepare the attributes
+		attributes = Array.new
+		attrs.each do |key, val|
+			attributes << "#{key}=\"#{val}\""
+		end; attributes = attributes.join(' ')
+
+		# Extract links from the message
+		addData = Hash.new; addData["urls"] = Array.new
+		self.scan(URI.regexp(['http', 'https'])) do |*m|
+			addData["urls"] << $&
+		end
+
+		# Get self for gsubbing
+		message = ' ' + self + ' '
+
+		# Create links and screenshots
+		addData["urls"].each do |u|
+			message = message.gsub(" #{u} ", " <a href=\"#{u}\" #{attributes}>#{u}</a> ")
+		end
+
+		return message.strip.html_safe
+	end
+
+	def tweetify(attrs = {})
+		return nil unless attrs.is_a?(Hash)
+
+		# Prepare the attributes
+		attributes = Array.new
+		attrs.each do |key, val|
+			attributes << "#{key}=\"#{val}\""
+		end; attributes = attributes.join(' ')
+
+		# Extract hashtags from the tweet
+		addData = Hash.new; addData["hashtags"] = Array.new
+		self.scan(/(?:(?<=\s)|^)#(\w*[A-Za-z_]+\w*)/) do |*m|
+			addData["hashtags"] << $&
+		end
+
+		# Extract @mentions from the tweet
+		addData["usernames"] = Array.new
+		self.scan(/@([A-Za-z0-9_]+)[:]*/) do |*m|
+			addData["usernames"] << $&
+		end
+
+		# Get self for gsubbing
+		message = ' ' + self + ' '
+
+		# Create hashtags links
+		addData["hashtags"].each do |u|
+			url = "http://twitter.com/search/?src=hash&q=%23#{u[1..-1]}"
+			message = message.gsub(" #{u} ", " <a href=\"#{url}\" #{attributes}>#{u}</a> ")
+		end
+
+		# Create mention links
+		addData["usernames"].each do |u|
+			user = /@([A-Za-z0-9_]+)[:]*/.match(u)[1]
+			message = message.gsub(u, "<a href=\"http://twitter.com/#{user}\" #{attributes}>#{u}</a>")
+		end
+
+		return message.strip.html_safe
+	end
+end
+
 # Determine if a domain uses google mail
 require 'dnsruby'
 def is_gmail(check)
