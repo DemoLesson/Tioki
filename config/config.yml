@@ -4,15 +4,16 @@ development:
     domainKey: "8C7MFY8C7PDGQPDBNY3Y"
     domainPassword: "qBllL4lCeVqJoEGl"
   twitter:
-    consumer_key: "dewkJscRfQ5aWCbEGosg"
-    consumer_secret: "YkFgn0vSsP4W7aK0Wpk9v8EeoUoBWzLijLqPg7zaE"
-    oauth_token: "16490339-JsI85ohqBbPz5IMYpNx7VQ5vZV8r9kLyaF04wLhFP"
-    oauth_token_secret: "4QGGFYerKWx2b9tk17uF1BBE1MYzSeHoaNrcteT0Yg"
+    consumer_key: "D7KBupvJjm6Ltc2RqDiiA"
+    consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
+    oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
+    oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
 production:
   cloudsponge:
-    # DemoLesson.com
-    #domainKey: "3Z4S85SUET5Z5AJEEERR"
-    #domainPassword: "422NkRAnq4Y9EGn4"
-    # Tioki.com
     domainKey: "HKY55PWXKBCMNTYWSAV7"
     domainPassword: "3QglPk583veJMRNo"
+  twitter:
+    consumer_key: "D7KBupvJjm6Ltc2RqDiiA"
+    consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
+    oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
+    oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
