@@ -95,7 +95,7 @@ class Whiteboard < ActiveRecord::Base
 		end
 
 		# Return the new message
-		return m
+		return m.html_safe
 	end
 
 	def getModels

@@ -37,6 +37,8 @@ class HomeController < ApplicationController
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
 
+        @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(5)
+
         @pendingcount = self.current_user.pending_connections.count
 
         @user = User.find(self.current_user)
