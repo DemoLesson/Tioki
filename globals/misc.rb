@@ -96,14 +96,14 @@ class String
 		end
 
 		# Get self for gsubbing
-		message = self
+		message = ' ' + self + ' '
 
 		# Create links and screenshots
 		addData["urls"].each do |u|
-			message = message.gsub(u, "<a href=\"#{u}\" #{attributes}>#{u}</a>")
+			message = message.gsub(" #{u} ", " <a href=\"#{u}\" #{attributes}>#{u}</a> ")
 		end
 
-		return message.html_safe
+		return message.strip.html_safe
 	end
 
 	def tweetify(attrs = {})
@@ -123,26 +123,26 @@ class String
 
 		# Extract @mentions from the tweet
 		addData["usernames"] = Array.new
-		self.scan(/@([A-Za-z0-9_]+)/) do |*m|
+		self.scan(/@([A-Za-z0-9_]+)[:]*/) do |*m|
 			addData["usernames"] << $&
 		end
 
 		# Get self for gsubbing
-		message = self
+		message = ' ' + self + ' '
 
 		# Create hashtags links
 		addData["hashtags"].each do |u|
 			url = "http://twitter.com/search/?src=hash&q=%23#{u[1..-1]}"
-			message = message.gsub(u, "<a href=\"#{url}\" #{attributes}>#{u}</a>")
+			message = message.gsub(" #{u} ", " <a href=\"#{url}\" #{attributes}>#{u}</a> ")
 		end
 
 		# Create mention links
 		addData["usernames"].each do |u|
-			url = "http://twitter.com/#{u[1..-1]}"
-			message = message.gsub(u, "<a href=\"#{url}\" #{attributes}>#{u}</a>")
+			user = /@([A-Za-z0-9_]+)[:]*/.match(u)[1]
+			message = message.gsub(u, "<a href=\"http://twitter.com/#{user}\" #{attributes}>#{u}</a>")
 		end
 
-		return message.html_safe
+		return message.strip.html_safe
 	end
 end
 

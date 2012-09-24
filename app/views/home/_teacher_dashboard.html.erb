@@ -64,15 +64,30 @@
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
 		</section> <!-- END WHITEBOARD -->
-		
 		<section class="panel one-column right-side">
+			<h3 style="margin:0px;">Twitter Feed</h3>
+			<ul style="margin:0px;">
+				<% Twitter.search("#tioki OR #edtech OR #edchat").results.each do |t| %>
+					<li>
+						<div class="profile-thumb-small" style="float:left;">
+							<%= image_tag(t.profile_image_url) %>
+						</div>
+						<strong>
+							<%= link_to "#{t.from_user_name} (@#{t.from_user})", "http://twitter.com/#{t.from_user}", :class => "byline" %> at <%= t.created_at.strftime("%l:%M%P on %B %e, %Y") %>
+						</strong><br />
+						<p style="float:none;"><%= t.text.url2link(:target => '_blank').tweetify(:target => '_blank') %></p>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+		<!--section class="panel one-column right-side">
 			<h3>
 				<a href="#">
 				My Favorites <span style ="color: #F66C4C"> Coming Soon </span>
 				</a>
 			</h3>
 			
-			<!--<ul>
+			<ul>
 				<li>
 					<div class="profile-thumb-small">
 					</div>
@@ -146,8 +161,8 @@
 					</div>
 				</li>
 				
-			</ul> -->
-		</section> <!-- END MY FAVORITES -->
+			</ul>
+		</section--> <!-- END MY FAVORITES -->
 		<section class="panel one-column left-side">
 			<h3>
 				<a href="#">
@@ -244,26 +259,6 @@
 		<div class="clearfloat"></div>
 	</section>
 	<div class="clearfloat"></div>
-
-	<section class="panel">
-		<h3 style="margin:0px;">Twitter Feed</h3>
-		<ul style="margin:0px;">
-			<% Twitter.search("#tioki OR #edtech OR #edchat").results.each do |t| %>
-				<li>
-					<div class="profile-thumb-small" style="float:left;">
-						<%= image_tag(t.profile_image_url) %>
-					</div>
-					<strong>
-						<%= link_to "#{t.from_user_name} (@#{t.from_user})", "http://twitter.com/#{t.from_user}", :class => "byline" %> at <%= t.created_at.strftime("%l:%M%P on %B %e, %Y") %>
-					</strong><br />
-					<p style="float:none;"><%= t.text.url2link(:target => '_blank').tweetify(:target => '_blank') %></p>
-				</li>
-			<% end %>
-		</ul>
-	</section>
-
-	<div class="clearfloat"></div>
-	
 </section> <!-- End Main Content -->
 <script type="text/javascript">
 // White board more
