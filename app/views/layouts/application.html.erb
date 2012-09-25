@@ -104,34 +104,6 @@
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>
-				<% elsif self.current_user.is_admin? %>
-					<div id="user-actions">
-						<ul>
-							<li class="user-name">
-								<%= self.current_user.name %>
-								<div class="gear">
-								</div>
-								
-								<ul>
-									<% if !self.current_user.is_limited %>
-										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-									<% else %>
-										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
-									<% end %>
-									<li>
-										<a href="/me/settings">
-										Account Settings
-										</a> 
-									</li>
-									<li>
-										<a href="/logout">
-										Logout
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
 				<% else %>
 					<div id="user-actions">
 						<ul>
@@ -143,16 +115,37 @@
 								</a>
 								
 								<ul>
-									<li>
-										<a href="/me/profile/edit">
-										Edit Profile
-										</a>
-									</li>
+									<!-- Admin Methods -->
+									<% if self.current_user.is_admin && !self.current_user.is_limited %>
+										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+									<% elsif self.current_user.is_admin %>
+										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+									<% end %>
+
+									<!-- Schools -->
+
+									<!-- All -->
 									<li>
 										<a href="/me/settings">
 										Account Settings
 										</a> 
 									</li>
+
+									<!-- Teacher Methods -->
+									<% unless self.current_user.teacher.nil? %>
+										<li>
+											<a href="/me/settings/privacy">
+											Privacy Settings
+											</a> 
+										</li>
+										<li>
+											<a href="/me/profile/edit">
+											Edit Profile
+											</a>
+										</li>
+									<% end %>
+
+									<!-- Logout -->
 									<li>
 										<a href="/logout">
 										Logout

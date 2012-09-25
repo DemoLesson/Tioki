@@ -681,6 +681,34 @@ class UsersController < ApplicationController
 		redirect_to :back
 	end
 
+	# Privacy method
+	def privacy
+
+		# Get the current logged in user
+		@user = User.find(self.current_user.id)
+
+		if request.post?
+
+			# Get BitSwitch
+			privacy = @user.privacy
+
+			# Set the new values
+			params[:public].each do |slug, tf|
+				privacy[slug] = tf.to_i
+			end
+
+			# Update the attribute
+			if @user.update_attribute(:privacy, privacy)
+				flash[:success] = "Saved privacy settings"
+			else
+				flash[:success] = "Could not save privacy settings"
+			end
+
+			# Reload page
+			redirect_to :action => :privacy
+		end
+	end
+
 	private
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin

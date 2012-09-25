@@ -54,8 +54,13 @@ Preview::Application.routes.draw do
 			root :to => 'teachers#profile'
 		end
 
-		# Misc
-		match 'settings' => 'users#edit'
+		scope 'settings' do
+			match 'privacy' => 'users#privacy'
+			root :to => 'users#edit'
+		end
+
+		# User dashboard
+		root :to => 'home#index'
 	end
 
 	# Public profiles

@@ -365,6 +365,10 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def privacy
+		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
+	end
+
 	def cleanup
 		@schools = School.find(:all, :conditions => ['owned_by = ?', self.id])
 		@schools.each do |school|
