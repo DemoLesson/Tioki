@@ -14,7 +14,7 @@ development:
       1: "attachments"
       2: "avatar"
       3: "video"
-      4: "currently"
+      4: "current_job"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -30,4 +30,4 @@ production:
       1: "attachments"
       2: "avatar"
       3: "video"
-      4: "currently"
+      4: "current_job"
