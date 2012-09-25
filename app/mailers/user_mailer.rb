@@ -72,8 +72,14 @@ class UserMailer < ActionMailer::Base
 		ab = Abtests.use("email:userconnect", 1).to_s
 		template = "userconnect_" + ab
 
-		mail = mail(:to => @user.email, :subject => @owner.first_name + ' wants to connect with you!') do |t|
-			t.html { render template }
+		if ab == 0
+			mail = mail(:to => @user.email, :subject => 'You have a new connection!') do |t|
+				t.html { render template }
+			end
+		else
+			mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!") do |t|
+				t.html { render template }
+			end
 		end
 
 		if mail.delivery_method.respond_to?('tag')
@@ -416,8 +422,15 @@ class UserMailer < ActionMailer::Base
 		template = "connection_invite_" + ab
 
 		# Send out the email
-		mail = mail(:to => emails, :subject => @teachername + " wants you to checkout tioki!") do |f|
-			f.html { render template }
+		# Use new subject lines
+		if ab == 0
+			mail = mail(:to => emails, :subject => @teachername + " wants you to checkout Tioki!") do |f|
+				f.html { render template }
+			end
+		else
+			mail = mail(:to => emails, :subject => @teachername + " wants to connect on Tioki!") do |f|
+				f.html { render template }
+			end
 		end
 
 		if mail.delivery_method.respond_to?('tag')

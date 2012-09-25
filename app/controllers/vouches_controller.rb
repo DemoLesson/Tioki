@@ -1,7 +1,7 @@
 class VouchesController < ApplicationController
   def vouchrequest
     if params[:skills] == nil || params[:skills].size == '0'
-      redirect_to :back, :notice => "You must choose at least one of your skills to be vouched in."
+      return redirect_to :back, :notice => "You must choose at least one of your skills to be vouched in."
     end
     user = User.find(:first, :conditions => ["email = ?", params[:vouch][:email]])
     @vouch = Vouch.new(params[:vouch])
@@ -15,11 +15,11 @@ class VouchesController < ApplicationController
           SkillToVouch.create(:skill_id => skill, :vouch_id => @vouch.id)
         end
         @vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s )
-        url="http://#{request.host_with_port}/card/#{self.current_user.teacher.url}?u=" + @vouch.url
+        url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
         UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-        redirect_to '/card/'+self.current_user.teacher.url, :notice => "Success"
+        redirect_to '/'+User.current.teacher.url, :notice => "Success"
       else
-        redirect_to '/card/'+self.current_user.teacher.url, :notice => @vouch.errors.full_messages.to_sentence
+        redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
       end
     elsif user != nil
       #Send a vouch request email
@@ -30,15 +30,15 @@ class VouchesController < ApplicationController
         if params[:skills_for_teacher]
           params[:skills_for_teacher].each do |skill|
             ReturnedSkill.create(:vouch_id => @vouch.id, :skill_id => skill)
-            VouchedSkill.create(:user_id => user.id, :skill_id => skill )
+            VouchedSkill.create(:user_id => user.id, :skill_id => skill)
           end
         end
         @vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
-        url="http://#{request.host_with_port}/card/#{self.current_user.teacher.url}?u=" + @vouch.url
+        url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
         UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-        redirect_to '/card/'+self.current_user.teacher.url, :notice => "Success"
+        redirect_to '/'+User.current.teacher.url
       else
-        redirect_to '/card/'+self.current_user.teacher_url, :notice => @vouch.errors.full_messages.to_sentence
+        redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
       end
     else
       #Person is teacher without an account with demolesson
@@ -53,11 +53,11 @@ class VouchesController < ApplicationController
           end
         end
         @vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
-        url="http://#{request.host_with_port}/card/#{self.current_user.teacher.url}?u=" + @vouch.url
+        url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
         UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email], url).deliver
-        redirect_to '/card/'+self.current_user.teacher.url, :notice => "Success"
+        redirect_to '/'+User.current.teacher.url, :notice => "Success"
       else
-        redirect_to '/card/'+self.current_user.teacher.url, :notice => @vouch.errors.full_messages.to_sentence
+        redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
       end
     end
   end
@@ -69,9 +69,9 @@ class VouchesController < ApplicationController
     end
     @vouch.update_attribute(:pending, false)
     if @vouch.for_new_educator == true
-      redirect_to "/card?u="+@vouch.url, :notice => "Success"
+      redirect_to "/welcome_wizard?x=step1&vouchstring=#{@vouch.url}", :notice => "Success"
     else
-      redirect_to '/card/'+@vouch.vouchee.teacher.url, :notice => "Success"
+      redirect_to '/'+User.current.teacher.url, :notice => "Success"
     end
   end
 

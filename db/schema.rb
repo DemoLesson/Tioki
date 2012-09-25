@@ -603,6 +603,7 @@ ActiveRecord::Schema.define(:version => 20120924234904) do
     t.boolean  "pending",          :default => true
     t.string   "url"
     t.boolean  "for_new_educator", :default => false
+    t.integer  "voucher_id"
   end
 
   create_table "whiteboards", :force => true do |t|

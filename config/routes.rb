@@ -244,6 +244,7 @@ Preview::Application.routes.draw do
 	match 'vouchrequest' => 'vouches#vouchrequest'
 	match 'vouchresponse' => 'vouches#vouchresponse'
 	match 'updatevouch' => 'vouches#updatevouch'
+	match 'requestvouch' => 'teachers#request_vouch'
 	match 'unlocked' => 'vouches#unlocked'
 
 	#resources :jobs do 

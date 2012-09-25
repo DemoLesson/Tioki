@@ -139,7 +139,7 @@ class User < ActiveRecord::Base
 		if t.nil?
 
 			# Crate a new teacher
-			t = Teacher.create!(:user => self)
+			t = Teacher.new(:user => self)
 
 			# Link up the current user
 			t.user_id = self.id

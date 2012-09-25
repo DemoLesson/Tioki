@@ -23,10 +23,16 @@ class WelcomeWizardController < ApplicationController
 
 		#check if this account is part of a mass invite email
 		if params[:invitestring]
-		  @invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
-		  if @invite == nil
-			params[:invitestring] = nil
-		  end
+			@invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+			if @invite == nil
+				params[:invitestring] = nil
+			end
+		#check if account is part of a vouchrequest
+		elsif params[:vouchstring]
+			@vouch = Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
+			if @vouch == nil
+				params[:vouchstring] = nil
+			end
 		end
 		
 		# Detect post variables
@@ -67,6 +73,16 @@ class WelcomeWizardController < ApplicationController
 
 						session[:_ak] = "unlock_external_email"
 					end
+				elsif params[:vouchstring]
+					# Find a vouch matching urlstring
+					@vouch=Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
+					@vouch.update_attribute(:voucher_id, @user.id)
+
+					# Loop through the skills attached to the vouch
+					@vouch.returned_skills.each do |skill|
+						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id)
+					end
+					session[:_ak] = "unlock_vouches"
 				end
 
 				# Wizard Key
