@@ -457,7 +457,9 @@ class TeachersController < ApplicationController
 				school = education.school_name
 				degree = education.degree
 				concentrations = education.field_of_study
-				year = education.end_date.year
+				if education.end_date
+					year = education.end_date.year
+				end
 				@teacher.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
 				@teacher.save
 			end
@@ -471,8 +473,12 @@ class TeachersController < ApplicationController
 			user.positions.all.each do |position|
 				company = position.company.name
 				positiontitle = position.title
-				startMonth = position.start_date.month
-				startYear = position.start_date.year
+				if position.start_date
+					startMonth = position.start_date.month
+				end
+				if position.start_date
+					startYear = position.start_date.year
+				end
 				if position.is_current == true
 					endMonth = Time.now.month
 					endYear = Time.now.year
