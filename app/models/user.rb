@@ -406,11 +406,11 @@ class User < ActiveRecord::Base
 
 	# Store the currently active user for access
 	def self.current
-		Thread.current[:user]
+		@user
 	end
 
 	def self.current=(user)
-		Thread.current[:user] = user
+		@user = user
 	end
 end
  

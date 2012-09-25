@@ -198,7 +198,7 @@ class Teacher < ActiveRecord::Base
   end
 
   def profile_link
-    return "<a href=\"/#{self.url}\">#{self.user.name}</a>"
+    return "<a href=\"/profile/#{self.url}\">#{self.user.name}</a>"
   end
   
 end
