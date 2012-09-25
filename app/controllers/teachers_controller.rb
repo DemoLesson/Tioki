@@ -475,8 +475,6 @@ class TeachersController < ApplicationController
 				positiontitle = position.title
 				if position.start_date
 					startMonth = position.start_date.month
-				end
-				if position.start_date
 					startYear = position.start_date.year
 				end
 				if position.is_current == true
