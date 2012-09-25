@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< Updated upstream
-ActiveRecord::Schema.define(:version => 20120924234904) do
-=======
 ActiveRecord::Schema.define(:version => 20120925193449) do
->>>>>>> Stashed changes
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -215,10 +211,6 @@ ActiveRecord::Schema.define(:version => 20120925193449) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
-  end
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -495,7 +487,7 @@ ActiveRecord::Schema.define(:version => 20120925193449) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -539,9 +531,9 @@ ActiveRecord::Schema.define(:version => 20120925193449) do
     t.boolean  "is_shared",           :default => false, :null => false
     t.boolean  "is_limited",          :default => false, :null => false
     t.boolean  "emailsubscription",   :default => true
-    t.string   "time_zone",           :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "time_zone",           :default => "UTC"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
