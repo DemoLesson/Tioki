@@ -264,6 +264,7 @@ Preview::Application.routes.draw do
 	match 'updatevouch' => 'vouches#updatevouch'
 	match 'requestvouch' => 'teachers#request_vouch'
 	match 'unlocked' => 'vouches#unlocked'
+	match 'addvouch' => 'vouches#addvouch'
 
 	#resources :jobs do 
 	#  get :auto_complete_search, :on => :collection
@@ -287,6 +288,7 @@ Preview::Application.routes.draw do
 	resources :credentials
 	resources :blog_entries
 	resources :messages
+	resources :vouches
 	resources :connections do
 		collection do
 			get 'add_and_redir'

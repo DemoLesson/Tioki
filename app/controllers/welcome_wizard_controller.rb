@@ -80,7 +80,7 @@ class WelcomeWizardController < ApplicationController
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id)
+						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id, :voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end

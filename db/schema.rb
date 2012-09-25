@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< Updated upstream
 ActiveRecord::Schema.define(:version => 20120924234904) do
+=======
+ActiveRecord::Schema.define(:version => 20120925193449) do
+>>>>>>> Stashed changes
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -589,6 +593,7 @@ ActiveRecord::Schema.define(:version => 20120924234904) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "voucher_id"
   end
 
   create_table "vouches", :force => true do |t|
@@ -603,7 +608,6 @@ ActiveRecord::Schema.define(:version => 20120924234904) do
     t.boolean  "pending",          :default => true
     t.string   "url"
     t.boolean  "for_new_educator", :default => false
-    t.integer  "voucher_id"
   end
 
   create_table "whiteboards", :force => true do |t|
