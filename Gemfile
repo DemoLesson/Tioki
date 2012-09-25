@@ -39,6 +39,8 @@ gem "zencoder", "~> 2.4.0"
 gem 'httpclient'
 gem 'oauth'
 
+gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
+
 # Using Bleeding Edge (might be bad idea but lets see)
 gem 'mysql2', :git => 'git://github.com/brianmario/mysql2.git'
 
