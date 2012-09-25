@@ -567,13 +567,9 @@ class UsersController < ApplicationController
 		@stats.push({:name => 'Total Applicants', :value => @applicants})
 	end
 
-        def referral_user_list
-          @teachers = Teacher.all
-
-          @teachers.select! { |teacher| teacher.user != nil && teacher.user.successful_referrals.size > 0 }
-          @teachers = @teachers.paginate :per_page => 100, :page => params[:page]
-
-        end
+	def referral_user_list
+		@teachers = Teacher.joins(:user => :connection_invites).paginate(:per_page => 100, :page => params[:page], :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && date(connection_invites.created_at) > ? ', "2012-09-20"])
+	end
 
 	def organization_user_list
 		if params[:orgname]

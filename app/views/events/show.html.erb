@@ -17,84 +17,71 @@
 		<% end %>
 	</section>
 
-	<% if @event.published || (!self.current_user.nil? && (self.current_user.is_admin || @event.user == self.current_user)) %>
+	<% unless @event.virtual %>
+		<div class="map" style="float:right;width:350px;">
+			<iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<%= @event.loc_address + ', ' + @event.loc_address1 + ', ' + @event.loc_city + ', ' + @event.loc_state + ', ' + @event.loc_zip %>&amp;output=embed"></iframe>
+		</div>
+	<% end %>
 
-		<% unless @event.published %>
-			<div style="border:solid 1px #DADADA;background:#DDD;padding:15px;margin-bottom:15px;">
-				<h3>This event is pending approval</h3>
-				<p>This event is pending approval from the DemoLesson Team to be publically listed. You may revise your submission until it’s approved.</p>
-			</div>
+	<div style="<%= "margin-right:360px;" unless @event.virtual %>">
+
+		<h3><%= @event.name %> <%= "[" + @event.eventformats[0].name + "]" unless @event.eventformats.nil? || @event.eventformats.empty? %></h3>
+
+		<% topics = []
+		@event.eventtopics.each do |topic|
+			topics << topic.name
+		end %>
+		
+		<span style="font-style:italic;">
+			<%= topics.join(', ') %>
+		</span>
+
+		<p><%= @event.description %></p>
+
+		<h7>Event Hours</h7><br />
+		<%= event_hours @event %><br/><br />
+
+		<% unless !@event.rsvp_req && @event.rsvp_deadline.nil? %>
+			<h7>RSVP Deadline</h7><br />
+			<%= date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M%P") %><br /><br />
+		<% end %>
+
+		<% if !@event.attendance_cost.nil? && @event.attendance_cost > 0 %>
+			<h7>Attendance Cost</h7><br />
+			<%= number_to_currency @event.attendance_cost %> / person<br /><br />
 		<% end %>
 
 		<% unless @event.virtual %>
-			<div class="map" style="float:right;width:350px;">
-				<iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<%= @event.loc_address + ', ' + @event.loc_address1 + ', ' + @event.loc_city + ', ' + @event.loc_state + ', ' + @event.loc_zip %>&amp;output=embed"></iframe>
-			</div>
+			<h7>Event Location</h7><br/>
+			<blockquote>
+				<span class="bold"><%= @event.loc_name %></span><br />
+				<%= @event.loc_address %> <%= @event.loc_address1 %><br />
+				<%= @event.loc_city %>, <%= @event.loc_state %><br />
+				<%= @event.loc_zip %>
+			</blockquote>
+		<% else %>
+			<h7>Virtual Access</h7><br />
+			<blockquote>
+				<% unless @event.virtual_phone == nil %>
+					Phone Call In Number: <%= @event.virtual_phone %><br />
+					<%= "Phone Access Code: " + @event.virtual_phone_access unless @event.virtual_phone_access == nil %><br />
+				<% end %>
+				<% unless @event.virtual_web_link == nil %>
+					 Website Event: <a href="<%= @event.virtual_web_link %>" target="_blank"><%= @event.virtual_web_link %></a><br />
+					<%= "Website Access Code: " + @event.virtual_web_access unless @event.virtual_web_access == nil %><br />
+				<% end %>
+				<%= "TV Station: " + @event.virtual_tv_station unless @event.virtual_tv_station == nil %>
+			</blockquote>
 		<% end %>
 
-		<div style="<%= "margin-right:360px;" unless @event.virtual %>">
-
-			<h3><%= @event.name %> <%= "[" + @event.eventformats[0].name + "]" unless @event.eventformats.nil? || @event.eventformats.empty? %></h3>
-
-			<% topics = []
-			@event.eventtopics.each do |topic|
-				topics << topic.name
-			end %>
-			
-			<span style="font-style:italic;">
-				<%= topics.join(', ') %>
-			</span>
-
-			<p><%= @event.description %></p>
-
-			<h7>Event Hours</h7><br />
-			<%= event_hours @event %><br/><br />
-
-			<% unless !@event.rsvp_req && @event.rsvp_deadline.nil? %>
-				<h7>RSVP Deadline</h7><br />
-				<%= date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M%P") %><br /><br />
+		<% unless @event.host_organization == nil %>
+			<h7>Hosting Organization</h7><br />
+			Name: <%= @event.host_organization %><br />
+			<% unless @event.host_organization_website == nil %>
+				Organization Webite: <a href="<%= @event.host_organization_website %>" target="_blank"><%= @event.host_organization_website %></a>
 			<% end %>
+		<% end %>
 
-			<% if !@event.attendance_cost.nil? && @event.attendance_cost > 0 %>
-				<h7>Attendance Cost</h7><br />
-				<%= number_to_currency @event.attendance_cost %> / person<br /><br />
-			<% end %>
-
-			<% unless @event.virtual %>
-				<h7>Event Location</h7><br/>
-				<blockquote>
-					<span class="bold"><%= @event.loc_name %></span><br />
-					<%= @event.loc_address %> <%= @event.loc_address1 %><br />
-					<%= @event.loc_city %>, <%= @event.loc_state %><br />
-					<%= @event.loc_zip %>
-				</blockquote>
-			<% else %>
-				<h7>Virtual Access</h7><br />
-				<blockquote>
-					<% unless @event.virtual_phone == nil %>
-						Phone Call In Number: <%= @event.virtual_phone %><br />
-						<%= "Phone Access Code: " + @event.virtual_phone_access unless @event.virtual_phone_access == nil %><br />
-					<% end %>
-					<% unless @event.virtual_web_link == nil %>
-						 Website Event: <a href="<%= @event.virtual_web_link %>" target="_blank"><%= @event.virtual_web_link %></a><br />
-						<%= "Website Access Code: " + @event.virtual_web_access unless @event.virtual_web_access == nil %><br />
-					<% end %>
-					<%= "TV Station: " + @event.virtual_tv_station unless @event.virtual_tv_station == nil %>
-				</blockquote>
-			<% end %>
-
-			<% unless @event.host_organization == nil %>
-				<h7>Hosting Organization</h7><br />
-				Name: <%= @event.host_organization %><br />
-				<% unless @event.host_organization_website == nil %>
-					Organization Webite: <a href="<%= @event.host_organization_website %>" target="_blank"><%= @event.host_organization_website %></a>
-				<% end %>
-			<% end %>
-
-		</div>
-
-	<% else %>
-		<p>We're sorry this event is still awaiting approval before it will be published.</p>
-	<% end %>
+	</div>
 
 </section>

@@ -1,0 +1,58 @@
+
+<%= form_for @vouch, :url => "/vouchrequest" do |f| %>
+
+	<div id="first_step">
+		<h1>Ask a friend to vouch for your skills</h1>
+		Once somebody vouches for your skills, you'll get a verified stamp on your card which confirms your mastery of these skills.<br />
+		<%= f.text_field :first_name, :placeholder => "First Name" %><br />
+		<%= f.text_field :last_name, :placeholder => "Last Name" %><br />
+		<%= f.text_field :email, :placeholder => "Email" %><br />
+		<%= f.text_field :title, :placeholder => "Title" %><br />
+		<%= f.text_field :company, :placeholder => "School/Company" %><br />
+		Is this person an educator? <%= radio_button_tag "is_teacher", '1', true, :id => "teacher_true" %>Yes <%= radio_button_tag "is_teacher", '0', false, :id => "teacher_false" %>No<br />
+		<a href='#' class="action-button bg-salmon" id="next_step_button">Next Step</a>
+	</div>
+
+	<div id="next_step" style="display:none">
+		<h1>Select the skills you want this person to verify you possess.</h1>
+		<% @teacher.user.skills.each do |skill| %>
+			<%= check_box_tag "skills[]", skill.id %><%= skill.name %><br />
+		<% end %>
+	</div>
+
+	<div id="complete_vouch" style="display:none">
+		<h1>Return the favor, and vouch for your friends skills too.</h1><br />
+		Select the skills they are good at.<br />
+		<% @teacher.user.skills.each do |skill| %>
+			<%= check_box_tag "skills_for_teacher[]", skill.id %><%= skill.name %><br />
+		<% end %>
+	</div>
+
+	<div id="end_button" style="display:none">
+		<br /><a href='#' class="action-button bg-salmon" id="complete_vouch_button">Complete Vouch</a>
+		<%= f.submit "Request Vouch", { :class => "button", :id => "request_vouch_button", :style => "display:none" } %>
+	</div>
+<% end %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#next_step_button").click(function () {
+			$("#first_step").hide()
+			$("#end_button").show()
+			$("#next_step").show()
+		});
+		$("#complete_vouch_button").click(function () {
+			$("#next_step").hide()
+			$("#complete_vouch_button").hide();
+			$("#request_vouch_button").show()
+			$("#complete_vouch").show()
+		});
+		$("#teacher_false").click(function() {
+			$("#complete_vouch_button").hide()
+			$("#request_vouch_button").show()
+		});
+		$("#teacher_true").click(function() {
+			$("#request_vouch_button").hide()
+			$("#complete_vouch_button").show()
+		});
+	});
+</script>

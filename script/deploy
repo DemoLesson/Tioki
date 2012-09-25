@@ -278,6 +278,24 @@ class DeployCLI
 		ENV["RAILS_ENV"] = renvironment
 	end
 
+	def memory(type = 'staging')
+
+		# Save the current rails environment
+		renvironment = ENV["RAILS_ENV"]
+
+		# Set the new rails environment
+		echo "Setting the rails environment to #{type}...\n"
+		ENV["RAILS_ENV"] = type
+
+		# Run command
+		ENV["COMMAND"] = "free -t -m | grep \"Total\" | awk '{ print \"Total Memory space : \"$2 \" MB\";print \"Used Memory Space : \"$3\" MB\";print \"Free Memory : \"$4\" MB\";}'"
+		system('cap invoke')
+
+		# Restore the original rails env
+		echo "\nFinished! Restoring the environment to #{renvironment}..."
+		ENV["RAILS_ENV"] = renvironment
+	end
+
 end
 
 # Get the command to run

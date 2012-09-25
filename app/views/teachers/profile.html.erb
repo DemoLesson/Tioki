@@ -94,6 +94,9 @@
 				</div>
 			</section>
 			<section class="info">
+				<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
+					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-salmon" %>
+				<% end %>
 				<p class="heading">
 				Skills
 				</p>

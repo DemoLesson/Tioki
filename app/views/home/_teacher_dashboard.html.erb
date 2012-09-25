@@ -64,15 +64,30 @@
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
 		</section> <!-- END WHITEBOARD -->
-		
 		<section class="panel one-column right-side">
+			<h3 style="margin:0px;">Twitter Feed</h3>
+			<ul style="margin:0px;">
+				<% Twitter.search("#tioki OR #edtech OR #edchat", :rpp => 8).results.each do |t| %>
+					<li>
+						<div class="profile-thumb-small" style="float:left;">
+							<%= image_tag(t.profile_image_url) %>
+						</div>
+						<strong>
+							<%= link_to "#{t.from_user_name} (@#{t.from_user})", "http://twitter.com/#{t.from_user}", :class => "byline" %> at <%= t.created_at.strftime("%l:%M%P on %B %e, %Y") %>
+						</strong><br />
+						<p style="float:none;"><%= t.text.url2link(:target => '_blank').tweetify(:target => '_blank') %></p>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+		<!--section class="panel one-column right-side">
 			<h3>
 				<a href="#">
 				My Favorites <span style ="color: #F66C4C"> Coming Soon </span>
 				</a>
 			</h3>
 			
-			<!--<ul>
+			<ul>
 				<li>
 					<div class="profile-thumb-small">
 					</div>
@@ -146,67 +161,36 @@
 					</div>
 				</li>
 				
-			</ul> -->
-		</section> <!-- END MY FAVORITES -->
+			</ul>
+		</section--> <!-- END MY FAVORITES -->
 		<section class="panel one-column left-side">
 			<h3>
 				<a href="#">
-				Latest Demo Lessons <span style ="color: #F66C4C"> Coming Soon </span>
+				Latest Demo Lessons
 				</a>
 			</h3>
-			<!--<ul>
-				<li>
-					<div class="video-thumb-small">
-						<div class="play-button">
-						</div>
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-empty">
-					</div>
-				</li>
-				<li>
-					<div class="video-thumb-small">
-						<div class="play-button">
-						</div>
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="video-thumb-small">
-						<div class="play-button">
-						</div>
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-gold">
-					</div>
-				</li>
-				<li>
-					<div class="video-thumb-small">
-						<div class="play-button">
-						</div>
-					</div>
-					<p>
-					Praesent pulvinar luctus arcu. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action star-empty">
-					</div>
-				</li>
+			<ul>
+				<% @latest_dl.each do |vid| %>
+					<li>
+						<a href="/profile/<%= vid.user.teacher.url %>">
+							<div class="video-thumb-small">
+								<div class="play-button">
+								</div>
+							</div>
+						</a>
+						<p><%= vid.getMessage %></p>
+						<!--div class=" quick-action star-empty">
+						</div-->
+					</li>
+				<% end %>
 			</ul>
 			<section class="panel-actions demolesson">
-				<a href="upload_video.html" class="action-button">
+				<a href="/me/profile/edit/upload-video" class="action-button">
 				Upload Demo Lesson
 				</a>
-				<a href="demolessons.html" class="icon">
+				<a href="/me/profile/edit/upload-video" class="icon">
 				</a>
-			</section> -->
+			</section>
 		</section> <!-- END DEMO LESSONS -->
 		<section class="panel one-column left-side">
 			<h3>
@@ -215,7 +199,28 @@
 				</a>
 			</h3>
 			<ul>
-				<% @user.rsvp.select{|x| x.published && (x.end_time.future? || x.end_time.today?)}.each do |event| %>
+				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
+				<% if rsvp.empty? %>
+					<li>You have no RSVP's. So here are some upcoming events.</li>
+					<% Event.where("`end_time` >= CURDATE()").limit(5).each do |event| %>
+						<li>
+							<div class="calendar-thumb">
+								<div class="cal-month">
+								<%= event.start_time.localtime.strftime("%^b") %>
+								</div>
+								<div class="cal-date">
+								<%= event.start_time.localtime.strftime("%e") %>
+								</div>
+								</div>
+								<p>
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+								</p>
+								<div class=" quick-action star-gold">
+							</div>
+						</li>
+					<% end %>
+				<% end %>
+				<% rsvp.each do |event| %>
 					<li>
 						<div class="calendar-thumb">
 							<div class="cal-month">
@@ -228,7 +233,7 @@
 							<p>
 							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 							</p>
-							<div class=" quick-action star-gold">
+							<!--div class=" quick-action star-gold"-->
 						</div>
 					</li>
 				<% end %>
@@ -237,15 +242,13 @@
 				<a href="/events/new" class="action-button">
 				Create New Event
 				</a>
-				<a href="events.html" class="icon">
+				<a href="/events/new" class="icon">
 				</a>
 			</section>
 		</section> <!-- END UPCOMING EVENTS -->
-	<div class="clearfloat"></div>
+		<div class="clearfloat"></div>
 	</section>
-
 	<div class="clearfloat"></div>
-	
 </section> <!-- End Main Content -->
 <script type="text/javascript">
 // White board more

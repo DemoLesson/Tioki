@@ -136,13 +136,6 @@
 			   	</p>
 				<%= f.text_field :virtual_tv_station %>
 			</section>
-			<% if self.current_user.is_admin %>
-				<section class="profile-info group">
-					<p class="top-line">You are an admin. You decide. Should this event be published into the public listing of events?</p>
-					<%= f.check_box :published, :style => 'display:inline;' %>
-					<%= f.label :published, "Bigger admin seal of approval (^_^)", :style => 'display:inline;' %>
-				</section>
-			<% end %>
 		</section> <!-- End Sidebar -->
 		<section class="right-sidebar">
 		

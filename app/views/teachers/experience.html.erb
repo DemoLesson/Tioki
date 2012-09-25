@@ -13,9 +13,9 @@
 				<%= experience.company %>
 				</strong><br />
 				<% if experience.current == true %>
-					 <%= experience.startMonth.to_s+"/"+experience.startYear.to_s %> - Present<br />
+					 <%= Time.strptime(experience.startMonth.to_s+"/"+experience.startYear.to_s, "%m/%Y").strftime("%B %Y") %> - Present<br />
 				<% else %>
-					<%=experience.startMonth.to_s+"/"+experience.startYear.to_s+" - "+experience.endMonth.to_s+"/"+experience.endYear.to_s %> <br />
+					<%= Time.strptime(experience.startMonth.to_s+"/"+experience.startYear.to_s, "%m/%Y").strftime("%B %Y") %> - <%= Time.strptime(experience.endMonth.to_s+"/"+experience.endYear.to_s, "%m/%Y").strftime("%B %Y") %><br />
 				<% end %>
 				<%= experience.description %>
 	

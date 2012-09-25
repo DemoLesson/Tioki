@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
 	has_many :skill_groups, :through => :skill_claims, :uniq => true
 	has_many :skill_group_descriptions, :dependent => :destroy
-        has_many :connection_invites
+	has_many :connection_invites, :dependent => :destroy
 
 	# Connecting to events
 	has_many :events
@@ -341,9 +341,9 @@ class User < ActiveRecord::Base
 		end
 	end
 
-        def successful_referrals
+	def successful_referrals
 		ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.id, "2012-09-20")
-        end
+	end
 	
 	def change_password(params)
 		@user = User.find(self.id)

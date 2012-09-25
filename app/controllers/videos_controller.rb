@@ -103,18 +103,22 @@ class VideosController < ApplicationController
     AWS::S3::S3Object.store(payload.original_filename, open(payload.tempfile), 'DemoLessonVideo', :access => :public_read)
     
     respond_to do |format|
-       if @video.save
-         @video.encode
-         if request.request_uri == "/card/"+self.current_user.teacher.url
-           format.html { redirect_to "/card/"+self.current_user.teacher.url }
-         else
-           format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
-           format.xml  { render :xml => @video, :status => :created }
-         end
-       else
-         format.html { render :action => "new" }
-         format.xml  { render :xml => :root, :status => :unprocessable_entity }
-       end
+      if @video.save
+        @video.encode
+
+        # Let users know about the new video that was uploaded
+        Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} uploaded a new video.", @video, {"video" => "zencoder"})
+
+        if request.request_uri == "/card/"+self.current_user.teacher.url
+          format.html { redirect_to "/card/"+self.current_user.teacher.url }
+        else
+          format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
+          format.xml  { render :xml => @video, :status => :created }
+        end
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => :root, :status => :unprocessable_entity }
+      end
     end
   end
   
@@ -151,6 +155,10 @@ class VideosController < ApplicationController
     @teacher.video_embed_html = json['html']
     if @teacher.video_embed_html
       @teacher.save
+
+      # Let users know about the new video that was uploaded
+      Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => @teacher.video_embed_url})
+
       redirect_to :back, :notice => 'Video was successfully embeded.'
     else
       redirect_to :back, :notice => 'Video could not be embeded, make sure you are using a valid url.'
