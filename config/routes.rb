@@ -63,11 +63,20 @@ Preview::Application.routes.draw do
 		root :to => 'home#index'
 	end
 
-	# Public profiles
-	match '/profile/:url' => 'teachers#profile'
-	match '/card/:url' => 'card#get'
+	# Profile Views
+	scope 'profile' do
 
-	# Match handle guest passcodes
+		# Card Profile
+		match ':url/card' => 'card#get'
+
+		# Guest Access
+		match ':url/:guest_pass' => 'teachers#profile'
+
+		# Normal Access
+		match ':url' => 'teachers#profile'
+	end
+
+	# Handle guest passcodes
 	match 'guest/:guest_pass' => 'teachers#guest_entry'
 
 	# Static pages by default route the action

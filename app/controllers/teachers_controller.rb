@@ -15,6 +15,20 @@ class TeachersController < ApplicationController
 				@teacher = self.current_user.teacher
 		end; end
 
+		# Check if user is a guest
+		@guest = false; unless params[:guest_pass].nil? || params[:guest_pass].empty?
+			@guest = params[:guest_pass].strip == @teacher.guest_code
+		end
+
+		# Check if user is connected to teacher or is self
+		@self = false; @connected = false
+		if !self.current_user.nil? && @teacher == self.current_user.teacher
+			@connected = true
+			@self = true
+		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@teacher.user_id)
+			@connected = true
+		end
+
 		# If the teacher could not be found then raise an exception
 		raise ActiveRecord::RecordNotFound, "Teacher not found." if @teacher.nil?
 

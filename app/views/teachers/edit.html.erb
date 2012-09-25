@@ -25,7 +25,7 @@
 				Guest Access Code:
 				</p>
 				<% if @teacher.guest_code != nil %>
-					<%= text_field :a, :b, :value => "http://tioki.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
+					<%= text_field :a, :b, :value => "http://tioki.com/guest/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
 					<p></p>
 				<% end %>
 				<div class="profile-thumb-medium">
