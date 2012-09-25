@@ -1,6 +1,6 @@
 <section id="main-content" class="inner-content">
 	<h1>Privacy Settings</h1>
-	<p>Here you can change which items are displayed publically and to users you have not connected with.<br />Any checked box is hidden from public view.</p>
+	<p>Unchecked boxes will not be visible to the public.</p>
 
 	<%= form_tag :action => "privacy" do %>
 		<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>

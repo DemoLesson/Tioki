@@ -117,7 +117,7 @@ class TeachersController < ApplicationController
 		guest_pass = params[:guest_pass]
 		
 		@teacher = Teacher.find_by_guest_code(guest_pass)
-		redirect_to '/'+@teacher.url+'/'+guest_pass
+		redirect_to '/profile/' + @teacher.url + '/' + guest_pass
 	end
 	
 	# Profile Editing

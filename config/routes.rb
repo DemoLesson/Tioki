@@ -67,6 +67,9 @@ Preview::Application.routes.draw do
 	match '/profile/:url' => 'teachers#profile'
 	match '/card/:url' => 'card#get'
 
+	# Match handle guest passcodes
+	match 'guest/:guest_pass' => 'teachers#guest_entry'
+
 	# Static pages by default route the action
 	# Sub folders a bit trickier
 	scope '/static' do
@@ -87,6 +90,12 @@ Preview::Application.routes.draw do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
 	end
+
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
 	
 	#Actions
 	match 'create', :to => 'users#create'
