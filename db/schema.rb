@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120925193449) do
+ActiveRecord::Schema.define(:version => 20120926031548) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -579,6 +579,7 @@ ActiveRecord::Schema.define(:version => 20120925193449) do
     t.integer  "duration_in_ms"
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
+    t.string   "video"
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"

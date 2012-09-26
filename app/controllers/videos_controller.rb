@@ -40,18 +40,22 @@ class VideosController < ApplicationController
 			@teacher = self.current_user.teacher
 
 			# Check for a video
-			if Video.where("`teacher_id` = ? && `is_snippet` = ?", @teacher.id, false).order("`created_at` DESC").first.nil?
-				@has_video = false
-			else
-				@has_video = true
-			end
+			#if Video.where("`teacher_id` = ? && `is_snippet` = ?", @teacher.id, false).order("`created_at` DESC").first.nil?
+			#	@has_video = false
+			#else
+			#	@has_video = true
+			#end
 
 			# Create a new video
 			@video = Video.new
 
 			@video.teacher = @teacher
-			@video.secret_url = params[:key]
-			@video.video_id = params[:etag]
+			@video.video = params[:video]
+
+			@video.secret_url = "key"
+			@video.video_id = "id"
+
+			#dump @video.inspect
 
 			if @video.save
 
@@ -60,15 +64,16 @@ class VideosController < ApplicationController
 				@teacher.update_attribute(:video_embed_html, nil)
 
 				# Encode the video
-				@video.encode
+				#@video.encode
 
 				# Video status
-				redirect_to :action => :new, :success => "Your video was succesfully uploaded and is processing."
+				flash[:success] = "Your video was succesfully uploaded and is processing."
+				return render :text => "done"
 			end
 		end
 
-		@uploader = Video.new.video
-		@uploader.success_action_redirect = new_video_url
+		#@uploader = Video.new.video
+		#@uploader.success_action_redirect = new_video_url
 	end
 
 	# GET /videos/1/edit

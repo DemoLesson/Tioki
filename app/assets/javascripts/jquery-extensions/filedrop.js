@@ -340,15 +340,14 @@
         opts.uploadStarted(index, file, files_count);
 
         xhr.onload = function() {
-            var serverResponse = null;
+          if (xhr.responseText) {
+            var serverResponse;
 
-            if (xhr.responseText) {
-              try {
-                serverResponse = jQuery.parseJSON(xhr.responseText);
-              }
-              catch (e) {
-                serverResponse = xhr.responseText;
-              }
+            try {
+              serverResponse = jQuery.parseJSON(xhr.responseText);
+            }
+            catch (e) {
+              serverResponse = xhr.responseText;
             }
 
             var now = new Date().getTime(),
@@ -379,7 +378,7 @@
           }
 
           // Pass any errors to the error option
-          if (xhr.status < 200 && xhr.status > 299) {
+          if (xhr.status != 200) {
             opts.error(xhr.statusText);
           }
         };
