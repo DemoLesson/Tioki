@@ -1,9 +1,7 @@
 class Video < ActiveRecord::Base
   belongs_to :teacher
   has_many :video_views
-  attr_accessible :name, :description, :type, :video_id, :teacher_id
   
-  #validates_presence_of :description
   mount_uploader :video, VideoUploader
   
   scope :finished, :conditions => { :encoded_state => "finished" }
@@ -88,14 +86,68 @@ class Video < ActiveRecord::Base
     end
   end
 
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
+  # Get the name of the video
+  def name(empty = "Untitled")
+
+    # Get the name
+    name = super()
+
+    # Return the name is it is not empty
+    name.nil? || name.empty? ? empty.html_safe : name.html_safe
+  end
+
+  # Get the name of the video
+  def description(empty = "No description...")
+
+    # Get the description
+    description = super()
+
+    # Return the name is it is not empty
+    description.nil? || description.empty? ? empty.html_safe : description.html_safe
+  end
+
+  # Get the embed code for the video
+  def embed_code(width = 640, height = 480, output_url = nil)
+
+    # Make sure we got a URL
+    output_url = self.output_url if output_url.nil?
+
+    # If the url is external
+    if output_url[0...3] == 'ext'
+      output_url = output_url[4..-1]
+
+      response = HTTParty.get("http://noembed.com/embed", {
+        :query => {
+          :url => output_url,
+          :maxwidth => width,
+          :maxheight => height
+        }
+      })
+      json = JSON.parse response.body
+    
+      # Return HTML Embed Code
+      return json["html"].html_safe
+    end
+
+    # Return HTML Embed Code
+    return "<video width=\"#{width}\" height=\"#{height}\" src=\"#{output_url}\" controls preload></video>".html_safe
+  end
+
+  # Private methods below
   private
 
-  def zencoder_setting
-    @zencoder_config ||= YAML.load_file("#{Rails.root}/config/zencoder.yml")
-  end
-  
-  def video_changed?
-    return false
-  end
+    def zencoder_setting
+      @zencoder_config ||= YAML.load_file("#{Rails.root}/config/zencoder.yml")
+    end
+    
+    def video_changed?
+      return false
+    end
     
 end

@@ -31,12 +31,12 @@
 		<a href="javascript:void(0)" class="upload_rules_toggle" data-swap-less="- Less" data-swap-more="+ More">+ More</a>
 	</span>
 	<ul class="upload_rules_more" style="display:none;">
-	     <li>• You may not upload sexually explicit material or pornography. Non-sexual nudity is allowed.</li>
-	     <li>• You may not upload videos that incite hatred; include defamatory or discriminatory speech; or depict unlawful acts or extreme violence.</li>
-	     <li>• You may post videos of yourself on TV, as long as you have permission to upload and the video depicts only your involvement in the program.</li>
-	     <li>• You may not upload videos that are clips or compilations of scenes from TV programs or movies.</li>
-	     <li>• You may not upload videos displaying the faces of children under the age of 13 without the expressed written consent of the parent/guardian of the child. </li>
- 	</ul>
+		 <li>• You may not upload sexually explicit material or pornography. Non-sexual nudity is allowed.</li>
+		 <li>• You may not upload videos that incite hatred; include defamatory or discriminatory speech; or depict unlawful acts or extreme violence.</li>
+		 <li>• You may post videos of yourself on TV, as long as you have permission to upload and the video depicts only your involvement in the program.</li>
+		 <li>• You may not upload videos that are clips or compilations of scenes from TV programs or movies.</li>
+		 <li>• You may not upload videos displaying the faces of children under the age of 13 without the expressed written consent of the parent/guardian of the child. </li>
+	</ul>
 
 	<script type="text/javascript">
 	$('a.upload_rules_toggle').click(function(e) {
@@ -60,8 +60,10 @@
 
 <br /><br />
 
+<div id="dropzone"></div>
+
 <%= direct_upload_form_for @uploader do |f| %>
-  	<div class="field">
+	<div class="field">
 	<h7>Upload file from Your Computer</h7><br / >
 	<%= f.file_field :video %>
 	<%= f.submit "     Upload     ", :class => "btn btn-success" %> 
@@ -73,68 +75,109 @@
 <div class="field" style="margin-top: 10px">
   <strong>Youtube or Vimeo URL</strong>
   <%= form_tag '/add_embed' do %>
-    <div class="field" style="margin-top: 10px">
-      <%= text_field_tag :video_embed_url, nil, { :placeholder => "http://www.youtube.com/watch?v=RagS0Rt2BMY&feature=youtu.be", :size => 36.5 } %>
-      <%= submit_tag "Add Video", :class => "btn btn-success" %> 
-    </div>
+	<div class="field" style="margin-top: 10px">
+	  <%= text_field_tag :video_embed_url, nil, { :placeholder => "http://www.youtube.com/watch?v=RagS0Rt2BMY&feature=youtu.be", :size => 36.5 } %>
+	  <%= submit_tag "Add Video", :class => "btn btn-success" %> 
+	</div>
   <% end %>
 </div>
-	<!--<style>
-	.ui-progressbar .ui-progressbar-value { background-image: url(/assets/loader.gif);}
-	</style>
-	<div id="progressbar"></div>
-  
-	<script>
-		$(document).ready(function() {
 
-			var form = $("#new_video_uploader");
-			var data = form.toJSON();
+<style type="text/css">
+#dropzone {
+	width: auto;
+	border: dashed #666 2px;
+	height: 100px;
+}
+</style>
 
-			console.log(data);
-
-			$("#progressbar").filedrop({
-				fallback_id: 'video_uploader_video',    // an identifier of a standard file input element
-				url: form.attr('action'),              // upload handler, handles each file separately
-				paramname: 'video',          // POST parameter name used on serverside to reference file
-				data: data,
-			
-				error: function(err, file) {
-					switch(err) {
-						case 'BrowserNotSupported':
-							alert('browser does not support html5 drag and drop')
-						break;
-						case 'TooManyFiles':
-							// user uploaded more than 'maxfiles'
-						break;
-						case 'FileTooLarge':
-							// program encountered a file whose size is greater than 'maxfilesize'
-							// FileTooLarge also has access to the file which was too large
-							// use file.name to reference the filename of the culprit file
-						break;
-						default:
-						break;
-					}
-				},
-				allowedfiletypes: [],    // filetypes allowed by Content-Type.  Empty array means no restrictions
-				maxfiles: 1,
-				maxfilesize: 500,    // max file size in MBs
-				progressUpdated: function(i, file, progress) {
-					console.log(progress);
-					$("#progressbar").progressbar({
-						value: 0
-					});
-					$("#progressbar").progressbar({
-						value: progress
-					});
-				},
-				uploadFinished: function(i, file, response, time) {
-				 // response is the data you got back from server in JSON format.
-				},
-				afterAll: function() {
-					// runs after all files have been uploaded or otherwise dealt with
-				}
-			});
-		});
-
-
-              </script>-->
+<script type="text/javascript">
+$(document).ready(function(e) {
+	$('#dropzone').filedrop({
+		fallback_id: 'upload_button',   // an identifier of a standard file input element
+		url: 'upload.php',              // upload handler, handles each file separately
+		paramname: 'userfile',          // POST parameter name used on serverside to reference file
+		data: {
+			param1: 'value1',           // send POST variables
+			param2: function(){
+				return calculated_data; // calculate data at time of upload
+			},
+		},
+		headers: {          // Send additional request headers
+			'header': 'value'
+		},
+		error: function(err, file) {
+			switch(err) {
+				case 'BrowserNotSupported':
+					alert('browser does not support html5 drag and drop')
+					break;
+				case 'TooManyFiles':
+					// user uploaded more than 'maxfiles'
+					break;
+				case 'FileTooLarge':
+					// program encountered a file whose size is greater than 'maxfilesize'
+					// FileTooLarge also has access to the file which was too large
+					// use file.name to reference the filename of the culprit file
+					break;
+				case 'FileTypeNotAllowed':
+					// The file type is not in the specified list 'allowedfiletypes'
+				default:
+					break;
+			}
+		},
+		allowedfiletypes: ['image/jpeg','image/png','image/gif'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
+		maxfiles: 25,
+		maxfilesize: 20,    // max file size in MBs
+		dragOver: function() {
+			// user dragging files over #dropzone
+		},
+		dragLeave: function() {
+			// user dragging files out of #dropzone
+		},
+		docOver: function() {
+			// user dragging files anywhere inside the browser document window
+		},
+		docLeave: function() {
+			// user dragging files out of the browser document window
+		},
+		drop: function() {
+			// user drops file
+		},
+		uploadStarted: function(i, file, len){
+			// a file began uploading
+			// i = index => 0, 1, 2, 3, 4 etc
+			// file is the actual file of the index
+			// len = total files user dropped
+		},
+		uploadFinished: function(i, file, response, time) {
+			// response is the data you got back from server in JSON format.
+		},
+		progressUpdated: function(i, file, progress) {
+			// this function is used for large files and updates intermittently
+			// progress is the integer value of file being uploaded percentage to completion
+		},
+		globalProgressUpdated: function(progress) {
+			// progress for all the files uploaded on the current instance (percentage)
+			// ex: $('#progress div').width(progress+"%");
+		},
+		speedUpdated: function(i, file, speed) {
+			// speed in kb/s
+		},
+		rename: function(name) {
+			// name in string format
+			// must return alternate name as string
+		},
+		beforeEach: function(file) {
+			// file is a file object
+			// return false to cancel upload
+		},
+		beforeSend: function(file, i, done) {
+			// file is a file object
+			// i is the file index
+			// call done() to start the upload
+		},
+		afterAll: function() {
+			// runs after all files have been uploaded or otherwise dealt with
+		}
+	});
+});
+</script>

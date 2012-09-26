@@ -6,6 +6,13 @@ gem 'rails', '3.1.3'
 
 # Ruby Extensions
 gem 'multimap'
+gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
+
+# Assets processing
+gem 'coffee-script'
+gem 'uglifier'
+gem 'sprockets'
+gem 'jquery-rails'
 
 # CSS Engine's
 # gem 'less-rails'
@@ -21,26 +28,27 @@ gem 'twitter'
 # Encryption
 gem 'gibberish'
 
-gem 'coffee-script'
-gem 'uglifier'
-gem 'sprockets'
-
-gem 'geokit', '1.6.0'
-gem 'jquery-rails'
-
-#gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'
+# File Uploading/Storage
 gem 'paperclip', '~> 2.3.12'
+gem 'aws-s3', :require => 'aws/s3'
+gem 'carrierwave'
+gem 'carrierwave_direct'
+
+# Geolocation Processor
+gem 'geokit', '1.6.0'
 
 gem "remotipart", "~> 0.4.1"
 gem 'will_paginate', '3.0.pre4'
 
+# Video Processing
 gem "zencoder", "~> 2.4.0"
 #gem 'viddler-ruby'
+
+# API Helpers
 gem 'httpclient'
 gem 'oauth'
 
-gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
-
+# MySQL Database Access
 # Using Bleeding Edge (might be bad idea but lets see)
 gem 'mysql2', :git => 'git://github.com/brianmario/mysql2.git'
 
@@ -78,10 +86,6 @@ gem 'tinymce-rails'
 gem 'bj'
 gem 'nokogiri'
 gem 'fog'
-gem 'aws-s3', :require => 'aws/s3'
-#gem 's3_swf_upload', :git => 'git://github.com/nathancolgate/s3-swf-upload-plugin'
-gem 'carrierwave'
-gem 'carrierwave_direct'
 gem 'httparty'
 gem 'linkedin'
 
