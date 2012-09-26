@@ -105,14 +105,19 @@ input[name="video"] {
 $(document).ready(function(e) {
 	$('#dropzone').filedrop({
 		fallback_id: 'uploadVideo',   // an identifier of a standard file input element
-		url: '/me/profile/edit/upload-video',              // upload handler, handles each file separately
-		paramname: 'video',          // POST parameter name used on serverside to reference file
-		//data: {
-		//	param1: 'value1',           // send POST variables
-		//	param2: function(){
-		//		return calculated_data; // calculate data at time of upload
-		//	},
-		//},
+		//url: '/me/profile/edit/upload-video',              // upload handler, handles each file separately
+		url: '<%= @uploader.direct_fog_url %>',
+		paramname: 'file',          // POST parameter name used on serverside to reference file
+		data: {
+			"utf8": true,
+			"key": '<%= @uploader.key %>',
+			"AWSAccessKeyId": '<%= @uploader.aws_access_key_id %>',
+			"acl": '<%= @uploader.acl %>',
+			"success_action_redirect": '<%= @uploader.success_action_redirect %>',
+			"policy": '<%= @uploader.policy %>',
+			"signature": '<%= @uploader.signature %>',
+			//"success_action_status": '200'
+		},
 		//headers: {          // Send additional request headers
 		//	'header': 'value'
 		//},
@@ -142,6 +147,7 @@ $(document).ready(function(e) {
 		maxfiles: 1,
 		maxfilesize: 200,    // max file size in MBs
 		uploadStarted: function(i, file, len){
+			//$('#dropzone div.bar').text('Initializing...');
 			// a file began uploading
 			// i = index => 0, 1, 2, 3, 4 etc
 			// file is the actual file of the index
@@ -151,6 +157,7 @@ $(document).ready(function(e) {
 			$('#dropzone div.bar').animate({"opacity": 0.5}, 500, function() {
 				$(this).animate({"opacity": 1}, 500, function() {
 					$(this).text('Done...');
+					//console.log(response);
 				});
 			})
 			// response is the data you got back from server in JSON format.

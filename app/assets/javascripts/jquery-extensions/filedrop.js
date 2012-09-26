@@ -88,6 +88,7 @@
         return false;
       }
       files_count = files.length;
+      opts.drop(files, e);
       upload();
       e.preventDefault();
       return false;
@@ -412,12 +413,14 @@
 
     function dragEnter(e) {
       clearTimeout(doc_leave_timer);
+      e.stopImmediatePropagation();
       e.preventDefault();
       opts.dragEnter.call(this, e);
     }
 
     function dragOver(e) {
       clearTimeout(doc_leave_timer);
+      e.stopImmediatePropagation();
       e.preventDefault();
       opts.docOver.call(this, e);
       opts.dragOver.call(this, e);
@@ -430,6 +433,7 @@
     }
 
     function docDrop(e) {
+      e.stopImmediatePropagation();
       e.preventDefault();
       opts.docLeave.call(this, e);
       return false;
@@ -437,6 +441,7 @@
 
     function docEnter(e) {
       clearTimeout(doc_leave_timer);
+      e.stopImmediatePropagation();
       e.preventDefault();
       opts.docEnter.call(this, e);
       return false;
@@ -444,6 +449,7 @@
 
     function docOver(e) {
       clearTimeout(doc_leave_timer);
+      e.stopPropagation();
       e.preventDefault();
       opts.docOver.call(this, e);
       return false;

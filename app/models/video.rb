@@ -18,20 +18,61 @@ class Video < ActiveRecord::Base
   #after_destroy :remove_encoded_video
 
   def encode
+
+    unless self.video.url.nil?
+      # Get the S3 Location
+      matches = /(https|http):\/\/s3.amazonaws.com\/([_\-\w]*)\//.match(self.video.url)
+
+      # Get Protocol and Bucket
+      protocol = matches[1]
+      bucket = matches[2]
+
+      # Get the S3 URL for zencoder
+      video = self.video.url.gsub(matches, 's3://' + bucket + '/')
+
+      # Make the timestamps for unique (For Development Purposes)
+      output = 's3://DLEncodedVideo/' + self.id.to_s + '-' + Time.now.to_i.to_s + '.mp4'
+    else
+      # For Direct Uploads
+      video = "s3://DemoLessonVideo/" + self.secret_url
+      output = 's3://DLEncodedVideo/' + self.id.to_s + '-' + Time.now.to_i.to_s + '.mp4'
+    end
+
     begin
-      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => "s3://DemoLessonVideo/" + self.secret_url, :outputs => [{:label => self.id.to_s, :public => true, :url => 's3://DLEncodedVideo/' + self.id.to_s + '.mp4' }]})
-      self.encoded_state = "queued"      
+
+      # Create a ZenCoder Job
+      zen = Zencoder::Job.create({
+        :api_key => 'ebbcf62dc3d33b40a9ac99e623328583',
+        :input => video,
+        :outputs => [{
+          :label => self.id.to_s,
+          :public => true,
+          :url => output
+        }]
+      })
+
+      # Mark the job as queued
+      self.encoded_state = "queued"
+
+      # Set the output url
       self.output_url = zen.body['outputs'][0]['url']
+
+      # Set the job
       self.job_id = zen.body['id'].to_s
+
+      # Save
       self.save!
-      #else
-      #  errors.add_to_base(zen.errors)
-      #  nil
-      #end
+
+      status
+
     rescue RuntimeError => exception
       errors.add_to_base("Video encoding request failed with result: " + exception.to_s)
       nil
     end
+  end
+
+  def status
+    #dump Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583').inspect
   end
 
   def snippet_encode(time)

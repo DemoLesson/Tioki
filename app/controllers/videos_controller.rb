@@ -34,26 +34,27 @@ class VideosController < ApplicationController
 	# GET /videos/new.xml
 	def new
 
-		if request.post?
+		if request.post? || !params[:key].nil?
 
 			# Get the currently logged in teacher #!
 			@teacher = self.current_user.teacher
-
-			# Check for a video
-			#if Video.where("`teacher_id` = ? && `is_snippet` = ?", @teacher.id, false).order("`created_at` DESC").first.nil?
-			#	@has_video = false
-			#else
-			#	@has_video = true
-			#end
 
 			# Create a new video
 			@video = Video.new
 
 			@video.teacher = @teacher
-			@video.video = params[:video]
 
-			@video.secret_url = "key"
-			@video.video_id = "id"
+			# No Direct Upload
+			@video.video = params[:video] if params[:video]
+
+			if params[:key]
+      			@video.teacher_id = self.current_user.teacher.id
+      			@video.secret_url = params[:key]
+      			@video.video_id = params[:etag]
+      		else
+      			@video.secret_url = "key"
+				@video.video_id = "id" 
+    		end
 
 			#dump @video.inspect
 
@@ -64,7 +65,7 @@ class VideosController < ApplicationController
 				@teacher.update_attribute(:video_embed_html, nil)
 
 				# Encode the video
-				#@video.encode
+				@video.encode
 
 				# Video status
 				flash[:success] = "Your video was succesfully uploaded and is processing."
@@ -72,8 +73,8 @@ class VideosController < ApplicationController
 			end
 		end
 
-		#@uploader = Video.new.video
-		#@uploader.success_action_redirect = new_video_url
+		@uploader = Video.new.video
+		@uploader.success_action_redirect = request.url
 	end
 
 	# GET /videos/1/edit
