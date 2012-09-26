@@ -116,9 +116,9 @@
 								
 								<ul>
 									<!-- Admin Methods -->
-									<% if self.current_user.is_admin && !self.current_user.is_limited %>
+									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
 										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-									<% elsif self.current_user.is_admin %>
+									<% elsif self.current_user.is_admin? %>
 										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
 									<% end %>
 
