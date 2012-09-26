@@ -118,16 +118,6 @@
 				<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
 					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-salmon" %>
 				<% end %>
-				<p class="heading">
-				Skills
-				</p>
-				<% @teacher.skills.each do |skill| %>
-					<p class="skills">
-						<a href="#" data-skillgroup="<%= skill.skill_group.badge_name %>">
-						<%= skill.name %>
-						</a>
-					</p>
-				<% end %>
 			</section>
 		</section><!-- End Sidebar -->
 		<section class="profile-content">
@@ -168,26 +158,6 @@
 				</section>
 			<% end %>
 
-			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
-				<section class="profile-info group skill-groups">
-					<p class="heading">
-					Skill Groups <span style="margin-left:15px;color:#F66C4C;" data-skillgroup-name="true"></span>
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-						 - 
-						<a href="/me/profile/edit/skills">Edit</a>
-					<% end %>
-					</p>
-
-					<% @teacher.user.skill_groups.each do |skill_group| %>
-						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>" data-skillgroup-name="<%= skill_group.name %>" style="float:left;">
-							<% if @teacher.user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
-								<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
-							<% end %>
-						</div>
-					<% end %>
-				</section>
-			<% end %>
-			
 			<!-- START Education Section-->
 			<% unless @teacher.educations.empty? && self.current_user == nil %>
 				<section class="profile-info group">
@@ -293,6 +263,43 @@
 					<% end %>
 				</section>
 			<% end %>
+
+			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
+				<section class="profile-info group skill-groups">
+					<p class="heading">
+					Skills <span style="margin-left:15px;color:#F66C4C;" data-skillgroup-name="true"></span>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						 - 
+						<a href="/me/profile/edit/skills">Edit</a>
+					<% end %>
+					</p>
+
+					<% @teacher.user.skill_groups.each do |skill_group| %>
+						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>" data-skillgroup-name="<%= skill_group.name %>" style="float:left;">
+							<% if @teacher.user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
+								<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
+							<% end %>
+						</div><h2><%= skill_group.name %></h2>
+						<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
+							<%= link_to skill.name, '/teacherskills/' + skill.id.to_s, :style => "font-size:20px" %>
+							<%= @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) %> 
+							<div style="float:right">
+								<% @teacher.user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
+									<% if vouched_skill.voucher.avatar? %>
+										<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny)), "profile/#{vouched_skill.voucher.teacher.url}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'min-height:45px;min-width:45px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+									<% end %>
+								<% end %>
+								<% if User.current && @teacher.user != User.current %>
+									<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @teacher.user_id, :skill_id => skill.id } %>
+								<% end %>
+							</div>
+							<hr style="display:block"><br />
+						<% end %>
+					<% end %>
+				</section>
+			<% end %>
 			
 			<!-- START Attachments Section -->
 			<% if @connected || @guest || !@teacher.user.privacy["attachments"] %>
@@ -325,21 +332,3 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('div.badge').hover(function() {
-		$('a[data-skillgroup="' + $(this).attr('data-skillgroup') + '"]').each(function() {
-			console.log('over');
-			$(this).css({'color': '#F66C4C'});
-		});
-		$('span[data-skillgroup-name="true"]').text($(this).attr('data-skillgroup'));
-	},function() {
-		$('a[data-skillgroup="' + $(this).attr('data-skillgroup') + '"]').each(function() {
-			console.log($(this));
-			$(this).css({'color': '#2AA99B'});
-		});
-		$('span[data-skillgroup-name="true"]').text('');
-	});
-});
-</script>
