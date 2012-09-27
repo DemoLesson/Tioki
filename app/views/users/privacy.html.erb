@@ -1,6 +1,7 @@
 <section id="main-content" class="inner-content">
 	<h1>Privacy Settings</h1>
-	<p>Unchecked boxes will not be visible to the public.</p>
+	<p>Your Tioki connections have full access to your complete profile. However, you can control what the public sees on your profile by establishing your privacy settings below.</p>
+	<p>All items with a check mark are visible to the public</p>
 
 	<%= form_tag :action => "privacy" do %>
 		<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>
