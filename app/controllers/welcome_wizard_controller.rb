@@ -11,6 +11,8 @@ class WelcomeWizardController < ApplicationController
 			@url = "&invitestring=#{params[:invitestring]}"
 		elsif params[:user_connection].present?
 			@url = "&user_connection=#{params[:user_connection]}"
+		elsif params[:welcomecode].present?
+			@url = "&user_connection=#{params[:welcomecode]}"
 		else
 			@url = ""
 		end
@@ -25,7 +27,6 @@ class WelcomeWizardController < ApplicationController
 	end
 
 	def step1
-
 		# Make sure the user is not logged in
 		unless self.current_user.nil?
 			flash[:notice] = "You cannot go to step 1 of the welcome wizard after you have joined the site."
@@ -49,6 +50,11 @@ class WelcomeWizardController < ApplicationController
 			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
 			if @inviter == nil
 				params[:invitecode] = nil
+			end
+		elsif params[:welcomecode]
+			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
+			if @inviter == nil
+				params[:welcomecode] = nil
 			end
 		end
 		
@@ -99,6 +105,12 @@ class WelcomeWizardController < ApplicationController
 					if @inviter.successful_referrals.size % 5 == 0
 						UserMailer.five_referrals(@invite.user.email).deliver
 					end
+				elsif params[:welcomecode]
+					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
+
+					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id, :donors_choose => false)
+					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
+
 				elsif params[:vouchstring]
 					# Find a vouch matching urlstring
 					@vouch=Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
@@ -283,7 +295,7 @@ class WelcomeWizardController < ApplicationController
 				# If the user does not exist
 				else
 					# Generate the invitation url to be added to the email
-					url = "http://#{request.host_with_port}/dc/#{self.current_user.invite_code}"
+					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
 
 					# Send out the email
 					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver

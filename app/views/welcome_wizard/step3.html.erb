@@ -21,6 +21,8 @@
 				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
 			<% elsif params[:invitecode] %>
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
 			<% end %>
 
 			<div class="button_wrap">

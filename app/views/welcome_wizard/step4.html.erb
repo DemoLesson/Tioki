@@ -17,6 +17,8 @@
 				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
 			<% elsif params[:invitecode] %>
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
 			<% end %>
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
 				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.</p>
