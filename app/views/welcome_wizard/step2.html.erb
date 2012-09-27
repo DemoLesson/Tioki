@@ -136,6 +136,15 @@ tr.seeking, tr.student {
 					</td>
 				</tr>
 			</table>
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:invitestring] %>
+				<%= hidden_field_tag :invitestring, params[:invitestring] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% end %>
 
 			<div class="button_wrap">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />

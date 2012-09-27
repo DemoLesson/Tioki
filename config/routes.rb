@@ -170,6 +170,7 @@ Preview::Application.routes.draw do
 	match 'add_embed' => 'videos#add_embed'
 	match 'profileattachments' => 'teachers#profileattachments'
 	match 'dc/:url' => 'connections#linkinvite'
+	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'

@@ -3,6 +3,17 @@ class WelcomeWizardController < ApplicationController
 
 	def index
 		@buri = '/welcome_wizard'
+		if params[:invitecode].present?
+			@url = "&invitecode=#{params[:invitecode]}"
+		elsif params[:vouchstring].present?
+			@url = "&vouchstring=#{params[:vouchstring]}"
+		elsif params[:invitestring].present?
+			@url = "&invitestring=#{params[:invitestring]}"
+		elsif params[:user_connection].present?
+			@url = "&user_connection=#{params[:user_connection]}"
+		else
+			@url = ""
+		end
 
 		# Route to other steps/methods
 		return self.send(params[:x]) unless params[:x].nil?
@@ -109,12 +120,12 @@ class WelcomeWizardController < ApplicationController
 
 				# Notice and redirect
 				flash[:notice] = "Signup successful"
-				return redirect_to @buri + '?x=step2'
+				return redirect_to "#{@buri}?x=step2#{@url}"
 			else
 
 				# If the user save failed then notice and redirect
 				flash[:notice] = @user.errors.full_messages.to_sentence
-				return redirect_to @buri + '?x=step1'
+				return redirect_to "#{@buri}?x=step1#{@url}"
 			end
 		end
 
@@ -174,12 +185,12 @@ class WelcomeWizardController < ApplicationController
 
 				# Notice and redirect
 				flash[:notice] = "Step 2 Completed"
-				return redirect_to @buri + '?x=step3'
+				return redirect_to "#{@buri}?x=step3#{@url}"
 			else
 
 				# If the user save failed then notice and redirect
 				dump flash[:notice] = @teacher.errors.full_messages.to_sentence
-				return redirect_to @buri + '?x=step2'
+				return redirect_to "#{@buri}?x=step2#{@url}"
 			end
 		end
 
@@ -222,12 +233,12 @@ class WelcomeWizardController < ApplicationController
 				# Notice and redirect
 				session[:wizard] = true
 				flash[:notice] = "Step 3 Completed"
-				return redirect_to @buri + '?x=step4'
+				return redirect_to "#{@buri}?x=step4#{@url}"
 			else
 
 				# If the user save failed then notice and redirect
 				flash[:notice] = @teacher.errors.full_messages.to_sentence
-				return redirect_to @buri + '?x=step3'
+				return redirect_to "#{@buri}?x=step3#{@url}"
 			end
 		end
 
@@ -271,37 +282,17 @@ class WelcomeWizardController < ApplicationController
 
 				# If the user does not exist
 				else
-					# Create a new invitation record
-					@invite = ConnectionInvite.new
-					@invite.user_id = self.current_user.id
-					@invite.email = email.address
+					# Generate the invitation url to be added to the email
+					url = "http://#{request.host_with_port}/dc/#{self.current_user.invite_code}"
 
-					# Try to save the invite
-					if @invite.save
+					# Send out the email
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
-						# Create a random string for inviting
-						invitestring = User.random_string(20)
+					# Don't bother notifying the user
+					# notice << "Your invite to " + demail + " has been sent."
 
-						# Add the generated invitation string into the invitation
-						@invite.update_attribute(:url, invitestring + @invite.id.to_s)
-
-						# Generate the invitation url to be added to the email
-						url = "http://#{request.host_with_port}/card?i=" + @invite.url
-
-						# Send out the email
-						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-						# Don't bother notifying the user
-						# notice << "Your invite to " + demail + " has been sent."
-
-						# Log an analytic
-						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
-
-					# If there were errors saving then let the current session member know
-					else 
-						# Don't bother to notify
-						# notice << email + ": "+ @invite.errors.full_messages.to_sentence
-					end
+					# Log an analytic
+					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
 				end
 
 			end
@@ -315,7 +306,7 @@ class WelcomeWizardController < ApplicationController
 			# Notice and redirect
 			session[:wizard] = true
 			flash[:notice] = "Step 4 Completed"
-			return redirect_to @buri + '?x=step5'
+			return redirect_to "#{@buri}?x=step5#{@url}"
 		end
 
 		@user = self.current_user
