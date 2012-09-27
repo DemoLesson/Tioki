@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120924200016) do
+ActiveRecord::Schema.define(:version => 20120927072854) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -481,6 +481,15 @@ ActiveRecord::Schema.define(:version => 20120924200016) do
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
   add_index "subjects_teachers", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
 
+  create_table "teacher_links", :force => true do |t|
+    t.integer  "teacher_id"
+    t.string   "url"
+    t.integer  "type"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "teachers", :force => true do |t|
     t.integer  "user_id",                                                   :null => false
     t.boolean  "willing_to_move"
@@ -506,6 +515,10 @@ ActiveRecord::Schema.define(:version => 20120924200016) do
     t.string   "headline",               :limit => 140
     t.string   "video_embed_url"
     t.text     "video_embed_html"
+    t.string   "edmodo"
+    t.string   "twitter"
+    t.string   "betterlesson"
+    t.string   "teachingchannel"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"

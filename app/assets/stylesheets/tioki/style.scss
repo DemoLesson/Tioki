@@ -50,6 +50,11 @@ h2 {
 
 h3 {
 	font-size: 20px;
+	&.top-line{
+		border-top: 1px solid $ltgray !important;
+		padding-top: 15px;
+		border-bottom: none;
+	}
 }
 
 p {
@@ -161,11 +166,50 @@ a.button {
 	&.bg-gray {
 		background: #BBB;
 	}
+	&.bg-ltgray {
+		background: #CFD4D5;
+	}
+}
+
+.button2 {
+	-moz-border-radius: 	3px;
+	-webkit-border-radius: 	3px;
+	border-radius: 			3px;
+	border: 1px solid transparent;
+	width: 300px !important;
+	&:hover {
+		color: #fff !important;
+	}
+}
+
+a.button2 {
+	background: $salmon;
+	padding: 3px 5px;
+	color: #000;
+	&.bg-green {
+		background: $green;
+	}
+	&.bg-gray {
+		background: #BBB;
+	}
+	&.bg-ltgray {
+		background: #f1f1f1;
+	}
 }
 
 .huge-button {
 	width: 300px !important;
 	font: 22px/1.6 $oswald !important;
+}
+
+.big-button {
+	width: 300px !important;
+	font: 20px/1.4 $oswald !important;
+}
+
+.med-button {
+	width: 300px !important;
+	font: 18px/1.4 $oswald !important;
 }
 
 /*** END FORMS ***/
