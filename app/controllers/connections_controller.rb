@@ -1,6 +1,6 @@
 require 'mail'
 class ConnectionsController < ApplicationController
-	before_filter :login_required
+	before_filter :login_required, :except => [ :linkinvite]
 
 	# GET /connections
 	# GET /connections.json
@@ -217,19 +217,10 @@ class ConnectionsController < ApplicationController
 					# Create a new invitation record
 					@invite = ConnectionInvite.new
 					@invite.user_id = self.current_user.id
-					@invite.email = demail
 
 					# Try to save the invite
 					if @invite.save
-
-						# Create a random string for inviting
-						invitestring = User.random_string(20)
-
-						# Add the generated invitation string into the invitation
-						@invite.update_attribute(:url, invitestring + @invite.id.to_s)
-
-						# Generate the invitation url to be added to the email
-						url = "http://#{request.host_with_port}/welcome_wizard?x=step1&invitestring=" + @invite.url
+						url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
 
 						# Send out the email
 						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
@@ -267,6 +258,15 @@ class ConnectionsController < ApplicationController
 
 		# Take us home
 		redirect_to :root, :notice => notice.join(' ')
+	end
+
+	def linkinvite
+		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		if user
+			redirect_to "/welcome_wizard?x=step1&invitecode=#{user.invite_code}"
+		else 
+			redirect_to :root, :notice => "Invalid invite code."
+		end
 	end
 
 	# DELETE /connections/1
