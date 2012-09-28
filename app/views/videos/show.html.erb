@@ -1,9 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
-  <script src="http://vjs.zencdn.net/c/video.js"></script>
-  <video id="my_video_1" autoplay="autoplay" class="video-js vjs-default-skin" controls
-  preload="auto" width="640" height="480"
-  data-setup="{}"><source src="<%= @video.output_url%>" type='video/mp4'>
-  </video>
-</html>
+<section id="main-content" class="inner-content">
+	<h1>
+		<%= possesify(@teacher.user.first_name) + ' ' if @teacher %>
+		Video Library
+	</h1>
+	<section id="panels">
+		<section class="panel one-column left-side">
+			<h3>Most recent videos</h3>
+			<ul>
+				<% @videodb.limit(6).each do |vid| %>
+					<a href="<%= "#{@videolist}/#{vid.id}" %>">
+						<li>
+							<div style="float:left;" class="profile-thumb-small">
+							</div>
+							<strong><%= vid.name %></strong><br />
+							<p style="float:none;"><%= vid.description %></p>
+						</li>
+					</a>
+				<% end %>
+			</ul>
+		</section>
+		<section class="panel two-column right-side">
+			<h3 id="video">Latest Video</h3>
+			<section class="panel-actions" id="video">
+				<% vid = @video %>
+				<strong><%= vid.name %></strong>
+				<%= vid.embed_code(605, 350) %>
+				<p><%= vid.description %>
+			</section>
+		</section>
+	</section>
+	<div class="clearfloat"></div>
+</section>

@@ -134,13 +134,9 @@
 
 			<!-- Video -->
 			<% if @connected || @guest || !@teacher.user.privacy["video"] %>
-				<% if @teacher.video_embed_url? %>
+				<% unless @video.nil? %>
 					<div class="profile-video panel">
-						<%= @teacher.video_embed_html.html_safe %>
-					</div>
-				<% elsif @video != nil%>
-					<div class="profile-video panel">
-						<%= @embed_code.html_safe %>
+						<%= @video.embed_code %>
 					</div>
 				<% end %>
 				<section class="video-actions group">

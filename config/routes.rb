@@ -66,12 +66,15 @@ Preview::Application.routes.draw do
 	# Profile Views
 	scope 'profile' do
 
+		# Videos
+		match ':url/videos' => 'videos#index'
+		match ':url/videos/:id' => 'videos#show'
+
 		# Card Profile
 		match ':url/card' => 'card#get'
 
 		# Guest Access
 		match ':url/:guest_pass' => 'teachers#profile'
-
 		# Normal Access
 		match ':url' => 'teachers#profile'
 	end
@@ -168,7 +171,7 @@ Preview::Application.routes.draw do
 	match 'update_existing_education/:id' => 'teachers#update_existing_education'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
-        match 'profileattachments' => 'teachers#profileattachments'
+    match 'profileattachments' => 'teachers#profileattachments'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'

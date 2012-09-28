@@ -11,4 +11,9 @@ module ApplicationHelper
   def pendingcount
     self.current_user.pending_count
   end
+
+  def possesify(name)
+    return name + "'" if name[-1] == 's'
+    name + "'s"
+  end
 end

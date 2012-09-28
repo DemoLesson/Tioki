@@ -6,18 +6,35 @@ class VideosController < ApplicationController
 	# GET /videos
 	# GET /videos.xml
 	def index
+
+		# Get all the videos
 		@videodb = Video.where("'1' = '1'").order("`created_at` DESC")
+
+		# Url to video list
+		@videolist = request.url
+		
+		@teacher = false; unless params[:url].nil?
+
+			# Get the teacher by url
+			@teacher = Teacher.where('`url` = ?',params[:url]).first
+
+			# Narrow the videos to only those attached to this teacher
+			@videodb = @videodb.where('`teacher_id` = ?', @teacher.id)
+		end
 	end
 
 	# GET /videos/1
 	# GET /videos/1.xml
 	def show
-		@video = Video.find(params[:id])
+		# Get the teacher and teachers videos
+		index
 
-		respond_to do |format|
-			format.html # show.html.erb
-			format.xml  { render :xml => @video }
-		end
+		# Url to video list
+		videolist = request.url.split('/'); videolist.pop
+		@videolist = videolist.join('/')
+
+		# Get the video associated with the id
+		@video = Video.find(params[:id])
 	end
 	
 	def myvideo

@@ -5,67 +5,97 @@ class Video < ActiveRecord::Base
   mount_uploader :video, VideoUploader
   
   scope :finished, :conditions => { :encoded_state => "finished" }
-
-  #has_attached_file :attached_video,
-  #  :url => ":class/:id/:style/:basename.:extension",
-  #  :path => ":class/:id/:style/:basename.:extension",
-  #  :storage => :s3,
-  #  :s3_credentials => "#{Rails.root}/config/amazon_s3.yml"
-  #validates_attachment_presence :attached_video
   
-  has_attached_file :thumbnail, :styles => {:thumb => "162x161>"}
-
-  #after_destroy :remove_encoded_video
-
+  # Encode a new video
   def encode
     begin
+
+      # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
       output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
-      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => input, :outputs => [{:label => self.id.to_s, :public => true, :url => output }]})
-      self.encoded_state = "queued"      
+
+      # Create a new zencoder job
+      zen = Zencoder::Job.create({
+        :api_key => 'ebbcf62dc3d33b40a9ac99e623328583',
+        :input => input,
+        :outputs => [
+          {
+            :label => self.id.to_s,
+            :public => true,
+            :url => output
+          }
+        ]
+      })
+
+      # Save the output url, job id, and encoded state
       self.output_url = zen.body['outputs'][0]['url']
       self.job_id = zen.body['id'].to_s
+      self.encoded_state = "queued"
+
+      # Save the model
       self.save!
-      #else
-      #  errors.add_to_base(zen.errors)
-      #  nil
-      #end
+
+    # Rescue any errors
     rescue RuntimeError => exception
       errors.add_to_base("Video encoding request failed with result: " + exception.to_s)
       nil
     end
   end
 
+  # Encode a new snippet
   def snippet_encode(time)
     begin
+
+      # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
       output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
-      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => input, :outputs => [{:label => self.id.to_s, :public => true, :url => output, :clip_length => "00:00:30.0", :start_clip => time }]})
-      self.encoded_state = "queued"      
+
+      # Create a new zencoder job
+      zen = Zencoder::Job.create({
+        :api_key => 'ebbcf62dc3d33b40a9ac99e623328583',
+        :input => input,
+        :outputs => [
+          {
+            :label => self.id.to_s,
+            :public => true,
+            :url => output,
+            :clip_length => "00:00:30.0",
+            :start_clip => time
+          }
+        ]
+      })
+
+      # Save the output url, job id, and encoded state
       self.output_url = zen.body['outputs'][0]['url']
       self.job_id = zen.body['id'].to_s
+      self.encoded_state = "queued"
+
+      # Save the model
       self.save!
-      #else
-      #  errors.add_to_base(zen.errors)
-      #  nil
-      #end
+
+    # Rescue any errors
     rescue RuntimeError => exception
       errors.add_to_base("Video encoding request failed with result: " + exception.to_s)
       nil
     end
   end
 
-  def remove_encoded_video
-    unless output_url.blank?
-      AWS::S3::Base.establish_connection!(
-        :access_key_id     => zencoder_setting["s3_output"]["access_key_id"],
-        :secret_access_key => zencoder_setting["s3_output"]["secret_access_key"]
-      )
-      AWS::S3::S3Object.delete(File.basename(output_url), zencoder_setting["s3_output"]["bucket"])
-      AWS::S3::S3Object.delete("/thumbnails_#{self.id}/frame_0000.png", zencoder_setting["s3_output"]["bucket"])
+  # Get the job status
+  def job_status
+    status = Zencoder::Job.progress(self.job_id).body.state
+
+    # Update the encoded state
+    if self.encoded_state != status
+      self.encoded_state = status
+      self.save!
     end
+
+    return status
   end
   
+  # # # # # # # # #
+  # Is this necessary consider deprecating
+  #
   # def capture_notification(output)
   #     self.encoded_state = output[:state]
   #     if self.encoded_state == "finished"
@@ -78,6 +108,7 @@ class Video < ActiveRecord::Base
   #     end
   #     self.save
   #   end
+  # # # # # # # # #
 
   # a handy way to turn duration_in_ms into a formatted string like 5:34
   def human_length
@@ -126,6 +157,7 @@ class Video < ActiveRecord::Base
     if output_url[0...3] == 'ext'
       output_url = output_url[4..-1]
 
+      # Query noembed
       response = HTTParty.get("http://noembed.com/embed", {
         :query => {
           :url => output_url,
@@ -133,14 +165,25 @@ class Video < ActiveRecord::Base
           :maxheight => height
         }
       })
-      json = JSON.parse response.body
     
       # Return HTML Embed Code
-      return json["html"].html_safe
+      return JSON.parse response.body["html"].html_safe
     end
 
-    # Return HTML Embed Code
-    return "<video width=\"#{width}\" height=\"#{height}\" src=\"#{output_url}\" controls preload></video>".html_safe
+    unless job_status == 'finished'
+      # Return status
+      return "<p class=\"processing\">The video is currently being processed for web viewage. Please check back in a bit.</p>".html_safe
+    else
+      # HTML 5 Embed Code
+      embed = <<-EMBED
+      <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="#{width}" height="#{height}" data-setup="{}">
+        <source src="#{output_url}" type='video/mp4'>
+      </video>
+      EMBED
+
+      # Return HTML Embed Code
+      return embed.html_safe
+    end
   end
 
   # Private methods below

@@ -60,8 +60,7 @@ class TeachersController < ApplicationController
 		@config = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'viddler.yml'))).result)[Rails.env]
 		
 		# Get the latest video the user posted
-		@video = Video.find(:all, :conditions => ['teacher_id = ? AND is_snippet=?', @teacher.id, false], :order => 'created_at DESC')
-		@video = @video.first
+		@video = Video.where('`teacher_id` = ? && `is_snippet` = ?', @teacher.id, false).order('`created_at` DESC').first
 		
 		begin
 			if @video.encoded_state == 'queued'
