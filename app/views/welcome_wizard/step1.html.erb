@@ -2,7 +2,7 @@
 	<div class="twelve columns">
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px">
 			<% if params[:invitestring] %>
-				User, create your Tioki account to join <%= @invite.first_name %>'s professional network.
+				User, create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
 			<% elsif params[:invitecode] %>
 				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% elsif params[:welcomecode] %>
