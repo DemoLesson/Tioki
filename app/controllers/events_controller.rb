@@ -27,7 +27,10 @@ class EventsController < ApplicationController
 		@events = Event.where("'1' = '1'") unless params.has_key?("mine") && !self.current_user.nil?
 
 		# Get events that span a specific date
-		@events = @events.where("date(`events`.`start_time`) = CURDATE()") if params.has_key?("date")
+		if params.has_key?("date")
+			date = Time.strptime(params["date"], "%m/%d/%Y").utc.strftime("%Y-%m-%d")
+			@events = @events.where("date(`events`.`start_time`) = ?", date)
+		end
 
 		# Make sure the event is today or later
 		@events = @events.where("`events`.`end_time` >= CURDATE()") if params.has_key?("future")

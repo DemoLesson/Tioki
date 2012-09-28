@@ -15,6 +15,20 @@ class TeachersController < ApplicationController
 				@teacher = self.current_user.teacher
 		end; end
 
+		# Check if user is a guest
+		@guest = false; unless params[:guest_pass].nil? || params[:guest_pass].empty?
+			@guest = params[:guest_pass].strip == @teacher.guest_code
+		end
+
+		# Check if user is connected to teacher or is self
+		@self = false; @connected = false
+		if !self.current_user.nil? && @teacher == self.current_user.teacher
+			@connected = true
+			@self = true
+		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@teacher.user_id)
+			@connected = true
+		end
+
 		# If the teacher could not be found then raise an exception
 		raise ActiveRecord::RecordNotFound, "Teacher not found." if @teacher.nil?
 
@@ -117,7 +131,7 @@ class TeachersController < ApplicationController
 		guest_pass = params[:guest_pass]
 		
 		@teacher = Teacher.find_by_guest_code(guest_pass)
-		redirect_to '/'+@teacher.url+'/'+guest_pass
+		redirect_to '/profile/' + @teacher.url + '/' + guest_pass
 	end
 	
 	# Profile Editing
@@ -457,7 +471,9 @@ class TeachersController < ApplicationController
 				school = education.school_name
 				degree = education.degree
 				concentrations = education.field_of_study
-				year = education.end_date.year
+				if education.end_date
+					year = education.end_date.year
+				end
 				@teacher.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
 				@teacher.save
 			end
@@ -471,8 +487,10 @@ class TeachersController < ApplicationController
 			user.positions.all.each do |position|
 				company = position.company.name
 				positiontitle = position.title
-				startMonth = position.start_date.month
-				startYear = position.start_date.year
+				if position.start_date
+					startMonth = position.start_date.month
+					startYear = position.start_date.year
+				end
 				if position.is_current == true
 					endMonth = Time.now.month
 					endYear = Time.now.year

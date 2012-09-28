@@ -29,9 +29,9 @@
 						<div style="padding:5px 0px;border-bottom:dashed 1px #DADADA;">
 							<h3><%= link_to(event.name + ' — ' + event.start_time.localtime.to_datetime.strftime("%m/%d/%Y at %l:%M%P") , event) %></h3>
 							<p>
-                                                        <% if event.description.present? %>
-                                                          <%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %>
-                                                        <% end %>
+							<% if event.description.present? %>
+							  <%= event.description.split(' ')[0..25].join(' ') + "... " %> <%= link_to "Continued on event page.", event %>
+							<% end %>
 							</p>
 						</div>
 					<% end %>
@@ -51,7 +51,7 @@
 					<%= link_to "Submit a new Event", new_event_path, :class => 'button', :style => "display:block;" %>
 				<% end %>
 
-				<div class="datepicker" style="margin:10px inherit;"></div>
+				<div class="datepicker"></div>
 
 				<% unless self.current_user.nil? %>
 					<a href="#datepicker-showonlymine" class="button" style="display:block;">Show only my Events</a>
@@ -74,7 +74,7 @@
 		window.events = [
 		<% events = []
 		@_events.each do |event|
-			events << event.start_time.localtime.to_datetime.strftime("'%-m/%-d/%Y'")
+			events << event.start_time.localtime.strftime("'%-m/%-d/%Y'")
 		end
 		events.uniq!
 		events.each do |event| %>
@@ -256,15 +256,15 @@
 		 * Pagination methods
 		 */
 		 $('a[href*="page="]').live('click', function(e) {
-		 	e.preventDefault();
+			e.preventDefault();
 
-		 	// Merge in the page number
-		 	$.extend(window.searchQueries, $.url($(this).attr('href')).param());
+			// Merge in the page number
+			$.extend(window.searchQueries, $.url($(this).attr('href')).param());
 
-		 	// Reload events
+			// Reload events
 			loadEvents();
 
-		 	return false;
+			return false;
 		 });
 
 		/**

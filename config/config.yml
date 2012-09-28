@@ -8,6 +8,13 @@ development:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  bitswitches:
+    user_privacy:
+      0: "contact_info"
+      1: "attachments"
+      2: "avatar"
+      3: "video"
+      4: "current_job"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -17,3 +24,10 @@ production:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  bitswitches:
+    user_privacy:
+      0: "contact_info"
+      1: "attachments"
+      2: "avatar"
+      3: "video"
+      4: "current_job"

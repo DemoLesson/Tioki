@@ -1,0 +1,18 @@
+<section id="main-content" class="inner-content">
+	<h1>Privacy Settings</h1>
+	<p>Your Tioki connections have full access to your complete profile. However, you can control what the public sees on your profile by establishing your privacy settings below.</p>
+	<p>All items with a check mark are visible to the public</p>
+
+	<%= form_tag :action => "privacy" do %>
+		<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>
+			<fieldset>
+				<input type="hidden" name="public[<%= name %>]" value="1" />
+				<input type="checkbox" name="public[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.privacy[name] %> value="0" />
+				<%= name.gsub('_', ' ') %>
+			</fieldset>
+		<% end %>
+		<fieldset>
+			<%= submit_tag "Update Privacy", :class => "button huge-button" %>
+		</fieldset>
+	<% end %>
+</section>

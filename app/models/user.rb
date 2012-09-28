@@ -130,7 +130,6 @@ class User < ActiveRecord::Base
 	end
 	
 	def create_teacher
-
 		# Set the teacher to a shorter variable
 		t = self.teacher
 
@@ -146,6 +145,9 @@ class User < ActiveRecord::Base
 
 			# Generate a guest pass
 			t.create_guest_pass
+
+			#generate an invite code
+			self.create_invite_code
 
 			# Generate a profile url
 			url = Random.rand(10..99).to_s + self.id.to_s + self.name
@@ -365,6 +367,10 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def privacy
+		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
+	end
+
 	def cleanup
 		@schools = School.find(:all, :conditions => ['owned_by = ?', self.id])
 		@schools.each do |school|
@@ -400,13 +406,22 @@ class User < ActiveRecord::Base
 		return newpass
 	end
 
+	def create_invite_code
+		user_invite = nil
+		generated_code = rand(36**7).to_s(36)
+		begin
+			user_invite = User.find(:first, :conditions => ['invite_code = ?', generated_code])
+		end while user_invite != nil
+		self.update_attribute(:invite_code,  generated_code)
+	end
+
 	# Store the currently active user for access
 	def self.current
-		Thread.current[:user]
+		@user
 	end
 
 	def self.current=(user)
-		Thread.current[:user] = user
+		@user = user
 	end
 end
  

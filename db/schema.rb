@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927072854) do
+ActiveRecord::Schema.define(:version => 20120926183106) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -544,13 +544,15 @@ ActiveRecord::Schema.define(:version => 20120927072854) do
     t.boolean  "is_shared",           :default => false, :null => false
     t.boolean  "is_limited",          :default => false, :null => false
     t.boolean  "emailsubscription",   :default => true
-    t.string   "time_zone",           :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "time_zone",           :default => "UTC"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
+    t.integer  "privacy",             :default => 0,     :null => false
+    t.string   "invite_code"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -597,6 +599,7 @@ ActiveRecord::Schema.define(:version => 20120927072854) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "voucher_id"
   end
 
   create_table "vouches", :force => true do |t|
@@ -611,7 +614,6 @@ ActiveRecord::Schema.define(:version => 20120927072854) do
     t.boolean  "pending",          :default => true
     t.string   "url"
     t.boolean  "for_new_educator", :default => false
-    t.integer  "voucher_id"
   end
 
   create_table "whiteboards", :force => true do |t|

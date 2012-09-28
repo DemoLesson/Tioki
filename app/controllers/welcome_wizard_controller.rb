@@ -33,6 +33,12 @@ class WelcomeWizardController < ApplicationController
 			if @vouch == nil
 				params[:vouchstring] = nil
 			end
+		#check if this account was part of a link to invite a user
+		elsif params[:invitecode]
+			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
+			if @inviter == nil
+				params[:invitecode] = nil
+			end
 		end
 		
 		# Detect post variables
@@ -71,7 +77,16 @@ class WelcomeWizardController < ApplicationController
 							UserMailer.five_referrals(@invite.user.email).deliver
 						end
 
-						session[:_ak] = "unlock_external_email"
+						session[:_ak] = "unlock_invite_link"
+					end
+				elsif params[:invitecode]
+					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
+
+					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id)
+					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
+
+					if @inviter.successful_referrals.size % 5 == 0
+						UserMailer.five_referrals(@invite.user.email).deliver
 					end
 				elsif params[:vouchstring]
 					# Find a vouch matching urlstring
@@ -80,7 +95,7 @@ class WelcomeWizardController < ApplicationController
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id)
+						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id, :voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end

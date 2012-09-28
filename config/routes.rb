@@ -54,13 +54,30 @@ Preview::Application.routes.draw do
 			root :to => 'teachers#profile'
 		end
 
-		# Misc
-		match 'settings' => 'users#edit'
+		scope 'settings' do
+			match 'privacy' => 'users#privacy'
+			root :to => 'users#edit'
+		end
+
+		# User dashboard
+		root :to => 'home#index'
 	end
 
-	# Public profiles
-	match '/profile/:url' => 'teachers#profile'
-	match '/card/:url' => 'card#get'
+	# Profile Views
+	scope 'profile' do
+
+		# Card Profile
+		match ':url/card' => 'card#get'
+
+		# Guest Access
+		match ':url/:guest_pass' => 'teachers#profile'
+
+		# Normal Access
+		match ':url' => 'teachers#profile'
+	end
+
+	# Handle guest passcodes
+	match 'guest/:guest_pass' => 'teachers#guest_entry'
 
 	# Static pages by default route the action
 	# Sub folders a bit trickier
@@ -82,6 +99,12 @@ Preview::Application.routes.draw do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
 	end
+
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
+	# # # # # # # # # # # # # #
 	
 	#Actions
 	match 'create', :to => 'users#create'
@@ -145,7 +168,8 @@ Preview::Application.routes.draw do
 	match 'update_existing_education/:id' => 'teachers#update_existing_education'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
-        match 'profileattachments' => 'teachers#profileattachments'
+	match 'profileattachments' => 'teachers#profileattachments'
+	match 'dc/:url' => 'connections#linkinvite'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
@@ -241,6 +265,7 @@ Preview::Application.routes.draw do
 	match 'updatevouch' => 'vouches#updatevouch'
 	match 'requestvouch' => 'teachers#request_vouch'
 	match 'unlocked' => 'vouches#unlocked'
+	match 'addvouch' => 'vouches#addvouch'
 
 	#resources :jobs do 
 	#  get :auto_complete_search, :on => :collection
@@ -264,6 +289,7 @@ Preview::Application.routes.draw do
 	resources :credentials
 	resources :blog_entries
 	resources :messages
+	resources :vouches
 	resources :connections do
 		collection do
 			get 'add_and_redir'
