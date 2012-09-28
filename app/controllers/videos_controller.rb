@@ -133,16 +133,19 @@ class VideosController < ApplicationController
 	end
 
 	def add_embed
-		@teacher = Teacher.find(:first, :conditions => ["user_id = ?", self.current_user.id])
-		@teacher.video_embed_url = params[:video_embed_url]
-		response = HTTParty.get "http://noembed.com/embed", { :query => { :url => params[:video_embed_url], :maxwidth => '640', :maxheight => '500' } }
-		json = JSON.parse response.body
-		@teacher.video_embed_html = json['html']
-		if @teacher.video_embed_html
-			@teacher.save
 
+		# Get the embed URL
+		embed = params[:video_embed_url]
+
+		# Mark the video as externel and upload
+		video = Video.new
+		video.teacher = self.current_user.teacher
+		video.output_url = 'ext|' + embed
+		video.video_id = embed
+
+		if video.save
 			# Let users know about the new video that was uploaded
-			Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => @teacher.video_embed_url})
+			Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})
 
 			redirect_to :back, :notice => 'Video was successfully embeded.'
 		else
