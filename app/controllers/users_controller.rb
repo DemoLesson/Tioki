@@ -460,7 +460,7 @@ class UsersController < ApplicationController
 		end
 
 		# Get rid of all users that have nil teachers
-		@users = @users.reject{ |user| user.teacher == nil } if params[:teacher]
+		@users = User.find(:all, :joins => :teacher, :conditions => ['users.id IN (?)', @users.collect(&:id)])  if params[:teacher]
 
 		# Limit to those that have at leasy 1 video
 		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
@@ -468,18 +468,9 @@ class UsersController < ApplicationController
 		# Limit to teachers that have job applications
 		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
 		
-		@usercount = 0
-		@videos = 0
+		@usercount = User.find(:all, :joins => :teacher,:conditions => ['users.id IN (?)', @users.collect(&:id)]).count
 
-		# Loop through each teacher
-		@users.each do |user|
-
-			# Increment the amount of users
-			@usercount += 1 unless user.teacher.nil?
-
-			# Increment the number of videos uploaded
-			@videos += 1 if !user.teacher.nil? && user.teacher.videos.count != 0
-		end
+		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
