@@ -2,8 +2,10 @@
 	<div class="twelve columns">
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px">
 			<% if params[:invitestring] %>
-				User, create your Tioki account to join <%= @invite.first_name %>'s professional network.
+				User, create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
 			<% elsif params[:invitecode] %>
+				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+			<% elsif params[:welcomecode] %>
 				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% else %>
 				User, create your Tioki account to join Invitor's professional network.
@@ -64,6 +66,8 @@
 				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
 			<% elsif params[:invitecode] %>
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">

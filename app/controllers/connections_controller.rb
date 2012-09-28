@@ -213,28 +213,16 @@ class ConnectionsController < ApplicationController
 
 				# If the email is not tied to a member then invite them
 				else
+					url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
 
-					# Create a new invitation record
-					@invite = ConnectionInvite.new
-					@invite.user_id = self.current_user.id
+					# Send out the email
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
-					# Try to save the invite
-					if @invite.save
-						url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
+					# Notify the current session member that ht e email was sent
+					notice << "Your invite to " + demail + " has been sent."
 
-						# Send out the email
-						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-						# Notify the current session member that ht e email was sent
-						notice << "Your invite to " + demail + " has been sent."
-
-						# Log an analytic
-						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
-
-					# If there were errors saving then let the current session member know
-					else 
-						notice << email + ": "+ @invite.errors.full_messages.to_sentence
-					end
+					# Log an analytic
+					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
 				end
 
 				unless session[:wizard].nil?
@@ -265,7 +253,16 @@ class ConnectionsController < ApplicationController
 		if user
 			redirect_to "/welcome_wizard?x=step1&invitecode=#{user.invite_code}"
 		else 
-			redirect_to :root, :notice => "Invalid invite code."
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
+		end
+	end
+
+	def welcome_wizard_invite
+		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		if user
+			redirect_to "/welcome_wizard?x=step1&welcomecode=#{user.invite_code}"
+		else 
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
 		end
 	end
 
