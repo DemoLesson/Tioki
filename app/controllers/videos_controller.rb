@@ -34,28 +34,16 @@ class VideosController < ApplicationController
 	# GET /videos/new.xml
 	def new
 
-		if request.post?
+		if request.post? || !params[:key].nil?
 
 			# Get the currently logged in teacher #!
 			@teacher = self.current_user.teacher
 
-			# Check for a video
-			#if Video.where("`teacher_id` = ? && `is_snippet` = ?", @teacher.id, false).order("`created_at` DESC").first.nil?
-			#	@has_video = false
-			#else
-			#	@has_video = true
-			#end
-
 			# Create a new video
 			@video = Video.new
-
 			@video.teacher = @teacher
-			@video.video = params[:video]
-
-			@video.secret_url = "key"
-			@video.video_id = "id"
-
-			#dump @video.inspect
+			@video.secret_url = params[:key]
+      		@video.video_id = params[:etag]
 
 			if @video.save
 
@@ -64,16 +52,17 @@ class VideosController < ApplicationController
 				@teacher.update_attribute(:video_embed_html, nil)
 
 				# Encode the video
-				#@video.encode
+				@video.encode
 
 				# Video status
 				flash[:success] = "Your video was succesfully uploaded and is processing."
-				return render :text => "done"
+				return redirect_to :back
 			end
 		end
 
-		#@uploader = Video.new.video
-		#@uploader.success_action_redirect = new_video_url
+		# Get the variables for a Direct S3 upload
+		@uploader = Video.new.video
+		@uploader.success_action_redirect = new_video_url
 	end
 
 	# GET /videos/1/edit

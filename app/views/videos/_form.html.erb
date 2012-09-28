@@ -58,13 +58,13 @@
 
 <br /><br />
 
-<div id="dropzone">
-	<div class="bar" style="width:0%;"></div>
-</div>
-
-<form action="/me/profile/edit/upload-video" method="POST" enctype="multipart/form-data">
-	<%= file_field_tag :video, :id => 'uploadVideo' %>
-</form>
+<%= direct_upload_form_for @uploader do |f| %>
+  	<div class="field">
+	<h7>Upload file from Your Computer</h7><br / >
+	<%= f.file_field :video %>
+	<%= f.submit "     Upload     ", :class => "btn btn-success" %> 
+	</div> 
+<% end %>
 
 <em>or</em>
 	
@@ -77,101 +77,3 @@
 	</div>
   <% end %>
 </div>
-
-<style type="text/css">
-#dropzone {
-	width: auto;
-	border: dashed #666 2px;
-	height: 40px;
-	border-radius: 25px;
-	padding: 4px;
-}
-#dropzone div.bar {
-	height: 40px;
-	display: block;
-	background: #666;
-	min-width: 40px;
-	border-radius: 20px;
-	line-height: 40px;
-	text-align: center;
-	color: #FFF;
-}
-input[name="video"] {
-	visibility: hidden;
-}
-</style>
-
-<script type="text/javascript">
-$(document).ready(function(e) {
-	$('#dropzone').filedrop({
-		fallback_id: 'uploadVideo',   // an identifier of a standard file input element
-		url: '/me/profile/edit/upload-video',              // upload handler, handles each file separately
-		paramname: 'video',          // POST parameter name used on serverside to reference file
-		//data: {
-		//	param1: 'value1',           // send POST variables
-		//	param2: function(){
-		//		return calculated_data; // calculate data at time of upload
-		//	},
-		//},
-		//headers: {          // Send additional request headers
-		//	'header': 'value'
-		//},
-		error: function(err, file) {
-			switch(err) {
-				case 'BrowserNotSupported':
-					alert('browser does not support html5 drag and drop')
-					break;
-				case 'TooManyFiles':
-					alert('TooManyFiles');
-					// user uploaded more than 'maxfiles'
-					break;
-				case 'FileTooLarge':
-					alert('FileTooLarge');
-					// program encountered a file whose size is greater than 'maxfilesize'
-					// FileTooLarge also has access to the file which was too large
-					// use file.name to reference the filename of the culprit file
-					break;
-				case 'FileTypeNotAllowed':
-					alert('FileTypeNotAllowed');
-					// The file type is not in the specified list 'allowedfiletypes'
-				default:
-					break;
-			}
-		},
-		allowedfiletypes: [],   // filetypes allowed by Content-Type.  Empty array means no restrictions
-		maxfiles: 1,
-		maxfilesize: 200,    // max file size in MBs
-		uploadStarted: function(i, file, len){
-			// a file began uploading
-			// i = index => 0, 1, 2, 3, 4 etc
-			// file is the actual file of the index
-			// len = total files user dropped
-		},
-		uploadFinished: function(i, file, response, time) {
-			$('#dropzone div.bar').animate({"opacity": 0.5}, 500, function() {
-				$(this).animate({"opacity": 1}, 500, function() {
-					$(this).text('Done...');
-				});
-			})
-			// response is the data you got back from server in JSON format.
-		},
-		progressUpdated: function(i, file, progress) {
-			$('#dropzone div.bar').css('width', progress + '%').text(progress + '%');
-			// this function is used for large files and updates intermittently
-			// progress is the integer value of file being uploaded percentage to completion
-		},
-		speedUpdated: function(i, file, speed) {
-			// speed in kb/s
-		},
-		afterAll: function() {
-			alert('done');
-			// runs after all files have been uploaded or otherwise dealt with
-		}
-	});
-	$('#dropzone').click(function(e) {
-		e.preventDefault();
-		$('input#uploadVideo').click();
-		return false;
-	});
-});
-</script>
