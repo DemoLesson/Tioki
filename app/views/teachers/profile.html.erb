@@ -113,7 +113,7 @@
 				</div>
 			</section>
 
-			<!-- Skills -->
+			<!-- Request Vouch -->
 			<section class="info">
 				<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
 					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-salmon" %>
@@ -264,6 +264,7 @@
 				</section>
 			<% end %>
 
+			<!-- START Skills Section-->
 			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
 				<section class="profile-info group skill-groups">
 					<p class="heading">
@@ -271,6 +272,7 @@
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 - 
 						<a href="/me/profile/edit/skills">Edit</a>
+						<span style="margin-left:479px;color:#F66C4C;" >Vouches</span>
 					<% end %>
 					</p>
 
