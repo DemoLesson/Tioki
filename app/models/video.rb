@@ -19,7 +19,9 @@ class Video < ActiveRecord::Base
 
   def encode
     begin
-      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => "s3://DemoLessonVideo/" + self.secret_url, :outputs => [{:label => self.id.to_s, :public => true, :url => 's3://DLEncodedVideo/' + self.id.to_s + '.mp4' }]})
+      input = "s3://DemoLessonVideo/#{self.secret_url}"
+      output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
+      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => input, :outputs => [{:label => self.id.to_s, :public => true, :url => output }]})
       self.encoded_state = "queued"      
       self.output_url = zen.body['outputs'][0]['url']
       self.job_id = zen.body['id'].to_s
@@ -36,7 +38,9 @@ class Video < ActiveRecord::Base
 
   def snippet_encode(time)
     begin
-      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => "s3://DemoLessonVideo/" + self.secret_url, :outputs => [{:label => self.id.to_s, :public => true, :url => 's3://DLEncodedVideo/' + self.id.to_s + '.mp4', :clip_length => "00:00:30.0", :start_clip => time }]})
+      input = "s3://DemoLessonVideo/#{self.secret_url}"
+      output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
+      zen = Zencoder::Job.create({:api_key => 'ebbcf62dc3d33b40a9ac99e623328583', :input => input, :outputs => [{:label => self.id.to_s, :public => true, :url => output, :clip_length => "00:00:30.0", :start_clip => time }]})
       self.encoded_state = "queued"      
       self.output_url = zen.body['outputs'][0]['url']
       self.job_id = zen.body['id'].to_s
