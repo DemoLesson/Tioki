@@ -177,8 +177,6 @@ class Video < ActiveRecord::Base
       return response["html"].html_safe
     end
 
-    dump job_status
-
     unless job_status == 'finished'
       # Return status
       return "<p class=\"processing\">The video is currently being processed for web viewage. Please check back in a bit.</p>".html_safe
