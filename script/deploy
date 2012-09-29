@@ -374,6 +374,7 @@ rescue
 	echo './script/deploy rake <staging|production> <command>   # Runs rake task on server. Command should be task without preceding "rake".', 'red'
 	echo './script/deploy setup                                 # Installs / Updates Rubber and syncs /etc/hosts aliases', 'red'
 	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
+	echo './script/deploy memory <staging|production>           # Shows memory statistics about all servers', 'red'
 	puts "\n"
 end
 
