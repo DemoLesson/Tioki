@@ -165,8 +165,6 @@ class VideosController < ApplicationController
 		video.output_url = 'ext|' + embed
 		video.video_id = embed
 
-		dump video.details
-
 		if video.save
 			# Let users know about the new video that was uploaded
 			Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})

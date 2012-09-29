@@ -82,7 +82,7 @@ class Video < ActiveRecord::Base
 
   # Get the job status
   def job_status
-    status = Zencoder::Job.progress(self.job_id).body.state
+    status = Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583').body.state
 
     # Update the encoded state
     if self.encoded_state != status
@@ -176,6 +176,8 @@ class Video < ActiveRecord::Base
       #dump response
       return response["html"].html_safe
     end
+
+    dump job_status
 
     unless job_status == 'finished'
       # Return status
