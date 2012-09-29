@@ -75,9 +75,24 @@ class DeployCLI
 			system(editor + " ./SEED_NOTES.md")
 
 			# Commit seednote
-			echo "Commiting updated seed note"
+			echo "Commiting updated seednote"
 			system('git add ./SEED_NOTES.md')
 			system('git commit -m "Updated Seednote"')
+
+			# Ask if the seednote should be pushed to the remote git repository
+			if confirm "Would you like to push your seednote change to GitHub?"
+
+				# Get the current branch and tracked remote
+				branch = `git name-rev --name-only HEAD`.strip
+				remote = `git config "branch.#{branch}.remote"`.strip
+
+				# Push the updated seed note to the currently tracked branch
+				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
+				system("git push #{remote} #{branch}")
+
+				# Done pushing
+				echo "Done pushing seednote..."
+			end
 		end
 
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
