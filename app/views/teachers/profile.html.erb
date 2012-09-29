@@ -141,7 +141,7 @@
 				</p>
 				<% @teacher.skills.each do |skill| %>
 					<p class="skills">
-						<a href="#" data-skillgroup="<%= skill.skill_group.badge_name %>">
+					<a href="/teacherskills/<%= skill.id.to_s %>" >
 						<%= skill.name %>
 						</a>
 					</p>
