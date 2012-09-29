@@ -1,6 +1,7 @@
-2012-09-28 6:08pm - Deploy by astanisic
+2012-09-28 9:31pm - Deploy by astanisic
 =======================================
-* I added a flower.
+* Added Brian's changes to Proifle and Edit profile
+* Commented out content from video library page
 
 2012-09-28 5:44pm - Deploy by KellyLSB
 ======================================
