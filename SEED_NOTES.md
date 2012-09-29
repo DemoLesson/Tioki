@@ -1,3 +1,8 @@
+2012-09-29 3:48pm - Deploy by KellyLSB
+======================================
+* Added title and description editing for videos
+* Allowing deletion of videos
+
 2012-09-29 1:33pm - Deploy by KellyLSB
 ======================================
 * Added multiple videos
@@ -5,8 +10,6 @@
 * Added user video library
 
 ### Todo
-* Add title and description editing for videos
-* Allow deletion of videos
 * Allow featuring a video
 * Video comments, and starring
 * Video privacy (connections, schools, members)
