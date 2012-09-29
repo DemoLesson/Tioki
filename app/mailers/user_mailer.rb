@@ -72,7 +72,7 @@ class UserMailer < ActionMailer::Base
 		ab = Abtests.use("email:userconnect", 1).to_s
 		template = "userconnect_" + ab
 
-		if ab == 0
+		if ab == 0.to_s
 			mail = mail(:to => @user.email, :subject => 'You have a new connection!') do |t|
 				t.html { render template }
 			end
@@ -423,7 +423,7 @@ class UserMailer < ActionMailer::Base
 
 		# Send out the email
 		# Use new subject lines
-		if ab == 0
+		if ab == 0.to_s
 			mail = mail(:to => emails, :subject => @teachername + " wants you to checkout Tioki!") do |f|
 				f.html { render template }
 			end
