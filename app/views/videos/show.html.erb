@@ -11,6 +11,7 @@
 					<a href="<%= "#{@videolist}/#{vid.id}" %>">
 						<li>
 							<div style="float:left;" class="profile-thumb-small">
+								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
 							</div>
 							<strong><%= vid.name %></strong><br />
 							<p style="float:none;"><%= vid.description %></p>

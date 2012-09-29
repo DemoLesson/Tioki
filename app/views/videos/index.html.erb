@@ -1,9 +1,9 @@
 <section id="main-content" class="inner-content">
 	<h1>
 		<%= possesify(@teacher.user.first_name) + ' ' if @teacher %>
-		Video Library<sup style="font-size:0.6em;color:#008080">Coming Soon</sup>
+		Video Library
 	</h1>
-<!--	<section id="panels">
+	<section id="panels">
 		<section class="panel one-column left-side">
 			<h3>Most recent videos</h3>
 			<ul>
@@ -11,6 +11,7 @@
 					<a href="<%= "#{@videolist}/#{vid.id}" %>">
 						<li>
 							<div style="float:left;" class="profile-thumb-small">
+								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
 							</div>
 							<strong><%= vid.name %></strong><br />
 							<p style="float:none;"><%= vid.description %></p>
@@ -22,7 +23,7 @@
 		<section class="panel two-column right-side">
 			<h3 id="video">Latest Video</h3>
 			<section class="panel-actions" id="video">
-				<% vid = @videodb.first %>
+				<% vid = @video %>
 				<strong><%= vid.name %></strong>
 				<%= vid.embed_code(605, 350) %>
 				<p><%= vid.description %>
@@ -30,4 +31,4 @@
 		</section>
 	</section>
 	<div class="clearfloat"></div>
-</section>-->
+</section>

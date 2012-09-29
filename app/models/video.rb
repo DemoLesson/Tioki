@@ -130,6 +130,9 @@ class Video < ActiveRecord::Base
   # Get the name of the video
   def name(empty = "Untitled")
 
+    # If external video
+    return details["title"] if external?
+
     # Get the name
     name = super()
 
@@ -143,8 +146,18 @@ class Video < ActiveRecord::Base
     # Get the description
     description = super()
 
+    # If there is no local description then display unavailable for external videos
+    return "Description unavailable for external videos." if external? && (description.nil? || description.empty?)
+
     # Return the name is it is not empty
     description.nil? || description.empty? ? empty.html_safe : description.html_safe
+  end
+
+  # Thumbnails
+  def thumbnail
+    return "tioki/icons/play-icon.png" unless external?
+
+    details["thumbnail_url"]
   end
 
   # Get the embed code for the video
@@ -155,19 +168,13 @@ class Video < ActiveRecord::Base
 
     # If the url is external
     if output_url[0...3] == 'ext'
-      output_url = output_url[4..-1]
 
-      # Query noembed
-      response = HTTParty.get("http://noembed.com/embed", {
-        :query => {
-          :url => output_url,
-          :maxwidth => width,
-          :maxheight => height
-        }
-      })
-    
+      # Get the API Response
+      response = details(width, height, output_url)
+      
       # Return HTML Embed Code
-      return JSON.parse response.body["html"].html_safe
+      #dump response
+      return response["html"].html_safe
     end
 
     unless job_status == 'finished'
@@ -184,6 +191,33 @@ class Video < ActiveRecord::Base
       # Return HTML Embed Code
       return embed.html_safe
     end
+  end
+
+  # This calls noembed returns no change if the url is local
+  def details(width = 640, height = 480, output_url = nil)
+
+    # Make sure we got a URL
+    output_url = self.output_url if output_url.nil?
+
+    if output_url[0...3] == 'ext'
+      output_url = output_url[4..-1]
+
+      # Query noembed
+      return HTTParty.get("http://noembed.com/embed", {
+        :query => {
+          :url => output_url,
+          :maxwidth => width,
+          :maxheight => height
+        }
+      })
+    end
+
+    return output_url
+  end
+
+  # Is video external to tioki
+  def external?
+    output_url[0...3] == 'ext' ? true : false
   end
 
   # Private methods below

@@ -21,6 +21,9 @@ class VideosController < ApplicationController
 			# Narrow the videos to only those attached to this teacher
 			@videodb = @videodb.where('`teacher_id` = ?', @teacher.id)
 		end
+
+		# Get first video
+		@video = @videodb.first
 	end
 
 	# GET /videos/1
@@ -159,6 +162,8 @@ class VideosController < ApplicationController
 		video.teacher = self.current_user.teacher
 		video.output_url = 'ext|' + embed
 		video.video_id = embed
+
+		dump video.details
 
 		if video.save
 			# Let users know about the new video that was uploaded
