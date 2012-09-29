@@ -4,5 +4,3 @@
 	- Made all the videos (including youtube) Video models
 	- Re organized the video model / working on slimming the code down
 * Re setup video.js after fixing the css bug breaking it
-
-test
