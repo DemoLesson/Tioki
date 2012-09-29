@@ -25,6 +25,13 @@ def input(text, color = 'red')
 	STDIN.gets.chomp
 end
 
+# Make sure we are in the root directory
+unless File.directory? './.git'
+	echo 'You are not running from the rails root!', 'red'
+	echo 'Exiting...'
+	exit
+end
+
 # Load serialization engine
 require 'yaml'
 require 'socket'
