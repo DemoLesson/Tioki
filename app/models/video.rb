@@ -220,6 +220,10 @@ class Video < ActiveRecord::Base
     output_url[0...3] == 'ext' ? true : false
   end
 
+  # Cleanup
+  def cleanup
+  end
+
   # Private methods below
   private
 

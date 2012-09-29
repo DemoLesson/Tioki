@@ -1,4 +1,35 @@
-<h1>Edit Video</h1>
+<section id="main-content" class="inner-content">
+	<h1></h1>
+	<%= form_for @video, :html => { :multipart => true } do |f| %>
+		<section class="profile group">
+			<section class="left-sidebar">
+				<h1>
+				Edit Video
+				</h1>
 
-<%= render 'form' %>
+				<section class="profile-info group">
+					<h3 class="top-line" style="text-transform:uppercase;">
+					Video Information
+					</h3>
 
+					<fieldset>
+						<p>Video Title</p>
+						<input name="video[name]" type="text" value="<%= @video.name %>" <%= 'disabled="disabled"' if @video.external? %> />
+					</fieldset>
+
+					<fieldset>
+						<p>Video Description</p>
+						<textarea name="video[description]"><%= @video.description %></textarea>
+					</fieldset>
+				</section>
+
+				<section class="profile-info group">
+					<h3 class="top-line" style="text-transform:uppercase;">
+					Video Skill Tags &mdash; <span class="green">Coming Soon</span>
+					</h3>
+				</section>
+			</section> <!-- End Sidebar -->
+		</section> <!-- End Profile -->
+		<input type="submit" class="huge-button" value="Save Changes">
+	<% end %>
+</section>

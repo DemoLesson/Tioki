@@ -21,12 +21,16 @@
 			</ul>
 		</section>
 		<section class="panel two-column right-side">
-			<h3 id="video">Latest Video</h3>
+			<h3 id="video"><%= @video.name %> by <%= @video.teacher.profile_link :class => 'salmon' %></h3>
 			<section class="panel-actions" id="video">
-				<% vid = @video %>
-				<strong><%= vid.name %></strong>
-				<%= vid.embed_code(605, 350) %>
-				<p><%= vid.description %>
+				<%= @video.embed_code(605, 350) %>
+				<hr />
+				<% if @video.teacher == self.current_user.teacher || self.current_user.is_admin %>
+					<%= link_to 'Edit Video', edit_video_path(@video), :class => "button" %>
+					<%= link_to 'Delete Video', @video, method: :delete, data: { confirm: 'Are you sure?' }, :class => "button bg-green" %>
+					<hr />
+				<% end %>
+				<p><%= @video.description %></p>
 			</section>
 		</section>
 	</section>

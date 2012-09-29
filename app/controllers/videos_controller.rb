@@ -139,18 +139,18 @@ class VideosController < ApplicationController
 	end
 
 	# PUT /videos/1
-	# PUT /videos/1.xml
 	def update
 		@video = Video.find(params[:id])
 
-		respond_to do |format|
-			if @video.update_attributes(params[:video])
-				format.html { redirect_to(@video, :notice => 'Video was successfully updated.') }
-				format.xml  { head :ok }
-			else
-				format.html { render :action => "edit" }
-				format.xml  { render :xml => @video.errors, :status => :unprocessable_entity }
-			end
+		params[:video].each do |key, val|
+			@video.send("#{key}=", val)
+		end unless params[:video].nil? || params[:video].empty?
+
+		if @video.save
+			flash[:success] = 'Video was successfully updated.'
+			redirect_to @video
+		else
+			render :action => "edit"
 		end
 	end
 
@@ -196,6 +196,7 @@ class VideosController < ApplicationController
 	# DELETE /videos/1.xml
 	def destroy
 		@video = Video.find(params[:id])
+		@video.cleanup
 		@video.destroy
 
 		respond_to do |format|

@@ -589,6 +589,10 @@
 		position: relative;
 		padding: 12px 15px;
 		border-top: 1px dashed $ltgray;
+		hr {
+			margin: 5px -15px;
+			border: 1px dashed $ltgray;
+		}
 		#submit-whiteboard {
 			position: relative;
 			width: 540px;
