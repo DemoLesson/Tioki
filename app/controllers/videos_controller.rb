@@ -38,6 +38,8 @@ class VideosController < ApplicationController
 
 		# Get the video associated with the id
 		@video = Video.find(params[:id])
+
+		render :index
 	end
 	
 	def myvideo

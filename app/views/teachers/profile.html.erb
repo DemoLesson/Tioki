@@ -154,6 +154,7 @@
 			<!-- Video -->
 			<% if @connected || @guest || !@teacher.user.privacy["video"] %>
 				<% unless @video.nil? %>
+					<h3>Latest Video</h3>
 					<div class="profile-video panel">
 						<%= @video.embed_code %>
 					</div>
@@ -170,6 +171,11 @@
 							Add a Video
 							</a>
 						<% end %>
+					<% end %>
+					<% if @teacher.videos.count > 1 %>
+						<a href="/profile/<%= @teacher.url %>/videos" class="action-button edit-video bg-green" style="margin-right:10px;white-space:nowrap;width:auto;padding-left:10px;padding-right:10px;">
+							<%= possesify(@teacher.user.first_name) %> Video Library
+						</a>
 					<% end %>
 					<% unless @teacher.video_embed_html == nil && @video == nil%>
 						<!--ul class="stats">
