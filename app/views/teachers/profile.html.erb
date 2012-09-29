@@ -68,34 +68,52 @@
 						<%= @teacher.phone %>
 						</p>
 					<% end %>
+					<% unless @teacher.twitter == nil || @teacher.twitter == 'http://twitter.com/' %>
+						<a href="<%= @teacher.twitter %>" target="_blank" style="margin-left:5px">
+							<%= image_tag('tioki/icons/twitter2.png') %>
+						</a>
+					<% end %>
 					<% unless @teacher.linkedin == nil || @teacher.linkedin == 'http://linkedin.com/' %>
 						<a href="<%= @teacher.linkedin %>" target="_blank">
-							<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png') %>
+							<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;") %>
+						</a>
+					<% end %>
+					<% unless @teacher.edmodo == nil || @teacher.edmodo == 'http://edmodo.com/' %>
+						<a href="<%= @teacher.edmodo %>" target="_blank">
+							<%= image_tag('tioki/icons/edmodo.png') %>
+						</a>
+					<% end %>
+					<% unless @teacher.betterlesson == nil || @teacher.betterlesson == 'http://betterlesson.com/' %>
+						<a href="<%= @teacher.betterlesson %>" target="_blank">
+							<%= image_tag('tioki/icons/betterlesson.png') %>
+						</a>
+					<% end %>
+					<% unless @teacher.teachingchannel == nil || @teacher.teachingchannel == 'http://teachingchannel.org/' %>
+						<a href="<%= @teacher.teachingchannel %>" target="_blank">
+							<%= image_tag('tioki/icons/teachingchannel.png') %>
 						</a>
 					<% end %>
 				</section>
 			<% end %>
 
 			<!-- Current Job -->
-			<% if @connected || @guest || !@teacher.user.privacy["current_job"] %>
-				<section class="info">
-					<p class="heading">
-					Currently
-					</p>
-					<p>
-					<span class="bold black">Position:</span>
-					<%= @teacher.position %>
-					</p>
-					<p>
-					<span class="bold black">School:</span>
-					<%= @teacher.school %>
-					</p>
-					<p>
-					<span class="bold black">Location:</span>
-					<%= @teacher.location %>
-					</p>
-				</section>
-			<% end %>
+			<section class="info">
+				<p class="heading">
+				Currently
+				</p>
+				<p>
+				<span class="bold black">Position:</span>
+				<%= @teacher.position %>
+				</p>
+				<p>
+				<span class="bold black">School:</span>
+				<%= @teacher.school %>
+				</p>
+				<p>
+				<span class="bold black">Location:</span>
+				<%= @teacher.location %>
+				</p>
+			</section>
 
 			<section class="info">
 				<p class="heading">
@@ -130,6 +148,7 @@
 				<% end %>
 			</section>
 		</section><!-- End Sidebar -->
+		<!-- START Video Content -->
 		<section class="profile-content">
 
 			<!-- Video -->

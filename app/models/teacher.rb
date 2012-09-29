@@ -12,6 +12,7 @@ class Teacher < ActiveRecord::Base
   has_many :stars
   has_many :pins
   has_many :interviews
+  has_many :teacher_links, :dependent => :destroy
   
   has_many :experiences, :order => 'startYear DESC'
   has_many :educations, :order => 'current DESC, year DESC, start_year DESC'

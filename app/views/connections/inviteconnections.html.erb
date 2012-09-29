@@ -48,7 +48,8 @@ var csPageOptions = {
             <h3>Your number of referred signups: <%= @referred %></h3>
             <p style="font-size:14px;font-style:normal;">We will give you a $5 gift card to spend on any classroom project on Donors Choose, even your own, for every 5 friends you get to sign-up. Bring 10 friends get $10 and so on. Just invite your friends using the invite button on the bottom to get started!<br /><br />
             <a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner" target="_blank">Donors Choose</a> is a non-profit organization that helps teachers get the materials they need to improve their students' education.</p>
-          </div>
+		</div><br />
+          <a href="#twitter"><%= image_tag "tioki/icons/twitter.png" %></a>
         </td>
       </tr>
       <tr>
@@ -74,4 +75,29 @@ var csPageOptions = {
     </div>
   <% end %>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tiokiapp',
+			url: 'http://www.tioki.com/dc/<%= self.current_user.invite_code %>',
+			text: 'I just joined Tioki; a professional development site for educators. You should connect with me!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
 </section>

@@ -9,6 +9,17 @@
 			<input type="hidden" name="people" />
 
 			<div class="done" style="display:none;">
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:invitestring] %>
+				<%= hidden_field_tag :invitestring, params[:invitestring] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% end %>
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
 				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.</p>
 				<p class="no-pre" style="display:none;">Select some contacts that you would like to connect with.</p>
@@ -18,6 +29,7 @@
 
 			<div class="detected" style="display:none;">
 				<span id="service-icon" style="float:right;"></span>
+				Please enable pop-ups for this page and refresh!
 				<h3>Type in your email address so you can start connecting with your friends.</h3>
 
 				<div style="float:left;width:165px;text-align:right;padding-top:7px;">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120926031548) do
+ActiveRecord::Schema.define(:version => 20120927222716) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20120926031548) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_user_id"
+    t.boolean  "donors_choose",   :default => true
   end
 
   create_table "connections", :force => true do |t|
@@ -211,10 +212,6 @@ ActiveRecord::Schema.define(:version => 20120926031548) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
-  end
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -485,13 +482,22 @@ ActiveRecord::Schema.define(:version => 20120926031548) do
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
   add_index "subjects_teachers", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
 
+  create_table "teacher_links", :force => true do |t|
+    t.integer  "teacher_id"
+    t.string   "url"
+    t.integer  "type"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "teachers", :force => true do |t|
     t.integer  "user_id",                                                   :null => false
     t.boolean  "willing_to_move"
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -510,6 +516,10 @@ ActiveRecord::Schema.define(:version => 20120926031548) do
     t.string   "headline",               :limit => 140
     t.string   "video_embed_url"
     t.text     "video_embed_html"
+    t.string   "edmodo"
+    t.string   "twitter"
+    t.string   "betterlesson"
+    t.string   "teachingchannel"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
@@ -543,6 +553,7 @@ ActiveRecord::Schema.define(:version => 20120926031548) do
     t.string   "original_name"
     t.string   "temp_img_name"
     t.integer  "privacy",             :default => 0,     :null => false
+    t.string   "invite_code"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

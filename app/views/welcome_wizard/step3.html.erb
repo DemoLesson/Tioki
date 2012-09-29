@@ -13,6 +13,18 @@
 				<div class="clear"></div>
 			</div>
 
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:invitestring] %>
+				<%= hidden_field_tag :invitestring, params[:invitestring] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% end %>
+
 			<div class="button_wrap">
 				<input type="submit" disabled="disabled" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
 			</div>
