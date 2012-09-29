@@ -77,17 +77,17 @@
 					<%= image_tag(@teacher.user.avatar(:medium)) if @teacher.user.avatar? %>
 					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @teacher.user.avatar? %>
 				</div>
-				<p>
+				</br>
 				<%= link_to 'Change Profile Picture', '/me/profile/edit/upload-avatar', :class => "button2 bg-ltgray big-button" %>	
 					<span style="margin-left:15px">
 						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'  Upload Video', '/me/profile/edit/upload-video', :class => "button2 bg-ltgray med-button" %>
 					</span>
-				</p>
+
 				<section>
 					<h3 class="top-line">
 					MY PROFESSIONAL DETAILS
 					</h3>	
-					<p>
+					
 					<%= link_to ' Education ', '/me/profile/edit/education', :class => "button2 bg-ltgray big-button" %>
 						<span style="margin-left:15px">
 							<%= link_to ' Experience ', '/me/profile/edit/experience', :class => "button2 bg-ltgray big-button" %>
@@ -97,8 +97,8 @@
 						</span>
 						<span style="margin-left:15px">
 							<%= link_to 'Skills', '/me/profile/edit/skills', :class => "button2 bg-ltgray big-button" %>
-						</span>
-					</p>
+						</span></br></br>
+			
 					<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;")+'   Import from LinkedIn', '/linkedinprofile', :class => "button2 bg-ltgray med-button"%>
 				</section>
 			</section>

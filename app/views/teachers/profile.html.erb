@@ -68,27 +68,27 @@
 						<%= @teacher.phone %>
 						</p>
 					<% end %>
-					<% unless @teacher.twitter == nil || @teacher.twitter == 'http://twitter.com/' %>
+					<% unless @teacher.twitter == nil || @teacher.twitter == 'http://twitter.com/' || @teacher.twitter =='' %>
 						<a href="<%= @teacher.twitter %>" target="_blank" style="margin-left:5px">
 							<%= image_tag('tioki/icons/twitter2.png') %>
 						</a>
 					<% end %>
-					<% unless @teacher.linkedin == nil || @teacher.linkedin == 'http://linkedin.com/' %>
+					<% unless @teacher.linkedin == nil || @teacher.linkedin == 'http://linkedin.com/' || @teacher.linkedin =='' %>
 						<a href="<%= @teacher.linkedin %>" target="_blank">
 							<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;") %>
 						</a>
 					<% end %>
-					<% unless @teacher.edmodo == nil || @teacher.edmodo == 'http://edmodo.com/' %>
+					<% unless @teacher.edmodo == nil || @teacher.edmodo == 'http://edmodo.com/'|| @teacher.edmodo =='' %>
 						<a href="<%= @teacher.edmodo %>" target="_blank">
 							<%= image_tag('tioki/icons/edmodo.png') %>
 						</a>
 					<% end %>
-					<% unless @teacher.betterlesson == nil || @teacher.betterlesson == 'http://betterlesson.com/' %>
+					<% unless @teacher.betterlesson == nil || @teacher.betterlesson == 'http://betterlesson.com/' || @teacher.betterlesson =='' %>
 						<a href="<%= @teacher.betterlesson %>" target="_blank">
 							<%= image_tag('tioki/icons/betterlesson.png') %>
 						</a>
 					<% end %>
-					<% unless @teacher.teachingchannel == nil || @teacher.teachingchannel == 'http://teachingchannel.org/' %>
+					<% unless @teacher.teachingchannel == nil || @teacher.teachingchannel == 'http://teachingchannel.org/' || @teacher.teachingchannel =='' %>
 						<a href="<%= @teacher.teachingchannel %>" target="_blank">
 							<%= image_tag('tioki/icons/teachingchannel.png') %>
 						</a>
