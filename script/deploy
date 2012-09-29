@@ -19,6 +19,12 @@ def confirm(text, color = 'red')
 	end
 end
 
+# Get input
+def input(text, color = 'red')
+	echo text, color
+	STDIN.gets.chomp
+end
+
 # Load serialization engine
 require 'yaml'
 require 'socket'
@@ -39,6 +45,33 @@ class DeployCLI
 		# Set the new rails environment
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
+
+		if confirm "You you like to add to the SEED_NOTES.txt file?"
+			editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
+
+			if editor.nil? || editor.empty?
+				editor = input "What editor should I use? (ex. vi, nano, mate, subl)"
+				
+				# If Sublime or Texmate add waits
+				case editor
+				when 'subl', 'sublime', 'sublimetext', 'sublimetext2'
+					editor = 'subl -n -w'
+				when 'mate', 'textmate', 'text mate' 'textmate2'
+					editor = 'mate -w'
+				end
+			else
+				echo "Opening the default system editor...\n"
+			end
+
+			# Open editor
+			echo "Waiting for editing to complete...\n", 'red'
+			system(editor + " ./SEED_NOTES.md")
+
+			# Commit seednote
+			echo "Commiting updated seed note"
+			system('git add ./SEED_NOTES.md')
+			system('git commit -m "Updated Seednote"')
+		end
 
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
 			# Boot strap the boxes
