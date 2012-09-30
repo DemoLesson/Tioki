@@ -155,12 +155,8 @@ class Video < ActiveRecord::Base
 
   # Thumbnails
   def thumbnail
-    #return "tioki/icons/play-icon.png" unless external?
-    #quick fix to error on videos page
-    #old videos don't have an output_url
-	if output_url == nil || !external?
-      return "tioki/icons/play-icon.png"
-	end
+    return "tioki/icons/play-icon.png" unless external?
+
     details["thumbnail_url"]
   end
 
