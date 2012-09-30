@@ -1,3 +1,7 @@
+2012-09-29 6:04pm - Deploy by astanisic
+======================================= 
+* Fixes to video model
+
 2012-09-29 3:48pm - Deploy by KellyLSB
 ======================================
 * Added title and description editing for videos
