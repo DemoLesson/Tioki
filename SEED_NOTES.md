@@ -1,3 +1,7 @@
+2012-09-29 6:33pm - Deploy by astanisic
+======================================= 
+* Style fix to teacher dashboard. 
+
 2012-09-29 6:16pm - Deploy by astanisic
 ======================================= 
 * Reverting last deploy. 
