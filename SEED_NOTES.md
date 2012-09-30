@@ -1,3 +1,7 @@
+2012-09-29 6:16pm - Deploy by astanisic
+======================================= 
+* Reverting last deploy. 
+
 2012-09-29 6:04pm - Deploy by astanisic
 ======================================= 
 * Fixes to video model
