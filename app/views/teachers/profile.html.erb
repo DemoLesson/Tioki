@@ -272,33 +272,36 @@
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 						 - 
 						<a href="/me/profile/edit/skills">Edit</a>
-						<span style="margin-left:479px;color:#F66C4C;" >Vouches</span>
 					<% end %>
+					<span style="margin-left:479px;color:#F66C4C;" >Vouches</span>
 					</p>
 
 					<% @teacher.user.skill_groups.each do |skill_group| %>
-						<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>" data-skillgroup-name="<%= skill_group.name %>" style="float:left;">
+						<!--<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>" data-skillgroup-name="<%= skill_group.name %>" style="float:left;">
 							<% if @teacher.user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
 								<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
 							<% end %>
-						</div><h2><%= skill_group.name %></h2>
-						<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
-							<%= link_to skill.name, '/teacherskills/' + skill.id.to_s, :style => "font-size:20px" %>
-							<%= @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) %> 
-							<div style="float:right">
-								<% @teacher.user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
-									<% if vouched_skill.voucher.avatar? %>
-										<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny)), "profile/#{vouched_skill.voucher.teacher.url}" %>
-									<% else %>
-										<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'min-height:45px;min-width:45px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+						
+						</div><h2><%= skill_group.name %></h2>-->
+						<div style="border-bottom: 1px dashed #CFD4D5;">
+							<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
+								<%= link_to skill.name, '/teacherskills/' + skill.id.to_s, :style => "font-size:15px" %>
+								<%= @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) %>
+								<div style="float:right">
+									<% @teacher.user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
+										<% if vouched_skill.voucher.avatar? %>
+											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+										<% else %>
+											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+										<% end %>
 									<% end %>
-								<% end %>
-								<% if User.current && @teacher.user != User.current %>
-									<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @teacher.user_id, :skill_id => skill.id } %>
-								<% end %>
-							</div>
-							<hr style="display:block"><br />
-						<% end %>
+									<% if User.current && @teacher.user != User.current %>
+										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @teacher.user_id, :skill_id => skill.id } %>
+									<% end %>
+								</div>
+								<br />
+							<% end %>
+						</div>
 					<% end %>
 				</section>
 			<% end %>
