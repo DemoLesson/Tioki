@@ -61,7 +61,7 @@ Type:<%= select(:school, :school_type, { "District" => "1", "Charter" => "2", "P
     <td><%= link_to school.name, school %></td>
     <td><%= user.name %></td>
     <td><%= link_to user.email, 'mailto:'+user.email %></td>
-    <td><% if user.last_login? %><%= user.last_login.to_formatted_s(:short) %><% else %>Unknown<% end %></td>
+    <td><% if user.last_login? %><%= user.last_login.to_formatted_s(:db) %><% else %>Unknown<% end %></td>
     <td><%= school.jobs.count %></td>
     <td><%= applicants %></td>
     <td><%= link_to "Manage", '/manage/'+user.id.to_s %></td>
