@@ -46,6 +46,13 @@ class DeployCLI
 		# Capture terminal logs
 		logs = Array.new
 
+		# Did we merge into master
+		masterMerge = false
+
+		# Get the current branch and tracked remote
+		branch = `git name-rev --name-only HEAD`.strip
+		remote = `git config "branch.#{branch}.remote"`.strip
+
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
 
@@ -82,10 +89,6 @@ class DeployCLI
 			# Ask if the seednote should be pushed to the remote git repository
 			if confirm "Would you like to push your seednote change to GitHub?"
 
-				# Get the current branch and tracked remote
-				branch = `git name-rev --name-only HEAD`.strip
-				remote = `git config "branch.#{branch}.remote"`.strip
-
 				# Push the updated seed note to the currently tracked branch
 				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
 				system("git push #{remote} #{branch}")
@@ -95,8 +98,22 @@ class DeployCLI
 			end
 		end
 
+		# If we are in develop ask if we would like to merge to master
+		if branch == 'develop'
+			if confirm "Would you like to merge all new changes into master?"
+				echo "Switching to master..."
+				system('git checkout master')
+				echo "Merging in changes from develop..."
+				system('git merge develop')
+				echo "Merge completed..."
+				system('git push')
+				echo "Continuing with deploy..."
+				masterMerge = true
+			end
+		end
+
+		# Ask if we would like to bootstrap the boxes
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
-			# Boot strap the boxes
 			echo "Bootstrapping the EC2 instances."
 			echo "(Installing new Software/Gems)"
 			echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
@@ -128,6 +145,12 @@ class DeployCLI
 		else
 			echo "\nYou can deploy later with:"
 			echo "\`./script/deploy publish #{type}\`", 'red'
+		end
+
+		# If we are in master go back to develop
+		if masterMerge
+			echo "Switching back to develop branch..."
+			system('git checkout develop')
 		end
 
 		# Restore the original rails env
