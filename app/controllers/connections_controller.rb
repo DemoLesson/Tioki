@@ -48,7 +48,7 @@ class ConnectionsController < ApplicationController
 							session[:_ak] = "unlock_connection_request"
 							format.html { redirect_to '/welcome_wizard?x=step2' }
 						else
-							format.html { redirect_to :pending_connections }
+							format.html { redirect_to :back, :notice => "Connection request successfully sent."  }
 						end
 					end
 				end
@@ -68,7 +68,7 @@ class ConnectionsController < ApplicationController
 
 				# Redirect to "My Connections"
 				respond_to do |format|
-					format.html { redirect_to :my_connections }
+					format.html { redirect_to :back, :notice => "Connection request successfully sent." }
 				end
 			end
 		end
