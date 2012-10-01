@@ -52,6 +52,9 @@ class DeployCLI
 		# Get the current branch and tracked remote
 		branch = `git name-rev --name-only HEAD`.strip
 		remote = `git config "branch.#{branch}.remote"`.strip
+		uncommited = `git status --porcelain`.strip.empty?
+		puts uncommited
+		exit
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
