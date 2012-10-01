@@ -17,10 +17,10 @@ module ApplicationHelper
     name + "'s"
   end
 
-  def ablang(slug, uc = false)
+  def ablang(slug, uc = true)
     ab = self.current_user.ab
-    ab = ab.to_i if ab.numeric?
+    ab = ab.to_i if ab.is_a?(String) && ab.numeric?
 
-    AB::getLang(slug, ab, !uc)
+    AB::getLang(slug, ab, uc)
   end
 end
