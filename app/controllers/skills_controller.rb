@@ -32,6 +32,10 @@ class SkillsController < ApplicationController
   def teacherskills
     @skill = Skill.find(params[:id])
     @teachers = Teacher.joins(:user => :skills).paginate(:page => params[:page], :per_page => 25, :conditions => ['teachers.user_id = skill_claims.user_id and skill_claims.skill_id = ?', params[:id]])
-    @my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
+	if self.current_user
+		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
+	else
+		@my_connections = []
+	end
   end
 end
