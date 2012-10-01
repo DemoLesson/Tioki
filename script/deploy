@@ -64,10 +64,14 @@ class DeployCLI
 		# Make sure we want to be deploying with uncommited changes
 		unless commited
 			return unless confirm("You are trying to deploy with uncommited files. Continue?")
+
+		# Push any unpushed changes to the remote
+		else
+			system("git push #{remote} #{branch}")
 		end
 
 		# Seed note editor
-		if confirm "You you like to add to the SEED_NOTES.txt file?"
+		if confirm "Would you like to add to the SEED_NOTES.txt file?"
 			editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
 
 			if editor.nil? || editor.empty?
@@ -108,13 +112,13 @@ class DeployCLI
 		# If we are in develop ask if we would like to merge to master
 		if commited && branch == 'develop'
 			if confirm "Would you like to merge all new changes into master?"
-				echo "Switching to master..."
+				echo "\nSwitching to master..."
 				system('git checkout master')
-				echo "Merging in changes from develop..."
+				echo "\nMerging in changes from develop..."
 				system('git merge develop')
-				echo "Merge completed..."
+				echo "Merge completed...\n"
 				system("git push #{remote} master")
-				echo "Continuing with deploy..."
+				echo "\nContinuing with deploy...\n"
 				masterMerge = true
 			end
 		end
@@ -156,7 +160,7 @@ class DeployCLI
 
 		# If we are in master go back to develop
 		if masterMerge
-			echo "Switching back to develop branch..."
+			echo "\nSwitching back to develop branch..."
 			system('git checkout develop')
 		end
 
