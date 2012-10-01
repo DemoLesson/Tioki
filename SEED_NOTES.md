@@ -1,3 +1,7 @@
+2012-10-01 12:40pm - Deploy by astanisic
+======================================= 
+* Users adding connections will be redirected to the page where connection was requested. 
+
 2012-10-01 12:23pm - Deploy by astanisic
 ======================================= 
 * Adding language structure
