@@ -173,7 +173,6 @@ class Video < ActiveRecord::Base
       response = details(width, height, output_url)
       
       # Return HTML Embed Code
-      #dump response
       return response["html"].html_safe
     end
 
