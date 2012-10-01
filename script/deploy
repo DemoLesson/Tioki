@@ -113,7 +113,7 @@ class DeployCLI
 				echo "Merging in changes from develop..."
 				system('git merge develop')
 				echo "Merge completed..."
-				system('git push')
+				system("git push #{remote} master")
 				echo "Continuing with deploy..."
 				masterMerge = true
 			end
