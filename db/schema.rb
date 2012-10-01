@@ -549,9 +549,9 @@ ActiveRecord::Schema.define(:version => 20121001190719) do
     t.boolean  "is_shared",           :default => false, :null => false
     t.boolean  "is_limited",          :default => false, :null => false
     t.boolean  "emailsubscription",   :default => true
-    t.string   "time_zone",           :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "time_zone",           :default => "UTC"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
