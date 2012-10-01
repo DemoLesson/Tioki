@@ -1,3 +1,8 @@
+2012-09-29 6:33pm - Deploy by astanisic
+======================================= 
+* Connections on profile page do not show pending connections
+* Changes to connections search engine
+
 2012-09-29 6:33pm - Deploy by KellyLSB
 ======================================
 * Deployed a fix by Elijah Green emptying the @my_connections array if not logged in.
