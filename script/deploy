@@ -52,9 +52,7 @@ class DeployCLI
 		# Get the current branch and tracked remote
 		branch = `git name-rev --name-only HEAD`.strip
 		remote = `git config "branch.#{branch}.remote"`.strip
-		uncommited = `git status --porcelain`.strip.empty?
-		puts uncommited
-		exit
+		commited = `git status --porcelain`.strip.empty?
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -63,6 +61,12 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
+		# Make sure we want to be deploying with uncommited changes
+		unless commited
+			return unless confirm("You are trying to deploy with uncommited files. Continue?")
+		end
+
+		# Seed note editor
 		if confirm "You you like to add to the SEED_NOTES.txt file?"
 			editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
 
@@ -102,7 +106,7 @@ class DeployCLI
 		end
 
 		# If we are in develop ask if we would like to merge to master
-		if branch == 'develop'
+		if commited && branch == 'develop'
 			if confirm "Would you like to merge all new changes into master?"
 				echo "Switching to master..."
 				system('git checkout master')
