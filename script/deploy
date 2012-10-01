@@ -114,10 +114,12 @@ class DeployCLI
 			if confirm "Would you like to merge all new changes into master?"
 				echo "\nSwitching to master..."
 				system('git checkout master')
+				echo "\nPulling master..."
+				system("git pull -u #{remote} master")
 				echo "\nMerging in changes from develop..."
 				system('git merge develop')
 				echo "Merge completed...\n"
-				system("git push #{remote} master")
+				system("git push -u #{remote} master")
 				echo "\nContinuing with deploy...\n"
 				masterMerge = true
 			end
