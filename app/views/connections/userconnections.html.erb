@@ -7,7 +7,7 @@
 			<h4>Connections</h4>
 						<%= link_to "Add Connections", :inviteconnections %><br />
 		<%= link_to 'My Connections', :my_connections %></br>
-								<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
+						<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
 	</div>
 				<div id="whiteBox" style="height:280px;width:190px;position:fixed;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
 					<strong>Connecting on DemoLesson</strong>
@@ -42,7 +42,7 @@
 				<% elsif @my_connections.collect{|x| x.not_me.id}.include? connection.not_me(params[:id]).id %>
 					<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me(params[:id]).id.to_s }, {:class => "button bg-green"} %>
 				<% else %>
-					<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me(params[:id]).id }, :class => "button" %>
+					<%= link_to ablang('connect'), { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me(params[:id]).id }, :class => "button" %>
 				<% end%>
 			</div>
 		</div>

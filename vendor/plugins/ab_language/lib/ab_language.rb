@@ -23,12 +23,14 @@ module AB
 		end
 
 		# Get the stack
-		def getStack(abc = 'default')
+		def getStack(abc = nil)
+			abc = 'default' if abc.nil?
 			return @language[abc]
 		end
 
 		# Get a specific slug
-		def getLang(slug = nil, abc = 'default')
+		def getLang(slug = nil, abc = nil)
+			abc = 'default' if abc.nil?
 
 			# Original slug
 			oslug = slug
@@ -84,15 +86,28 @@ module AB
 			rescue => e
 
 				# Continue with overrides unless we already did
-				return getLang('default', oslug) if abc != 'default'
+				return getLang(oslug, 'default') if abc != 'default'
 				return nil
 			end
 		end
 	end
 
 	# Get a specific slug
-	def self.getLang(slug = nil, abc = 'default')
-		@@language = Language.new if @@language.nil?
-		@@language.getLang(slug, abc)
+	def self.getLang(slug = nil, abc = nil, uc = false)
+
+		# Get the slug
+		abc = 'default' if abc.nil?
+		@@language = Language.new if @@language.nil? || Rails.env == 'development'
+		val = @@language.getLang(slug, abc)
+
+
+		# Uppercase as neccessary
+		if uc == 'words'
+			val = val.split(' ').select {|w| w.capitalize! || w }.join(' ');
+		elsif uc == true
+			val[0] = val[0].capitalize
+		end
+
+		return val
 	end
 end

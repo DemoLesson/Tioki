@@ -144,6 +144,10 @@ class String
 
 		return message.strip.html_safe
 	end
+
+	def numeric?
+  		self.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
+	end
 end
 
 # Determine if a domain uses google mail

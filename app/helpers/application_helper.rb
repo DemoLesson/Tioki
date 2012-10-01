@@ -16,4 +16,11 @@ module ApplicationHelper
     return name + "'" if name[-1] == 's'
     name + "'s"
   end
+
+  def ablang(slug, uc = false)
+    ab = self.current_user.ab
+    ab = ab.to_i if ab.numeric?
+
+    AB::getLang(slug, ab, !uc)
+  end
 end
