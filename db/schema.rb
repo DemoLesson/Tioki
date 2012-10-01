@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927222716) do
+ActiveRecord::Schema.define(:version => 20121001190719) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -212,6 +212,10 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+  end
+
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -497,7 +501,7 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                     :default => ""
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -554,6 +558,7 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.string   "temp_img_name"
     t.integer  "privacy",             :default => 0,     :null => false
     t.string   "invite_code"
+    t.string   "ab"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -590,6 +595,7 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.integer  "duration_in_ms"
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
+    t.string   "video"
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"

@@ -9,7 +9,7 @@ var csPageOptions = {
 </script>
 
 <div class="kRap">
-  <h1>Let's invite some of your friends to be connections</h1>
+  <h1>Let's invite some of your friends to be <%= ablang('connection.plural', false) %></h1>
 
   <%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
     <table>
@@ -71,7 +71,7 @@ var csPageOptions = {
     </table>
 
     <div class="button_wrap">
-      <%= f.submit "Invite Connections", :class => "btn btn-large btn-primary", :style => "padding:9px 50px;display:inline;width:auto;" %>
+      <%= f.submit "Invite " + ablang('connection.plural'), :class => "btn btn-large btn-primary", :style => "padding:9px 50px;display:inline;width:auto;" %>
     </div>
   <% end %>
 </div>

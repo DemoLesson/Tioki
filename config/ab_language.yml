@@ -6,18 +6,15 @@ default:
       connect:
         singular: 'connect'
         plural: 'connects'
-  apple:
-    another:
-      singular: 'another apple'
-      plural: 'more apples'
-    insideous:
-      singular: 'insideous apple'
-      plural: 'insideous apples'
+      connecting:
+        singular: 'connecting'
 0:
   connection:
-    singular: 'connection0'
-    plural: 'connections0'
+    singular: 'follower'
+    plural: 'followers'
     children:
       connect:
-        singular: 'connect0'
-        plural: 'connects0'
+        singular: 'follow'
+        plural: 'follows'
+      connecting:
+        singular: 'following'
