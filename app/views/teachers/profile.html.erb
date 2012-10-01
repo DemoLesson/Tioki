@@ -43,14 +43,14 @@
 			<% # IF im not a user then let me register %>
 			<% elsif !self.current_user %>
 				<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
-				Connect
+				<%= ablang('connection.connect') %>
 				</a>
 			<% # IF we are already connected or if i am a school allow me to send a message %>
 			<% elsif self.current_user.connections.collect(&:user_id).include? @teacher.user_id || !self.current_user.school.nil? %>
 			  <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
 			<% # IF we are not connected then display "connect" button %>
 			<% elsif self.current_user.teacher != nil %>
-			  <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+			  <%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 			<% end %>
 
 			<!-- Contact Info -->
@@ -117,7 +117,7 @@
 
 			<section class="info">
 				<p class="heading">
-				Connections
+				<%= ablang('connection.plural') %>
 				</p>
 				<div style="padding:0px 20px;">
 					<% @teacher.user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..5].each do |c| %>
