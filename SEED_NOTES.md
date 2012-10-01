@@ -1,3 +1,8 @@
+2012-09-29 6:33pm - Deploy by KellyLSB
+======================================
+* Deployed a fix by Elijah Green emptying the @my_connections array if not logged in.
+* Fixed an issue with allowing embedding bad video urls
+
 2012-09-29 6:33pm - Deploy by astanisic
 ======================================= 
 * Style fix to teacher dashboard. 
