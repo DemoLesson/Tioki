@@ -2,13 +2,19 @@ default:
   connection:
     singular: 'connection'
     plural: 'connections'
-  connect:
-    singular: 'connect'
-    plural: 'connects'
+    children:
+      connect:
+        singular: 'connect'
+        plural: 'connects'
+      connecting:
+        singular: 'connecting'
 0:
   connection:
-    singular: 'follow'
-    plural: 'follows'
-  connect:
-    singular: 'follow'
-    plural: 'follows'
+    singular: 'follower'
+    plural: 'followers'
+    children:
+      connect:
+        singular: 'follow'
+        plural: 'follows'
+      connecting:
+        singular: 'following'
