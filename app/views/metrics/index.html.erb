@@ -172,10 +172,11 @@
 					baloon.css('left', x + 12);
 					baloon.css('top', y + 12);
 
-					var time = new Date(info[0]);
+					data = info;
+					var time = new Date(data[0]);
 					info = '<h3 style="margin:0px;padding:0px;text-align:center;">' + series + '</h4>';
 					info += '<strong>' + time.getMonth() + '/' + time.getDate() + '/' + time.getFullYear() + ':</strong>';
-					info += ' ' + info[1];
+					info += ' ' + data[1];
 
 					baloon.html(info)
 					$('html').append(baloon)
