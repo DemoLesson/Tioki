@@ -43,9 +43,11 @@ def confirm(text, color = 'red')
 end
 
 # Get input
-def input(text, color = 'red')
+def input(text, color = 'red', default = nil)
 	echo text, color
-	STDIN.gets.chomp
+	var = STDIN.gets.chomp
+	var = default if !default.nil? && (var.nil? || var.empty?)
+	return var
 end
 
 # Make sure we are in the root directory
@@ -169,7 +171,7 @@ class DeployCLI
 		# If we are in develop ask if we would like to merge to master
 		if commited && branch == 'develop' && confirm("Would you like to merge all new changes into master?")
 			# Determine the release type
-			type = input "Is this a 'revision', 'minor', or 'major' release."
+			type = input("Is this a 'revision', 'minor', or 'major' release.", 'red', 'revision')
 
 			# Get the bumped version
 			if type == 'revision' || type == 'minor' || type == 'major'
