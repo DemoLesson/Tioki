@@ -182,7 +182,7 @@ class DeployCLI
 
 				# Create the tag
 				echo "\nCreating tag..."
-				system("git tag -a #{tag} -master 'version #{tag}'")
+				system("git tag -a #{tag} -m 'version #{tag}'")
 
 				# Push the tag
 				echo "\nPushing tags..."
