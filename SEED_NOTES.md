@@ -1,3 +1,18 @@
+2012-10-02 12:09pm - Deploy by astanisic
+======================================== 
+* Bugs
+	- array access on nill class fixed
+	- teacher on nil class fixed
+	- strptime format issues fixed
+	- teacher not found error (in progress)
+	- Northgravity imagemagick issue fixed
+	
+* Profile urls now go to /profile/:url
+* Awards added to teachers
+* Presentations added to teachers
+* Profile and credential design changes
+* Variuos static page design changes 
+
 2012-10-01 8:17pm - Deploy by astanisic
 ======================================== 
 * Changed placeholder text in events serach bar. 
