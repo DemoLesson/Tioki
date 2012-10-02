@@ -1,9 +1,5 @@
 Preview::Application.routes.draw do
 
-  resources :awards
-
-  resources :presentations
-
 	resources :s3_uploads
 
 	#Warning: make sure user URL can't be set to any of these
@@ -50,6 +46,7 @@ Preview::Application.routes.draw do
 				match 'upload-video' => 'videos#new'
 				resources :credentials
 				root :to => 'teachers#edit'
+				resources :awards
 				resources :presentations
 				resources :awards
 			end
@@ -186,7 +183,7 @@ Preview::Application.routes.draw do
 	match 'remove_experience/:id' => 'teachers#remove_experience'
 	match 'edit_experience/:id' => 'teachers#edit_experience'
 	match 'update_existing_experience/:id' => 'teachers#update_existing_experience'
-
+  
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'
 	match 'delete_from_whiteboard' => 'home#whiteboard_rmv'

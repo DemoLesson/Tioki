@@ -26,7 +26,7 @@
 	</div>
 
 	<div id="attach_form" style="display: none">
-		<%= form_for @award, :as => :award, :url => '/update_award' do |f| %>
+		<%= form_for :award, :url => { :controller => :awards, :action => :create} do |f| %>
 			<fieldset>
 				<p>
 			    Title:<br />

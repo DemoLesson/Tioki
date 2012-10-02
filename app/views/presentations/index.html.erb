@@ -30,8 +30,8 @@
 	</div>
 
 	<div id="attach_form" style="display: none">
-		<%= form_for @publication, :as => :publication, :url => '/update_publication' do |f| %>
-			<fieldset>
+		<%= form_for :presentation, :url => { :controller => :presentations, :action => :create} do |f| %>
+			  <fieldset>
 			    <p>
 				*Title:<br />
 			    <%= f.text_field :title %>
@@ -68,7 +68,7 @@
 				</p>
 			  </fieldset>
 			<fieldset>
-				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<span>	<%= f.submit "Create", :class => "btn btn-success" %>	</span>
 				<%= link_to 'Edit Profile', '/me/profile/edit' %>
 			</fieldset>
 
@@ -76,5 +76,5 @@
 				<%= image_tag('tioki/icons/loader.gif') %>
 			</div>
 		<% end %>
-
+	</div>
 </section>

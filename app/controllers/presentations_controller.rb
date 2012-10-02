@@ -3,20 +3,10 @@ class PresentationsController < ApplicationController
   # GET /presentations.json
   def index
     @presentations = self.current_user.teacher.presentations
+    @teacher = Teacher.find(self.current_user.teacher.id)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @presentations }
-    end
-  end
-
-  # GET /presentations/1
-  # GET /presentations/1.json
-  def show
-    @presentation = Presentation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
       format.json { render json: @presentation }
     end
   end
@@ -45,7 +35,7 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.save
-        format.html { redirect_to :presentation, notice: 'Presentation was successfully created.' }
+        format.html { redirect_to "/me/profile/edit/presentations", notice: 'Presentation was successfully created.' }
       else
         format.html { render action: "new" }
         format.json { render json: @presentation.errors, status: :unprocessable_entity }
@@ -60,7 +50,7 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.update_attributes(params[:presentation])
-        format.html { redirect_to :presentation, notice: 'Presentation was successfully updated.' }
+        format.html { redirect_to "/me/profile/edit/presentations", notice: 'Presentation was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
