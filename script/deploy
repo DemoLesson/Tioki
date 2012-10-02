@@ -178,7 +178,7 @@ class DeployCLI
 				tag = versionBump(type, false)
 			end
 
-			if (!tag.nil? || !tag.empty?) && confirm("Bumping and Tagging to verion \"#{tag}\" is this ok?")
+			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok? If not we will deploy without a tag.")
 				# Bump the verion
 				versionBump(type, true)
 
