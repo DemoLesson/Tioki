@@ -1,8 +1,8 @@
 <html>
 	<head>
 		<script type="text/javascript" src="/assets/application.js"></script>
-		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.min.js"></script>
-		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.selection.min.js"></script>
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.js"></script>
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.selection.js"></script>
 		<style>
 		body {
 			font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -135,6 +135,21 @@
 					},
 					selection: {
 						mode: "x"
+					},
+					grid: {
+						hoverable: true
+					},
+					series: {
+						lines: {
+							show: true,
+							fill: true
+						},
+						points: {
+							radius: 5,
+							show: true,
+							fill: true,
+							symbol: "circle"
+						}	
 					}
 				};
 				
@@ -145,15 +160,37 @@
 				 * Plotting function
 				 */
 				var plot = function(slug, addOptions) {
-					plot[slug] = $.plot($("div#" + slug + " div.data"), [data[slug]], $.extend(true, {}, graphOptions, addOptions));
+					plot[slug] = $.plot($("div#" + slug + " div.data"), data[slug], $.extend(true, {}, graphOptions, addOptions));
 				};
+
+				var info = function(series, x, y, info) {
+					var baloon = $('<div id="info">');
+					baloon.css('background', '#FFF');
+					baloon.css('position', 'absolute');
+					baloon.css('padding', '4px');
+					baloon.css('border', 'solid 1px #666');
+					baloon.css('left', x + 12);
+					baloon.css('top', y + 12);
+
+					var time = new Date(info[0]);
+					info = '<h3 style="margin:0px;padding:0px;text-align:center;">' + series + '</h4>';
+					info += '<strong>' + time.getMonth() + '/' + time.getDate() + '/' + time.getFullYear() + ':</strong>';
+					info += ' ' + info[1];
+
+					baloon.html(info)
+					$('html').append(baloon)
+				}
 
 				/**
 				 * For Each Graph
 				 */
 				<% @graphs.each do |zone_slug,zone| %>
 					<% zone.each do |k,g| %>
-					data["<%= zone_slug + '_' + g[:slug] %>"] = [<%= g[:data] %>];
+					data["<%= zone_slug + '_' + g[:slug] %>"] = [
+						<% g[:data].each do |key, val| %>
+							{label: "<%= key %>", data: [<%= val %>]},
+						<% end %>
+					];
 					plot("<%= zone_slug + '_' + g[:slug] %>");
 
 					$("div#<%= zone_slug + '_' + g[:slug] %> div.data").bind("plotselected", function (event, ranges) {
@@ -162,6 +199,11 @@
 
 					$("div#<%= zone_slug + '_' + g[:slug] %> a.reset").live('click', function() {
 						plot("<%= zone_slug + '_' + g[:slug] %>");
+					});
+
+					$("div#<%= zone_slug + '_' + g[:slug] %> div.data").bind("plothover", function (event, pos, item) {
+						if(item) info(item.series.label, item.pageX, item.pageY, item.datapoint)
+						else $('div#info').remove();
 					});
 					<% end %>
 				<% end %>

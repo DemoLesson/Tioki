@@ -23,11 +23,38 @@ class MetricsController < ApplicationController
 
 		# Load up all graphs
 		get_all_analytics.each do |s,a|
-		  next if s.nil?
+
+			# Break up the data
+			alt = Hash.new
+			a.delete_if do |ab|
+
+				# If there is no AB
+				next false if ab.user.nil? || ab.user.ab.nil?
+				
+				# Create the ab array is not exists
+				unless alt[ab.user.ab].is_a?(Array)
+					alt[ab.user.ab] = Array.new
+				end
+
+				# Append the analytic to the ab array
+				alt[ab.user.ab] << ab
+				next true
+			end
+
+			# If the key is nil continue
+			next if s.nil?
+
+			# Normal data
 			@graphs["local"][s] = Hash.new
 			@graphs["local"][s][:slug] = s.gsub(/[\[\]]/, '')
 			@graphs["local"][s][:name] = s.gsub(/[_]/, ' ').capitalize
-			@graphs["local"][s][:data] = flotter a
+			@graphs["local"][s][:data] = Hash.new
+			@graphs["local"][s][:data]['default'] = flotter a
+
+			# Alternate data
+			alt.each do |k,b|
+				@graphs["local"][s][:data][k] = flotter b
+			end
 		end
 
 		# Mailgun stats
@@ -37,13 +64,18 @@ class MetricsController < ApplicationController
 			@graphs["mailgun"][s] = Hash.new
 			@graphs["mailgun"][s][:slug] = s.gsub(/[\[\]]/, '')
 			@graphs["mailgun"][s][:name] = s.gsub(/[_]/, ' ').capitalize
-			@graphs["mailgun"][s][:data] = flotter d
+			@graphs["mailgun"][s][:data] = Hash.new
+			@graphs["mailgun"][s][:data]['default'] = flotter d
 		end
 
 		# Load up all stats
 		@stats = Hash.new
 		get_stats.each do |s,d|
-		  next if s.nil?
+
+			# If the key is nil continue
+			next if s.nil?
+
+			# Normal data
 			@stats[s] = Hash.new
 			@stats[s][:slug] = s.gsub(/[\[\]]/, '')
 			@stats[s][:name] = s.gsub(/[_]/, ' ').capitalize
@@ -112,10 +144,13 @@ class MetricsController < ApplicationController
 		results = Hash.new
 		slugs.each do |slug|
 			results[slug] = self.get_analytics(slug, nil, date_start, date_end, unique) do |a|
-				a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
+				a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`, `user_id`')
 				a = a.group('date(`created_at`)')
 			end
 		end
+
+		# Clean
+		results.clean!
 
 		return results
 	end
@@ -179,6 +214,9 @@ class MetricsController < ApplicationController
  		# Add the amount for the specified date
     	process[x["event"].to_sym][time] = x["total_count"]
     end
+
+    # Clean
+    process.clean!
     
     return process
   end

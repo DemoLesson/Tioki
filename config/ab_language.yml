@@ -8,7 +8,7 @@ default:
         plural: 'connects'
       connecting:
         singular: 'connecting'
-0:
+follow:
   connection:
     singular: 'follower'
     plural: 'followers'
