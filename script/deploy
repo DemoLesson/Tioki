@@ -32,6 +32,47 @@ unless File.directory? './.git'
 	exit
 end
 
+# Handle version bumping
+def versionBump(type = 'revision', save = false)
+
+	# Get the version
+	versionFile = File.open('./.version', "rb")
+	version = versionFile.read.strip
+
+	# Get the version from the file
+	major, minor, revision = version.split('.')
+
+	# Turn the version into integers
+	revision = revision.to_i
+	minor = minor.to_i
+	major = major.to_i
+
+	# Bump the release
+	if type == 'revision'
+		revision += 1
+	elsif type == 'minor'
+		revision = 0
+		minor += 1
+	elsif type == 'major'
+		revision = 0
+		minor = 0
+		major += 1
+	end
+
+	# Reassemble new version
+	version = "#{major}.#{minor}.#{revision}"
+
+	# Save the version
+	if save
+		File.open('./.version', "w+") do |f|
+			f.write(version)
+		end
+	end
+
+	# Return the version
+	return version
+end
+
 # Load serialization engine
 require 'yaml'
 require 'socket'
@@ -120,6 +161,35 @@ class DeployCLI
 				system('git merge develop')
 				echo "Merge completed...\n"
 				system("git push -u #{remote} master")
+
+				if confirm "Would you like to tag and release this commit?"
+
+					# Determine the release type
+					type = input "Is this a 'revision', 'minor', or 'major' release."
+
+					# Get the bumped version
+					if type == 'revision' || type == 'minor' || type == 'major'
+						tag = versionBump(type, false)
+					end
+
+					if (!tag.nil? || !tag.empty?) && confirm("Bumping and Tagging to verion \"#{tag}\" is this ok?")
+
+						# Bump the verion
+						versionBump(type, true)
+
+						# Create the tag
+						system("git tag -a #{tag} -m -m 'version #{tag}'")
+
+						# Push the tag
+						echo "Pushing tags..."
+						system("git push #{remote} --tags")
+
+						# Finished tags
+						echo "Finished creating tag."
+					end
+				end
+
+				# Continue
 				echo "\nContinuing with deploy...\n"
 				masterMerge = true
 			end
