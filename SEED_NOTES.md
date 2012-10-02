@@ -1,3 +1,7 @@
+2012-10-01 7:00pm - Deploy by KellyLSB
+======================================
+* Videos now have thumbnails generated if zencoder
+
 2012-10-01 5:09pm - Deploy by KellyLSB
 ======================================
 * Admin page updates by Elijah Green
