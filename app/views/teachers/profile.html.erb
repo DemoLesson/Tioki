@@ -64,6 +64,7 @@
 							<%= image_tag('tioki/icons/teachingchannel.png') %>
 						</a>
 					<% end %>
+				</section>
 			<% end %>
 			<!-- Current Job -->
 				<p class="heading" style="margin: 0px 5px 0px 10px">
@@ -92,9 +93,7 @@
 			<% # IF we are not connected then display "connect" button %>
 			<% elsif self.current_user.teacher != nil %>
 			  <%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
-			<% end %>
-			
-			</section>
+			<% end %>			
 			</section>
 			
 			<!-- Connection Information -->
@@ -103,7 +102,7 @@
 				<%= ablang('connection.plural') %>
 				</p>
 				<div style="padding:0px 20px;">
-					<% @teacher.user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..5].each do |c| %>
+					<% @teacher.user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..7].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
 							<%= link_to image_tag(c.not_me(@teacher.user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.not_me(@teacher.user.id).teacher.url}" unless c.not_me(@teacher.user.id).teacher.nil? %>
 						</div>
