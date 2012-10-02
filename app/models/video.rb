@@ -187,7 +187,7 @@ class Video < ActiveRecord::Base
     output_url = self.output_url if output_url.nil?
 
     # If the url is external
-    if output_url[0...3] == 'ext'
+    if !output_url.nil? && output_url[0...3] == 'ext'
 
       # Get the API Response
       response = details(width, height, output_url)
@@ -197,9 +197,11 @@ class Video < ActiveRecord::Base
     end
 
     unless job_status == 'finished'
+
       # Return status
       return "<p class=\"processing\">The video is currently being processed for web viewage. Please check back in a bit.</p>".html_safe
     else
+
       # HTML 5 Embed Code
       embed = <<-EMBED
       <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="#{width}" height="#{height}" data-setup="{}">
@@ -218,7 +220,7 @@ class Video < ActiveRecord::Base
     # Make sure we got a URL
     output_url = self.output_url if output_url.nil?
 
-    if output_url[0...3] == 'ext'
+    if !output_url.nil? && output_url[0...3] == 'ext'
       output_url = output_url[4..-1]
 
       # Query noembed
