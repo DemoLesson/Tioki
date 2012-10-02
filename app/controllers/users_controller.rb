@@ -316,9 +316,9 @@ class UsersController < ApplicationController
 			#crop values have not been set, just resize to fit 1:1 aspect ratio
 			#the size of the image will be whatever side is smaller
 			if orig_img.rows > orig_img.columns
-				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
+				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns, Magick::NorthGravity)
 			else
-				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, Magick::NorthGravity)
+				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
 			end
 		end
 		#Create temp file in order to save the cropped image for later saving to amazon s3
