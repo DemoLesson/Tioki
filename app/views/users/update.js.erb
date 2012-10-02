@@ -23,15 +23,15 @@
 			onSelect: update_crop,
 			setSelect: [offsetx, offsety, size, size],
 			aspectRatio: 1
-		})
-		$('#picture_frame').append('<form accept-charset="UTF-8" action="/crop_image_temp" class="edit_user" id="edit_user_1" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div>\
-			<input id="crop_x" name="user[crop_x]" type="hidden" />\
-			<input id="crop_y" name="user[crop_y]" type="hidden" />\
-			<input id="crop_w" name="user[crop_w]" type="hidden" />\
-			<input id="crop_h" name="user[crop_h]" type="hidden" />\
-			<p><input name="commit" type="submit" value="Create Picture" /></p>\
-			</form>\
-			</div>');
+		});
+		var form = $('<form accept-charset="UTF-8" action="/crop_image_temp" class="edit_user" id="edit_user_1" method="post"/>');
+			form.append('<input id="crop_x" name="user[crop_x]" type="hidden" />');
+			form.append('<input id="crop_y" name="user[crop_y]" type="hidden" />');
+			form.append('<input id="crop_w" name="user[crop_w]" type="hidden" />');
+			form.append('<input id="crop_h" name="user[crop_h]" type="hidden" />');
+			form.append('<p><input name="commit" type="submit" value="Create Picture" /></p>');
+
+			$('#picture_frame').append(form);
 	});
 
 function update_crop(coords) {
