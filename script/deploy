@@ -495,10 +495,22 @@ end
 # Get the command to run
 command = CLIargs.shift
 
+# Debug
+if CLIargs.first == '--debug'
+	CLIargs.shift
+	debug = true
+else
+	debug = false
+end
+
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
-rescue
+rescue => e
+
+	# If debug raise the exception
+	raise e if debug
+
 	#echo "There was no command called #{command}!\n"
 	puts "\n"
 	echo '####################', 'red'
