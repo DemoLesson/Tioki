@@ -1,5 +1,9 @@
 Preview::Application.routes.draw do
 
+  resources :awards
+
+  resources :presentations
+
 	resources :s3_uploads
 
 	#Warning: make sure user URL can't be set to any of these
@@ -46,6 +50,8 @@ Preview::Application.routes.draw do
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
 				root :to => 'teachers#edit'
+				resources :presentations
+				resources :awards
 			end
 
 			# Misc

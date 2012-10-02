@@ -1,5 +1,5 @@
 <section id="main-content" class="inner-content">
-<!-- Include these scripts to import address books with CloudSponge -->
+	<!-- Include these scripts to import address books with CloudSponge -->
 <script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
 <script type="text/javascript" charset="utf-8">
 var csPageOptions = {
@@ -8,73 +8,98 @@ var csPageOptions = {
 };
 </script>
 
-<div class="kRap">
-  <h1>Let's invite some of your friends to be connections</h1>
 
-  <%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
-    <table>
-      <tr>
-        <td>
-          <label>
-            <span>Import from address book</span>
-            <div class="addressBooks">
-              <a href="#" onclick="return cloudsponge.launch('yahoo');">
-                <img src="/assets/cs_icons/yahoo.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('windowslive');">
-                <img src="/assets/cs_icons/msn.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('gmail');">
-                <img src="/assets/cs_icons/google.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('aol');">
-                <img src="/assets/cs_icons/aol.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('plaxo');">
-                <img src="/assets/cs_icons/plaxo.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('addressbook');">
-                <img src="/assets/cs_icons/apple.png" />
-              </a>
-              <a href="#" onclick="return cloudsponge.launch('outlook');">
-                <img src="/assets/cs_icons/microsoft.png" />
-              </a>
-            </div>
-          </label>
-        </td>
-        <td rowspan="3" style="vertical-align:top;">
-          <div style="border:solid 1px #2AA99B;background:#FFF;padding:20px 25px;overflow:hidden;">
-            <img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
-            <h3>Your number of referred signups: <%= @referred %></h3>
-            <p style="font-size:14px;font-style:normal;">We will give you a $5 gift card to spend on any classroom project on Donors Choose, even your own, for every 5 friends you get to sign-up. Bring 10 friends get $10 and so on. Just invite your friends using the invite button on the bottom to get started!<br /><br />
-            <a href="http://www.donorschoose.org/?utm_medium=banner&utm_content=dc_banner_468_60_logo&utm_campaign=banner" target="_blank">Donors Choose</a> is a non-profit organization that helps teachers get the materials they need to improve their students' education.</p>
-		</div><br />
-          <a href="#twitter"><%= image_tag "tioki/icons/twitter.png" %></a>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>
-            <span>Or enter in emails manually (comma seperated)</span>
-            <%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43  %>
-          </label>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>
-            <span>Your email message</span>
-            <%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;" %>
-          </label>
-        </td>
-      </tr>
-    </table>
+	<h1>
+	Let's invite some of your friends to be connections
+	</h1>
 
-    <div class="button_wrap">
-      <%= f.submit "Invite Connections", :class => "btn btn-large btn-primary", :style => "padding:9px 50px;display:inline;width:auto;" %>
-    </div>
-  <% end %>
-</div>
+	<section id="panels">
+		<section id="whiteboard" class="two-column left-side" style="width:550px">
+		<h3>
+		Copy and paste your personal invite link: <%= text_field :a, :b, :value => 'http://tioki.com/dc/'+self.current_user.invite_code %>
+		</h3>
+		<h4>
+		OR
+		</h4>
+		<p>
+			<h3 class="bottom-line">
+			<a href="#twitter"><%= image_tag "tioki/icons/twitter3.png", :style => "margin-bottom:-7px" %> Tweet It!</a><br/><br />
+			</h3>
+		</p>
+
+			<section class="addressBooks">
+  			<%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
+   				<h3>
+				Email Friends
+				</h3>
+					<section style="margin:0px 5px 0px 10px">	
+						<p>
+						We’ll send your friends a friendly invite to join your Tioki network! 
+						</p>
+						<h4 style="font-size: 18px">
+						Recipient emails
+						</h4>
+						<p class="smalltext" style="margin-top:-12px">
+						Type the comma-separated emails below
+		   				<%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43, :style => "padding:3px;width:415px"  %>
+						</p>
+						<p>
+						If you want to customize your own message, go for it
+		   				<%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;width:415px" %>
+						</p>
+						<div class="button_wrap">
+					      	<%= f.submit "Invite Connections", :class => "button", :style => "padding:9px 25px;display:inline;width:auto;" %>
+					   	</div>
+						<h4>
+						OR
+						</h4>
+						<p>	
+						Click on your email host to invite friends using your address book
+						</p>
+              			<a href="#" onclick="return cloudsponge.launch('yahoo');">
+                			<img src="/assets/cs_icons/yahoo.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('windowslive');">
+                			<img src="/assets/cs_icons/msn.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('gmail');">
+                			<img src="/assets/cs_icons/google.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('aol');">
+                			<img src="/assets/cs_icons/aol.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('plaxo');">
+                			<img src="/assets/cs_icons/plaxo.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('addressbook');">
+                			<img src="/assets/cs_icons/apple.png" />
+              			</a>
+              			<a href="#" onclick="return cloudsponge.launch('outlook');">
+                			<img src="/assets/cs_icons/microsoft.png" />
+              			</a>
+		    			<br /><br />
+					</section>
+		  	<% end %>
+		 	</section>
+         
+		</section>
+		
+		<section class="panel right-side" style="width: 370px; border:solid 1px #2AA99B">
+            <img border="0" style="width:95%;height:auto;margin:3px 0px 0px 5px" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
+			<section style="margin:0px 5px 0px 10px">
+            	<p>
+					We will give you a $5 gift card to spend on any classroom project on Donors Choose, even your own, for every 5 friends you get to sign-up. Bring 10 friends get $10 and so on. Just invite your friends using the invite button on the bottom to get started!
+				</p>
+				<p>
+            		Donors Choose is a non-profit organization that helps teachers get the materials they need to improve their students' education.
+				</p>
+			</section>
+ 				<h3 class="top-line">
+				Your number of referred signups: <%= @referred %>
+				</h3>
+     		</section>
+		</section>
+	</section>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('a[href="#twitter"]').click(function(e) {

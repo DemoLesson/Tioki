@@ -25,7 +25,7 @@
 					<p>
 					My Headline (limited to 140 characters):
 					</p>
-					<%= f.text_area :headline, :maxlength => 140 %>
+					<%= f.text_area :headline, :maxlength => 140, :style => "width: 400px" %>
 				</section>	
 				<section class="profile-info group">
 					<h3 class="top-line">
@@ -94,6 +94,12 @@
 						</span>
 						<span style="margin-left:15px">
 							<%= link_to 'Credentials', '/me/profile/edit/credentials', :class => "button2 bg-ltgray big-button" %>
+						</span><br /> <br / >
+						<span>
+							<%= link_to 'Presentations', '/me/profile/edit/presentations', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Awards & Honors', '/me/profile/edit/awards', :class => "button2 bg-ltgray big-button" %>
 						</span>
 						<span style="margin-left:15px">
 							<%= link_to 'Skills', '/me/profile/edit/skills', :class => "button2 bg-ltgray big-button" %>

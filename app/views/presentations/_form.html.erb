@@ -1,0 +1,58 @@
+<%= form_for(@presentation) do |f| %>
+  <% if @presentation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@presentation.errors.count, "error") %> prohibited this presentation from being saved:</h2>
+
+      <ul>
+      <% @presentation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <p>
+	*Title:<br />
+    <%= f.text_field :title %>
+	</p>
+  </fieldset>
+  <fieldset>
+    <p>
+	Event/Publication URL (optional)<br />
+    <%= f.text_field :url %>
+	</p>
+  </fieldset>
+  <fieldset>
+    <p>
+	Name of Event/Publication Title<br />
+    <%= f.text_field :location %>
+	</p>
+  </fieldset>
+  <fieldset>
+    <p>
+	Date of Event/Publication<br />
+    <%= f.datetime_select :date %>
+	</p>
+  </fieldset>
+  <fieldset>
+    <p>
+	Presenter/Author<br />
+    <%= f.text_field :author %>
+	</p>
+  </fieldset>
+  <fieldset>
+    <p>
+	Summary<br />
+    <%= f.text_area :description %>
+	</p>
+  </fieldset>
+  <!--div class="field">
+    <%= f.label :teacher_id %><br />
+    <%= f.number_field :teacher_id %>
+  </div-->
+  <div class="actions">
+    <%= f.submit %> <%= link_to 'Cancel', presentations_path %>
+  </div>
+<% end %>
+

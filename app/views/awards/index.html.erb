@@ -1,0 +1,63 @@
+<section id="main-content" class="inner-content">
+
+	<h1>
+	Honors & Awards
+	</h1>
+	
+	<div class="attached">
+		<% @awards.each do |award| %>
+		<p>
+			<span class="purge" style="float:right">
+				<%= link_to 'Edit', edit_award_path(award) %><br />
+				<%= link_to 'Remove?', award, confirm: 'Are you sure?', method: :delete %>
+			</span>
+			<strong>
+			<%= award.title %>
+			</strong><br />
+			<%= award.issuer %><br />
+			<%= award.date %><br />
+			<%= award.description %>
+		</p>
+		<% end %>
+	</div>
+	<div id="attach_new_btn">
+		<input name="attach" type="submit" value="Add a New Honor/Award" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+		<%= link_to 'Edit Profile', '/me/profile/edit' %>
+	</div>
+
+	<div id="attach_form" style="display: none">
+		<%= form_for @award, :as => :award, :url => '/update_award' do |f| %>
+			<fieldset>
+				<p>
+			    Title:<br />
+			    <%= f.text_field :title %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Issuer<br />
+			    <%= f.text_field :issuer %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Date<br />
+			    <%= f.datetime_select :date %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Description<br />
+			    <%= f.text_area :description %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Cancel', '/me/profile' %>
+		   	  </fieldset>
+
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
+		<% end %>
+</section>

@@ -55,6 +55,11 @@ h3 {
 		padding-top: 15px;
 		border-bottom: none;
 	}
+	&.bottom-line{
+		border-bottom: 1px solid $ltgray !important;
+		padding-bottom: 5px;
+		border-top: none;
+	}
 }
 
 p {

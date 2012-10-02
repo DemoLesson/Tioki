@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927222716) do
+ActiveRecord::Schema.define(:version => 20121002003523) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -78,6 +78,16 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.integer  "application_id"
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
+  end
+
+  create_table "awards", :force => true do |t|
+    t.string   "title"
+    t.string   "issuer"
+    t.datetime "date"
+    t.string   "description"
+    t.integer  "teacher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "blog_entries", :force => true do |t|
@@ -312,6 +322,18 @@ ActiveRecord::Schema.define(:version => 20120927222716) do
     t.integer  "user_id"
     t.integer  "teacher_id"
     t.integer  "job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "presentations", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.string   "location"
+    t.datetime "date"
+    t.string   "author"
+    t.string   "description"
+    t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
