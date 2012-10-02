@@ -1,5 +1,28 @@
 #!/usr/bin/env ruby
 
+# # # # # # # # # # # # #
+# Tioki Deploy Script   #
+#  Author: Kelly Becker #
+# # # # # # # # # # # # #
+
+# Load serialization engine
+require 'yaml'
+require 'socket'
+
+# Start by getting the command line arguments
+CLIargs = ARGV
+
+# Get the command to run
+command = CLIargs.shift
+
+# Debug
+if CLIargs.first == '--debug'
+	CLIargs.shift
+	debug = true
+else
+	debug = false
+end
+
 # Output to terminal
 def echo(text, color = 'green', _sleep = nil)
 	color_code = "31" if color == 'red'
@@ -20,9 +43,11 @@ def confirm(text, color = 'red')
 end
 
 # Get input
-def input(text, color = 'red')
+def input(text, color = 'red', default = nil)
 	echo text, color
-	STDIN.gets.chomp
+	var = STDIN.gets.chomp
+	var = default if !default.nil? && (var.nil? || var.empty?)
+	return var
 end
 
 # Make sure we are in the root directory
@@ -72,13 +97,6 @@ def versionBump(type = 'revision', save = false)
 	# Return the version
 	return version
 end
-
-# Load serialization engine
-require 'yaml'
-require 'socket'
-
-# Start by getting the command line arguments
-CLIargs = ARGV
 
 class DeployCLI
 
@@ -151,8 +169,26 @@ class DeployCLI
 		end
 
 		# If we are in develop ask if we would like to merge to master
-		if commited && branch == 'develop'
-			if confirm "Would you like to merge all new changes into master?"
+		if commited && branch == 'develop' && confirm("Would you like to merge all new changes into master?")
+			# Determine the release type
+			type = input("Is this a 'revision', 'minor', or 'major' release.", 'red', 'revision')
+
+			# Get the bumped version
+			if type == 'revision' || type == 'minor' || type == 'major'
+				tag = versionBump(type, false)
+			end
+
+			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok? If not we will deploy without a tag.")
+				# Bump the verion
+				versionBump(type, true)
+
+				# Commit seednote
+				echo "\nVersion bump to #{tag}..."
+				system('git add ./.version')
+				system("git commit -m 'Version bump to #{tag}'")
+				system("git push #{remote} #{branch}")
+
+				# Merging master
 				echo "\nSwitching to master..."
 				system('git checkout master')
 				echo "\nPulling master..."
@@ -162,42 +198,31 @@ class DeployCLI
 				echo "Merge completed...\n"
 				system("git push -u #{remote} master")
 
-				if confirm "Would you like to tag and release this commit?"
+				# Create the tag
+				echo "\nCreating tag..."
+				system("git tag -a #{tag} -m 'version #{tag}'")
 
-					# Determine the release type
-					type = input "Is this a 'revision', 'minor', or 'major' release."
+				# Push the tag
+				echo "\nPushing tags..."
+				system("git push #{remote} --tags")
 
-					# Get the bumped version
-					if type == 'revision' || type == 'minor' || type == 'major'
-						tag = versionBump(type, false)
-					end
-
-					if (!tag.nil? || !tag.empty?) && confirm("Bumping and Tagging to verion \"#{tag}\" is this ok?")
-
-						# Bump the verion
-						versionBump(type, true)
-
-						# Create the tag
-						system("git tag -a #{tag} -master 'version #{tag}'")
-
-						# Commit seednote
-						echo "Version bump to #{tag}..."
-						system('git add ./.version')
-						system("git commit -m 'Version bump to #{tag}'")
-
-						# Push the tag
-						echo "Pushing tags..."
-						system("git push #{remote} --tags")
-
-						# Finished tags
-						echo "Finished creating tag."
-					end
-				end
-
-				# Continue
-				echo "\nContinuing with deploy...\n"
-				masterMerge = true
+				# Finished tags
+				echo "\nFinished creating tag."
+			else
+				# Merge master
+				echo "\nSwitching to master..."
+				system('git checkout master')
+				echo "\nPulling master..."
+				system("git pull -u #{remote} master")
+				echo "\nMerging in changes from develop..."
+				system('git merge develop')
+				echo "Merge completed...\n"
+				system("git push -u #{remote} master")
 			end
+
+			# Continue
+			echo "\nContinuing with deploy...\n"
+			masterMerge = true
 		end
 
 		# Ask if we would like to bootstrap the boxes
@@ -482,16 +507,17 @@ class DeployCLI
 		CAT
 		echo cat, nil
 	end
-
 end
 
-# Get the command to run
-command = CLIargs.shift
-
+# Begin CLI Menu
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
-rescue
+rescue => e
+
+	# If debug raise the exception
+	raise e if debug
+
 	#echo "There was no command called #{command}!\n"
 	puts "\n"
 	echo '####################', 'red'
