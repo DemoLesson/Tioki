@@ -149,7 +149,7 @@ class DeployCLI
 
 		# Chmod jCrop upload dir
 		echo "\nChmodding jCrop Upload Directory"
-		system('CHMOD="0777 public/uploads" cap rubber:chmod FILTER=-tools')
+		system('CHMOD="0777 ./public/uploads" cap rubber:chmod FILTER=-tools')
 
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."

@@ -99,6 +99,6 @@ namespace :rubber do
     Chmod a directory in the rails root
   DESC
   task :chmod do
-    rsudo "cd #{current_release} && RAILS_ENV=#{Rubber.env} chmod -Rf ./" + ENV['CHMOD']
+    rsudo "cd #{current_release} && RAILS_ENV=#{Rubber.env} chmod -Rf " + ENV['CHMOD']
   end
 end
