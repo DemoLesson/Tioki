@@ -44,12 +44,10 @@ class VideosController < ApplicationController
 	
 	def myvideo
 		@teacher = self.current_user.teacher
-		if Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', @teacher.id, false], :order => 'created_at DESC').nil?
-			@has_video = false
-		else
-			@has_video = true
-		end
-		
+		@video = Video.find(params[:id])
+
+		# Check to make sure the user is trying to edit their own video
+		raise HTTPStatus::Unauthorized unless @video.teacher == @teacher || self.current_user.is_admin
 	end
 
 	# GET /videos/new

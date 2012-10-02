@@ -169,7 +169,7 @@
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
 						7. Upload a Video 
-							<% unless @teacher.video_embed_html == nil && @video == nil%>
+							<% unless @video == nil%>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
 						8. Get 3 Vouches 
@@ -196,7 +196,7 @@
 				</h3>	
 				</section>
 			<% end %>
-			
+
 			<!-- Video -->
 			<% if @connected || @guest || !@teacher.user.privacy["video"] %>
 				<% unless @video.nil? %>
@@ -206,7 +206,7 @@
 				<% end %>
 				<section class="video-actions group">
 					<% if self.current_user && self.current_user.teacher == @teacher %>
-						<% unless @teacher.video_embed_html == nil && @video == nil%>
+						<% unless @video == nil%>
 							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 							Edit Video
 							</a>
@@ -222,7 +222,7 @@
 							<%= possesify(@teacher.user.first_name) %> Video Library
 						</a>
 					<% end %>
-					<% unless @teacher.video_embed_html == nil && @video == nil%>
+					<% unless @video == nil%>
 						<!--ul class="stats">
 							<li>
 								<div class="count favorites">

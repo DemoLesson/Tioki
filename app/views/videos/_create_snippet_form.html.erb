@@ -1,16 +1,13 @@
 <div id="snippet_right">
-  <div id="snippet_text">
-    <h7>Pick Your Highlight Snippet</h7>
-    <%= form_tag :action => "create_snippet" do%>
-      <p>Increase your exposure to schools by setting a 30 second highlight snippet. Simply choose the starting point of the best 30 seconds of your video, and create your snippet. <%= link_to "Need help?", "http://blog.demolesson.com/video-support/video-snippet/", :target => "_blank" %></p>
-      <p> Hours<%= select_hour(00) %>Minutes<%= select_minute(00) %>Seconds<%= select_second(00) %></p>
-      <%= submit_tag "Create Snippet", :class => "btn btn-success" %> 
-      <%= self.current_user.teacher.snippet_watchvideo_test.html_safe %>
-    <% end %> 
-  </div>
+	<div id="snippet_text">
+		<h3>Pick Your Highlight Snippet</h3>
+		<%= form_tag :action => "create_snippet" do%>
+			<p>Increase your exposure to schools by setting a 30 second highlight snippet. Simply choose the starting point of the best 30 seconds of your video, and create your snippet. <%= link_to "Need help?", "http://blog.demolesson.com/video-support/video-snippet/", :target => "_blank" %></p>
+			<p> Hours<%= select_hour(00) %>Minutes<%= select_minute(00) %>Seconds<%= select_second(00) %></p>
+			<%= submit_tag "Create Snippet", :class => "btn btn-success" %> 
+			<%= self.current_user.teacher.snippet_watchvideo_test.html_safe %>
+		<% end %> 
+	</div>
 </div>
-
-<br /><h7>My Current Video:</h7><br />
-
-<%= @teacher.vjs_test_embed.html_safe %>
-
+<h3>Your Current Video:</h3>
+<%= @video.embed_code %>

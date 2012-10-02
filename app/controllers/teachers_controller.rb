@@ -60,7 +60,7 @@ class TeachersController < ApplicationController
 		@config = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'viddler.yml'))).result)[Rails.env]
 		
 		# Get the latest video the user posted
-		@video = Video.where('`teacher_id` = ? && `is_snippet` = ?', @teacher.id, false).order('`created_at` DESC').first
+		@video = @teacher.video
 		
 		begin
 			if @video.encoded_state == 'queued'
@@ -706,5 +706,10 @@ class TeachersController < ApplicationController
 	def request_vouch
 		@teacher = User.current.teacher
 		@vouch = Vouch.new
+	end
+
+	def feature_video
+		self.current_user.teacher.update_attribute(:video_id, params[:id])
+		redirect_to :back
 	end
 end
