@@ -216,7 +216,7 @@ class Video < ActiveRecord::Base
 
   # Is video external to tioki
   def external?
-    output_url[0...3] == 'ext' ? true : false
+    self.output_url[0...3] == 'ext' ? true : false
   end
 
   # Cleanup
