@@ -153,6 +153,42 @@
 		<!-- START Video Content -->
 		
 		<section class="profile-content">
+		
+			<section class="info panel" style="height:200px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
+			<h2 style="margin: 10px 0px -5px 10px">
+			Want a Rockstar profile? Complete this checklist.  
+			</h2>	
+			<h3>
+				<span style="float:right;margin-right: 25px">
+					5. Add Connections <%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%><br>
+					6. Add Skills Tags
+						<% unless @teacher.user.skill_groups.empty? %>
+							<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+						<% end %><br>
+					7. Upload a Video 
+						<% unless @teacher.video_embed_html == nil && @video == nil%>
+							<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+						<% end %><br>
+					8. Get 3 Vouches <%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+				</span>
+			1. Connect your social networks
+				<% if @teacher.twitter.present? || @teacher.linkedin.present? || @teacher.edmodo.present? || @teacher.betterlesson.present? || @teacher.teachingchannel.present? %>
+			 		<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+				<% end %><br>
+			2. Update Education & Experience 
+				<% unless @teacher.educations.empty? || @teacher.experiences.empty? %>
+					<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+				<% end %><br>
+			3. Add your Credentials 
+				<% unless @teacher.credentials.empty? %>
+					<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+				<% end %><br>
+			4. Upload a Profile Picture 
+				<% if @teacher.user.avatar? %>
+					<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
+				<% end %><br>
+			</h3>	
+			</section>
 
 			<!-- Video -->
 			<% if @connected || @guest || !@teacher.user.privacy["video"] %>
@@ -319,12 +355,11 @@
 						Issued by: <%= credential.issuer %>
 						</p>
 						<p>
-						Liscenced in the state of: <%= credential.state %>
+						Licensed in the state of: <%= credential.state %>
 						</p>
 						</br>
 					<% end %>
 				</section>
-				</br>
 			<% end %>
 			
 			<!-- START Presentation & Publications Section-->
