@@ -1,3 +1,7 @@
+2012-10-02 4:55pm - Deploy by astanisic
+=======================================
+* Fixes to help box in profile
+
 2012-10-02 4:40pm - Deploy by KellyLSB
 ======================================
 * Added ability to feature videos
