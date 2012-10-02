@@ -1,3 +1,9 @@
+2012-10-02 4:40pm - Deploy by KellyLSB
+======================================
+* Added ability to feature videos
+* Update snippet creation page
+* Removed video_embed_code/url from teachers table
+
 2012-10-02 3:44pm - Deploy by astanisic
 =======================================
 * Changes to twitter share fucntion on invite conenctions page. 
