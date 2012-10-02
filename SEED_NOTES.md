@@ -3,6 +3,7 @@
 * Admin page updates by Elijah Green
 * Jcrop by Elijah Green
 * Metrics and Ab language testing
+* New users with id's divisible by 2 will have 'follow' abtest
 
 2012-10-01 12:40pm - Deploy by astanisic
 ======================================== 
