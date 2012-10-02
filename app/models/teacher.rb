@@ -42,15 +42,26 @@ class Teacher < ActiveRecord::Base
   end
 
   def self.search(search)
-    if search
+    search.downcase!
+    if search.present?
       #check if search if an email or a name
       if search.include? "@"
-        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email LIKE ?', "%#{search}%"])
+        #must be exact email address
+        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email = ?', search])
       else
-        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.name LIKE ?', "%#{search}%"])
+        #For every word in the search check the prefix of both first and last name
+        #As well as every word in firstname
+        #Should consider a full text search as this is going to be pretty slow
+        tup = SmartTuple.new(" AND ")
+        tup << ["teachers.user_id = users.id"]
+        search.split.each do |token|
+          tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
+        end
+        find(:all, :include => :user, :conditions => tup.compile)
       end
     else
-      find(:all)
+      #no search paramters, instead of showing everyone don't show anything
+      return []
     end
   end
   

@@ -576,6 +576,7 @@ ActiveRecord::Schema.define(:version => 20121002003523) do
     t.string   "temp_img_name"
     t.integer  "privacy",             :default => 0,     :null => false
     t.string   "invite_code"
+    t.string   "ab"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

@@ -43,12 +43,12 @@ Preview::Application.routes.draw do
 
 			# Anything involving editing my profile
 			scope 'edit' do
-				match 'credentials' => 'credentials#index'
 				match 'skills' => 'teachers#edit_skills'
 				match 'experience' => 'teachers#experience'
 				match 'education' => 'teachers#education'
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
+				resources :credentials
 				root :to => 'teachers#edit'
 				resources :presentations
 				resources :awards
@@ -186,7 +186,7 @@ Preview::Application.routes.draw do
 	match 'remove_experience/:id' => 'teachers#remove_experience'
 	match 'edit_experience/:id' => 'teachers#edit_experience'
 	match 'update_existing_experience/:id' => 'teachers#update_existing_experience'
-	
+
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'
 	match 'delete_from_whiteboard' => 'home#whiteboard_rmv'
@@ -296,7 +296,6 @@ Preview::Application.routes.draw do
 
 	resources :pins
 	resources :subjects
-	resources :credentials
 	resources :blog_entries
 	resources :messages
 	resources :vouches

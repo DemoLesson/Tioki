@@ -32,8 +32,28 @@
 			</div>
 
 			<!-- Name / Headline -->
+
 			<h3 style="margin: 0px 0px -10px -5px"><%= @teacher.user.name %></h3>
 			<h4 style="font-size: 18px; margin: 0px 0px 0px 10px"><%= @teacher.headline %></h4>
+
+			<!-- Connection Options -->
+			<% # IF this is my profile allow me to edit %>
+			<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+				<a href="/me/profile/edit" class="action-button bg-salmon">
+				Edit Profile
+				</a>
+			<% # IF im not a user then let me register %>
+			<% elsif !self.current_user %>
+				<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+				<%= ablang('connection.connect') %>
+				</a>
+			<% # IF we are already connected or if i am a school allow me to send a message %>
+			<% elsif self.current_user.connections.collect(&:user_id).include? @teacher.user_id || !self.current_user.school.nil? %>
+			  <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+			<% # IF we are not connected then display "connect" button %>
+			<% elsif self.current_user.teacher != nil %>
+			  <%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+			<% end %>
 
 			<!-- Contact Info -->
 			<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
@@ -99,10 +119,10 @@
 			<!-- Connection Information -->
 			<section class="info">
 				<p class="heading">
-				Connections
+				<%= ablang('connection.plural') %>
 				</p>
 				<div style="padding:0px 20px;">
-					<% @teacher.user.connections.all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..5].each do |c| %>
+					<% @teacher.user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..5].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
 							<%= link_to image_tag(c.not_me(@teacher.user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.not_me(@teacher.user.id).teacher.url}" unless c.not_me(@teacher.user.id).teacher.nil? %>
 						</div>

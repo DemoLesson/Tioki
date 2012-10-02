@@ -46,6 +46,14 @@ class DeployCLI
 		# Capture terminal logs
 		logs = Array.new
 
+		# Did we merge into master
+		masterMerge = false
+
+		# Get the current branch and tracked remote
+		branch = `git name-rev --name-only HEAD`.strip
+		remote = `git config "branch.#{branch}.remote"`.strip
+		commited = `git status --porcelain`.strip.empty?
+
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
 
@@ -53,7 +61,17 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
-		if confirm "You you like to add to the SEED_NOTES.txt file?"
+		# Make sure we want to be deploying with uncommited changes
+		unless commited
+			return unless confirm("You are trying to deploy with uncommited files. Continue?")
+
+		# Push any unpushed changes to the remote
+		else
+			system("git push #{remote} #{branch}")
+		end
+
+		# Seed note editor
+		if confirm "Would you like to add to the SEED_NOTES.txt file?"
 			editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
 
 			if editor.nil? || editor.empty?
@@ -82,10 +100,6 @@ class DeployCLI
 			# Ask if the seednote should be pushed to the remote git repository
 			if confirm "Would you like to push your seednote change to GitHub?"
 
-				# Get the current branch and tracked remote
-				branch = `git name-rev --name-only HEAD`.strip
-				remote = `git config "branch.#{branch}.remote"`.strip
-
 				# Push the updated seed note to the currently tracked branch
 				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
 				system("git push #{remote} #{branch}")
@@ -95,8 +109,24 @@ class DeployCLI
 			end
 		end
 
+		# If we are in develop ask if we would like to merge to master
+		if commited && branch == 'develop'
+			if confirm "Would you like to merge all new changes into master?"
+				echo "\nSwitching to master..."
+				system('git checkout master')
+				echo "\nPulling master..."
+				system("git pull -u #{remote} master")
+				echo "\nMerging in changes from develop..."
+				system('git merge develop')
+				echo "Merge completed...\n"
+				system("git push -u #{remote} master")
+				echo "\nContinuing with deploy...\n"
+				masterMerge = true
+			end
+		end
+
+		# Ask if we would like to bootstrap the boxes
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
-			# Boot strap the boxes
 			echo "Bootstrapping the EC2 instances."
 			echo "(Installing new Software/Gems)"
 			echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
@@ -117,6 +147,10 @@ class DeployCLI
 		echo "This may take awhile...\n"
 		system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
 
+		# Chmod jCrop upload dir
+		echo "\nChmodding jCrop Upload Directory"
+		system('CHMOD="0777 ./public/uploads" cap rubber:chmod FILTER=-tools')
+
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."
 		if confirm "Would you like to publish now?"
@@ -130,16 +164,17 @@ class DeployCLI
 			echo "\`./script/deploy publish #{type}\`", 'red'
 		end
 
+		# If we are in master go back to develop
+		if masterMerge
+			echo "\nSwitching back to develop branch..."
+			system('git checkout develop')
+		end
+
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
 
-		# Write to log
-		dir = File.expand_path(File.dirname(__FILE__)) + '/deploy_logs'
-		Dir.mkdir(dir) unless File.exists?(dir)
-		File.open(dir + "/update_#{type}_#{Time.now.to_i}", 'w') do |f|
-			f.write(YAML::dump(logs))
-		end
+		show_cat
 	end
 
 	def publish(type = 'staging')
@@ -349,6 +384,28 @@ class DeployCLI
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
+	end
+
+	def show_cat
+		# Show cat
+		cat = <<-CAT
+                _                        
+                \`*-.                    
+                 )  _`-.                 
+                .  : `. .                
+                : _   '  \               
+                ; *` _.   `*-._          
+                `-.-'          `-.       
+                  ;       `       `.     
+                  :.       .        \    
+                  . \  .   :   .-'   .   
+                  '  `+.;  ;  '      :   
+                  :  '  |    ;       ;-. 
+                  ; '   : :`-:     _.`* ;
+         [bug] .*' /  .*' ; .*`- +'  `*' 
+               `*-*   `*-*  `*-*'        
+		CAT
+		echo cat, nil
 	end
 
 end

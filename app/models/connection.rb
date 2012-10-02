@@ -1,5 +1,6 @@
 class Connection < ActiveRecord::Base
   belongs_to :user
+  belongs_to :owner, :foreign_key => :owned_by
   scope :not_pending, where(:pending => false)
 
   # Get information on my connections

@@ -165,13 +165,27 @@ class VideosController < ApplicationController
 		video.output_url = 'ext|' + embed
 		video.video_id = embed
 
-		if video.save
-			# Let users know about the new video that was uploaded
-			Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})
+		begin
+			# See if embed_code is valid
+			Video.new.embed_code(nil, nil, 'ext|' + embed)
 
-			redirect_to :back, :notice => 'Video was successfully embeded.'
-		else
-			redirect_to :back, :notice => 'Video could not be embeded, make sure you are using a valid url.'
+			# Try to save video
+			if video.save
+
+				# Let users know about the new video that was uploaded
+				Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})
+
+				# Flash success and return
+				flash[:success] = 'Video was successfully embeded.'
+				return redirect_to :back
+			end
+			
+			raise StandardError, 1
+		rescue => e
+
+			# Flash error and return
+			flash[:error] = 'Video could not be embeded, make sure you are using a valid url.'
+			return redirect_to :back
 		end
 	end
 

@@ -4,7 +4,7 @@
 <% if @user.avatar? %><p>Current picture<br /><div class="bordered_image"><%= image_tag @user.avatar.url(:medium) %></div></p><% else %><p>No picture uploaded yet.</p><% end %>
 
 
-<%= form_for @user, :as => :user, :url => "/users/"+@user.id.to_s, :html => { :multipart => true } do |f| %>
+<%= form_for @user, :as => :user, :url => "/users/"+@user.id.to_s, :html => { :multipart => true }, :remote => true do |f| %>
   <div class="field">
 	<%= f.file_field :avatar %>
 	<br/><span style= "font-size:12px; margin-left: 2px; text-align: center"><strong> PICTURE FILE SIZE LIMIT: 2MB</strong></span>
@@ -14,5 +14,8 @@
   	<%= f.submit "Upload Picture", :class => "btn btn-success" %>
   </div>
 <% end %>
+
+<div id="picture_frame">
+</div>
 
 </section>

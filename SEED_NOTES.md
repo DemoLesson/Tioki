@@ -1,3 +1,41 @@
+2012-10-01 8:17pm - Deploy by astanisic
+======================================== 
+* Changed placeholder text in events serach bar. 
+
+2012-10-01 7:00pm - Deploy by KellyLSB
+======================================
+* Videos now have thumbnails generated if zencoder
+
+2012-10-01 5:09pm - Deploy by KellyLSB
+======================================
+* Admin page updates by Elijah Green
+* Jcrop by Elijah Green
+* Metrics and Ab language testing
+* New users with id's divisible by 2 will have 'follow' abtest
+
+2012-10-01 12:40pm - Deploy by astanisic
+======================================== 
+* Users adding connections will be redirected to the page where connection was requested. 
+
+2012-10-01 12:23pm - Deploy by astanisic
+======================================== 
+* Adding language structure
+* Fixing credential error
+
+2012-10-01 12:15pm - Deploy by astanisic
+========================================
+* Connections on profile page do not show pending connections
+* Changes to connections search engine
+
+2012-10-01 10:00am - Deploy by KellyLSB
+=======================================
+* Deployed a fix by Elijah Green emptying the @my_connections array if not logged in.
+* Fixed an issue with allowing embedding bad video urls
+
+2012-09-29 6:33pm - Deploy by astanisic
+======================================= 
+* Style fix to teacher dashboard. 
+
 2012-09-29 6:16pm - Deploy by astanisic
 ======================================= 
 * Reverting last deploy. 

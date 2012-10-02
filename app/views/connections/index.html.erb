@@ -1,12 +1,12 @@
 <section id="main-content" class="inner-content">
-<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Find Connections</span><br />
+<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Find <%= ablang('connection.plural') %></span><br />
 
 <div id="sidebar" class="job_browser">
  <div id="myConnections">
-      <h4>Connections</h4>
-      <%= link_to "Add Connections", :inviteconnections %><br />
-      <%= link_to 'My Connections', :my_connections %></br>
-      <%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
+      <h4><%= ablang('connection.plural') %></h4>
+      <%= link_to "Add " + ablang('connection.plural'), :inviteconnections %><br />
+      <%= link_to 'My ' + ablang('connection.plural'), :my_connections %></br>
+      <%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
   </div>
   <!--<div id = "connectionSearch">
     <img src = "/assets/magnifying_glass.png" style = "margin-bottom: -9px;" /> <input type = "search" id = "connectSearch" placeholder = "name" /> <br />
@@ -74,7 +74,7 @@
             <% else %>
               <div>
                 <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
-                <%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => connection.user.id }, :class => "button" %>
+                <%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => connection.user.id }, :class => "button" %>
               </div>
             <% end %>
           <% else %>

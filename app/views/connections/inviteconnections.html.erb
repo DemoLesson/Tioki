@@ -8,10 +8,8 @@ var csPageOptions = {
 };
 </script>
 
-
-	<h1>
-	Let's invite some of your friends to be connections
-	</h1>
+<div class="kRap">
+  <h1>Let's invite some of your friends to be <%= ablang('connection.plural', false) %></h1>
 
 	<section id="panels">
 		<section id="whiteboard" class="two-column left-side" style="width:550px">
@@ -100,6 +98,11 @@ var csPageOptions = {
      		</section>
 		</section>
 	</section>
+    <div class="button_wrap">
+      <%= f.submit "Invite " + ablang('connection.plural'), :class => "btn btn-large btn-primary", :style => "padding:9px 50px;display:inline;width:auto;" %>
+    </div>
+  <% end %>
+</div>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('a[href="#twitter"]').click(function(e) {

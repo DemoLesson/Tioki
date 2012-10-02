@@ -13,6 +13,7 @@ class Video < ActiveRecord::Base
       # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
       output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
+      thumbnails = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}/"
 
       # Create a new zencoder job
       zen = Zencoder::Job.create({
@@ -22,7 +23,12 @@ class Video < ActiveRecord::Base
           {
             :label => self.id.to_s,
             :public => true,
-            :url => output
+            :url => output,
+            :thumbnails => {
+              :number => 5,
+              :size => "640x480",
+              :base_url => thumbnails
+            }
           }
         ]
       })
@@ -49,6 +55,7 @@ class Video < ActiveRecord::Base
       # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
       output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
+      thumbnails = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}/"
 
       # Create a new zencoder job
       zen = Zencoder::Job.create({
@@ -60,7 +67,12 @@ class Video < ActiveRecord::Base
             :public => true,
             :url => output,
             :clip_length => "00:00:30.0",
-            :start_clip => time
+            :start_clip => time,
+            :thumbnails => {
+              :number => 5,
+              :size => "640x580",
+              :base_url => thumbnails
+            }
           }
         ]
       })
@@ -155,7 +167,15 @@ class Video < ActiveRecord::Base
 
   # Thumbnails
   def thumbnail
-    return "tioki/icons/play-icon.png" unless external?
+    unless external?
+      begin
+        thumbnail_url = self.output_url[0...-4] + '/frame_0001.png'
+        raise StandardError unless RestClient.head(thumbnail_url).code == 200
+        return thumbnail_url 
+      rescue
+        return "tioki/icons/play-icon.png"
+      end
+    end
 
     details["thumbnail_url"]
   end
@@ -173,7 +193,6 @@ class Video < ActiveRecord::Base
       response = details(width, height, output_url)
       
       # Return HTML Embed Code
-      #dump response
       return response["html"].html_safe
     end
 
@@ -217,7 +236,8 @@ class Video < ActiveRecord::Base
 
   # Is video external to tioki
   def external?
-    output_url[0...3] == 'ext' ? true : false
+    return false if self.output_url.nil? || self.output_url.empty?
+    self.output_url[0...3] == 'ext' ? true : false
   end
 
   # Cleanup
