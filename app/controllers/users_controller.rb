@@ -318,7 +318,7 @@ class UsersController < ApplicationController
 			if orig_img.rows > orig_img.columns
 				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
 			else
-				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, NorthGravity)
+				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, Magick::NorthGravity)
 			end
 		end
 		#Create temp file in order to save the cropped image for later saving to amazon s3
@@ -351,7 +351,7 @@ class UsersController < ApplicationController
 			if orig_img.rows > orig_img.columns
 				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
 			else
-				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, NorthGravity)
+				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, Magick::NorthGravity)
 			end
 		end
 		#Create temp file in order to save the cropped image for later saving to amazon s3
