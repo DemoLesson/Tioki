@@ -26,6 +26,13 @@ class Teacher < ActiveRecord::Base
   validates_uniqueness_of :url, :message => "The name you selected is not available."
   #validates_format_of :url, :with => /\w/, :message => "Invalid URL.", :unless => Teacher.new { |t| t.url.blank? }
 
+  # Returns featured or most recent
+  def video
+    video = Video.find(self.video_id) rescue nil
+    video = self.videos.order('`created_at` DESC').first if video.nil?
+    return video
+  end
+
   def self.find_or_create_from_user(user_id)
     original_user = User.find(user_id)
     if (original_user.present?)

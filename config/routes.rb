@@ -45,6 +45,7 @@ Preview::Application.routes.draw do
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
+				match 'feature-video/:id' => 'teachers#feature_video'
 				resources :credentials
 				root :to => 'teachers#edit'
 				resources :awards
