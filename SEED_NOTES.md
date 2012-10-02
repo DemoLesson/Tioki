@@ -1,4 +1,8 @@
-2012-10-01 7:00pm - Deploy by KellyLSB
+2012-10-02 3:44pm - Deploy by astanisic
+=======================================
+* Changes to twitter share fucntion on invite conenctions page. 
+
+2012-10-02 2:00pm - Deploy by KellyLSB
 ======================================
 * Testing version bumping
 
