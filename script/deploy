@@ -178,7 +178,7 @@ class DeployCLI
 						versionBump(type, true)
 
 						# Create the tag
-						system("git tag -a #{tag} -m -m 'version #{tag}'")
+						system("git tag -a #{tag} -m 'version #{tag}'")
 
 						# Push the tag
 						echo "Pushing tags..."
