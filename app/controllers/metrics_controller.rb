@@ -1,19 +1,12 @@
 class MetricsController < ApplicationController
 	layout false
+	before_filter :auth
 
 	def auth
-		unless self.current_user.is_admin
-			render :text => "Access Denied"
-			return false
-		end
-
-		return true
+		raise HTTPStatus::Unauthorized unless self.current_user.is_admin
 	end
 
 	def index
-
-		# Make sure user is admin
-		return unless auth
 
 		# Create graphs hash
 		@graphs = {
@@ -164,8 +157,7 @@ class MetricsController < ApplicationController
 		stats["teacher_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '0'").to_a.first.first
 		stats["registered_users"] = db.execute("SELECT COUNT(*) as 'count' FROM `users`").to_a.first.first
 		stats["users_with_email_subscriptions"] = db.execute("SELECT COUNT(*) as 'count' FROM `users` WHERE `emailsubscription` = '1'").to_a.first.first
-		stats["uploaded_videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `videos`").to_a.first.first
-		stats["linked_videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `teachers` WHERE `video_embed_url` != 'NULL'").to_a.first.first
+		stats["videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `videos`").to_a.first.first
 		stats["total_vouches"] = db.execute("SELECT COUNT(*) as 'count' FROM `vouches`").to_a.first.first
 		stats["published_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '1'").to_a.first.first
 		stats["pending_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '0'").to_a.first.first

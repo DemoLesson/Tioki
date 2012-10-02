@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002003523) do
+ActiveRecord::Schema.define(:version => 20121002223453) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -540,12 +540,11 @@ ActiveRecord::Schema.define(:version => 20121002003523) do
     t.string   "guest_code"
     t.boolean  "tfa"
     t.string   "headline",               :limit => 140
-    t.string   "video_embed_url"
-    t.text     "video_embed_html"
     t.string   "edmodo"
     t.string   "twitter"
     t.string   "betterlesson"
     t.string   "teachingchannel"
+    t.integer  "video_id"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"

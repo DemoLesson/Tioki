@@ -1,3 +1,14 @@
+# HTTP Status Codes
+module HTTPStatus
+	class Unauthorized < StandardError
+	end
+	class NotFound < StandardError
+	end
+	class ServerError < StandardError
+	end
+end
+
+# Application Controller
 class ApplicationController < ActionController::Base
 	#filter_parameter_logging "password"
 	#filter_parameter_logging "password_confirmation"
@@ -159,7 +170,16 @@ class ApplicationController < ActionController::Base
 	##################
 
 	unless Preview::Application.config.consider_all_requests_local
+
+		# Server Error
 		rescue_from Exception, with: :render_500
+		rescue_from HTTPStatus::ServerError, with: :render_500
+
+		# Unauthorized
+		rescue_from HTTPStatus::Unauthorized, with: :render_401
+
+		# Not Found
+		rescue_from HTTPStatus::NotFound, with: :render_404
 		rescue_from ActionController::RoutingError, with: :render_404
 		rescue_from ActionController::UnknownController, with: :render_404
 		rescue_from ActionController::UnknownAction, with: :render_404
@@ -167,6 +187,16 @@ class ApplicationController < ActionController::Base
 	end
 
 	private
+		def render_401(exception)
+			
+			# Log Error
+			log_exception(exception)
+
+			# Path that was not found
+			@path = request.fullpath
+			render template: 'errors/error_401', layout: 'layouts/application', status: 401
+		end
+
 		def render_404(exception)
 			
 			# Log Error

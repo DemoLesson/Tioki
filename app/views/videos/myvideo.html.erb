@@ -1,19 +1,15 @@
 <section id="main-content" class="inner-content">
-		<script type="text/javascript">
-			Shadowbox.init();
-		</script>
-    <h5>My Video     <%= link_to "          Upload New Video         ", "/videos/new", :class => "btn btn-danger" %></h5>
-
-
-<% if @teacher.video_embed_url? %>
-  <% if @teacher.video_embed_html %>
-    <br /><h7>My Current Video:</h7><br />
-    <div id="video">
-      <%= @teacher.video_embed_html.html_safe %>
-    </div>
-  <% end %>
-<% elsif @has_video == true %>
-  <%= render 'create_snippet_form' %>
-<% end %>
-
+	<script type="text/javascript">
+		Shadowbox.init();
+	</script>
+	<h1>Your Video&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Upload New Video", "/me/profile/edit/upload-video", :class => "button" %></h1>
+	<% if @video.external? %>
+		<h3>Your Current Video:</h3>
+		<p>Note: You cannot create a 30 second snippet from an external video</p>
+		<div id="video">
+			<%= @video.embed_code %>
+		</div>
+	<% else %>
+		<%= render 'create_snippet_form' %>
+	<% end %>
 </section>

@@ -44,6 +44,7 @@ Preview::Application.routes.draw do
 				match 'education' => 'teachers#education'
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
+				match 'create-video-snippet/:id' => 'videos#myvideo'
 				resources :credentials
 				root :to => 'teachers#edit'
 				resources :awards
