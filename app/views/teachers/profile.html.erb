@@ -310,18 +310,22 @@
 						</span>
 					</h3>
 					<% @teacher.credentials.each do |credential| %>
-						<p class="bold">
-						<% credential.name %> : 
+						<p class="bold">  
 						<%= credential.credentialType %>
+						</p>
+						<p>
+						Subject: <%= credential.name %>
 						</p>
 						<p>
 						Issued by: <%= credential.issuer %>
 						</p>
 						<p>
-						<%= credential.state %>
+						Liscenced in the state of: <%= credential.state %>
 						</p>
+						</br>
 					<% end %>
 				</section>
+				</br>
 			<% end %>
 			
 			<!-- START Presentation & Publications Section-->
