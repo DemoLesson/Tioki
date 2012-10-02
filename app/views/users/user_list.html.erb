@@ -15,7 +15,7 @@
 
 <% if user.teacher != nil; @teachercounter = @teachercounter +1 %> 
 
-<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', '/'+user.teacher.url.to_s %></strong><br /><% end %>
+<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', "/profile/#{user.teacher.url}" %></strong><br /><% end %>
 <% if user.schools.size != 0 %><strong>Schools: <% user.schools.each do |school| %><%= link_to school.name, school %> &middot; <% end %></strong><br /><% end %>
 <strong>Email:</strong> <%= link_to user.email, 'mailto:'+user.email %><br />
 <strong>Registered:</strong> <%= user.created_at.to_s(:due_time) %><br />
@@ -38,7 +38,7 @@
 
 <% if user.school != nil; @schoolcounter = @schoolcounter +1; @schoolsnumber = @schoolsnumber + user.schools.size %>
 
-<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', '/'+user.teacher.url.to_s %></strong><br /><% end %>
+<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', "/profile/#{user.teacher.url}" %></strong><br /><% end %>
 <% if user.schools.size != 0 %><strong>Schools: <% user.schools.each do |school| %><%= link_to school.name, school %> &middot; <% end %></strong><br /><% end %>
 <strong>Email:</strong> <%= link_to user.email, 'mailto:'+user.email %><br />
 <strong>Registered:</strong> <%= user.created_at.to_s(:due_time) %><br />

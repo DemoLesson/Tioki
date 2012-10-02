@@ -29,7 +29,7 @@
 <%- @teachers.each do |teacher| %>
   <tr>
     <td>
-      <%= link_to teacher.user.name, '/'+teacher.url.to_s %>
+      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
       <%= teacher.user.name if teacher.nil? %>
     </td>
     <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>

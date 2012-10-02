@@ -44,7 +44,7 @@
 <%- @users.each do |user| %>
   <tr>
     <td>
-      <%= link_to user.name, '/'+user.teacher.url.to_s unless user.teacher.nil? %>
+      <%= link_to user.name, "/profile/#{user.teacher.url}" unless user.teacher.nil? %>
       <%= user.name if user.teacher.nil? %>
     </td>
     <td><%= link_to user.email, 'mailto:' + user.email %></td>

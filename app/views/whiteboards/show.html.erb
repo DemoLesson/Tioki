@@ -2,8 +2,8 @@
 	<% @post.getModels.each do |x| %>
 		<% next unless x.is_a?(User) %>
 		<div class="profile-thumb-small">
-			<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), x.teacher.url if x.avatar? %>
-			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), x.teacher.url unless x.avatar? %>
+			<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{x.teacher.url}" if x.avatar? %>
+			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.teacher.url}" unless x.avatar? %>
 		</div>
 	<% end %>
 	<p><%= raw @post.getMessage %></p>
