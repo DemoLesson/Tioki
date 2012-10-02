@@ -12,15 +12,15 @@
 				<%= experience.position %><br />
 				<%= experience.company %>
 				</strong><br />
-				<% _start = experience.startMonth.to_s %>
+				<% _start = experience.startMonth.to_s.rjust(2, '0') + '/' %>
 				<% _start += experience.startYear.to_s %>
-				<% _end = experience.endMonth.to_s %>
+				<% _end = experience.endMonth.to_s.rjust(2, '0') + '/' %>
 				<% _end += experience.endYear.to_s %>
 
 				<% if experience.current == true && (!_start.nil? && !_start.empty?) %>
-					 <%= Time.strptime(_start, "%m/%Y").strftime("%B %Y") %> - Present<br />
+					<%= Time.strptime(_start, "%m/%Y").strftime("%B %Y") %> - Present<br />
 				<% elsif  (!_start.nil? && !_start.empty?) && (!_end.nil? && !_end.empty?)  %>
-					<%= Time.strptime(_start, "%m%Y").strftime("%B %Y") %> - <%= Time.strptime(_end, "%m%Y").strftime("%B %Y") %><br />
+					<%= Time.strptime(_start, "%m/%Y").strftime("%B %Y") %> - <%= Time.strptime(_end, "%m/%Y").strftime("%B %Y") %><br />
 				<% end %>
 				<%= experience.description %>
 	
