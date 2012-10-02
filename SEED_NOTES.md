@@ -1,3 +1,7 @@
+2012-10-01 7:00pm - Deploy by KellyLSB
+======================================
+* Testing version bumping
+
 2012-10-02 1:17pm - Deploy by astanisic
 ======================================== 
 * Fix to invite connections page
