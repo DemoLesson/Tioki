@@ -1,5 +1,28 @@
 #!/usr/bin/env ruby
 
+# # # # # # # # # # # # #
+# Tioki Deploy Script   #
+#  Author: Kelly Becker #
+# # # # # # # # # # # # #
+
+# Load serialization engine
+require 'yaml'
+require 'socket'
+
+# Start by getting the command line arguments
+CLIargs = ARGV
+
+# Get the command to run
+command = CLIargs.shift
+
+# Debug
+if CLIargs.first == '--debug'
+	CLIargs.shift
+	debug = true
+else
+	debug = false
+end
+
 # Output to terminal
 def echo(text, color = 'green', _sleep = nil)
 	color_code = "31" if color == 'red'
@@ -72,13 +95,6 @@ def versionBump(type = 'revision', save = false)
 	# Return the version
 	return version
 end
-
-# Load serialization engine
-require 'yaml'
-require 'socket'
-
-# Start by getting the command line arguments
-CLIargs = ARGV
 
 class DeployCLI
 
@@ -489,20 +505,9 @@ class DeployCLI
 		CAT
 		echo cat, nil
 	end
-
 end
 
-# Get the command to run
-command = CLIargs.shift
-
-# Debug
-if CLIargs.first == '--debug'
-	CLIargs.shift
-	debug = true
-else
-	debug = false
-end
-
+# Begin CLI Menu
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
