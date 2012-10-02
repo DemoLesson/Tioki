@@ -18,8 +18,12 @@ module ApplicationHelper
   end
 
   def ablang(slug, uc = true)
-    ab = self.current_user.ab
-    ab = ab.to_i if ab.is_a?(String) && ab.numeric?
+    unless self.current_user.nil?
+      ab = self.current_user.ab
+      ab = ab.to_i if ab.is_a?(String) && ab.numeric?
+    else
+      ab = 'default'
+    end
 
     AB::getLang(slug, ab, uc)
   end
