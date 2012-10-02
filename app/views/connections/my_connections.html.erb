@@ -54,15 +54,15 @@
 			<div class="item_jobs">
 				<div class="item_picture">
 					<% if connection.not_me.avatar? %>
-						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/profile/'+connection.not_me.teacher.url.to_s %>
+						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), "/profile/#{connection.not_me.teacher.url}" %>
 					<% else %>
-						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/'+connection.not_me.teacher.url.to_s %>
+						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{connection.not_me.teacher.url}" %>
 					<% end %>
 				</div>
 
 				<div id ="connection_desc">
 					<span style ="float:right; text-align:right"><%= link_to ablang('connection.plural') + ": " + connection.not_me.connections.not_pending.count.to_s, 'userconnections/'+connection.not_me.id.to_s %></span>
-					<strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+					<strong><%= link_to connection.not_me.name, "/profile/#{connection.not_me.teacher.url}" %></strong><br />
 					<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
 						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
 					<% end %><br />

@@ -85,7 +85,7 @@ class Teacher < ActiveRecord::Base
   def snippet_watchvideo_button
     @video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
     if @video != nil
-      embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
+      embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
 
       begin
         if @video.encoded_state == 'queued'
