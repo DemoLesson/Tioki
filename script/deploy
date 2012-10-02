@@ -178,7 +178,12 @@ class DeployCLI
 						versionBump(type, true)
 
 						# Create the tag
-						system("git tag -a #{tag} -m 'version #{tag}'")
+						system("git tag -a #{tag} -master 'version #{tag}'")
+
+						# Commit seednote
+						echo "Version bump to #{tag}..."
+						system('git add ./.version')
+						system("git commit -m 'Version bump to #{tag}'")
 
 						# Push the tag
 						echo "Pushing tags..."
