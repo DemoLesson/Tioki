@@ -1,3 +1,7 @@
+2012-10-02 1:17pm - Deploy by astanisic
+======================================== 
+* Fix to invite connections page
+
 2012-10-02 12:09pm - Deploy by astanisic
 ======================================== 
 * Bugs
