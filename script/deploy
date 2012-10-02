@@ -174,12 +174,7 @@ class DeployCLI
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
 
-		# Write to log
-		dir = File.expand_path(File.dirname(__FILE__)) + '/deploy_logs'
-		Dir.mkdir(dir) unless File.exists?(dir)
-		File.open(dir + "/update_#{type}_#{Time.now.to_i}", 'w') do |f|
-			f.write(YAML::dump(logs))
-		end
+		show_cat
 	end
 
 	def publish(type = 'staging')
@@ -389,6 +384,28 @@ class DeployCLI
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
+	end
+
+	def show_cat
+		# Show cat
+		cat = <<-CAT
+                _                        
+                \`*-.                    
+                 )  _`-.                 
+                .  : `. .                
+                : _   '  \               
+                ; *` _.   `*-._          
+                `-.-'          `-.       
+                  ;       `       `.     
+                  :.       .        \    
+                  . \  .   :   .-'   .   
+                  '  `+.;  ;  '      :   
+                  :  '  |    ;       ;-. 
+                  ; '   : :`-:     _.`* ;
+         [bug] .*' /  .*' ; .*`- +'  `*' 
+               `*-*   `*-*  `*-*'        
+		CAT
+		echo cat, nil
 	end
 
 end
