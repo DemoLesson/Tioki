@@ -1,3 +1,7 @@
+2012-10-01 8:17pm - Deploy by astanisic
+======================================== 
+* Changed placeholder text in events serach bar. 
+
 2012-10-01 7:00pm - Deploy by KellyLSB
 ======================================
 * Videos now have thumbnails generated if zencoder
