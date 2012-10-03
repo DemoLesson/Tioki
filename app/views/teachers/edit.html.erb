@@ -18,7 +18,7 @@
 					<p>
 					My Public Profile:
 					<% if @teacher.guest_code != nil %>
-						<%= text_field :a, :b, :value => "http://tioki.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
+						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@teacher.url, :class => :guest_pass_field %>
 						<% end %>
 					</p>
 				
