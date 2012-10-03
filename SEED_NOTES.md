@@ -1,3 +1,7 @@
+2012-10-03 4:00pm - Deploy by astanisic
+=======================================
+* Replacing guestpasscode with public profile
+
 2012-10-03 3:13pm - Deploy by astanisic
 =======================================
 * Style changes to Whiteboard
