@@ -7,7 +7,7 @@
 			<ul>
 				<% unless @videodb.empty? %>
 					<% @videodb.each do |vid| %>
-						<a href="<%= "#{@videolist}/#{vid.id}" %>">
+						<a href="/videos/<%= vid.id %>">
 							<li>
 								<div style="float:left;" class="profile-thumb-small">
 									<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
