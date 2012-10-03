@@ -1,3 +1,7 @@
+2012-10-03 4:19pm - Deploy by astanisic
+=======================================
+* Profile design changes
+
 2012-10-03 4:00pm - Deploy by astanisic
 =======================================
 * Replacing guestpasscode with public profile
