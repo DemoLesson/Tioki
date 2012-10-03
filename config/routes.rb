@@ -239,6 +239,7 @@ Preview::Application.routes.draw do
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
 	match 'referrallist' => 'users#referral_user_list'
+	match 'technologylist' => 'technologies#technology_list'
 	match 'blogadmin' => 'blog_entries#list'
 	match 'fetch_code' => 'users#fetch_code'
 	match 'jobattachpurge/:id' => 'jobs#jobattachpurge'

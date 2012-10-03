@@ -6,19 +6,19 @@
 		<li>Technology List</li>
 	</ul>
 
-	<%= render :partial => "admin_stats", :locals => { :stats => @stats } %>
+	<%= render :partial => "users/admin_stats", :locals => { :stats => @stats } %>
 
-	<%= render :partial => "admin_menu" %>
+	<%= render :partial => "users/admin_menu" %>
 
 	<div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
 
 	<div class="form-wrap">
-		<%= form_for :technology do |f| %>
-			<% f.text_field :technology, :placeholder => "Name" %>
-			<% f.text_area :description, :placeholder => "Description" %>
-			<% f.text_field :site, :placeholder => "Site Url" %>
-			<% f.text_field :twitter, :placeholder => "Twitter Url" %>
-			<% f.submit "Save" %>
+		<%= form_for :technology, :url => { :controller => :technologies, :action => "create" } do |f| %>
+			<%= f.text_field :name, :placeholder => "Name" %>
+			<%= f.text_field :site, :placeholder => "Site Url" %>
+			<%= f.text_field :twitter, :placeholder => "Twitter Url" %><br />
+			<%= f.text_area :description, :placeholder => "Description", :rows => 5 %><br />
+			<%= f.submit "Save" %>
 		<% end %>
 	</div>
 
@@ -36,14 +36,13 @@
 				</tr>
 				<%- @technologies.each do |technology| %>
 					<tr>
-						<td><%= technology.name %></td>
-						<td><%= technologies.technology_users.count %></td>
-						<td>Edit</th>
-						<td>Delete</th>
+						<td><%= link_to technology.name, { :action => "show", :id => technology.id } %></td>
+						<td><%= technology.technology_users.count %></td>
+						<td><%= link_to "Edit", {:action => "edit", :id => technology.id } %></td>
+						<td>Delete</td>
 					</tr>
 				<% end -%>
 			</table>
-			<%= will_paginate @organizations %>
 
 		</div>
 

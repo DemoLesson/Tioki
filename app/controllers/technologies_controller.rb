@@ -12,6 +12,9 @@ class TechnologiesController < ApplicationController
 
   def technology_list
 	  @technologies = Technology.all
+	  @stats = []
+	  @stats.push({:name => 'Technologies', :value => Technology.count})
+	  @stats.push({:name => 'Teachers Using', :value => TechnologyUser.count})
   end
 
   # GET /technologies/1
@@ -48,7 +51,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.save
-        format.html { redirect_to @technology, notice: 'Technology was successfully created.' }
+        format.html { redirect_to :technology_list, notice: 'Technology was successfully created.' }
         format.json { render json: @technology, status: :created, location: @technology }
       else
         format.html { render action: "new" }
@@ -64,7 +67,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.update_attributes(params[:technology])
-        format.html { redirect_to @technology, notice: 'Technology was successfully updated.' }
+        format.html { redirect_to :technology_list, notice: 'Technology was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
