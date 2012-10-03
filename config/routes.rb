@@ -315,10 +315,13 @@ Preview::Application.routes.draw do
 	match '/demolesson' => 'home#how_it_works_teachers'
 	match '/muckerlab' => 'home#muckerlab'
 
-	# Guest pass
-	match 'u/:guest_pass' => 'teachers#guest_entry'
-	match '/:url/:guest_pass', :to => 'teachers#profile'
-	match '/:url', :to => 'teachers#profile'
+	# # # # # # # # # # # # # # # # # # # # # #
+	# Guest pass                              #
+	# Removed by KellyLSB 10-03-2012 10:36am  #
+	# # # # # # # # # # # # # # # # # # # # # #
+	# match 'u/:guest_pass' => 'teachers#guest_entry'
+	# match '/:url/:guest_pass', :to => 'teachers#profile'
+	# match '/:url', :to => 'teachers#profile'
 
 	# Show the teacher who has recently viewed their profile
 	match 'teachers/:id/view_history', :to => 'teachers#view_history'
