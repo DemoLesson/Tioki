@@ -51,7 +51,7 @@
 											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
 										<% else %>
 											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
-											<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+											<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
 										<% end %>
 									<% end %>
 
