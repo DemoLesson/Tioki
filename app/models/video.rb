@@ -1,6 +1,12 @@
 class Video < ActiveRecord::Base
   belongs_to :teacher
   has_many :video_views
+
+  # User Favorites
+  has_and_belongs_to_many :favorited, :class_name => 'Teacher', :join_table => 'videos_favorites'
+
+  # Video Skills
+  has_and_belongs_to_many :skills, :join_table => 'videos_skills'
   
   mount_uploader :video, VideoUploader
   

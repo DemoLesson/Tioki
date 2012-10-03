@@ -108,6 +108,9 @@ Preview::Application.routes.draw do
 		end
 	end
 
+	# Videos Routing
+	match 'videos/:id/skills' => 'videos#skills'
+
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #

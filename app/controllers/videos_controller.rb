@@ -88,6 +88,22 @@ class VideosController < ApplicationController
 	# GET /videos/1/edit
 	def edit
 		@video = Video.find(params[:id])
+		@existing_skills = video_path(@video) + '/skills'
+		raise HTTPStatus::Unauthorized unless @video.teacher == self.current_user.teacher || self.current_user.is_admin
+	end
+
+	# Get Video Skills
+	def skills
+		@video = Video.find(params[:id])
+		@skills = @video.skills
+
+		@skills.collect! do |v|
+			data = v.serializable_hash
+			data["skill_group"] = v.skill_group.name.to_sym
+			v = data
+		end
+
+		render :json => @skills
 	end
 
 	# POST /videos
@@ -139,6 +155,11 @@ class VideosController < ApplicationController
 	# PUT /videos/1
 	def update
 		@video = Video.find(params[:id])
+
+		@video.skills = []
+		params[:skills].split(',').each do |skill|
+			@video.skills << Skill.find(skill)
+		end
 
 		params[:video].each do |key, val|
 			@video.send("#{key}=", val)

@@ -31,6 +31,15 @@
 					<%= link_to 'Delete Video', @video, method: :delete, data: { confirm: 'Are you sure?' }, :class => "button bg-green" %>
 					<hr />
 				<% end %>
+				<% unless @video.skills.empty? %>
+					<div class="skills">
+						<h4>Skills shown in this video</h4>
+						<% @video.skills.each do |skill| %>
+							<a class="button2 bg-ltgray gray"><%= skill.name %></a>
+						<% end %>
+					</div>
+				<% end %>
+				<h4>Video Description</h4>
 				<p><%= @video.description %></p>
 			</section>
 		</section>

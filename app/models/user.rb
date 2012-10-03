@@ -28,9 +28,6 @@ class User < ActiveRecord::Base
 	# Connect to analyic events
 	has_many :analyics
 
-	# Favorite Videos
-	has_and_belongs_to_many :favorite_videos, :class_name => 'Video', :join_table => 'videos_favorites'
-
 	# Connect to whiteboard events
 	has_many :whiteboards
 	has_and_belongs_to_many :whiteboard_hidden, :class_name => 'Whiteboard', :join_table => 'whiteboards_hidden'

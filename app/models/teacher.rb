@@ -21,6 +21,9 @@ class Teacher < ActiveRecord::Base
   
   has_many :assets, :dependent => :destroy
   has_many :skills, :through => :user
+
+  # Favorite Videos
+  has_and_belongs_to_many :favorite_videos, :class_name => 'Video', :join_table => 'videos_favorites'
   
   validates_associated :assets
   validates_uniqueness_of :url, :message => "The name you selected is not available."

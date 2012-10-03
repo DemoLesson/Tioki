@@ -138,28 +138,29 @@ div.kRap {
 			margin: 0px 3px;
 		}
 	}
-	div.skill_cloud {
-		margin: 25px auto;
+}
+
+div.skill_cloud {
+	margin: 25px auto;
+	display: block;
+	h3 {
 		display: block;
-		h3 {
-			display: block;
+	}
+	a.skill {
+		border: 1px solid #CCD5E4;
+		background: #EFF2F7;
+		padding: 3px 7px;
+		display: block;
+		margin: 3px;
+		float: left;
+		border-radius: 4px;
+		&.active {
+			border: 1px solid #6A6A6A;
+			background: #CCD5E4;
 		}
-		a.skill {
-			border: 1px solid #CCD5E4;
-			background: #EFF2F7;
-			padding: 3px 7px;
-			display: block;
-			margin: 3px;
-			float: left;
-			border-radius: 4px;
-			&.active {
-				border: 1px solid #6A6A6A;
-				background: #CCD5E4;
-			}
-			&:hover {
-				text-decoration: none;
-				background: #CCD5E4;
-			}
+		&:hover {
+			text-decoration: none;
+			background: #CCD5E4;
 		}
 	}
 }
