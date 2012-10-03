@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002234948) do
+ActiveRecord::Schema.define(:version => 20121003192233) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -222,10 +222,6 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
-  end
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -523,7 +519,7 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -548,6 +544,26 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
+
+  create_table "technologies", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "site"
+    t.string   "twitter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
+  end
+
+  create_table "technology_users", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "technology_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                  :null => false
@@ -584,16 +600,6 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
 
   add_index "users", ["email"], :name => "index_users_on_email"
 
-  create_table "video_favorites", :id => false, :force => true do |t|
-    t.integer "video_id"
-    t.integer "teacher_id"
-  end
-
-  create_table "video_skills", :id => false, :force => true do |t|
-    t.integer "video_id"
-    t.integer "skill_id"
-  end
-
   create_table "video_views", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "video_id",   :null => false
@@ -626,10 +632,19 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
     t.integer  "duration_in_ms"
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
-    t.string   "video"
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"
+
+  create_table "videos_favorites", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "teacher_id"
+  end
+
+  create_table "videos_skills", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "skill_id"
+  end
 
   create_table "vouched_skills", :force => true do |t|
     t.integer  "vouch_id"
