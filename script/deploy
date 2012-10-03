@@ -491,6 +491,7 @@ class DeployCLI
 	def show_cat
 		# Show cat
 		cat = <<-CAT
+        
                 _                        
                 \\`*-.                    
                  )  _`-.                 
