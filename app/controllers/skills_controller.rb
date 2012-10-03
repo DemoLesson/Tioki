@@ -30,12 +30,18 @@ class SkillsController < ApplicationController
   end
 
   def teacherskills
+
+    # Get the requests skill
     @skill = Skill.find(params[:id])
-    @teachers = Teacher.joins(:user => :skills).paginate(:page => params[:page], :per_page => 25, :conditions => ['teachers.user_id = skill_claims.user_id and skill_claims.skill_id = ?', params[:id]])
-	if self.current_user
-		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
-	else
-		@my_connections = []
-	end
+
+    # Load teachers that have claimed the above skill
+    @teachers = @skill.skill_claims.select('`teachers`.*').joins(:user => :teacher).paginate(:page => params[:page], :per_page => 25)
+
+    # Videos that claim the skill
+    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
+
+    # Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
   end
 end

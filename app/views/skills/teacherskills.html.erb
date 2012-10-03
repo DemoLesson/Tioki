@@ -1,46 +1,65 @@
 <section id="main-content" class="inner-content">
-<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Teachers with skills in <%=@skill.name %></span><br />
+	<h1>Results tagged with the <%= @skill.name %> skill</h1>
 
-<div id="content">
-	<% @teachers.each do |teacher| %>
-		<br />
-		<div class="item_jobs">
-			<div class="item_picture">
-				<% if teacher.user.avatar? %>
-					<%= link_to image_tag(teacher.user.avatar.url(:thumb)), "/profile/#{teacher.url}" %>
-				<% else %>
-					<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{teacher.url}" %>
+	<section id="panels">
+		<section class="panel one-colum left-side">
+			<h3>Videos</h3>
+			<ul>
+				<% @videodb.each do |vid| %>
+					<a href="<%= "#{@videolist}/#{vid.id}" %>">
+						<li>
+							<div style="float:left;" class="profile-thumb-small">
+								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+							</div>
+							<strong><%= vid.name %></strong><br />
+							<p style="float:none;"><%= vid.description %></p>
+						</li>
+					</a>
 				<% end %>
-			</div>
+				<li>
+					<%= will_paginate @videodb, :param_name => 'vpage' %>
+				</li>
+			</ul>
+		</section>
+		<section class="panel two-column right-side">
+			<h3>Educators</h3>
+			<ul>
+				<% @teachers.each do |teacher| %>
+					<li>
+						<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
+							<%= link_to image_tag(teacher.user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{teacher.url}" if teacher.user.avatar? %>
+							<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{teacher.url}" unless teacher.user.avatar? %>
+						</div>
+						<strong>
+							<%= link_to "#{teacher.user.name}", "/profile/#{teacher.url}", :class => "byline" %>
+						</strong><br />
+						<p style="width:auto;float:none;">
+							<% if teacher.position.present?  && teacher.school.present? %>
+								<%= teacher.position %> at <%= teacher.school %><br />
+							<% end %>
+							<% if teacher.location.present? %>
+								<%= teacher.location %><br />
+							<% end %><br />
+							<% if !self.current_user.nil? && self.current_user.teacher %>	
+								<% unless self.current_user == teacher.user %>
+									<% if @my_connections.include? teacher.user_id %>
+										<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+									<% else %>
+										<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+										<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+									<% end %>
+								<% end %>
 
-			<div id ="connection_desc">
-				<strong><%= link_to teacher.user.name, "/profile/#{teacher.url}" %></strong><br />
-				<% if teacher.position.present?  && teacher.school.present? %>
-					<%= teacher.position %> at <%= teacher.school %>
-				<% end %><br />
-				<%= teacher.location %><br />
-				<% if !self.current_user.nil? && self.current_user.teacher %>	
-					<% if self.current_user == teacher.user %>
-					<% else %>
-						<% if @my_connections.include? teacher.user_id %>
-							<div>
-								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "btn"} %>
-							</div>
-						<% else %>
-							<div>
-								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "btn"} %>
-								<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => teacher.user.id }, :class => "btn btn-success" %>
-							</div>
-						<% end %>
-					<% end %>
-				<% else %>
-					<div>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "btn"} %>
-					</div>
+							<% else %>
+								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+							<% end %>
+						</p>
+						<!--div class="quick-action star-empty">
+						</div-->
+					</li>
 				<% end %>
-			</div>
-		</div>
-	<% end %>
-<%= will_paginate @teachers %>
-</div>
+				<li><%= will_paginate @teachers %></li>
+			</ul>
+		</section>
+	</section>
 </section>
