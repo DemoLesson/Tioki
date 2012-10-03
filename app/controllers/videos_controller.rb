@@ -76,7 +76,7 @@ class VideosController < ApplicationController
 
 				# Video status
 				flash[:success] = "Your video was succesfully uploaded and is processing."
-				return redirect_to :back
+				return redirect_to video_path(@video) + '/edit'
 			end
 		end
 
@@ -196,7 +196,7 @@ class VideosController < ApplicationController
 
 				# Flash success and return
 				flash[:success] = 'Video was successfully embeded.'
-				return redirect_to :back
+				return redirect_to video_path(video) + '/edit'
 			end
 			
 			raise StandardError, 1
