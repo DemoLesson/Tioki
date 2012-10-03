@@ -1,3 +1,8 @@
+2012-10-03 3:13pm - Deploy by astanisic
+=======================================
+* Style changes to Whiteboard
+* Fix to teacher profile involving the connect button. 
+
 2012-10-03 1:10pm - Deploy by astanisic
 =======================================
 * Fix to connections results
