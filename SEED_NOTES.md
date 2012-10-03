@@ -1,3 +1,11 @@
+2012-10-03 1:10pm - Deploy by astanisic
+=======================================
+* Fix to connections results
+
+2012-10-03 12:43pm - Deploy by KellyLSB
+=======================================
+* Skill detail page now shows off the teachers and videos with that skill
+
 2012-10-02 4:40pm - Deploy by KellyLSB
 ======================================
 * Added skills to videos

@@ -78,21 +78,21 @@
 					<!-- Connection Options -->
 					<% # IF this is my profile allow me to edit %>
 					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
-					<a href="/me/profile/edit" class="action-button bg-salmon">
-						Improve My Profile
-					</a>
+						<a href="/me/profile/edit" class="action-button bg-salmon">
+							Improve My Profile
+						</a>
 					<% # IF im not a user then let me register %>
 					<% elsif !self.current_user %>
-					<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
-						<%= ablang('connection.connect') %>
-					</a>
+						<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+							<%= ablang('connection.connect') %>
+						</a>
 					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif self.current_user.connections.collect(&:user_id).include? @teacher.user_id || !self.current_user.school.nil? %>
-			  		<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+					<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @teacher.user.id || !self.current_user.school.nil? %>
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
 					<% # IF we are not connected then display "connect" button %>
 					<% elsif self.current_user.teacher != nil %>
-			  		<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
-					<% end %>			
+						<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+					<% end %>
 				</section>
 			</section>
 			<!-- Connection Information -->

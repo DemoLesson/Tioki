@@ -1,5 +1,6 @@
 <li>
-	<% @post.getModels.each do |x| %>
+	<% i=0; @post.getModels.each do |x| %>
+		<% next if i>0; i+=1; %>
 		<% next unless x.is_a?(User) %>
 		<div class="profile-thumb-small">
 			<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{x.teacher.url}" if x.avatar? %>
