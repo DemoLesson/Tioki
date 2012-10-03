@@ -3,7 +3,7 @@ class MetricsController < ApplicationController
 	before_filter :auth
 
 	def auth
-		raise HTTPStatus::Unauthorized unless self.current_user.is_admin
+		raise HTTPStatus::Unauthorized unless !self.current_user.nil? && self.current_user.is_admin
 	end
 
 	def index
