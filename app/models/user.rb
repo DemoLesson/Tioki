@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
 	has_many :school_administrators, :dependent => :destroy
 	has_many :administered_schools, :through => :school_administrators, :source => :school
 
+	has_many :technology_users, :dependent => :destroy
+	has_many :technologies, :through => :technology_users
+
 	has_many :activities, :order => 'created_at DESC'
 	has_many :pins
 

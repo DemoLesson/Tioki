@@ -10,6 +10,10 @@ class TechnologiesController < ApplicationController
     end
   end
 
+  def technology_list
+	  @technologies = Technology.all
+  end
+
   # GET /technologies/1
   # GET /technologies/1.json
   def show

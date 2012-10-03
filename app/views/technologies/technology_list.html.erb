@@ -1,0 +1,51 @@
+<section id="main-content" class="inner-content">
+	<h1>Administration</h1>
+
+	<ul id="breadcrumbs">
+		<li><%= link_to 'Home', :admin %></li>
+		<li>Technology List</li>
+	</ul>
+
+	<%= render :partial => "admin_stats", :locals => { :stats => @stats } %>
+
+	<%= render :partial => "admin_menu" %>
+
+	<div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
+
+	<div class="form-wrap">
+		<%= form_for :technology do |f| %>
+			<% f.text_field :technology, :placeholder => "Name" %>
+			<% f.text_area :description, :placeholder => "Description" %>
+			<% f.text_field :site, :placeholder => "Site Url" %>
+			<% f.text_field :twitter, :placeholder => "Twitter Url" %>
+			<% f.submit "Save" %>
+		<% end %>
+	</div>
+
+	<div id="wrapper" style="margin-top: 0">
+
+		<div id="left" style="width: 905px"align="left">
+
+			<p style= "font-size: 20px"><strong>Technologies</strong></p>
+			<table cellpadding = "5">
+				<tr>
+					<th>Technology</th>
+					<th>Users</th>
+					<th></th>
+					<th></th>
+				</tr>
+				<%- @technologies.each do |technology| %>
+					<tr>
+						<td><%= technology.name %></td>
+						<td><%= technologies.technology_users.count %></td>
+						<td>Edit</th>
+						<td>Delete</th>
+					</tr>
+				<% end -%>
+			</table>
+			<%= will_paginate @organizations %>
+
+		</div>
+
+	</div>
+</section>
