@@ -173,7 +173,7 @@ class DeployCLI
 		# If we are in develop ask if we would like to merge to master
 		if commited && branch == 'develop' && confirm("Would you like to merge all new changes into master?")
 			# Determine the release type
-			type = input("Is this a 'revision', 'minor', or 'major' release.", 'red', 'revision')
+			type = input("Is this a 'revision', 'minor', or 'major' release. [revision]", 'red', 'revision')
 
 			# Get the bumped version
 			if type == 'revision' || type == 'minor' || type == 'major'
