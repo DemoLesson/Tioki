@@ -18,6 +18,9 @@ Preview::Application.routes.draw do
 	# Metrics Controller
 	resources :metrics
 
+	# Metrics Controller
+	resources :analytics
+
 	# Welcome Wizard Controller
 	resources :welcome_wizard
 
