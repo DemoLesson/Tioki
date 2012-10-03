@@ -1,3 +1,9 @@
+2012-10-02 4:40pm - Deploy by KellyLSB
+======================================
+* Added skills to videos
+* After a video is uploaded immediately take to edit page
+* Installed the framework for video favorites
+
 2012-10-02 4:55pm - Deploy by astanisic
 =======================================
 * Fixes to help box in profile
