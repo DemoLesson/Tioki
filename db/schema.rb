@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003192233) do
+ActiveRecord::Schema.define(:version => 20121004025247) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -556,6 +556,13 @@ ActiveRecord::Schema.define(:version => 20121003192233) do
     t.string   "picture_content_type"
     t.integer  "picture_file_size"
     t.datetime "picture_updated_at"
+  end
+
+  create_table "technology_tags", :force => true do |t|
+    t.integer  "technology_id"
+    t.integer  "skill_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "technology_users", :force => true do |t|

@@ -1,4 +1,6 @@
 class TechnologiesController < ApplicationController
+	before_filter :authenticate, :except => [ :index, :show, :add_technology, :remove_technology]
+
   # GET /technologies
   # GET /technologies.json
   def index
@@ -11,10 +13,10 @@ class TechnologiesController < ApplicationController
   end
 
   def technology_list
-	  @technologies = Technology.all
-	  @stats = []
-	  @stats.push({:name => 'Technologies', :value => Technology.count})
-	  @stats.push({:name => 'Teachers Using', :value => TechnologyUser.count})
+    @technologies = Technology.all
+    @stats = []
+    @stats.push({:name => 'Technologies', :value => Technology.count})
+    @stats.push({:name => 'Teachers Using', :value => TechnologyUser.count})
   end
 
   # GET /technologies/1
@@ -83,22 +85,36 @@ class TechnologiesController < ApplicationController
     @technology.destroy
 
     respond_to do |format|
-      format.html { redirect_to technologies_url }
+      format.html { redirect_to "/technology_list", notice: 'Technology was successfully removed.' }
       format.json { head :ok }
+    end
+  end
+
+  def add_technology
+    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
+    respond_to do |format|
+      format.html { redirect_to technologies_url, notice: 'Technology was successfully added.' }
+    end
+  end
+
+  def remove_technology
+    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
+    respond_to do |format|
+      format.html { redirect_to technologies_url, notice: 'Technology was successfully removed.' }
     end
   end
 
   private
   def authenticate
-  	return true if !self.current_user.nil? && self.current_user.is_admin
-  
-  	# If auth fail
-  	render :text => "Access Denied"
-  	return 401
-  
-  	# Block old HTTP Auth
-  	#authenticate_or_request_with_http_basic do |id, password| 
-  	#  id == USER_ID && password == PASSWORD
-  	#end
+    return true if !self.current_user.nil? && self.current_user.is_admin
+
+    # If auth fail
+    render :text => "Access Denied"
+    return 401
+
+    # Block old HTTP Auth
+    #authenticate_or_request_with_http_basic do |id, password| 
+    #  id == USER_ID && password == PASSWORD
+    #end
   end
 end
