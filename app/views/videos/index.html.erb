@@ -35,7 +35,7 @@
 					<div class="skills">
 						<h4>Skills shown in this video</h4>
 						<% @video.skills.each do |skill| %>
-							<a class="button2 bg-ltgray gray"><%= skill.name %></a>
+							<a href="/teacherskills/<%= skill.id %>" class="button2 bg-ltgray gray"><%= skill.name %></a>
 						<% end %>
 					</div>
 				<% end %>
