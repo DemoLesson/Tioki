@@ -1,3 +1,7 @@
+2012-10-03 7:46pm - Deploy by KellyLSB
+======================================
+* Added analytics pages
+
 2012-10-03 5:40pm - Deploy by astanisic
 =======================================
 * Design chnages to profile and edit pages
