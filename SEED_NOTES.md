@@ -1,3 +1,7 @@
+2012-10-03 5:40pm - Deploy by astanisic
+=======================================
+* Design chnages to profile and edit pages
+
 2012-10-03 4:19pm - Deploy by astanisic
 =======================================
 * Profile design changes
