@@ -4,6 +4,10 @@ Preview::Application.routes.draw do
 		member do
 			get 'change_technology_picture'
 			get 'edit_technology_tags'
+			post 'edit_technology_tags'
+			get 'add_technology'
+			get 'remove_technology'
+			get 'skills'
 		end
 	end
 

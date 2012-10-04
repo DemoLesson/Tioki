@@ -91,17 +91,17 @@ class TechnologiesController < ApplicationController
   end
 
   def add_technology
-    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
+    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
 		if @technology_user
 			redirect_to :back, :notice => "You have already adde this technology."
 		else
-			TechnologyUser.create(:user = > self.current_user, :technology_id => params[:id])
+			TechnologyUser.create(:user => self.current_user, :technology_id => params[:id])
 			redirect_to :back, :notice => "Technology was successfully added."
 		end
   end
 
   def remove_technology
-    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
+    @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
 		@technology_user.destroy
     respond_to do |format|
       format.html { redirect_to technologies_url, notice: 'Technology was successfully removed.' }
@@ -113,7 +113,37 @@ class TechnologiesController < ApplicationController
 	end
 
 	def edit_technology_tags
-    @technology = Technology.find(params[:id])
+		@technology = Technology.find(params[:id])
+
+		# Detect post variables
+		if request.post?
+
+			# Load the teach and update
+			@teacher = self.current_user.teacher
+			@technology.skills.delete_all
+
+			# Install the skills
+			skills = Skill.where(:id => params[:skills].split(','))
+			skills.each do |skill|
+				TechnologyTag.create(:technology => @technology, :skill_id => skill.id)
+			end
+			redirect_to "/technologylist", :notice => "Skills saved."
+		end
+		# Get a list of existing skills
+		@existing_skills = technology_path(@technology) + '/skills'
+	end
+
+	def skills
+		@technology = Technology.find(params[:id])
+		@skills = @technology.skills
+
+		@skills.collect! do |v|
+			data = v.serializable_hash
+			data["skill_group"] = v.skill_group.name.to_sym
+			v = data
+		end
+
+		render :json => @skills
 	end
 
   private

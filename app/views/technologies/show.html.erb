@@ -1,19 +1,27 @@
 <section id="main-content" class="inner-content">
-	<h1><%= @school.name %></h1>
+	<h1><%= @technology.name %></h1>
 	<div id="sidebar">
 
-		<div class="bordered_image"><% if @school.picture? %><%= image_tag @school.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %></div>
-		<p>
-		</p>
+		<div class="bordered_image"><% if @technology.picture? %><%= image_tag @technology.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %></div><br />
+		<% if @technology.skills.count  > 0 %>
+			<h3>Tags</h3>
+			<% @technology.skills.each do |skill| %>
+				<%= skill.name %><br />
+			<% end %>
+		<% end %>
 	</div>
 	<div id="content">
-		<%= link_to "Want more Tech?", "/suggesttech", :style => "float:right" %>
+		<% if self.current_user.technologies.include? @technology %>
+			<%= link_to "Want more Tech?", "/suggesttech", :class => "button", :style => "float:right" %>
+		<% else %>
+			<%= link_to "Add Technology", { :action => "add_technology", :id => @technology.id}, :class => "button", :style => "float:right" %>
+		<% end %>
 		<% if @technology.description? %><p><strong>Description</strong><br /><%=raw auto_link(@technology.description).gsub(/\n/, '<br />') %></p><% end %>
 		<% @technology.users.each do |user| %>
 			<br />
 			<div class="item_jobs">
 				<div class="item_picture">
-					<% if connection.user.avatar? %>
+					<% if user.avatar? %>
 						<%= link_to image_tag(user.avatar.url(:thumb)), '/profile/' + user.teacher.url %>
 					<% else %>
 						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/' + user.teacher.url %>
