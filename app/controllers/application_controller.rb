@@ -134,17 +134,17 @@ class ApplicationController < ActionController::Base
 	def get_analytics(slug, tag = '', date_start = nil, date_end = nil, unique = false)
 
 		# Make sure the slug is a string
-		slug = slug.to_s if slug.respond_to?('to_s')
+		slug = slug.to_s if slug.respond_to?('to_s') unless slug.nil?
 		# If slug is not a string raise an exception
 
-		raise StandardError, "Slug is not a string" unless slug.is_a?(String)
+		raise StandardError, "Slug is not a string" unless slug.is_a?(String) || slug.nil?
 
 		# If the tag is a model then return the string tag
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
 
 		# Build the SQL Query string
 		where = []
-		where << "`slug` = '#{slug}'"
+		where << "`slug` = '#{slug}'" unless slug.nil?
 		where << "`tag` = '#{tag}'" unless tag.nil? || tag.empty?
 
 		# Add a time constraint

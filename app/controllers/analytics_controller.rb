@@ -18,7 +18,7 @@ class AnalyticsController < ApplicationController
 
 	def users
 		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Completion', 'Triggered Analytics']
-		@users = User.paginate(:page => params[:page], :per_page => 20)
+		@users = User.order('`last_login` DESC').paginate(:page => params[:page], :per_page => 20)
 
 		@users.each do |user|
 		end
@@ -38,10 +38,23 @@ class AnalyticsController < ApplicationController
 
 			# Get the actual data and join it all
 			s = s.select('`analytics`.*, `tmp`.`count`, CEIL(`tmp`.`count` / `tmp1`.`per_week`) as `per_week`, `analytics`.`id` as `group_by`').joins("LEFT JOIN (#{join}) as `tmp` ON `analytics`.`user_id` = `tmp`.`user_id` LEFT JOIN (#{join1}) as `tmp1` ON `analytics`.`user_id` = `tmp1`.`user_id`")
-			s = s.group('`analytics`.`id`').group('`group_by`')
+			s = s.where('`analytics`.`user_id` IS NOT NULL').group('`group_by`').order('`created_at` DESC')
 
 			# Pagination
 			s = s.paginate_by_sql([s.to_sql], :page => params[:page], :per_page => 20)
+		end
+	end
+
+	def user
+		@fields = ['Slug', 'Class', 'ID', 'Date']
+		@user = User.find(params[:id])
+
+		@slug = self.get_analytics(nil, nil, params[:date_start], params[:date_end]) do |s|
+
+			# Get slugs only for this user
+			s = s.where('`user_id` = ?', params[:id])
+			s = s.paginate(:page => params[:page], :per_page => 20)
+			s = s.order('`created_at` DESC')
 		end
 	end
 

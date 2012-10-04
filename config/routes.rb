@@ -20,6 +20,7 @@ Preview::Application.routes.draw do
 
 	# Analytics Controller
 	match 'analytics/users' => 'analytics#users'
+	match 'analytics/user/:id' => 'analytics#user'
 	match 'analytics/slug/:slug' => 'analytics#slug'
 	resources :analytics
 
