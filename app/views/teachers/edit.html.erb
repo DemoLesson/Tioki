@@ -18,7 +18,7 @@
 					<p>
 					My Public Profile:
 					<% if @teacher.guest_code != nil %>
-						<%= text_field :a, :b, :value => "http://tioki.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
+						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@teacher.url, :class => :guest_pass_field %>
 						<% end %>
 					</p>
 				
@@ -30,7 +30,8 @@
 				<section class="profile-info group">
 					<h3 class="top-line">
 					CONNECT WITH ME
-					</h3>	
+					</h3>
+					<a name="connect" />	
 					<p>
 					<%= image_tag('tioki/icons/phone.png', :border => 0, :style=>"margin-bottom:-9px;") %>
 					<%= f.text_field :phone %>
@@ -55,6 +56,7 @@
 					<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
 					<%= f.text_field :teachingchannel, :placeholder => "teachingchannel.org/" %>
 					</p>
+					
 				</section>
 				<section class="profile-info group">
 					<h3 class="heading top-line">

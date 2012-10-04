@@ -1,3 +1,24 @@
+2012-10-03 5:40pm - Deploy by astanisic
+=======================================
+* Design chnages to profile and edit pages
+
+2012-10-03 4:19pm - Deploy by astanisic
+=======================================
+* Profile design changes
+
+2012-10-03 4:00pm - Deploy by astanisic
+=======================================
+* Replacing guestpasscode with public profile
+
+2012-10-03 3:13pm - Deploy by astanisic
+=======================================
+* Style changes to Whiteboard
+* Fix to teacher profile involving the connect button. 
+
+2012-10-03 1:10pm - Deploy by astanisic
+=======================================
+* Fix to connections results
+
 2012-10-03 12:43pm - Deploy by KellyLSB
 =======================================
 * Skill detail page now shows off the teachers and videos with that skill

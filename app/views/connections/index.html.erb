@@ -8,46 +8,6 @@
       <%= link_to 'My ' + ablang('connection.plural'), :my_connections %></br>
       <%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
   </div>
-  <!--<div id = "connectionSearch">
-    <img src = "/assets/magnifying_glass.png" style = "margin-bottom: -9px;" /> <input type = "search" id = "connectSearch" placeholder = "name" /> <br />
-    <label for = "additionalSearch">Additional Search Criteria </label><button type = "button" id = "additionalSearch"></button>
-    <div id = "connectMenu" class = "hide">
-      <label for = "connectLocation">Location:  </label><input type = "text" id = "connectLocation" style = "width: 100px; margin-bottom: 10px; margin-left: 12px;" />
-      <label for = "connectTags">Skill Tags:  </label><input type = "text" id = "connectTags" style = "width: 100px; margin-bottom: 10px; margin-left: 5px;" />
-      <label for = "connectSchool">School:  </label><input type = "text" id = "connectSchool" style = "width: 100px; margin-bottom: 10px; margin-left: 23px;" />
-      <label for = "connectUniversity">University:  </label><input type = "text" id = "connectUniversity" style = "width: 100px;" />
-      <button type = "submit" class= "btn btn-success" style = "padding: 5px; border-radius: 0px; margin-top: 30px;">Search</button>
-    </div>
-  </div>
-  <script>
-    $(function () {
-
-       $("#additionalSearch").button({
-                  text: false,
-                  icons: {
-                    primary: "ui-icon-plus"
-                  }
-                }).click(function() {
-                  if ($("#connectMenu").hasClass("hide")) {
-                    $("#additionalSearch").button({
-                      text: false,
-                      icons: {
-                         primary: "ui-icon-minus"
-                      }
-                    });
-                    $("#connectMenu").removeClass("hide").addClass("show");
-                  } else {
-                    $("#additionalSearch").button({
-                       text: false,
-                       icons: {
-                         primary: "ui-icon-plus"
-                       }
-                     });
-                    $("#connectMenu").removeClass("show").addClass("hide");
-                  } 
-        });
-    })
-  </script>-->
 </div>
 
 <div id="content">
@@ -56,13 +16,13 @@
     <div class="item_jobs">
       <div class="item_picture">
         <% if connection.user.avatar? %>
-          <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/'+connection.url.to_s %>
+          <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/profile/'+connection.url.to_s %>
         <% else %>
-          <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/'+connection.url.to_s %><% end %>
+          <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/'+connection.url.to_s %><% end %>
       </div>
 
       <div id ="connection_desc">
-        <strong><%= link_to connection.user.name, '/'+connection.url.to_s %></strong><br />
+        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><br />
         <% if connection.position.present?  && connection.school.present? %>
           <%= connection.position %> at <%= connection.school %>
         <% end %><br />
