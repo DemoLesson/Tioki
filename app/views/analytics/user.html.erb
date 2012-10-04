@@ -1,0 +1,21 @@
+<link href="/uncompiled/analytics.css" rel="stylesheet" type="text/css" />
+<h1><%= @user.name %> &mdash; Slugs</h1>
+<table>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<% @slug.each do |data| %>
+		<% next if data.user.nil? %>
+		<tr>
+			<td><%= data.slug %></td>
+			<td><%= data.map_tag.class.name rescue 'Unknown' %></td>
+			<td><%= data.map_tag.id rescue '?' %></td>
+			<td><%= data.created_at %></td>
+		</tr>
+	<% end %>
+</table>
+<div>
+	<%= will_paginate @slug %>
+</div>

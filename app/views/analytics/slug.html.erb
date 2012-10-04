@@ -1,0 +1,22 @@
+<link href="/uncompiled/analytics.css" rel="stylesheet" type="text/css" />
+<table>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<% @slug.each do |data| %>
+		<tr>
+			<td><%= data.slug %></td>
+			<td><%= data.map_tag.class.name rescue 'Unknown' %></td>
+			<td><%= data.map_tag.id rescue '?' %></td>
+			<td><%= link_to data.user.name, "/analytics/user/#{data.user.id}" %></td>
+			<td><%= data.count.nil? ? 0 : data.count %></td>
+			<td><%= data.per_week.nil? ? 0 : data.per_week %></td>
+			<td><%= data.created_at %></td>
+		</tr>
+	<% end %>
+</table>
+<div>
+	<%= will_paginate @slug %>
+</div>

@@ -1,0 +1,24 @@
+<link href="/uncompiled/analytics.css" rel="stylesheet" type="text/css" />
+<table>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<% @users.each do |user| %>
+		<tr>
+			<td><%= user.id %></td>
+			<td><%= user.name %></td>
+			<td><%= user.email %></td>
+			<td><%= user.rsvp.count %></td>
+			<td><%= user.vouched_skills.count %></td>
+			<td><%= user.skills.count %></td>
+			<td><%= user.teacher.videos.count rescue 0 %></td>
+			<td><%= user.completion %></td>
+			<td><%= user.analytics.group('slug').collect!{|x| link_to(x.slug, '/analytics/slug/' + u(x.slug))}.join(', ').html_safe %></td>
+		</tr>
+	<% end %>
+</table>
+<div>
+	<%= will_paginate @users %>
+</div>
