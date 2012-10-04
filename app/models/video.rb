@@ -100,34 +100,39 @@ class Video < ActiveRecord::Base
 
   # Get the job status
   def job_status
-    status = Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583')
+    if self.encoded_state != 'finished'
+      status = Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583')
 
-    # Video is not available
-    if status.code.to_i != 200
+      # Video is not available
+      if status.code.to_i != 200
 
-      short = "Zencoder Job: #{self.job_id} returned `#{status.code}`."
-      unless NOTIFY.nil?
-        NOTIFY.notify!(
-          :short_message => short, :full_message => status.body,
-          :level => 4, :file => __FILE__, :line => __LINE__,
-          :method => __METHOD__
-        )
+        short = "Zencoder Job: #{self.job_id} returned `#{status.code}`."
+        unless NOTIFY.nil?
+          NOTIFY.notify!(
+            :short_message => short, :full_message => status.body,
+            :level => 4, :file => __FILE__, :line => __LINE__,
+            :method => __METHOD__
+          )
+        else
+          Rails.logger.error(short)
+        end
+
+        status = 'unavailable'
       else
-        Rails.logger.error(short)
+        status = status.body.state
       end
 
-      status = 'unavailable'
-    else
-      status = status.body.state
+      # Update the encoded state
+      if self.encoded_state != status
+        self.encoded_state = status
+        self.save!
+      end
+
+      # Return the status
+      return status
     end
 
-    # Update the encoded state
-    if self.encoded_state != status
-      self.encoded_state = status
-      self.save!
-    end
-
-    return status
+    return self.encoded_state
   end
   
   # # # # # # # # #
