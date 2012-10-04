@@ -24,6 +24,9 @@
 
 			<!-- Avatar -->
 			<div class="profile-thumb-large" style="margin: 0px 0px -10px 10px;">
+				<% if @teacher.me? %>
+					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
+				<% end %>
 				<% if (@connected || @guest || !@teacher.user.privacy["avatar"]) && @teacher.user.avatar? %>
 					<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") %>
 				<% else %>

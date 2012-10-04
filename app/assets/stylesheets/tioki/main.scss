@@ -25,6 +25,21 @@
 	background-color: $ltgray;
 	margin: 0 0 15px 0;
 	overflow: hidden;
+	position: relative;
+
+	a.edit {
+		span.iconic {
+
+		}
+		text-transform: uppercase;
+		position: absolute;
+		background: #666;
+		padding: 3px 6px;
+		font-size: 16px;
+		color: #FFF;
+		right: 0px;
+		top: 0px;
+	}
 }
 .profile-thumb-medium {
 	width: 70px;

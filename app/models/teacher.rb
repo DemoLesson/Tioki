@@ -247,4 +247,8 @@ class Teacher < ActiveRecord::Base
     # Is count creater than zero
     return count > 0
   end
+
+  def me?
+    (!User.current.nil? && self == User.current.teacher) ? true : false
+  end
 end

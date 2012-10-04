@@ -330,7 +330,7 @@ class UsersController < ApplicationController
 		tmp_img.write(orig_img.to_blob)
 		@user.update_attribute(:avatar, tmp_img)
 		tmp_img.close
-		redirect_to :root, :notice => "Image changed successfully."
+		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
