@@ -162,7 +162,8 @@ class ApplicationController < ActionController::Base
 		# Yield to the block
 		analytic = yield(analytic) if block_given?
 
-		return analytic.all
+		return analytic.all if analytic.respond_to?(:all)
+		return analytic
 	end
 
 	##################

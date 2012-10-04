@@ -37,8 +37,11 @@ class AnalyticsController < ApplicationController
 			join1 = "SELECT `user_id`, ROUND(AVG(`per_week`)) as `per_week` FROM (#{groupweek}) as `sub` GROUP BY `user_id`"
 
 			# Get the actual data and join it all
-			s = s.select('`analytics`.*, `tmp`.`count`, CEIL(`tmp`.`count` / `tmp1`.`per_week`) as `per_week`').joins("LEFT JOIN (#{join}) as `tmp` ON `analytics`.`user_id` = `tmp`.`user_id` LEFT JOIN (#{join1}) as `tmp1` ON `analytics`.`user_id` = `tmp1`.`user_id`")
-			s = s.group('`analytics`.`id`')
+			s = s.select('`analytics`.*, `tmp`.`count`, CEIL(`tmp`.`count` / `tmp1`.`per_week`) as `per_week`, `analytics`.`id` as `group_by`').joins("LEFT JOIN (#{join}) as `tmp` ON `analytics`.`user_id` = `tmp`.`user_id` LEFT JOIN (#{join1}) as `tmp1` ON `analytics`.`user_id` = `tmp1`.`user_id`")
+			s = s.group('`analytics`.`id`').group('`group_by`')
+
+			# Pagination
+			s = s.paginate_by_sql([s.to_sql], :page => params[:page], :per_page => 20)
 		end
 	end
 
