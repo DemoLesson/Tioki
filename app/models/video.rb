@@ -110,8 +110,7 @@ class Video < ActiveRecord::Base
         unless NOTIFY.nil?
           NOTIFY.notify!(
             :short_message => short, :full_message => status.body,
-            :level => 4, :file => __FILE__, :line => __LINE__,
-            :method => __METHOD__
+            :level => 4, :file => __FILE__, :line => __LINE__
           )
         else
           Rails.logger.error(short)

@@ -1,0 +1,73 @@
+.box-sizing(@val: border-box) {
+	box-sizing: @val;
+	-moz-box-sizing: @val;
+	-webkit-box-sizing: @val;
+}
+
+.border-radius(@val: 10px) {
+	border-radius: @val;
+	-moz-border-radius: @val;
+	-webkit-border-radius: @val;
+}
+
+// Set globals
+html {
+	color: #333;
+}
+
+// Clear
+div.clear {
+	display: block;
+	height: 1px;
+	width: 100%;
+	clear: both;
+}
+
+// Form Display
+form {
+	width: 100%;
+
+	fieldset {
+		display: block;
+		float:left;
+		width: 30%;
+
+		label {
+			display: block;
+
+			span {
+				font-weight: bold;
+				display: block;
+			}
+
+			input {
+				border: dashed 2px #666;
+				.border-radius;
+				padding: 10px;
+				.box-sizing;
+				width: 100%;
+			}
+
+			select {
+				height: 37px;
+				.box-sizing;
+				width: 100%;
+			}
+		}
+	}
+}
+
+// Data Output
+table {
+	width: 100%;
+
+	th,
+	td {
+		border-bottom: solid 1px #666;
+		border-right: solid 1px #666;
+
+		&:last-child {
+			border-right: none;	
+		}
+	}
+}
