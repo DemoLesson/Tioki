@@ -13,9 +13,9 @@
 				<span><% if technology.description.size > 300 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..304]+'...').html_safe %><% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %><% end %></span><br /><br />
 				<% if self.current_user.teacher %>
 					<% if self.current_user.technologies.include? technology %>
-						<%= link_to "Remove Technology", { :action => "remove_technology", :id => technology.id }, :class => "button bg-green" %>
+						<%= link_to "Remove Technology", { :action => "remove_technology", :id => technology.id }, :class => "action-button bg-green" %>
 					<% else %>
-						<%= link_to "Add Technology", { :action => "add_technology", :id => technology.id }, :class => "button bg-green" %>
+						<%= link_to "Add Technology", { :action => "add_technology", :id => technology.id }, :class => "action-button bg-green" %>
 					<% end %>
 				<% end %>
 				<br />

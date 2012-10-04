@@ -133,6 +133,20 @@
 
 			<section class="info">
 				<p class="heading">
+				Technologies
+				</p>
+				<div style="padding:0px 20px;">
+					<% @teacher.user.technologies.each do |technology| %>
+						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
+							<%= link_to image_tag(technology.picture(:medium), :style => 'min-height:45px;min-width:45px;'), technology %>
+						</div>
+					<% end %>
+					<div style="clear:both;"></div>
+				</div>
+			</section>
+
+			<section class="info">
+				<p class="heading">
 				Skills
 				</p>
 				<% @teacher.skills.each do |skill| %>
