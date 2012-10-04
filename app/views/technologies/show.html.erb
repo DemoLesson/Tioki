@@ -1,25 +1,48 @@
-<p id="notice"><%= notice %></p>
+<section id="main-content" class="inner-content">
+<div id="sidebar">
+	<%= @technology.name %>
+	<div class="bordered_image">
+		<% if @technology.picture? %><%= image_tag(@technology.picture.url(:medium)) %><% else %><%= image_tag("dl_icons/no_avatar_medium.jpg") %><% end %>
+	</div>
+</div>
+<section class="profile-content">
+<%= @technology.description %><%= link_to "What more Tech?" , "/woah", :class => "action-button bg-salmon", :style => "float:right" %>
+<div id="content">
+	<% @technology.users.each do |user| %>
+		<br />
+		<div class="item_jobs">
+			<div class="item_picture">
+				<% if user.avatar? %>
+					<%= link_to image_tag(user.avatar.url(:thumb)), '/profile/'+user.teacher.url.to_s %>
+				<% else %>
+					<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/' + user.teacher.url.to_s %><% end %>
+			</div>
 
-<p>
-  <b>Name:</b>
-  <%= @technology.name %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @technology.description %>
-</p>
-
-<p>
-  <b>Site:</b>
-  <%= @technology.site %>
-</p>
-
-<p>
-  <b>Twitter:</b>
-  <%= @technology.twitter %>
-</p>
-
-
-<%= link_to 'Edit', edit_technology_path(@technology) %> |
-<%= link_to 'Back', technologies_path %>
+			<div id ="connection_desc">
+				<strong><%= link_to user.name, '/profile/'+user.teacher.to_s %></strong><br />
+				<% if user.teacher.position.present?  && user.teacher.school.present? %>
+					<%= user.teacher.position %> at <%= user.teacher.school %>
+				<% end %><br />
+				<%= user.teacher.location %><br /><br />
+				<% if self.current_user != user %>
+					<% if self.current_user.teacher %>	
+						<% if Connection.mine.collect{ |connection| connection.not_me.id }.include? user.id %>
+							<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
+						<% else %>
+							<div>
+								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
+								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button" %>
+							</div>
+						<% end %>
+					<% else %>
+						<div>
+							<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
+						</div>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>
+</section>
+</section>

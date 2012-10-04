@@ -51,7 +51,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.save
-        format.html { redirect_to :technology_list, notice: 'Technology was successfully created.' }
+        format.html { redirect_to "/technology_list", notice: 'Technology was successfully created.' }
         format.json { render json: @technology, status: :created, location: @technology }
       else
         format.html { render action: "new" }
@@ -67,7 +67,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.update_attributes(params[:technology])
-        format.html { redirect_to :technology_list, notice: 'Technology was successfully updated.' }
+        format.html { redirect_to "/technology_list", notice: 'Technology was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -86,5 +86,19 @@ class TechnologiesController < ApplicationController
       format.html { redirect_to technologies_url }
       format.json { head :ok }
     end
+  end
+
+  private
+  def authenticate
+  	return true if !self.current_user.nil? && self.current_user.is_admin
+  
+  	# If auth fail
+  	render :text => "Access Denied"
+  	return 401
+  
+  	# Block old HTTP Auth
+  	#authenticate_or_request_with_http_basic do |id, password| 
+  	#  id == USER_ID && password == PASSWORD
+  	#end
   end
 end
