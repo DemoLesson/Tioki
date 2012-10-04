@@ -1,6 +1,6 @@
 class AnalyticsController < ApplicationController
-	layout false
 	before_filter :auth
+	layout false
 
 	def auth
 
@@ -11,7 +11,35 @@ class AnalyticsController < ApplicationController
 	end
 
 	def index
-		dump get_all_analytics
+		get_all_analytics.each do |slug, data|
+			
+		end
+	end
+
+	def users
+		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Completion', 'Triggered Analytics']
+		@users = User.paginate(:page => params[:page], :per_page => 20)
+
+		@users.each do |user|
+		end
+
+	end
+
+	def slug
+		@fields = ['Slug', 'Class', 'ID', 'User who triggered', 'Times triggered', 'Average times triggered per week', 'Date']
+		@slug = self.get_analytics(params[:slug], nil, params[:date_start], params[:date_end]) do |s|
+
+			# Get the total times the event was fired by this user
+			join = Analytic.select('`user_id`, COUNT(*) as `count`').where(:slug => params[:slug]).group('`slug`, `user_id`, `tag`').to_sql
+
+			# Get Average Per Week
+			groupweek = Analytic.select('`user_id`, COUNT(*) as `per_week`, YEARWEEK(`created_at`) as `column_to_group_by`').where(:slug => params[:slug]).group('`slug`, `user_id`, `tag`, `column_to_group_by`').to_sql
+			join1 = "SELECT `user_id`, ROUND(AVG(`per_week`)) as `per_week` FROM (#{groupweek}) as `sub` GROUP BY `user_id`"
+
+			# Get the actual data and join it all
+			s = s.select('`analytics`.*, `tmp`.`count`, CEIL(`tmp`.`count` / `tmp1`.`per_week`) as `per_week`').joins("LEFT JOIN (#{join}) as `tmp` ON `analytics`.`user_id` = `tmp`.`user_id` LEFT JOIN (#{join1}) as `tmp1` ON `analytics`.`user_id` = `tmp1`.`user_id`")
+			s = s.group('`analytics`.`id`')
+		end
 	end
 
 	def flotter(s)
@@ -69,11 +97,16 @@ class AnalyticsController < ApplicationController
 
 			# Get a list of all the slugs in the DB
 			slugs = Array.new
-			ActiveRecord::Base.connection.execute("SELECT `slug` FROM `analytics` GROUP BY `slug`").each do |x|
+			ActiveRecord::Base.connection.execute("SELECT `slug` FROM `analytics` WHERE `slug` IS NOT NULL && `slug` != '' GROUP BY `slug`").each do |x|
 				slugs << x.first
 			end
 
 			# Loop through the slugs and get the results
-			return self.get_analytics(slug, nil, date_start, date_end, unique)
+			results = Hash.new; slugs.each do |slug|
+				results[slug] = self.get_analytics(slug, nil, date_start, date_end, unique)
+			end
+
+			# Results
+			return results
 		end
 end

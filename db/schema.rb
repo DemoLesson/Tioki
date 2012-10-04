@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002234948) do
+ActiveRecord::Schema.define(:version => 20121003220711) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -580,19 +580,10 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
     t.integer  "privacy",             :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
+    t.integer  "completion"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
-
-  create_table "video_favorites", :id => false, :force => true do |t|
-    t.integer "video_id"
-    t.integer "teacher_id"
-  end
-
-  create_table "video_skills", :id => false, :force => true do |t|
-    t.integer "video_id"
-    t.integer "skill_id"
-  end
 
   create_table "video_views", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -630,6 +621,16 @@ ActiveRecord::Schema.define(:version => 20121002234948) do
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"
+
+  create_table "videos_favorites", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "teacher_id"
+  end
+
+  create_table "videos_skills", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "skill_id"
+  end
 
   create_table "vouched_skills", :force => true do |t|
     t.integer  "vouch_id"

@@ -135,8 +135,8 @@ class ApplicationController < ActionController::Base
 
 		# Make sure the slug is a string
 		slug = slug.to_s if slug.respond_to?('to_s')
-
 		# If slug is not a string raise an exception
+
 		raise StandardError, "Slug is not a string" unless slug.is_a?(String)
 
 		# If the tag is a model then return the string tag

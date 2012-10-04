@@ -18,7 +18,9 @@ Preview::Application.routes.draw do
 	# Metrics Controller
 	resources :metrics
 
-	# Metrics Controller
+	# Analytics Controller
+	match 'analytics/users' => 'analytics#users'
+	match 'analytics/slug/:slug' => 'analytics#slug'
 	resources :analytics
 
 	# Welcome Wizard Controller

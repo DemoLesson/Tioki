@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
 	# Connecting to events
 	has_many :events
 
-	# Connect to analyic events
-	has_many :analyics
+	# Connect to analytic events
+	has_many :analytics
 
 	# Connect to whiteboard events
 	has_many :whiteboards
@@ -392,36 +392,72 @@ class User < ActiveRecord::Base
 		end
 		@applications.map(&:destroy)
 	end
+
+	# Get user percent completion
+	def completion
+
+		# Only update progress if the model is over a day old or empty
+		if self.updated_at < Time.new.yesterday || super.nil? || super == 0
+			percent = 0
+
+			if !self.teacher.nil?
+				percent += 5 if self.teacher.headline.present?
+				percent += 15 if self.connections.count >= 5
+				percent += 5 if self.teacher.has_social?
+				percent += 10 if !self.teacher.educations.empty?
+				percent += 10 if !self.teacher.experiences.empty?
+				percent += 5 if !self.teacher.credentials.empty?
+				percent += 5 if self.avatar?
+				percent += 10 if self.skills.count >= 5
+
+				# Tech tags
+				percent += 10 if true
+
+				percent += 15 if self.vouched_skills.count > 3
+				percent += 10 if self.teacher.videos.count > 0
+			elsif !self.school.nil?
+				percent = 100
+			end
+
+			# Save the user with the updated completion
+			self.update_attribute(:completion, percent)
+		else
+			percent = super
+		end
+
+		return percent
+	end
+
 	protected
 
-	def self.encrypt(pass, salt)
-		Digest::SHA1.hexdigest(pass+salt)
-	end
+		def self.encrypt(pass, salt)
+			Digest::SHA1.hexdigest(pass+salt)
+		end
 
-	def self.random_string(len)
-		#generate a random password consisting of strings and digits
-		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-		newpass = ""
-		1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-		return newpass
-	end
+		def self.random_string(len)
+			#generate a random password consisting of strings and digits
+			chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+			newpass = ""
+			1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+			return newpass
+		end
 
-	def create_invite_code
-		user_invite = nil
-		generated_code = rand(36**7).to_s(36)
-		begin
-			user_invite = User.find(:first, :conditions => ['invite_code = ?', generated_code])
-		end while user_invite != nil
-		self.update_attribute(:invite_code,  generated_code)
-	end
+		def create_invite_code
+			user_invite = nil
+			generated_code = rand(36**7).to_s(36)
+			begin
+				user_invite = User.find(:first, :conditions => ['invite_code = ?', generated_code])
+			end while user_invite != nil
+			self.update_attribute(:invite_code,  generated_code)
+		end
 
-	# Store the currently active user for access
-	def self.current
-		@user
-	end
+		# Store the currently active user for access
+		def self.current
+			@user
+		end
 
-	def self.current=(user)
-		@user = user
-	end
+		def self.current=(user)
+			@user = user
+		end
 end
  

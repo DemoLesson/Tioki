@@ -236,4 +236,15 @@ class Teacher < ActiveRecord::Base
     return "<a href=\"/profile/#{self.url}\" #{attrs}>#{self.user.name}</a>".html_safe
   end
   
+  def has_social?
+    count = 0
+    count += 1 if linkedin.present? && linkedin != 'http://linkedin.com/'
+    count += 1 if edmodo.present?
+    count += 1 if twitter.present?
+    count += 1 if betterlesson.present?
+    count += 1 if teachingchannel.present?
+
+    # Is count creater than zero
+    return count > 0
+  end
 end
