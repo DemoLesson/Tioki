@@ -1,5 +1,10 @@
-2012-10-03 7:46pm - Deploy by KellyLSB
+2012-10-04 2:34pm - Deploy by KellyLSB
 ======================================
+* Now you can edit your avatar right on your profile
+* Added [Iconic Icon Font](http://somerandomdude.com/work/iconic/)
+
+2012-10-04 12:00pm - Deploy by KellyLSB
+=======================================
 * VideoJS Scrubber Fix (Again)
 * Style fix for teacher dashboard caused by VideoJS Scrubber fix.
 * Fix for old Zencoder jobs not returning any data
