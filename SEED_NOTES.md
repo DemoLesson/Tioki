@@ -1,5 +1,11 @@
 2012-10-03 7:46pm - Deploy by KellyLSB
 ======================================
+* VideoJS Scrubber Fix (Again)
+* Style fix for teacher dashboard caused by VideoJS Scrubber fix.
+* Fix for old Zencoder jobs not returning any data
+
+2012-10-03 7:46pm - Deploy by KellyLSB
+======================================
 * Added analytics pages
 
 2012-10-03 5:40pm - Deploy by astanisic
