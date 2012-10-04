@@ -41,7 +41,19 @@
 		</div>
 	</div>
 
-	<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
+			<% if params[:user_connection] %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+			<% elsif params[:invitestring] %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
+			<% elsif params[:vouchstring] %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
+			<% elsif params[:invitecode] %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
+			<% elsif params[:welcomecode] %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+			<% else %>
+				<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
+			<% end %>
 </div>
 
 <script type="text/javascript">
