@@ -1,3 +1,8 @@
+2012-10-04 4:49pm - Deploy by KellyLSB
+======================================
+* Bug fix with profiles breaking
+* Start of analytics sorting
+
 2012-10-04 2:34pm - Deploy by KellyLSB
 ======================================
 * Now you can edit your avatar right on your profile
