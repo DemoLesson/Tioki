@@ -40,9 +40,9 @@
 					<tr>
 						<td><%= link_to technology.name, { :action => "show", :id => technology.id } %></td>
 						<td><%= technology.technology_users.count %></td>
-						<td><%= link_to "Edit", {:action => "edit", :id => technology.id } %></td>
-						<td><%= link_to "Picture", {:action => "change_technology_picture", :id => technology.id } %></td>
-						<td><%= link_to "Skills",  {:action => "edit_technology_tags", :id => technology.id }%></td>
+						<td><%= link_to "Edit", {:action => "edit", :id => technology.id } %> |</td>
+						<td><%= link_to "Picture", {:action => "change_technology_picture", :id => technology.id } %> |</td>
+						<td><%= link_to "Skills",  {:action => "edit_technology_tags", :id => technology.id }%> |</td>
 						<td><%= link_to "Delete", technology, :confirm => "Are you sure?", :method => "delete" %></td>
 					</tr>
 				<% end -%>
