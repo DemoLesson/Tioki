@@ -1,0 +1,16 @@
+<section id="main-content" class="inner-content">
+	<h2>Change Picture for <%= @technology.name %></h2>
+
+	<% if @technology.picture? %><p>Current picture<br /><%= image_tag @technology.picture.url(:medium) %></p><% else %><p>No picture uploaded yet.</p><% end %>
+
+	<%= form_for @technology, :html => { :multipart => true } do |f| %>
+		<div class="field">
+		<%= f.file_field :picture %>
+		<br/><span style= "color:#ff0000; font-size:12px; margin-left: 2px; text-align: center"></span>
+		</div>
+
+		<div class="actions">
+			<%= f.submit "Upload Picture" %>
+		</div>
+	<% end %>
+</section>

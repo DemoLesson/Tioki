@@ -1,6 +1,12 @@
 Preview::Application.routes.draw do
 
-  resources :technologies
+  resources :technologies do
+		member do
+			get 'change_technology_picture'
+			get 'edit_technology_tags'
+		end
+	end
+
 
 	resources :s3_uploads
 

@@ -1,21 +1,21 @@
-<h1>Listing technologies</h1>
+<section id="main-content" class="inner-content">
+	<h1>Technologies</h1>
+	<div id="content">
+		<% @technologies.each do |technology| %>
+			<div class="item_jobs">
+				<div class="item_picture">
+					<% if technology.picture? %><%= link_to image_tag(technology.picture.url(:thumb)), job %><% else %><%= link_to image_tag("no_image.png"), technology %><% end %>
+				</div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Site</th>
-    <th>Twitter</th>
-    <th></th>
-  </tr>
+				<div class ="item_desc">
+					<p>
+					<strong><%= link_to technology.name, technology %></strong><br />
+					<span><% if technology.description.size > 300 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..304]+'...').html_safe %><% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %><% end %></span><br />	
+					<br />
 
-<% @technologies.each do |technology| %>
-  <tr>
-    <td><%= technology.name %></td>
-    <td><%= technology.description %></td>
-    <td><%= technology.site %></td>
-    <td><%= technology.twitter %></td>
-    <td><%= link_to 'Show', technology %></td>
-  </tr>
-<% end %>
-</table>
+					</p>
+				</div>
+
+			</div>
+		<% end %>
+</section>

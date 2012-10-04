@@ -53,7 +53,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.save
-        format.html { redirect_to "/technology_list", notice: 'Technology was successfully created.' }
+        format.html { redirect_to "/technologylist", notice: 'Technology was successfully created.' }
         format.json { render json: @technology, status: :created, location: @technology }
       else
         format.html { render action: "new" }
@@ -69,7 +69,7 @@ class TechnologiesController < ApplicationController
 
     respond_to do |format|
       if @technology.update_attributes(params[:technology])
-        format.html { redirect_to "/technology_list", notice: 'Technology was successfully updated.' }
+        format.html { redirect_to "/technologylist", notice: 'Technology was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -85,24 +85,36 @@ class TechnologiesController < ApplicationController
     @technology.destroy
 
     respond_to do |format|
-      format.html { redirect_to "/technology_list", notice: 'Technology was successfully removed.' }
+      format.html { redirect_to "/technologylist", notice: 'Technology was successfully removed.' }
       format.json { head :ok }
     end
   end
 
   def add_technology
     @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
-    respond_to do |format|
-      format.html { redirect_to technologies_url, notice: 'Technology was successfully added.' }
-    end
+		if @technology_user
+			redirect_to :back, :notice => "You have already adde this technology."
+		else
+			TechnologyUser.create(:user = > self.current_user, :technology_id => params[:id])
+			redirect_to :back, :notice => "Technology was successfully added."
+		end
   end
 
   def remove_technology
     @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technolog_id = ?', self.current_user.id, params[:id]])
+		@technology_user.destroy
     respond_to do |format|
       format.html { redirect_to technologies_url, notice: 'Technology was successfully removed.' }
     end
   end
+
+	def change_technology_picture
+    @technology = Technology.find(params[:id])
+	end
+
+	def edit_technology_tags
+    @technology = Technology.find(params[:id])
+	end
 
   private
   def authenticate
