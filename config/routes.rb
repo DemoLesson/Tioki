@@ -30,6 +30,12 @@ Preview::Application.routes.draw do
 	# Metrics Controller
 	resources :metrics
 
+	# Analytics Controller
+	match 'analytics/users' => 'analytics#users'
+	match 'analytics/user/:id' => 'analytics#user'
+	match 'analytics/slug/:slug' => 'analytics#slug'
+	resources :analytics
+
 	# Welcome Wizard Controller
 	resources :welcome_wizard
 

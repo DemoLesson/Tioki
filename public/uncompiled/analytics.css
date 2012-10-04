@@ -1,0 +1,14 @@
+table {
+	width: 100%;
+}
+
+table th,
+table td {
+	border-bottom: solid 1px #666;
+	border-right: solid 1px #666;
+}
+
+table th:last-child,
+table td:last-child {
+	border-right: none;
+}

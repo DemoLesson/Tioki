@@ -603,6 +603,7 @@ ActiveRecord::Schema.define(:version => 20121004025247) do
     t.integer  "privacy",             :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
+    t.integer  "completion"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

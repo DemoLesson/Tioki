@@ -129,91 +129,93 @@ class MetricsController < ApplicationController
 		dates.join(',')
 	end
 
-	def get_all_analytics(date_start = nil, date_end = nil, unique = false)
+	private
 
-		# Get a list of all the slugs in the DB
-		slugs = Array.new
-		ActiveRecord::Base.connection.execute("SELECT `slug` FROM `analytics` GROUP BY `slug`").each do |x|
-			slugs << x.first
-		end
+		def get_all_analytics(date_start = nil, date_end = nil, unique = false)
 
-		# Loop through the slugs and get the results
-		results = Hash.new
-		slugs.each do |slug|
-			results[slug] = self.get_analytics(slug, nil, date_start, date_end, unique) do |a|
-				a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`, `user_id`')
-				a = a.group('date(`created_at`)')
+			# Get a list of all the slugs in the DB
+			slugs = Array.new
+			ActiveRecord::Base.connection.execute("SELECT `slug` FROM `analytics` GROUP BY `slug`").each do |x|
+				slugs << x.first
 			end
+
+			# Loop through the slugs and get the results
+			results = Hash.new
+			slugs.each do |slug|
+				results[slug] = self.get_analytics(slug, nil, date_start, date_end, unique) do |a|
+					a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`, `user_id`')
+					a = a.group('date(`created_at`)')
+				end
+			end
+
+			# Clean
+			results.clean!
+
+			return results
 		end
 
-		# Clean
-		results.clean!
+		def get_stats
+			# Get the database connection
+			db = ActiveRecord::Base.connection
 
-		return results
-	end
+			stats = Hash.new
+			stats["pending_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '1'").to_a.first.first
+			stats["teacher_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '0'").to_a.first.first
+			stats["registered_users"] = db.execute("SELECT COUNT(*) as 'count' FROM `users`").to_a.first.first
+			stats["users_with_email_subscriptions"] = db.execute("SELECT COUNT(*) as 'count' FROM `users` WHERE `emailsubscription` = '1'").to_a.first.first
+			stats["videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `videos`").to_a.first.first
+			stats["total_vouches"] = db.execute("SELECT COUNT(*) as 'count' FROM `vouches`").to_a.first.first
+			stats["published_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '1'").to_a.first.first
+			stats["pending_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '0'").to_a.first.first
+			stats["active_jobs"] = db.execute("SELECT COUNT(*) as 'count' FROM `jobs` WHERE `active` = '1'").to_a.first.first
+			stats["inactive_jobs"] = db.execute("SELECT COUNT(*) as 'count' FROM `jobs` WHERE `active` = '0'").to_a.first.first
+			stats["viewed_job_applications"] = db.execute("SELECT COUNT(*) as 'count' FROM `applications` WHERE `viewed` = '1'").to_a.first.first
+			stats["unviewed_job_applications"] = db.execute("SELECT COUNT(*) as 'count' FROM `applications` WHERE `viewed` = '0'").to_a.first.first
+			stats["interviews"] = db.execute("SELECT COUNT(*) as 'count' FROM `interviews`").to_a.first.first
+			return stats
+		end
 
-	def get_stats
-		# Get the database connection
-		db = ActiveRecord::Base.connection
+		def _mailgun_stats(event = "all", limit = nil, start = nil)
+			url_params = Multimap.new
 
-		stats = Hash.new
-		stats["pending_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '1'").to_a.first.first
-		stats["teacher_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '0'").to_a.first.first
-		stats["registered_users"] = db.execute("SELECT COUNT(*) as 'count' FROM `users`").to_a.first.first
-		stats["users_with_email_subscriptions"] = db.execute("SELECT COUNT(*) as 'count' FROM `users` WHERE `emailsubscription` = '1'").to_a.first.first
-		stats["videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `videos`").to_a.first.first
-		stats["total_vouches"] = db.execute("SELECT COUNT(*) as 'count' FROM `vouches`").to_a.first.first
-		stats["published_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '1'").to_a.first.first
-		stats["pending_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '0'").to_a.first.first
-		stats["active_jobs"] = db.execute("SELECT COUNT(*) as 'count' FROM `jobs` WHERE `active` = '1'").to_a.first.first
-		stats["inactive_jobs"] = db.execute("SELECT COUNT(*) as 'count' FROM `jobs` WHERE `active` = '0'").to_a.first.first
-		stats["viewed_job_applications"] = db.execute("SELECT COUNT(*) as 'count' FROM `applications` WHERE `viewed` = '1'").to_a.first.first
-		stats["unviewed_job_applications"] = db.execute("SELECT COUNT(*) as 'count' FROM `applications` WHERE `viewed` = '0'").to_a.first.first
-		stats["interviews"] = db.execute("SELECT COUNT(*) as 'count' FROM `interviews`").to_a.first.first
-		return stats
-	end
+			# Get the limit 
+			url_params[:limit] = limit unless limit.nil?
 
-  def _mailgun_stats(event = "all", limit = nil, start = nil)
-    url_params = Multimap.new
+			# Set the start date
+			url_params[:start] = start.utc.strftime("%Y-%m-%d") unless start.nil?
 
-    # Get the limit 
-    url_params[:limit] = limit unless limit.nil?
+			# Get Events
+			if event.respond_to?("each")
+				event.each do |e|
+					url_params[:event] = e
+				end
+			elsif event.is_a?(String) && !event == 'all'
+				url_params[:event] = event
+			end
 
-    # Set the start date
-    url_params[:start] = start.utc.strftime("%Y-%m-%d") unless start.nil?
+			key = "key-8xdgggqce58b-0wjv2d0jf9wvic6qet8"
+			domain = "demolesson.com.mailgun.org"
 
-    # Get Events
-    if event.respond_to?("each")
-      event.each do |e|
-        url_params[:event] = e
-      end
-    elsif event.is_a?(String) && !event == 'all'
-      url_params[:event] = event
-    end
+			# Generate Query String and Call
+			query_string = url_params.collect {|k, v| "#{k.to_s}=#{CGI::escape(v.to_s)}"}.join("&")
+			stats = JSON.parse(RestClient.get "https://api:#{key}@api.mailgun.net/v2/#{domain}/stats?#{query_string}")
 
-    key = "key-8xdgggqce58b-0wjv2d0jf9wvic6qet8"
-    domain = "demolesson.com.mailgun.org"
+			process = Hash.new
+			stats["items"].each do |x|
 
-    # Generate Query String and Call
-    query_string = url_params.collect {|k, v| "#{k.to_s}=#{CGI::escape(v.to_s)}"}.join("&")
-    stats = JSON.parse(RestClient.get "https://api:#{key}@api.mailgun.net/v2/#{domain}/stats?#{query_string}")
+				# Parse the time and get a timestamp as a string
+				time = Time.parse(x["created_at"]).to_i.to_s
 
-    process = Hash.new
-    stats["items"].each do |x|
+				# If the hash key has not already been created go ahead and created it
+				process[x["event"].to_sym] = Hash.new if process[x["event"].to_sym].nil?
 
-    	# Parse the time and get a timestamp as a string
-    	time = Time.parse(x["created_at"]).to_i.to_s
+				# Add the amount for the specified date
+				process[x["event"].to_sym][time] = x["total_count"]
+			end
 
-    	# If the hash key has not already been created go ahead and created it
- 		process[x["event"].to_sym] = Hash.new if process[x["event"].to_sym].nil?
+			# Clean
+			process.clean!
 
- 		# Add the amount for the specified date
-    	process[x["event"].to_sym][time] = x["total_count"]
-    end
-
-    # Clean
-    process.clean!
-    
-    return process
-  end
+			return process
+		end
 end

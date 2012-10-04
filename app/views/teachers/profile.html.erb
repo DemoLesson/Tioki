@@ -34,11 +34,12 @@
 			<!-- Name / Headline -->
 
 			<h3 style="margin: 0px 0px -10px -5px"><%= @teacher.user.name %></h3>
-			<h4 style="font-size: 18px; margin: 0px 0px 0px 10px"><%= @teacher.headline %></h4>
+			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
 
 			<!-- Contact Info -->
 			<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
-				<section class="info" style="margin-left:10px">
+				<section class="info" style="margin-left:10px;margin-right:5px">
+					<p>
 					<% unless @teacher.twitter == nil || @teacher.twitter == 'http://twitter.com/' || @teacher.twitter =='' %>
 						<a href="<%= @teacher.twitter %>" target="_blank">
 							<%= image_tag('tioki/icons/twitter2.png') %>
@@ -64,15 +65,24 @@
 							<%= image_tag('tioki/icons/teachingchannel.png') %>
 						</a>
 					<% end %>
+					</p>
+					
+					<!-- Current Job / Location -->
+					<p>
+					<% if @teacher.position.present? && @teacher.school.present?%>
+						<span class="bold">Currently:</span>
+						<%= @teacher.position %> at <%= @teacher.school %>,
+					<% end %>
+					<%= @teacher.location %>
+					</p>
+					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+						<p>
+						<%= link_to "My Public Profile", "/profile/"+@teacher.url %>
+						</p>
+					<% end %>
 				</section>
 			<% end %>
-			<!-- Current Job
-				<p class="heading" style="margin: 0px 5px 0px 10px">
-				Currently: 
-					<span style="font-size:14px;font-weight:normal">	
-					<%= @teacher.position %> at <%= @teacher.school %> in <%= @teacher.location %>.
-					</span>
-				</p>-->
+	
 	
 				<section style="margin-left:25px">
 					<!-- Connection Options -->
@@ -168,46 +178,46 @@
 		<section class="profile-content">
 		
 			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-				<section class="info panel" style="height:200px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
-				<h2 style="margin: 10px 0px -5px 10px">
+				<section class="info panel" style="height:175px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
+				<h4 style="margin: 10px 0px -5px 10px">
 				Want a Rockstar profile? Complete this checklist.  
-				</h2>	
-				<h3>
-					<span style="float:right;margin-right: 25px">
-						5. Add Connections 
+				</h4>	
+				<h5 style="margin: 10px 0px -5px 80px">
+					<span style="float:right;margin-right: 80px">
+						5. <%= link_to "Add Connections", "/inviteconnections" %>
 							<% if Connection.mine(:pending => false).count > 0 %>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						6. Add Skills Tags
+						6. <%= link_to "Add Skills Tags", "/me/profile/edit/skills" %>
 							<% unless @teacher.user.skill_groups.empty? %>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						7. Upload a Video 
+						7. <%= link_to "Upload a Video", "/me/profile/edit/upload-video" %> 
 							<% unless @video == nil%>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						8. Get 3 Vouches 
+						8. <%= link_to "Get 3 Vouches", "/requestvouch" %>
 							<% if @teacher.user.vouched_skills.count > 2 %>
 							<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %>
 					</span>
-				1. Connect your social networks
+				1. <%= link_to "Connect your social networks", '/me/profile/edit#connect' %>
 					<% if @teacher.twitter.present? || @teacher.linkedin.present? || @teacher.edmodo.present? || @teacher.betterlesson.present? || @teacher.teachingchannel.present? %>
 				 		<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				2. Update Education & Experience 
+				2. <%= link_to "Update Education", "/me/profile/edit/education" %><%= link_to " & Experience", "/me/profile/edit/experience" %> 
 					<% unless @teacher.educations.empty? || @teacher.experiences.empty? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				3. Add your Credentials 
+				3. <%= link_to "Add your Credentials", "/me/profile/edit/credentials" %>
 					<% unless @teacher.credentials.empty? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				4. Upload a Profile Picture 
+				4. <%= link_to "Upload a Profile Picture", "/me/profile/edit/upload-avatar" %>
 					<% if @teacher.user.avatar? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				</h3>	
+				</h5>	
 				</section>
 			<% end %>
 
@@ -410,10 +420,9 @@
 						</p>
 						<p>
 						<%= presentation.description %>
-						</p>
+						</p><br/ >
 					<% end %>
 				</section>
-				<br/ >
 			<% end %>
 			
 			<!-- START Awards & Honors Section-->
@@ -439,10 +448,10 @@
 					</p>
 					<p>
 						<%= award.description %>
-					</p>
+					</p></br>
 					<% end %>
 				</section>
-				</br>	
+					
 			<% end %>
 
 			<!-- START Attachments Section -->
