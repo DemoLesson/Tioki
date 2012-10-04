@@ -164,6 +164,7 @@
 			</ul>
 		</section--> <!-- END MY FAVORITES -->
 		<section class="panel one-column left-side">
+			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
 			<h3>
 				<a href="#">
 				Latest Demo Lessons
@@ -188,11 +189,10 @@
 				<a href="/me/profile/edit/upload-video" class="action-button">
 				Upload Demo Lesson
 				</a>
-				<a href="/me/profile/edit/upload-video" class="icon">
-				</a>
 			</section>
 		</section> <!-- END DEMO LESSONS -->
 		<section class="panel one-column left-side">
+			<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
 			<h3>
 				<a href="#">
 				Upcoming Events
@@ -215,7 +215,7 @@
 								<p>
 								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 								</p>
-								<div class=" quick-action star-gold">
+								<!--div class=" quick-action star-gold"-->
 							</div>
 						</li>
 					<% end %>
@@ -233,7 +233,7 @@
 							<p>
 							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 							</p>
-							<!--div class=" quick-action star-gold"-->
+							<div class=" quick-action star-gold">
 						</div>
 					</li>
 				<% end %>
@@ -242,9 +242,7 @@
 				<a href="/events/new" class="action-button">
 				Create New Event
 				</a>
-				<a href="/events/new" class="icon">
-				</a>
-			</section>
+			</section>		
 		</section> <!-- END UPCOMING EVENTS -->
 		<div class="clearfloat"></div>
 	</section>
