@@ -170,36 +170,36 @@
 				</h4>	
 				<h5 style="margin: 10px 0px -5px 80px">
 					<span style="float:right;margin-right: 80px">
-						5. Add Connections 
+						5. <%= link_to "Add Connections", "/inviteconnections" %>
 							<% if Connection.mine(:pending => false).count > 0 %>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						6. Add Skills Tags
+						6. <%= link_to "Add Skills Tags", "/me/profile/edit/skills" %>
 							<% unless @teacher.user.skill_groups.empty? %>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						7. Upload a Video 
+						7. <%= link_to "Upload a Video", "/me/profile/edit/upload-video" %> 
 							<% unless @video == nil%>
 								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %><br>
-						8. Get 3 Vouches 
+						8. <%= link_to "Get 3 Vouches", "/requestvouch" %>
 							<% if @teacher.user.vouched_skills.count > 2 %>
 							<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 							<% end %>
 					</span>
-				1. Connect your social networks
+				1. <%= link_to "Connect your social networks", '/me/profile/edit#connect' %>
 					<% if @teacher.twitter.present? || @teacher.linkedin.present? || @teacher.edmodo.present? || @teacher.betterlesson.present? || @teacher.teachingchannel.present? %>
 				 		<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				2. Update Education & Experience 
+				2. <%= link_to "Update Education", "/me/profile/edit/education" %><%= link_to " & Experience", "/me/profile/edit/experience" %> 
 					<% unless @teacher.educations.empty? || @teacher.experiences.empty? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				3. Add your Credentials 
+				3. <%= link_to "Add your Credentials", "/me/profile/edit/credentials" %>
 					<% unless @teacher.credentials.empty? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
-				4. Upload a Profile Picture 
+				4. <%= link_to "Upload a Profile Picture", "/me/profile/edit/upload-avatar" %>
 					<% if @teacher.user.avatar? %>
 						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
 					<% end %><br>
@@ -406,10 +406,9 @@
 						</p>
 						<p>
 						<%= presentation.description %>
-						</p>
+						</p><br/ >
 					<% end %>
 				</section>
-				<br/ >
 			<% end %>
 			
 			<!-- START Awards & Honors Section-->
@@ -435,10 +434,10 @@
 					</p>
 					<p>
 						<%= award.description %>
-					</p>
+					</p></br>
 					<% end %>
 				</section>
-				</br>	
+					
 			<% end %>
 
 			<!-- START Attachments Section -->

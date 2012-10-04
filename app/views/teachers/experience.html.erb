@@ -30,7 +30,7 @@
 
 	<div id="attach_new_btn">
 		<input name="attach" type="submit" value="Add a New Position" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
-		<%= link_to 'Edit Profile', '/me/profile/edit' %>
+		<%= link_to 'View Profile', '/me/profile' %>
 	</div>
 
 	<div id="attach_form" style="display: none">
@@ -75,7 +75,7 @@
 			</fieldset>
 			<fieldset>
 				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
-				<%= link_to 'Edit Profile', '/me/profile/edit' %>
+				<%= link_to 'Cancel', "/me/profile" %>
 			</fieldset>
 
 			<div id="loader" style="display: none">
