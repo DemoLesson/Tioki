@@ -75,6 +75,24 @@ class Hash
 			return ret.nil? ? self[name] : ret
 		end
   	end
+
+  	def collect
+  		return self.to_hash unless block_given?
+
+  		replace = Hash.new
+  		self.each do |key, val|
+  			returned = yield(key, val)
+  			replace[key] = returned.nil? ? val : returned
+  		end
+
+  		return replace
+  	end
+
+  	def collect!
+  		return nil unless block_given?
+
+  		self.merge!(self.collect(&Proc.new))
+  	end
 end
 
 class String
@@ -147,6 +165,12 @@ class String
 
 	def numeric?
   		self.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
+	end
+end
+
+class NilClass
+	def empty?
+		true
 	end
 end
 

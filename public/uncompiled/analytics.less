@@ -97,9 +97,18 @@ table {
 	td {
 		border-bottom: solid 1px #666;
 		border-right: solid 1px #666;
+		padding: 5px;
+
+		&.right {
+			text-align: right;
+		}
 
 		&:last-child {
 			border-right: none;	
+		}
+
+		&.nowrap {
+			white-space: nowrap;
 		}
 	}
 }
