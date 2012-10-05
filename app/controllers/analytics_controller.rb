@@ -29,13 +29,18 @@ class AnalyticsController < ApplicationController
 
 			# Complicated Query
 			unless params[:user_type].nil? || params[:user_type].empty?
+				type = params[:user_type]
 
+				joins = Hash.new
+				joins.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
+				joins.merge!("LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`" => "`schools`.`id` IS NOT NULL") if type == 'organization'
+				@users = @users.select('`users`.*').joins(joins.keys.join(' ')).where(joins.values.join(' && '))
 			end
 
 			# Filter by test types
 			unless params[:user_test].nil? || params[:user_test].empty?
-				@users = @users.where('`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
-				@users = @users.where('`ab` IS NULL') if params[:user_test] == 'default'
+				@users = @users.where('`users`.`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
+				@users = @users.where('`users`.`ab` IS NULL') if params[:user_test] == 'default'
 			end
 
 			# Filter by ID Range
@@ -45,7 +50,7 @@ class AnalyticsController < ApplicationController
 				_start, _end = params[:range].split('~')
 
 				# Get results between
-				@users = @users.where('`id` BETWEEN ? AND ?', _start, _end) if _start < _end
+				@users = @users.where('`users`.`id` BETWEEN ? AND ?', _start, _end) if _start < _end
 			end
 
 			unless params[:complete].nil? || params[:complete].empty?
@@ -56,14 +61,14 @@ class AnalyticsController < ApplicationController
 
 					# If there was an operator
 					operator = '=' if operator.empty?
-					@users = @users.where("? #{operator} `completion`", match.to_s)
+					@users = @users.where("? #{operator} `users`.`completion`", match.to_s)
 				elsif !(match = complete.match(/(^[0-9]{1,2})-([0-9]{1,3}$)/)).nil?
 
 					# Split the start and end
 					_start, _end = match.to_a.delete_if{|x| x == complete}
 
 					# Get results between
-					@users = @users.where('`completion` BETWEEN ? AND ?', _start, _end) if _start < _end
+					@users = @users.where('`users`.`completion` BETWEEN ? AND ?', _start, _end) if _start < _end
 				end
 			end
 		end
