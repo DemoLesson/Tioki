@@ -46,7 +46,7 @@
     .connections-page .two-column .search-connections input[type="submit"] {
       height: 32px; }
   .connections-page .two-column .search {
-    background: url("../images/icons/search.png") 0 -4px no-repeat;
+    background: url("/assets/tioki/icons/search.png") 0 -4px no-repeat;
     padding-left: 45px !important; }
   .connections-page .two-column form#newconnections input[type="text"] {
     width: 80%;
@@ -59,12 +59,12 @@
     right: 0;
     text-align: right; }
   .connections-page .connections {
-    background: url("../images/icons/connections.png") right 10px no-repeat !important; }
+    background: url("/assets/tioki/icons/connections.png") right 10px no-repeat !important; }
   .connections-page .sendmessage {
     display: block;
     width: 30px;
     height: 23px;
-    background: url("../images/icons/send-message.png") no-repeat;
+    background: url("/assets/tioki/icons/send-message.png") no-repeat;
     text-indent: -999em;
     cursor: pointer;
     position: absolute;
