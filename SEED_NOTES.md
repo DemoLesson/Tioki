@@ -1,3 +1,7 @@
+2012-10-04 6:29pm - Deploy by KellyLSB
+======================================
+* User filtering on analytics
+
 2012-10-04 4:49pm - Deploy by KellyLSB
 ======================================
 * Bug fix with profiles breaking
