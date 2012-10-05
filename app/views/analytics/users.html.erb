@@ -64,7 +64,7 @@
 		<td class="right"><strong>*</strong></td>
 		<td>N/A</td>
 		<td>N/A</td>
-		<% unless params[:date_start].empty? || params[:date_end].empty? %>
+		<% if @show_raw %>
 			<td><%= @totals[:events_rsvps].count %></td>
 			<td class="nowrap">
 				<strong><%= @totals[:vouched_skills].count %></strong>
@@ -102,7 +102,7 @@
 			<td class="right"><strong><%= user.id %></strong></td>
 			<td><%= link_to user.name, "/analytics/user/#{user.id}" %></td>
 			<td><%= user.email %></td>
-			<% unless params[:date_start].empty? || params[:date_end].empty? %>
+			<% if @show_raw %>
 				<td><%= user.rsvp.count %></td>
 				<td class="nowrap">
 					<strong><%= user.vouched_skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
