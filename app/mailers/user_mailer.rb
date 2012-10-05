@@ -83,7 +83,7 @@ class UserMailer < ActionMailer::Base
 		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('userconnect')
+			mail.delivery_method.tag('userconnect:ab-' + ab)
 		end
 
 		return mail
