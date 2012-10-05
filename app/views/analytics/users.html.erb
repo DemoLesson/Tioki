@@ -2,16 +2,16 @@
 <link rel="stylesheet/less" type="text/css" href="/uncompiled/analytics.less">
 <script type="text/javascript" src="/uncompiled/less-1.3.0.min.js"></script>
 <%= javascript_include_tag "application" %>
-<form>
+<form method="POST">
 	<fieldset>
 		<legend>Logged In Date Range</legend>
 		<label>
 			<span>Date Start</span>
-			<input name="date_start" placeholder="2012-01-01" />
+			<input name="date_start" placeholder="2012-01-01" value="<%= params[:date_start] %>" />
 		</label>
 		<label>
 			<span>Date End</span>
-			<input name="date_end" placeholder="2012-01-01" />
+			<input name="date_end" placeholder="2012-01-01" value="<%= params[:date_end] %>" />
 		</label>
 	</fieldset>
 	<fieldset>
@@ -20,10 +20,10 @@
 			<span>User Type</span>
 			<select name="user_type">
 				<option value="">- ALL -</option>
-				<option value="teacher">Educator (Teacher)</option>
-				<option value="recruiter" disabled>Recruiter</option>
-				<option value="group" disabled>Group Owner</option>
-				<option value="organization">Organization (School)</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'teacher' %> value="teacher">Educator (Teacher)</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'recruiter' %> value="recruiter" disabled>Recruiter</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'group' %> value="group" disabled>Group Owner</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'organization' %> value="organization">Organization (School)</option>
 			</select>
 		</label>
 		<label>
@@ -31,7 +31,7 @@
 			<select name="user_test">
 				<option value="">- ALL -</option>
 				<% AB.getTests.each do |test| %>
-					<option value="<%= test %>"><%= test %></option>
+					<option <%= 'selected="selected"' if params[:user_test] == test %> value="<%= test %>"><%= test %></option>
 				<% end %>
 			</select>
 		</label>
@@ -40,13 +40,14 @@
 		<legend>Narrowing Data</legend>
 		<label>
 			<span>ID Range</span>
-			<input name="range" placeholder="1~100" />
+			<input name="range" placeholder="1~100" value="<%= params[:range] %>" />
 		</label>
 		<label>
 			<span>Percent Complete</span>
-			<input name="complete" placeholder="50 or 50< or 50> or 50-70" />
+			<input name="complete" placeholder="50 or 50< or 50> or 50-70" value="<%= params[:complete] %>" />
 		</label>
 	</fieldset>
+	<input type="submit" value="Filter" />
 </form>
 
 <div class="clear"></div>
@@ -79,7 +80,7 @@
 $(document).ready(function() {
 	$('input[name="date_start"]').datepicker({
 		dateFormat: 'yy-mm-dd',
-		defaultDate: "-12m",
+		defaultDate: "-1m",
 		changeMonth: true,
 		onSelect: function( selectedDate ) {
 			$('input[name="date_end"]').datepicker("option", "minDate", selectedDate);

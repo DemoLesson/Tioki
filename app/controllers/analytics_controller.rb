@@ -20,7 +20,52 @@ class AnalyticsController < ApplicationController
 		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Completion', 'Triggered Analytics']
 		@users = User.order('`last_login` DESC').paginate(:page => params[:page], :per_page => 20)
 
-		@users.each do |user|
+		if request.post?
+
+			# Filter by dates
+			unless params[:date_start].nil? || params[:date_end].nil? || params[:date_start].empty? || params[:date_end].empty?
+				@users = @users.where('date(`last_login`) BETWEEN ? AND ?', params[:date_start], params[:date_end])
+			end
+
+			# Complicated Query
+			unless params[:user_type].nil? || params[:user_type].empty?
+
+			end
+
+			# Filter by test types
+			unless params[:user_test].nil? || params[:user_test].empty?
+				@users = @users.where('`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
+				@users = @users.where('`ab` IS NULL') if params[:user_test] == 'default'
+			end
+
+			# Filter by ID Range
+			unless params[:range].nil? || params[:range].match(/^[0-9]+~[0-9]+$/).nil?
+
+				# Split start and end
+				_start, _end = params[:range].split('~')
+
+				# Get results between
+				@users = @users.where('`id` BETWEEN ? AND ?', _start, _end) if _start < _end
+			end
+
+			unless params[:complete].nil? || params[:complete].empty?
+				complete = params[:complete]
+
+				if !(match = complete.match(/(^[0-9]{1,3}).$/)).nil?
+					operator = complete.gsub(match.to_s, '')
+
+					# If there was an operator
+					operator = '=' if operator.empty?
+					@users = @users.where("? #{operator} `completion`", match.to_s)
+				elsif !(match = complete.match(/(^[0-9]{1,2})-([0-9]{1,3}$)/)).nil?
+
+					# Split the start and end
+					_start, _end = match.to_a.delete_if{|x| x == complete}
+
+					# Get results between
+					@users = @users.where('`completion` BETWEEN ? AND ?', _start, _end) if _start < _end
+				end
+			end
 		end
 
 	end
