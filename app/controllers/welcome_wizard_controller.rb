@@ -106,7 +106,7 @@ class WelcomeWizardController < ApplicationController
 					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
 
 					if @inviter.successful_referrals.size % 5 == 0
-						UserMailer.five_referrals(@invite.user.email).deliver
+						UserMailer.five_referrals(@inviter.email).deliver
 					end
 				elsif params[:welcomecode]
 					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
