@@ -148,7 +148,7 @@ class ApplicationController < ActionController::Base
 		where << "`tag` = '#{tag}'" unless tag.nil? || tag.empty?
 
 		# Add a time constraint
-		where << "`created_at` BETWEEN '#{date_start}' AND '#{date_end}'" unless date_start.nil? || date_end.nil?
+		where << "`created_at` BETWEEN '#{date_start}' AND '#{date_end}'" unless date_start.nil? || date_end.nil? ||date_start.empty? || date_end.empty?
 
 		# Concatinate the SQL Queries
 		where = where.join(' AND ')

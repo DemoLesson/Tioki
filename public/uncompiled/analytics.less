@@ -23,6 +23,38 @@ div.clear {
 	clear: both;
 }
 
+// Menu
+h1.header {
+	font-family: "Helvetica Neue", "Helvetica", Arial, serif;
+	margin-bottom: -10px;
+}
+
+ul.menu {
+	padding: 0px;
+	display: block;
+	list-style: none;
+	background: #888;
+
+	li {
+		display: inline-block;
+		padding: 5px 10px;
+		margin: 0px;
+		
+		a {
+			text-decoration: none;
+			color: #FFF;
+		}
+
+		&:hover {
+			background: #000;
+		}
+
+		&.right {
+			float: right;
+		}
+	}
+}
+
 // Form Display
 form {
 	width: 100%;

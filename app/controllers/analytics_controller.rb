@@ -17,7 +17,7 @@ class AnalyticsController < ApplicationController
 	end
 
 	def users
-		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Completion', 'Triggered Analytics']
+		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Connections', 'Completion', 'Triggered Analytics']
 		@users = User.order('`last_login` DESC').paginate(:page => params[:page], :per_page => 20)
 
 		if request.post?
@@ -56,7 +56,10 @@ class AnalyticsController < ApplicationController
 			unless params[:complete].nil? || params[:complete].empty?
 				complete = params[:complete]
 
-				if !(match = complete.match(/(^[0-9]{1,3}).$/)).nil?
+				if !complete.match(/(^[0-9]{1,3}).$/).nil?
+
+					# Get regex data
+					match = complete.match(/(^[0-9]{1,3})/)
 					operator = complete.gsub(match.to_s, '')
 
 					# If there was an operator
@@ -100,6 +103,15 @@ class AnalyticsController < ApplicationController
 		@user = User.find(params[:id])
 
 		@slug = self.get_analytics(nil, nil, params[:date_start], params[:date_end]) do |s|
+
+			# Filter by dates
+			unless params[:date_start].nil? || params[:date_end].nil? || params[:date_start].empty? || params[:date_end].empty?
+				s = s.where('date(`created_at`) BETWEEN ? AND ?', params[:date_start], params[:date_end])
+			end
+
+			unless params[:slug_name].nil? || params[:slug_name].empty?
+				s = s.where('`slug` = ?', params[:slug_name])
+			end
 
 			# Get slugs only for this user
 			s = s.where('`user_id` = ?', params[:id])
