@@ -1,3 +1,7 @@
+2012-10-05 11:53am - Deploy by KellyLSB
+=======================================
+* Analytics is coming further together needs testing with real data though.
+
 2012-10-04 6:29pm - Deploy by KellyLSB
 ======================================
 * User filtering on analytics
