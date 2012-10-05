@@ -146,6 +146,15 @@ class TechnologiesController < ApplicationController
 		render :json => @skills
 	end
 
+	def techsuggestion
+		@technology_suggestion = TechnologySuggestion.new
+	end
+
+	def sendtechsuggestion
+		TechnologySuggestion.create(params[:technology_suggestion])
+		redirect_to :back, :notie => "Thank you for your suggestion."
+	end
+
   private
   def authenticate
     return true if !self.current_user.nil? && self.current_user.is_admin
