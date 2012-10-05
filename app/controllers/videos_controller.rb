@@ -67,10 +67,6 @@ class VideosController < ApplicationController
 
 			if @video.save
 
-				# Blank out the (deprecated) embed URLs
-				@teacher.update_attribute(:video_embed_url, nil)
-				@teacher.update_attribute(:video_embed_html, nil)
-
 				# Encode the video
 				@video.encode
 
