@@ -596,6 +596,7 @@ begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
 rescue StopDeploy
+	exit
 rescue => e
 
 	# If debug raise the exception
