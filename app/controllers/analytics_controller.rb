@@ -71,9 +71,6 @@ class AnalyticsController < ApplicationController
 					if !joined_tables[key].include?('teachers') && key == :videos
 						joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
 						joined_tables[key] = 'teachers'
-					elsif type == 'educator' && !joined_tables[key].include?('teachers')
-						joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
-						joined_tables[key] = 'teachers'
 					end
 
 					if !joined_tables[key].include?('users') && key == :videos
@@ -82,6 +79,11 @@ class AnalyticsController < ApplicationController
 					elsif !joined_tables[key].include?('users') && key != :users
 						joins << "LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`"
 						joined_tables[key] = 'users'
+					end
+
+					if type == 'educator' && !joined_tables[key].include?('teachers')
+						joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
+						joined_tables[key] = 'teachers'
 					end
 
 					if type == 'organization' && !joined_tables[key].include?('schools')
