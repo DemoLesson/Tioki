@@ -137,6 +137,10 @@ def prependToSeedNote(message = nil)
 	return true
 end
 
+# Stop Deploy Exception
+class StopDeploy < StandardError
+end
+
 class DeployCLI
 
 	def update(type = "staging")
@@ -212,6 +216,8 @@ class DeployCLI
 
 				# Stop the deploy
 				unless confirm "Continue with deploy? If you attempt to stop if after this point bad things might happen."
+					echo "Resetting the seed note."
+					system('git reset --hard HEAD')
 					raise StandardError, "Stop the deploy"
 				end
 
@@ -589,6 +595,7 @@ end
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
+rescue => StopDeploy
 rescue => e
 
 	# If debug raise the exception
