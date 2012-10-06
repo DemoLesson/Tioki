@@ -55,6 +55,41 @@ ul.menu {
 	}
 }
 
+ul.info-boxes {
+	padding: 0px;
+	display: block;
+	list-style: none;
+
+	li {
+		border: groove 2px #AAA;
+		display: inline-block;
+		padding: 5px 10px;
+		margin: 0px;
+
+		legend {
+			position: relative;
+			background: #FFF;
+			line-height: 5px;
+			top: -8px;
+		}
+
+		div.bar {
+			width: 100%;
+			display: block;
+			min-width: 0.1em;
+			background: #AAA;
+		}
+
+		&:hover {
+			border-color: #666;
+		}
+
+		&.right {
+			float: right;
+		}
+	}
+}
+
 // Form Display
 form {
 	width: 100%;

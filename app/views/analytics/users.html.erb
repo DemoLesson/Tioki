@@ -62,7 +62,7 @@
 	</tr>
 	<tr>
 		<td class="right"><strong>*</strong></td>
-		<td>N/A</td>
+		<td>All</td>
 		<td>N/A</td>
 		<% if @show_raw %>
 			<td><%= @totals[:events_rsvps].count %></td>
@@ -89,7 +89,7 @@
 			<td><%= @totals[:videos].count %></td>
 			<td><%= @totals[:connections].count %></td>
 		<% end %>
-		<td><%= @totals[:completion].first._completion %>%</td>
+		<td><%= @totals[:completion].first._completion %>% - AVG</td>
 		<td>N/A</td>
 	</tr>
 	<tr>

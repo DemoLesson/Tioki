@@ -26,7 +26,7 @@ class AnalyticsController < ApplicationController
 		@totals[:skill_claims] = SkillClaim.where("'1' = '1'")
 		@totals[:videos] = Video.where("'1' = '1'")
 		@totals[:connections] = Connection.where("`connections`.`pending` = ?", false)
-		@totals[:completion] = User.select('AVG(`users`.`completion`) as `_completion`')
+		@totals[:completion] = User.select('CEIL(AVG(`users`.`completion`)) as `_completion`')
 		@rawtotals = @totals.clone
 		@show_raw = false
 

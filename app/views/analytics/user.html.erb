@@ -48,7 +48,33 @@
 
 <div class="clear"></div>
 
-<h1><%= @user.name %> &mdash; Slugs</h1>
+<h1><%= @user.name %> &mdash; (<%= @user.email %>)</h1>
+<ul class="info-boxes">
+	<li>
+		<legend>RSVPs</legend>
+		<%= @user.rsvp.count %>
+	</li>
+	<li>
+		<legend>Vouched Skills</legend>
+		<%= @user.vouched_skills.count %>
+	</li>
+	<li>
+		<legend>Skills</legend>
+		<%= @user.skills.count %>
+	</li>
+	<li>
+		<legend>Videos</legend>
+		<%= @user.teacher.videos.count rescue 0 %>
+	</li>
+	<li>
+		<legend>Connections</legend>
+		<%= @user.connections.count %>
+	</li>
+	<li>
+		<legend>Completion - <%= @user.completion %>%</legend>
+		<div class="bar" style="width:<%= @user.completion %>%;">&nbsp;</div>
+	</li>
+</ul>
 <table>
 	<tr>
 		<% @fields.each do |field| %>
