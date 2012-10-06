@@ -1,3 +1,11 @@
+v1.1.22 - Oct 10, 2012  1:58PM deployed by Kelly Becker
+=======================================================
+* 781e041: Kelly Becker - updated deploy script
+* 38cf0b5: Kelly Becker - rearranged joins
+* 0be5578: Kelly Becker - total results on analytics
+* 5d9d912: Kelly Becker - added progress bars and data to the page
+* b5c6226: Elijah Green - Fix up some problems with referrals
+* 1afab8f: Kelly Becker - cleaned up how joins were processed;
 2012-10-05 11:53am - Deploy by KellyLSB
 =======================================
 * Global averages :D
