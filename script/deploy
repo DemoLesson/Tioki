@@ -218,7 +218,7 @@ class DeployCLI
 				unless confirm "Continue with deploy? If you attempt to stop if after this point bad things might happen."
 					echo "Resetting the seed note."
 					system('git reset --hard HEAD')
-					raise StandardError, "Stop the deploy"
+					raise StopDeploy, "Stop the deploy"
 				end
 
 				# Commit seednote
@@ -596,7 +596,6 @@ begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
 rescue StopDeploy => e
-	echo e.message
 	# -
 rescue => e
 
