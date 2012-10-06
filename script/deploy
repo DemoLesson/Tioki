@@ -114,7 +114,7 @@ def seedNoteMessage(version = nil)
 	output << String.new.ljust(headline.length, "=")
 	output << message[:commits]
 
-	return output.join("\n") + "\n"
+	return output.join("\n") + "\n\n"
 end
 
 def prependToSeedNote(message = nil)
