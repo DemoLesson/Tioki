@@ -98,6 +98,49 @@ def versionBump(type = 'revision', save = false)
 	return version
 end
 
+# Generate Seednote Message
+def seedNoteMessage(version = nil)
+	message = Hash.new
+	message[:author] = `git config user.name`.strip
+	message[:lastBump] = `git log --pretty=format:"%h" -1 -- .version`.strip
+	message[:commits] = `git log --pretty=format:"* %h: %an - %s" --no-merges "#{message[:lastBump]}"..HEAD`.strip
+	
+	headline = version.nil? ? "" : "v#{version} - "
+	headline << Time.now.strftime("%b %-m, %Y %l:%M%p ")
+	headline << "deployed by " + message[:author]
+
+	output = Array.new
+	output << headline
+	output << String.new.ljust(headline.length, "=")
+	output << message[:commits]
+
+	return output.join("\n") + "\n\n"
+end
+
+def prependToSeedNote(message = nil)
+	return if message.nil?
+
+	# Files
+	original_file = './SEED_NOTES.md'
+	new_file = original_file + '.tmp'
+
+	# Create new file
+	File.open(new_file, 'w') do |f|
+	  f.puts message
+	  File.foreach(original_file){|l| f.puts l}
+	end
+
+	# Delete and Rename
+	File.delete(original_file)
+	File.rename(new_file, original_file)
+
+	return true
+end
+
+# Stop Deploy Exception
+class StopDeploy < StandardError
+end
+
 class DeployCLI
 
 	def update(type = "staging")
@@ -131,47 +174,9 @@ class DeployCLI
 			system("git push #{remote} #{branch}")
 		end
 
-		# Seed note editor
-		if confirm "Would you like to add to the SEED_NOTES.txt file?"
-			editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
-
-			if editor.nil? || editor.empty?
-				editor = input "What editor should I use? (ex. vi, nano, mate, subl)"
-				
-				# If Sublime or Texmate add waits
-				case editor
-				when 'subl', 'sublime', 'sublimetext', 'sublimetext2'
-					editor = 'subl -n -w'
-				when 'mate', 'textmate', 'text mate' 'textmate2'
-					editor = 'mate -w'
-				end
-			else
-				echo "Opening the default system editor...\n"
-			end
-
-			# Open editor
-			echo "Waiting for editing to complete...\n", 'red'
-			system(editor + " ./SEED_NOTES.md")
-
-			# Commit seednote
-			echo "Commiting updated seednote"
-			system('git add ./SEED_NOTES.md')
-			system('git commit -m "Updated Seednote"')
-
-			# Ask if the seednote should be pushed to the remote git repository
-			if confirm "Would you like to push your seednote change to GitHub?"
-
-				# Push the updated seed note to the currently tracked branch
-				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
-				system("git push #{remote} #{branch}")
-
-				# Done pushing
-				echo "Done pushing seednote..."
-			end
-		end
-
 		# If we are in develop ask if we would like to merge to master
-		if commited && branch == 'develop' && confirm("Would you like to merge all new changes into master?")
+		if commited && branch == 'develop' && confirm("Would you like to tag and release?")
+
 			# Determine the release type
 			type = input("Is this a 'revision', 'minor', or 'major' release. [revision]", 'red', 'revision')
 
@@ -181,6 +186,53 @@ class DeployCLI
 			end
 
 			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok? If not we will deploy without a tag.")
+
+				# Add data to Seednote
+				echo "Generating default seednote..."
+				prependToSeedNote(seedNoteMessage(tag))
+
+				# Seed note edit?
+				if confirm "\nWould you like to add to the SEED_NOTES.md file?"
+					editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
+
+					if editor.nil? || editor.empty?
+						editor = input "What editor should I use? (ex. vi, nano, mate, subl)"
+						
+						# If Sublime or Texmate add waits
+						case editor
+						when 'subl', 'sublime', 'sublimetext', 'sublimetext2'
+							editor = 'subl -n -w'
+						when 'mate', 'textmate', 'text mate' 'textmate2'
+							editor = 'mate -w'
+						end
+					else
+						echo "Opening the default system editor...\n"
+					end
+
+					# Open editor
+					echo "Waiting for editing to complete...\n", 'red'
+					system(editor + " ./SEED_NOTES.md")
+				end
+
+				# Stop the deploy
+				unless confirm "Continue with deploy? If you attempt to stop if after this point bad things might happen."
+					echo "Resetting the seed note."
+					system('git reset --hard HEAD')
+					raise StopDeploy, "Stop the deploy"
+				end
+
+				# Commit seednote
+				echo "Commiting updated seednote..."
+				system('git add ./SEED_NOTES.md')
+				system('git commit -m "Updated Seednote"')
+
+				# Push the updated seed note to the currently tracked branch
+				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
+				system("git push #{remote} #{branch}")
+
+				# Done pushing
+				echo "Done pushing seednote..."
+
 				# Bump the verion
 				versionBump(type, true)
 
@@ -543,6 +595,8 @@ end
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
+rescue StopDeploy => e
+	# -
 rescue => e
 
 	# If debug raise the exception

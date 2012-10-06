@@ -344,7 +344,7 @@ class User < ActiveRecord::Base
 	end
 
 	def successful_referrals
-		ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.id, "2012-09-20")
+		ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL and donors_choose = true', self.id, "2012-09-20")
 	end
 	
 	def change_password(params)
