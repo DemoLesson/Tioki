@@ -1,7 +1,4 @@
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet/less" type="text/css" href="/uncompiled/analytics.less">
-<script type="text/javascript" src="/uncompiled/less-1.3.0.min.js"></script>
-<%= javascript_include_tag "application" %>
+<h2 class="count"><%= @users.total_entries %> Results</h2>
 <%= render 'header' %>
 
 <form method="POST">
