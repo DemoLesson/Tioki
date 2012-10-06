@@ -1,3 +1,16 @@
+v1.1.23 - Oct 10, 2012  2:14PM deployed by Kelly Becker
+=======================================================
+* 01fe959: Kelly Becker - update deploy script
+* 7906b7f: Kelly Becker - update deploy script
+* f7ca729: Kelly Becker - update deploy script
+* 8ab17e1: Kelly Becker - update deploy script
+* fd61b8c: Kelly Becker - update deploy script
+* 7a10d55: Kelly Becker - update deploy script
+* 1053efd: Kelly Becker - update deploy script
+* 0eb932c: Kelly Becker - update deploy script
+
+Sorry about the mess have been working on the deploy script a lot
+
 v1.1.22 - Oct 10, 2012  1:58PM deployed by Kelly Becker
 =======================================================
 * 781e041: Kelly Becker - updated deploy script
