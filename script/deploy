@@ -210,6 +210,11 @@ class DeployCLI
 					system(editor + " ./SEED_NOTES.md")
 				end
 
+				# Stop the deploy
+				unless confirm "Continue with deploy? If you attempt to stop if after this point bad things might happen."
+					raise StandardError, "Stop the deploy"
+				end
+
 				# Commit seednote
 				echo "Commiting updated seednote..."
 				system('git add ./SEED_NOTES.md')
