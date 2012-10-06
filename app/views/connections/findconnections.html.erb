@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='UTF-8' />
+	
+	<title>Tioki &mdash; Be Seen. Be Heard. Be Connected.</title>
+	
+	<link rel='stylesheet' href='css/style.css' />
+	<link rel='stylesheet' href='css/main.css' />
+	<link rel='stylesheet' href='css/connections.css' />
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script src="js/foundation.js"></script>
+	<script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+	<script>
+	jQuery(document).ready(function(){
+	$('.accordion .head').click(function() {
+		$(this).toggleClass('closed-arrow open-arrow');
+		$(this).next().toggle('slow');
+		return false;
+	}).next().hide();
+});
+	</script>
+		
+</head>
+
+<body>
+		
+<div id="page-wrapper" class="logged-in">
+
+	<section class="login-header wrapper">
+		<header class="inner-content">
+			<a href="index.html">
+				<div class="logo">
+				Tioki
+				</div>
+			</a>
+			<div id="user-actions">
+				<ul>
+					<li class="user-name">
+						<a href="profile.html">
+						Aleksandar Stanisic
+						<div class="gear">
+						</div>
+						</a>
+						
+						<ul>
+							<li>
+								<a href="edit_profile.html">
+								Edit Profile
+								</a>
+							</li>
+							<li>
+								<a href="account_settings.html">
+								Account Settings
+								</a> 
+							</li>
+							<li>
+								<a href="index.html">
+								Logout
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+	</section>
+	<nav class="wrapper top-nav">
+		<ul class="inner-content">
+			<li class="current">
+				<a href="dashboard.html">
+				Home
+				</a>
+			</li>
+			<li>
+				<a href="profile.html">
+				Profile
+				</a>
+			</li>
+			<li>
+				<a href="connections.html">
+				Connections
+				</a>
+			</li>
+			<li>
+				<a href="events.html">
+				Events
+				</a>
+			</li>
+			<li>
+				<a href="jobs.html">
+				Jobs
+				</a>
+			</li>
+			<li>
+				<a href="inbox.html">
+				Inbox
+				</a>
+			</li>
+		</ul>
+	</nav>
+	<section id="main-content" class="inner-content connections-page">
+		<section>
+			<nav class="subpage">
+				<ul>
+					<li>
+						<a href="myconnections.html">
+						My Connections
+						</a>
+					</li>
+					<li class="current">
+						Find New Connections
+					</li>
+					<li>
+						<a href="http://tioki.com/inviteconnections.html">
+						Invite Connections
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</section>
+		<section id="panels" class="group">
+			<section class="panel one-column left-side">
+				<h3>
+					Find New Connections
+				</h3>
+				<div class="accordion filterconnections">
+					<p class="bold caps head closed-arrow">
+						<a href="#">
+						School
+						</a>
+					</p>
+					<div>
+						<ul>
+							<li>
+							<div class="check">
+								<input type="checkbox" id="checkone" value="None" >
+								<label for="checkone"></label>
+							</div>
+							Hearst Elementary (2)
+							</li>
+							<li>
+							<input type="checkbox" >
+							Patrick Henry High (1)
+							</li>
+							<li>
+							<input type="checkbox" >
+							Montgomery Middle School (10)
+							</li>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+						<a href="#">
+						Subject
+						</a>
+					</p>
+					<div>
+						<ul>
+							<li>
+							<input type="checkbox" >
+							Humanities (4)
+							</li>
+							<li>
+							<input type="checkbox" >
+							Science (6)
+							</li>
+							<li>
+							<input type="checkbox" >
+							Math (5)
+							</li>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+						<a href="#">
+						Location
+						</a>
+					</p>
+					<div>
+						<ul>
+							<li><input type="checkbox" >
+							Berkeley
+							</li>
+							<li>
+							<input type="checkbox" >
+							Los Angeles
+							</li>
+							<li>
+							<input type="checkbox" >
+							Oakland
+							</li>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+						<a href="#">
+						Language
+						</a>
+					</p>
+					<div>
+						<ul>
+							<li>
+							<input type="checkbox" >
+							English (13)
+							</li>
+							<li>
+							<input type="checkbox" >
+							Spanish (6)
+							</li>
+							<li>
+							<input type="checkbox" >
+							French (1)
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section> <!-- END FIND NEW CONNECTIONS -->
+			<section class="panel two-column right-side">
+				<div class="search-connections">	
+					<form id="newconnections">
+						<fieldset>
+							<input type="text" class="search" placeholder="Search New Connections" />
+							<input type="submit" value="GO" class="button" />
+						</fieldset>
+						
+					</form>
+				</div>
+				<ul>
+					<li>
+						<div class="profile-thumb-big">
+						</div>
+						<p>
+						<a href="profile.html">Aleksandar Stanisic</a><br />
+						Lead Engineer at Tioki<br />
+						Oakland, CA
+						</p>
+						<div>
+							<a href="connections.html" class="count connections">
+							82
+							</a>
+							<a href="#" class="addconnection">
+							Add
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="profile-thumb-big">
+						</div>
+						<p>
+						<a href="profile.html">Craig Newlands</a><br />
+						Physics Professor at UC Berkeley<br />
+						Berkeley, CA
+						</p>
+						<div>
+							<a href="connections.html" class="count connections">
+							32
+							</a>
+							<a href="#" class="addconnection">
+							Add
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="profile-thumb-big">
+						</div>
+						<p>
+						<a href="profile.html">Homer Simpson</a><br />
+						Art Teacher<br />
+						Springfield, USA
+						</p>
+						<div>
+							<a href="connections.html" class="count connections">
+							61
+							</a>
+							<a href="#" class="addconnection">
+							Add
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="profile-thumb-big">
+						</div>
+						<p>
+						<a href="profile.html">Johnny Depp</a><br />
+						3rd Grade Math at Hearst Elementary<br />
+						Oakland, CA
+						</p>
+						<div>
+							<a href="connections.html" class="count connections">
+							99
+							</a>
+							<a href="#" class="addconnection">
+							Add
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="profile-thumb-big">
+						</div>
+						<p>
+						<a href="profile.html">Paris Hilton</a><br />
+						Educator<br />
+						Oakland, CA
+						</p>
+						<div>
+							<a href="connections.html" class="count connections">
+							3456
+							</a>
+							<a href="#" class="addconnection">
+							Add
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="#" class="viewmore">
+						View More
+						</a>
+					</li>
+				</ul>
+			</section> <!-- END MY CONNECTIONS -->
+			
+		</section>
+
+	</section> <!-- End Main Content -->
+
+	<section class="footer-wrapper wrapper">
+		<footer class="inner-content">
+			<nav class="footer-nav group">
+				<section class="footer-section">
+					<p class="bold">
+					About Tioki
+					</p>
+					<ul>
+						<li>
+							<a href="static/whatistioki.html">
+							What is Tioki?
+							</a>
+						</li>
+						<li>
+							<a href="static/howitworks.html">
+							How It Works
+							</a>
+						</li>
+						<li>
+							<a href="static/ourcustomers.html">
+							Our Customers
+							</a>
+						</li>
+						<li>
+							<a href="static/press.html">
+							Press
+							</a>
+						</li>
+						<li>
+							<a href="static/ourteam.html">
+							Our Team
+							</a>
+						</li>
+					</ul>
+				</section>
+				<section class="footer-section">
+					<p class="bold">
+					Teacher Resources
+					</p>
+					<ul>
+						<li>
+							<a href="static/resources/teacherresourcehub.html">
+							Teacher Resource Hub
+							</a>
+						</li>
+						<li>
+							<a href="static/resources/videosupport.html">
+							Video Support
+							</a>
+						</li>
+						<li>
+							<a href="static/resources/faq.html">
+							FAQ
+							</a>
+						</li>
+					</ul>
+				</section>
+				<section class="footer-section">
+					<p class="bold">
+					Help &amp; Support
+					</p>
+					<ul>
+						<li>
+							<a href="static/resources/contactandsupport.html">
+							Contact and Support
+							</a>
+						</li>
+						<li>
+							<a href="static/resources/terms.html">
+							Terms of Service
+							</a>
+						</li>
+						<li>
+							<a href="static/resources/privacy.html">
+							Privacy
+							</a>
+						</li>
+					</ul>
+				</section>
+				<section class="footer-section">
+					<p class="bold">
+					Connect With Us
+					</p>
+					<ul class="social-icons">
+						<li>
+							<a href="http://twitter.com/demolesson" target="_blank" class="twitter-icon">
+							Twitter
+							</a>
+						</li>
+						<li>
+							<a href="http://www.facebook.com/demolesson" target="_blank" class="facebook-icon">
+							Facebook
+							</a>
+						</li>
+						<li>
+							<a href="http://blog.demolesson.com/" target="_blank" class="blog-icon">
+							Blog
+							</a>
+						</li>
+					</ul>
+				</section>
+				<section class="footer-section last-footer-section">
+					<a href="tellafriend.html" class="button refer-button">
+					Tell a Friend
+					</a>
+				</section>
+			</nav>
+			<section class="copyright">
+				&copy; 2012 Tioki Inc. All Rights Reserved.
+			</section>
+		</footer>
+	</section> <!-- End Footer Wrapper -->
+</div> <!-- End Page Wrapper -->
+</body>
+
+</html>
