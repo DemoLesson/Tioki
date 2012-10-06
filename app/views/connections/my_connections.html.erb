@@ -43,82 +43,32 @@
 						</a>
 					</div>
 				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					<a href="profile.html">Christopher Staton</a><br />
-					Designer at Modern Nomads<br />
-					Berkeley, CA
-					</p>
-					<div class="accept">
-						<a href="#">
-						Accept
-						</a>
-					</div>
-					<div class="ignore">
-						<a href="#">
-						Ignore
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					<a href="profile.html">Christopher Staton</a><br />
-					Designer at Modern Nomads<br />
-					Berkeley, CA
-					</p>
-					<div class="accept">
-						<a href="#">
-						Accept
-						</a>
-					</div>
-					<div class="ignore">
-						<a href="#">
-						Ignore
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					<a href="profile.html">Christopher Staton</a><br />
-					Designer at Modern Nomads<br />
-					Berkeley, CA
-					</p>
-					<div class="accept">
-						<a href="#">
-						Accept
-						</a>
-					</div>
-					<div class="ignore">
-						<a href="#">
-						Ignore
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					<a href="profile.html">Christopher Staton</a><br />
-					Designer at Modern Nomads<br />
-					Berkeley, CA
-					</p>
-					<div class="accept">
-						<a href="#">
-						Accept
-						</a>
-					</div>
-					<div class="ignore">
-						<a href="#">
-						Ignore
-						</a>
-					</div>
-				</li>
+				<% @my_pending_connections.each do |connection| %>
+					<li>
+						<div class="profile-thumb-small">
+							<% if connection.not_me.avatar? %>
+								<%= link_to image_tag(connection.not_me.avatar.url(:tiny)), "profile/#{connection.not_me.teacher.url}" %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "profile/#{connection.not_me.teacher.url}" %>
+							<% end %>
+						</div>
+						<p>
+						<a href="profile.html">connection.name</a><br />
+						Designer at Modern Nomads<br />
+						Berkeley, CA
+						</p>
+						<div class="accept">
+							<a href="#">
+							Accept
+							</a>
+						</div>
+						<div class="ignore">
+							<a href="#">
+							Ignore
+							</a>
+						</div>
+					</li>
+				<% end %>
 			</ul>
 		</section> <!-- END PENDING CONNECTIONS -->
 		<section id="list" class="panel two-column right-side">
@@ -135,99 +85,36 @@
 							<option>School</option>
 							<option>Subject</option>
 							<option>Location</option>
-							<option>Language</option>
 						</select>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
-					
 				</form>
 			</div>
 			<ul>
-				<li>
-					<div class="profile-thumb-big">
-					</div>
-					<p>
-					<a href="profile.html">Aleksandar Stanisic</a><br />
-					Lead Engineer at Tioki<br />
-					Oakland, CA
-					</p>
-					<div>
-						<a href="connections.html" class="count connections">
-						82
-						</a>
-						<a href="sendmessage.html" class="sendmessage">
-						Send Message
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-big">
-					</div>
-					<p>
-					<a href="profile.html">Craig Newlands</a><br />
-					Physics Professor at UC Berkeley<br />
-					Berkeley, CA
-					</p>
-					<div>
-						<a href="connections.html" class="count connections">
-						32
-						</a>
-						<a href="sendmessage.html" class="sendmessage">
-						Send Message
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-big">
-					</div>
-					<p>
-					<a href="profile.html">Homer Simpson</a><br />
-					Art Teacher<br />
-					Springfield, USA
-					</p>
-					<div>
-						<a href="connections.html" class="count connections">
-						61
-						</a>
-						<a href="sendmessage.html" class="sendmessage">
-						Send Message
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-big">
-					</div>
-					<p>
-					<a href="profile.html">Johnny Depp</a><br />
-					3rd Grade Math at Hearst Elementary<br />
-					Oakland, CA
-					</p>
-					<div>
-						<a href="connections.html" class="count connections">
-						99
-						</a>
-						<a href="sendmessage.html" class="sendmessage">
-						Send Message
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-big">
-					</div>
-					<p>
-					<a href="profile.html">Paris Hilton</a><br />
-					Educator<br />
-					Oakland, CA
-					</p>
-					<div>
-						<a href="connections.html" class="count connections">
-						3456
-						</a>
-						<a href="sendmessage.html" class="sendmessage">
-						Send Message
-						</a>
-					</div>
-				</li>
+				<% @connections.each do |connection| %>
+					<li>
+						<div class="profile-thumb-big">
+							<% if connection.not_me.avatar? %>
+								<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), "profile/#{connection.not_me.teacher.url}" %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{connection.not_me.teacher.url}" %>
+							<% end %>
+						</div>
+						<p>
+						<a href="/profile/<%=connection.not_me.teacher.url %>"><%= connection.not_me.name %></a><br />
+						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %><br />
+						<%= connection.not_me.teacher.location %>
+						</p>
+						<div>
+							<a href="/userconnection/<%= connection.not_me.id %>" class="count connections">
+								<%= connection.not_me.connections.not_pending.count.to_s %>
+							</a>
+							<a href="/messages/new?user_id_to=<%= connection.not_me.id %>" class="sendmessage">
+							Send Message
+							</a>
+						</div>
+					</li>
+				<% end %>
 				<li>
 					<a href="#" class="viewmore">
 					View More

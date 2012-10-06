@@ -134,14 +134,6 @@ class ConnectionsController < ApplicationController
 
 		# Get all not pending connections
 		@connections = Connection.mine(:pending => false)
-	end
-
-	def pending_connections
-
-		# User ID
-		a = self.current_user.id
-
-		# Get all pending connections
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
 
