@@ -258,6 +258,9 @@ class ConnectionsController < ApplicationController
 		end
 	end
 
+	def show
+	end
+
 	# DELETE /connections/1
 	# DELETE /connections/1.json
 	def destroy

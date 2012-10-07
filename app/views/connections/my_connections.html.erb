@@ -11,7 +11,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="http://tioki.com/inviteconnections.html">
+					<a href="/inviteconnections">
 					Invite Connections
 					</a>
 				</li>
@@ -21,28 +21,9 @@
 	<section id="panels" class="group">
 		<section id="list" class="panel one-column left-side">
 			<h3>
-				Pending Connections [4]
+				Pending Connections [<%= @my_pending_connections.count %>]
 			</h3>
 			<ul>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					<a href="profile.html">Christopher Staton</a><br />
-					Designer at Modern Nomads<br />
-					Berkeley, CA
-					</p>
-					<div class="accept">
-						<a href="#">
-						Accept
-						</a>
-					</div>
-					<div class="ignore">
-						<a href="#">
-						Ignore
-						</a>
-					</div>
-				</li>
 				<% @my_pending_connections.each do |connection| %>
 					<li>
 						<div class="profile-thumb-small">
@@ -53,19 +34,17 @@
 							<% end %>
 						</div>
 						<p>
-						<a href="profile.html"><%= connection.name %></a><br />
-						<%= connection.teacher.position %> at <%= connection.teacher.school %><br />
-						<%= connection.teacher.location %>
+						<%= link_to connection.not_me.name, "profile/#{connection.not_me.teacher.url}" %></a><br />
+						<%= connection.not_me.teacher.position %> 
+						<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.position.present? %>at<% end %> 
+						<%= connection.not_me.teacher.school %><br />
+						<%= connection.not_me.teacher.location %>
 						</p>
 						<div class="accept">
-							<a href="#">
-							Accept
-							</a>
+							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connections.owner.id } %>
 						</div>
 						<div class="ignore">
-							<a href="#">
-							Ignore
-							</a>
+							<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_connection', :user_id => connections.owner.id } %>
 						</div>
 					</li>
 				<% end %>
@@ -78,13 +57,14 @@
 			<div class="search-connections">	
 				<form>
 					<fieldset>
-						<input type="text" class="search" placeholder="Search My Connections" />
+						<input type="text" class="search" placeholder="Search New Connections" />
 						<select name="topic">
 							<option value="hellothere" >-- BY CATEGORY --</option>
 							<option>Name</option>
-							<option>School</option>
+							<option>Email</option>
+							<!--<option>School</option>
 							<option>Subject</option>
-							<option>Location</option>
+							<option>Location</option>-->
 						</select>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
@@ -101,8 +81,10 @@
 							<% end %>
 						</div>
 						<p>
-						<a href="/profile/<%=connection.not_me.teacher.url %>"><%= connection.not_me.name %></a><br />
-						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %><br />
+						<a href="/profile/<%= connection.not_me.teacher.url %>"><%= connection.not_me.name %></a><br />
+						<%= connection.not_me.teacher.position %>
+						<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.position.present? %>at<% end %> 
+						<%= connection.not_me.teacher.school %><br />
 						<%= connection.not_me.teacher.location %>
 						</p>
 						<div>
