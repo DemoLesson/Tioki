@@ -29,7 +29,7 @@
         <%= connection.location %><br /><br />
         <% if self.current_user != connection.user %>
           <% if self.current_user.teacher %>	
-            <% if @my_connections.include? connection.id %>
+            <% if @my_connections.include? connection.user.id %>
                 <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
             <% else %>
               <div>

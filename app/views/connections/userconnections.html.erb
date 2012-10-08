@@ -34,7 +34,8 @@
 			</div>
 
 			<div id ="connection_desc">
-				<strong><%= link_to connection.not_me(params[:id]).name, '/profile/' + connection.not_me(params[:id]).teacher.url.to_s %></strong><br />
+				<strong><%= link_to connection.not_me(params[:id]).name, '/profile/' + connection.not_me(params[:id]).teacher.url.to_s %></strong>
+				<%= " <span class=\"connection_degree\">#{Connection.distance(connection.not_me(params[:id]).id).ordinalize}</span>".html_safe %><br />
 				<% if connection.not_me(params[:id]).teacher.position.present? && connection.not_me(params[:id]).teacher.school.present?%>
 					<%= connection.not_me(params[:id]).teacher.position %> at <%= connection.not_me(params[:id]).teacher.school %>
 				<% end %><br />
