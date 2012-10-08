@@ -1,4 +1,8 @@
 require 'mail'
+
+# Connection Depth Var
+CONNECTION_DEPTH = Array.new
+
 class ConnectionsController < ApplicationController
 	before_filter :login_required, :except => [ :linkinvite]
 
@@ -276,5 +280,88 @@ class ConnectionsController < ApplicationController
 			format.html { redirect_to connections_url }
 			format.json { head :ok }
 		end
+	end
+
+	def distance(level = 1, connections = nil, user_id = nil, delve = false, ret = false)
+
+		# Dont go too deep
+		return nil if level >= 5
+
+		# The id to find
+		id = params[:id].to_i
+
+		# My Connections
+		connections = Connection.mine(:pending => false) if connections.nil?
+
+		# Begin with me and remove myself from additional searching
+		if user_id.nil?
+			user_id = self.current_user.id
+			CONNECTION_DEPTH << user_id
+		end
+
+		# Look at immediate
+		if !delve || level <= 1
+			connections.each do |c|
+
+				# If we found the id then stop
+				if id == c.user_id || id == c.owned_by
+					@level = level
+					break
+				end
+			end
+		end
+
+		# Return unless were on the base or @level is still nil
+		return @level unless @level.nil? || level <= 1
+		
+		# If @level is null && we want to delve
+		if (delve || level <= 1) && @level.nil?
+
+			# Search immediate connections
+			connections.each do |c|
+
+				# Get the user not me
+				c = c.not_me(user_id)
+
+				# If we already scanned this user then dont continue
+				next if CONNECTION_DEPTH.include? c.id
+
+				connections = Connection.mine(:user => c.id, :pending => false)
+
+				# Get the distance down
+				@level = self.distance(level + 1, connections, c.id, false) 
+
+				# Return unless were on the base or @level is still nil
+				return @level unless @level.nil? || level <= 1
+			end
+
+			# Still no results GAH!
+			if @level.nil?
+				
+				# Delve down the connections stack
+				connections.each do |c|
+
+					# Get the user not me
+					c = c.not_me(user_id)
+
+					# If we already scanned this user then dont continue
+					next if CONNECTION_DEPTH.include? c.id
+					CONNECTION_DEPTH << c.id
+
+					connections = Connection.mine(:user => c.id, :pending => false)
+
+					# Get the distance down
+					@level = self.distance(level + 1, connections, c.id, true) 
+
+					# Return unless were on the base or @level is still nil
+					return @level unless @level.nil? || level <= 1
+				end
+			end
+		end
+
+		# Unless were on the base return or want the value returned
+		return nil unless level <= 1 && !ret
+
+		dump @level
 	end
 end
