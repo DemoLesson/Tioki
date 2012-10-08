@@ -153,7 +153,7 @@ class User < ActiveRecord::Base
 			url = Random.rand(10..99).to_s + self.id.to_s + self.name
 
 			# Remove any spaces in the URL
-			url = url.gsub(' ', '')
+			url = url.gsub(/[ .?&:=+]/, '')
 
 			# Downcase the URL
 			t.url = url.downcase
