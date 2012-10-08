@@ -46,7 +46,7 @@
 				</div>
 				<div id ="connection_desc">
 					<strong><%= link_to connection.not_me.name, "/profile/#{connection.not_me.teacher.url}" %></strong>
-					<%= " <span class=\"connection_degree\">#{Connection.distance(connection.not_me.id).ordinalize}</span>".html_safe %><br />
+					<%= " <span class=\"connection_degree\">#{Connection.distance(connection.not_me.id).ordinalize}</span>".html_safe rescue '' %><br />
 					<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
 						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
 					<% end %><br />
