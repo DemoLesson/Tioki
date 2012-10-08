@@ -400,7 +400,7 @@ class UserMailer < ActionMailer::Base
 		template = "vouch_request_" + ab
 
 		# Send out the email
-		mail = mail(:to => emails, :subject => @teachername + " has requested to verify their skills on tioki") do |f|
+		mail = mail(:to => emails, :subject => @teachername + " has requested to verify their skills on Tioki") do |f|
 			f.html { render template }
 		end
 

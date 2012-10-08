@@ -1,3 +1,9 @@
+v1.1.24 - Oct 10, 2012 10:48AM deployed by Aleks Stanisic
+=========================================================
+* e8b04e4: Aleks Stanisic - changes to donor choose campaign, made slight changes to subject lines of variuos emails
+* 34a932b: Elijah Green - redirect_to the correct page for profiles for linkedin imports
+* 8387ab2: Elijah Green - Remove a few invalid character when created a profile url
+
 v1.1.23 - Oct 10, 2012  2:14PM deployed by Kelly Becker
 =======================================================
 * 01fe959: Kelly Becker - update deploy script
