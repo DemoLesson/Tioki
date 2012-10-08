@@ -1,23 +1,27 @@
-v1.1.27 - Oct 10, 2012 12:34PM deployed by Kelly Becker
+v1.1.28 - Oct 8, 2012 12:36PM deployed by Kelly Becker
+======================================================
+* 6055f2d: Kelly Becker - fixed date on deploy script
+
+v1.1.27 - Oct 8, 2012 12:34PM deployed by Kelly Becker
 =======================================================
 * c746f20: Kelly Becker - rescue an exception
 
-v1.1.26 - Oct 10, 2012 12:21PM deployed by Kelly Becker
+v1.1.26 - Oct 8, 2012 12:21PM deployed by Kelly Becker
 =======================================================
 * 7c4298d: Kelly Becker - connection degree
 
-v1.1.25 - Oct 10, 2012 11:57AM deployed by Kelly Becker
+v1.1.25 - Oct 8, 2012 11:57AM deployed by Kelly Becker
 =======================================================
 * 099135b: Kelly Becker - ordinalized connection degrees
 * b535e21: Kelly Becker - connection degree works
 
-v1.1.24 - Oct 10, 2012 10:48AM deployed by Aleks Stanisic
+v1.1.24 - Oct 8, 2012 10:48AM deployed by Aleks Stanisic
 =========================================================
 * e8b04e4: Aleks Stanisic - changes to donor choose campaign, made slight changes to subject lines of variuos emails
 * 34a932b: Elijah Green - redirect_to the correct page for profiles for linkedin imports
 * 8387ab2: Elijah Green - Remove a few invalid character when created a profile url
 
-v1.1.23 - Oct 10, 2012  2:14PM deployed by Kelly Becker
+v1.1.23 - Oct 6, 2012  2:14PM deployed by Kelly Becker
 =======================================================
 * 01fe959: Kelly Becker - update deploy script
 * 7906b7f: Kelly Becker - update deploy script
@@ -30,7 +34,7 @@ v1.1.23 - Oct 10, 2012  2:14PM deployed by Kelly Becker
 
 Sorry about the mess have been working on the deploy script a lot
 
-v1.1.22 - Oct 10, 2012  1:58PM deployed by Kelly Becker
+v1.1.22 - Oct 6, 2012  1:58PM deployed by Kelly Becker
 =======================================================
 * 781e041: Kelly Becker - updated deploy script
 * 38cf0b5: Kelly Becker - rearranged joins
