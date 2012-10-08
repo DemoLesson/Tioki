@@ -263,6 +263,10 @@ class ConnectionsController < ApplicationController
 		end
 	end
 
+	def distance
+		Connection.distance(params[:id])
+	end
+
 	# DELETE /connections/1
 	# DELETE /connections/1.json
 	def destroy
