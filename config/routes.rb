@@ -163,6 +163,7 @@ Preview::Application.routes.draw do
 	match 'remove_connection' => 'connections#remove_connection'
 	match 'accept_connection' => 'connections#accept_connection'
 	match 'remove_pending' => 'connections#remove_pending'
+	match 'connection' => 'connections#show'
 	match 'purge/:id' => 'teachers#purge'
 	match 'users' => 'users#update'
 	match 'attach' => 'teachers#attach'

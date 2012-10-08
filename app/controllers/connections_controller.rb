@@ -1,5 +1,7 @@
 require 'mail'
 class ConnectionsController < ApplicationController
+	layout nil
+	layout "application", :except => :show
 	before_filter :login_required, :except => [ :linkinvite]
 
 	# GET /connections
@@ -127,13 +129,12 @@ class ConnectionsController < ApplicationController
 	end
 
 	def my_connections
-		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
-
-		# User ID
-		a = self.current_user.id
-
 		# Get all not pending connections
-		@connections = Connection.mine(:pending => false)
+		@connections = Array.new
+		Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).each do |connection|
+			@connection = connection
+			@connections << render_to_string("connections/show", :layout => false)
+		end
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
 
@@ -259,6 +260,16 @@ class ConnectionsController < ApplicationController
 	end
 
 	def show
+		connections = Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).all
+		return render :json => connections unless params[:raw].nil?
+
+		divs = Array.new
+		connections.each do |connection|
+			@connection = connection
+			divs << render_to_string
+		end
+
+		render :json => divs
 	end
 
 	# DELETE /connections/1

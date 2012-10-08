@@ -1,15 +1,15 @@
-<section id="main-content" class="inner-content connections-page">
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
 	<section>
 		<nav class="subpage">
 			<ul>
 				<li class="current">
 					My Connections
 				</li>
-				<li>
+				<!--<li>
 					<a href="findconnections.html">
 					Find New Connections
 					</a>
-				</li>
+					</li>-->
 				<li>
 					<a href="/inviteconnections">
 					Invite Connections
@@ -41,10 +41,10 @@
 						<%= connection.not_me.teacher.location %>
 						</p>
 						<div class="accept">
-							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connections.owner.id } %>
+							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id } %>
 						</div>
 						<div class="ignore">
-							<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_connection', :user_id => connections.owner.id } %>
+							<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_connection', :user_id => connection.owner.id } %>
 						</div>
 					</li>
 				<% end %>
@@ -55,9 +55,9 @@
 			My Connections
 			</h3>
 			<div class="search-connections">	
-				<form>
+				<%= form_tag connections_path, :method => :get do %>
 					<fieldset>
-						<input type="text" class="search" placeholder="Search New Connections" />
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New Connections", :class => "search" } %>
 						<select name="topic">
 							<option value="hellothere" >-- BY CATEGORY --</option>
 							<option>Name</option>
@@ -68,34 +68,11 @@
 						</select>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
-				</form>
+				<% end %>
 			</div>
 			<ul>
 				<% @connections.each do |connection| %>
-					<li>
-						<div class="profile-thumb-big">
-							<% if connection.not_me.avatar? %>
-								<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), "profile/#{connection.not_me.teacher.url}" %>
-							<% else %>
-								<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{connection.not_me.teacher.url}" %>
-							<% end %>
-						</div>
-						<p>
-						<a href="/profile/<%= connection.not_me.teacher.url %>"><%= connection.not_me.name %></a><br />
-						<%= connection.not_me.teacher.position %>
-						<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.position.present? %>at<% end %> 
-						<%= connection.not_me.teacher.school %><br />
-						<%= connection.not_me.teacher.location %>
-						</p>
-						<div>
-							<a href="/userconnection/<%= connection.not_me.id %>" class="count connections">
-								<%= connection.not_me.connections.not_pending.count.to_s %>
-							</a>
-							<a href="/messages/new?user_id_to=<%= connection.not_me.id %>" class="sendmessage">
-							Send Message
-							</a>
-						</div>
-					</li>
+					<%= raw connection %>
 				<% end %>
 				<li>
 					<a href="#" class="viewmore">
@@ -108,3 +85,46 @@
 	</section>
 
 </section> <!-- End Main Content -->
+<script type="text/javascript">
+// White board more
+$(document).ready(function() {
+	window.connectionPage = 1;
+	window.connectionMax = false;
+	$('.viewmore').click(function(e) {
+		e.preventDefault();
+
+		// If we have already reached the end of the connections then stop
+		if(window.connectionMax) return false;
+		
+		// Get the number for the next page of data to pull
+		window.connectionPage++;
+
+		// Store for future use down the stack
+		more = $(this);
+
+		// Get the next pieces of activity via JSON
+		$.getJSON('/connection?page=' + window.connectionPage, function(data) {
+
+			// If no data was returned handle by removing the button and erroring
+			if(data.length == 0) {
+				more.animate({"opacity": 0}, 700, function() {
+					window.connectionMax = true;
+					more.text('No More Updates');
+					setTimeout(function() {
+						more.animate({"opacity": 1}, 1000);
+					}, 50);
+				});
+			}
+
+			// For every element
+			for(var x in data) {
+
+				// Create the object, insert, and fade it in
+				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+			}
+		});
+
+		return false;
+	});
+});
+</script>
