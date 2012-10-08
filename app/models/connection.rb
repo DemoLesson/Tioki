@@ -93,7 +93,7 @@ class Connection < ActiveRecord::Base
 	end
 
 	def self.distance(id = nil, level = 1, connections = nil, user_id = nil, delve = false)
-		@@scanned_connections = Array.new if level <= 1
+		@scanned_connections = Array.new if level <= 1
 
 		# Default
 		result = nil
@@ -113,7 +113,7 @@ class Connection < ActiveRecord::Base
 		# Begin with me and remove myself from additional searching
 		if user_id.nil?
 			user_id = User.current.id
-			@@scanned_connections << user_id
+			@scanned_connections << user_id
 		end
 
 		# Look at immediate
@@ -141,7 +141,7 @@ class Connection < ActiveRecord::Base
 				c = c.not_me(user_id)
 
 				# If we already scanned this user then dont continue
-				next if @@scanned_connections.include? c.id
+				next if @scanned_connections.include? c.id
 
 				connections = Connection.mine(:user => c.id, :pending => false)
 
@@ -162,8 +162,8 @@ class Connection < ActiveRecord::Base
 					c = c.not_me(user_id)
 
 					# If we already scanned this user then dont continue
-					next if @@scanned_connections.include? c.id
-					@@scanned_connections << c.id
+					next if @scanned_connections.include? c.id
+					@scanned_connections << c.id
 
 					connections = Connection.mine(:user => c.id, :pending => false)
 
