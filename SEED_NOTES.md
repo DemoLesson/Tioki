@@ -1,3 +1,7 @@
+v1.1.26 - Oct 10, 2012 12:21PM deployed by Kelly Becker
+=======================================================
+* 7c4298d: Kelly Becker - connection degree
+
 v1.1.25 - Oct 10, 2012 11:57AM deployed by Kelly Becker
 =======================================================
 * 099135b: Kelly Becker - ordinalized connection degrees
