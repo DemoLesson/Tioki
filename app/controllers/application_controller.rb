@@ -1,3 +1,14 @@
+# HTTP Status Codes
+module HTTPStatus
+	class Unauthorized < StandardError
+	end
+	class NotFound < StandardError
+	end
+	class ServerError < StandardError
+	end
+end
+
+# Application Controller
 class ApplicationController < ActionController::Base
 	#filter_parameter_logging "password"
 	#filter_parameter_logging "password_confirmation"
@@ -123,21 +134,21 @@ class ApplicationController < ActionController::Base
 	def get_analytics(slug, tag = '', date_start = nil, date_end = nil, unique = false)
 
 		# Make sure the slug is a string
-		slug = slug.to_s if slug.respond_to?('to_s')
-
+		slug = slug.to_s if slug.respond_to?('to_s') unless slug.nil?
 		# If slug is not a string raise an exception
-		raise StandardError, "Slug is not a string" unless slug.is_a?(String)
+
+		raise StandardError, "Slug is not a string" unless slug.is_a?(String) || slug.nil?
 
 		# If the tag is a model then return the string tag
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
 
 		# Build the SQL Query string
 		where = []
-		where << "`slug` = '#{slug}'"
+		where << "`slug` = '#{slug}'" unless slug.nil?
 		where << "`tag` = '#{tag}'" unless tag.nil? || tag.empty?
 
 		# Add a time constraint
-		where << "`created_at` BETWEEN '#{date_start}' AND '#{date_end}'" unless date_start.nil? || date_end.nil?
+		where << "`created_at` BETWEEN '#{date_start}' AND '#{date_end}'" unless date_start.nil? || date_end.nil? ||date_start.empty? || date_end.empty?
 
 		# Concatinate the SQL Queries
 		where = where.join(' AND ')
@@ -151,7 +162,7 @@ class ApplicationController < ActionController::Base
 		# Yield to the block
 		analytic = yield(analytic) if block_given?
 
-		return analytic.all
+		return analytic.respond_to?(:all) ? analytic.all : analytic
 	end
 
 	##################
@@ -159,7 +170,16 @@ class ApplicationController < ActionController::Base
 	##################
 
 	unless Preview::Application.config.consider_all_requests_local
+
+		# Server Error
 		rescue_from Exception, with: :render_500
+		rescue_from HTTPStatus::ServerError, with: :render_500
+
+		# Unauthorized
+		rescue_from HTTPStatus::Unauthorized, with: :render_401
+
+		# Not Found
+		rescue_from HTTPStatus::NotFound, with: :render_404
 		rescue_from ActionController::RoutingError, with: :render_404
 		rescue_from ActionController::UnknownController, with: :render_404
 		rescue_from ActionController::UnknownAction, with: :render_404
@@ -167,6 +187,16 @@ class ApplicationController < ActionController::Base
 	end
 
 	private
+		def render_401(exception)
+			
+			# Log Error
+			log_exception(exception)
+
+			# Path that was not found
+			@path = request.fullpath
+			render template: 'errors/error_401', layout: 'layouts/application', status: 401
+		end
+
 		def render_404(exception)
 			
 			# Log Error

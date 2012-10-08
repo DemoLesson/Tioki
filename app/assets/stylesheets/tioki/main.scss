@@ -1,6 +1,10 @@
 @import "vars";
 @import "mixins";
 
+span.connection_degree {
+	vertical-align: super;
+}
+
 .css3-border-box {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -25,6 +29,21 @@
 	background-color: $ltgray;
 	margin: 0 0 15px 0;
 	overflow: hidden;
+	position: relative;
+
+	a.edit {
+		span.iconic {
+
+		}
+		text-transform: uppercase;
+		position: absolute;
+		background: #666;
+		padding: 3px 6px;
+		font-size: 12px;
+		color: #FFF;
+		right: 0px;
+		top: 0px;
+	}
 }
 .profile-thumb-medium {
 	width: 70px;
@@ -255,7 +274,7 @@
 			border-right: 1px solid $ltgray;
 			.sidebar {
 				padding: 0 25px;
-				width: 175px;
+				width: 220px;
 				float: left;
 				h3 {
 					margin: 0 0 0.25em 0;
@@ -278,7 +297,7 @@
 			} /* END Sidebar */
 			.profile-content {
 				width: 660px;
-				float: left;
+				float: right;
 				.profile-video {
 					width: 640px;
 					padding: 10px;
@@ -355,7 +374,7 @@
 }
 
 #updates, #panels, .profile-content {
-	margin: 30px 30px 30px 0;
+	margin: 0px 30px 30px 0;
 	a {
 		color: $dkgray;
 		&:active, &:visited {
@@ -366,10 +385,19 @@
 			color: #fff;
 		}
 	}
-	div {
+
+	// The below fixes VideoJS
+	& > div {
 		display: inline-block;
 		vertical-align: top;
 	}
+
+	// Hack to fix white board issues
+	section#list div {
+		display: inline-block;
+		vertical-align: top;
+	}
+
 	.profile-thumb-medium {
 		width: 70px;
 		height: 70px;
@@ -392,7 +420,8 @@
 		border: 2px solid $dkgray;
 		width: 42px;
 		div {
-			display: block;
+			display: block !important;
+			width: 100%;
 			&.cal-month {
 				border-bottom: 2px solid $dkgray;
 				background: #f0f0f0;
@@ -589,6 +618,10 @@
 		position: relative;
 		padding: 12px 15px;
 		border-top: 1px dashed $ltgray;
+		hr {
+			margin: 5px -15px;
+			border: 1px dashed $ltgray;
+		}
 		#submit-whiteboard {
 			position: relative;
 			width: 540px;

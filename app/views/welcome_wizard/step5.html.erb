@@ -51,7 +51,7 @@ tr.seeking, tr.student {
 			</div>
 		</div>
 
-		<a href="/<%= @user.teacher.url %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Take me to my profile.</a>
+		<a href="/profile/<%= @user.teacher.url %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Take me to my profile.</a>
 
 		<div class="share">
 			<h1 class="smaller" style="font-size:20px;">Share to your other networks</h1>
@@ -116,7 +116,7 @@ $(document).ready(function() {
 		// Paramaters to build
 		var params = {
 			via: 'tiokiapp',
-			url: 'http://www.tiok.com/?_micro_referer=<%= @user.id %>',
+			url: 'http://www.tioki.com/ww/<%= @user.invite_code %>',
 			text: 'I just joined Tioki; a professional development site for educators. You should connect with me!'
 		}
 

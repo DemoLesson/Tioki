@@ -1,16 +1,13 @@
 require 'mail'
+
 class ConnectionsController < ApplicationController
-	before_filter :login_required
+	before_filter :login_required, :except => [ :linkinvite]
 
 	# GET /connections
 	# GET /connections.json
 	def index
-		if params[:connectsearch]
-			@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
-		else
-			@connections = Teacher.paginate(:page=> params[:page], :per_page => 25)
-		end
-		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
+		@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+		@my_connections = Connection.mine(:pending => false).collect!{|x| x.not_me.id}
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -48,7 +45,7 @@ class ConnectionsController < ApplicationController
 							session[:_ak] = "unlock_connection_request"
 							format.html { redirect_to '/welcome_wizard?x=step2' }
 						else
-							format.html { redirect_to :pending_connections }
+							format.html { redirect_to :back, :notice => "Connection request successfully sent."  }
 						end
 					end
 				end
@@ -68,7 +65,7 @@ class ConnectionsController < ApplicationController
 
 				# Redirect to "My Connections"
 				respond_to do |format|
-					format.html { redirect_to :my_connections }
+					format.html { redirect_to :back, :notice => "Connection request successfully sent." }
 				end
 			end
 		end
@@ -169,7 +166,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def inviteconnections
-		@referred = ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.current_user.id, "2012-09-20").count
+		@referred = self.current_user.successful_referrals.count
 		@my_connection = Connection.find_for_user(self.current_user.id)
 		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
 	end
@@ -213,37 +210,16 @@ class ConnectionsController < ApplicationController
 
 				# If the email is not tied to a member then invite them
 				else
+					url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
 
-					# Create a new invitation record
-					@invite = ConnectionInvite.new
-					@invite.user_id = self.current_user.id
-					@invite.email = demail
+					# Send out the email
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
-					# Try to save the invite
-					if @invite.save
+					# Notify the current session member that ht e email was sent
+					notice << "Your invite to " + demail + " has been sent."
 
-						# Create a random string for inviting
-						invitestring = User.random_string(20)
-
-						# Add the generated invitation string into the invitation
-						@invite.update_attribute(:url, invitestring + @invite.id.to_s)
-
-						# Generate the invitation url to be added to the email
-						url = "http://#{request.host_with_port}/welcome_wizard?x=step1&invitestring=" + @invite.url
-
-						# Send out the email
-						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-						# Notify the current session member that ht e email was sent
-						notice << "Your invite to " + demail + " has been sent."
-
-						# Log an analytic
-						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
-
-					# If there were errors saving then let the current session member know
-					else 
-						notice << email + ": "+ @invite.errors.full_messages.to_sentence
-					end
+					# Log an analytic
+					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
 				end
 
 				unless session[:wizard].nil?
@@ -267,6 +243,24 @@ class ConnectionsController < ApplicationController
 
 		# Take us home
 		redirect_to :root, :notice => notice.join(' ')
+	end
+
+	def linkinvite
+		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		if user
+			redirect_to "/welcome_wizard?x=step1&invitecode=#{user.invite_code}"
+		else 
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
+		end
+	end
+
+	def welcome_wizard_invite
+		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		if user
+			redirect_to "/welcome_wizard?x=step1&welcomecode=#{user.invite_code}"
+		else 
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
+		end
 	end
 
 	# DELETE /connections/1

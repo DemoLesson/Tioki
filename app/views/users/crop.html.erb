@@ -1,3 +1,4 @@
+<section id="main-content" class="inner-content">
 <script type="text/javascript">
   $(function() {
       $('#cropbox').Jcrop({
@@ -16,7 +17,8 @@ function update_crop(coords) {
 <%= image_tag @user.avatar.url, :id => "cropbox" %>
 <%= form_for @user, :url => "/crop_image" do |form| %>
   <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
-    <%= form.text_field attribute, :id => attribute %>
+    <%= form.hidden_field attribute, :id => attribute %>
   <% end %>
   <p><%= form.submit "Crop" %></p>
 <% end %>
+</section>

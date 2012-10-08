@@ -60,8 +60,7 @@ class TeachersController < ApplicationController
 		@config = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'viddler.yml'))).result)[Rails.env]
 		
 		# Get the latest video the user posted
-		@video = Video.find(:all, :conditions => ['teacher_id = ? AND is_snippet=?', @teacher.id, false], :order => 'created_at DESC')
-		@video = @video.first
+		@video = @teacher.video
 		
 		begin
 			if @video.encoded_state == 'queued'
@@ -448,7 +447,7 @@ class TeachersController < ApplicationController
 				session[:rsecret] = request_token.secret
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
-				redirect_to '/'+self.current_user.teacher.url     
+				redirect_to '/profile/'+self.current_user.teacher.url     
 			end
 		end
 	end
@@ -551,7 +550,7 @@ class TeachersController < ApplicationController
 		#and redirecting to profile like create_profile does
 		session[:rtoken]=nil
 		session[:rsecret]=nil
-		redirect_to '/'+self.current_user.teacher.url     
+		redirect_to '/profile/'+self.current_user.teacher.url     
 	end
 
 	def favorites
@@ -707,5 +706,10 @@ class TeachersController < ApplicationController
 	def request_vouch
 		@teacher = User.current.teacher
 		@vouch = Vouch.new
+	end
+
+	def feature_video
+		self.current_user.teacher.update_attribute(:video_id, params[:id])
+		redirect_to :back
 	end
 end

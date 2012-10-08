@@ -1,21 +1,43 @@
 <%= remotipart_response do %>
-  $('#picture_frame').append('<%= image_tag @user.temp_img_name, :id => 'cropbox' %>').Jcrop({
-    onChange: update_crop,
-    onSelect: update_crop,
-    aspectRatio: 1
-  }).append('<form accept-charset="UTF-8" action="/crop_image_temp" class="edit_user" id="edit_user_1" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div>\
-    <input id="crop_x" name="user[crop_x]" size="30" type="text" />\
-    <input id="crop_y" name="user[crop_y]" size="30" type="text" />\
-    <input id="crop_w" name="user[crop_w]" size="30" type="text" />\
-    <input id="crop_h" name="user[crop_h]" size="30" type="text" />\
-  <p><input name="commit" type="submit" value="Crop" /></p>\
-</form>\
-</div>');
+	$('#picture_frame').children().remove();
+	$('#picture_frame').append('<%= image_tag @user.temp_img_name, :id => 'cropbox' %>');
+	var img = $("#cropbox")
+	var size;
+	var offsety;
+	var offsetx;
+	$("#cropbox").load(function() {
+		if(img.height() > img.width())
+		{
+			size = img.width();
+			offsetx = 0;
+			offsety = 0;
+		}
+		else
+		{
+			size = img.height();
+			offsetx = (img.width()-size)/2;
+			offsety = 0;
+		}
+		$('#cropbox').Jcrop({
+			onChange: update_crop,
+			onSelect: update_crop,
+			setSelect: [offsetx, offsety, size, size],
+			aspectRatio: 1
+		});
+		var form = $('<form accept-charset="UTF-8" action="/crop_image_temp" class="edit_user" id="edit_user_1" method="post"/>');
+			form.append('<input id="crop_x" name="user[crop_x]" type="hidden" />');
+			form.append('<input id="crop_y" name="user[crop_y]" type="hidden" />');
+			form.append('<input id="crop_w" name="user[crop_w]" type="hidden" />');
+			form.append('<input id="crop_h" name="user[crop_h]" type="hidden" />');
+			form.append('<p><input name="commit" type="submit" value="Create Picture" /></p>');
+
+			$('#picture_frame').append(form);
+	});
 
 function update_crop(coords) {
-  $('#crop_x').val(coords.x);
-  $('#crop_y').val(coords.y);
-  $('#crop_w').val(coords.w);
-  $('#crop_h').val(coords.h);  
+	$('#crop_x').val(coords.x);
+	$('#crop_y').val(coords.y);
+	$('#crop_w').val(coords.w);
+	$('#crop_h').val(coords.h);  
 }
 <% end %>

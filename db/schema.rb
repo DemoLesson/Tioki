@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120926183106) do
+ActiveRecord::Schema.define(:version => 20121003220711) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -80,6 +80,16 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
     t.integer  "job_id"
   end
 
+  create_table "awards", :force => true do |t|
+    t.string   "title"
+    t.string   "issuer"
+    t.datetime "date"
+    t.string   "description"
+    t.integer  "teacher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "blog_entries", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -95,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_user_id"
+    t.boolean  "donors_choose",   :default => true
   end
 
   create_table "connections", :force => true do |t|
@@ -315,6 +326,18 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
     t.datetime "updated_at"
   end
 
+  create_table "presentations", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.string   "location"
+    t.datetime "date"
+    t.string   "author"
+    t.string   "description"
+    t.integer  "teacher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "pricing_models", :force => true do |t|
     t.string   "region"
     t.string   "country"
@@ -481,6 +504,15 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
   add_index "subjects_teachers", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
 
+  create_table "teacher_links", :force => true do |t|
+    t.integer  "teacher_id"
+    t.string   "url"
+    t.integer  "type"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "teachers", :force => true do |t|
     t.integer  "user_id",                                                   :null => false
     t.boolean  "willing_to_move"
@@ -504,8 +536,11 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
     t.string   "guest_code"
     t.boolean  "tfa"
     t.string   "headline",               :limit => 140
-    t.string   "video_embed_url"
-    t.text     "video_embed_html"
+    t.string   "edmodo"
+    t.string   "twitter"
+    t.string   "betterlesson"
+    t.string   "teachingchannel"
+    t.integer  "video_id"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
@@ -531,15 +566,17 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
     t.boolean  "is_shared",           :default => false, :null => false
     t.boolean  "is_limited",          :default => false, :null => false
     t.boolean  "emailsubscription",   :default => true
+    t.string   "time_zone",           :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "time_zone",           :default => "UTC"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
     t.integer  "privacy",             :default => 0,     :null => false
     t.string   "invite_code"
+    t.string   "ab"
+    t.integer  "completion"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -579,6 +616,16 @@ ActiveRecord::Schema.define(:version => 20120926183106) do
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"
+
+  create_table "videos_favorites", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "teacher_id"
+  end
+
+  create_table "videos_skills", :id => false, :force => true do |t|
+    t.integer "video_id"
+    t.integer "skill_id"
+  end
 
   create_table "vouched_skills", :force => true do |t|
     t.integer  "vouch_id"

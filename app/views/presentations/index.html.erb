@@ -1,0 +1,80 @@
+<section id="main-content" class="inner-content">
+
+	<h1>
+	Presentation & Publications
+	</h1>
+
+	<div class="attached">
+		<% @presentations.each do |presentation| %>
+		<p>
+			<span class="purge" style="float:right">
+				<%= link_to 'Edit', edit_presentation_path(presentation) %><br />
+				<%= link_to 'Remove?', presentation, confirm: 'Are you sure?', method: :delete %>
+			</span>
+			<strong>
+				<% unless presentation.url == nil || presentation.url == '' %>
+					<%= link_to presentation.title, presentation.url %>
+				<% else %>
+					<%= presentation.title %>
+				<% end %>
+			</strong><br />
+			<%= presentation.location %> | <%= presentation.date %><br />
+			Authors: <%= link_to presentation.author, "#" %> <br />
+			<%= presentation.description %>
+		</p>
+		<% end %>
+	</div>
+	<div id="attach_new_btn">
+		<input name="attach" type="submit" value="Add a New Presentation/Publication" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+		<%= link_to 'Edit Profile', '/me/profile/edit' %>
+	</div>
+
+	<div id="attach_form" style="display: none">
+		<%= form_for :presentation, :url => { :controller => :presentations, :action => :create} do |f| %>
+			  <fieldset>
+			    <p>
+				*Title:<br />
+			    <%= f.text_field :title %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Event/Publication URL (optional)<br />
+			    <%= f.text_field :url %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Name of Event/Publication Title<br />
+			    <%= f.text_field :location %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Date of Event/Publication<br />
+			    <%= f.datetime_select :date %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Presenter/Author<br />
+			    <%= f.text_field :author %>
+				</p>
+			  </fieldset>
+			  <fieldset>
+			    <p>
+				Summary<br />
+			    <%= f.text_area :description %>
+				</p>
+			  </fieldset>
+			<fieldset>
+				<span>	<%= f.submit "Create", :class => "btn btn-success" %>	</span>
+				<%= link_to 'Edit Profile', '/me/profile/edit' %>
+			</fieldset>
+
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
+		<% end %>
+	</div>
+</section>

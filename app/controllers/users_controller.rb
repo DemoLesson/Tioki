@@ -12,6 +12,9 @@ class UsersController < ApplicationController
 			# Attempt to save the user
 			if @user.save
 
+				# Set the AB is the id is divisible by 2
+				@user.update_attribute(:ab, 'follow') if @user.id % 2 == 0
+
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
@@ -283,108 +286,83 @@ class UsersController < ApplicationController
 		end
 	end
 	
-	#def update
-        #  @user=self.current_user
-        #  if !(params[:user][:avatar].content_type.include? "image")
-        #    redirect_to :back, :notice => "The file was not an image."
-        #  else
-        #    #move tempoary file created by uploader 
-        #    #to a file that won't disapper after the completion of the request
-        #    directory = Rails.root.join('public/uploads')
-        #    path = File.join(directory, params[:user][:avatar].original_filename)
-        #    File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
-        #    @user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
-        #    @user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
-        #    #redirect_to :crop_temp, :notice => "Successfully uploaded file"
-        #    respond_to do |format|
-        #      format.js
-        #    end
-        #  end
-	#end
-        
-        def update
-		@user = User.find(self.current_user.id)
-		flash[:error] = "Not authorized" and return unless @user.id == self.current_user.id
-
-		#dump params[:user][:avatar].class.name
-
-		respond_to do |format|
-			if @user.update_attribute(:avatar, params[:user][:avatar])
-				self.log_analytic(:user_changed_avatar, "A user changed their avatar.")
-
-				# Make a Whiteboard Post
-				Whiteboard.createActivity(:avatar_update, "{user.teacher.profile_link} updated their avatar.")
-
-				format.html { redirect_to('/change_picture',  :notice => 'Picture successfully uploaded.') }
-				format.json  { head :ok }
-			else
-				format.html { redirect_to("/change_picture", :notice => 'Picture could not be uploaded.') }
+	def update
+		@user=self.current_user
+		if !(params[:user][:avatar].content_type.include? "image")
+			redirect_to :back, :notice => "The file was not an image."
+		else
+			#move tempoary file created by uploader 
+			#to a file that won't disapper after the completion of the request
+			directory = Rails.root.join('public/uploads')
+			path = File.join(directory, params[:user][:avatar].original_filename)
+			File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
+			@user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
+			@user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
+			respond_to do |format|
+				format.js
 			end
 		end
-        end
+	end
 
-        def crop_temp
-          @user=self.current_user
-          if @user.temp_img_name == nil
-            redirect_to :back, :notice => "Could not find an uploaded file."
-          end
-        end
+	def crop_image_temp
+		@user = self.current_user
+		orig_img = Magick::ImageList.new(Rails.root.join('public'+@user.temp_img_name))
+		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
-        def crop_image_temp
-          @user = self.current_user
-          orig_img = Magick::ImageList.new(Rails.root.join('public'+@user.temp_img_name))
-          if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
+			args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
 
-                  args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
+			orig_img.crop!(*args)
+		else
+			#crop values have not been set, just resize to fit 1:1 aspect ratio
+			#the size of the image will be whatever side is smaller
+			if orig_img.rows > orig_img.columns
+				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns, Magick::NorthGravity)
+			else
+				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
+			end
+		end
+		#Create temp file in order to save the cropped image for later saving to amazon s3
+		tmp_img=Tempfile.new(@user.original_name, Rails.root.join('tmp'))
 
-                  orig_img.crop!(*args)
-                else
-                  #crop values have not been set, just resize to fit 1:1 aspect ratio
-                  #the size of the image will be whatever side is smaller
-                  if orig_img.rows > orig_img.columns
-                    orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
-                  else
-                    orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
-                  end
-                end
-                #Create temp file in order to save the cropped image for later saving to amazon s3
-                tmp_img=Tempfile.new(@user.original_name, Rails.root.join('tmp'))
+		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
+		tmp_img.binmode
+		orig_img.format="jpeg"
+		tmp_img.write(orig_img.to_blob)
+		@user.update_attribute(:avatar, tmp_img)
+		tmp_img.close
+		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
+	end
 
-                #Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
-                tmp_img.binmode
-                orig_img.format="jpeg"
-                tmp_img.write(orig_img.to_blob)
-                @user.update_attribute(:avatar, tmp_img)
-                tmp_img.close
-		redirect_to :root, :notice => "Image changed successfully."
-        end
+	def crop
+		@user=self.current_user
+	end
 
 	def crop_image
 		@user = User.find(self.current_user.id)
 		orig_img = Magick::ImageList.new(@user.avatar.url(:original))
-                if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
+		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
-                  args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
+			args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
 
-                  orig_img.crop!(*args)
-                else
-                  #crop values have not been set, just resize to fit 1:1 aspect ratio
-                  #the size of the image will be whatever side is smaller
-                  if orig_img.rows > orig_img.columns
-                    orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
-                  else
-                    orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
-                  end
-                end
-                #Create temp file in order to save the cropped image for later saving to amazon s3
-                tmp_img=Tempfile.new(@user.avatar_file_name, Rails.root.join('tmp'))
+			orig_img.crop!(*args)
+		else
+			#crop values have not been set, just resize to fit 1:1 aspect ratio
+			#the size of the image will be whatever side is smaller
+			if orig_img.rows > orig_img.columns
+				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns)
+			else
+				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows, Magick::NorthGravity)
+			end
+		end
+		#Create temp file in order to save the cropped image for later saving to amazon s3
+		tmp_img=Tempfile.new(@user.avatar_file_name, Rails.root.join('tmp'))
 
-                #Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
-                tmp_img.binmode
-                orig_img.format="jpeg"
-                tmp_img.write(orig_img.to_blob)
-                @user.update_attribute(:avatar, tmp_img)
-                tmp_img.close
+		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
+		tmp_img.binmode
+		orig_img.format="jpeg"
+		tmp_img.write(orig_img.to_blob)
+		@user.update_attribute(:avatar, tmp_img)
+		tmp_img.close
 		redirect_to :root, :notice => "Image changed successfully."
 	end
 
@@ -460,7 +438,7 @@ class UsersController < ApplicationController
 		end
 
 		# Get rid of all users that have nil teachers
-		@users = @users.reject{ |user| user.teacher == nil } if params[:teacher]
+		@users = User.find(:all, :joins => :teacher, :conditions => ['users.id IN (?)', @users.collect(&:id)])  if params[:teacher]
 
 		# Limit to those that have at leasy 1 video
 		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
@@ -468,18 +446,9 @@ class UsersController < ApplicationController
 		# Limit to teachers that have job applications
 		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
 		
-		@usercount = 0
-		@videos = 0
+		@usercount = User.find(:all, :joins => :teacher,:conditions => ['users.id IN (?)', @users.collect(&:id)]).count
 
-		# Loop through each teacher
-		@users.each do |user|
-
-			# Increment the amount of users
-			@usercount += 1 unless user.teacher.nil?
-
-			# Increment the number of videos uploaded
-			@videos += 1 if !user.teacher.nil? && user.teacher.videos.count != 0
-		end
+		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
@@ -568,7 +537,7 @@ class UsersController < ApplicationController
 	end
 
 	def referral_user_list
-		@teachers = Teacher.joins(:user => :connection_invites).paginate(:per_page => 100, :page => params[:page], :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && date(connection_invites.created_at) > ? ', "2012-09-20"])
+		@teachers = Teacher.joins(:user => :connection_invites).find(:all, :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && date(connection_invites.created_at) > ? && donors_choose = true', "2012-09-20"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -663,10 +632,6 @@ class UsersController < ApplicationController
 				flash[:notice] = "User could not be created"
 			end
 		end
-	end
-
-	def crop
-		@user=self.current_user
 	end
 
 	def destroy

@@ -1,17 +1,6 @@
 <section id="main-content" class="inner-content">
 	<h1></h1>
-	<div>
-		<%= link_to 'Education', '/me/profile/edit/education', :class => "button" %>
-		<%= link_to 'Experience', '/me/profile/edit/experience', :class => "button" %>
-		<%= link_to 'Credentials', '/me/profile/edit/credentials', :class => "button" %>
-		<%= link_to 'Skills', '/me/profile/edit/skills', :class => "button" %>
-		<%= link_to 'Attachments', '/profileattachments', :class => 'button' %>
-		<div style="float:right">
-            <%= link_to 'Import from Linkedin', '/linkedinprofile', :class => "button bg-green"%>
-			<%= link_to 'Change Profile Picture', '/me/profile/edit/upload-avatar', :class => "button" %>
-			<%= link_to 'Upload Video', '/me/profile/edit/upload-video', :class => "button" %>
-		</div>
-	</div>
+	
 	<%= form_for @teacher, :html => { :multipart => true } do |f| %>
 		<section class="profile group">
 			<section class="left-sidebar">
@@ -21,59 +10,107 @@
 				<p>
 				View a <a href="/profile/Mandela">sample profile</a> to see what your completed one will look like.
 				</p>
-				<p>
-				Guest Access Code:
-				</p>
-				<% if @teacher.guest_code != nil %>
-					<%= text_field :a, :b, :value => "http://tioki.com/guest/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
-					<p></p>
-				<% end %>
+	
+				<section class="profile-info group">
+					<h3 class="top-line" style="text-transform:uppercase;">
+					<%= @teacher.user.name %>
+					</h3>
+					<p>
+					My Public Profile:
+					<% if @teacher.guest_code != nil %>
+						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@teacher.url, :class => :guest_pass_field %>
+						<% end %>
+					</p>
+				
+					<p>
+					My Headline (limited to 140 characters):
+					</p>
+					<%= f.text_area :headline, :maxlength => 140, :style => "width: 400px" %>
+				</section>	
+				<section class="profile-info group">
+					<h3 class="top-line">
+					CONNECT WITH ME
+					</h3>
+					<a name="connect" />	
+					<p>
+					<%= image_tag('tioki/icons/phone.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= f.text_field :phone %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= f.text_field :linkedin, :placeholder => "linkedin.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= f.text_field :twitter, :placeholder => "twitter.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= f.text_field :edmodo, :placeholder => "edmodo.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= f.text_field :betterlesson, :placeholder => "betterlesson.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= f.text_field :teachingchannel, :placeholder => "teachingchannel.org/" %>
+					</p>
+					
+				</section>
+				<section class="profile-info group">
+					<h3 class="heading top-line">
+					ABOUT ME
+					</h3>
+					<p>
+					Current Position: <%= f.text_field :position %>
+					</p>
+					<p>
+					Current School: <%= f.text_field :school %>
+					</p>
+					<p>
+					Location: <%= f.text_field :location %>
+					</p>
+					
+				</section>
+			</section> <!-- End Sidebar -->
+			<section class="right-sidebar">
 				<div class="profile-thumb-medium">
 					<%= image_tag(@teacher.user.avatar(:medium)) if @teacher.user.avatar? %>
 					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @teacher.user.avatar? %>
 				</div>
-				<h3>
-				<%= @teacher.user.name %>
-				</h3>
-				<section class="profile-info group">
-					<p class="heading top-line">
-					Headline
-					</p>
-					<p>
-					The headline is limited to 140 characters.
-					</p>
-					<%= f.text_area :headline, :maxlength => 140 %>
-					<p class="bold">
-					Phone
-					</p>
-					<%= f.text_field :phone %>
-					<p class="bold">
-					LinkedIn Profile
-					</p>
-					<%= f.text_field :linkedin %>
-				</section>
-				<section class="profile-info group">
-					<p class="heading top-line">
-					Current Position
-					</p>
-					<p class="bold">
-					Position
-					</p>
-					<%= f.text_field :position %>
-					<p class="bold">
-					School
-					</p>
-					<%= f.text_field :school %>
-					<p class="bold">
-					Location
-					</p>
-					<%= f.text_field :location %>
-				</section>
-			</section> <!-- End Sidebar -->
-			<section class="right-sidebar">
+				</br>
+				<%= link_to 'Change Profile Picture', '/me/profile/edit/upload-avatar', :class => "button2 bg-ltgray big-button" %>	
+					<span style="margin-left:15px">
+						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'  Upload Video', '/me/profile/edit/upload-video', :class => "button2 bg-ltgray med-button" %>
+					</span>
+
+				<section>
+					<h3 class="top-line">
+					MY PROFESSIONAL DETAILS
+					</h3>	
+					
+					<%= link_to ' Education ', '/me/profile/edit/education', :class => "button2 bg-ltgray big-button" %>
+						<span style="margin-left:15px">
+							<%= link_to ' Experience ', '/me/profile/edit/experience', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Credentials', '/me/profile/edit/credentials', :class => "button2 bg-ltgray big-button" %>
+						</span><br /> <br / >
+						<span>
+							<%= link_to 'Presentations', '/me/profile/edit/presentations', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Awards & Honors', '/me/profile/edit/awards', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Skills', '/me/profile/edit/skills', :class => "button2 bg-ltgray big-button" %>
+						</span></br></br>
 			
-			<input type="submit" class="huge-button" value="Save Changes">
+					<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;")+'   Import from LinkedIn', '/linkedinprofile', :class => "button2 bg-ltgray med-button"%>
+				</section>
 			</section>
 		</section> <!-- End Profile -->
+		<input type="submit" class="huge-button" value="Save Changes">
 	<% end %>
 </section> <!-- End Main Content -->

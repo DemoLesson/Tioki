@@ -1,5 +1,28 @@
 #!/usr/bin/env ruby
 
+# # # # # # # # # # # # #
+# Tioki Deploy Script   #
+#  Author: Kelly Becker #
+# # # # # # # # # # # # #
+
+# Load serialization engine
+require 'yaml'
+require 'socket'
+
+# Start by getting the command line arguments
+CLIargs = ARGV
+
+# Get the command to run
+command = CLIargs.shift
+
+# Debug
+if CLIargs.first == '--debug'
+	CLIargs.shift
+	debug = true
+else
+	debug = false
+end
+
 # Output to terminal
 def echo(text, color = 'green', _sleep = nil)
 	color_code = "31" if color == 'red'
@@ -19,19 +42,121 @@ def confirm(text, color = 'red')
 	end
 end
 
-# Load serialization engine
-require 'yaml'
-require 'socket'
+# Get input
+def input(text, color = 'red', default = nil)
+	echo text, color
+	var = STDIN.gets.chomp
+	var = default if !default.nil? && (var.nil? || var.empty?)
+	return var
+end
 
-# Start by getting the command line arguments
-CLIargs = ARGV
+# Make sure we are in the root directory
+unless File.directory? './.git'
+	echo 'You are not running from the rails root!', 'red'
+	echo 'Exiting...'
+	exit
+end
+
+# Handle version bumping
+def versionBump(type = 'revision', save = false)
+
+	# Get the version
+	versionFile = File.open('./.version', "rb")
+	version = versionFile.read.strip
+
+	# Get the version from the file
+	major, minor, revision = version.split('.')
+
+	# Turn the version into integers
+	revision = revision.to_i
+	minor = minor.to_i
+	major = major.to_i
+
+	# Bump the release
+	if type == 'revision'
+		revision += 1
+	elsif type == 'minor'
+		revision = 0
+		minor += 1
+	elsif type == 'major'
+		revision = 0
+		minor = 0
+		major += 1
+	end
+
+	# Reassemble new version
+	version = "#{major}.#{minor}.#{revision}"
+
+	# Save the version
+	if save
+		File.open('./.version', "w+") do |f|
+			f.write(version)
+		end
+	end
+
+	# Return the version
+	return version
+end
+
+# Generate Seednote Message
+def seedNoteMessage(version = nil)
+	message = Hash.new
+	message[:author] = `git config user.name`.strip
+	message[:lastBump] = `git log --pretty=format:"%h" -1 -- .version`.strip
+	message[:commits] = `git log --pretty=format:"* %h: %an - %s" --no-merges "#{message[:lastBump]}"..HEAD`.strip
+	
+	headline = version.nil? ? "" : "v#{version} - "
+	headline << Time.now.strftime("%b %-d, %Y %l:%M%p ")
+	headline << "deployed by " + message[:author]
+
+	output = Array.new
+	output << headline
+	output << String.new.ljust(headline.length, "=")
+	output << message[:commits]
+
+	return output.join("\n") + "\n\n"
+end
+
+def prependToSeedNote(message = nil)
+	return if message.nil?
+
+	# Files
+	original_file = './SEED_NOTES.md'
+	new_file = original_file + '.tmp'
+
+	# Create new file
+	File.open(new_file, 'w') do |f|
+	  f.puts message
+	  File.foreach(original_file){|l| f.puts l}
+	end
+
+	# Delete and Rename
+	File.delete(original_file)
+	File.rename(new_file, original_file)
+
+	return true
+end
+
+# Stop Deploy Exception
+class StopDeploy < StandardError
+end
 
 class DeployCLI
 
 	def update(type = "staging")
+		# Show Tioki
+		show_tioki
 
 		# Capture terminal logs
 		logs = Array.new
+
+		# Did we merge into master
+		masterMerge = false
+
+		# Get the current branch and tracked remote
+		branch = `git name-rev --name-only HEAD`.strip
+		remote = `git config "branch.#{branch}.remote"`.strip
+		commited = `git status --porcelain`.strip.empty?
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -40,8 +165,122 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
+		# Make sure we want to be deploying with uncommited changes
+		unless commited
+			return unless confirm("You are trying to deploy with uncommited files. Continue?")
+
+		# Push any unpushed changes to the remote
+		else
+			system("git push #{remote} #{branch}")
+		end
+
+		# If we are in develop ask if we would like to merge to master
+		if commited && branch == 'develop' && confirm("Would you like to tag and release?")
+
+			# Determine the release type
+			type = input("Is this a 'revision', 'minor', or 'major' release. [revision]", 'red', 'revision')
+
+			# Get the bumped version
+			if type == 'revision' || type == 'minor' || type == 'major'
+				tag = versionBump(type, false)
+			end
+
+			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok? If not we will deploy without a tag.")
+
+				# Add data to Seednote
+				echo "Generating default seednote..."
+				prependToSeedNote(seedNoteMessage(tag))
+
+				# Seed note edit?
+				if confirm "\nWould you like to add to the SEED_NOTES.md file?"
+					editor = ENV['EDITOR'] || ENV['GIT_EDITOR']
+
+					if editor.nil? || editor.empty?
+						editor = input "What editor should I use? (ex. vi, nano, mate, subl)"
+						
+						# If Sublime or Texmate add waits
+						case editor
+						when 'subl', 'sublime', 'sublimetext', 'sublimetext2'
+							editor = 'subl -n -w'
+						when 'mate', 'textmate', 'text mate' 'textmate2'
+							editor = 'mate -w'
+						end
+					else
+						echo "Opening the default system editor...\n"
+					end
+
+					# Open editor
+					echo "Waiting for editing to complete...\n", 'red'
+					system(editor + " ./SEED_NOTES.md")
+				end
+
+				# Stop the deploy
+				unless confirm "Continue with deploy? If you attempt to stop if after this point bad things might happen."
+					echo "Resetting the seed note."
+					system('git reset --hard HEAD')
+					raise StopDeploy, "Stop the deploy"
+				end
+
+				# Commit seednote
+				echo "Commiting updated seednote..."
+				system('git add ./SEED_NOTES.md')
+				system('git commit -m "Updated Seednote"')
+
+				# Push the updated seed note to the currently tracked branch
+				echo "Pushing updated seednote commit to GitHub (#{remote}/#{branch})..."
+				system("git push #{remote} #{branch}")
+
+				# Done pushing
+				echo "Done pushing seednote..."
+
+				# Bump the verion
+				versionBump(type, true)
+
+				# Commit seednote
+				echo "\nVersion bump to #{tag}..."
+				system('git add ./.version')
+				system("git commit -m 'Version bump to #{tag}'")
+				system("git push #{remote} #{branch}")
+
+				# Merging master
+				echo "\nSwitching to master..."
+				system('git checkout master')
+				echo "\nPulling master..."
+				system("git pull -u #{remote} master")
+				echo "\nMerging in changes from develop..."
+				system('git merge develop')
+				echo "Merge completed...\n"
+				system("git push -u #{remote} master")
+
+				# Create the tag
+				echo "\nCreating tag..."
+				system("git tag -a #{tag} -m 'version #{tag}'")
+
+				# Push the tag
+				echo "\nPushing tags..."
+				system("git push #{remote} --tags")
+
+				# Finished tags
+				echo "\nFinished creating tag."
+			else
+				# Merge master
+				echo "\nSwitching to master..."
+				system('git checkout master')
+				echo "\nPulling master..."
+				system("git pull -u #{remote} master")
+				echo "\nMerging in changes from develop..."
+				system('git merge develop')
+				echo "Merge completed...\n"
+				system("git push -u #{remote} master")
+			end
+
+			# Continue
+			echo "\nContinuing with deploy...\n"
+			masterMerge = true
+		end
+
+		# Ask if we would like to bootstrap the boxes
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
-			# Boot strap the boxes
 			echo "Bootstrapping the EC2 instances."
 			echo "(Installing new Software/Gems)"
 			echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
@@ -62,6 +301,10 @@ class DeployCLI
 		echo "This may take awhile...\n"
 		system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
 
+		# Chmod jCrop upload dir
+		echo "\nChmodding jCrop Upload Directory"
+		system('CHMOD="0777 ./public/uploads" cap rubber:chmod FILTER=-tools')
+
 		# Launch new code
 		echo "\nThe new code is on the server and everything is ready to go."
 		if confirm "Would you like to publish now?"
@@ -75,16 +318,17 @@ class DeployCLI
 			echo "\`./script/deploy publish #{type}\`", 'red'
 		end
 
+		# If we are in master go back to develop
+		if masterMerge
+			echo "\nSwitching back to develop branch..."
+			system('git checkout develop')
+		end
+
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
 
-		# Write to log
-		dir = File.expand_path(File.dirname(__FILE__)) + '/deploy_logs'
-		Dir.mkdir(dir) unless File.exists?(dir)
-		File.open(dir + "/update_#{type}_#{Time.now.to_i}", 'w') do |f|
-			f.write(YAML::dump(logs))
-		end
+		show_cat
 	end
 
 	def publish(type = 'staging')
@@ -296,15 +540,68 @@ class DeployCLI
 		ENV["RAILS_ENV"] = renvironment
 	end
 
+	def show_cat
+		# Show cat
+		cat = <<-CAT
+        
+                _                        
+                \\`*-.                    
+                 )  _`-.                 
+                .  : `. .                
+                : _   '  \\               
+                ; *` _.   `*-._          
+                `-.-'          `-.       
+                  ;       `       `.     
+                  :.       .        \\    
+                  . \\  .   :   .-'   .   
+                  '  `+.;  ;  '      :   
+                  :  '  |    ;       ;-. 
+                  ; '   : :`-:     _.`* ;
+         [bug] .*' /  .*' ; .*`- +'  `*' 
+               `*-*   `*-*  `*-*'        
+		CAT
+		echo cat, nil
+	end
+
+	def show_tioki
+		# Show tioki
+		tioki = <<-TIOKI
+        
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        #                                                                     #
+        #        ____       ____    _____________________________    ____     #
+        #       |    |     |    |  |                             |  |    |    #
+        #       |    |     |____|  |_____________________________|  |____|    #
+        #       |    |                                                        #
+        #    ___|    |__    ____       ______       ____     ____    ____     #
+        #   |           |  |    |    /        \\    |    |  /    /   |    |    #
+        #   |___     ___|  |    |   /   ____   \\   |    | /    /    |    |    #
+        #       |    |     |    |  |   /    \\   |  |    |/    /     |    |    #
+        #       |    |     |    |  |  |      |  |  |         /      |    |    #
+        #       |    |     |    |  |  |      |  |  |         \\      |    |    #
+        #       |    |     |    |  |  |      |  |  |    |     \\     |    |    #
+        #       |    `._   |    |  |   \\____/   |  |    |\\     \\    |    |    #
+        #       \\       |  |    |   \\          /   |    | \\     \\   |    |    #
+        #        `._____|  |____|    \\________/    |____|  \\_____\\  |____|    #
+        #                                                                     #
+        #                                                                     #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+		TIOKI
+		echo tioki, nil
+	end
 end
 
-# Get the command to run
-command = CLIargs.shift
-
+# Begin CLI Menu
 begin
 	# Run the command
 	DeployCLI.new.send(command, *CLIargs)
-rescue
+rescue StopDeploy => e
+	# -
+rescue => e
+
+	# If debug raise the exception
+	raise e if debug
+
 	#echo "There was no command called #{command}!\n"
 	puts "\n"
 	echo '####################', 'red'
@@ -319,6 +616,7 @@ rescue
 	echo './script/deploy rake <staging|production> <command>   # Runs rake task on server. Command should be task without preceding "rake".', 'red'
 	echo './script/deploy setup                                 # Installs / Updates Rubber and syncs /etc/hosts aliases', 'red'
 	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
+	echo './script/deploy memory <staging|production>           # Shows memory statistics about all servers', 'red'
 	puts "\n"
 end
 

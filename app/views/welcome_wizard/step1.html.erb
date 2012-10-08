@@ -1,6 +1,16 @@
 <div class="row kRap" style="position:relative;">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px">User, create your Tioki account to join Invitor's professional network.</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">
+			<% if params[:invitestring] %>
+				User, create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
+			<% elsif params[:invitecode] %>
+				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+			<% elsif params[:welcomecode] %>
+				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+			<% else %>
+				User, create your Tioki account to join Invitor's professional network.
+			<% end %>
+		</h1>
 	</div>
 
 	<div class="seven columns">
@@ -41,7 +51,7 @@
 				<tr>
 					<td>
 						<label>
-							<span>Password</span>
+							<span>Confirm Password</span>
 							<input type="password" name="user[confirmation_password]" />
 						</label>
 					</td>
@@ -54,6 +64,10 @@
 				<%= hidden_field_tag :invitestring, params[:invitestring] %>
 			<% elsif params[:vouchstring] %>
 				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">

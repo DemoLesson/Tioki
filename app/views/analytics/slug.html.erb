@@ -1,0 +1,87 @@
+<%= render 'header' %>
+
+<form method="POST">
+	<fieldset>
+		<legend>Triggered Date Range</legend>
+		<label>
+			<span>Date Start</span>
+			<input name="date_start" placeholder="2012-01-01" value="<%= params[:date_start] %>" />
+		</label>
+		<label>
+			<span>Date End</span>
+			<input name="date_end" placeholder="2012-01-01" value="<%= params[:date_end] %>" />
+		</label>
+	</fieldset>
+	<!--fieldset>
+		<legend>Trigger Type</legend>
+		<label>
+			<span>Category</span>
+			Coming Soon!
+		</label>
+		<label>
+			<span>Trigger Slug</span>
+			<select name="slug_name">
+				<option value="">- ALL -</option>
+				<% Analytic.select('`slug`').group('`slug`').each do |lyte| %>
+					<option <%= 'selected="selected"' if params[:slug_name] == lyte.slug %> value="<%= lyte.slug %>"><%= lyte.slug %></option>
+				<% end %>
+			</select>
+		</label>
+	</fieldset-->
+	<!--fieldset>
+		<legend>Narrowing Data</legend>
+		<label>
+			<span>-</span>
+			Coming Soon!
+		</label>
+		<label>
+			<span>-</span>
+			Coming Soon!
+		</label>
+	</fieldset-->
+	<input type="submit" value="Filter" />
+</form>
+
+<div class="clear"></div>
+
+<table>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<% @slug.each do |data| %>
+		<tr>
+			<td><%= data.slug %></td>
+			<td><%= data.map_tag.class.name rescue 'Unknown' %></td>
+			<td><%= data.map_tag.id rescue '?' %></td>
+			<td><%= link_to data.user.name, "/analytics/user/#{data.user.id}" %></td>
+			<td><%= data.count.nil? ? 0 : data.count %></td>
+			<td><%= data.per_week.nil? ? 0 : data.per_week %></td>
+			<td><%= data.created_at.strftime("%A %B %-d, %Y @ %l:%M%P %Z") %></td>
+		</tr>
+	<% end %>
+</table>
+<div>
+	<%= will_paginate @slug %>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('input[name="date_start"]').datepicker({
+		dateFormat: 'yy-mm-dd',
+		defaultDate: "-1m",
+		changeMonth: true,
+		onSelect: function( selectedDate ) {
+			$('input[name="date_end"]').datepicker("option", "minDate", selectedDate);
+		}
+	});
+	$('input[name="date_end"]').datepicker({
+		changeMonth: true,
+		dateFormat: 'yy-mm-dd',
+		onSelect: function( selectedDate ) {
+			$('input[name="date_start"]').datepicker("option", "maxDate", selectedDate);
+		}
+	});
+});
+</script>

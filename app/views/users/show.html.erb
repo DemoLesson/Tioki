@@ -5,5 +5,5 @@ Administrator at <%= link_to @school.name, :controller => :schools, :action => :
 <% end %>
 
 <% if @school.nil? %>
-<%= link_to "Teacher Profile", "/"+@teacher.url %>
+<%= link_to "Teacher Profile", "/profile/" + @teacher.url %>
 <% end %>

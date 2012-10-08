@@ -1,5 +1,5 @@
 <section id="main-content" class="inner-content">
-	<section id="updates">
+	<section id="updates" style="margin-top:30px;">
 		<div class="profile-thumb-medium">
 			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
 			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
@@ -14,11 +14,11 @@
 					<div class="count connections">
 					<%= User.current.pending_connections(false).count %>
 					</div>
-					My Connections
+					My <%= ablang('connection.plural') %>
 					</a>
 				</li>
 				<li>
-					<a href="inbox.html">
+					<a href="/messages">
 					<div class="count inbox">
 					<%= unread_messages %>
 					</div>
@@ -37,7 +37,7 @@
 		</div>
 	</section>
 	<section id="panels">
-		<section id="whiteboard" class="panel two-column left-side">
+		<section id="list" class="panel two-column left-side">
 			<h3>
 				<a href="#">
 				Whiteboard
@@ -163,7 +163,8 @@
 				
 			</ul>
 		</section--> <!-- END MY FAVORITES -->
-		<section class="panel one-column left-side">
+		<section id="list" class="panel one-column left-side">
+			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
 			<h3>
 				<a href="#">
 				Latest Demo Lessons
@@ -188,11 +189,10 @@
 				<a href="/me/profile/edit/upload-video" class="action-button">
 				Upload Demo Lesson
 				</a>
-				<a href="/me/profile/edit/upload-video" class="icon">
-				</a>
 			</section>
 		</section> <!-- END DEMO LESSONS -->
-		<section class="panel one-column left-side">
+		<section id="list" class="panel one-column left-side">
+			<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
 			<h3>
 				<a href="#">
 				Upcoming Events
@@ -211,40 +211,37 @@
 								<div class="cal-date">
 								<%= event.start_time.localtime.strftime("%e") %>
 								</div>
-								</div>
-								<p>
-								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-								</p>
-								<div class=" quick-action star-gold">
-							</div>
-						</li>
-					<% end %>
-				<% end %>
-				<% rsvp.each do |event| %>
-					<li>
-						<div class="calendar-thumb">
-							<div class="cal-month">
-							<%= event.start_time.localtime.strftime("%^b") %>
-							</div>
-							<div class="cal-date">
-							<%= event.start_time.localtime.strftime("%e") %>
-							</div>
 							</div>
 							<p>
 							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 							</p>
-							<!--div class=" quick-action star-gold"-->
-						</div>
-					</li>
+							<!--div class=" quick-action star-gold"></div-->
+						</li>
+					<% end %>
+				<% else %>
+					<% rsvp.each do |event| %>
+						<li>
+							<div class="calendar-thumb">
+								<div class="cal-month">
+								<%= event.start_time.localtime.strftime("%^b") %>
+								</div>
+								<div class="cal-date">
+								<%= event.start_time.localtime.strftime("%e") %>
+								</div>
+							</div>
+							<p>
+							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+							</p>
+							<div class=" quick-action star-gold"></div>
+						</li>
+					<% end %>
 				<% end %>
 			</ul>
 			<section class="panel-actions events">
 				<a href="/events/new" class="action-button">
 				Create New Event
 				</a>
-				<a href="/events/new" class="icon">
-				</a>
-			</section>
+			</section>		
 		</section> <!-- END UPCOMING EVENTS -->
 		<div class="clearfloat"></div>
 	</section>

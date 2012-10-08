@@ -18,6 +18,12 @@ Preview::Application.routes.draw do
 	# Metrics Controller
 	resources :metrics
 
+	# Analytics Controller
+	match 'analytics/users' => 'analytics#users'
+	match 'analytics/user/:id' => 'analytics#user'
+	match 'analytics/slug/:slug' => 'analytics#slug'
+	resources :analytics
+
 	# Welcome Wizard Controller
 	resources :welcome_wizard
 
@@ -39,13 +45,18 @@ Preview::Application.routes.draw do
 
 			# Anything involving editing my profile
 			scope 'edit' do
-				match 'credentials' => 'credentials#index'
 				match 'skills' => 'teachers#edit_skills'
 				match 'experience' => 'teachers#experience'
 				match 'education' => 'teachers#education'
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
+				match 'create-video-snippet/:id' => 'videos#myvideo'
+				match 'feature-video/:id' => 'teachers#feature_video'
+				resources :credentials
 				root :to => 'teachers#edit'
+				resources :awards
+				resources :presentations
+				resources :awards
 			end
 
 			# Misc
@@ -66,12 +77,15 @@ Preview::Application.routes.draw do
 	# Profile Views
 	scope 'profile' do
 
+		# Videos
+		match ':url/videos' => 'videos#index'
+		match ':url/videos/:id' => 'videos#show'
+
 		# Card Profile
 		match ':url/card' => 'card#get'
 
 		# Guest Access
 		match ':url/:guest_pass' => 'teachers#profile'
-
 		# Normal Access
 		match ':url' => 'teachers#profile'
 	end
@@ -99,6 +113,9 @@ Preview::Application.routes.draw do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
 	end
+
+	# Videos Routing
+	match 'videos/:id/skills' => 'videos#skills'
 
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
@@ -168,14 +185,16 @@ Preview::Application.routes.draw do
 	match 'update_existing_education/:id' => 'teachers#update_existing_education'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
-        match 'profileattachments' => 'teachers#profileattachments'
+    match 'profileattachments' => 'teachers#profileattachments'
+	match 'dc/:url' => 'connections#linkinvite'
+	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
 	match 'remove_experience/:id' => 'teachers#remove_experience'
 	match 'edit_experience/:id' => 'teachers#edit_experience'
 	match 'update_existing_experience/:id' => 'teachers#update_existing_experience'
-	
+  
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'
 	match 'delete_from_whiteboard' => 'home#whiteboard_rmv'
@@ -285,7 +304,6 @@ Preview::Application.routes.draw do
 
 	resources :pins
 	resources :subjects
-	resources :credentials
 	resources :blog_entries
 	resources :messages
 	resources :vouches
@@ -303,15 +321,17 @@ Preview::Application.routes.draw do
 	match '/demolesson' => 'home#how_it_works_teachers'
 	match '/muckerlab' => 'home#muckerlab'
 
-	# Guest pass
-	match 'u/:guest_pass' => 'teachers#guest_entry'
-	match '/:url/:guest_pass', :to => 'teachers#profile'
-	match '/:url', :to => 'teachers#profile'
+	# # # # # # # # # # # # # # # # # # # # # #
+	# Guest pass                              #
+	# Removed by KellyLSB 10-03-2012 10:36am  #
+	# # # # # # # # # # # # # # # # # # # # # #
+	# match 'u/:guest_pass' => 'teachers#guest_entry'
+	# match '/:url/:guest_pass', :to => 'teachers#profile'
+	# match '/:url', :to => 'teachers#profile'
 
-	# Show the teacher who has recently viewed their profile
-	match 'teachers/:id/view_history', :to => 'teachers#view_history'
-
-	# Error 404
+	# # # # # # # 
+	# Error 404 #
+	# # # # # # #
 	match '*not_found' => 'errors#error_404'
 	
 	# The priority is based upon order of creation:

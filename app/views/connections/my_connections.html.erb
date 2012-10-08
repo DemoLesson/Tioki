@@ -9,18 +9,18 @@
 	};
 	</script>
 
-	<span style="font-size:20px;font-family:Arial,Helvetica,'Nimbus Sans L',sans-serif;color:#000;text-shadow:#ccc 1px 1px 2px;">My Connections</span><br />
+	<span style="font-size:20px;font-family:Arial,Helvetica,'Nimbus Sans L',sans-serif;color:#000;text-shadow:#ccc 1px 1px 2px;">My <%= ablang('connection.plural') %></span><br />
 
 	<div id="sidebar" class="job_browser">
 		<div id="myConnections">
-			<h4>Connections</h4>
-			<%= link_to "Add Connections", :inviteconnections %><br />
-			<%= link_to 'My Connections', :my_connections %><br />
-			<%= link_to "Pending Connections (" + pendingcount.to_s + ")", :pending_connections %><br />
+			<h4><%= ablang('connection.plural') %></h4>
+			<%= link_to "Add " + ablang('connection.plural'), :inviteconnections %><br />
+			<%= link_to 'My ' + ablang('connection.plural'), :my_connections %><br />
+			<%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
 		</div>
 		<br /><br />
 		<div id="whiteBox" style="height:280px;width:190px;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
-			<strong>Connecting on DemoLesson</strong>
+			<strong><%= ablang('connection.connecting') %> on DemoLesson</strong>
 			<ul style="list-style:disc;padding-left:12px">
 				<li>Helps you collarborate with those who share your interests</li>
 				<li>Enhances your opportunites for professional growth</li>
@@ -29,7 +29,7 @@
 			<% if @connections.size != 0 %>
 				<div style="text-align: center;border:solid 1px #2AA99B;background:#fff;padding:10px;">
 					<img border="0" style="width:100%;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
-					<p style="margin:5px;">Refer a friend and get $5 towards a Donors Choose project - including your own!</p><br />
+					<p style="margin:5px;">Refer a friend and get $10 towards a Donors Choose project - including your own!</p><br />
 					<a href="/inviteconnections" class="button">Refer a Friend</a>
 				</div>
 			<% end %>
@@ -38,11 +38,11 @@
 
 	<div id="content">
 		<% if @connections.size == 0 %>
-			<h3>You do not have any connections</h3>
+			<h3>You do not have any <%= ablang('connection.plural', false) %></h3>
 			<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
 				<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
 				<div>
-					<p>No connections? No good!</p>
+					<p>No <%= ablang('connection.plural', false) %>? No good!</p>
 					<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
 					<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
 				</div>
@@ -54,21 +54,21 @@
 			<div class="item_jobs">
 				<div class="item_picture">
 					<% if connection.not_me.avatar? %>
-						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), '/profile/'+connection.not_me.teacher.url.to_s %>
+						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), "/profile/#{connection.not_me.teacher.url}" %>
 					<% else %>
-						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/'+connection.not_me.teacher.url.to_s %>
+						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{connection.not_me.teacher.url}" %>
 					<% end %>
 				</div>
 
 				<div id ="connection_desc">
-					<span style ="float:right; text-align:right"><%= link_to "Connections: " + connection.not_me.connections.not_pending.count.to_s, 'userconnections/'+connection.not_me.id.to_s %></span>
-					<strong><%= link_to connection.not_me.name, '/'+connection.not_me.teacher.url.to_s %></strong><br />
+					<span style ="float:right; text-align:right"><%= link_to ablang('connection.plural') + ": " + connection.not_me.connections.not_pending.count.to_s, 'userconnections/'+connection.not_me.id.to_s %></span>
+					<strong><%= link_to connection.not_me.name, "/profile/#{connection.not_me.teacher.url}" %></strong><br />
 					<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
 						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
 					<% end %><br />
-					<%= connection.not_me.teacher.location %><br />
+					<%= connection.not_me.teacher.location %><br /><br />
 					<div>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "btn"} %>
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-green"} %>
 					</div>
 				</div>
 			</div>

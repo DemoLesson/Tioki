@@ -12,16 +12,29 @@ class Teacher < ActiveRecord::Base
   has_many :stars
   has_many :pins
   has_many :interviews
+  has_many :teacher_links, :dependent => :destroy
+  has_many :presentations, :dependent => :destroy
+  has_many :awards, :dependent => :destroy
   
   has_many :experiences, :order => 'startYear DESC'
   has_many :educations, :order => 'current DESC, year DESC, start_year DESC'
   
   has_many :assets, :dependent => :destroy
   has_many :skills, :through => :user
+
+  # Favorite Videos
+  has_and_belongs_to_many :favorite_videos, :class_name => 'Video', :join_table => 'videos_favorites'
   
   validates_associated :assets
   validates_uniqueness_of :url, :message => "The name you selected is not available."
   #validates_format_of :url, :with => /\w/, :message => "Invalid URL.", :unless => Teacher.new { |t| t.url.blank? }
+
+  # Returns featured or most recent
+  def video
+    video = Video.find(self.video_id) rescue nil
+    video = self.videos.order('`created_at` DESC').first if video.nil?
+    return video
+  end
 
   def self.find_or_create_from_user(user_id)
     original_user = User.find(user_id)
@@ -39,15 +52,28 @@ class Teacher < ActiveRecord::Base
   end
 
   def self.search(search)
-    if search
+    return self if search.empty?
+
+    search.downcase!
+    if search.present?
       #check if search if an email or a name
       if search.include? "@"
-        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email LIKE ?', "%#{search}%"])
+        #must be exact email address
+        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email = ?', search])
       else
-        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.name LIKE ?', "%#{search}%"])
+        #For every word in the search check the prefix of both first and last name
+        #As well as every word in firstname
+        #Should consider a full text search as this is going to be pretty slow
+        tup = SmartTuple.new(" AND ")
+        tup << ["teachers.user_id = users.id"]
+        search.split.each do |token|
+          tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
+        end
+        find(:all, :include => :user, :conditions => tup.compile)
       end
     else
-      find(:all)
+      #no search paramters, instead of showing everyone don't show anything
+      return []
     end
   end
   
@@ -71,7 +97,7 @@ class Teacher < ActiveRecord::Base
   def snippet_watchvideo_button
     @video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
     if @video != nil
-      embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id.to_s}\" class='btn'>Watch Snippet</a>"
+      embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
 
       begin
         if @video.encoded_state == 'queued'
@@ -197,8 +223,34 @@ class Teacher < ActiveRecord::Base
     end
   end
 
-  def profile_link
-    return "<a href=\"/profile/#{self.url}\">#{self.user.name}</a>"
+  def profile_link(attrs = {})
+
+    # Parse attrs
+    _attrs = []; attrs.each do |k,v|
+      # Make sure not a symbol
+      k = k.to_s if k.is_a?(Symbol)
+      next if k == 'href'
+      # Add to attrs array
+      _attrs << "#{k}=\"#{v}\""
+    end; attrs = _attrs.join(' ')
+
+    # Return the link to the profile
+    return "<a href=\"/profile/#{self.url}\" #{attrs}>#{self.user.name}</a>".html_safe
   end
   
+  def has_social?
+    count = 0
+    count += 1 if linkedin.present? && linkedin != 'http://linkedin.com/'
+    count += 1 if edmodo.present?
+    count += 1 if twitter.present?
+    count += 1 if betterlesson.present?
+    count += 1 if teachingchannel.present?
+
+    # Is count creater than zero
+    return count > 0
+  end
+
+  def me?
+    (!User.current.nil? && self == User.current.teacher) ? true : false
+  end
 end

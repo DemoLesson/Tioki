@@ -344,13 +344,13 @@
 												<%= link_to "View Card Profile", "/card/" + self.current_user.teacher.url %>
 											</li>
 											<li>
-												<%= link_to "View Profile", "/" + self.current_user.teacher.url %>
+												<%= link_to "View Profile", "/profile/" + self.current_user.teacher.url %>
 											</li>
 											<li>
-												<%= link_to 'Edit Profile', '/teachers/'+self.current_user.teacher.id.to_s+'/edit'%>
+												<%= link_to 'Edit Profile', '/teachers/' + self.current_user.teacher.id.to_s + '/edit'%>
 											</li>
 											<li>
-												<%= link_to "Profile Stats", '/teachers/'+self.current_user.teacher.id.to_s+'/view_history' %>
+												<%= link_to "Profile Stats", '/teachers/' + self.current_user.teacher.id.to_s + '/view_history' %>
 											</li>		
 										</ul>			
 									</li>
