@@ -1,3 +1,8 @@
+v1.1.25 - Oct 10, 2012 11:57AM deployed by Kelly Becker
+=======================================================
+* 099135b: Kelly Becker - ordinalized connection degrees
+* b535e21: Kelly Becker - connection degree works
+
 v1.1.24 - Oct 10, 2012 10:48AM deployed by Aleks Stanisic
 =========================================================
 * e8b04e4: Aleks Stanisic - changes to donor choose campaign, made slight changes to subject lines of variuos emails
