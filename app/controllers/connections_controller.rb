@@ -1,4 +1,5 @@
 require 'mail'
+
 class ConnectionsController < ApplicationController
 	layout nil
 	layout "application", :except => :show
@@ -7,12 +8,8 @@ class ConnectionsController < ApplicationController
 	# GET /connections
 	# GET /connections.json
 	def index
-		if params[:connectsearch]
-			@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
-		else
-			@connections = Teacher.paginate(:page=> params[:page], :per_page => 25)
-		end
-		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
+		@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+		@my_connections = Connection.mine(:pending => false).collect!{|x| x.not_me.id}
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -270,6 +267,10 @@ class ConnectionsController < ApplicationController
 		end
 
 		render :json => divs
+	end
+
+	def distance
+		Connection.distance(params[:id])
 	end
 
 	# DELETE /connections/1

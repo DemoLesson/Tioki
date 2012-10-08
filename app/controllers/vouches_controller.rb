@@ -62,14 +62,13 @@ class VouchesController < ApplicationController
 	end
 
 	def addvouch
-		raise "Error"
 		vouched_skill = VouchedSkill.find(:first, :conditions => ['skill_id = ? && voucher_id = ? && user_id = ?', params[:skill_id], User.current.id, params[:user_id]])
 		if vouched_skill
 			redirect_to :back, :notice => "You have already vouched for this skill"
 		else
 			VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
+			redirect_to :back
 		end
-		redirect_to :back
 	end
 
 	def updatevouch

@@ -2,6 +2,8 @@ Preview::Application.routes.draw do
 
 	resources :s3_uploads
 
+	match 'distance/:id' => 'connections#distance'
+
 	#Warning: make sure user URL can't be set to any of these
 
 	# Events routing

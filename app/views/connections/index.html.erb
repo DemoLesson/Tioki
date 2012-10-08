@@ -22,14 +22,14 @@
       </div>
 
       <div id ="connection_desc">
-        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><br />
+        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><%= " <span class=\"connection_degree\">#{Connection.distance(connection.user.id).ordinalize}</span>".html_safe rescue '' %><br />
         <% if connection.position.present?  && connection.school.present? %>
           <%= connection.position %> at <%= connection.school %>
         <% end %><br />
         <%= connection.location %><br /><br />
         <% if self.current_user != connection.user %>
           <% if self.current_user.teacher %>	
-            <% if @my_connections.include? connection.id %>
+            <% if @my_connections.include? connection.user.id %>
                 <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
             <% else %>
               <div>

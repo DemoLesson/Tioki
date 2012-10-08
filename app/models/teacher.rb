@@ -52,6 +52,8 @@ class Teacher < ActiveRecord::Base
   end
 
   def self.search(search)
+    return self if search.empty?
+
     search.downcase!
     if search.present?
       #check if search if an email or a name
