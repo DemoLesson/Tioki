@@ -1,6 +1,10 @@
 @import "vars";
 @import "mixins";
 
+span.connection_degree {
+	vertical-align: super;
+}
+
 .css3-border-box {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
