@@ -1,3 +1,10 @@
+v1.1.29 - Oct 8, 2012  1:05PM deployed by Kelly Becker
+======================================================
+* 082993c: Kelly Becker - class variable
+* 0d2c551: Kelly Becker - changed from using a global class to a local class variable when connection distance searching
+
+Sorry about all this I'm having issues with class variable inheritance
+
 v1.1.28 - Oct 8, 2012 12:36PM deployed by Kelly Becker
 ======================================================
 * 6055f2d: Kelly Becker - fixed date on deploy script
