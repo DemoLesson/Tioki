@@ -1,3 +1,7 @@
+v1.1.27 - Oct 10, 2012 12:34PM deployed by Kelly Becker
+=======================================================
+* c746f20: Kelly Becker - rescue an exception
+
 v1.1.26 - Oct 10, 2012 12:21PM deployed by Kelly Becker
 =======================================================
 * 7c4298d: Kelly Becker - connection degree
