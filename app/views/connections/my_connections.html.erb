@@ -3,7 +3,7 @@
 		<nav class="subpage">
 			<ul>
 				<li class="current">
-					My Connections
+				My <%= ablang('connection.plural', true) %>
 				</li>
 				<!--<li>
 					<a href="findconnections.html">
@@ -12,7 +12,7 @@
 					</li>-->
 				<li>
 					<a href="/inviteconnections">
-					Invite Connections
+					Invite <%= ablang('connection.plural', true) %>
 					</a>
 				</li>
 			</ul>
@@ -21,7 +21,7 @@
 	<section id="panels" class="group">
 		<section id="list" class="panel one-column left-side">
 			<h3>
-				Pending Connections [<%= @my_pending_connections.count %>]
+				Pending <%= ablang('connection.plural', true) %> [<%= @my_pending_connections.count %>]
 			</h3>
 			<ul>
 				<% @my_pending_connections.each do |connection| %>
@@ -52,12 +52,12 @@
 		</section> <!-- END PENDING CONNECTIONS -->
 		<section id="list" class="panel two-column right-side">
 			<h3>
-			My Connections
+				My <%= ablang('connection.plural', true) %>
 			</h3>
 			<div class="search-connections">	
 				<%= form_tag connections_path, :method => :get do %>
 					<fieldset>
-						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New Connections", :class => "search" } %>
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
 						<select name="topic">
 							<option value="hellothere" >-- BY CATEGORY --</option>
 							<option>Name</option>
@@ -109,7 +109,7 @@ $(document).ready(function() {
 			if(data.length == 0) {
 				more.animate({"opacity": 0}, 700, function() {
 					window.connectionMax = true;
-					more.text('No More Updates');
+					more.text('No More <%= ablang('connection.plural', true)%>');
 					setTimeout(function() {
 						more.animate({"opacity": 1}, 1000);
 					}, 50);
