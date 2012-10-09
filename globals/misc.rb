@@ -35,6 +35,22 @@ def mapTag!(tag)
 	Kernel.const_get(_class).find(_id)
 end
 
+# Array class
+class Array
+	def eachX(times, misc = nil, done = 1)
+		return Array.new if times < 1
+
+		# Run normal each
+		returned = Array.new
+		self.each do |val|
+			returned << yield(done, val)
+		end
+
+		return returned if misc == 'break' && !returned.delete_if{|x| x.nil?}.empty?
+		returned.concat(self.eachX(times - 1, misc, done + 1, &Proc.new))
+	end
+end
+
 # Hash cleaner
 class Hash
 	def clean!

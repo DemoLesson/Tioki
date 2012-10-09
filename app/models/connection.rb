@@ -92,23 +92,19 @@ class Connection < ActiveRecord::Base
 		end
 	end
 
-	def self.distance(id = nil, level = 1, connections = nil, user_id = nil, delve = false)
-		@scanned_connections = Array.new if level <= 1
-
-		# Default
-		result = nil
-
-		# Make id an Fixnum
-		id = id.to_i
+	def self.distance(find = nil, user_id = nil, connections = nil, level = 1, delve = false)
 
 		# Dont go too deep
-		return nil if level >= 5
+		return nil if find.nil? || level >= 5
 
-		# Require Nil
-		raise StandardError, "You must provide a target id" if id.nil?
+		# Cache/Debugging Arrays
+		@scanned_connections = Array.new if level <= 1
+		@counter = Array.new if level <= 1
 
 		# My Connections
-		connections = Connection.mine(:pending => false) if connections.nil?
+		if connections.nil?
+			connections = Connection.mine(:pending => false)
+		end
 
 		# Begin with me and remove myself from additional searching
 		if user_id.nil?
@@ -116,67 +112,55 @@ class Connection < ActiveRecord::Base
 			@scanned_connections << user_id
 		end
 
-		# Look at immediate
-		if !delve || level <= 1
-			connections.each do |c|
+		# Prepare all the vars
+		find = find.to_i
+		result = nil
 
-				# If we found the id then stop
-				if id == c.user_id || id == c.owned_by
-					result = level
-					break
-				end
-			end
+		if !delve || level <= 1
+
+			# Check if the user is connected
+			result = level unless connections.where('`owned_by` = ? || `user_id` = ?', find, find).first.nil?
+
+			@counter << User.find(user_id).name unless result.nil?
+
+			# Debug
+			#dump @counter unless result.nil?
+
+			# Return if the result was found
+			return result unless result.nil?
 		end
 
-		# Return unless result is still nil
-		return result unless result.nil?
-		
-		# If @level is null && we want to delve
-		if (delve || level <= 1) && result.nil?
+		if delve || level <= 1
 
-			# Search immediate connections
-			connections.each do |c|
+			# Counter
+			@counter << User.find(user_id).id
 
-				# Get the user not me
-				c = c.not_me(user_id)
+			# Delve and Search
+			results = connections.eachX(2) do |i, c|
 
-				# If we already scanned this user then dont continue
-				next if @scanned_connections.include? c.id
+				# Get the user that is not the parent
+				user = c.not_me(user_id)
 
-				connections = Connection.mine(:user => c.id, :pending => false)
+				# If we already scanned this user move on
+				next if @scanned_connections.include? user.id
 
-				# Get the distance down
-				result = self.distance(id, level + 1, connections, c.id, false) 
+				# Get the users connections
+				user_connections = Connection.mine(:user => user.id, :pending => false)
 
-				# Return unless were on the base or @level is still nil
-				return result unless result.nil?
+				# Go ahead and get search or delve
+				result = self.distance(find, user.id, user_connections, level + 1, i == 1 ? false : true)
+
+				# Dont research
+				@scanned_connections << user.id if i > 1
+
+				# Return if we got a result
+				result unless result.nil?
 			end
 
-			# Still no results GAH!
-			if result.nil?
-				
-				# Delve down the connections stack
-				connections.each do |c|
-
-					# Get the user not me
-					c = c.not_me(user_id)
-
-					# If we already scanned this user then dont continue
-					next if @scanned_connections.include? c.id
-					@scanned_connections << c.id
-
-					connections = Connection.mine(:user => c.id, :pending => false)
-
-					# Get the distance down
-					result = self.distance(id, level + 1, connections, c.id, true) 
-
-					# Return unless were on the base or @level is still nil
-					return result unless result.nil?
-				end
-			end
+			dump results unless results.empty?
 		end
 
 		# Return result
-		return result
+		return nil
 	end
 end
