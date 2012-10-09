@@ -8,7 +8,7 @@ class ConnectionsController < ApplicationController
 	# GET /connections
 	# GET /connections.json
 	def index
-		@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+		@connections = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
 		@my_connections = Connection.mine(:pending => false).collect!{|x| x.not_me.id}
 
 		respond_to do |format|
@@ -18,7 +18,6 @@ class ConnectionsController < ApplicationController
 	end
 
 	def add_connection(respond = true)
-
 		# Check and see if we are already connected (or are pending)
 		a = self.current_user.id
 		b = params[:user_id]

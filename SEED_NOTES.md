@@ -1,3 +1,22 @@
+v1.2.0 - Oct 9, 2012 10:06AM deployed by Aleks Stanisic
+=======================================================
+* af88932: Aleks Stanisic - fix to vouch pictures
+* c951119: Elijah Green - Add better search for connections
+* 2d89532: Elijah Green - Don't used the created_at date for referrals
+* 78f2e78: Elijah Green - Add overlay to my_connections
+* 7ba6d04: Elijah Green - Add correct language to my_Connections page
+* 753649b: Elijah Green - Add rest of my_connections page functionality
+* f0c9eed: Elijah Green - Add data to my_connections
+* b1180c5: Elijah Green - Add findconnections and add things to my_connections
+* af3530f: Elijah Green - Add data to my_connections
+* 1049148: Elijah Green - Fix the rest of the styling
+* bf91d5a: Elijah Green - Actaully remove pending this time
+* 9f54909: Elijah Green - Add new m_connections and remove pending
+* 3e95950: Elijah Green - Add assets except for main.css and style.css that may need to be merged with ours
+* 35a1449: Aleks Stanisic - more changes to profile
+* ceb673e: Aleks Stanisic - some minor changes to profile page
+* 0f8be2f: Elijah Green - Changes to profile for new branches
+
 v1.1.29 - Oct 8, 2012  1:05PM deployed by Kelly Becker
 ======================================================
 * 082993c: Kelly Becker - class variable
