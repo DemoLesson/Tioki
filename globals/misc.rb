@@ -35,6 +35,21 @@ def mapTag!(tag)
 	Kernel.const_get(_class).find(_id)
 end
 
+# Array class
+class Array
+	def eachX(times, done = 1)
+		return Array.new if times < 1
+
+		# Run normal each
+		returned = Array.new
+		self.each do |val|
+			returned << yield(done, val)
+		end
+
+		returned.concat(self.eachX(times - 1, done + 1, &Proc.new))
+	end
+end
+
 # Hash cleaner
 class Hash
 	def clean!

@@ -270,7 +270,8 @@ class ConnectionsController < ApplicationController
 	end
 
 	def distance
-		Connection.distance(params[:id])
+		result = Connection.distance(params[:id])
+		render :text => (result.nil? ? 'nil' : result)
 	end
 
 	# DELETE /connections/1
