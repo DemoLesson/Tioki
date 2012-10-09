@@ -1,4 +1,4 @@
-<section id="main-content" class="inner-content">
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
 <!-- Include these scripts to import address books with CloudSponge -->
 <script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -7,6 +7,25 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 		   textarea_id:"emails"
 	};
 </script>
+<section>
+	<nav class="subpage">
+		<ul>
+			<li class="current">
+			My <%= ablang('connection.plural', true) %>
+			</li>
+			<!--<li>
+				<a href="findconnections.html">
+				Find New Connections
+				</a>
+				</li>-->
+			<li>
+				<a href="/inviteconnections">
+				Invite <%= ablang('connection.plural', true) %>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</section>
 
 <h1>Let's invite some of your friends to be <%= ablang('connection.plural', false) %></h1>
 
