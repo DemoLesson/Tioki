@@ -428,6 +428,39 @@ class User < ActiveRecord::Base
 		return percent
 	end
 
+	def distance(find, level = 1, delve = false, scanned = [])
+
+		# Dont go to deep
+		return nil if level > 5
+
+		# Get the connections of this user
+		connections = Connection.mine(:pending => false, :user => self.id)
+
+		# Did we find anything on this level
+		found = !connections.where('`owned_by` = ? || `user_id` = ?', find, find).first.nil?
+
+		# If we did find the answer return the level
+		return level if found
+
+		# Unless were delving
+		return nil unless delve || level == 1
+
+		# Go through the stack
+		results = connections.eachX(2, 'break') do |i, user|
+			user = user.not_me(self.id)
+
+			# Search down a bit deeper
+			user.distance(find, level + 1, i == 1 ? false : true, scanned)
+		end
+
+		# Return the results
+		unless results.nil?
+			results = results.flatten.delete_if{|x| x.nil?} 
+			return results.min if level == 1
+			return results
+		end
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)

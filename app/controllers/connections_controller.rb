@@ -270,7 +270,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def distance
-		result = Connection.distance(params[:id])
+		result = User.find(117091).distance(params[:id])
 		render :text => (result.nil? ? 'nil' : result)
 	end
 

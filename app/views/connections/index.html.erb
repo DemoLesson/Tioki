@@ -22,7 +22,7 @@
       </div>
 
       <div id ="connection_desc">
-        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><%= " <span class=\"connection_degree\">#{Connection.distance(connection.user.id).ordinalize}</span>".html_safe rescue '' %><br />
+        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><%= " <span class=\"connection_degree\">#{self.current_user.distance(connection.user.id).ordinalize}</span>".html_safe rescue '' %><br />
         <% if connection.position.present?  && connection.school.present? %>
           <%= connection.position %> at <%= connection.school %>
         <% end %><br />

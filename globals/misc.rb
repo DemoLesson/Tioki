@@ -37,7 +37,7 @@ end
 
 # Array class
 class Array
-	def eachX(times, done = 1)
+	def eachX(times, misc = nil, done = 1)
 		return Array.new if times < 1
 
 		# Run normal each
@@ -46,7 +46,8 @@ class Array
 			returned << yield(done, val)
 		end
 
-		returned.concat(self.eachX(times - 1, done + 1, &Proc.new))
+		return returned if misc == 'break' && !returned.delete_if{|x| x.nil?}.empty?
+		returned.concat(self.eachX(times - 1, misc, done + 1, &Proc.new))
 	end
 end
 
