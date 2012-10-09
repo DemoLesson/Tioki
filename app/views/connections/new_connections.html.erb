@@ -1,0 +1,29 @@
+<li>
+	<div class="profile-thumb-big">
+		<% if @teacher.user.avatar? %>
+			<%= link_to image_tag(@teacher.user.avatar.url(:thumb)), "profile/#{@teacher.url}" %>
+		<% else %>
+			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@teacher.url}" %>
+		<% end %>
+	</div>
+	<p>
+	<a href="/profile/<%= @teacher.url %>"><%= @teacher.user.name %></a>
+		<%= " <span class=\"connection_degree\">#{self.current_user.distance(@teacher.user.id).ordinalize}</span>".html_safe rescue '' %>
+	<br />
+	<%= @teacher.position %>
+	<% if @teacher.position.present? && @teacher.position.present? %>at<% end %> 
+	<%= @teacher.school %><br />
+	<%= @teacher.location %>
+	</p>
+	<div>
+		<a href="/userconnections/<%= @teacher.user_id %>" class="count connections">
+			<%= @teacher.user.connections.not_pending.count.to_s %>
+		</a>
+		<% if @teacher.user_id == self.current_user.id %>
+		<% elsif @my_connections.include? @teacher.user_id %>
+			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id.to_s }, {:class => "sendmessage"} %>
+		<% else %>
+			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "addconnection" %>
+		<% end %>
+	</div>
+</li>

@@ -101,9 +101,9 @@
     .connections-page .filterconnections p {
       padding-left: 22px; }
       .connections-page .filterconnections p.closed-arrow {
-        background: url("../images/icons/closed-arrow.png") no-repeat; }
+        background: url("../assets/tioki/icons/closed-arrow.png") no-repeat; }
       .connections-page .filterconnections p.open-arrow {
-        background: url("../images/icons/open-arrow-small.png") -2px 0 no-repeat; }
+        background: url("../assets/tioki/icons/open-arrow-small.png") -2px 0 no-repeat; }
   .connections-page ul li:first-child {
     border-top: none; }
 

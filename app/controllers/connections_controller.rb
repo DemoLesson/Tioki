@@ -2,14 +2,18 @@ require 'mail'
 
 class ConnectionsController < ApplicationController
 	layout nil
-	layout "application", :except => :show
+	layout "application", :except => [:show_my_connections, :new_connections]
 	before_filter :login_required, :except => [ :linkinvite]
 
 	# GET /connections
 	# GET /connections.json
 	def index
-		@connections = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
-		@my_connections = Connection.mine(:pending => false).collect!{|x| x.not_me.id}
+		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
+		@teachers = Array.new
+		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page]).each do |teacher|
+			@teacher = teacher
+			@teachers << render_to_string("connections/new_connections", :layout => false)
+		end
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -129,7 +133,7 @@ class ConnectionsController < ApplicationController
 		@connections = Array.new
 		Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).each do |connection|
 			@connection = connection
-			@connections << render_to_string("connections/show", :layout => false)
+			@connections << render_to_string("connections/show_my_connections", :layout => false)
 		end
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
@@ -255,13 +259,26 @@ class ConnectionsController < ApplicationController
 		end
 	end
 
-	def show
+	def show_my_connections
 		connections = Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).all
 		return render :json => connections unless params[:raw].nil?
 
 		divs = Array.new
 		connections.each do |connection|
 			@connection = connection
+			divs << render_to_string
+		end
+
+		render :json => divs
+	end
+
+	def new_connections
+		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+		return render :json => connections unless params[:raw].nil?
+
+		divs = Array.new
+		teachers.each do |teacher|
+			@teacher = teacher
 			divs << render_to_string
 		end
 

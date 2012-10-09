@@ -16,7 +16,7 @@
 		<%= @connection.not_me.teacher.location %>
 	</p>
 	<div>
-		<a href="/userconnection/<%= @connection.not_me.id %>" class="count connections">
+		<a href="/userconnections/<%= @connection.not_me.id %>" class="count connections">
 			<%= @connection.not_me.connections.not_pending.count.to_s %>
 		</a>
 		<a href="/messages/new?user_id_to=<%= @connection.not_me.id %>" class="sendmessage">
