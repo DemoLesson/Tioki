@@ -10,18 +10,19 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 <section>
 	<nav class="subpage">
 		<ul>
-			<li class="current">
-			My <%= ablang('connection.plural', true) %>
+			<li>
+			<a href="/my_connections">
+				My <%= ablang('connection.plural', true) %>
+			</a>
 			</li>
 			<!--<li>
-				<a href="findconnections.html">
-				Find New Connections
+				<a href="/connections">
+					Find New <%= ablang('connection.plural', true) %>
 				</a>
 				</li>-->
 			<li>
-				<a href="/inviteconnections">
+			<li class="current">
 				Invite <%= ablang('connection.plural', true) %>
-				</a>
 			</li>
 		</ul>
 	</nav>
