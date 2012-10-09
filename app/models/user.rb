@@ -431,7 +431,7 @@ class User < ActiveRecord::Base
 	def distance(find, level = 1, delve = false, scanned = [])
 
 		# Dont go to deep
-		return nil if level > 5
+		return nil if level > 3
 
 		# Get the connections of this user
 		connections = Connection.mine(:pending => false, :user => self.id)
@@ -449,8 +449,16 @@ class User < ActiveRecord::Base
 		results = connections.eachX(2, 'break') do |i, user|
 			user = user.not_me(self.id)
 
+			# Skip if already scanned
+			next if scanned.include? user.id && i == 2
+
 			# Search down a bit deeper
-			user.distance(find, level + 1, i == 1 ? false : true, scanned)
+			results = user.distance(find, level + 1, i == 1 ? false : true, scanned)
+
+			# This has been scanned
+			scanned << user.id if i == 2
+
+			results
 		end
 
 		# Return the results
