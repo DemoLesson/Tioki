@@ -345,9 +345,9 @@
 								<div style="float:right">
 									<% @teacher.user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
 										<% if vouched_skill.voucher.avatar? %>
-											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "#{vouched_skill.voucher.teacher.url}" %>
 										<% else %>
-											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "profile/#{vouched_skill.voucher.teacher.url}" %>
+											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "#{vouched_skill.voucher.teacher.url}" %>
 										<% end %>
 									<% end %>
 									<% if User.current && @teacher.user != User.current %>
