@@ -91,11 +91,11 @@
 					<fieldset>
 						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
 						<select name="topic">
-							<option value="hellothere" >-- BY CATEGORY --</option>
-							<option>Name</option>
-							<option>Email</option>
-							<!--<option>School</option>
-							<option>Subject</option>
+							<option value="" >-- BY CATEGORY --</option>
+							<option value="name">Name</option>
+							<option value="email">Email</option>
+							<option value="school">School</option>
+							<!--<option>Subject</option>
 							<option>Location</option>-->
 						</select>
 						<input type="submit" value="GO" class="button" />
