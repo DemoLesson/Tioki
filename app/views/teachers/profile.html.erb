@@ -43,31 +43,47 @@
 			<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
 				<section class="info" style="margin-left:10px;margin-right:5px">
 					<p>
-					<% unless @teacher.twitter == nil || @teacher.twitter == 'http://twitter.com/' || @teacher.twitter =='' %>
-						<a href="<%= @teacher.twitter %>" target="_blank">
-							<%= image_tag('tioki/icons/twitter2.png') %>
-						</a>
+
+					<% if @teacher.twitter.present? %>
+						<% if @teacher.twitter.include? '//' %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), '//'+@teacher.twitter %>
+						<% end %>
 					<% end %>
-					<% unless @teacher.linkedin == nil || @teacher.linkedin == 'http://linkedin.com/' || @teacher.linkedin =='' %>
-						<a href="<%= @teacher.linkedin %>" target="_blank">
-							<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;") %>
-						</a>
+
+					<% if @teacher.linkedin.present? %>
+						<% if @teacher.linkedin.include? '//' %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//' + @teacher.linkedin %>
+						<% end %>
 					<% end %>
-					<% unless @teacher.edmodo == nil || @teacher.edmodo == 'http://edmodo.com/'|| @teacher.edmodo =='' %>
-						<a href="<%= @teacher.edmodo %>" target="_blank">
-							<%= image_tag('tioki/icons/edmodo.png') %>
-						</a>
+
+					<% if @teacher.edmodo.present? %>
+						<% if @teacher.edmodo.include? '//' %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), '//'+@teacher.edmodo %>
+						<% end %>
 					<% end %>
-					<% unless @teacher.betterlesson == nil || @teacher.betterlesson == 'http://betterlesson.com/' || @teacher.betterlesson =='' %>
-						<a href="<%= @teacher.betterlesson %>" target="_blank">
-							<%= image_tag('tioki/icons/betterlesson.png') %>
-						</a>
+
+					<% if @teacher.betterlesson.present? %>
+						<% if @teacher.betterlesson.include? '//' %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//'+@teacher.betterlesson %>
+						<% end %>
 					<% end %>
-					<% unless @teacher.teachingchannel == nil || @teacher.teachingchannel == 'http://teachingchannel.org/' || @teacher.teachingchannel =='' %>
-						<a href="<%= @teacher.teachingchannel %>" target="_blank">
-							<%= image_tag('tioki/icons/teachingchannel.png') %>
-						</a>
+
+					<% if @teacher.teachingchannel.present? %>
+						<% if @teacher.teachingchannel.include? '//' %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//'+@teacher.teachingchannel %>
+						<% end %>
 					<% end %>
+
 					</p>
 					
 					<!-- Current Job / Location -->
