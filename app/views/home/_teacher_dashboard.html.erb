@@ -35,6 +35,24 @@
 				</li>
 			</ul>
 		</div>
+		<div class="suggested-connections">
+			<h3>Suggested Connections based on Skills</h3>
+			<div class="panel">
+				<ul>
+					<% @suggested_connections.each do |user| %>
+						<a href="/profile/#<%= user.teacher.url %>">
+							<li>
+								<span class="name"><%= user.name %></span>
+								<div class="profile-thumb-small">
+									<%= image_tag(user.avatar(:tiny)) %>
+								</div>
+							</li>
+						</a>
+					<% end %>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 	</section>
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">

@@ -721,3 +721,30 @@ span.connection_degree {
 #sidebar {
 	overflow: visible !important;
 }
+
+#updates div.suggested-connections {
+	display: inline-block;
+	margin-right: -28px;
+	float: right;
+
+	div.panel {
+		ul {
+			li {
+				padding: 10px !important;
+				display: inline-block;
+				border: none;
+				float: left;
+
+				span.name {
+					font-size: 10px;
+				}
+				div.profile-thumb-small {
+					margin: 0px auto !important;
+				}
+			}
+		}
+		div.clear {
+			clear:both;
+		}
+	}
+}

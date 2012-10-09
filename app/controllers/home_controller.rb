@@ -37,6 +37,13 @@ class HomeController < ApplicationController
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
 
+        # Suggest connections by shared skill types
+        skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
+        skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
+        @suggested_connections = User.joins("RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`")
+        @suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(5).order('RAND()')
+        @suggested_connections = @suggested_connections.where('`users`.`avatar_file_size` IS NOT NULL')
+
         @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(5)
 
         @pendingcount = self.current_user.pending_connections.count
