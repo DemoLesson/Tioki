@@ -1,3 +1,13 @@
+v1.2.1 - Oct 9, 2012 11:44AM deployed by Kelly Becker
+=====================================================
+* 14dc805: Kelly Becker - conenction degree
+* 1fac967: Kelly Becker - db schema
+* 26e800f: Kelly Becker - caching some connections
+* c9b244b: Kelly Becker - WORKING CONNECTION DEGREES!!!!
+* 3fc870f: Kelly Becker - working on connection degree *bump* i hit a wall
+
+Finally got this working right were only displaying up to third degree right now otherwise it takes to long
+
 v1.2.0 - Oct 9, 2012 10:06AM deployed by Aleks Stanisic
 =======================================================
 * af88932: Aleks Stanisic - fix to vouch pictures

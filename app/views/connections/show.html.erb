@@ -7,7 +7,9 @@
 		<% end %>
 	</div>
 	<p>
-		<a href="/profile/<%= @connection.not_me.teacher.url %>"><%= @connection.not_me.name %></a><br />
+		<a href="/profile/<%= @connection.not_me.teacher.url %>"><%= @connection.not_me.name %></a>
+		<%= " <span class=\"connection_degree\">#{self.current_user.distance(@connection.not_me.id).ordinalize}</span>".html_safe rescue '' %>
+		<br />
 		<%= @connection.not_me.teacher.position %>
 		<% if @connection.not_me.teacher.position.present? && @connection.not_me.teacher.position.present? %>at<% end %> 
 		<%= @connection.not_me.teacher.school %><br />
