@@ -325,15 +325,13 @@
 
 			<!-- START Skills Section-->
 			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
-				<section class="profile-info group skill-groups">
-					<p class="heading">
-					<h3 class="bottom-line">Skills<span style="margin-left:15px;color:#F66C4C;" data-skillgroup-name="true"></span>
+				<section class="profile-info group">
+					<h3 class="bottom-line">Skills<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-						 - 
-						<a href="/me/profile/edit/skills">Edit</a>
+						<span style="font-size:16px"><a href="/me/profile/edit/skills"> - - Edit</a></span>
 					<% end %>
 					<span style="float:right;color:#F66C4C;" >Vouches</span>
-					</p></h3> 
+					</h3> 
 
 					<% @teacher.user.skill_groups.each do |skill_group| %>
 						<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
@@ -359,6 +357,7 @@
 						<% end %>
 					<% end %>
 					</section>
+					</br>
 				<% end %>
 			
 			<!-- START Credential Section-->
