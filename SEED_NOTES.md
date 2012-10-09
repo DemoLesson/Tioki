@@ -1,3 +1,11 @@
+v1.2.2 - Oct 9, 2012  4:30PM deployed by Aleks Stanisic
+=======================================================
+* a7af6a9: Elijah Green - Add findconnections page
+* 9dd9670: Elijah Green - Add if links on profile do not include protocol, add one
+* 864f3b6: Elijah Green - Go to correct links on the navbar on the inviteconnections page
+* ed88a3a: Aleks Stanisic - profile changes to skill tage
+* e1cf048: Elijah Green - Add connections navigation bar to inviteconnections
+
 v1.2.1 - Oct 9, 2012 11:44AM deployed by Kelly Becker
 =====================================================
 * 14dc805: Kelly Becker - conenction degree
