@@ -1,3 +1,47 @@
+v1.2.9 - Oct 10, 2012  2:47PM deployed by Aleks Stanisic
+========================================================
+* a603c89: Kelly Becker - deploy tasks
+* 7cc54cf: Kelly Becker - deploy script updates
+* ca07d3e: Kelly Becker - working on deploy changes
+* ff0a81a: Kelly Becker - save
+
+v1.2.8 - Oct 10, 2012  1:08PM deployed by Aleks Stanisic
+========================================================
+* 84bad23: Kelly Becker - renamed all test to staging
+* cd28e0f: Kelly Becker - edited some items
+* 26e2d2b: Elijah Green - Change date formatting on admin pages
+* fac0ee0: Kelly Becker - logout fix
+* e1d5a7f: Kelly Becker - logout fix
+* a4f2925: Kelly Becker - remove dump
+
+v1.2.7 - Oct 10, 2012 10:20AM deployed by Kelly Becker
+======================================================
+* 13bc937: Kelly Becker - user.current works now
+
+v1.2.6 - Oct 10, 2012  9:52AM deployed by Kelly Becker
+======================================================
+* abd0dc5: Kelly Becker - require user to be logged in to vouch for a skill
+
+v1.2.5 - Oct 9, 2012  5:51PM deployed by Aleks Stanisic
+=======================================================
+* 7967901: Elijah Green - Add redirect_to my_connections instead of pending when going through the userconnect email
+
+v1.2.4 - Oct 9, 2012  5:40PM deployed by Aleks Stanisic
+=======================================================
+* 2e8ec97: Elijah Green - Add my_connections to new_connections controller function.
+
+v1.2.3 - Oct 9, 2012  5:25PM deployed by Aleks Stanisic
+=======================================================
+* 670de82: Elijah Green - Remove order from search page
+
+v1.2.2 - Oct 9, 2012  4:30PM deployed by Aleks Stanisic
+=======================================================
+* a7af6a9: Elijah Green - Add findconnections page
+* 9dd9670: Elijah Green - Add if links on profile do not include protocol, add one
+* 864f3b6: Elijah Green - Go to correct links on the navbar on the inviteconnections page
+* ed88a3a: Aleks Stanisic - profile changes to skill tage
+* e1cf048: Elijah Green - Add connections navigation bar to inviteconnections
+
 v1.2.1 - Oct 9, 2012 11:44AM deployed by Kelly Becker
 =====================================================
 * 14dc805: Kelly Becker - conenction degree

@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
 	#filter_parameter_logging "password_confirmation"
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
-	before_filter :current_user
 	#layout 'application'
 
 	protect_from_forgery
@@ -70,7 +69,7 @@ class ApplicationController < ActionController::Base
 	def current_user
 
 		# Get the currently logged in user and set to Model Access
-		User.current = User.find(session[:user]) unless session[:user].nil?
+		User.find(session[:user]) unless session[:user].nil?
 	end
 	
 	def is_admin
@@ -186,7 +185,39 @@ class ApplicationController < ActionController::Base
 		rescue_from ActiveRecord::RecordNotFound, with: :render_404
 	end
 
+	# Break MCV	
+	around_filter :sessions_in_model
+
+	protected
+
+		# Break MCV
+		# => Though Controversial to many programmers MCV programming while
+		# still a standard is actually quite limiting to the capabilities of the developer.
+		# This breaks the MCV shell and turns the code into a modern age framework where all
+		# for models happen on the models
+		def sessions_in_model
+			klasses = [ActiveRecord::Base, ActiveRecord::Base.class]
+			methods = ["session", "cookies", "params", "request"]
+
+			methods.each do |method|
+				var = self.send(method)
+
+				klasses.each do |klass|
+					klass.send(:define_method, method, proc { var })
+				end
+			end
+
+			yield
+
+			methods.each do |method|      
+				klasses.each do |klass|
+					klass.send :remove_method, method
+				end
+			end
+		end
+
 	private
+
 		def render_401(exception)
 			
 			# Log Error

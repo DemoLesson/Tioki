@@ -5,7 +5,7 @@ development:
   max_file_size: 10485760
   acl: public-read
     
-test:
+staging:
   bucket: DemoLessonVideo
   access_key_id: AKIAJIHMXETPW2S76K4A
   secret_access_key: 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

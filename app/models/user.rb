@@ -270,9 +270,6 @@ class User < ActiveRecord::Base
 			return nil
 		end
 
-		# Set the current user to model
-		self.current = user
-
 		user
 	end
 	
@@ -494,11 +491,7 @@ class User < ActiveRecord::Base
 
 		# Store the currently active user for access
 		def self.current
-			@user
-		end
-
-		def self.current=(user)
-			@user = user
+			User.find(session[:user]) unless session[:user].nil?
 		end
 end
  

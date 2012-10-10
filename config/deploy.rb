@@ -11,9 +11,12 @@ end
 
 # Use a simple directory tree copy here to make demo easier.
 # You probably want to use your own repository for a real app
-set :scm, :none
-set :repository, "."
-set :deploy_via, :copy
+set :scm, :git
+set :scm_verbose, true
+set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic@github.com/DemoLesson/Tioki"
+set :branch, "master"
+set :deploy_via, :export
+set :git_shallow_clone, 1
 
 # Easier to do system level config as root - probably should do it through
 # sudo in the future.  We use ssh keys for access, so no passwd needed
@@ -77,6 +80,7 @@ end
 # capistrano's deploy:cleanup doesn't play well with FILTER
 after "deploy", "cleanup"
 after "deploy:migrations", "cleanup"
+
 task :cleanup, :except => { :no_release => true } do
   count = fetch(:keep_releases, 5).to_i
   
@@ -92,8 +96,26 @@ if Rubber::Util.has_asset_pipeline?
   # load asset pipeline tasks, and reorder them to run after
   # rubber:config so that database.yml/etc has been generated
   load 'deploy/assets'
-  callbacks[:after].delete_if {|c| c.source == "deploy:assets:precompile"}
-  callbacks[:before].delete_if {|c| c.source == "deploy:assets:symlink"}
+
+  # Delete preloaded callbacks
+  after = ["deploy:assets:precompile"]
+  before = ["deploy:assets:symlink", "rubber:config"]
+  after = callbacks[:after].delete_if {|c| after.include? c.source}
+  before = callbacks[:before].delete_if {|c| before.include? c.source}
+
+  # Debugging code
+  #after.each{ |x|
+  #  next if x.class.name == 'Capistrano::ProcCallback'
+  #  puts x.only.first + " --> " + x.source
+  #}
+  #exit
+
+  # Before we precompile link assets to shared
   before "deploy:assets:precompile", "deploy:assets:symlink"
+
+  # Dont precompile until rubber config has been run
   after "rubber:config", "deploy:assets:precompile"
+
+  # After precompile migrate the database
+  after "deploy:assets:precompile", "deploy:db:migrate"
 end

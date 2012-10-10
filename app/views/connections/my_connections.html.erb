@@ -37,11 +37,11 @@
 				<li class="current">
 				My <%= ablang('connection.plural', true) %>
 				</li>
-				<!--<li>
-					<a href="findconnections.html">
-					Find New Connections
+				<li>
+					<a href="/connections">
+						Find New <%= ablang("connection.plural", true) %>
 					</a>
-					</li>-->
+					</li>
 				<li>
 					<a href="/inviteconnections">
 					Invite <%= ablang('connection.plural', true) %>
@@ -135,7 +135,7 @@ $(document).ready(function() {
 		more = $(this);
 
 		// Get the next pieces of activity via JSON
-		$.getJSON('/connection?page=' + window.connectionPage, function(data) {
+		$.getJSON('/show_my_connections?page=' + window.connectionPage, function(data) {
 
 			// If no data was returned handle by removing the button and erroring
 			if(data.length == 0) {
