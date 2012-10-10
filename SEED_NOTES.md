@@ -1,3 +1,12 @@
+v1.2.8 - Oct 10, 2012  1:08PM deployed by Aleks Stanisic
+========================================================
+* 84bad23: Kelly Becker - renamed all test to staging
+* cd28e0f: Kelly Becker - edited some items
+* 26e2d2b: Elijah Green - Change date formatting on admin pages
+* fac0ee0: Kelly Becker - logout fix
+* e1d5a7f: Kelly Becker - logout fix
+* a4f2925: Kelly Becker - remove dump
+
 v1.2.7 - Oct 10, 2012 10:20AM deployed by Kelly Becker
 ======================================================
 * 13bc937: Kelly Becker - user.current works now
