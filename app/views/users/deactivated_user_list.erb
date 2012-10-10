@@ -31,7 +31,7 @@
     <td><%= user.name %></td>
     <td><%= user.email %></td>
     <td><%= user.created_at.to_formatted_s(:db) %></td>
-    <td><% if user.last_login? %><%= user.last_login.to_formatted_s(:db) %><% else %>Unknown<% end %></td>
+    <td><% if user.last_login? %><%= user.last_login.to_formatted_s(:long) %><% else %>Unknown<% end %></td>
     <td><% if user.login_count? %><%= user.login_count.to_s %><% else %>Unknown<% end %></td>
     <td><%= button_to 'Reactivate', { :actiobn => "deactivated_user_list", :user => user } %></td>
   </tr>
