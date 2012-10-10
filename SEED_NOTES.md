@@ -1,3 +1,7 @@
+v1.2.5 - Oct 9, 2012  5:51PM deployed by Aleks Stanisic
+=======================================================
+* 7967901: Elijah Green - Add redirect_to my_connections instead of pending when going through the userconnect email
+
 v1.2.4 - Oct 9, 2012  5:40PM deployed by Aleks Stanisic
 =======================================================
 * 2e8ec97: Elijah Green - Add my_connections to new_connections controller function.
