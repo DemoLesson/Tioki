@@ -359,6 +359,7 @@ class DeployCLI
 	end
 
 	def rollback(type = 'staging')
+		raise Exception, "BROKEN"
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]

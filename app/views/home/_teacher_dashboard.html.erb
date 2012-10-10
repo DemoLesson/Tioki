@@ -1,3 +1,4 @@
+<script type="text/javascript" src="/uncompiled/fire.js"></script>
 <section id="main-content" class="inner-content">
 	<section id="updates" style="margin-top:30px;">
 		<div class="profile-thumb-medium">
@@ -40,7 +41,7 @@
 			<div class="panel">
 				<ul>
 					<% @suggested_connections.each do |user| %>
-						<a href="/profile/#<%= user.teacher.url %>">
+						<a fire="connection" fire-data="<%= user.teacher.url %>" href="/profile/<%= user.teacher.url %>">
 							<li>
 								<span class="name"><%= user.name %></span>
 								<div class="profile-thumb-small">
