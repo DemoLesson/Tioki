@@ -494,11 +494,8 @@ class User < ActiveRecord::Base
 
 		# Store the currently active user for access
 		def self.current
-			@user
-		end
-
-		def self.current=(user)
-			@user = user
+			dump session[:apple]
+			User.find(session[:user]) unless session[:user].nil?
 		end
 end
  
