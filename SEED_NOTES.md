@@ -1,3 +1,7 @@
+v1.2.7 - Oct 10, 2012 10:20AM deployed by Kelly Becker
+======================================================
+* 13bc937: Kelly Becker - user.current works now
+
 v1.2.6 - Oct 10, 2012  9:52AM deployed by Kelly Becker
 ======================================================
 * abd0dc5: Kelly Becker - require user to be logged in to vouch for a skill
