@@ -1,3 +1,12 @@
+v1.2.10 - Oct 10, 2012  4:36PM deployed by Kelly Becker
+=======================================================
+* a9e45a7: Kelly Becker - connection suggestion analytic is now being saved
+* 481a691: Kelly Becker - staging server terminated
+* d5f3534: Kelly Becker - deploy script update to allow developing during a deploy
+* 6cffcfc: Kelly Becker - fire.js
+* 6e1651d: Kelly Becker - working on fire
+* 198f841: Kelly Becker - skills suggestions based on skills
+
 v1.2.9 - Oct 10, 2012  2:47PM deployed by Aleks Stanisic
 ========================================================
 * a603c89: Kelly Becker - deploy tasks
