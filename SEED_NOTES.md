@@ -1,3 +1,7 @@
+v1.2.4 - Oct 9, 2012  5:40PM deployed by Aleks Stanisic
+=======================================================
+* 2e8ec97: Elijah Green - Add my_connections to new_connections controller function.
+
 v1.2.3 - Oct 9, 2012  5:25PM deployed by Aleks Stanisic
 =======================================================
 * 670de82: Elijah Green - Remove order from search page
