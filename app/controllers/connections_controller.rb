@@ -273,6 +273,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def new_connections
+		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
 		return render :json => connections unless params[:raw].nil?
 
