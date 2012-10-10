@@ -1,8 +1,12 @@
 development:
-    login: demolesson
-    api_token: 5b17ds2ryeks1azgvt0l
-    password: test123#
+  login: demolesson
+  api_token: 5b17ds2ryeks1azgvt0l
+  password: test123#
+staging:
+  login: demolesson
+  api_token: 5b17ds2ryeks1azgvt0l
+  password: test123#
 production:
-    login: demolesson
-    api_token: 5b17ds2ryeks1azgvt0l
-    password: test123#
+  login: demolesson
+  api_token: 5b17ds2ryeks1azgvt0l
+  password: test123#
