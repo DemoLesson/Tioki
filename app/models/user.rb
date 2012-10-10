@@ -270,9 +270,6 @@ class User < ActiveRecord::Base
 			return nil
 		end
 
-		# Set the current user to model
-		self.current = user
-
 		user
 	end
 	
