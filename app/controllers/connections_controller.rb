@@ -138,6 +138,11 @@ class ConnectionsController < ApplicationController
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
 
+	#FOR old user connect emails
+	def pending_connections
+		redirect_to '/my_connections'
+	end
+
 	def userconnections
 		@user = User.find(params[:id])
 		@connections = Connection.user(params[:id])
