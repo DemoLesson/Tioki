@@ -1,3 +1,10 @@
+v1.2.9 - Oct 10, 2012  2:47PM deployed by Aleks Stanisic
+========================================================
+* a603c89: Kelly Becker - deploy tasks
+* 7cc54cf: Kelly Becker - deploy script updates
+* ca07d3e: Kelly Becker - working on deploy changes
+* ff0a81a: Kelly Becker - save
+
 v1.2.8 - Oct 10, 2012  1:08PM deployed by Aleks Stanisic
 ========================================================
 * 84bad23: Kelly Becker - renamed all test to staging
