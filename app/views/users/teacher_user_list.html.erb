@@ -48,10 +48,10 @@
       <%= user.name if user.teacher.nil? %>
     </td>
     <td><%= link_to user.email, 'mailto:' + user.email %></td>
-    <td><%= user.created_at.to_formatted_s(:db) %></td>
+    <td><%= user.created_at.to_formatted_s(:long) %></td>
     <td>
       <% if user.last_login? %>
-        <%= user.last_login.to_formatted_s(:db) %>
+        <%= user.last_login.to_formatted_s(:long) %>
       <% else %>
         Unknown
       <% end %>
