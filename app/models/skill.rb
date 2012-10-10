@@ -12,5 +12,5 @@ class Skill < ActiveRecord::Base
   belongs_to :skill_group
 
   has_many :technology_tags, :dependent => :destroy
-  has_many :technology, :through => :technology_tags
+  has_many :technologies, :through => :technology_tags
 end

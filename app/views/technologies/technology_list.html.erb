@@ -14,10 +14,11 @@
 
 	<div class="form-wrap">
 		<%= form_for :technology, :url => { :controller => :technologies, :action => "create" } do |f| %>
-			<%= f.text_field :name, :placeholder => "Name" %>
-			<%= f.text_field :site, :placeholder => "Site Url" %>
-			<%= f.text_field :twitter, :placeholder => "Twitter Url" %><br />
-			<%= f.text_area :description, :placeholder => "Description", :rows => 5 %><br />
+			<%= f.text_field :name, :placeholder => "Company Name" %>
+			<%= f.text_field :site, :placeholder => "Site Url" %><br /><br />
+			<%= f.text_field :twitter, :placeholder => "Twitter Url" %>
+			<%= f.text_field :facebook, :placeholder => "Facebook Url" %><br /><br />
+			<%= f.text_area :description, :placeholder => " Company Description", :rows => 5, :style => "width:500px" %><br />
 			<%= f.submit "Save" %>
 		<% end %>
 	</div>
