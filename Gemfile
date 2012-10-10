@@ -15,7 +15,7 @@ gem 'sprockets'
 gem 'jquery-rails'
 
 # CSS Engine's
-# gem 'less-rails'
+gem 'less-rails'
 gem 'sass-rails'
 
 # Cloudsponge and Contacts Junk

@@ -156,7 +156,7 @@ class User < ActiveRecord::Base
 			url = Random.rand(10..99).to_s + self.id.to_s + self.name
 
 			# Remove any spaces in the URL
-			url = url.gsub(' ', '')
+			url = url.gsub(/[ .?&:=+]/, '')
 
 			# Downcase the URL
 			t.url = url.downcase
@@ -273,9 +273,6 @@ class User < ActiveRecord::Base
 			return nil
 		end
 
-		# Set the current user to model
-		self.current = user
-
 		user
 	end
 	
@@ -347,7 +344,7 @@ class User < ActiveRecord::Base
 	end
 
 	def successful_referrals
-		ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.id, "2012-09-20")
+		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL and donors_choose = true', self.id)
 	end
 	
 	def change_password(params)
@@ -431,6 +428,47 @@ class User < ActiveRecord::Base
 		return percent
 	end
 
+	def distance(find, level = 1, delve = false, scanned = [])
+
+		# Dont go to deep
+		return nil if level > 3
+
+		# Get the connections of this user
+		connections = Connection.mine(:pending => false, :user => self.id)
+
+		# Did we find anything on this level
+		found = !connections.where('`owned_by` = ? || `user_id` = ?', find, find).first.nil?
+
+		# If we did find the answer return the level
+		return level if found
+
+		# Unless were delving
+		return nil unless delve || level == 1
+
+		# Go through the stack
+		results = connections.eachX(2, 'break') do |i, user|
+			user = user.not_me(self.id)
+
+			# Skip if already scanned
+			next if scanned.include? user.id && i == 2
+
+			# Search down a bit deeper
+			results = user.distance(find, level + 1, i == 1 ? false : true, scanned)
+
+			# This has been scanned
+			scanned << user.id if i == 2
+
+			results
+		end
+
+		# Return the results
+		unless results.nil?
+			results = results.flatten.delete_if{|x| x.nil?} 
+			return results.min if level == 1
+			return results
+		end
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)
@@ -456,11 +494,7 @@ class User < ActiveRecord::Base
 
 		# Store the currently active user for access
 		def self.current
-			@user
-		end
-
-		def self.current=(user)
-			@user = user
+			User.find(session[:user]) unless session[:user].nil?
 		end
 end
  

@@ -447,7 +447,7 @@ class TeachersController < ApplicationController
 				session[:rsecret] = request_token.secret
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
-				redirect_to '/'+self.current_user.teacher.url     
+				redirect_to '/profile/'+self.current_user.teacher.url     
 			end
 		end
 	end
@@ -550,7 +550,7 @@ class TeachersController < ApplicationController
 		#and redirecting to profile like create_profile does
 		session[:rtoken]=nil
 		session[:rsecret]=nil
-		redirect_to '/'+self.current_user.teacher.url     
+		redirect_to '/profile/'+self.current_user.teacher.url     
 	end
 
 	def favorites

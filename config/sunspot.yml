@@ -10,7 +10,7 @@ development:
     port: 8982
     log_level: INFO
 
-test:
+staging:
   solr:
     hostname: localhost
     port: 8981

@@ -1,4 +1,6 @@
 class VouchesController < ApplicationController
+	before_filter :login_required, :only => [:addvouch]
+
 	def vouchrequest
 		if params[:skills] == nil || params[:skills].size == '0'
 			return redirect_to :back, :notice => "You must choose at least one of your skills to be vouched in."
@@ -62,13 +64,23 @@ class VouchesController < ApplicationController
 	end
 
 	def addvouch
-		raise "Error"
+		# Unauthorized if you are trying to vouch your own skill
+		raise HTTPStatus::Unauthorized if params[:user_id] == User.current.id
+
+		# Have you already vouched for this skill?
 		vouched_skill = VouchedSkill.find(:first, :conditions => ['skill_id = ? && voucher_id = ? && user_id = ?', params[:skill_id], User.current.id, params[:user_id]])
-		if vouched_skill
-			redirect_to :back, :notice => "You have already vouched for this skill"
-		else
-			VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
-		end
+
+		# Already vouched
+		return redirect_to :back, :notice => "You have already vouched for this skill" if vouched_skill
+		
+		# Create a new vouch
+		vouch = VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
+
+		# Log to whiteboard and analytics
+		Whiteboard.createActivity(:created_vouch, "{user.teacher.profile_link} vouched for {tag.teacher.profile_link} skills.", User.find(params[:user_id]))
+		self.log_analytic(:created_vouch, "A user vouched for somones skills.", vouch)
+
+		# Redirect to where you came from
 		redirect_to :back
 	end
 

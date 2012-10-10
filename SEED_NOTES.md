@@ -1,3 +1,156 @@
+v1.2.9 - Oct 10, 2012  2:47PM deployed by Aleks Stanisic
+========================================================
+* a603c89: Kelly Becker - deploy tasks
+* 7cc54cf: Kelly Becker - deploy script updates
+* ca07d3e: Kelly Becker - working on deploy changes
+* ff0a81a: Kelly Becker - save
+
+v1.2.8 - Oct 10, 2012  1:08PM deployed by Aleks Stanisic
+========================================================
+* 84bad23: Kelly Becker - renamed all test to staging
+* cd28e0f: Kelly Becker - edited some items
+* 26e2d2b: Elijah Green - Change date formatting on admin pages
+* fac0ee0: Kelly Becker - logout fix
+* e1d5a7f: Kelly Becker - logout fix
+* a4f2925: Kelly Becker - remove dump
+
+v1.2.7 - Oct 10, 2012 10:20AM deployed by Kelly Becker
+======================================================
+* 13bc937: Kelly Becker - user.current works now
+
+v1.2.6 - Oct 10, 2012  9:52AM deployed by Kelly Becker
+======================================================
+* abd0dc5: Kelly Becker - require user to be logged in to vouch for a skill
+
+v1.2.5 - Oct 9, 2012  5:51PM deployed by Aleks Stanisic
+=======================================================
+* 7967901: Elijah Green - Add redirect_to my_connections instead of pending when going through the userconnect email
+
+v1.2.4 - Oct 9, 2012  5:40PM deployed by Aleks Stanisic
+=======================================================
+* 2e8ec97: Elijah Green - Add my_connections to new_connections controller function.
+
+v1.2.3 - Oct 9, 2012  5:25PM deployed by Aleks Stanisic
+=======================================================
+* 670de82: Elijah Green - Remove order from search page
+
+v1.2.2 - Oct 9, 2012  4:30PM deployed by Aleks Stanisic
+=======================================================
+* a7af6a9: Elijah Green - Add findconnections page
+* 9dd9670: Elijah Green - Add if links on profile do not include protocol, add one
+* 864f3b6: Elijah Green - Go to correct links on the navbar on the inviteconnections page
+* ed88a3a: Aleks Stanisic - profile changes to skill tage
+* e1cf048: Elijah Green - Add connections navigation bar to inviteconnections
+
+v1.2.1 - Oct 9, 2012 11:44AM deployed by Kelly Becker
+=====================================================
+* 14dc805: Kelly Becker - conenction degree
+* 1fac967: Kelly Becker - db schema
+* 26e800f: Kelly Becker - caching some connections
+* c9b244b: Kelly Becker - WORKING CONNECTION DEGREES!!!!
+* 3fc870f: Kelly Becker - working on connection degree *bump* i hit a wall
+
+Finally got this working right were only displaying up to third degree right now otherwise it takes to long
+
+v1.2.0 - Oct 9, 2012 10:06AM deployed by Aleks Stanisic
+=======================================================
+* af88932: Aleks Stanisic - fix to vouch pictures
+* c951119: Elijah Green - Add better search for connections
+* 2d89532: Elijah Green - Don't used the created_at date for referrals
+* 78f2e78: Elijah Green - Add overlay to my_connections
+* 7ba6d04: Elijah Green - Add correct language to my_Connections page
+* 753649b: Elijah Green - Add rest of my_connections page functionality
+* f0c9eed: Elijah Green - Add data to my_connections
+* b1180c5: Elijah Green - Add findconnections and add things to my_connections
+* af3530f: Elijah Green - Add data to my_connections
+* 1049148: Elijah Green - Fix the rest of the styling
+* bf91d5a: Elijah Green - Actaully remove pending this time
+* 9f54909: Elijah Green - Add new m_connections and remove pending
+* 3e95950: Elijah Green - Add assets except for main.css and style.css that may need to be merged with ours
+* 35a1449: Aleks Stanisic - more changes to profile
+* ceb673e: Aleks Stanisic - some minor changes to profile page
+* 0f8be2f: Elijah Green - Changes to profile for new branches
+
+v1.1.29 - Oct 8, 2012  1:05PM deployed by Kelly Becker
+======================================================
+* 082993c: Kelly Becker - class variable
+* 0d2c551: Kelly Becker - changed from using a global class to a local class variable when connection distance searching
+
+Sorry about all this I'm having issues with class variable inheritance
+
+v1.1.28 - Oct 8, 2012 12:36PM deployed by Kelly Becker
+======================================================
+* 6055f2d: Kelly Becker - fixed date on deploy script
+
+v1.1.27 - Oct 8, 2012 12:34PM deployed by Kelly Becker
+=======================================================
+* c746f20: Kelly Becker - rescue an exception
+
+v1.1.26 - Oct 8, 2012 12:21PM deployed by Kelly Becker
+=======================================================
+* 7c4298d: Kelly Becker - connection degree
+
+v1.1.25 - Oct 8, 2012 11:57AM deployed by Kelly Becker
+=======================================================
+* 099135b: Kelly Becker - ordinalized connection degrees
+* b535e21: Kelly Becker - connection degree works
+
+v1.1.24 - Oct 8, 2012 10:48AM deployed by Aleks Stanisic
+=========================================================
+* e8b04e4: Aleks Stanisic - changes to donor choose campaign, made slight changes to subject lines of variuos emails
+* 34a932b: Elijah Green - redirect_to the correct page for profiles for linkedin imports
+* 8387ab2: Elijah Green - Remove a few invalid character when created a profile url
+
+v1.1.23 - Oct 6, 2012  2:14PM deployed by Kelly Becker
+=======================================================
+* 01fe959: Kelly Becker - update deploy script
+* 7906b7f: Kelly Becker - update deploy script
+* f7ca729: Kelly Becker - update deploy script
+* 8ab17e1: Kelly Becker - update deploy script
+* fd61b8c: Kelly Becker - update deploy script
+* 7a10d55: Kelly Becker - update deploy script
+* 1053efd: Kelly Becker - update deploy script
+* 0eb932c: Kelly Becker - update deploy script
+
+Sorry about the mess have been working on the deploy script a lot
+
+v1.1.22 - Oct 6, 2012  1:58PM deployed by Kelly Becker
+=======================================================
+* 781e041: Kelly Becker - updated deploy script
+* 38cf0b5: Kelly Becker - rearranged joins
+* 0be5578: Kelly Becker - total results on analytics
+* 5d9d912: Kelly Becker - added progress bars and data to the page
+* b5c6226: Elijah Green - Fix up some problems with referrals
+* 1afab8f: Kelly Becker - cleaned up how joins were processed;
+
+2012-10-05 11:53am - Deploy by KellyLSB
+=======================================
+* Global averages :D
+
+2012-10-05 11:53am - Deploy by KellyLSB
+=======================================
+* Analytics is coming further together needs testing with real data though.
+
+2012-10-04 6:29pm - Deploy by KellyLSB
+======================================
+* User filtering on analytics
+
+2012-10-04 4:49pm - Deploy by KellyLSB
+======================================
+* Bug fix with profiles breaking
+* Start of analytics sorting
+
+2012-10-04 2:34pm - Deploy by KellyLSB
+======================================
+* Now you can edit your avatar right on your profile
+* Added [Iconic Icon Font](http://somerandomdude.com/work/iconic/)
+
+2012-10-04 12:00pm - Deploy by KellyLSB
+=======================================
+* VideoJS Scrubber Fix (Again)
+* Style fix for teacher dashboard caused by VideoJS Scrubber fix.
+* Fix for old Zencoder jobs not returning any data
+
 2012-10-03 7:46pm - Deploy by KellyLSB
 ======================================
 * Added analytics pages

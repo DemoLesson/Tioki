@@ -14,6 +14,8 @@ Preview::Application.routes.draw do
 
 	resources :s3_uploads
 
+	match 'distance/:id' => 'connections#distance'
+
 	#Warning: make sure user URL can't be set to any of these
 
 	# Events routing
@@ -175,6 +177,8 @@ Preview::Application.routes.draw do
 	match 'remove_connection' => 'connections#remove_connection'
 	match 'accept_connection' => 'connections#accept_connection'
 	match 'remove_pending' => 'connections#remove_pending'
+	match 'show_my_connections' => 'connections#show_my_connections'
+	match 'newconnections' => 'connections#new_connections'
 	match 'purge/:id' => 'teachers#purge'
 	match 'users' => 'users#update'
 	match 'attach' => 'teachers#attach'

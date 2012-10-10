@@ -202,7 +202,6 @@ class UsersController < ApplicationController
 	#  end
 
 	def logout
-		User.current = nil
 		session[:user] = nil
 		flash[:notice] = 'You\'ve been logged out.'
 		login_token = LoginToken.find_by_user_id(cookies[:login_token_user])
@@ -330,7 +329,7 @@ class UsersController < ApplicationController
 		tmp_img.write(orig_img.to_blob)
 		@user.update_attribute(:avatar, tmp_img)
 		tmp_img.close
-		redirect_to :root, :notice => "Image changed successfully."
+		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
@@ -537,7 +536,7 @@ class UsersController < ApplicationController
 	end
 
 	def referral_user_list
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && date(connection_invites.created_at) > ? ', "2012-09-20"]).uniq.paginate(:per_page => 100, :page => params[:page])
+		@teachers = Teacher.joins(:user => :connection_invites).find(:all, :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true']).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list

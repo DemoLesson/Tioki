@@ -1,16 +1,19 @@
 require 'mail'
+
 class ConnectionsController < ApplicationController
+	layout nil
+	layout "application", :except => [:show_my_connections, :new_connections]
 	before_filter :login_required, :except => [ :linkinvite]
 
 	# GET /connections
 	# GET /connections.json
 	def index
-		if params[:connectsearch]
-			@connections = Teacher.search(params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
-		else
-			@connections = Teacher.paginate(:page=> params[:page], :per_page => 25)
+		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
+		@teachers = Array.new
+		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page]).each do |teacher|
+			@teacher = teacher
+			@teachers << render_to_string("connections/new_connections", :layout => false)
 		end
-		@my_connections = Connection.find_for_user(self.current_user.id).collect(&:user_id)
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -19,7 +22,6 @@ class ConnectionsController < ApplicationController
 	end
 
 	def add_connection(respond = true)
-
 		# Check and see if we are already connected (or are pending)
 		a = self.current_user.id
 		b = params[:user_id]
@@ -127,22 +129,18 @@ class ConnectionsController < ApplicationController
 	end
 
 	def my_connections
-		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
-
-		# User ID
-		a = self.current_user.id
-
 		# Get all not pending connections
-		@connections = Connection.mine(:pending => false)
+		@connections = Array.new
+		Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).each do |connection|
+			@connection = connection
+			@connections << render_to_string("connections/show_my_connections", :layout => false)
+		end
+		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
 	end
 
+	#FOR old user connect emails
 	def pending_connections
-
-		# User ID
-		a = self.current_user.id
-
-		# Get all pending connections
-		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
+		redirect_to '/my_connections'
 	end
 
 	def userconnections
@@ -169,7 +167,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def inviteconnections
-		@referred = ConnectionInvite.where('`user_id` = ? && date(`created_at`) > ? && created_user_id IS NOT NULL', self.current_user.id, "2012-09-20").count
+		@referred = self.current_user.successful_referrals.count
 		@my_connection = Connection.find_for_user(self.current_user.id)
 		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
 	end
@@ -264,6 +262,38 @@ class ConnectionsController < ApplicationController
 		else 
 			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
 		end
+	end
+
+	def show_my_connections
+		connections = Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).all
+		return render :json => connections unless params[:raw].nil?
+
+		divs = Array.new
+		connections.each do |connection|
+			@connection = connection
+			divs << render_to_string
+		end
+
+		render :json => divs
+	end
+
+	def new_connections
+		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
+		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+		return render :json => connections unless params[:raw].nil?
+
+		divs = Array.new
+		teachers.each do |teacher|
+			@teacher = teacher
+			divs << render_to_string
+		end
+
+		render :json => divs
+	end
+
+	def distance
+		result = User.find(117091).distance(params[:id])
+		render :text => (result.nil? ? 'nil' : result)
 	end
 
 	# DELETE /connections/1

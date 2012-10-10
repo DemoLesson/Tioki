@@ -1,77 +1,182 @@
-<section id="main-content" class="inner-content">
-
-	<!-- Include these scripts to import address books with CloudSponge -->
-	<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
-	<script type="text/javascript" charset="utf-8">
-	var csPageOptions = {
-		domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
-		textarea_id:"emails"
-	};
-	</script>
-
-	<span style="font-size:20px;font-family:Arial,Helvetica,'Nimbus Sans L',sans-serif;color:#000;text-shadow:#ccc 1px 1px 2px;">My <%= ablang('connection.plural') %></span><br />
-
-	<div id="sidebar" class="job_browser">
-		<div id="myConnections">
-			<h4><%= ablang('connection.plural') %></h4>
-			<%= link_to "Add " + ablang('connection.plural'), :inviteconnections %><br />
-			<%= link_to 'My ' + ablang('connection.plural'), :my_connections %><br />
-			<%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
-		</div>
-		<br /><br />
-		<div id="whiteBox" style="height:280px;width:190px;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
-			<strong><%= ablang('connection.connecting') %> on DemoLesson</strong>
-			<ul style="list-style:disc;padding-left:12px">
-				<li>Helps you collarborate with those who share your interests</li>
-				<li>Enhances your opportunites for professional growth</li>
-				<li>Helps you stay in touch with your colleagues</li>
+<div id="intro">
+	<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
+	Welcome to your connections page!
+	</h2>
+	<p style="margin:0;">
+	Here are a few tips on how to get the most out of Tioki.
+	</p>
+	<section>
+		<p>
+		<span class="bold caps">Invite Connections</span><br />
+		Refer a friend and get $10 towards a Donors Choose project&mdash;<br />including your own!
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Find New Connections</span><br />
+		Helps you collaborate with those who share your interests.
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Stay Connected</span><br />
+		Enhances your opportunities for professional growth.
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Find New Connections</span><br />
+		Helps you stay in touch with your colleagues.
+		</p>
+	</section>
+</div>		
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+				My <%= ablang('connection.plural', true) %>
+				</li>
+				<li>
+					<a href="/connections">
+						Find New <%= ablang("connection.plural", true) %>
+					</a>
+					</li>
+				<li>
+					<a href="/inviteconnections">
+					Invite <%= ablang('connection.plural', true) %>
+					</a>
+				</li>
 			</ul>
-			<% if @connections.size != 0 %>
-				<div style="text-align: center;border:solid 1px #2AA99B;background:#fff;padding:10px;">
-					<img border="0" style="width:100%;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
-					<p style="margin:5px;">Refer a friend and get $5 towards a Donors Choose project - including your own!</p><br />
-					<a href="/inviteconnections" class="button">Refer a Friend</a>
-				</div>
-			<% end %>
-		</div>
-	</div>
-
-	<div id="content">
-		<% if @connections.size == 0 %>
-			<h3>You do not have any <%= ablang('connection.plural', false) %></h3>
-			<div style="border:solid 1px #2AA99B;background:#FFF;padding:12px 20px 7px;overflow:hidden;margin-left:50px;">
-				<img border="0" style="width:468px;height:60px;margin-left:-62px;" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
-				<div>
-					<p>No <%= ablang('connection.plural', false) %>? No good!</p>
-					<p>Did you know you can get $5 towards any Donors Choose project, including your own, by refering friends? It's quick and easy!<p>
-					<a href="/inviteconnections" class="button huge-button" style="color:#fff;">Refer a Friend</a>
-				</div>
+		</nav>
+	</section>
+	<section id="panels" class="group">
+		<section id="list" class="panel one-column left-side">
+			<h3>
+				Pending <%= ablang('connection.plural', true) %> [<%= @my_pending_connections.count %>]
+			</h3>
+			<ul>
+				<% @my_pending_connections.each do |connection| %>
+					<li>
+						<div class="profile-thumb-small">
+							<% if connection.not_me.avatar? %>
+								<%= link_to image_tag(connection.not_me.avatar.url(:tiny)), "profile/#{connection.not_me.teacher.url}" %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "profile/#{connection.not_me.teacher.url}" %>
+							<% end %>
+						</div>
+						<p>
+						<%= link_to connection.not_me.name, "profile/#{connection.not_me.teacher.url}" %></a><br />
+						<%= connection.not_me.teacher.position %> 
+						<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.position.present? %>at<% end %> 
+						<%= connection.not_me.teacher.school %><br />
+						<%= connection.not_me.teacher.location %>
+						</p>
+						<div class="accept">
+							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id } %>
+						</div>
+						<div class="ignore">
+							<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_connection', :user_id => connection.owner.id } %>
+						</div>
+					</li>
+				<% end %>
+			</ul>
+		</section> <!-- END PENDING CONNECTIONS -->
+		<section id="list" class="panel two-column right-side">
+			<h3>
+				My <%= ablang('connection.plural', true) %>
+			</h3>
+			<div class="search-connections">	
+				<%= form_tag connections_path, :method => :get do %>
+					<fieldset>
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
+						<select name="topic">
+							<option value="" >-- BY CATEGORY --</option>
+							<option value="name">Name</option>
+							<option value="email">Email</option>
+							<option value="school">School</option>
+							<!--<option>Subject</option>
+							<option>Location</option>-->
+						</select>
+						<input type="submit" value="GO" class="button" />
+					</fieldset>
+				<% end %>
 			</div>
-		<% end %>
+			<ul>
+				<% @connections.each do |connection| %>
+					<%= raw connection %>
+				<% end %>
+				<li>
+					<a href="#" class="viewmore">
+					View More
+					</a>
+				</li>
+			</ul>
+		</section> <!-- END MY CONNECTIONS -->
 		
-		<% @connections.each do |connection| %>
-			<br />
-			<div class="item_jobs">
-				<div class="item_picture">
-					<% if connection.not_me.avatar? %>
-						<%= link_to image_tag(connection.not_me.avatar.url(:thumb)), "/profile/#{connection.not_me.teacher.url}" %>
-					<% else %>
-						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{connection.not_me.teacher.url}" %>
-					<% end %>
-				</div>
+	</section>
 
-				<div id ="connection_desc">
-					<span style ="float:right; text-align:right"><%= link_to ablang('connection.plural') + ": " + connection.not_me.connections.not_pending.count.to_s, 'userconnections/'+connection.not_me.id.to_s %></span>
-					<strong><%= link_to connection.not_me.name, "/profile/#{connection.not_me.teacher.url}" %></strong><br />
-					<% if connection.not_me.teacher.position.present? && connection.not_me.teacher.school.present?%>
-						<%= connection.not_me.teacher.position %> at <%= connection.not_me.teacher.school %>
-					<% end %><br />
-					<%= connection.not_me.teacher.location %><br /><br />
-					<div>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me.id.to_s }, {:class => "button bg-green"} %>
-					</div>
-				</div>
-			</div>
-		<% end %>
-	</div>
-</section>
+</section> <!-- End Main Content -->
+<script type="text/javascript">
+// White board more
+$(document).ready(function() {
+	window.connectionPage = 1;
+	window.connectionMax = false;
+	$('.viewmore').click(function(e) {
+		e.preventDefault();
+
+		// If we have already reached the end of the connections then stop
+		if(window.connectionMax) return false;
+		
+		// Get the number for the next page of data to pull
+		window.connectionPage++;
+
+		// Store for future use down the stack
+		more = $(this);
+
+		// Get the next pieces of activity via JSON
+		$.getJSON('/show_my_connections?page=' + window.connectionPage, function(data) {
+
+			// If no data was returned handle by removing the button and erroring
+			if(data.length == 0) {
+				more.animate({"opacity": 0}, 700, function() {
+					window.connectionMax = true;
+					more.text('No More <%= ablang('connection.plural', true)%>');
+					setTimeout(function() {
+						more.animate({"opacity": 1}, 1000);
+					}, 50);
+				});
+			}
+
+			// For every element
+			for(var x in data) {
+
+				// Create the object, insert, and fade it in
+				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+			}
+		});
+
+		return false;
+	});
+});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').introOverlay({
+			introLength: 10000, // anything numeric no quotes
+			transitionSpeed: 400, // ditto
+			introAutoFade: false, //timed fade on overlay...true or false
+			introCloseBtn: true, //btn to close overlay...true or false
+			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+			openAnimation: true, //opening animation...true or false
+			cookieActive: true, //cookies enabled to stop overlay from firing twice
+			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+			/* also you can use 'href' to load content for a seperate page..
+			when using href it also uses the class of the clicked element to find the content...
+			it goes like this .load(href class); check source for use */ 
+			introTemplate: 'full', // either 'full' or 'module'
+			introTurnOffLights: false, //turn off and on lights...true or false
+			//copy paste this code for you first time and test different options
+		});
+	});
+</script>

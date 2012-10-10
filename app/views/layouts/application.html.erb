@@ -164,7 +164,7 @@
 				<ul class="inner-content">
 					<li class="searchBox">
 						<form style="margin:0px;" action="/connections">
-							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search Connections" />
+							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" />
 						</form>
 					</li>
 					<li>
@@ -187,7 +187,7 @@
 							<%= ablang('connection.plural') %>
 							</a>
 							<ul>
-								<li><a href="/pending_connections">Pending <%= ablang('connection.plural') %></a></li>
+								<li><a href="/connections">Find New <%= ablang('connection.plural', true) %></a></li>
 								<li><a href="/inviteconnections">Invite <%= ablang('connection.plural') %></a></li>
 							</ul>
 						</li>

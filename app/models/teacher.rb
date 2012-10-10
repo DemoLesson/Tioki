@@ -51,26 +51,32 @@ class Teacher < ActiveRecord::Base
     return(teacher)
   end
 
-  def self.search(search)
-    search.downcase!
-    if search.present?
-      #check if search if an email or a name
-      if search.include? "@"
-        #must be exact email address
-        find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email = ?', search])
-      else
-        #For every word in the search check the prefix of both first and last name
-        #As well as every word in firstname
-        #Should consider a full text search as this is going to be pretty slow
-        tup = SmartTuple.new(" AND ")
-        tup << ["teachers.user_id = users.id"]
-        search.split.each do |token|
-          tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
-        end
-        find(:all, :include => :user, :conditions => tup.compile)
+  def self.search(search, topic = nil)
+    #no search paramters, instead of showing everyone don't show anything
+    return [] if search.empty?
+    if topic.empty? || topic == 'name'
+      #For every word in the search check the prefix of both first and last name
+      #As well as every word in firstname
+      #Should consider a full text search as this is going to get quite a bit slower
+      #as we gain more users
+      tup = SmartTuple.new(" AND ")
+      tup << ["teachers.user_id = users.id"]
+      search.split.each do |token|
+        tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", 
+          "#{token}%", "% #{token}%","#{token}%"]
       end
+      find(:all, :include => :user, :conditions => tup.compile)
+    elsif topic == 'email'
+      #must be exact email address
+      find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email = ?', search])
+    elsif topic == 'school'
+      #search each word
+      tup = SmartTuple.new(" AND ")
+      search.split.each do |token|
+        tup << ["teachers.school LIKE ? OR teachers.school LIKE ?", "#{token}%", "% #{token}%"]
+      end
+      find(:all, :conditions => tup.compile)
     else
-      #no search paramters, instead of showing everyone don't show anything
       return []
     end
   end
@@ -246,5 +252,9 @@ class Teacher < ActiveRecord::Base
 
     # Is count creater than zero
     return count > 0
+  end
+
+  def me?
+    (!User.current.nil? && self == User.current.teacher) ? true : false
   end
 end

@@ -100,15 +100,38 @@ class Video < ActiveRecord::Base
 
   # Get the job status
   def job_status
-    status = Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583').body.state
+    if self.encoded_state != 'finished'
+      status = Zencoder::Job.progress(self.job_id, :api_key => 'ebbcf62dc3d33b40a9ac99e623328583')
 
-    # Update the encoded state
-    if self.encoded_state != status
-      self.encoded_state = status
-      self.save!
+      # Video is not available
+      if status.code.to_i != 200
+
+        short = "Zencoder Job: #{self.job_id} returned `#{status.code}`."
+        unless NOTIFY.nil?
+          NOTIFY.notify!(
+            :short_message => short, :full_message => status.body,
+            :level => 4, :file => __FILE__, :line => __LINE__
+          )
+        else
+          Rails.logger.error(short)
+        end
+
+        status = 'unavailable'
+      else
+        status = status.body.state
+      end
+
+      # Update the encoded state
+      if self.encoded_state != status
+        self.encoded_state = status
+        self.save!
+      end
+
+      # Return the status
+      return status
     end
 
-    return status
+    return self.encoded_state
   end
   
   # # # # # # # # #
@@ -202,11 +225,7 @@ class Video < ActiveRecord::Base
       return response["html"].html_safe
     end
 
-    unless job_status == 'finished'
-
-      # Return status
-      return "<p class=\"processing\">The video is currently being processed for web viewage. Please check back in a bit.</p>".html_safe
-    else
+    if job_status == 'finished'
 
       # HTML 5 Embed Code
       embed = <<-EMBED
@@ -217,6 +236,14 @@ class Video < ActiveRecord::Base
 
       # Return HTML Embed Code
       return embed.html_safe
+    elsif job_status == 'unavailable'
+
+      # Return status
+      return "<p class=\"processing\">There was a problem getting the requested video. Please let us know with the blue box in the corner and refererence the page you are on.</p>".html_safe
+    else
+
+      # Return status
+      return "<p class=\"processing\">The video is currently being processed for web viewage. Please check back in a bit.</p>".html_safe
     end
   end
 

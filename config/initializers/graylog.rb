@@ -60,4 +60,7 @@ if graylog_server
   ]
   Resque::Failure.backend = Resque::Failure::Multiple
 
+else
+  # Set Notify to nil
+  NOTIFY = nil
 end

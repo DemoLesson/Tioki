@@ -1,51 +1,104 @@
-<section id="main-content" class="inner-content">
-<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Find <%= ablang('connection.plural') %></span><br />
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/my_connections">
+						My <%= ablang("connection.plural", true) %>
+					</a>
+				</li>
+				<li class="current">
+					Find New <%= ablang("connection.plural", true) %>
 
-<div id="sidebar" class="job_browser">
- <div id="myConnections">
-      <h4><%= ablang('connection.plural') %></h4>
-      <%= link_to "Add " + ablang('connection.plural'), :inviteconnections %><br />
-      <%= link_to 'My ' + ablang('connection.plural'), :my_connections %></br>
-      <%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
-  </div>
-</div>
+				</li>
+				<li>
+					<a href="/inviteconnections">
+					Invite <%= ablang("connection.plural", true) %>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</section>
+	<section id="panels" class="group">
+		<section class="panel one-column left-side">
+			<h3>
+				Find New <%= ablang('connection.plural', true) %>
+			</h3>
+		</section> <!-- END FIND NEW CONNECTIONS -->
+		<section id="list" class="panel two-column right-side">
+			<div class="search-connections">	
+				<%= form_tag connections_url, {:method => :get, :id => "newconnections"} do %>
+					<fieldset>
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
+						<input type="submit" value="GO" class="button" />
+					</fieldset>
+				<% end %>
+			</div>
+			<ul>
+				<% @teachers.each do |teacher| %>
+					<%= raw teacher %>
+				<% end %>
+				<li>
+					<a href="#" class="viewmore">
+					View More
+					</a>
+				</li>
+			</ul>
+		</section> <!-- END MY CONNECTIONS -->
+		
+	</section>
 
-<div id="content">
-  <% @connections.each do |connection| %>
-    <br />
-    <div class="item_jobs">
-      <div class="item_picture">
-        <% if connection.user.avatar? %>
-          <%= link_to image_tag(connection.user.avatar.url(:thumb)), '/profile/'+connection.url.to_s %>
-        <% else %>
-          <%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/'+connection.url.to_s %><% end %>
-      </div>
+</section> <!-- End Main Content -->
+<!--	<script>
+	$(document).ready(function(){
+	$('.accordion .head').click(function() {
+		$(this).toggleClass('closed-arrow open-arrow');
+		$(this).next().toggle('slow');
+		return false;
+	}).next().hide();
+});
+	</script>-->
+<script type="text/javascript">
+// White board more
+$(document).ready(function() {
+	window.connectionPage = 1;
+	window.connectionMax = false;
+	$('.viewmore').click(function(e) {
+		e.preventDefault();
 
-      <div id ="connection_desc">
-        <strong><%= link_to connection.user.name, '/profile/'+connection.url.to_s %></strong><br />
-        <% if connection.position.present?  && connection.school.present? %>
-          <%= connection.position %> at <%= connection.school %>
-        <% end %><br />
-        <%= connection.location %><br /><br />
-        <% if self.current_user != connection.user %>
-          <% if self.current_user.teacher %>	
-            <% if @my_connections.include? connection.id %>
-                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
-            <% else %>
-              <div>
-                <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
-                <%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => connection.user.id }, :class => "button" %>
-              </div>
-            <% end %>
-          <% else %>
-            <div>
-              <%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.user.id.to_s }, {:class => "button bg-green"} %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-<%= will_paginate @connections %>
-</div>
-</section>
+		// If we have already reached the end of the connections then stop
+		if(window.connectionMax) return false;
+		
+		// Get the number for the next page of data to pull
+		window.connectionPage++;
+
+		// Store for future use down the stack
+		more = $(this);
+		<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
+
+		// Get the next pieces of activity via JSON
+		$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>", function(data) {
+
+			// If no data was returned handle by removing the button and erroring
+			if(data.length == 0) {
+				more.animate({"opacity": 0}, 700, function() {
+					window.connectionMax = true;
+					more.text('No More <%= ablang('connection.plural', true)%>');
+					setTimeout(function() {
+						more.animate({"opacity": 1}, 1000);
+					}, 50);
+				});
+			}
+
+			// For every element
+			for(var x in data) {
+
+				// Create the object, insert, and fade it in
+				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+			}
+		});
+
+		return false;
+	});
+});
+</script>

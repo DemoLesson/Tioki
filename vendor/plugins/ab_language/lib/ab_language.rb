@@ -22,6 +22,16 @@ module AB
 			end
 		end
 
+		# Get the different tests
+		def getTests
+			tests = Array.new
+			@language.each do |test,data|
+				tests << test
+			end
+
+			return tests
+		end
+
 		# Get the stack
 		def getStack(abc = nil)
 			abc = 'default' if abc.nil?
@@ -109,5 +119,11 @@ module AB
 		end
 
 		return val
+	end
+
+	# Get the different tests
+	def self.getTests
+		@@language = Language.new if @@language.nil? || Rails.env == 'development'
+		return @@language.getTests
 	end
 end
