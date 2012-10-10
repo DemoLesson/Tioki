@@ -74,7 +74,13 @@ class VouchesController < ApplicationController
 		return redirect_to :back, :notice => "You have already vouched for this skill" if vouched_skill
 		
 		# Create a new vouch
-		VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
+		vouch = VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
+
+		# Log to whiteboard and analytics
+		Whiteboard.createActivity(:created_vouch, "{user.teacher.profile_link} vouched for {tag.teacher.profile_link} skills.", User.find(params[:user_id]))
+		self.log_analytic(:created_vouch, "A user vouched for somones skills.", vouch)
+
+		# Redirect to where you came from
 		redirect_to :back
 	end
 
