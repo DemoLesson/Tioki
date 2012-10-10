@@ -8,7 +8,6 @@
 	</div>
 	<p>
 	<a href="/profile/<%= @teacher.url %>"><%= @teacher.user.name %></a>
-		<%= " <span class=\"connection_degree\">#{self.current_user.distance(@teacher.user.id).ordinalize}</span>".html_safe rescue '' %>
 	<br />
 	<%= @teacher.position %>
 	<% if @teacher.position.present? && @teacher.position.present? %>at<% end %> 
