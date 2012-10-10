@@ -1,3 +1,7 @@
+v1.2.3 - Oct 9, 2012  5:25PM deployed by Aleks Stanisic
+=======================================================
+* 670de82: Elijah Green - Remove order from search page
+
 v1.2.2 - Oct 9, 2012  4:30PM deployed by Aleks Stanisic
 =======================================================
 * a7af6a9: Elijah Green - Add findconnections page
