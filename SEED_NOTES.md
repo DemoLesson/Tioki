@@ -1,3 +1,7 @@
+v1.2.6 - Oct 10, 2012  9:52AM deployed by Kelly Becker
+======================================================
+* abd0dc5: Kelly Becker - require user to be logged in to vouch for a skill
+
 v1.2.5 - Oct 9, 2012  5:51PM deployed by Aleks Stanisic
 =======================================================
 * 7967901: Elijah Green - Add redirect_to my_connections instead of pending when going through the userconnect email
