@@ -1,3 +1,7 @@
+v1.3.2 - Oct 11, 2012 11:50AM deployed by Kelly Becker
+======================================================
+* fbaf9ce: Kelly Becker - videos admin searching and sorting
+
 v1.3.1 - Oct 11, 2012 11:08AM deployed by Kelly Becker
 ======================================================
 * 0085884: Kelly Becker - edit videos
