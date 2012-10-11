@@ -183,6 +183,7 @@ Preview::Application.routes.draw do
 	match 'users' => 'users#update'
 	match 'attach' => 'teachers#attach'
 	match 'teachers/:id/skills' => 'teachers#skills'
+	match 'skillpage' => 'skills#skillpage'
 	match 'jobattach' => 'jobs#attach'
 	match 'videos/record' => 'videos#record'
 	match 'videos/create_snippet' => 'videos#create_snippet'

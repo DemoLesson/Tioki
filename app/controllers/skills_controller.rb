@@ -47,4 +47,12 @@ class SkillsController < ApplicationController
     @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
     @my_connections = Array.new if self.current_user.nil?
   end
+  
+  def skillpage
+    
+    #Redirecting users to skills pages
+    redirect_to "/teacherskills/#{params[:topic]}"
+  
+  end
+    
 end

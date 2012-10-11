@@ -73,7 +73,7 @@
 						<%= connection.not_me.teacher.location %>
 						</p>
 						<div class="accept">
-							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id } %>
+							<%= link_to "Accept", { :controller => 'connections', :action => 'accept_connection', :user_id => connection.owner.id} %>
 						</div>
 						<div class="ignore">
 							<%= link_to "Ignore", { :controller => 'connections', :action => 'remove_connection', :user_id => connection.owner.id } %>

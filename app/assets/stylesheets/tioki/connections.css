@@ -132,7 +132,7 @@
     -webkit-border-radius: 3px;
     border-radius: 3px; }
     .accept a:hover {
-      color: #000 !important; }
+      color: #fff !important; }
 
 .ignore a {
   display: inline-block;
