@@ -10,6 +10,17 @@
 
 	<div class="clear" style="margin-top: 2.5em; border-bottom: 1px solid #ccc;"></div>
 
+	<div class="form-wrap">
+		<%= form_tag '/admin/videos', :method => 'get' do %>
+	  		<p>
+	  			<strong>Find Video:</strong> <%= text_field_tag :name, params[:name] %>
+	  			<strong>Teacher: </strong> <%= text_field_tag :teacher, params[:teacher] %>
+	  			<strong>Local?</strong><%= select_tag :local, options_for_select([['- ALL -', ''], ['Remote', 'remote'], ['Local', 'local']], params[:local]) %>
+	  			<%= submit_tag "Search", :name => nil %>
+	  		</p>
+		<% end %>
+	</div>
+
 	<div id="wrapper">
 		<div id="left" style="width: 905px"align="left">
 			<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Videos</strong></p>
@@ -29,7 +40,7 @@
 						<td><%= link_to "View Video", video %></td>
 						<td><%= link_to("Edit Video", video_path(video) + '/edit') %></td>
 						<td><%= video.external? ? "Remote" : "Local" %></td>
-						<td><%= video.created_at.strftime("%b %-d, %Y $l:%M %p") %></td>
+						<td><%= video.created_at.strftime("%b %-d, %Y %l:%M %p") %></td>
   					</tr>
 				<% end -%>
 			</table>

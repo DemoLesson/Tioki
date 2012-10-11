@@ -237,7 +237,32 @@ class VideosController < ApplicationController
 	def admin
 		raise HTTPStatus::Unauthorized unless self.current_user.is_admin
 
-		@stats = {}
+		@stats = Array.new
+		@stats << {:name => "All Videos", :value => Video.count}
+		@stats << {:name => "Remote Videos", :value => Video.where("`videos`.`output_url` LIKE 'ext|%'").count}
+		@stats << {:name => "Local Videos", :value => Video.where("`videos`.`output_url` NOT LIKE 'ext|%'").count}
+
 		@videos = Video.paginate(:page => params[:page], :per_page => 20)
+
+		unless params[:order].empty?
+			col, dir = params[:order].split('-')
+			@videos = @videos.order("`videos`.`#{col}` #{dir}")
+		else
+			@videos = @videos.order("`videos`.`created_at` DESC")
+		end
+
+		unless params[:name].empty?
+			@videos = @videos.where("`videos`.`name` LIKE '%#{params[:name]}%'")
+		end
+
+		unless params[:teacher].empty?
+			@videos = @videos.joins("LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`")
+			@videos = @videos.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
+			@videos = @videos.where("`users`.`name` LIKE '%#{params[:teacher]}%'")
+		end
+
+		unless params[:local].empty?
+			@videos = @videos.where("`videos`.`output_url` LIKE 'ext|%'")
+		end
 	end
 end
