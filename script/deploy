@@ -154,7 +154,7 @@ class DeployCLI
 		masterMerge = false
 
 		# Get the current branch and tracked remote
-		branch = `git name-rev --name-only HEAD`.strip
+		branch = `git symbolic-ref --short -q HEAD`.strip
 		remote = `git config "branch.#{branch}.remote"`.strip
 		commited = `git status --porcelain`.strip.empty?
 
