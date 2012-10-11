@@ -1,3 +1,9 @@
+v1.3.4 - Oct 11, 2012  2:35PM deployed by Kelly Becker
+======================================================
+* 357e204: Kelly Becker - converted file to tabs
+* e994faa: Kelly Becker - technology analytics now being collected
+* 829b518: Kelly Becker - branch is being determined proeprly now
+
 v1.3.3 - Oct 11, 2012  1:58PM deployed by Aleks Stanisic
 ========================================================
 * 35b66cc: Aleks Stanisic - changes to edit, profile, technologies
