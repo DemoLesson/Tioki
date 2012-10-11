@@ -1,3 +1,7 @@
+v1.2.11 - Oct 10, 2012  5:14PM deployed by Kelly Becker
+=======================================================
+* e843e6f: Kelly Becker - whoops this fixes the issue with connections
+
 v1.2.10 - Oct 10, 2012  4:36PM deployed by Kelly Becker
 =======================================================
 * a9e45a7: Kelly Becker - connection suggestion analytic is now being saved
