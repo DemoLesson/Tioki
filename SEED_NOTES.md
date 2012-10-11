@@ -1,3 +1,7 @@
+v1.3.1 - Oct 11, 2012 11:08AM deployed by Kelly Becker
+======================================================
+* 0085884: Kelly Becker - edit videos
+
 v1.3.0 - Oct 10, 2012  9:46PM deployed by Aleks Stanisic
 ========================================================
 * 11dd88e: Aleks Stanisic - adding function to tech suggestion
