@@ -233,4 +233,11 @@ class VideosController < ApplicationController
 			format.xml  { head :ok }
 		end
 	end
+
+	def admin
+		raise HTTPStatus::Unauthorized unless self.current_user.is_admin
+
+		@stats = {}
+		@videos = Video.paginate(:page => params[:page], :per_page => 20)
+	end
 end

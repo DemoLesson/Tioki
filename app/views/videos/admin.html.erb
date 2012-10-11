@@ -1,0 +1,39 @@
+<section id="main-content" class="inner-content">
+	<h1>Administration</h1>
+
+	<ul id="breadcrumbs">
+		<li>Home</li>
+	</ul>
+
+	<%= render :partial => "users/admin_stats", :locals => { :stats => @stats } %>
+	<%= render :partial => "users/admin_menu" %>
+
+	<div class="clear" style="margin-top: 2.5em; border-bottom: 1px solid #ccc;"></div>
+
+	<div id="wrapper">
+		<div id="left" style="width: 905px"align="left">
+			<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Videos</strong></p>
+			<table cellspacing = "7">
+  				<tr>
+					<th>Video Name</th>
+					<th>Teacher</th>
+					<th>View Video</th>
+					<th>Edit Video</th>
+					<th>Local?</th>
+					<th>Uploaded</th>
+  				</tr>
+				<%- @videos.each do |video| %>
+  					<tr>
+						<td><%= video.name %></td>
+						<td><%= video.teacher.profile_link unless video.teacher.nil? %></td>
+						<td><%= link_to "View Video", video %></td>
+						<td><%= link_to("Edit Video", video_path(video) + '/edit') %></td>
+						<td><%= video.external? ? "Remote" : "Local" %></td>
+						<td><%= video.created_at.strftime("%b %-d, %Y $l:%M %p") %></td>
+  					</tr>
+				<% end -%>
+			</table>
+			<%= will_paginate @videos %>
+		</div>
+	</div>
+</section>

@@ -126,6 +126,7 @@ Preview::Application.routes.draw do
 		scope 'users' do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
+		match 'videos' => 'videos#admin'
 	end
 
 	# Videos Routing
