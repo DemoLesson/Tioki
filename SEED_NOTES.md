@@ -1,3 +1,19 @@
+v1.3.0 - Oct 10, 2012  9:46PM deployed by Aleks Stanisic
+========================================================
+* 11dd88e: Aleks Stanisic - adding function to tech suggestion
+* 1f7ecc2: Brian Martinez - tech tags and teacherskills pages
+* 74f9b1e: Brian Martinez - technology changes for site
+* ae8e012: Elijah Green - Add technology suggestion
+* b32ae8b: Elijah Green - Slight changes for the technologies on some pages
+* 37bc466: Elijah Green - Add technologies to profile
+* b80f028: Elijah Green - Add the rest of the technology pages
+* befe419: Elijah Green - add picture and add an index of technologies
+* 9575974: Elijah Green - Add functions for teahers to add technologies
+* ef21a27: Elijah Green - Add tags to technology
+* 4b26c5c: Elijah Green - Add technology creation
+* abf666e: Elijah Green - Add form to create and has_many associations.
+* e8815e4: Elijah Green - Add migrations for technologies
+
 v1.2.12 - Oct 10, 2012  6:31PM deployed by Aleks Stanisic
 =========================================================
 * f57176f: Elijah Green - Add search on skills
