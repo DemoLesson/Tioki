@@ -148,13 +148,14 @@ class TechnologiesController < ApplicationController
 
 	def techsuggestion
 		@technology_suggestion = TechnologySuggestion.new
+		 id = self.current_user.id
 	end
 
 	def sendtechsuggestion
 		TechnologySuggestion.create(params[:technology_suggestion])
-		redirect_to :back, :notie => "Thank you for your suggestion."
+		redirect_to :back, :notice => "Thank you for your suggestion."
 	end
-
+	
   private
   def authenticate
     return true if !self.current_user.nil? && self.current_user.is_admin
@@ -168,4 +169,5 @@ class TechnologiesController < ApplicationController
     #  id == USER_ID && password == PASSWORD
     #end
   end
+  
 end

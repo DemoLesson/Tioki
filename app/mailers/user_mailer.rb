@@ -449,4 +449,5 @@ class UserMailer < ActionMailer::Base
 
 		return mail
 	end
+	
 end
