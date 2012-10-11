@@ -190,9 +190,22 @@ class AnalyticsController < ApplicationController
 	end
 
 	def slugs
+
+		# Get the fields that we will be outputting
 		@fields = ['Slug', 'Last Triggered By', 'Last Triggerd', 'Times Triggered']
-		@slugs = Analytic.select('COUNT(*) as `times_triggered`, `analytics`.*').group('`analytics`.`slug`').order('`analytics`.`created_at` DESC')
+
+		# Count and select the slugs, dates that matter
+		slugs2 = Analytic.select('COUNT(*) as `times_triggered`, MAX(`analytics`.`created_at`) as `max`, `slug`')
+		slugs2 = slugs2.where('`slug` IS NOT NULL').group('`analytics`.`slug`').to_sql
+
+		# Prep the data for the dirty work
+		@slugs = Analytic.select('`tmp`.`times_triggered`, `analytics`.*').order('`analytics`.`created_at` DESC')
+		
+		# Hash of joining data
 		slugs_joined = Hash.new
+
+		# Join in the data that matters to narrow down the actual queried query
+		slugs_joined.merge!("INNER JOIN (#{slugs2}) as `tmp` ON `analytics`.`created_at` = `tmp`.`max` && `analytics`.`slug` = `tmp`.`slug`" => "'1' = '1'")
 
 		#@totals = Hash.new
 		#@totals[:events_rsvps] = EventsRsvps.where("'1' = '1'")
@@ -367,7 +380,7 @@ class AnalyticsController < ApplicationController
 		end
 
 		# Process the joins
-		@slugs = @slugs.joins(slugs_joined.keys.join(' ')).where(slugs_joined.values.join(' && '))
+		@slugs = @slugs.joins(slugs_joined.keys.delete_if{|x| x.numeric? || x.empty?}.join(' ')).where(slugs_joined.values.delete_if{|x| x.empty? || x == "'1' = '1'"}.join(' && '))
 
 		# Pagination Hack
 		@slugs = @slugs.paginate_by_sql([@slugs.to_sql], :page => params[:page], :per_page => 20)
