@@ -262,6 +262,11 @@ class DeployCLI
 
 				# Finished tags
 				echo "\nFinished creating tag."
+
+				# If we are in master go back to develop
+				echo "\mChecking out develop branch..."
+				system('git checkout develop')
+				echo "\mIt is now safe to develop code again..."
 			else
 				# Merge master
 				echo "\nSwitching to master..."
@@ -272,6 +277,11 @@ class DeployCLI
 				system('git merge develop')
 				echo "Merge completed...\n"
 				system("git push -u #{remote} master")
+				
+				# If we are in master go back to develop
+				echo "\mChecking out develop branch..."
+				system('git checkout develop')
+				echo "\mIt is now safe to develop code again..."
 			end
 
 			# Continue
@@ -296,10 +306,11 @@ class DeployCLI
 		system('cap deploy:cold FILTER=-tools')
 
 		# Run DB Migrate
-		echo "\nMigrating database"
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-		system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
+		# => DB Migrates in the rubber deploy.rb now
+		#echo "\nMigrating database"
+		#echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
+		#echo "This may take awhile...\n"
+		#system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
 
 		# Chmod jCrop upload dir
 		echo "\nChmodding jCrop Upload Directory"
@@ -316,12 +327,6 @@ class DeployCLI
 		else
 			echo "\nYou can deploy later with:"
 			echo "\`./script/deploy publish #{type}\`", 'red'
-		end
-
-		# If we are in master go back to develop
-		if masterMerge
-			echo "\nSwitching back to develop branch..."
-			system('git checkout develop')
 		end
 
 		# Restore the original rails env
@@ -359,6 +364,7 @@ class DeployCLI
 	end
 
 	def rollback(type = 'staging')
+		raise Exception, "BROKEN"
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]

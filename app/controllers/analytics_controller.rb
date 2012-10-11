@@ -189,6 +189,179 @@ class AnalyticsController < ApplicationController
 		end
 	end
 
+	def slugs
+		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Connections', 'Completion', 'Triggered Analytics']
+		@users = User.order('`last_login` DESC').paginate(:page => params[:page], :per_page => 20)
+
+		@totals = Hash.new
+		@totals[:events_rsvps] = EventsRsvps.where("'1' = '1'")
+		@totals[:vouched_skills] = VouchedSkill.where("'1' = '1'")
+		@totals[:skill_claims] = SkillClaim.where("'1' = '1'")
+		@totals[:videos] = Video.where("'1' = '1'")
+		@totals[:connections] = Connection.where("`connections`.`pending` = ?", false)
+		@totals[:completion] = User.select('CEIL(AVG(`users`.`completion`)) as `_completion`')
+		@rawtotals = @totals.clone
+		@show_raw = false
+
+		# Store the joined tables
+		joined_tables = Multimap.new
+
+		if request.post?
+
+			# Filter by dates
+			unless params[:date_start].nil? || params[:date_end].nil? || params[:date_start].empty? || params[:date_end].empty?
+				@users = @users.where('date(`last_login`) BETWEEN ? AND ?', params[:date_start], params[:date_end])
+
+				# Filter the totals
+				@totals.collect! do |key, record|
+					next if key == :events_rsvps
+					key = :users if key == :completion
+
+					record.where("date(`#{key}`.`created_at`) BETWEEN ? AND ?", params[:date_start], params[:date_end])
+				end
+
+				@show_raw = true
+			end
+
+			# Complicated Query
+			unless params[:user_type].nil? || params[:user_type].empty?
+				type = params[:user_type]
+
+				joins = Hash.new
+				joins.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
+				joins.merge!("LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`" => "`schools`.`id` IS NOT NULL") if type == 'organization'
+				@users = @users.select('`users`.*').joins(joins.keys.join(' ')).where(joins.values.join(' && '))
+
+				# Filter the totals
+				@totals.collect! do |key, record|
+					next if key == :events_rsvps
+					key = :users if key == :completion
+
+					# Perform joins
+					joins = Array.new
+					condi = Array.new
+
+					if !joined_tables[key].include?('teachers') && key == :videos
+						joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
+						joined_tables[key] = 'teachers'
+					end
+
+					if !joined_tables[key].include?('users') && key == :videos
+						joins << "LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`"
+						joined_tables[key] = 'users'
+					elsif !joined_tables[key].include?('users') && key != :users
+						joins << "LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`"
+						joined_tables[key] = 'users'
+					end
+
+					if type == 'educator' && !joined_tables[key].include?('teachers')
+						joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
+						joined_tables[key] = 'teachers'
+					end
+
+					if type == 'organization' && !joined_tables[key].include?('schools')
+						joins << "LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`"
+						joined_tables[key] = 'schools'
+					end
+
+					condi << "`teachers`.`id` IS NOT NULL" if type == 'educator'
+					condi << "`schools`.`id` IS NOT NULL" if type == 'organization'
+					
+					record.select("`#{key}`.*").joins(joins.join(' ')).where(condi.join(' && '))
+				end
+
+				@show_raw = true
+			end
+
+			# Filter by test types
+			unless params[:user_test].nil? || params[:user_test].empty?
+				@users = @users.where('`users`.`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
+				@users = @users.where('`users`.`ab` IS NULL') if params[:user_test] == 'default'
+
+				@totals.collect! do |key, record|
+					next if key == :events_rsvps
+					key = :users if key == :completion
+
+					# Join in users
+					if !joined_tables[key].include?('teachers') && key == :videos
+						# Join Teachers
+						record = record.joins("LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`")
+						joined_tables[key] = 'teachers'
+						# Join Users
+						record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
+						joined_tables[key] = 'users'
+					elsif !joined_tables[key].include?('users') && key != :users
+						record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
+						joined_tables[key] = 'users'
+					end
+
+					# Set condition
+					record.where('`users`.`ab` IS NULL') if params[:user_test] == 'default'
+					record.where('`users`.`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
+				end
+
+				@show_raw = true
+			end
+
+			# Filter by ID Range
+			unless params[:range].nil? || params[:range].match(/^[0-9]+~[0-9]+$/).nil?
+
+				# Split start and end
+				_start, _end = params[:range].split('~')
+
+				# Get results between
+				@users = @users.where('`users`.`id` BETWEEN ? AND ?', _start, _end) if _start < _end
+
+				@totals.collect! do |key, record|
+					next if key == :events_rsvps
+					key = :users if key == :completion
+
+					# Join in users
+					if !joined_tables[key].include?('teachers') && key == :videos
+						# Join Teachers
+						joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
+						joined_tables[key] = 'teachers'
+						# Join Users
+						record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
+						joined_tables[key] = 'users'
+					elsif !joined_tables[key].include?('users') && key != :users
+						record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
+						joined_tables[key] = 'users'
+					end
+					
+					# Set condition
+					record.where('`users`.`id` BETWEEN ? AND ?', _start, _end) if _start < _end
+				end
+
+				@show_raw = true
+			end
+
+			unless params[:complete].nil? || params[:complete].empty?
+				complete = params[:complete]
+
+				if !complete.match(/(^[0-9]{1,3}).$/).nil?
+
+					# Get regex data
+					match = complete.match(/(^[0-9]{1,3})/)
+					operator = complete.gsub(match.to_s, '')
+
+					# If there was an operator
+					operator = '=' if operator.empty?
+					@users = @users.where("? #{operator} `users`.`completion`", match.to_s)
+				elsif !(match = complete.match(/(^[0-9]{1,2})-([0-9]{1,3}$)/)).nil?
+
+					# Split the start and end
+					_start, _end = match.to_a.delete_if{|x| x == complete}
+
+					# Get results between
+					@users = @users.where('`users`.`completion` BETWEEN ? AND ?', _start, _end) if _start < _end
+				end
+
+				@show_raw = true
+			end
+		end
+	end
+
 	def slug
 		@fields = ['Slug', 'Class', 'ID', 'User who triggered', 'Times triggered', 'Average times triggered per week', 'Date']
 		@slug = self.get_analytics(params[:slug], nil, params[:date_start], params[:date_end]) do |s|

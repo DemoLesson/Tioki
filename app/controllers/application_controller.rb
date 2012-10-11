@@ -186,7 +186,10 @@ class ApplicationController < ActionController::Base
 	end
 
 	# Break MCV	
-	around_filter :sessions_in_model
+	around_filter :__sessions_in_model
+
+	# Append data to session
+	before_filter :__session_append
 
 	protected
 
@@ -195,7 +198,7 @@ class ApplicationController < ActionController::Base
 		# still a standard is actually quite limiting to the capabilities of the developer.
 		# This breaks the MCV shell and turns the code into a modern age framework where all
 		# for models happen on the models
-		def sessions_in_model
+		def __sessions_in_model
 			klasses = [ActiveRecord::Base, ActiveRecord::Base.class]
 			methods = ["session", "cookies", "params", "request"]
 
@@ -217,6 +220,19 @@ class ApplicationController < ActionController::Base
 		end
 
 	private
+
+		def __session_append
+			return if params[:"--@"].nil?
+
+			# Add session data
+			session[:data] = Multimap.new if session[:data].nil?
+
+			# Get the data and append it to the session
+			Base64.decode64(params[:"--@"]).split(',').each do |data|
+				key, val = data.split(':')
+				session[:data][key] = val
+			end
+		end
 
 		def render_401(exception)
 			

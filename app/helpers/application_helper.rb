@@ -27,4 +27,12 @@ module ApplicationHelper
 
     AB::getLang(slug, ab, uc)
   end
+
+  def e64(var)
+    Base64.encode64 var
+  end
+
+  def d64(var)
+    Base64.decode64 var
+  end
 end
