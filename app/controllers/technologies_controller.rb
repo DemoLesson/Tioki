@@ -93,15 +93,17 @@ class TechnologiesController < ApplicationController
   def add_technology
     @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
 		if @technology_user
-			redirect_to :back, :notice => "You have already adde this technology."
+			redirect_to :back, :notice => "You have already added this technology."
 		else
-			TechnologyUser.create(:user => self.current_user, :technology_id => params[:id])
+			tech = TechnologyUser.create(:user => self.current_user, :technology_id => params[:id])
+      self.log_analytic(:user_added_technology, "A user added a technology tag to their profile", tech)
 			redirect_to :back, :notice => "Technology was successfully added."
 		end
   end
 
   def remove_technology
     @technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
+    self.log_analytic(:user_removed_technology, "A user removed a technology tag from their profile", @technology_user)
 		@technology_user.destroy
     respond_to do |format|
       format.html { redirect_to technologies_url, notice: 'Technology was successfully removed.' }
