@@ -1,3 +1,7 @@
+v1.3.5 - Oct 11, 2012  3:28PM deployed by Kelly Becker
+======================================================
+* b68369b: Kelly Becker - slugs analytics page
+
 v1.3.4 - Oct 11, 2012  2:35PM deployed by Kelly Becker
 ======================================================
 * 357e204: Kelly Becker - converted file to tabs
