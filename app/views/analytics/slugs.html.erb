@@ -1,4 +1,4 @@
-<h2 class="count"><%= @users.total_entries %> Results</h2>
+<h2 class="count"><%= @slugs.total_entries %> Results</h2>
 <%= render 'header' %>
 
 <form method="POST">
@@ -57,80 +57,17 @@
 			<th><%= field %></th>
 		<% end %>
 	</tr>
-	<tr>
-		<td class="right"><strong>*</strong></td>
-		<td>All</td>
-		<td>N/A</td>
-		<% if @show_raw %>
-			<td><%= @totals[:events_rsvps].count %></td>
-			<td class="nowrap">
-				<strong><%= @totals[:vouched_skills].count %></strong>
-				 (<%= @rawtotals[:vouched_skills].count %>)
-			</td>
-			<td class="nowrap">
-				<strong><%= @totals[:skill_claims].count %></strong>
-				 (<%= @rawtotals[:skill_claims].count %>)
-			</td>
-			<td class="nowrap">
-				<strong><%= @totals[:videos].count %></strong>
-				 (<%= @rawtotals[:videos].count %>)
-			</td>
-			<td class="nowrap">
-				<strong><%= @totals[:connections].count %></strong>
-				 (<%= @rawtotals[:connections].count %>)
-			</td>
-		<% else %>
-			<td><%= @totals[:events_rsvps].count %></td>
-			<td><%= @totals[:vouched_skills].count %></td>
-			<td><%= @totals[:skill_claims].count %></td>
-			<td><%= @totals[:videos].count %></td>
-			<td><%= @totals[:connections].count %></td>
-		<% end %>
-		<td><%= @totals[:completion].first._completion %>% - AVG</td>
-		<td>N/A</td>
-	</tr>
-	<tr>
-		<% @fields.each do |field| %>
-			<th><%= field %></th>
-		<% end %>
-	</tr>
-	<% @users.each do |user| %>
+	<% @slugs.each do |slug| %>
 		<tr>
-			<td class="right"><strong><%= user.id %></strong></td>
-			<td><%= link_to user.name, "/analytics/user/#{user.id}" %></td>
-			<td><%= user.email %></td>
-			<% if @show_raw %>
-				<td><%= user.rsvp.count %></td>
-				<td class="nowrap">
-					<strong><%= user.vouched_skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
-					 (<%= user.vouched_skills.count %>)
-				</td>
-				<td class="nowrap">
-					<strong><%= user.skill_claims.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
-					 (<%= user.skill_claims.count %>)
-				</td>
-				<td class="nowrap">
-					<strong><%= user.teacher.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 %></strong>
-					 (<%= user.teacher.videos.count rescue 0 %>)
-				</td>
-				<td class="nowrap">
-					<strong><%= user.connections.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
-					 (<%= user.connections.count %>)
-				</td>
-			<% else %>
-				<td><%= user.rsvp.count %></td>
-				<td><%= user.vouched_skills.count %></td>
-				<td><%= user.skills.count %></td>
-				<td><%= user.teacher.videos.count rescue 0 %></td>
-				<td><%= user.connections.count %></td>
-			<% end %>
-			<td><%= user.completion %>%</td>
-			<td><%= user.analytics.where('`slug` IS NOT NULL').group('slug').collect!{|x| link_to(x.slug, '/analytics/slug/' + u(x.slug))}.join(', ').html_safe %></td>
+			<td class="right"><strong><%= link_to slug.slug, "/analytics/slug/#{slug.slug}" %></strong></td>
+			<td><%= link_to slug.user.name, "/analytics/user/#{slug.user.id}" unless slug.user.nil? %></td>
+			<td><%= slug.created_at.strftime("%A %B %-d, %Y @ %l:%M%P %Z") %></td>
+			<td><%= slug.times_triggered %></td>
 		</tr>
 	<% end %>
 </table>
 <div>
-	<%= will_paginate @users %>
+	<%= will_paginate @slugs %>
 </div>
 
 <script type="text/javascript">
