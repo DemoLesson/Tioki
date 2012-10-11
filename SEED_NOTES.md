@@ -1,3 +1,7 @@
+v1.3.6 - Oct 11, 2012  4:15PM deployed by Kelly Becker
+======================================================
+* a05d0c1: Kelly Becker - made the query a bit more accurate with dates
+
 v1.3.5 - Oct 11, 2012  3:28PM deployed by Kelly Becker
 ======================================================
 * b68369b: Kelly Becker - slugs analytics page
