@@ -1,3 +1,8 @@
+v1.2.12 - Oct 10, 2012  6:31PM deployed by Aleks Stanisic
+=========================================================
+* f57176f: Elijah Green - Add search on skills
+* 10e3926: Elijah Green - Add chosen select drop downs
+
 v1.2.11 - Oct 10, 2012  5:14PM deployed by Kelly Becker
 =======================================================
 * e843e6f: Kelly Becker - whoops this fixes the issue with connections
