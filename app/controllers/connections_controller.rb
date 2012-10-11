@@ -9,8 +9,15 @@ class ConnectionsController < ApplicationController
 	# GET /connections.json
 	def index
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
+		@skills = Skill.find(:all, :order => "name")
 		@teachers = Array.new
-		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page]).each do |teacher|
+
+		if params[:skill]
+			teachers = Teacher.find(:all, :include => :skills, :conditions => ["skills.id = ?", params[:skill]]).paginate(:per_page => 25, :page => params[:page])
+		else
+			teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+		end
+		teachers.each do |teacher|
 			@teacher = teacher
 			@teachers << render_to_string("connections/new_connections", :layout => false)
 		end
@@ -279,7 +286,11 @@ class ConnectionsController < ApplicationController
 
 	def new_connections
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
-		teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+		if params[:skill]
+			teachers = Teacher.find(:all, :include => :skills, :conditions => ["skills.id = ?", params[:skill]]).paginate(:per_page => 25, :page => params[:page])
+		else
+			teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+		end
 		return render :json => connections unless params[:raw].nil?
 
 		divs = Array.new

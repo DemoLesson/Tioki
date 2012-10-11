@@ -24,7 +24,12 @@
 			<h3>
 				Find New <%= ablang('connection.plural', true) %>
 			</h3>
-			<%= text_field_tag :woah, nil, :id => "skills" %>
+			<div style="padding:15px">
+				<%= form_tag "/connections", :method => "get" do %>
+					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:280px;"} %>
+					<%= submit_tag "Search By Skill" %>
+				<% end %>
+			</div>
 		</section> <!-- END FIND NEW CONNECTIONS -->
 		<section id="list" class="panel two-column right-side">
 			<div class="search-connections">	
@@ -105,12 +110,6 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
-		$("#skills").tokenInput("/skills.json", {
-						"method": 'POST',
-						"queryParam": 'facebook',
-						"theme": 'facebook',
-						"preventDuplicates": true,
-						"prePopulate": data
-			});
+		$("#skills").chosen();
 		});
 </script>
