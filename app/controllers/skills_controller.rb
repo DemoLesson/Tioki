@@ -39,9 +39,20 @@ class SkillsController < ApplicationController
 
     # Videos that claim the skill
     @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
+    
+    #Technologies that claim the skill
+    @technologies = @skill.technologies
 
     # Get a list of my connections
     @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
     @my_connections = Array.new if self.current_user.nil?
   end
+  
+  def skillpage
+    
+    #Redirecting users to skills pages
+    redirect_to "/teacherskills/#{params[:topic]}"
+  
+  end
+    
 end

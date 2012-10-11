@@ -1,0 +1,7 @@
+<%= form_for @technology_suggestion, :url => "/sendtechsuggestion" do |f| %>
+  Name of the Technology that Should be added:
+  <%= f.text_field :title%>
+  Url:
+  <%= f.text_field :url %>
+  <%= f.submit %>
+<% end %>

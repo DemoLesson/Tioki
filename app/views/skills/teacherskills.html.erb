@@ -1,36 +1,52 @@
 <section id="main-content" class="inner-content">
-	<h1>Results tagged with the <%= @skill.name %> skill</h1>
+	<fieldset class="search-connections">
+		<h1>
+		
+		<%= form_tag "/skillpage", :method => :get do %>
+		<span style="float:right">
+		<%= select_tag :topic, options_from_collection_for_select(Skill.all, "id", "name"), {:style => "margin-top:10px", :prompt => "Discover More Content"} %>
+		<input type="submit" value="GO" class="button" />
+		</span>
+		Discover → <%= @skill.name %>
+		<% end %>
+		</h1>
+	</fieldset>
 
 	<section id="panels">
 		<section class="panel one-column left-side">
-			<h3>Videos</h3>
+			
+			<h3>Top Technologies</h3>
 			<ul>
-				<% unless @videodb.empty? %>
-					<% @videodb.each do |vid| %>
-						<a href="/videos/<%= vid.id %>">
-							<li>
+				<% unless @technologies.empty? %>
+					<% @technologies.each do |technology| %>
+						<a href="/technologies/<%= technology.id %>">
+							<li style="width:275px;padding:12px 15px 12px 15px !important">
 								<div style="float:left;" class="profile-thumb-small">
-									<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+									<%= image_tag(technology.picture(:medium), :width => '45', :height => '45') %>
 								</div>
-								<strong><%= vid.name %></strong><br />
-								<p style="float:none;"><%= vid.description %></p>
+								<strong><%= technology.name %></strong><br />
+								<p style="float:left;width:215px">
+									<% if technology.description.size > 100 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+									<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+									<% end %>
+								</p>
 							</li>
 						</a>
 					<% end %>
-					<li>
-						<%= will_paginate @videodb, :param_name => 'vpage' %>
-					</li>
 				<% else %>
-					<li>No videos showing off skills in <%= @skill.name %>.</li>
+					<li>Do you know of a great <%= @skill.name %> technology?
+						<%= link_to "Send us a note", "/techsuggestion" %> and we'll add it.
+					</li>
 				<% end %>
 			</ul>
 		</section>
-		<section class="panel two-column right-side">
+		
+		<section class="panel one-column left-side">
 			<h3>Educators</h3>
 			<ul>
 				<% unless @teachers.empty? %>
 					<% @teachers.each do |teacher| %>
-						<li>
+						<li style="width:275px;padding:12px 15px 12px 15px !important">
 							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
 								<%= link_to image_tag(teacher.user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{teacher.url}" if teacher.user.avatar? %>
 								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{teacher.url}" unless teacher.user.avatar? %>
@@ -38,7 +54,7 @@
 							<strong>
 								<%= link_to "#{teacher.user.name}", "/profile/#{teacher.url}", :class => "byline" %>
 							</strong><br />
-							<p style="width:auto;float:none;">
+							<p style="width:195px;float:left;">
 								<% if teacher.position.present?  && teacher.school.present? %>
 									<%= teacher.position %> at <%= teacher.school %><br />
 								<% end %>
@@ -69,5 +85,35 @@
 				<% end %>
 			</ul>
 		</section>
+		
+		<section class="panel one-column right-side">
+			
+			<h3>Videos</h3>
+			<ul>
+				<% unless @videodb.empty? %>
+					<% @videodb.each do |vid| %>
+						<a href="/videos/<%= vid.id %>">
+							<li style="width:275px;padding:12px 15px 12px 15px !important">
+								<div style="float:left;" class="profile-thumb-small">
+									<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+								</div>
+								<strong><%= vid.name %></strong><br />
+								<p style="float:left;width:215px">
+									<% if vid.description.size > 100 %><%=h (vid.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+									<% else %><%=h vid.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+									<% end %>
+								</p>
+							</li>
+						</a>
+					<% end %>
+					<li>
+						<%= will_paginate @videodb, :param_name => 'vpage' %>
+					</li>
+				<% else %>
+					<li>No videos showing off skills in <%= @skill.name %>.</li>
+				<% end %>
+			</ul>
+		</section>
+		
 	</section>
 </section>

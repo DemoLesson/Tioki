@@ -1,0 +1,53 @@
+<section id="main-content" class="inner-content">
+<h1>Technologies</h1>
+<div id="content">
+	<% @technologies.each do |technology| %>
+		<div class="item_jobs" style="height:auto;margin-left: -30px">
+			<div class="item_picture">
+				<% if technology.picture? %><%= link_to image_tag(technology.picture.url(:thumb)), technology %><% else %><%= link_to image_tag("no_image.png"), technology %><% end %>
+			</div>
+			<div class ="item_desc">
+				<p>
+					<h3>
+					<%= link_to technology.name, technology, :style => "color:#4D4D4D" %>
+					</h3>
+					<p style="margin-top:-15px">
+						<% if technology.description.size > 270 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..274]+'...').html_safe %>
+						<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+						<% end %>
+					</p>
+					<% if self.current_user.teacher %>
+						<% if self.current_user.technologies.include? technology %>
+							<%= link_to "Remove From Profile", { :action => "remove_technology", :id => technology.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" %>
+						<% else %>
+							<%= link_to "Add To My Profile", { :action => "add_technology", :id => technology.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" %>
+						<% end %>
+					<% end %>
+					
+					<!-- Check if the Technology has tags in order to determine if the tags should be displayed-->
+					<% if technology.skills.count  > 0 %>
+					<section style="margin-left: 125px;width:400px">
+					Tags:
+						<% technology.skills.each do |skill| %>
+							<span class="skills">
+								<a href="/teacherskills/<%= skill.id.to_s %>" >
+									<%= skill.name %> &middot;
+								</a>
+							</span>
+						<% end %>
+					</section>
+					<% end %>
+					<div style="clear:both"></div>
+				</p>
+			</div>
+		</div>
+	<% end %>
+	
+	<h4>
+	Something Missing?
+	</h4>
+	<p>
+	Do you use an awesome technology that other educators would like? <%= link_to "Let us know", "/techsuggestions" %> and we'll add it to the list. 
+	
+</div>
+</section>

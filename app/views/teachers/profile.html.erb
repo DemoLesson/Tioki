@@ -159,7 +159,22 @@
 					</p>
 				<% end %>
 			</section>
-
+			
+			<!-- Teacher Technology Tags -->
+			<section class="info">
+				<p class="heading">
+				<%= link_to "Technologies", "/technologies", :style => "color:#000" %>
+				</p>
+				<div style="padding:0px 5px;">
+					<% @teacher.user.technologies.each do |technology| %>
+						<div class="profile-thumb-small" style="float:left;margin:0px 5px 0px 0px;overflow:hidden;">
+							<%= link_to image_tag(technology.picture(:medium), :style => 'min-height:45px;min-width:45px;'), technology %>
+						</div>
+					<% end %>
+					<div style="clear:both;"></div>
+				</div>
+			</section>
+			
 			<!-- Request Vouch -->
 			
 			<section class="info">

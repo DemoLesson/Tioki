@@ -1,5 +1,17 @@
 Preview::Application.routes.draw do
 
+  resources :technologies do
+		member do
+			get 'change_technology_picture'
+			get 'edit_technology_tags'
+			post 'edit_technology_tags'
+			get 'add_technology'
+			get 'remove_technology'
+			get 'skills'
+		end
+	end
+
+
 	resources :s3_uploads
 
 	match 'distance/:id' => 'connections#distance'
@@ -172,6 +184,7 @@ Preview::Application.routes.draw do
 	match 'users' => 'users#update'
 	match 'attach' => 'teachers#attach'
 	match 'teachers/:id/skills' => 'teachers#skills'
+	match 'skillpage' => 'skills#skillpage'
 	match 'jobattach' => 'jobs#attach'
 	match 'videos/record' => 'videos#record'
 	match 'videos/create_snippet' => 'videos#create_snippet'
@@ -248,6 +261,7 @@ Preview::Application.routes.draw do
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
 	match 'referrallist' => 'users#referral_user_list'
+	match 'technologylist' => 'technologies#technology_list'
 	match 'blogadmin' => 'blog_entries#list'
 	match 'fetch_code' => 'users#fetch_code'
 	match 'jobattachpurge/:id' => 'jobs#jobattachpurge'

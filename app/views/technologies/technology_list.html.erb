@@ -1,0 +1,55 @@
+<section id="main-content" class="inner-content">
+	<h1>Administration</h1>
+
+	<ul id="breadcrumbs">
+		<li><%= link_to 'Home', :admin %></li>
+		<li>Technology List</li>
+	</ul>
+
+	<%= render :partial => "users/admin_stats", :locals => { :stats => @stats } %>
+
+	<%= render :partial => "users/admin_menu" %>
+
+	<div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
+
+	<div class="form-wrap">
+		<%= form_for :technology, :url => { :controller => :technologies, :action => "create" } do |f| %>
+			<%= f.text_field :name, :placeholder => "Company Name" %>
+			<%= f.text_field :site, :placeholder => "Site Url" %><br /><br />
+			<%= f.text_field :twitter, :placeholder => "Twitter Url" %>
+			<%= f.text_field :facebook, :placeholder => "Facebook Url" %><br /><br />
+			<%= f.text_area :description, :placeholder => " Company Description", :rows => 5, :style => "width:500px" %><br />
+			<%= f.submit "Save" %>
+		<% end %>
+	</div>
+
+	<div id="wrapper" style="margin-top: 0">
+
+		<div id="left" style="width: 905px"align="left">
+
+			<p style= "font-size: 20px"><strong>Technologies</strong></p>
+			<table cellpadding = "5">
+				<tr>
+					<th>Technology</th>
+					<th>Users</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<%- @technologies.each do |technology| %>
+					<tr>
+						<td><%= link_to technology.name, { :action => "show", :id => technology.id } %></td>
+						<td><%= technology.technology_users.count %></td>
+						<td><%= link_to "Edit", {:action => "edit", :id => technology.id } %> |</td>
+						<td><%= link_to "Picture", {:action => "change_technology_picture", :id => technology.id } %> |</td>
+						<td><%= link_to "Skills",  {:action => "edit_technology_tags", :id => technology.id }%> |</td>
+						<td><%= link_to "Delete", technology, :confirm => "Are you sure?", :method => "delete" %></td>
+					</tr>
+				<% end -%>
+			</table>
+
+		</div>
+
+	</div>
+</section>

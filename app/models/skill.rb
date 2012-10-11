@@ -10,4 +10,7 @@ class Skill < ActiveRecord::Base
   has_and_belongs_to_many :videos, :join_table => 'videos_skills'
 
   belongs_to :skill_group
+
+  has_many :technology_tags, :dependent => :destroy
+  has_many :technologies, :through => :technology_tags
 end

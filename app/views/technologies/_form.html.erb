@@ -1,0 +1,37 @@
+<%= form_for(@technology) do |f| %>
+  <% if @technology.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@technology.errors.count, "error") %> prohibited this technology from being saved:</h2>
+
+      <ul>
+      <% @technology.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div><br />
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div><br />
+  <div class="field">
+    <%= f.label :site %>
+    <%= f.text_field :site %>
+  </div><br />
+  <div class="field">
+    <%= f.label :twitter %>
+    <%= f.text_field :twitter %>
+  </div><br />
+<div class="field">
+    <%= f.label :facebook %>
+    <%= f.text_field :facebook %>
+  </div><br />
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
