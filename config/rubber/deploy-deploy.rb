@@ -13,7 +13,7 @@ namespace :deploy do
       Reload the application code
     DESC
     task :reload do
-      rsudo "touch #{current_path}/tmp/restart.txt"
+      rsudo "touch #{current_release}/tmp/restart.txt"
     end
   end
 end
