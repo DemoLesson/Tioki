@@ -165,6 +165,11 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
+		# Confirm if were trying to deploy of develop
+		unless branch == 'develop'
+			return unless confirm("You are deploying from '#{branch}'. You should be deploying from 'develop' Continue?")
+		end
+
 		# Make sure we want to be deploying with uncommited changes
 		unless commited
 			return unless confirm("You are trying to deploy with uncommited files. Continue?")
