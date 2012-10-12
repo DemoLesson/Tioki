@@ -126,6 +126,9 @@ class ApplicationController < ActionController::Base
 		# Link up the currently active user
 		a.user = self.current_user unless self.current_user.nil?
 
+		# Hook up the session
+		a.session_id = request.session_options[:id]
+
 		# Save the analytic
 		a.save
 	end

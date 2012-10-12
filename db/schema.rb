@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121011213340) do
+ActiveRecord::Schema.define(:version => 20121012175037) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20121011213340) do
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "session_id"
   end
 
   create_table "applications", :force => true do |t|

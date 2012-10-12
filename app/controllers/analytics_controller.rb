@@ -187,6 +187,57 @@ class AnalyticsController < ApplicationController
 				@show_raw = true
 			end
 		end
+
+		respond_to do |format|
+			format.xlsx {
+				p = Axlsx::Package.new
+				wb = p.workbook
+				wb.add_worksheet(:name => "Basic Worksheet") do |sheet|
+					sheet.add_row @fields
+
+					# Add Totals
+					row = Array.new
+					row << '*'
+					row << 'All'
+					row << 'N/A'
+					row << @totals[:events_rsvps].count
+					row << @totals[:vouched_skills].count
+					row << @totals[:skill_claims].count
+					row << @totals[:videos].count
+					row << @totals[:connections].count
+					row << @totals[:completion].first._completion
+					row << 'N/A'
+					sheet.add_row row
+
+					@users.each do |user|
+						row = Array.new
+						row << user.id
+						row << user.name
+						row << user.email
+						row << user.rsvp.count unless @show_raw
+						row << user.rsvp.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
+						row << user.vouched_skills.count unless @show_raw
+						row << user.vouched_skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
+						row << user.skills.count unless @show_raw
+						row << user.skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
+						row << user.teacher.videos.count rescue 0 unless @show_raw
+						row << user.teacher.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 if @show_raw
+						row << user.connections.count unless @show_raw
+						row << user.connections.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
+						row << user.completion
+						row << user.analytics.where('`slug` IS NOT NULL').group('slug').collect!{|x| x.slug}.join(', ')
+
+						sheet.add_row row
+					end
+				end
+
+				# Get Stream
+				return send_data(p.to_stream().read, :filename => "users_export_#{Time.now.strftime("%m-%d-%Y-%H-%I-%S")}.xlsx", :type => Mime::XLSX)
+			}
+			format.html {
+				render :users
+			}
+		end
 	end
 
 	def slugs

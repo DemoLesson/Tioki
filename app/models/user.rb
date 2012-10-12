@@ -332,11 +332,10 @@ class User < ActiveRecord::Base
 			self.name = params[:name]
 			self.password = self.password_confirmation = params[:password]
 			
-			#if self.update_attributes(:email => params[:email], :name => params[:name], :password => params[:password])
-			if self.save!
+			if self.save
 				return "Your settings have been updated!"
 			else
-				return "Could not update your settings."
+				return self.errors.full_messages.to_sentence
 			end
 		else
 			return "Your password was incorrect."

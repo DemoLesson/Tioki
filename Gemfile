@@ -48,6 +48,9 @@ gem "zencoder", "~> 2.4.0"
 gem 'httpclient'
 gem 'oauth'
 
+# XLSX Helper
+gem 'axlsx'
+
 # MySQL Database Access
 # Using Bleeding Edge (might be bad idea but lets see)
 gem 'mysql2', :git => 'git://github.com/brianmario/mysql2.git'
