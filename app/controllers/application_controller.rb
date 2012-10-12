@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
 		a.user = self.current_user unless self.current_user.nil?
 
 		# Hook up the session
-		a.session = request.session_options[:id]
+		a.session_id = request.session_options[:id]
 
 		# Save the analytic
 		a.save
