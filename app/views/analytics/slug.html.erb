@@ -55,7 +55,10 @@
 			<td><%= data.slug %></td>
 			<td><%= data.map_tag.class.name rescue 'Unknown' %></td>
 			<td><%= data.map_tag.id rescue '?' %></td>
-			<td><%= link_to data.user.name, "/analytics/user/#{data.user.id}" %></td>
+			<td>
+				<%= link_to data.user.name, "/analytics/user/#{data.user.id}" unless data.user.nil? %>
+				<%= "Guest" if data.user.nil? %>
+			</td>
 			<td><%= data.count.nil? ? 0 : data.count %></td>
 			<td><%= data.per_week.nil? ? 0 : data.per_week %></td>
 			<td><%= data.created_at.strftime("%A %B %-d, %Y @ %l:%M%P %Z") %></td>

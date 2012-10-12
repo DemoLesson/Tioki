@@ -60,7 +60,10 @@
 	<% @slugs.each do |slug| %>
 		<tr>
 			<td class="right"><strong><%= link_to slug.slug, "/analytics/slug/#{slug.slug}" %></strong></td>
-			<td><%= link_to slug.user.name, "/analytics/user/#{slug.user.id}" unless slug.user.nil? %></td>
+			<td>
+				<%= link_to slug.user.name, "/analytics/user/#{slug.user.id}" unless slug.user.nil? %>
+				<%= "Guest" if slug.user.nil? %>
+			</td>
 			<td><%= slug.created_at.strftime("%A %B %-d, %Y @ %l:%M%P %Z") %></td>
 			<td><%= slug.times_triggered %></td>
 		</tr>
