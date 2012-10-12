@@ -465,26 +465,26 @@ class DeployCLI
 
 		# Warn
 		echo "Ok were gonna install the latest rubber, bundle install, and then sync aliases ^_^"
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "Here we go! This could take awhile...\n"
+		if confirm "Everything sound good?"
 
-		# Install specific install
-		system('sudo gem install specific_install')
+			# Install specific install
+			system('gem install specific_install')
 
-		# Install Rubber
-		system('sudo gem specific_install -l git://github.com/wr0ngway/rubber.git')
+			# Install Rubber
+			system('gem specific_install -l git://github.com/wr0ngway/rubber.git')
 
-		# Bundle Install
-		system('bundle install && bundle update')
+			# Bundle Install
+			system('bundle install && bundle update')
 
-		# Sync aliases
-		renvironment = ENV['RAILS_ENV']
-		['development', 'staging','production'].each do |_env|
-			ENV["RAILS_ENV"] = _env
-			system('cap rubber:setup_local_aliases')
-		end; ENV["RAILS_ENV"] = renvironment
+			# Sync aliases
+			renvironment = ENV['RAILS_ENV']
+			['development', 'staging','production'].each do |_env|
+				ENV["RAILS_ENV"] = _env
+				system('cap rubber:setup_local_aliases')
+			end; ENV["RAILS_ENV"] = renvironment
 
-		echo "That should be everything! ^_^"
+			echo "That should be everything! ^_^"
+		end
 	end
 
 	def prep

@@ -1,5 +1,8 @@
 source 'http://rubygems.org'
 
+# Temporary gem for debugger-ruby_core_source
+gem 'debugger-ruby_core_source', :git => 'git://github.com/KellyLSB/debugger-ruby_core_source.git'
+
 # Rails Itself
 gem 'rails', '3.1.3'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
