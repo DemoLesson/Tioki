@@ -375,7 +375,7 @@ class UsersController < ApplicationController
 		self.log_analytic(:user_updated_settings, "A user changed their settings.")
 
 		respond_to do |format|
-			format.html { redirect_to @user, :notice => action }
+			format.html { redirect_to :root, :notice => action }
 		end
 	end
 	
