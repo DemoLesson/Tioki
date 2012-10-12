@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121010190713) do
+ActiveRecord::Schema.define(:version => 20121011213340) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -141,6 +141,22 @@ ActiveRecord::Schema.define(:version => 20121010190713) do
   add_index "credentials_teachers", ["credential_id", "teacher_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
   add_index "credentials_teachers", ["teacher_id"], :name => "index_credentials_teachers_on_teacher_id"
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "educations", :force => true do |t|
     t.string   "school"
     t.string   "degree"
@@ -222,10 +238,6 @@ ActiveRecord::Schema.define(:version => 20121010190713) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
-  end
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -523,7 +535,7 @@ ActiveRecord::Schema.define(:version => 20121010190713) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -581,6 +593,15 @@ ActiveRecord::Schema.define(:version => 20121010190713) do
   create_table "technology_users", :force => true do |t|
     t.integer  "user_id"
     t.integer  "technology_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_delayed_jobs", :force => true do |t|
+    t.integer  "delayed_job_id"
+    t.integer  "user_id"
+    t.integer  "vouchee_id"
+    t.datetime "action_start"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

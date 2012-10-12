@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  delayed_job_id: 1
+  user_id: 1
+  vouchee_id: 1
+  action_start: 2012-10-11 14:33:40
+
+two:
+  delayed_job_id: 1
+  user_id: 1
+  vouchee_id: 1
+  action_start: 2012-10-11 14:33:40

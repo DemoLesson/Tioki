@@ -76,6 +76,32 @@ class VouchesController < ApplicationController
 		# Create a new vouch
 		vouch = VouchedSkill.create(:skill_id => params[:skill_id], :user_id => params[:user_id], :voucher_id => User.current.id)
 
+		#Inform vouchee of the vouch five minutes later to give time for voucher to add more vouches
+		#first search for existing
+		user_delayed_job = UserDelayedJob.find(:first, :conditions =>["user_id = ? && vouchee_id = ?", User.current.id, params[:user_id]])
+
+		if user_delayed_job
+			prev_delayed_job = DelayedJob.find_by_id(user_delayed_job.delayed_job_id)
+
+			#check if previous job exists and delete as we are going to create a new one
+			if prev_delayed_job
+				prev_delayed_job.destroy
+			else
+				#user_delayed_job is invalid
+				#needs new time
+				use_delayed_job.action_start = vouch.created_at
+			end
+		else
+			user_delayed_job = UserDelayedJob.new(:user_id => User.current.id, :vouchee_id => params[:user_id], :action_start => vouch.created_at)
+		end
+
+		delayed_job= UserMailer.delay({:run_at => 5.minutes.from_now})
+		raise delayed_job.to_s
+
+		user_delayed_job.delayed_job_id = delayed_job.id
+
+		user_delayed_job.save
+
 		# Log to whiteboard and analytics
 		Whiteboard.createActivity(:created_vouch, "{user.teacher.profile_link} vouched for {tag.teacher.profile_link} skills.", User.find(params[:user_id]))
 		self.log_analytic(:created_vouch, "A user vouched for somones skills.", vouch)
