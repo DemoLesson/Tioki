@@ -1,3 +1,8 @@
+v1.3.8 - Oct 12, 2012 11:10AM deployed by Kelly Becker
+======================================================
+* 846c9cb: Kelly Becker - fix to analytics breaking when log was made by a guest
+* a5f1fe4: Kelly Becker - session_id not session
+
 v1.3.7 - Oct 12, 2012 10:56AM deployed by Kelly Becker
 ======================================================
 * f3b2a9c: Kelly Becker - Added session ids to logs
