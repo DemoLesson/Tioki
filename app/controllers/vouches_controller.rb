@@ -81,7 +81,7 @@ class VouchesController < ApplicationController
 		user_delayed_job = UserDelayedJob.find(:first, :conditions =>["user_id = ? && vouchee_id = ?", User.current.id, params[:user_id]])
 
 		if user_delayed_job
-			prev_delayed_job = DelayedJob.find_by_id(user_delayed_job.delayed_job_id)
+			prev_delayed_job = Delayed::Job.find_by_id(user_delayed_job.delayed_job_id)
 
 			#check if previous job exists and delete as we are going to create a new one
 			if prev_delayed_job
@@ -89,14 +89,13 @@ class VouchesController < ApplicationController
 			else
 				#user_delayed_job is invalid
 				#needs new time
-				use_delayed_job.action_start = vouch.created_at
+				user_delayed_job.action_start = vouch.created_at
 			end
 		else
 			user_delayed_job = UserDelayedJob.new(:user_id => User.current.id, :vouchee_id => params[:user_id], :action_start => vouch.created_at)
 		end
 
-		delayed_job= UserMailer.delay({:run_at => 5.minutes.from_now})
-		raise delayed_job.to_s
+		delayed_job= UserMailer.delay({:run_at => 3.minutes.from_now}).skills_vouched(params[:user_id], User.current.id, user_delayed_job.action_start)
 
 		user_delayed_job.delayed_job_id = delayed_job.id
 

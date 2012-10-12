@@ -450,14 +450,17 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def skill_vouched(vouchee, voucher, user_delayed_job)
+	def skills_vouched(vouchee_id, voucher_id, start_time)
+		vouchee = User.find(vouchee_id)
+		voucher = User.find(voucher_id)
 		email = vouchee.email
-		@skills = SkillVouch.find(:all, :conditions => ["user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, user_delayed_job.action_start], :limit => 6)
-		ab = Abtests.use("email:skills_vouched",1)
-		@sender_name = @voucher.name
+		@profile_name = vouchee.teacher.url
+		@vouched_skills = VouchedSkill.find(:all, :conditions => ["user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, start_time], :limit => 6)
+		@sender_name = voucher.name
 		@receiver_name = vouchee.name
 
-		mail = mail(:to => email, :subject => @sender_name + "has vouched for your skills.")
+		ab = Abtests.use("email:skills_vouched",1)
+		mail = mail(:to => email, :subject => @sender_name + " has vouched for your skills.")
 
 		return mail
 	end

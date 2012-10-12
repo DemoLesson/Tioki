@@ -5,7 +5,7 @@
 	<!-- Facebook sharing information tags -->
 	<meta property="og:title" content="New Message">
 	
-	<meta property="fb:page_id" content="43929265776"><title> "<%= @teachername %>" has vouched for you</title>
+	<meta property="fb:page_id" content="43929265776"><title> "<%= @sender_name %>" has vouched for you</title>
 	
 </head>
 
@@ -22,7 +22,7 @@
 							<table border="0" cellpadding="10" cellspacing="0" width="100%">
 								<tr>
 									<td valign="top" style="border-collapse: collapse;">
-										<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+										<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @sender_name %></span></div>
 									</td>
 									<!--  -->
 								</tr>
@@ -75,7 +75,7 @@
 											<table border="0" cellpadding="20" cellspacing="0" width="100%">
 												<tr>
 													<td valign="top" style="border-collapse: collapse;">								
-														<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br>
+														<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @sender_name %>,</em></span><br>
 														<!--// Beginning of white container containing message\-->
 														<table  valign="bottom" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" style="border: 0px solid #d7e3f0;">
 															<tr><td colspan="3" height="14" style="border-collapse: collapse;"></td></tr>
@@ -84,7 +84,7 @@
 																	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 																		<tr>
 																			<td style="line-height: 10px;color: #555;font-size: 13px;padding-bottom:0px; padding: 5px;border-collapse: collapse;">
-																				<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left; padding-left:1px; ">Hey <%= @name %>, I just vouched for your skills:</span><br>
+																				<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left; padding-left:1px; ">Hey <%= @receiver_name %>, I just vouched for your skills:</span><br>
 																				<br>
 																				
 																			</td>
@@ -100,14 +100,14 @@
 																<td>
 																	<table valign="top" cellpadding="0" cellspacing="0" border="0" width="580" bgcolor="#ffffff" style="border: 0px solid #d7e3f0;">
 																		<% column = 0 %>
-																		<% @skills.each do |skill| %>
+																		<% @vouched_skills.each do |vouched_skill| %>
 																			<% if column % 2 == 0 %>
 																				<tr>
 																					<td width="auto" style="padding: 3px;color: #666666;font-family: 'Helvetica Neue','Helvetica','Arial',serif;border-collapse: collapse;" align="left">
 																						<table cellpadding="2" cellspacing="5" width="auto" border="0">
 																							<tr>
 																								<td style="border-collapse: collapse; repeat-x scroll 100% 0; ">
-																									<span style="color:#f66c4d; text-decoration:none; font-size:15px; font-weight:normal; white-space:nowrap;display:block"><a href="http://www.tioki.com/teacherskills/<%= skill.id %>" style="text-decoration:none; color:#f66c4d; font-size:15px; font-weight:normal; white-space:nowrap;display:block">+ <%= skill.name %>
+																									<span style="color:#f66c4d; text-decoration:none; font-size:15px; font-weight:normal; white-space:nowrap;display:block"><a href="http://www.tioki.com/teacherskills/<%= vouched_skill.skill.id %>" style="text-decoration:none; color:#f66c4d; font-size:15px; font-weight:normal; white-space:nowrap;display:block">+ <%= vouched_skill.skill.name %>
 																									</a></span>
 																								</td>
 																							</tr>
@@ -118,7 +118,7 @@
 																						<table cellpadding="2" cellspacing="5" width="auto" border="0">
 																							<tr>
 																								<td style="border-collapse: collapse; repeat-x scroll 100% 0; ">
-																									<span style="color:#f66c4d; text-decoration:none; font-size:15px; font-weight:normal; white-space:nowrap;display:block"><a href="http://www.tioki.com/teacherskills/<%= skill.id %>" style="text-decoration:none; color:#f66c4d; font-size:15px; font-weight:normal; white-space:nowrap;display:block">+ <%= skill.name %>
+																									<span style="color:#f66c4d; text-decoration:none; font-size:15px; font-weight:normal; white-space:nowrap;display:block"><a href="http://www.tioki.com/teacherskills/<%= vouched_skill.skill.id %>" style="text-decoration:none; color:#f66c4d; font-size:15px; font-weight:normal; white-space:nowrap;display:block">+ <%= vouched_skill.skill.name %>
 																									</a></span>
 																								</td>
 																							</tr>
@@ -156,7 +156,7 @@
 																										<tr style="text-decoration:none;"> 
 																											<td style="color:#FFFFFF;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold;white-space:nowrap;text-shadow:0px -1px 0px #666666; text-decoration:none;" align="center">
 
-																												<a style="text-decoration:none; color:#FFFFFF" href="http://tioki.com/me/profile" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">+ See More</strong></span></a></td>
+																												<a style="text-decoration:none; color:#FFFFFF" href="http://tioki.com/profile/<%= @profile_name %>" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">+ See More</strong></span></a></td>
 
 																											</tr> 
 																										</tbody>
