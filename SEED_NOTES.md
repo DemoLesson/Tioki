@@ -1,3 +1,11 @@
+v1.3.7 - Oct 12, 2012 10:56AM deployed by Kelly Becker
+======================================================
+* f3b2a9c: Kelly Becker - Added session ids to logs
+* 6c5c98d: Elijah Green - when changing email show errors and redirect to root
+* 681379a: Kelly Becker - pathfile
+* 4e34804: Kelly Becker - got xlsx export working on users pagination removal is proving troublesome though.
+* 168ef76: Kelly Becker - label alterations
+
 v1.3.6 - Oct 11, 2012  4:15PM deployed by Kelly Becker
 ======================================================
 * a05d0c1: Kelly Becker - made the query a bit more accurate with dates
