@@ -412,9 +412,11 @@
 						<p>
 						Issued by: <%= credential.issuer %>
 						</p>
-						<p>
-						Licensed in the state of: <%= credential.state %>
-						</p>
+						<% unless credential.state == ''  %>
+							<p>
+							Licensed in the state of: <%= credential.state %>
+							</p>
+						<% end %>
 						</br>
 					<% end %>
 				</section>

@@ -1,3 +1,26 @@
+v1.3.6 - Oct 11, 2012  4:15PM deployed by Kelly Becker
+======================================================
+* a05d0c1: Kelly Becker - made the query a bit more accurate with dates
+
+v1.3.5 - Oct 11, 2012  3:28PM deployed by Kelly Becker
+======================================================
+* b68369b: Kelly Becker - slugs analytics page
+
+v1.3.4 - Oct 11, 2012  2:35PM deployed by Kelly Becker
+======================================================
+* 357e204: Kelly Becker - converted file to tabs
+* e994faa: Kelly Becker - technology analytics now being collected
+* 829b518: Kelly Becker - branch is being determined proeprly now
+
+v1.3.3 - Oct 11, 2012  1:58PM deployed by Aleks Stanisic
+========================================================
+* 35b66cc: Aleks Stanisic - changes to edit, profile, technologies
+* 3efa11b: Kelly Becker - update to deploy script
+* 5b0a2db: Kelly Becker - undo rolling restarts
+* 7e17f9e: Kelly Becker - trying something new (for deploying faster)
+* 40a2bfc: Kelly Becker - trying this again (to make deploys faster)
+* 676a672: Kelly Becker - testing making deploys faster
+
 v1.3.2 - Oct 11, 2012 11:50AM deployed by Kelly Becker
 ======================================================
 * fbaf9ce: Kelly Becker - videos admin searching and sorting
