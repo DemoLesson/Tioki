@@ -1,3 +1,11 @@
+v1.3.9 - Oct 12, 2012 12:14PM deployed by Kelly Becker
+======================================================
+* 11c31f8: Kelly Becker - destroyed staging instance
+* 12c433d: Kelly Becker - updates to deploy script that allow for rolling back code and deploying without restartig nginx
+* fd3b702: Kelly Becker - updates to deploy script that allow for rolling back code and deploying without restartig nginx
+* 514fc40: Kelly Becker - pointing nginx at the symlink instead
+* 3247df7: Kelly Becker - testing rollback
+
 v1.3.8 - Oct 12, 2012 11:10AM deployed by Kelly Becker
 ======================================================
 * 846c9cb: Kelly Becker - fix to analytics breaking when log was made by a guest

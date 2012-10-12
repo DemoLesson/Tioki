@@ -329,7 +329,7 @@ class DeployCLI
 		if confirm "Would you like to publish now?"
 			echo "This may take awhile...\n"
 			system('cap deploy:create_symlink FILTER=-tools')
-			system('cap rubber:passenger_nginx:restart FILTER=-tools')
+			system('cap deploy:passenger:reload FILTER=-tools')
 			echo "The new code is now live. You can rollback by running:"
 			echo "\`./script/deploy rollback #{type}\`", 'red'
 		else
@@ -360,7 +360,7 @@ class DeployCLI
 
 		# Do It Now
 		system('cap deploy:create_symlink FILTER=-tools')
-		system('cap rubber:passenger_nginx:restart FILTER=-tools')
+		system('cap deploy:passenger:reload FILTER=-tools')
 
 		# Remind
 		echo "\nThe new code is now live. You can rollback by running:"
@@ -388,7 +388,7 @@ class DeployCLI
 
 		# Do It Now
 		system('cap deploy:rollback:code FILTER=-tools')
-		system('cap rubber:passenger_nginx:restart FILTER=-tools')
+		system('cap deploy:passenger:reload FILTER=-tools')
 
 		# Notify
 		echo "\nThe old code is now live."
