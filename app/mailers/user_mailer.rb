@@ -460,9 +460,17 @@ class UserMailer < ActionMailer::Base
 		@receiver_name = vouchee.name
 
 		ab = Abtests.use("email:skills_vouched",1)
+		if ab == 0
+			subject = @sender_name + " has vouched for your skills."
+		else
+			subject = @sender_name + " thinks you have amazing skills."
+		end
 		mail = mail(:to => email, :subject => @sender_name + " has vouched for your skills.")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('skill_vouched:ab-' + ab.to_s)
+		end
 
 		return mail
 	end
-	
 end

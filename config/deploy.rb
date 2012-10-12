@@ -1,4 +1,5 @@
 # This is a sample Capistrano config file for rubber
+require "delayed/recipes"
 
 set :rails_env, Rubber.env
 
@@ -118,4 +119,5 @@ if Rubber::Util.has_asset_pipeline?
 
   # After precompile migrate the database
   after "deploy:assets:precompile", "deploy:db:migrate"
+	after "deploy:db:migrate", "delayed_job:start"
 end

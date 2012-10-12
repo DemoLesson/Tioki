@@ -294,6 +294,9 @@ class DeployCLI
 			masterMerge = true
 		end
 
+		#stopping delayed_job
+		system("cap delayed_job:stop")
+
 		# Ask if we would like to bootstrap the boxes
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
 			echo "Bootstrapping the EC2 instances."
