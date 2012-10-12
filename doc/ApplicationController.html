@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ApplicationController
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">ApplicationController</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: ApplicationController
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActionController::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next">ApplicationController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/controllers/application_controller.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Application Controller</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="AnalyticsController.html" title="AnalyticsController (class)">AnalyticsController</a></span>, <span class='object_link'><a href="ApplicationsController.html" title="ApplicationsController (class)">ApplicationsController</a></span>, <span class='object_link'><a href="AwardsController.html" title="AwardsController (class)">AwardsController</a></span>, <span class='object_link'><a href="BlogEntriesController.html" title="BlogEntriesController (class)">BlogEntriesController</a></span>, <span class='object_link'><a href="CardController.html" title="CardController (class)">CardController</a></span>, <span class='object_link'><a href="ConnectionsController.html" title="ConnectionsController (class)">ConnectionsController</a></span>, <span class='object_link'><a href="CredentialsController.html" title="CredentialsController (class)">CredentialsController</a></span>, <span class='object_link'><a href="CronController.html" title="CronController (class)">CronController</a></span>, <span class='object_link'><a href="ErrorsController.html" title="ErrorsController (class)">ErrorsController</a></span>, <span class='object_link'><a href="EventsController.html" title="EventsController (class)">EventsController</a></span>, <span class='object_link'><a href="HomeController.html" title="HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="InterviewsController.html" title="InterviewsController (class)">InterviewsController</a></span>, <span class='object_link'><a href="JobsController.html" title="JobsController (class)">JobsController</a></span>, <span class='object_link'><a href="MessagesController.html" title="MessagesController (class)">MessagesController</a></span>, <span class='object_link'><a href="MetricsController.html" title="MetricsController (class)">MetricsController</a></span>, <span class='object_link'><a href="PresentationsController.html" title="PresentationsController (class)">PresentationsController</a></span>, <span class='object_link'><a href="ReviewsController.html" title="ReviewsController (class)">ReviewsController</a></span>, <span class='object_link'><a href="S3UploadsController.html" title="S3UploadsController (class)">S3UploadsController</a></span>, <span class='object_link'><a href="SchoolsController.html" title="SchoolsController (class)">SchoolsController</a></span>, <span class='object_link'><a href="SkillsController.html" title="SkillsController (class)">SkillsController</a></span>, <span class='object_link'><a href="StaticController.html" title="StaticController (class)">StaticController</a></span>, <span class='object_link'><a href="SubjectsController.html" title="SubjectsController (class)">SubjectsController</a></span>, <span class='object_link'><a href="TeachersController.html" title="TeachersController (class)">TeachersController</a></span>, <span class='object_link'><a href="TechnologiesController.html" title="TechnologiesController (class)">TechnologiesController</a></span>, <span class='object_link'><a href="UsersController.html" title="UsersController (class)">UsersController</a></span>, <span class='object_link'><a href="VideosController.html" title="VideosController (class)">VideosController</a></span>, <span class='object_link'><a href="VouchesController.html" title="VouchesController (class)">VouchesController</a></span>, <span class='object_link'><a href="WelcomeWizardController.html" title="WelcomeWizardController (class)">WelcomeWizardController</a></span>, <span class='object_link'><a href="WhiteboardsController.html" title="WhiteboardsController (class)">WhiteboardsController</a></span></p>
+</div>
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#belongs_to_me-instance_method" title="#belongs_to_me (instance method)">- (Object) <strong>belongs_to_me</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_if_referer-instance_method" title="#check_if_referer (instance method)">- (Object) <strong>check_if_referer</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_login_token-instance_method" title="#check_login_token (instance method)">- (Object) <strong>check_login_token</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_user-instance_method" title="#current_user (instance method)">- (Object) <strong>current_user</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_analytics-instance_method" title="#get_analytics (instance method)">- (Object) <strong>get_analytics</strong>(slug, tag = '', date_start = nil, date_end = nil, unique = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_admin-instance_method" title="#is_admin (instance method)">- (Object) <strong>is_admin</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log_analytic-instance_method" title="#log_analytic (instance method)">- (Object) <strong>log_analytic</strong>(slug, message, tag = '', data = Array.new) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#login_required-instance_method" title="#login_required (instance method)">- (Object) <strong>login_required</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#redirect_to_stored-instance_method" title="#redirect_to_stored (instance method)">- (Object) <strong>redirect_to_stored</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="belongs_to_me-instance_method">
+  
+    - (<tt>Object</tt>) <strong>belongs_to_me</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_belongs_to_me'>belongs_to_me</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_if_referer-instance_method">
+  
+    - (<tt>Object</tt>) <strong>check_if_referer</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_if_referer'>check_if_referer</span>
+	
+	<span class='comment'># Check if we have a referer set anywhere
+</span>	<span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_email_referer</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:_referer</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_email_referer</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+	<span class='kw'>end</span>
+
+	<span class='comment'># Micro url referer
+</span>	<span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_micro_referer</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:_referer</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_micro_referer</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+	<span class='kw'>end</span>
+
+	<span class='comment'># Analytics key
+</span>	<span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_ak</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:_ak</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_ak</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_login_token-instance_method">
+  
+    - (<tt>Object</tt>) <strong>check_login_token</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check_login_token'>check_login_token</span>
+
+	<span class='comment'># HACK: Make this run on every page load.
+</span>	<span class='comment'># If there is a referer set in the page url then
+</span>	<span class='comment'># Save it to the session for use during registration
+</span>	<span class='comment'># Or use to auto connect on sharing profiles
+</span>	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_if_referer'>check_if_referer</span>
+
+	<span class='comment'># If there is no user session but we have login tokens go ahead and connect up the user to the session.
+</span>	<span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='symbol'>:login_token_user</span><span class='rbracket'>]</span>
+		<span class='id identifier rubyid_login_token'>login_token</span> <span class='op'>=</span> <span class='const'>LoginToken</span><span class='period'>.</span><span class='id identifier rubyid_find_by_user_id_and_token_value'>find_by_user_id_and_token_value</span><span class='lparen'>(</span><span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='symbol'>:login_token_user</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='symbol'>:login_token_value</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+		<span class='kw'>if</span> <span class='id identifier rubyid_login_token'>login_token</span>
+			<span class='kw'>if</span> <span class='id identifier rubyid_login_token'>login_token</span><span class='period'>.</span><span class='id identifier rubyid_expires_at'>expires_at</span> <span class='op'>&gt;=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+				<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_login_token'>login_token</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span>
+			<span class='kw'>else</span>
+				<span class='const'>LoginToken</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_login_token'>login_token</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="current_user-instance_method">
+  
+    - (<tt>Object</tt>) <strong>current_user</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_current_user'>current_user</span>
+
+	<span class='comment'># Get the currently logged in user and set to Model Access
+</span>	<span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_analytics-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_analytics</strong>(slug, tag = '', date_start = nil, date_end = nil, unique = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>StandardError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_analytics'>get_analytics</span><span class='lparen'>(</span><span class='id identifier rubyid_slug'>slug</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id identifier rubyid_date_start'>date_start</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_date_end'>date_end</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_unique'>unique</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+
+	<span class='comment'># Make sure the slug is a string
+</span>	<span class='id identifier rubyid_slug'>slug</span> <span class='op'>=</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>to_s</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+	<span class='comment'># If slug is not a string raise an exception
+</span>
+	<span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Slug is not a string</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+	<span class='comment'># If the tag is a model then return the string tag
+</span>	<span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_tag!'>tag!</span> <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span><span class='rparen'>)</span>
+
+	<span class='comment'># Build the SQL Query string
+</span>	<span class='id identifier rubyid_where'>where</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_where'>where</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`slug` = '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_slug'>slug</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+	<span class='id identifier rubyid_where'>where</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`tag` = '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tag'>tag</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+	<span class='comment'># Add a time constraint
+</span>	<span class='id identifier rubyid_where'>where</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`created_at` BETWEEN '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_date_start'>date_start</span><span class='rbrace'>}</span><span class='tstring_content'>' AND '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_date_end'>date_end</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_date_start'>date_start</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_date_end'>date_end</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span><span class='id identifier rubyid_date_start'>date_start</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>||</span> <span class='id identifier rubyid_date_end'>date_end</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+	<span class='comment'># Concatinate the SQL Queries
+</span>	<span class='id identifier rubyid_where'>where</span> <span class='op'>=</span> <span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> AND </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+
+	<span class='comment'># Find the matching analytics
+</span>	<span class='id identifier rubyid_analytic'>analytic</span> <span class='op'>=</span> <span class='const'>Analytic</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='rparen'>)</span>
+
+	<span class='comment'># If unique users run a group by
+</span>	<span class='id identifier rubyid_analytic'>analytic</span> <span class='op'>=</span> <span class='id identifier rubyid_analytic'>analytic</span><span class='period'>.</span><span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>`user_id`</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_unique'>unique</span>
+
+	<span class='comment'># Yield to the block
+</span>	<span class='id identifier rubyid_analytic'>analytic</span> <span class='op'>=</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='id identifier rubyid_analytic'>analytic</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+	<span class='kw'>return</span> <span class='id identifier rubyid_analytic'>analytic</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_analytic'>analytic</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span> <span class='op'>:</span> <span class='id identifier rubyid_analytic'>analytic</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="is_admin-instance_method">
+  
+    - (<tt>Object</tt>) <strong>is_admin</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_is_admin'>is_admin</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log_analytic-instance_method">
+  
+    - (<tt>Object</tt>) <strong>log_analytic</strong>(slug, message, tag = '', data = Array.new) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log_analytic'>log_analytic</span><span class='lparen'>(</span><span class='id identifier rubyid_slug'>slug</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+
+	<span class='comment'># Make sure the slug is a string
+</span>	<span class='id identifier rubyid_slug'>slug</span> <span class='op'>=</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>to_s</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+
+	<span class='comment'># If slug not a string error
+</span>	<span class='kw'>unless</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_slug'>slug</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>error</span><span class='tstring_end'>&quot;</span></span>
+		<span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error saving analytic </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_message'>message</span>
+	<span class='kw'>end</span>
+
+	<span class='comment'># Create new analytic
+</span>	<span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='const'>Analytic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+
+	<span class='comment'># If the tag is a model then return the string tag
+</span>	<span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_tag!'>tag!</span> <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span><span class='rparen'>)</span>
+
+	<span class='comment'># If you want to connect a model
+</span>	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='id identifier rubyid_tag'>tag</span> <span class='kw'>unless</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span> <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_slug'>slug</span> <span class='op'>=</span> <span class='id identifier rubyid_slug'>slug</span> <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='op'>::</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+
+	<span class='comment'># Connect the request uri
+</span>	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_fullpath'>fullpath</span> <span class='kw'>if</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_fullpath'>fullpath</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+
+	<span class='comment'># Link up the currently active user
+</span>	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+	<span class='comment'># Save the analytic
+</span>	<span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="login_required-instance_method">
+  
+    - (<tt>Object</tt>) <strong>login_required</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_login_required'>login_required</span>
+	<span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>
+		<span class='kw'>return</span> <span class='kw'>true</span>
+	<span class='kw'>end</span>
+	<span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:notice</span><span class='rbracket'>]</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Please login to continue</span><span class='tstring_end'>'</span></span>
+	<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:return_to</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span>
+	<span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:controller</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>users</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>login</span><span class='tstring_end'>&quot;</span></span>
+	<span class='kw'>return</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="redirect_to_stored-instance_method">
+  
+    - (<tt>Object</tt>) <strong>redirect_to_stored</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_redirect_to_stored'>redirect_to_stored</span>
+	<span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:return_to</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='kw'>nil</span>
+		<span class='id identifier rubyid_return_to'>return_to</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:return_to</span><span class='rbracket'>]</span>
+		<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:return_to</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
+		<span class='id identifier rubyid_redirect_to'>redirect_to</span><span class='lparen'>(</span><span class='id identifier rubyid_return_to'>return_to</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+		<span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:controller</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>users</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>login</span><span class='tstring_end'>&quot;</span></span>
+	<span class='comment'>#elsif self.current_user.default_home.present?
+</span>	<span class='comment'>#  redirect_to(current_user.default_home)
+</span>	<span class='kw'>elsif</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_teacher'>teacher</span> <span class='op'>!=</span> <span class='kw'>nil</span>
+		<span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:root</span>
+	<span class='kw'>elsif</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_school'>school</span> <span class='op'>!=</span> <span class='kw'>nil</span> <span class='op'>||</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_is_shared'>is_shared</span> <span class='op'>==</span> <span class='kw'>true</span>
+		<span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:root</span>
+	<span class='kw'>else</span>
+		<span class='comment'>#dont_choose_stored
+</span>		<span class='comment'>#redirect_to :controller=&gt;'users', :action=&gt;'choose_stored'
+</span>	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Oct 11 16:47:24 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
