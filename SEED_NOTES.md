@@ -1,3 +1,15 @@
+v1.3.10 - Oct 13, 2012  2:17PM deployed by Kelly Becker
+=======================================================
+* 875aa0e: Kelly Becker - gemlock
+* 8408914: Kelly Becker - daemons gem
+* 48f30b8: Kelly Becker - staging server and allow deploying alternate branches if not deploying production
+* b618f8e: Kelly Becker - db schema
+* d4db734: Kelly Becker - fix to a rubber update
+* f028746: Kelly Becker - changes
+* 7b12d88: Elijah Green - Add starting delayed_job to deploy
+* 75b8c5e: Elijah Green - fix user_mailer crashing because of errors
+* 897059f: Elijah Green - Add all functional aspects of the delayed vouch emails
+
 v1.3.9 - Oct 12, 2012 12:14PM deployed by Kelly Becker
 ======================================================
 * 11c31f8: Kelly Becker - destroyed staging instance
