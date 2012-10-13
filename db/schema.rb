@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121012175037) do
+ActiveRecord::Schema.define(:version => 20121012212247) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -349,7 +349,7 @@ ActiveRecord::Schema.define(:version => 20121012175037) do
     t.string   "location"
     t.datetime "date"
     t.string   "author"
-    t.string   "description"
+    t.text     "description"
     t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
