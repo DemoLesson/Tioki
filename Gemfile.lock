@@ -119,6 +119,7 @@ GEM
     country_select (1.0.1)
     crack (0.3.1)
     curb (0.8.1)
+    daemons (1.1.9)
     dalli (2.2.1)
     debugger (1.2.0)
       columnize (>= 0.3.1)
@@ -358,6 +359,7 @@ DEPENDENCIES
   cloudsponge (~> 0.9.9)
   coffee-script
   country_select
+  daemons
   dalli
   debugger
   debugger-ruby_core_source!
