@@ -15,7 +15,13 @@ end
 set :scm, :git
 set :scm_verbose, true
 set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic@github.com/DemoLesson/Tioki"
-set :branch, "master"
+
+# If this is a production release only deploy master!
+set :branch, "master" if Rubber.env == 'production'
+# Otherwise deploy current branch from github
+set :branch, `git symbolic-ref --short -q HEAD`.strip if Rubber.env != 'production'
+
+# Get the code via export only the latest commit
 set :deploy_via, :export
 set :git_shallow_clone, 1
 
@@ -119,5 +125,5 @@ if Rubber::Util.has_asset_pipeline?
 
   # After precompile migrate the database
   after "deploy:assets:precompile", "deploy:db:migrate"
-	after "deploy:db:migrate", "delayed_job:start"
+  after "deploy:db:migrate", "delayed_job:start"
 end
