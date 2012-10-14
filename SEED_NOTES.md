@@ -1,3 +1,7 @@
+v1.3.12 - Oct 13, 2012  9:03PM deployed by Aleks Stanisic
+=========================================================
+* 331efda: Aleks Stanisic - added help windows to dashboard, technologies, skills pages
+
 v1.3.11 - Oct 13, 2012  5:58PM deployed by Kelly Becker
 =======================================================
 * c44f626: Kelly Becker - allow logging of analytics from a url get var as well as ab test. we gotta find better ways to do this when were not so overloaded
