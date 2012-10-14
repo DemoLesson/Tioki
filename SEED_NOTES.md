@@ -1,3 +1,11 @@
+v1.3.11 - Oct 13, 2012  5:58PM deployed by Kelly Becker
+=======================================================
+* c44f626: Kelly Becker - allow logging of analytics from a url get var as well as ab test. we gotta find better ways to do this when were not so overloaded
+* a2cacb3: Kelly Becker - added group (namespaces) to analytics. by default it is root its mostly for querying purposes
+* 4efcc9b: Elijah Green - If my_Conections is viewed and that it has happened in the session
+* 22e242e: Elijah Green - Add simple editing like hyperlinks to presentation descriptions
+* 2b1671b: Kelly Becker - when you click the login button lets auto focus the email box
+
 v1.3.10 - Oct 13, 2012  2:17PM deployed by Kelly Becker
 =======================================================
 * 875aa0e: Kelly Becker - gemlock
