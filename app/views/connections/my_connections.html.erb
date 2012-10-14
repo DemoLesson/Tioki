@@ -160,6 +160,7 @@ $(document).ready(function() {
 	});
 });
 </script>
+<% if !session[:my_connections_viewed] %>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('body').introOverlay({
@@ -169,14 +170,15 @@ $(document).ready(function() {
 			introCloseBtn: true, //btn to close overlay...true or false
 			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
 			openAnimation: true, //opening animation...true or false
-			cookieActive: true, //cookies enabled to stop overlay from firing twice
 			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+			cookieActive : false,
 			/* also you can use 'href' to load content for a seperate page..
 			when using href it also uses the class of the clicked element to find the content...
 			it goes like this .load(href class); check source for use */ 
 			introTemplate: 'full', // either 'full' or 'module'
 			introTurnOffLights: false, //turn off and on lights...true or false
-			//copy paste this code for you first time and test different options
 		});
 	});
 </script>
+<% end %>
+<% session[:my_connections_viewed] = true %>

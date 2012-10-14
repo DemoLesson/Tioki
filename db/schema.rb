@@ -10,7 +10,6 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
-
 ActiveRecord::Schema.define(:version => 20121014002323) do
 
   create_table "abtests", :force => true do |t|
@@ -354,7 +353,7 @@ ActiveRecord::Schema.define(:version => 20121014002323) do
     t.string   "location"
     t.datetime "date"
     t.string   "author"
-    t.string   "description"
+    t.text     "description"
     t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
