@@ -51,7 +51,11 @@ tr.seeking, tr.student {
 			</div>
 		</div>
 
-		<a href="/profile/<%= @user.teacher.url %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Take me to my profile.</a>
+		<% if self.current_user.id.even? %>
+			<a href="/profile/<%= @user.teacher.url %>?--@=<%= e64("log_analytic:step5_profile|ab") %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+		<% else %>
+			<a href="/teacherskills/711?--@=<%= e64("log_analytic:step5_show_skills|ab") %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+		<% end %>
 
 		<div class="share">
 			<h1 class="smaller" style="font-size:20px;">Share to your other networks</h1>

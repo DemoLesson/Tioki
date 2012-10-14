@@ -235,7 +235,13 @@ class ApplicationController < ActionController::Base
 			# Get the data and append it to the session
 			Base64.decode64(params[:"--@"]).split(',').each do |data|
 				key, val = data.split(':')
-				session[:data][key] = val
+
+				if key == 'log_analytic'
+					slug, ns = val.split('|')
+					self.log_analytic(slug, 'URL Log Called', '', [], ns)
+				else
+					session[:data][key] = val
+				end
 			end
 		end
 

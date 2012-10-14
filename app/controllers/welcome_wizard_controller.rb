@@ -355,7 +355,7 @@ class WelcomeWizardController < ApplicationController
 				data = {"type" => 'error', "message" => 'There was a problem saving'}
 			end
 		else
-			data = {"type" => 'error', "message" => 'There was not data passed'}
+			data = {"type" => 'error', "message" => 'There was not any data passed'}
 		end
 
 		render :json => data
