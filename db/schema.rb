@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121012175037) do
+ActiveRecord::Schema.define(:version => 20121014002323) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20121012175037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "session_id"
+    t.string   "group"
   end
 
   create_table "applications", :force => true do |t|
@@ -239,6 +240,10 @@ ActiveRecord::Schema.define(:version => 20121012175037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+  end
+
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -536,7 +541,7 @@ ActiveRecord::Schema.define(:version => 20121012175037) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                     :default => ""
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"

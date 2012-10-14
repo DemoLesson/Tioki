@@ -97,10 +97,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-	def log_analytic(slug, message, tag = '', data = Array.new)
+	def log_analytic(slug, message, tag = '', data = [], group = :root)
 
-		# Make sure the slug is a string
+		# Make sure the slug group is a string
 		slug = slug.to_s if slug.respond_to?('to_s')
+		group = group.to_s if group.respond_to?('to_s')
 
 		# If slug not a string error
 		unless slug.is_a?(String)
@@ -116,6 +117,7 @@ class ApplicationController < ActionController::Base
 
 		# If you want to connect a model
 		a.tag = tag unless tag.nil? || !tag.is_a?(String)
+		a.group = group unless group.nil? || !group.is_a?(String)
 		a.message = message if tag.is_a?(String)
 		a.slug = slug if tag.is_a?(String)
 		a.data = YAML::dump(data)
