@@ -1,3 +1,8 @@
+v1.3.14 - Oct 15, 2012  4:26PM deployed by Aleks Stanisic
+=========================================================
+* a8c088b: Elijah Green - Can now also upload pngs
+* bc64392: Elijah Green - Fix file uploads for user avatars
+
 v1.3.13 - Oct 15, 2012  1:16PM deployed by Aleks Stanisic
 =========================================================
 * 64f8d39: Aleks Stanisic - slight bug fixes to twitter links
