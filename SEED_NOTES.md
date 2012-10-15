@@ -1,3 +1,7 @@
+v1.3.15 - Oct 15, 2012  4:45PM deployed by Aleks Stanisic
+=========================================================
+* 9c804dc: Elijah Green - Fix picture uploading for schools and technologies
+
 v1.3.14 - Oct 15, 2012  4:26PM deployed by Aleks Stanisic
 =========================================================
 * a8c088b: Elijah Green - Can now also upload pngs
