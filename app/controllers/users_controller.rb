@@ -325,7 +325,6 @@ class UsersController < ApplicationController
 
 		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
 		tmp_img.binmode
-		orig_img.format="jpeg"
 		tmp_img.write(orig_img.to_blob)
 		@user.update_attribute(:avatar, tmp_img)
 		tmp_img.close
