@@ -7,12 +7,17 @@ class Technology < ActiveRecord::Base
 
 	has_attached_file :picture,
 		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-		:storage => :s3,
+		:storage => :fog,
 		:content_type => [ 'image/jpeg', 'image/png' ],
-		:s3_credentials => Rails.root.to_s+"/config/s3.yml",
+		:fog_credentials => {
+			:provider => 'AWS',
+			:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+			:aws_secret_access_key => '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'
+		},
+		:fog_public => true,
+		:fog_directory => 'DemoLessonS3',
 		:url  => '/technologies/:style/:basename.:extension',
 		:path => 'technologies/:style/:basename.:extension',
-		:bucket => 'DemoLessonS3',
 		:processors => [:thumbnail, :timestamper],
 		:date_format => "%Y%m%d%H%M%S"
 end
