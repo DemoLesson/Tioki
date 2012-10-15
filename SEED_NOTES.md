@@ -1,3 +1,8 @@
+v1.3.13 - Oct 15, 2012  1:16PM deployed by Aleks Stanisic
+=========================================================
+* 64f8d39: Aleks Stanisic - slight bug fixes to twitter links
+* 19a439e: Elijah Green - Make technologies public
+
 v1.3.12 - Oct 13, 2012  9:03PM deployed by Aleks Stanisic
 =========================================================
 * 331efda: Aleks Stanisic - added help windows to dashboard, technologies, skills pages
