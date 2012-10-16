@@ -38,8 +38,10 @@ class User < ActiveRecord::Base
 	has_many :owners, :class_name => 'SharedUsers', :foreign_key => :user_id, :dependent => :destroy
 	has_many :reverse_owners, :class_name => 'SharedUsers', :foreign_key => :owned_by, :dependent => :destroy
 
-        #users created through their referrals
-        has_many :connection_invites
+	#users created through their referrals
+	has_many :connection_invites
+
+	has_many :discussions
 
 	has_many :managed_users, :through => :owners, :source => :owner
 

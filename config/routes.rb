@@ -1,6 +1,10 @@
 Preview::Application.routes.draw do
 
-  resources :discussions
+  resources :discussions do
+		member do
+			get 'reply_to_discussion'
+		end
+	end
 
   resources :technologies do
 		member do

@@ -41,6 +41,7 @@ class DiscussionsController < ApplicationController
   # POST /discussions.json
   def create
     @discussion = Discussion.new(params[:discussion])
+		@discussion.user = self.current_user
 
     respond_to do |format|
       if @discussion.save
@@ -68,6 +69,35 @@ class DiscussionsController < ApplicationController
       end
     end
   end
+
+	def reply_to_discussion
+		@discussion = Discussion.find(params[:id])
+		if request.post?
+			@discussion = Discussion.find(params[:id])
+			@comment = Comment.build_from(@discussion, self.current_user, params[:body])
+			if @comment.save
+				redirect_to  @discussion
+			else
+				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
+			end
+		end
+	end
+
+	def reply_to_comment
+		@comment = Comment.find(params[:id])
+		if request.post?
+			@comment = Comment.build_from(@discussion, self.current_user, params[:body])
+			if @comment.save
+				redirect_to  @discussion
+			else
+				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
+			end
+		end
+	end
+
+	def reply_to_comment
+		@comment = Message.find(params[:id])
+	end
 
   # DELETE /discussions/1
   # DELETE /discussions/1.json
