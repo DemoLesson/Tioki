@@ -1,5 +1,7 @@
 Preview::Application.routes.draw do
 
+  resources :discussions
+
   resources :technologies do
 		member do
 			get 'change_technology_picture'

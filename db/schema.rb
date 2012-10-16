@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014002323) do
+ActiveRecord::Schema.define(:version => 20121016001440) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -159,6 +159,21 @@ ActiveRecord::Schema.define(:version => 20121014002323) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "discussion_tags", :force => true do |t|
+    t.integer  "skill_id"
+    t.integer  "discussion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "discussions", :force => true do |t|
+    t.string   "title"
+    t.text     "message"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "educations", :force => true do |t|
     t.string   "school"
     t.string   "degree"
@@ -240,6 +255,13 @@ ActiveRecord::Schema.define(:version => 20121014002323) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+  end
+
+  create_table "followers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "discussion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "interviews", :force => true do |t|
