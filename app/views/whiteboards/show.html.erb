@@ -8,6 +8,6 @@
 		</div>
 	<% end %>
 	<p><%= raw @post.getMessage %></p>
-	<div class="quick-action star-empty">
-	</div>
+	<a href="/whiteboard/favorite/<%= @post.id %>" class="quick-action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>">
+	</a>
 </li>
