@@ -1,3 +1,21 @@
+v1.3.15 - Oct 15, 2012  4:45PM deployed by Aleks Stanisic
+=========================================================
+* 9c804dc: Elijah Green - Fix picture uploading for schools and technologies
+
+v1.3.14 - Oct 15, 2012  4:26PM deployed by Aleks Stanisic
+=========================================================
+* a8c088b: Elijah Green - Can now also upload pngs
+* bc64392: Elijah Green - Fix file uploads for user avatars
+
+v1.3.13 - Oct 15, 2012  1:16PM deployed by Aleks Stanisic
+=========================================================
+* 64f8d39: Aleks Stanisic - slight bug fixes to twitter links
+* 19a439e: Elijah Green - Make technologies public
+
+v1.3.12 - Oct 13, 2012  9:03PM deployed by Aleks Stanisic
+=========================================================
+* 331efda: Aleks Stanisic - added help windows to dashboard, technologies, skills pages
+
 v1.3.11 - Oct 13, 2012  5:58PM deployed by Kelly Becker
 =======================================================
 * c44f626: Kelly Becker - allow logging of analytics from a url get var as well as ab test. we gotta find better ways to do this when were not so overloaded

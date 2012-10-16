@@ -32,7 +32,8 @@ gem 'twitter'
 gem 'gibberish'
 
 # File Uploading/Storage
-gem 'paperclip', '~> 2.3.12'
+gem 'paperclip', '3.3.0'
+gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave'
 gem 'carrierwave_direct'

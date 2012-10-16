@@ -72,6 +72,11 @@ GEM
       builder
       mime-types
       xml-simple
+    aws-sdk (1.3.9)
+      httparty (~> 0.7)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     axlsx (1.3.1)
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
@@ -219,10 +224,11 @@ GEM
     open4 (1.3.0)
     orderedhash (0.0.6)
     os (0.9.6)
-    paperclip (2.3.16)
-      activerecord (>= 2.3.0)
-      activesupport (>= 2.3.2)
-      cocaine (>= 0.0.2)
+    paperclip (3.3.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.4.0)
       mime-types
     polyglot (0.3.3)
     pr_geohash (1.0.0)
@@ -350,6 +356,7 @@ DEPENDENCIES
   arel (= 2.2.1)
   autotest-rails
   aws-s3
+  aws-sdk
   axlsx
   bitswitch!
   bj
@@ -387,7 +394,7 @@ DEPENDENCIES
   oauth
   open4
   os (~> 0.9.6)
-  paperclip (~> 2.3.12)
+  paperclip (= 3.3.0)
   rails (= 3.1.3)
   remotipart (~> 0.4.1)
   rest-client

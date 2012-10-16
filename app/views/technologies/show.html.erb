@@ -33,10 +33,12 @@
 		<% end %>
 	</div>
 	<div id="content">
-		<% if self.current_user.technologies.include? @technology %>
-			<%= link_to "Explore More Technology", "/technologies", :class => "button", :style => "float:right" %>
-		<% else %>
-			<%= link_to "Add To My Profile", { :action => "add_technology", :id => @technology.id}, :class => "button", :style => "float:right" %>
+		<% if self.current_user %>
+			<% if self.current_user.technologies.include? @technology %>
+				<%= link_to "Explore More Technology", "/technologies", :class => "button", :style => "float:right" %>
+			<% else %>
+				<%= link_to "Add To My Profile", { :action => "add_technology", :id => @technology.id}, :class => "button", :style => "float:right" %>
+			<% end %>
 		<% end %>
 		<% if @technology.description? %><p><h3>Description</h3><%=raw auto_link(@technology.description).gsub(/\n/, '<br />') %></p><% end %>
 		
@@ -58,12 +60,14 @@
 					<% end %><br />
 					<%= user.teacher.location %><br /><br />
 					<div>
-						<% if user.teacher.id == self.current_user.id  %>
-						<% elsif Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
-							<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
-						<% else %>
-							<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button" %>
-						<% end%>
+						<% if self.current_user %>
+							<% if user.teacher.id == self.current_user.id  %>
+							<% elsif Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
+								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
+							<% else %>
+								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button" %>
+							<% end%>
+						<% end %>
 					</div>
 				</div>
 			</div>
