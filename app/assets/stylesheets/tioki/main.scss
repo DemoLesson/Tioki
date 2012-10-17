@@ -580,13 +580,17 @@ span.connection_degree {
 				top: 25px;
 				width: 20px;
 				height: 20px;
+				
+				text-align: center;
+				font-weight: bold;
+				line-height: 20px;
 			}
 			.star-gold {
 				background: url(image_path('tioki/icons/star-gold.png')) no-repeat;
 				}
 			.star-empty {
 				background: url(image_path('tioki/icons/star-empty.png')) no-repeat;
-				visibility: hidden;
+				//visibility: hidden;
 			}
 			.close {
 				background: url(image_path('tioki/icons/close_20px.png')) no-repeat;
