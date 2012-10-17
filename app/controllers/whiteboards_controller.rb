@@ -20,4 +20,31 @@ class WhiteboardsController < ApplicationController
     	redirect_to :root
 	end
 
+	def favorite
+		w = Whiteboard.find(params[:post])
+		fav = Favorite.where("`favorites`.`model` = ? && `favorites`.`user_id` = ?", "#{w.class.name}:#{w.id}", User.current.id).first
+
+		if fav.nil?
+			fav = Favorite.new
+			fav.model = "#{w.class.name}:#{w.id}"
+			fav.user = self.current_user
+
+			if fav.save
+				flash[:success] = "The whiteboard posting was been favorited."
+				redirect_to :back
+			else
+				flash[:success] = "The whiteboard could not be favorited."
+				redirect_to :back
+			end
+		else
+			if fav.destroy
+				flash[:success] = "The whiteboard posting was been unfavorited."
+				redirect_to :back
+			else
+				flash[:success] = "The whiteboard could not be unfavorited."
+				redirect_to :back
+			end
+		end		
+	end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016185450) do
+ActiveRecord::Schema.define(:version => 20121016220849) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -258,8 +258,10 @@ ActiveRecord::Schema.define(:version => 20121016185450) do
   end
 
   create_table "events_rsvps", :id => false, :force => true do |t|
-    t.integer "event_id"
-    t.integer "user_id"
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "eventtopics", :force => true do |t|
@@ -278,6 +280,13 @@ ActiveRecord::Schema.define(:version => 20121016185450) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+  end
+
+  create_table "favorites", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "model"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "followers", :force => true do |t|
@@ -727,11 +736,6 @@ ActiveRecord::Schema.define(:version => 20121016185450) do
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"
-
-  create_table "videos_favorites", :id => false, :force => true do |t|
-    t.integer "video_id"
-    t.integer "teacher_id"
-  end
 
   create_table "videos_skills", :id => false, :force => true do |t|
     t.integer "video_id"

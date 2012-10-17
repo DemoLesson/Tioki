@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 	has_many :skill_group_descriptions, :dependent => :destroy
 	has_many :connection_invites, :dependent => :destroy
 
+	has_many :favorites
+
 	# Connecting to events
 	has_many :events
 

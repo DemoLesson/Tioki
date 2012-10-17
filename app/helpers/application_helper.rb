@@ -35,4 +35,8 @@ module ApplicationHelper
   def d64(var)
     Base64.decode64 var
   end
+
+  def favorited(model)
+    not Favorite.where("`favorites`.`model` = ? && `favorites`.`user_id` = ?", "#{model.class.name}:#{model.id}", User.current.id).first.nil?
+  end
 end
