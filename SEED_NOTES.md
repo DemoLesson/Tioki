@@ -1,3 +1,7 @@
+v1.3.20 - Oct 17, 2012  3:05PM deployed by Kelly Becker
+=======================================================
+* ce2a801: Kelly Becker - whiteboard posting is now limited by an hour. If you want a post to always go through regardless of this limiting pass the slug as a string instead of a symbol
+
 v1.3.19 - Oct 17, 2012  2:26PM deployed by Kelly Becker
 =======================================================
 * eba440d: Kelly Becker - fixed the suggested connection query @astanisic while this works we REALLY need to look into caching these results. the query takes 59ms!!! this is a little over the top. If it is feasible newrelic might be a good add on to our platform to help us with optimization
