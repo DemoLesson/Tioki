@@ -95,6 +95,16 @@ class DiscussionsController < ApplicationController
 		end
 	end
 
+	def follow_discussion
+		@discussion = Discussion.find(params[:id])
+		@follower = Follower.new(:discussion => @discussion, :user => self.current_user)
+		if @follower.size
+			redirect_to :back, :notice => "You are now following this discussion."
+		else
+			redirect_to :back, :notice => "Unable to follow."
+		end
+	end
+
   # DELETE /discussions/1
   # DELETE /discussions/1.json
   def destroy

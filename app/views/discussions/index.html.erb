@@ -1,11 +1,30 @@
 <section id="main-content" class="inner-content">
-<h1>Discussions</h1>
-
-<% @discussions.each do |discussion| %>
-	<p>discussions.title</p>
-<% end %>
-
-<br />
-
-<%= link_to 'New Discussion', new_discussion_path %>
+<h1>Discussions
+	<div style="float:right;margin-top:0px">
+		<%= link_to "Create New Discussion", new_discussion_path, :class => "action-button bg-salmon" %>
+	</div>
+</h1>
+	<section id="panels">
+		<section id="list" class="panel two-column left-side">
+		<ul>
+			<% @discussions.each do |discussion| %>
+				<li>
+				<div style="float:right">
+					<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }, :class => "action-button bg-salmon" %>
+				</div>
+				<p><%= link_to discussion.title, discussion %></p>
+				<p>
+				<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+				<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+				</p>
+				<p>
+				<% discussion.skills.each do |skill| %>
+					<% link_to skill.name, "/teacherskills/#{skill.id}" %>
+				<% end %>
+				</p>
+				</li>
+			<% end %>
+		</ul>
+		</section>
+	</section>
 </section>

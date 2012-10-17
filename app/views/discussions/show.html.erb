@@ -1,12 +1,9 @@
-<p>
-  <b>Title:</b>
-  <%= @discussion.title %>
-</p>
+<section id="main-content" class="inner-content">
+<h1><%= @discussion.title %></h1>
 
-<p>
-  <b>Message:</b>
-  <%= @discussion.message %>
-</p>
+<strong><%= @discussion.user.name %></strong><br />
+<%= @discussion.message %><br />
+<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
 
 <% @discussion.comment_threads.each do |comment| %>
 	<strong><%= comment.user.name %>:</strong><br />
@@ -14,5 +11,4 @@
 	<%= link_to "Reply", { :action => "reply_to_comment", :comment_id => comment.id} %>|<%= link_to "Delete" %>
 <% end %>
 
-<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} %>
-<%= link_to 'Back', discussions_path %>
+</section>
