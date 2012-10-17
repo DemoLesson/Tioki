@@ -1,3 +1,7 @@
+v1.3.21 - Oct 17, 2012  4:44PM deployed by Kelly Becker
+=======================================================
+* 9a840e0: Kelly Becker - hide post
+
 v1.3.20 - Oct 17, 2012  3:05PM deployed by Kelly Becker
 =======================================================
 * ce2a801: Kelly Becker - whiteboard posting is now limited by an hour. If you want a post to always go through regardless of this limiting pass the slug as a string instead of a symbol
