@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/brianmario/mysql2.git
-  revision: 6ecb1516e79e65bc743623ba89a3358b7efb32c8
+  revision: 3f49e3982fb34d76aa53d4a6149ac10d69f20c26
   specs:
     mysql2 (0.3.12b4)
 
@@ -145,7 +145,7 @@ GEM
       delayed_job (~> 3.0)
     dnsruby (1.53)
     erubis (2.7.0)
-    excon (0.16.4)
+    excon (0.16.5)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.4)
