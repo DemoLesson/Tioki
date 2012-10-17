@@ -1,3 +1,12 @@
+v1.3.16 - Oct 17, 2012  9:49AM deployed by Aleks Stanisic
+=========================================================
+* ceb9aaf: Kelly Becker - fixed twitter images
+* 2995b96: Brian Martinez - splash page changes to text and scroll wheel
+* d9d7ecb: Brian Martinez - Splash page changes, New Splash Header with links, changes to press page
+* 6ff673e: Kelly Becker - favoriting whiteboard posts
+* a96448d: Kelly Becker - gemlock
+* 706ea83: Kelly Becker - destroyed staging
+
 v1.3.15 - Oct 15, 2012  4:45PM deployed by Aleks Stanisic
 =========================================================
 * 9c804dc: Elijah Green - Fix picture uploading for schools and technologies
