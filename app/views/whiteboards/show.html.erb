@@ -9,5 +9,6 @@
 	<% end %>
 	<p><%= raw @post.getMessage %></p>
 	<a href="/whiteboard/favorite/<%= @post.id %>" class="quick-action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>">
+		<%= favorites(@post) %>
 	</a>
 </li>

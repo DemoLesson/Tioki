@@ -321,12 +321,16 @@ class UsersController < ApplicationController
 			end
 		end
 		#Create temp file in order to save the cropped image for later saving to amazon s3
-		tmp_img=Tempfile.new(@user.original_name, Rails.root.join('tmp'))
+		tmp_img = Tempfile.new(@user.original_name, Rails.root.join('tmp'))
 
 		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
 		tmp_img.binmode
 		tmp_img.write(orig_img.to_blob)
 		@user.update_attribute(:avatar, tmp_img)
+
+		# Log to the whiteboard that a user updated their profile picture
+		Whiteboard.createActivity(:avatar_update, "{user.teacher.profile_link} updated their profile picture.")
+
 		tmp_img.close
 		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
 	end
