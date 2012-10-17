@@ -39,4 +39,9 @@ module ApplicationHelper
   def favorited(model)
     not Favorite.where("`favorites`.`model` = ? && `favorites`.`user_id` = ?", "#{model.class.name}:#{model.id}", User.current.id).first.nil?
   end
+
+  def favorites(model)
+    count = Favorite.where("`favorites`.`model` = ?", "#{model.class.name}:#{model.id}").count
+    count == 0 ? '' : count.to_s
+  end
 end
