@@ -8,6 +8,8 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration
       t.string :subject, :default => ""
       t.integer :user_id, :default => 0, :null => false
       t.integer :parent_id, :lft, :rgt
+			t.datetime :deleted_at
+
       t.timestamps
     end
     

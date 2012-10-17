@@ -74,7 +74,7 @@ class DiscussionsController < ApplicationController
 		@discussion = Discussion.find(params[:id])
 		if request.post?
 			@discussion = Discussion.find(params[:id])
-			@comment = Comment.build_from(@discussion, self.current_user, params[:body])
+			@comment = Comment.build_from(@discussion, self.current_user, params[:comment][:body])
 			if @comment.save
 				redirect_to  @discussion
 			else
@@ -84,19 +84,15 @@ class DiscussionsController < ApplicationController
 	end
 
 	def reply_to_comment
-		@comment = Comment.find(params[:id])
+		@replied_to_comment = Comment.find(params[:comment_id])
 		if request.post?
-			@comment = Comment.build_from(@discussion, self.current_user, params[:body])
+			@comment = Comment.build_from(@replied_to_comment, self.current_user, params[:comment][:body])
 			if @comment.save
-				redirect_to  @discussion
+				redirect_to @comment.root.commentable
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
 			end
 		end
-	end
-
-	def reply_to_comment
-		@comment = Message.find(params[:id])
 	end
 
   # DELETE /discussions/1

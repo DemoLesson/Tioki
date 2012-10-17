@@ -6,5 +6,8 @@ class CreateFollowers < ActiveRecord::Migration
 
       t.timestamps
     end
+
+		add_index :followers, :user_id
+		add_index :followers, :discussion_id
   end
 end

@@ -6,5 +6,8 @@ class CreateDiscussionTags < ActiveRecord::Migration
 
       t.timestamps
     end
+
+		add_index :discussion_tags, :skill_id
+		add_index :discussion_tags, :discussion_id
   end
 end

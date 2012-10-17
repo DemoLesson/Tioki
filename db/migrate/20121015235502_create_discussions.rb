@@ -7,5 +7,7 @@ class CreateDiscussions < ActiveRecord::Migration
 
       t.timestamps
     end
+
+		add_index :discussions, :user_id
   end
 end

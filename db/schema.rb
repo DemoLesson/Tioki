@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016001440) do
+ActiveRecord::Schema.define(:version => 20121016185450) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -99,6 +99,24 @@ ActiveRecord::Schema.define(:version => 20121016001440) do
     t.text     "content"
   end
 
+  create_table "comments", :force => true do |t|
+    t.integer  "commentable_id",   :default => 0
+    t.string   "commentable_type", :default => ""
+    t.string   "title",            :default => ""
+    t.text     "body"
+    t.string   "subject",          :default => ""
+    t.integer  "user_id",          :default => 0,  :null => false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
   create_table "connection_invites", :force => true do |t|
     t.string   "email"
     t.integer  "user_id"
@@ -166,6 +184,9 @@ ActiveRecord::Schema.define(:version => 20121016001440) do
     t.datetime "updated_at"
   end
 
+  add_index "discussion_tags", ["discussion_id"], :name => "index_discussion_tags_on_discussion_id"
+  add_index "discussion_tags", ["skill_id"], :name => "index_discussion_tags_on_skill_id"
+
   create_table "discussions", :force => true do |t|
     t.string   "title"
     t.text     "message"
@@ -173,6 +194,8 @@ ActiveRecord::Schema.define(:version => 20121016001440) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
 
   create_table "educations", :force => true do |t|
     t.string   "school"
@@ -263,6 +286,9 @@ ActiveRecord::Schema.define(:version => 20121016001440) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "followers", ["discussion_id"], :name => "index_followers_on_discussion_id"
+  add_index "followers", ["user_id"], :name => "index_followers_on_user_id"
 
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"

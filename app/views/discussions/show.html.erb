@@ -8,5 +8,11 @@
   <%= @discussion.message %>
 </p>
 
+<% @discussion.comment_threads.each do |comment| %>
+	<strong><%= comment.user.name %>:</strong><br />
+	<%= comment.body %><br />
+	<%= link_to "Reply", { :action => "reply_to_comment", :comment_id => comment.id} %>|<%= link_to "Delete" %>
+<% end %>
+
 <%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} %>
 <%= link_to 'Back', discussions_path %>

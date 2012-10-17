@@ -3,6 +3,9 @@ Preview::Application.routes.draw do
   resources :discussions do
 		member do
 			get 'reply_to_discussion'
+			post 'reply_to_discussion'
+			get 'reply_to_discussion'
+			post 'reply_to_discussion'
 		end
 	end
 

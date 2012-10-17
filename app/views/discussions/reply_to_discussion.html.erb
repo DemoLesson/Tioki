@@ -1,7 +1,9 @@
-<%= form_tag '/reply_to_discussion' do %>
+<section id="main-content" class="inner-content">
+<%= form_for @discussion, :id => @discussion.id do |f| %>
 	<h2><%= @discussion.title %></h2>
 	<%= @discussion.message %><br />
 
-	<%= text_area_tag :body %><br />
-	<%= submit_tag "Reply" %>
+	<%= f.text_area :body %><br />
+	<%= f.submit "Reply" %>
 <% end %>
+</section>
