@@ -1,3 +1,8 @@
+v1.3.18 - Oct 17, 2012  1:58PM deployed by Kelly Becker
+=======================================================
+* 102938b: Kelly Becker - fix to skill 130 not existing
+* 47ca101: Brian Martinez - changes to splash page
+
 v1.3.17 - Oct 17, 2012 12:22PM deployed by Kelly Becker
 =======================================================
 * ba9e5cd: Kelly Becker - user updated avatar whiteboard post back in with new language
