@@ -169,6 +169,17 @@ class Whiteboard < ActiveRecord::Base
 		# Get the tag of the passed tag model
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
 
+		# Dont allow a duplicate message to be posted within the same hour
+		whiteboard = Whiteboard.where("`whiteboards`.`user_id` = ? && `whiteboards`.`tag` = ?", currentUser.id, tag)
+		whiteboard = whiteboard.where(
+			'`whiteboards`.`created_at` BETWEEN ? AND ?',
+			(Time.now - 3600).utc.strftime("%Y-%m-%d %H:%M:%S"),
+			Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
+		).count
+
+		# Return if is a duplicate
+		return "Duplicate within hour" if whiteboard > 1
+
 		# Extract links from the message
 		addData = Hash.new
 		addData["urls"] = Array.new

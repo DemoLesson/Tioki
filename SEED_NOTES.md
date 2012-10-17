@@ -1,3 +1,9 @@
+v1.3.17 - Oct 17, 2012 12:22PM deployed by Kelly Becker
+=======================================================
+* ba9e5cd: Kelly Becker - user updated avatar whiteboard post back in with new language
+* d51a1ef: Kelly Becker - rate limit whiteboard posts if similar
+* 688b44e: Kelly Becker - show how many favorites there are for whiteboard posts
+
 v1.3.16 - Oct 17, 2012  9:49AM deployed by Aleks Stanisic
 =========================================================
 * ceb9aaf: Kelly Becker - fixed twitter images
