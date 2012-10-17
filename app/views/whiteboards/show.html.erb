@@ -8,7 +8,12 @@
 		</div>
 	<% end %>
 	<p><%= raw @post.getMessage %></p>
-	<a href="/whiteboard/favorite/<%= @post.id %>" class="quick-action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>">
-		<%= favorites(@post) %>
-	</a>
+	<div class="quick-actions">
+		<a href="/whiteboard/favorite/<%= @post.id %>" class="action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>" title="Favorite Post">
+			<%= favorites(@post) %>
+		</a>
+		<a href="/whiteboard/hide/<%= @post.id %>" class="action" title="Hide Post">
+			<span class="iconic eye"></span>
+		</a>
+	</div>
 </li>
