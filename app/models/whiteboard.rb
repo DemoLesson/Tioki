@@ -125,8 +125,18 @@ class Whiteboard < ActiveRecord::Base
 		tags = "'User:" + connections.uniq.join("','User:") + "'"
 		connections = "'" + connections.uniq.join("','") + "'"
 
+		# Temporary slug allowance list
+		slugs = ['share','event_rsvp','event_create']
+		slugs = "'" + slugs.join("','") + "'"
+
+		# Temporary script
+		query = ["(`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags}))"]
+		query << "(`whiteboards`.`slug` IN (#{slugs}))"
+		query = self.where(query.join(' && ')).order('`created_at` DESC')
+
 		# Generate the default query
-		query = self.where("`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags})").order('`created_at` DESC')
+		# Temporarily disabled so we can show all events
+		# query = self.where("`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags})").order('`created_at` DESC')
 
 		# Remove the hidden Items
 		if hidden

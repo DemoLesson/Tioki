@@ -547,8 +547,7 @@ span.connection_degree {
 			border-top: 1px dashed $ltgray;
 			overflow: hidden;
 			position: relative;
-			display: block;
-			clear: both;
+			
 			a {
 				color: $salmon !important;
 				&:hover {
