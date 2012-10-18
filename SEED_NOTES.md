@@ -1,3 +1,7 @@
+v1.3.26 - Oct 18, 2012 10:54AM deployed by Kelly Becker
+=======================================================
+* e7f6115: Kelly Becker - fixed issues with schools showing up on technologies page breaking things, also paginate the teacher list.
+
 v1.3.25 - Oct 18, 2012 10:33AM deployed by Kelly Becker
 =======================================================
 * 6a1b258: Kelly Becker - migration script to connect all users to tioki if they are not already. as well as auto connecting on registration
