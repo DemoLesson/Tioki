@@ -547,6 +547,7 @@ span.connection_degree {
 			border-top: 1px dashed $ltgray;
 			overflow: hidden;
 			position: relative;
+			
 			a {
 				color: $salmon !important;
 				&:hover {
@@ -573,6 +574,37 @@ span.connection_degree {
 				padding: 0;
 				float: right;
 				line-height: 1.1;
+			}
+			.quick-actions {
+				position: absolute;
+				right: 15px;
+				top: 14px;
+				width: 20px;
+
+				text-align: center;
+				font-weight: bold;
+				line-height: 20px;
+
+				.action {
+					display: block;
+					height: 20px;
+					width: 20px;
+					line-height: 20px;
+					text-align: center;
+					margin: 5px auto;
+
+					.iconic {
+						font-size: 20px;
+					}
+
+					&:first-child {
+						margin-top: 0px;
+					}
+
+					&:last-child {
+						margin-bottom: 15px;
+					}
+				}
 			}
 			.quick-action {
 				position: absolute;
