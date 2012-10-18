@@ -125,8 +125,18 @@ class Whiteboard < ActiveRecord::Base
 		tags = "'User:" + connections.uniq.join("','User:") + "'"
 		connections = "'" + connections.uniq.join("','") + "'"
 
+		# Temporary slug allowance list
+		slugs = ['share','event_rsvp','event_create']
+		slugs = "'" + slugs.join("','") + "'"
+
+		# Temporary script
+		query = ["(`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags}))"]
+		query << "(`whiteboards`.`slug` IN (#{slugs}))"
+		query = self.where(query.join(' && ')).order('`created_at` DESC')
+
 		# Generate the default query
-		query = self.where("`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags})").order('`created_at` DESC')
+		# Temporarily disabled so we can show all events
+		# query = self.where("`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags})").order('`created_at` DESC')
 
 		# Remove the hidden Items
 		if hidden
@@ -162,6 +172,13 @@ class Whiteboard < ActiveRecord::Base
 
 	def self.createActivity(slug, message, tag = '', data = {})
 
+		# If a string was passed in then post always
+		if slug.is_a?(Symbol)
+			post_always = false
+		else
+			post_always = true
+		end
+
 		# Get rid of the current user if nil
 		currentUser = User.current
 		return false if currentUser.nil?
@@ -169,16 +186,26 @@ class Whiteboard < ActiveRecord::Base
 		# Get the tag of the passed tag model
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
 
-		# Dont allow a duplicate message to be posted within the same hour
-		whiteboard = Whiteboard.where("`whiteboards`.`user_id` = ? && `whiteboards`.`tag` = ?", currentUser.id, tag)
-		whiteboard = whiteboard.where(
-			'`whiteboards`.`created_at` BETWEEN ? AND ?',
-			(Time.now - 3600).utc.strftime("%Y-%m-%d %H:%M:%S"),
-			Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
-		).count
+		unless post_always
+			# Dont allow a duplicate message to be posted within the same hour
+			whiteboard = ["`whiteboards`.`user_id` = '#{currentUser.id}'"]
+			whiteboard << "`whiteboards`.`slug` = '#{slug}'"
+			whiteboard1 = whiteboard.clone
+			whiteboard << "`whiteboards`.`tag` = '#{tag}'"
+			whiteboard << "(`whiteboards`.`tag` != '' && `whiteboards`.`tag` IS NOT NULL)"
+			whiteboard1 << "(`whiteboards`.`tag` = '' || `whiteboards`.`tag` IS NULL)"
+			whiteboard = '(' + whiteboard.join(' && ') + ') || (' + whiteboard1.join(' && ') + ')'
+			whiteboard = Whiteboard.where(whiteboard)
+			whiteboard = whiteboard.where("", slug)
+			whiteboard = whiteboard.where(
+				'`whiteboards`.`created_at` BETWEEN ? AND ?',
+				(Time.now - 3600).utc.strftime("%Y-%m-%d %H:%M:%S"),
+				(Time.now + 60).utc.strftime("%Y-%m-%d %H:%M:%S")
+			).count
 
-		# Return if is a duplicate
-		return "Duplicate within hour" if whiteboard > 1
+			# Return if is a duplicate
+			return "Duplicate within hour" if whiteboard > 1
+		end
 
 		# Extract links from the message
 		addData = Hash.new

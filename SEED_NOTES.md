@@ -1,3 +1,24 @@
+v1.3.22 - Oct 17, 2012  5:01PM deployed by Kelly Becker
+=======================================================
+* 43a3d38: Kelly Becker - fix for css break for suggested connections and also added all shares, event rsvps, and event creations to the dashboard
+
+v1.3.21 - Oct 17, 2012  4:44PM deployed by Kelly Becker
+=======================================================
+* 9a840e0: Kelly Becker - hide post
+
+v1.3.20 - Oct 17, 2012  3:05PM deployed by Kelly Becker
+=======================================================
+* ce2a801: Kelly Becker - whiteboard posting is now limited by an hour. If you want a post to always go through regardless of this limiting pass the slug as a string instead of a symbol
+
+v1.3.19 - Oct 17, 2012  2:26PM deployed by Kelly Becker
+=======================================================
+* eba440d: Kelly Becker - fixed the suggested connection query @astanisic while this works we REALLY need to look into caching these results. the query takes 59ms!!! this is a little over the top. If it is feasible newrelic might be a good add on to our platform to help us with optimization
+
+v1.3.18 - Oct 17, 2012  1:58PM deployed by Kelly Becker
+=======================================================
+* 102938b: Kelly Becker - fix to skill 130 not existing
+* 47ca101: Brian Martinez - changes to splash page
+
 v1.3.17 - Oct 17, 2012 12:22PM deployed by Kelly Becker
 =======================================================
 * ba9e5cd: Kelly Becker - user updated avatar whiteboard post back in with new language
