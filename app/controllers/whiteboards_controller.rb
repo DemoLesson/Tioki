@@ -29,20 +29,36 @@ class WhiteboardsController < ApplicationController
 			fav.model = "#{w.class.name}:#{w.id}"
 			fav.user = self.current_user
 
-			if fav.save
-				flash[:success] = "The whiteboard posting was been favorited."
-				redirect_to :back
+			unless params[:json].nil?
+				if fav.save
+					return render :json => {'type' => 'success', 'new' => 1}
+				else
+					return render :json => {'type' => 'error', 'new' => 1}
+				end
 			else
-				flash[:success] = "The whiteboard could not be favorited."
-				redirect_to :back
+				if fav.save
+					flash[:success] = "The whiteboard posting was been favorited."
+					redirect_to :back
+				else
+					flash[:success] = "The whiteboard could not be favorited."
+					redirect_to :back
+				end
 			end
 		else
-			if fav.destroy
-				flash[:success] = "The whiteboard posting was been unfavorited."
-				redirect_to :back
+			unless params[:json].nil?
+				if fav.destroy
+					return render :json => {'type' => 'success', 'new' => 0}
+				else
+					return render :json => {'type' => 'error', 'new' => 0}
+				end
 			else
-				flash[:success] = "The whiteboard could not be unfavorited."
-				redirect_to :back
+				if fav.destroy
+					flash[:success] = "The whiteboard posting was been unfavorited."
+					redirect_to :back
+				else
+					flash[:success] = "The whiteboard could not be unfavorited."
+					redirect_to :back
+				end
 			end
 		end		
 	end

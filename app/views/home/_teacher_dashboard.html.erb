@@ -302,6 +302,8 @@
 $(document).ready(function() {
 	window.whiteboardPage = 1;
 	window.whiteboardMax = false;
+
+	// Load more whiteboard posts
 	$('a[href="#whiteboard-more"]').click(function(e) {
 		e.preventDefault();
 
@@ -333,6 +335,29 @@ $(document).ready(function() {
 
 				// Create the object, insert, and fade it in
 				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+			}
+		});
+
+		return false;
+	});
+
+	// Favorite a whiteboard post
+	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+		e.preventDefault();
+
+		var link = $(this);
+		$.get(link.attr('href') + '?json=true', function(r) {
+
+			// Star the post
+			if(r.type == 'success' && r.new) {
+				link.removeClass('star-empty').addClass('star-gold');
+				link.text(parseInt(link.text()) + 1);
+			}
+
+			// Unstar the post
+			if(r.type == 'success' && !r.new) {
+				link.removeClass('star-gold').addClass('star-empty');
+				link.text(parseInt(link.text()) - 1);
 			}
 		});
 
