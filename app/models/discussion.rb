@@ -2,8 +2,11 @@ class Discussion < ActiveRecord::Base
 	acts_as_commentable
 
 	belongs_to :user
-	has_many :followers
-	has_many :discussion_tags
+
+	has_many :followers, :dependent => :destroy
+	has_many :following_users, :through => :followers, :source => :user
+	
+	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
 	def participants

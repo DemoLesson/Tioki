@@ -1,5 +1,7 @@
 class DiscussionsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show]
+	before_filter :teacher_required, :except => [:index, :show]
+
   # GET /discussions
   # GET /discussions.json
   def index
@@ -120,11 +122,57 @@ class DiscussionsController < ApplicationController
 		end
 	end
 
+	def destroy_message
+		#Only remove the the message by
+		#marking it as deleted
+		@comment = Comment.find(params[:id])
+		if self.current_user.is_admin || self.current_user == @comment.user
+			@comment.update_attribute(:deleted_at, Time.now)
+		end
+		redirect_to @comment.root.commentable
+	end
+
+	def restore_message
+		@comment = Comment.find(params[:id])
+
+		if self.current_user.is_admin
+			@comment.update_attribute(:deleted_at, Time.now)
+		end
+		redirect_to @comment.root.commentable
+	end
+
+	def destroy_discussion
+		#Only remove the the message by
+		#marking it as deleted
+    @discussion = Discussion.find(params[:id])
+		if self.current_user.is_admin || self.current_user == @discussion.user
+			@discussion.update_attribute(:deleted_at, Time.now)
+		end
+    respond_to do |format|
+      format.html { redirect_to discussions_url }
+      format.json { head :ok }
+    end
+	end
+
+	def restore_discussion
+		@discussion = Discussion.find(params[:id])
+
+		if self.current_user.is_admin
+			@discussion.update_attribute(:deleted_at, nil)
+		end
+		redirect_to @discussion
+	end
+
   # DELETE /discussions/1
   # DELETE /discussions/1.json
   def destroy
     @discussion = Discussion.find(params[:id])
-    @discussion.destroy
+		#Only people who administrate the site can delete the
+		#entire discussions and all contents in it
+		if self.current_user.is_admin
+			@discussion.comment_threads.destroy_all
+			@discussion.destroy
+		end
 
     respond_to do |format|
       format.html { redirect_to discussions_url }

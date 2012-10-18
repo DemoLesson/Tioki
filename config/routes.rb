@@ -7,10 +7,12 @@ Preview::Application.routes.draw do
 			get 'reply_to_comment'
 			post 'reply_to_comment'
 			get 'follow_discussion'
+			get 'destroy_discussion'
+			get 'restore_discussion'
 		end
 	end
-
 	match 'followed_discussions' => 'discussions#followed_discussions'
+	match 'destroy_comment' => 'discussions#followed_discussions'
 
   resources :technologies do
 		member do

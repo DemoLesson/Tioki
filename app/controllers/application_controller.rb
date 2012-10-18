@@ -27,6 +27,14 @@ class ApplicationController < ActionController::Base
 		return false
 	end
 
+	def teacher_required
+		if self.current_user.teacher
+			true
+		else
+			false
+		end
+	end
+
 	def check_login_token
 
 		# HACK: Make this run on every page load.
