@@ -4,10 +4,13 @@ Preview::Application.routes.draw do
 		member do
 			get 'reply_to_discussion'
 			post 'reply_to_discussion'
-			get 'reply_to_discussion'
-			post 'reply_to_discussion'
+			get 'reply_to_comment'
+			post 'reply_to_comment'
+			get 'follow_discussion'
 		end
 	end
+
+	match 'followed_discussions' => 'discussions#followed_discussions'
 
   resources :technologies do
 		member do

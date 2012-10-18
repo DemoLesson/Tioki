@@ -25,6 +25,10 @@ class User < ActiveRecord::Base
 	has_many :skill_group_descriptions, :dependent => :destroy
 	has_many :connection_invites, :dependent => :destroy
 
+	#discussion following
+	has_many :followers
+	has_many :followed_discussions, :through => :followers, :source => :discussion
+
 	has_many :favorites
 
 	# Connecting to events

@@ -7,5 +7,6 @@ class Discussion < ActiveRecord::Base
 	has_many :skills, :through => :discussion_tags
 
 	def participants
+		self.comment_threads.collect(&:user).unshift(self.user).uniq
 	end
 end

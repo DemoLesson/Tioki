@@ -20,6 +20,26 @@
 		<strong>Body:</strong><br />
 		<%= f.text_area :message %>
   </div>
+
+	<div class="field">
+		<%= select "skill", 'skillList', Skill.all.collect { |skill| [skill.name, skill.id] } %>
+		<button type="button" id="addSkill">Add Skill</button>
+
+		<div id="current_skills">
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#addSkill").click(function() {
+					var skillValue = $("#skill_skillList option:selected").text();
+					var skillId = $("#skill_skillList option:selected").val();
+					$("#current_skills").append(skillValue+'<br />');
+					$("#current_skills").append('<input type="hidden" name="skills[]" value="' + skillId + '" />');
+				});
+			});
+		</script>
+	</div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

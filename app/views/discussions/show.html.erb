@@ -1,14 +1,32 @@
 <section id="main-content" class="inner-content">
-<h1><%= @discussion.title %></h1>
+	<h1><%= @discussion.title %></h1>
 
-<strong><%= @discussion.user.name %></strong><br />
-<%= @discussion.message %><br />
-<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
+	<strong><%= @discussion.user.name %></strong><br />
+	<%= @discussion.message %><br />
+	<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
 
-<% @discussion.comment_threads.each do |comment| %>
-	<strong><%= comment.user.name %>:</strong><br />
-	<%= comment.body %><br />
-	<%= link_to "Reply", { :action => "reply_to_comment", :comment_id => comment.id} %>|<%= link_to "Delete" %>
-<% end %>
-
+	<section id="panels">
+		<section id="list" class="panel two-column left-side">
+			<ul>
+				<% @discussion.comment_threads.each do |comment| %>
+					<li>
+						<div <% if comment.child? %>style="margin-left= 20px"<% end %>>
+							<% if comment.child? %>
+								<p>
+								In reply to <%= comment.parent.user.name %>
+								</p>
+							<% end %>
+							<p>
+							<%= comment.user.name %>
+							</p>
+							<p>
+							<%= comment.body %>
+							</p>
+						</div>
+						<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+	</section>
 </section>

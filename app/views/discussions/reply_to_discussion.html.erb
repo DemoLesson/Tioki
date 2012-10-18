@@ -1,8 +1,11 @@
 <section id="main-content" class="inner-content">
-<%= form_for @discussion, :id => @discussion.id do |f| %>
+<%= form_for @comment, :url => 'reply_to_discussion', :id => @discussion.id do |f| %>
+	You replying to:
 	<h2><%= @discussion.title %></h2>
 	<%= @discussion.message %><br />
+	<hr>
 
+	The body of your mesage:<br />
 	<%= f.text_area :body %><br />
 	<%= f.submit "Reply" %>
 <% end %>

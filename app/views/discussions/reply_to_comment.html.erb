@@ -1,0 +1,11 @@
+<section id="main-content" class="inner-content">
+<%= form_for @comment, :url => {:action => 'reply_to_comment', :id => @discussion.id, :comment_id => @replied_to_comment.id} do |f| %>
+	You replying to:<br />
+	<%= @replied_to_comment.body %><br />
+	<hr>
+
+	The body of your message:<br />
+	<%= f.text_area :body %><br />
+	<%= f.submit "Reply" %>
+<% end %>
+</section>
