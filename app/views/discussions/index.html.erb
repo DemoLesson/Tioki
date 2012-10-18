@@ -1,17 +1,21 @@
 <section id="main-content" class="inner-content">
 <h1>Discussions
+	<% if self.current_user && self.current_user.teacher %>
 	<div style="float:right;margin-top:0px">
 		<%= link_to "Create New Discussion", new_discussion_path, :class => "action-button bg-salmon" %>
 	</div>
+<% end %>
 </h1>
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
 		<ul>
 			<% @discussions.each do |discussion| %>
 				<li>
+				<%  if self.current_user && self.current_user.teacher %>
 					<div style="float:right">
 						<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }%>
 					</div>
+				<% end %>
 					<p><%= link_to discussion.title, discussion %></p>
 					<p>
 					<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,

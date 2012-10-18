@@ -3,28 +3,35 @@
 
 	<strong><%= @discussion.user.name %></strong><br />
 	<%= @discussion.message %><br />
-	<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
+	<% if self.current_user && self.current_user.teacher %>
+		<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
+	<% end %>
+
 
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
 			<ul>
-				<% @discussion.comment_threads.each do |comment| %>
-					<li>
-						<div <% if comment.child? %>style="margin-left= 20px"<% end %>>
-							<% if comment.child? %>
+				<% @discussion.root_comments.each do |root| %>
+					<% root.self_and_descendants.each do |comment| %>
+						<li>
+							<div <% if comment.child? %>style="margin-left:90px"<% end %>>
+								<% if comment.child? %>
+									<p>
+									In reply to <%= comment.parent.user.name %>
+									</p>
+								<% end %>
 								<p>
-								In reply to <%= comment.parent.user.name %>
+								<%= comment.user.name %>
 								</p>
+								<p>
+								<%= comment.body %>
+								</p>
+							</div>
+							<% if self.current_user && self.current_user.teacher %>
+								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
 							<% end %>
-							<p>
-							<%= comment.user.name %>
-							</p>
-							<p>
-							<%= comment.body %>
-							</p>
-						</div>
-						<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
-					</li>
+						</li>
+					<% end %>
 				<% end %>
 			</ul>
 		</section>

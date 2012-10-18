@@ -1,4 +1,5 @@
 class DiscussionsController < ApplicationController
+	before_filter :login_required, :except => [:index, :show]
   # GET /discussions
   # GET /discussions.json
   def index
@@ -46,8 +47,10 @@ class DiscussionsController < ApplicationController
 
     respond_to do |format|
       if @discussion.save
-				params[:skills].each do |skill_id|
-					DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
+				if params[:skills]
+					params[:skills].each do |skill_id|
+						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
+					end
 				end
         format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
         format.json { render json: @discussion, status: :created, location: @discussion }
@@ -93,9 +96,9 @@ class DiscussionsController < ApplicationController
 		@replied_to_comment = Comment.find(params[:comment_id])
 		@comment = Comment.new
 		if request.post?
-			@comment = Comment.build_from(@replied_to_comment, self.current_user, params[:comment][:body])
-			if @comment.save
-				@comment.move_to_child_of(@replied_to_comment)
+			comment = Comment.build_from(@discussion, self.current_user, params[:comment][:body])
+			if comment.save
+				comment.move_to_child_of(@replied_to_comment)
 				redirect_to @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
