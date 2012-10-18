@@ -99,24 +99,6 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.text     "content"
   end
 
-  create_table "comments", :force => true do |t|
-    t.integer  "commentable_id",   :default => 0
-    t.string   "commentable_type", :default => ""
-    t.string   "title",            :default => ""
-    t.text     "body"
-    t.string   "subject",          :default => ""
-    t.integer  "user_id",          :default => 0,  :null => false
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
-  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
-
   create_table "connection_invites", :force => true do |t|
     t.string   "email"
     t.integer  "user_id"
@@ -176,26 +158,6 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "discussion_tags", :force => true do |t|
-    t.integer  "skill_id"
-    t.integer  "discussion_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "discussion_tags", ["discussion_id"], :name => "index_discussion_tags_on_discussion_id"
-  add_index "discussion_tags", ["skill_id"], :name => "index_discussion_tags_on_skill_id"
-
-  create_table "discussions", :force => true do |t|
-    t.string   "title"
-    t.text     "message"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
 
   create_table "educations", :force => true do |t|
     t.string   "school"
@@ -287,20 +249,6 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.string   "model"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "followers", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "discussion_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "followers", ["discussion_id"], :name => "index_followers_on_discussion_id"
-  add_index "followers", ["user_id"], :name => "index_followers_on_user_id"
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
@@ -598,7 +546,7 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
