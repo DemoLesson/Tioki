@@ -547,6 +547,10 @@ span.connection_degree {
 			border-top: 1px dashed $ltgray;
 			overflow: hidden;
 			position: relative;
+
+			&.has-actions {
+				min-height: 70px;
+			}
 			
 			a {
 				color: $salmon !important;

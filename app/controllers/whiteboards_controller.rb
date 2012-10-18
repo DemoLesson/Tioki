@@ -47,4 +47,10 @@ class WhiteboardsController < ApplicationController
 		end		
 	end
 
+	def delete
+		w = Whiteboard.find(params[:post])
+    	redirect_to :back if self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)
+    	w.destroy; redirect_to :back
+	end
+
 end
