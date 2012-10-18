@@ -1,3 +1,11 @@
+v1.3.27 - Oct 18, 2012  2:34PM deployed by Kelly Becker
+=======================================================
+* e1768e2: Kelly Becker - tooltips and ajaxed whiteboard functions
+* aba9e51: Kelly Becker - staring is now ajaxified
+* 9bbb592: Kelly Becker - delete button now has a wider li if deleteable
+* 5559a1b: Kelly Becker - tooltips and delete button
+* 0541d6d: Kelly Becker - made rubber use us-west-2c to save money for now
+
 v1.3.26 - Oct 18, 2012 10:54AM deployed by Kelly Becker
 =======================================================
 * e7f6115: Kelly Becker - fixed issues with schools showing up on technologies page breaking things, also paginate the teacher list.
