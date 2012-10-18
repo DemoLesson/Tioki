@@ -49,7 +49,8 @@ class DiscussionsController < ApplicationController
 
     respond_to do |format|
 			#only body can be edited
-			if @comment.user_id == self.current_user.id
+			if @comment.user_id == self.current_user.id || self.current_user.is_admin
+
 				if @comment.update_attribute(:body, params[:comment][:body])
 					format.html { redirect_to @comment.commentable, notice: 'Comment was successfully updated.' }
 					format.json { head :ok }
@@ -57,9 +58,11 @@ class DiscussionsController < ApplicationController
 					format.html { render action: "edit_comment" }
 					format.json { render json: @comment.errors, status: :unprocessable_entity }
 				end
+
 			else
 				format.html { redirect_to @discussion }
 			end
+
     end
 	end
 
@@ -91,7 +94,7 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.find(params[:id])
 
     respond_to do |format|
-			if @discussion.user_id == self.current_user.id
+			if @discussion.user_id == self.current_user.id || self.current_user.is_admin
 
 				if @discussion.update_attributes(params[:discussion])
 
