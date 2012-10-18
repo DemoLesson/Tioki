@@ -1,3 +1,8 @@
+v1.3.25 - Oct 18, 2012 10:33AM deployed by Kelly Becker
+=======================================================
+* 6a1b258: Kelly Becker - migration script to connect all users to tioki if they are not already. as well as auto connecting on registration
+* 7198172: Kelly Becker - migration script to connect all users to tioki if they are not already. as well as auto connecting on registration
+
 v1.3.24 - Oct 18, 2012 10:12AM deployed by Kelly Becker
 =======================================================
 * ffa7967: Kelly Becker - removed follow language
