@@ -17,7 +17,8 @@ class WhiteboardsController < ApplicationController
 	def hide
 		w = Whiteboard.find(params[:post])
 		w.whiteboard_hidden << self.current_user
-    	redirect_to :root
+    	return redirect_to :back if params[:json].nil?
+    	return render :json => {'type' => 'success'}
 	end
 
 	def favorite
@@ -65,8 +66,13 @@ class WhiteboardsController < ApplicationController
 
 	def delete
 		w = Whiteboard.find(params[:post])
-    	redirect_to :back if self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)
-    	w.destroy; redirect_to :back
+    	return redirect_to :back if (self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)) && params[:json].nil?
+
+    	# Destroy
+    	w.destroy
+
+    	return redirect_to :back if params[:json].nil?
+    	return render :json => {'type' => 'success'}
 	end
 
 end

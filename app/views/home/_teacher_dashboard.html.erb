@@ -363,6 +363,23 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+	// Hide a whiteboard post
+	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+		e.preventDefault();
+
+		var link = $(this);
+		$.get(link.attr('href') + '?json=true', function(r) {
+			var li = link.closest('li');
+
+			// Hide the post
+			if(r.type == 'success') li.slideUp(500, function() {
+				$(this).remove();
+			});
+		});
+
+		return false;
+	});
 });
 </script>
 
