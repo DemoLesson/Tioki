@@ -24,6 +24,9 @@ class UsersController < ApplicationController
 				# Create the teacher record on the user
 				self.create_teacher_and_redirect false
 
+				# Link the Tioki technology automatically
+				TechnologyUser.create(:user => @user, :technology_id => 15)
+
 				# Notice the signup was successful
 				flash[:success] = "Signup successful"
 
