@@ -222,7 +222,7 @@ stop_on_error_cmd: "function error_exit { exit 99; }; trap error_exit ERR"
 #           downtime. You should typically set this on the role/host level
 #           rather than globally.  Use cap rubber:describe_zones to see the list
 #           of zones
-# availability_zone: us-east-1a
+availability_zone: us-west-2c
 
 # OPTIONAL: If you want t use Elastic Block Store (EBS) persistent
 # volumes, add them to host specific overrides and they will get created

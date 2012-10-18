@@ -60,6 +60,7 @@ Preview::Application.routes.draw do
 	# Whiteboard JSON Access
 	resource :whiteboard
 	match 'whiteboard/hide/:post' => 'whiteboards#hide'
+	match 'whiteboard/delete/:post' => 'whiteboards#delete'
 	match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 
 	# Signup / Login

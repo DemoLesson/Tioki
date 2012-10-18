@@ -44,6 +44,8 @@
 			afterSlideChange: function(){}, 	 // empty function 
 			fluid: true                         // or set a aspect ratio for content slides (ex: '4x3') 
 		});
+
+		// Login drawer
 		$('#drawer-handle').click(function() {
 			$('#login-drawer').animate({
 				marginTop: '0px'
@@ -59,6 +61,9 @@
 				// Animation complete.
 			});
 		});
+
+		// Tooltips
+		$(document).foundationTooltips();
 	});
 	</script>
 
