@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016220849) do
+ActiveRecord::Schema.define(:version => 20121018180843) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"

@@ -12,7 +12,8 @@ Preview::Application.routes.draw do
 		end
 	end
 	match 'followed_discussions' => 'discussions#followed_discussions'
-	match 'destroy_comment' => 'discussions#followed_discussions'
+	match 'destroy_comment/:id' => 'discussions#destroy_comment'
+	match 'edit_comment/:id' => 'discussions#edit_comment'
 
   resources :technologies do
 		member do

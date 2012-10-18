@@ -40,6 +40,25 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.find(params[:id])
   end
 
+	def edit_comment
+		@discussion = Discussion.find(params[:id])
+		@comment = Comment.find(params[:comment_id])
+    respond_to do |format|
+			#only body can be edited
+      if @comment.update_attribute(:body, params[:comment][:body])
+        format.html { redirect_to @discussion, notice: 'Comment was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit_comment" }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      end
+    end
+	end
+
+	def update_comment
+		@comment = Comment.find(params[:id])
+	end
+
   # POST /discussions
   # POST /discussions.json
   def create
@@ -136,7 +155,7 @@ class DiscussionsController < ApplicationController
 		@comment = Comment.find(params[:id])
 
 		if self.current_user.is_admin
-			@comment.update_attribute(:deleted_at, Time.now)
+			@comment.update_attribute(:deleted_at, nil)
 		end
 		redirect_to @comment.root.commentable
 	end

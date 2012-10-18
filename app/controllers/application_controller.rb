@@ -29,9 +29,11 @@ class ApplicationController < ActionController::Base
 
 	def teacher_required
 		if self.current_user.teacher
-			true
+			return true
 		else
-			false
+			flash[:notice] = 'Must be using a teacher account to access'
+			redirect_to :root
+			return false
 		end
 	end
 

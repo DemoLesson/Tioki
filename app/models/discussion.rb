@@ -4,7 +4,7 @@ class Discussion < ActiveRecord::Base
 	belongs_to :user
 
 	has_many :followers, :dependent => :destroy
-	has_many :following_users, :through => :followers, :source => :user
+	has_many :following, :through => :followers, :source => :user
 	
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags

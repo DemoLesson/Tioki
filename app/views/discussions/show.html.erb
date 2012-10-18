@@ -1,10 +1,34 @@
 <section id="main-content" class="inner-content">
-	<h1><%= @discussion.title %></h1>
+	<h2>
+		<%= @discussion.title %>
+
+		<div style="float:right;margin-top:0px">
+			Followers:<br />
+			<% @discussion.following.each do |user| %>
+				<% if user.avatar? %>
+					<%= image_tag(user.avatar.url(:tiny), :style => 'max-height:20px;max-width:20px;') %>
+				<% else %>
+					<%= image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:20px;max-width:20px;') %>
+				<% end %>
+			<% end %>
+		</div>
+	</h1 >
 
 	<strong><%= @discussion.user.name %></strong><br />
-	<%= @discussion.message %><br />
+	<% if @discussion.deleted_at %>
+		[Message Deleted]
+	<% else %>
+		<%= @discussion.message %><br />
+	<% end %>
 	<% if self.current_user && self.current_user.teacher %>
 		<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
+		<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
+			<% if !@discussion.deleted_at %>
+				<%= link_to "Edit", { :action => "edit", :id => @discussion.id} %>
+				|
+				<%= link_to "Delete Message", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?" %>
+			<% end %>
+		<% end %>
 	<% end %>
 
 
@@ -24,11 +48,21 @@
 								<%= comment.user.name %>
 								</p>
 								<p>
-								<%= comment.body %>
+								<% if comment.deleted_at %>
+									[Message Deleted]
+								<% else %>
+									<%= comment.body %>
+								<% end %>
 								</p>
 							</div>
 							<% if self.current_user && self.current_user.teacher %>
 								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
+								<% if self.current_user.id = comment.user_id || self.current_user.is_admin && !comment.user.deleted_at %>
+									|
+									<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
+									|
+									<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+								<% end %>
 							<% end %>
 						</li>
 					<% end %>
