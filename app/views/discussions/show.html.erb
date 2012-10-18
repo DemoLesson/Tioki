@@ -81,7 +81,7 @@
 
 							<% if self.current_user && self.current_user.teacher %>
 								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
-								<% if self.current_user.id = comment.user_id || self.current_user.is_admin && !comment.user.deleted_at %>
+								<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.user.deleted_at %>
 									|
 									<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
 									|
