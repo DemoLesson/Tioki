@@ -30,11 +30,29 @@
 
 		<script type="text/javascript">
 			$(document).ready(function () {
+				//Populate with current skills
+				var skillValue, skillId, tab;
+				<% @discussion.skills.each do |skill| %>
+				tab = document.createElement('div');
+				$(tab).addClass('skilldiv')
+				$(tab).append(<%= skill.name %>);
+				$(tab).append('<input type="hidden" name="skills[]" value="' + <%= skill.id %> + '" />');
+				$(tab).append(' | <a href="#" id="remove">Remove</a><br />');
+				$('#current_skills').append(tab);
+
+				<% end %>
 				$("#addSkill").click(function() {
-					var skillValue = $("#skill_skillList option:selected").text();
-					var skillId = $("#skill_skillList option:selected").val();
-					$("#current_skills").append(skillValue+'<br />');
-					$("#current_skills").append('<input type="hidden" name="skills[]" value="' + skillId + '" />');
+					skillValue = $("#skill_skillList option:selected").text();
+					skillId = $("#skill_skillList option:selected").val();
+					tab = document.createElement('div');
+					$(tab).addClass('skilldiv')
+					$(tab).append(skillValue);
+					$(tab).append('<input type="hidden" name="skills[]" value="' + skillId + '" />');
+					$(tab).append(' | <a href="#" id="remove">Remove</a><br />');
+					$('#current_skills').append(tab);
+				});
+				$("#remove").live("click", function () {
+					$(this).closest("div.skilldiv").remove();
 				});
 			});
 		</script>

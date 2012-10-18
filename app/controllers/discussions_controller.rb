@@ -65,11 +65,10 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.new(params[:discussion])
 		@discussion.user = self.current_user
 
-
     respond_to do |format|
       if @discussion.save
 				if params[:skills]
-					params[:skills].each do |skill_id|
+					params[:skills].uniq.each do |skill_id|
 						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
 					end
 				end

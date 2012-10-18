@@ -13,6 +13,9 @@
 			<% end %>
 		</div>
 	</h1 >
+	<% @discussion.skills.each do |skill| %>
+		<%= skill.name %>
+	<% end %><br />
 
 	<strong><%= @discussion.user.name %></strong><br />
 	<% if @discussion.deleted_at %>
