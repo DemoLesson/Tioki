@@ -11,20 +11,20 @@
 		<ul>
 			<% @discussions.each do |discussion| %>
 				<li>
-				<%  if self.current_user && self.current_user.teacher %>
-					<div style="float:right">
-						<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }%>
-					</div>
-				<% end %>
+					<%  if self.current_user && self.current_user.teacher %>
+						<div style="float:right">
+							<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }%>
+						</div>
+					<% end %>
 					<p><%= link_to discussion.title, discussion %></p>
 					<p>
-					<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
-					<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
 					</p>
 					<p>
-					<% discussion.skills.each do |skill| %>
-						<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
-					<% end %>
+						<% discussion.skills.each do |skill| %>
+							<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
+						<% end %>
 					</p>
 					<p>
 						<% discussion.participants.each do |user| %>

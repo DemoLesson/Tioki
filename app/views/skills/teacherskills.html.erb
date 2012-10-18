@@ -147,7 +147,40 @@
 				<% end %>
 			</ul>
 		</section>
-		
+
+		<section id="list" class="panel two-column right-side">
+			<h3>Discussions</h3>
+			<ul>
+				<% @skill.discussions.each do |discussion| %>
+					<li>
+					<%  if self.current_user && self.current_user.teacher %>
+						<div style="float:right">
+							<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }%>
+						</div>
+					<% end %>
+						<p><%= link_to discussion.title, discussion %></p>
+						<p>
+						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+						</p>
+						<p>
+						<% discussion.skills.each do |skill| %>
+							<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
+						<% end %>
+						</p>
+						<p>
+							<% discussion.participants.each do |user| %>
+								<% if user.avatar? %>
+									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{teacher.teacher.url}" %>
+								<% else %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
+								<% end %>
+							<% end %>
+						</p>
+					</li>
+				<% end %>
+			</ul>
+		</section>
 	</section>
 </section>
 

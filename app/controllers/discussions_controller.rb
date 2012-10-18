@@ -41,22 +41,26 @@ class DiscussionsController < ApplicationController
   end
 
 	def edit_comment
-		@discussion = Discussion.find(params[:id])
-		@comment = Comment.find(params[:comment_id])
-    respond_to do |format|
-			#only body can be edited
-      if @comment.update_attribute(:body, params[:comment][:body])
-        format.html { redirect_to @discussion, notice: 'Comment was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit_comment" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
-    end
+		@comment = Comment.find(params[:id])
 	end
 
 	def update_comment
 		@comment = Comment.find(params[:id])
+
+    respond_to do |format|
+			#only body can be edited
+			if @comment.user_id == self.current_user.id
+				if @comment.update_attribute(:body, params[:comment][:body])
+					format.html { redirect_to @comment.commentable, notice: 'Comment was successfully updated.' }
+					format.json { head :ok }
+				else
+					format.html { render action: "edit_comment" }
+					format.json { render json: @comment.errors, status: :unprocessable_entity }
+				end
+			else
+				format.html { redirect_to @discussion }
+			end
+    end
 	end
 
   # POST /discussions
@@ -88,13 +92,17 @@ class DiscussionsController < ApplicationController
 
     respond_to do |format|
 			if @discussion.user_id == self.current_user.id
+
 				if @discussion.update_attributes(params[:discussion])
+
 					@discussion.discussion_tags.destroy_all
+
 					if params[:skills]
 						params[:skills].uniq.each do |skill_id|
 							DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
 						end
 					end
+
 					format.html { redirect_to @discussion, notice: 'Discussion was successfully updated.' }
 					format.json { head :ok }
 				else
@@ -195,8 +203,10 @@ class DiscussionsController < ApplicationController
   # DELETE /discussions/1.json
   def destroy
     @discussion = Discussion.find(params[:id])
+
 		#Only people who administrate the site can delete the
 		#entire discussions and all contents in it
+		#
 		if self.current_user.is_admin
 			@discussion.comment_threads.destroy_all
 			@discussion.destroy

@@ -17,7 +17,7 @@
 	</h2>
 
 	<% @discussion.skills.each do |skill| %>
-		<%= skill.name %>
+		<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
 	<% end %><br />
 
 
@@ -36,6 +36,7 @@
 			<% else %>
 				<%= @discussion.message %><br />
 			<% end %>
+
 			<% if self.current_user && self.current_user.teacher %>
 				<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon" %>
 				<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
@@ -48,8 +49,10 @@
 			<% end %>
 			<ul>
 				<% @discussion.root_comments.each do |root| %>
+
 					<% root.self_and_descendants.each do |comment| %>
 						<li>
+
 							<div <% if comment.child? %>style="margin-left:90px"<% end %>>
 								<div class="profile-thumb-small">
 									<% if comment.user.avatar? %>
@@ -60,12 +63,13 @@
 								</div>
 								<% if comment.child? %>
 									<p>
-									In reply to <%= comment.parent.user.name %>
+										In reply to <%= comment.parent.user.name %>
 									</p>
 								<% end %>
 								<p>
-								<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+									<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
 								</p>
+
 								<p>
 								<% if comment.deleted_at %>
 									[Message Deleted]
@@ -74,6 +78,7 @@
 								<% end %>
 								</p>
 							</div>
+
 							<% if self.current_user && self.current_user.teacher %>
 								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
 								<% if self.current_user.id = comment.user_id || self.current_user.is_admin && !comment.user.deleted_at %>
@@ -83,6 +88,7 @@
 									<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
 								<% end %>
 							<% end %>
+
 						</li>
 					<% end %>
 				<% end %>
