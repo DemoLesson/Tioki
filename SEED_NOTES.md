@@ -1,3 +1,7 @@
+v1.3.23 - Oct 17, 2012  6:59PM deployed by Aleks Stanisic
+=========================================================
+* 010db8e: Brian Martinez - GeGe's City Update
+
 v1.3.22 - Oct 17, 2012  5:01PM deployed by Kelly Becker
 =======================================================
 * 43a3d38: Kelly Becker - fix for css break for suggested connections and also added all shares, event rsvps, and event creations to the dashboard
