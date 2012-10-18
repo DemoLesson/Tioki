@@ -1,3 +1,8 @@
+v1.3.24 - Oct 18, 2012 10:12AM deployed by Kelly Becker
+=======================================================
+* ffa7967: Kelly Becker - removed follow language
+* a812686: Brian Martinez - splash and what is tioki changes
+
 v1.3.23 - Oct 17, 2012  6:59PM deployed by Aleks Stanisic
 =========================================================
 * 010db8e: Brian Martinez - GeGe's City Update
