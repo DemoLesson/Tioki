@@ -13,4 +13,7 @@ class Skill < ActiveRecord::Base
 
   has_many :technology_tags, :dependent => :destroy
   has_many :technologies, :through => :technology_tags
+
+	has_many :discussions_tags, :dependent => :destroy
+	has_many :discussions, :through => :discussion_tags
 end

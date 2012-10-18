@@ -87,13 +87,23 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.find(params[:id])
 
     respond_to do |format|
-      if @discussion.update_attributes(params[:discussion])
-        format.html { redirect_to @discussion, notice: 'Discussion was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @discussion.errors, status: :unprocessable_entity }
-      end
+			if @discussion.user_id == self.current_user.id
+				if @discussion.update_attributes(params[:discussion])
+					@discussion.discussion_tags.destroy_all
+					if params[:skills]
+						params[:skills].uniq.each do |skill_id|
+							DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
+						end
+					end
+					format.html { redirect_to @discussion, notice: 'Discussion was successfully updated.' }
+					format.json { head :ok }
+				else
+					format.html { render action: "edit" }
+					format.json { render json: @discussion.errors, status: :unprocessable_entity }
+				end
+			else
+					format.html { redirect_to @discussion }
+			end
     end
   end
 
@@ -140,7 +150,7 @@ class DiscussionsController < ApplicationController
 		end
 	end
 
-	def destroy_message
+	def destroy_comment
 		#Only remove the the message by
 		#marking it as deleted
 		@comment = Comment.find(params[:id])
@@ -150,7 +160,7 @@ class DiscussionsController < ApplicationController
 		redirect_to @comment.root.commentable
 	end
 
-	def restore_message
+	def restore_comment
 		@comment = Comment.find(params[:id])
 
 		if self.current_user.is_admin

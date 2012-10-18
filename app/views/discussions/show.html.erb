@@ -3,52 +3,68 @@
 		<%= @discussion.title %>
 
 		<div style="float:right;margin-top:0px">
-			Followers:<br />
-			<% @discussion.following.each do |user| %>
-				<% if user.avatar? %>
-					<%= image_tag(user.avatar.url(:tiny), :style => 'max-height:20px;max-width:20px;') %>
-				<% else %>
-					<%= image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:20px;max-width:20px;') %>
+			<% if @discussion.following.count > 0 %>
+				Followers:<br />
+				<% @discussion.following.each do |user| %>
+					<% if user.avatar? %>
+						<%= link_to image_tag(user.avatar.url(:tiny), :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
+					<% else %>
+						<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
+					<% end %>
 				<% end %>
 			<% end %>
 		</div>
-	</h1 >
+	</h2>
+
 	<% @discussion.skills.each do |skill| %>
 		<%= skill.name %>
 	<% end %><br />
 
-	<strong><%= @discussion.user.name %></strong><br />
-	<% if @discussion.deleted_at %>
-		[Message Deleted]
-	<% else %>
-		<%= @discussion.message %><br />
-	<% end %>
-	<% if self.current_user && self.current_user.teacher %>
-		<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon"%>
-		<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
-			<% if !@discussion.deleted_at %>
-				<%= link_to "Edit", { :action => "edit", :id => @discussion.id} %>
-				|
-				<%= link_to "Delete Message", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?" %>
-			<% end %>
-		<% end %>
-	<% end %>
-
 
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
+			<div class="profile-thumb-small">
+				<% if @discussion.user.avatar? %>
+					<%= link_to image_tag @discussion.user.avatar.url(:tiny), "/profile/#{@discussion.user.teacher.url}" %>
+				<% else %>
+					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
+				<% end %>
+			</div>
+			<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}" %></strong><br />
+			<% if @discussion.deleted_at %>
+				[Message Deleted]
+			<% else %>
+				<%= @discussion.message %><br />
+			<% end %>
+			<% if self.current_user && self.current_user.teacher %>
+				<%= link_to 'Reply', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-salmon" %>
+				<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
+					<% if !@discussion.deleted_at %>
+						<%= link_to "Edit", { :action => "edit", :id => @discussion.id} %>
+						|
+						<%= link_to "Delete Message", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?" %>
+					<% end %>
+				<% end %>
+			<% end %>
 			<ul>
 				<% @discussion.root_comments.each do |root| %>
 					<% root.self_and_descendants.each do |comment| %>
 						<li>
 							<div <% if comment.child? %>style="margin-left:90px"<% end %>>
+								<div class="profile-thumb-small">
+									<% if comment.user.avatar? %>
+										<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
+									<% else %>
+										<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+									<% end %>
+								</div>
 								<% if comment.child? %>
 									<p>
 									In reply to <%= comment.parent.user.name %>
 									</p>
 								<% end %>
 								<p>
-								<%= comment.user.name %>
+								<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
 								</p>
 								<p>
 								<% if comment.deleted_at %>

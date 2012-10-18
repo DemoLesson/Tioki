@@ -35,7 +35,7 @@
 				<% @discussion.skills.each do |skill| %>
 				tab = document.createElement('div');
 				$(tab).addClass('skilldiv')
-				$(tab).append(<%= skill.name %>);
+				$(tab).append('<%= skill.name %>');
 				$(tab).append('<input type="hidden" name="skills[]" value="' + <%= skill.id %> + '" />');
 				$(tab).append(' | <a href="#" id="remove">Remove</a><br />');
 				$('#current_skills').append(tab);

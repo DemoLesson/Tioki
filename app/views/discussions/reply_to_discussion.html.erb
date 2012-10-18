@@ -1,6 +1,6 @@
 <section id="main-content" class="inner-content">
 <%= form_for @comment, :url => 'reply_to_discussion', :id => @discussion.id do |f| %>
-	You replying to:
+	You are replying to:
 	<h2><%= @discussion.title %></h2>
 	<%= @discussion.message %><br />
 	<hr>

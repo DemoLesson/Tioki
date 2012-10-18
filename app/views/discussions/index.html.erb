@@ -29,9 +29,9 @@
 					<p>
 						<% discussion.participants.each do |user| %>
 							<% if user.avatar? %>
-								<%= image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;") %>
+								<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{teacher.teacher.url}" %>
 							<% else %>
-								<%= image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
+								<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
 							<% end %>
 						<% end %>
 					</p>
