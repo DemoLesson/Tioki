@@ -32,7 +32,7 @@ module EventsHelper
 			hours << "<strong>Date</strong><br />"
 			hours << _start.strftime("%A %B #{day}, %Y<br />")
 			hours << "From "
-			hours << _start.strftime("%l:%m %P %Z")
+			hours << _start.strftime("%l:%m %P")
 			hours << " - "
 			hours << _end.strftime("%l:%m %P %Z")
 		else
