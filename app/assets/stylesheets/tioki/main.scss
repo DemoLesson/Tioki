@@ -548,6 +548,10 @@ span.connection_degree {
 			overflow: hidden;
 			position: relative;
 
+			a.item_picture img {
+				margin: 15px;
+			}
+
 			&.has-actions {
 				min-height: 70px;
 			}

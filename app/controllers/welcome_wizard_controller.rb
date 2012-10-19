@@ -73,6 +73,9 @@ class WelcomeWizardController < ApplicationController
 				# If the user saved then create the teacher record on the user
 				@user.create_teacher
 
+				# Link the Tioki technology automatically
+				TechnologyUser.create(:user => @user, :technology_id => 15)
+
 				# Go ahead and email the user with their login details
 				UserMailer.teacher_welcome_email(@user.id).deliver
 
