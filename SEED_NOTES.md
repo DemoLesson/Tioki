@@ -1,3 +1,10 @@
+v1.3.31 - Oct 19, 2012 10:46AM deployed by Kelly Becker
+=======================================================
+* 7d437c4: Aleks Stanisic - changes to whiteboard
+* 7b3daef: Kelly Becker - show stuff other then shares again
+* 487306e: Elijah Green - Add name of technology to the technology_url
+* 034e53a: Kelly Becker - removed chosen because it was not working properly and isnt 100% needed.
+
 v1.3.30 - Oct 19, 2012  9:57AM deployed by Kelly Becker
 =======================================================
 * 96df16b: Kelly Becker - whiteboard timeline
