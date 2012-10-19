@@ -1,3 +1,9 @@
+v1.3.32 - Oct 19, 2012 12:41PM deployed by Kelly Becker
+=======================================================
+* ca2cfa9: Kelly Becker - events redesign
+* 06bce1d: Elijah Green - Change some links to skills/show instead of teacher_skills
+* 034fc10: Elijah Green - Replace teacherskills with show and the skill name as part of the url
+
 v1.3.31 - Oct 19, 2012 10:46AM deployed by Kelly Becker
 =======================================================
 * 7d437c4: Aleks Stanisic - changes to whiteboard
