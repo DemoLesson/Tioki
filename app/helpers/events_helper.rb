@@ -29,7 +29,7 @@ module EventsHelper
 		hours = ''
 		if _start.strftime("%m/%d/%Y") == _end.strftime("%m/%d/%Y")
 			day = _start.strftime('%-d').to_i.ordinalize
-			hours << "<strong>Date</strong>"
+			hours << "<strong>Date</strong><br />"
 			hours << _start.strftime("%A %B #{day}, %Y<br />")
 			hours << "From "
 			hours << _start.strftime("%l:%m %P %Z")
