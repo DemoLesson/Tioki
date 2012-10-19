@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/brianmario/mysql2.git
-  revision: 6ecb1516e79e65bc743623ba89a3358b7efb32c8
+  revision: 3f49e3982fb34d76aa53d4a6149ac10d69f20c26
   specs:
     mysql2 (0.3.12b4)
 
@@ -85,7 +85,7 @@ GEM
       main (>= 2.6.0)
       orderedhash (>= 0.0.3)
       systemu (>= 1.2.0)
-    brakeman (1.8.1)
+    brakeman (1.8.2)
       activesupport
       erubis (~> 2.6)
       fastercsv (~> 1.5)
@@ -111,7 +111,7 @@ GEM
       fog
       uuid
     chronic (0.8.0)
-    clamp (0.4.0)
+    clamp (0.5.0)
     cloudsponge (0.9.9)
       json (>= 1.6.1)
     cocaine (0.4.0)
@@ -139,7 +139,7 @@ GEM
       delayed_job (~> 3.0)
     dnsruby (1.53)
     erubis (2.7.0)
-    excon (0.16.4)
+    excon (0.16.7)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.4)
@@ -330,7 +330,7 @@ GEM
     treetop (1.4.11)
       polyglot
       polyglot (>= 0.3.1)
-    twitter (4.1.0)
+    twitter (4.1.1)
       faraday (~> 0.8)
       multi_json (~> 1.3)
       simple_oauth (~> 0.1.6)

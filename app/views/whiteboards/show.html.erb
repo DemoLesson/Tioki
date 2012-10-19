@@ -1,4 +1,4 @@
-<li>
+<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %>>
 	<% i=0; @post.getModels.each do |x| %>
 		<% next if i>0; i+=1; %>
 		<% next unless x.is_a?(User) %>
@@ -9,11 +9,16 @@
 	<% end %>
 	<p><%= raw @post.getMessage %></p>
 	<div class="quick-actions">
-		<a href="/whiteboard/favorite/<%= @post.id %>" class="action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>" title="Favorite Post">
+		<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>" title="Favorite Post">
 			<%= favorites(@post) %>
 		</a>
-		<a href="/whiteboard/hide/<%= @post.id %>" class="action" title="Hide Post">
+		<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
 			<span class="iconic eye"></span>
 		</a>
+		<% if @post.user == User.current || User.current.is_admin %>
+			<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
+				<span class="iconic x_alt"></span>
+			</a>
+		<% end %>
 	</div>
 </li>

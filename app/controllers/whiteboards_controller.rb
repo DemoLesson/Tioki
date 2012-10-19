@@ -17,7 +17,8 @@ class WhiteboardsController < ApplicationController
 	def hide
 		w = Whiteboard.find(params[:post])
 		w.whiteboard_hidden << self.current_user
-    	redirect_to :root
+    	return redirect_to :back if params[:json].nil?
+    	return render :json => {'type' => 'success'}
 	end
 
 	def favorite
@@ -29,22 +30,49 @@ class WhiteboardsController < ApplicationController
 			fav.model = "#{w.class.name}:#{w.id}"
 			fav.user = self.current_user
 
-			if fav.save
-				flash[:success] = "The whiteboard posting was been favorited."
-				redirect_to :back
+			unless params[:json].nil?
+				if fav.save
+					return render :json => {'type' => 'success', 'new' => 1}
+				else
+					return render :json => {'type' => 'error', 'new' => 1}
+				end
 			else
-				flash[:success] = "The whiteboard could not be favorited."
-				redirect_to :back
+				if fav.save
+					flash[:success] = "The whiteboard posting was been favorited."
+					redirect_to :back
+				else
+					flash[:success] = "The whiteboard could not be favorited."
+					redirect_to :back
+				end
 			end
 		else
-			if fav.destroy
-				flash[:success] = "The whiteboard posting was been unfavorited."
-				redirect_to :back
+			unless params[:json].nil?
+				if fav.destroy
+					return render :json => {'type' => 'success', 'new' => 0}
+				else
+					return render :json => {'type' => 'error', 'new' => 0}
+				end
 			else
-				flash[:success] = "The whiteboard could not be unfavorited."
-				redirect_to :back
+				if fav.destroy
+					flash[:success] = "The whiteboard posting was been unfavorited."
+					redirect_to :back
+				else
+					flash[:success] = "The whiteboard could not be unfavorited."
+					redirect_to :back
+				end
 			end
 		end		
+	end
+
+	def delete
+		w = Whiteboard.find(params[:post])
+    	return redirect_to :back if (self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)) && params[:json].nil?
+
+    	# Destroy
+    	w.destroy
+
+    	return redirect_to :back if params[:json].nil?
+    	return render :json => {'type' => 'success'}
 	end
 
 end

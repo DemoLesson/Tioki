@@ -32,7 +32,7 @@ class HomeController < ApplicationController
         end         
       elsif not self.current_user.teacher.nil?
         @whiteboard = Array.new
-        Whiteboard.getActivity.paginate(:per_page => 5, :page => params[:page]).each do |post|
+        Whiteboard.getActivity.paginate(:per_page => 10, :page => params[:page]).each do |post|
           @post = post
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
@@ -50,7 +50,7 @@ class HomeController < ApplicationController
         @suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
         @suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(5).order('(RAND() / COUNT(*) * 2)')
 
-        @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(5)
+        @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
         @pendingcount = self.current_user.pending_connections.count
 

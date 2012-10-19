@@ -67,7 +67,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="suggested-connections">
+		<!--<div class="suggested-connections">
 			<h3>Suggested Connections based on Skills</h3>
 			<div class="panel">
 				<ul>
@@ -84,7 +84,7 @@
 				</ul>
 				<div class="clear"></div>
 			</div>
-		</div>
+		</div>-->
 	</section>
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
@@ -114,8 +114,34 @@
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
 		</section> <!-- END WHITEBOARD -->
-		<section class="panel one-column right-side">
-			<h3 style="margin:0px;">Twitter Feed</h3>
+		<section id="list" class="panel one-column right-side">
+			<div class="suggested-connections">
+				<h3>Suggested Connections</h3>
+					<ul>
+						<% @suggested_connections.each do |user| %>
+						<li style="width:275px;padding:12px 15px 12px 15px !important">
+							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
+								<%= link_to image_tag(user.teacher.user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.teacher.url}" if user.teacher.user.avatar? %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.teacher.url}" unless user.teacher.user.avatar? %>
+							</div>
+							<strong>
+								<%= link_to "#{user.name}", "/profile/#{user.teacher.url}", :class => "byline" %>
+							</strong><br />
+							<p style="width:195px;float:left;">
+								<% if user.teacher.position.present?  && user.teacher.school.present? %>
+									<%= user.teacher.position %> at <%= user.teacher.school %><br />
+								<% end %>
+								<% if user.teacher.location.present? %>
+									<%= user.teacher.location %><br />
+								<% end %><br />
+								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+							</p>
+						</li>
+						<% end %>
+					</ul>
+					<div class="clear"></div>
+			</div>
+			<!--<h3 style="margin:0px;">Twitter Feed</h3>
 			<ul style="margin:0px;">
 				<% Twitter.search("#tioki OR #edtech OR #edchat", :rpp => 8).results.each do |t| %>
 					<li>
@@ -128,7 +154,89 @@
 						<p style="float:none;"><%= t.text.url2link(:target => '_blank').tweetify(:target => '_blank') %></p>
 					</li>
 				<% end %>
-			</ul>
+			</ul>-->
+		</section>
+			<section id="list" class="panel one-column right-side">
+				<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
+				<h3>
+					<a href="#">
+					Latest Demo Lessons
+					</a>
+				</h3>
+				<ul>
+					<% @latest_dl.each do |vid| %>
+						<li>
+							<a href="/profile/<%= vid.user.teacher.url %>">
+								<div class="video-thumb-small">
+									<div class="play-button">
+									</div>
+								</div>
+							</a>
+							<p><%= vid.getMessage %></p>
+							<!--div class=" quick-action star-empty">
+							</div-->
+						</li>
+					<% end %>
+				</ul>
+				<section class="panel-actions demolesson">
+					<a href="/me/profile/edit/upload-video" class="action-button">
+					Upload Demo Lesson
+					</a>
+				</section>
+			</section> <!-- END DEMO LESSONS -->
+			<section id="list" class="panel one-column right-side">
+				<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
+				<h3>
+					<a href="#">
+					Upcoming Events
+					</a>
+				</h3>
+				<ul>
+					<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
+					<% if rsvp.empty? %>
+						<li>You have no RSVP's. So here are some upcoming events.</li>
+						<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
+							<li>
+								<div class="calendar-thumb">
+									<div class="cal-month">
+									<%= event.start_time.localtime.strftime("%^b") %>
+									</div>
+									<div class="cal-date">
+									<%= event.start_time.localtime.strftime("%e") %>
+									</div>
+								</div>
+								<p>
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+								</p>
+								<!--div class=" quick-action star-gold"></div-->
+							</li>
+						<% end %>
+					<% else %>
+						<% rsvp.each do |event| %>
+							<li>
+								<div class="calendar-thumb">
+									<div class="cal-month">
+									<%= event.start_time.localtime.strftime("%^b") %>
+									</div>
+									<div class="cal-date">
+									<%= event.start_time.localtime.strftime("%e") %>
+									</div>
+								</div>
+								<p>
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+								</p>
+								<div class=" quick-action star-gold"></div>
+							</li>
+						<% end %>
+					<% end %>
+				</ul>
+				<section class="panel-actions events">
+					<a href="/events/new" class="action-button">
+					Create New Event
+					</a>
+				</section>		
+			</section> <!-- END UPCOMING EVENTS -->
+			<div class="clearfloat"></div>
 		</section>
 		<!--section class="panel one-column right-side">
 			<h3>
@@ -213,88 +321,6 @@
 				
 			</ul>
 		</section--> <!-- END MY FAVORITES -->
-		<section id="list" class="panel one-column left-side">
-			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
-			<h3>
-				<a href="#">
-				Latest Demo Lessons
-				</a>
-			</h3>
-			<ul>
-				<% @latest_dl.each do |vid| %>
-					<li>
-						<a href="/profile/<%= vid.user.teacher.url %>">
-							<div class="video-thumb-small">
-								<div class="play-button">
-								</div>
-							</div>
-						</a>
-						<p><%= vid.getMessage %></p>
-						<!--div class=" quick-action star-empty">
-						</div-->
-					</li>
-				<% end %>
-			</ul>
-			<section class="panel-actions demolesson">
-				<a href="/me/profile/edit/upload-video" class="action-button">
-				Upload Demo Lesson
-				</a>
-			</section>
-		</section> <!-- END DEMO LESSONS -->
-		<section id="list" class="panel one-column left-side">
-			<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
-			<h3>
-				<a href="#">
-				Upcoming Events
-				</a>
-			</h3>
-			<ul>
-				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
-				<% if rsvp.empty? %>
-					<li>You have no RSVP's. So here are some upcoming events.</li>
-					<% Event.where("`end_time` >= CURDATE()").limit(5).each do |event| %>
-						<li>
-							<div class="calendar-thumb">
-								<div class="cal-month">
-								<%= event.start_time.localtime.strftime("%^b") %>
-								</div>
-								<div class="cal-date">
-								<%= event.start_time.localtime.strftime("%e") %>
-								</div>
-							</div>
-							<p>
-							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-							</p>
-							<!--div class=" quick-action star-gold"></div-->
-						</li>
-					<% end %>
-				<% else %>
-					<% rsvp.each do |event| %>
-						<li>
-							<div class="calendar-thumb">
-								<div class="cal-month">
-								<%= event.start_time.localtime.strftime("%^b") %>
-								</div>
-								<div class="cal-date">
-								<%= event.start_time.localtime.strftime("%e") %>
-								</div>
-							</div>
-							<p>
-							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-							</p>
-							<div class=" quick-action star-gold"></div>
-						</li>
-					<% end %>
-				<% end %>
-			</ul>
-			<section class="panel-actions events">
-				<a href="/events/new" class="action-button">
-				Create New Event
-				</a>
-			</section>		
-		</section> <!-- END UPCOMING EVENTS -->
-		<div class="clearfloat"></div>
-	</section>
 	<div class="clearfloat"></div>
 </section> <!-- End Main Content -->
 <script type="text/javascript">
@@ -302,6 +328,8 @@
 $(document).ready(function() {
 	window.whiteboardPage = 1;
 	window.whiteboardMax = false;
+
+	// Load more whiteboard posts
 	$('a[href="#whiteboard-more"]').click(function(e) {
 		e.preventDefault();
 
@@ -334,6 +362,46 @@ $(document).ready(function() {
 				// Create the object, insert, and fade it in
 				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
 			}
+		});
+
+		return false;
+	});
+
+	// Favorite a whiteboard post
+	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+		e.preventDefault();
+
+		var link = $(this);
+		$.get(link.attr('href') + '?json=true', function(r) {
+
+			// Star the post
+			if(r.type == 'success' && r.new) {
+				link.removeClass('star-empty').addClass('star-gold');
+				link.text(parseInt(link.text()) + 1);
+			}
+
+			// Unstar the post
+			if(r.type == 'success' && !r.new) {
+				link.removeClass('star-gold').addClass('star-empty');
+				link.text(parseInt(link.text()) - 1);
+			}
+		});
+
+		return false;
+	});
+
+	// Hide a whiteboard post
+	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+		e.preventDefault();
+
+		var link = $(this);
+		$.get(link.attr('href') + '?json=true', function(r) {
+			var li = link.closest('li');
+
+			// Hide the post
+			if(r.type == 'success') li.slideUp(500, function() {
+				$(this).remove();
+			});
 		});
 
 		return false;

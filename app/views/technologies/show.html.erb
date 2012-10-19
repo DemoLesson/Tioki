@@ -43,7 +43,7 @@
 		<% if @technology.description? %><p><h3>Description</h3><%=raw auto_link(@technology.description).gsub(/\n/, '<br />') %></p><% end %>
 		
 		<h3 class="top-line">Tioki Teachers that use <%= @technology.name %></h3>
-		<% @technology.users.each do |user| %>
+		<% @users.each do |user| %>
 			<div class="item_jobs">
 				<div class="item_picture">
 					<% if user.avatar? %>
@@ -73,5 +73,6 @@
 			</div>
 			<br />
 		<% end %>
+		<%= will_paginate @users %>
 	</div>
 </section>

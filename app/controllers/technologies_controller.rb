@@ -23,6 +23,8 @@ class TechnologiesController < ApplicationController
 	# GET /technologies/1.json
 	def show
 		@technology = Technology.find(params[:id])
+		@users = @technology.users.joins("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`")
+		@users = @users.where("`teachers`.`id` IS NOT NULL && `teachers`.`url` IS NOT NULL").paginate(:page => params[:page], :per_page => 5)
 
 		respond_to do |format|
 			format.html # show.html.erb

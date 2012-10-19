@@ -1,3 +1,34 @@
+v1.3.29 - Oct 18, 2012  6:33PM deployed by Aleks Stanisic
+=========================================================
+* 22d05f1: Aleks Stanisic - changes to teacher dashboard
+
+v1.3.28 - Oct 18, 2012  5:50PM deployed by Kelly Becker
+=======================================================
+* 8fc6ed5: Kelly Becker - add skills to events
+* 11ca4b0: Kelly Becker - added rsvping for remote events
+
+v1.3.27 - Oct 18, 2012  2:34PM deployed by Kelly Becker
+=======================================================
+* e1768e2: Kelly Becker - tooltips and ajaxed whiteboard functions
+* aba9e51: Kelly Becker - staring is now ajaxified
+* 9bbb592: Kelly Becker - delete button now has a wider li if deleteable
+* 5559a1b: Kelly Becker - tooltips and delete button
+* 0541d6d: Kelly Becker - made rubber use us-west-2c to save money for now
+
+v1.3.26 - Oct 18, 2012 10:54AM deployed by Kelly Becker
+=======================================================
+* e7f6115: Kelly Becker - fixed issues with schools showing up on technologies page breaking things, also paginate the teacher list.
+
+v1.3.25 - Oct 18, 2012 10:33AM deployed by Kelly Becker
+=======================================================
+* 6a1b258: Kelly Becker - migration script to connect all users to tioki if they are not already. as well as auto connecting on registration
+* 7198172: Kelly Becker - migration script to connect all users to tioki if they are not already. as well as auto connecting on registration
+
+v1.3.24 - Oct 18, 2012 10:12AM deployed by Kelly Becker
+=======================================================
+* ffa7967: Kelly Becker - removed follow language
+* a812686: Brian Martinez - splash and what is tioki changes
+
 v1.3.23 - Oct 17, 2012  6:59PM deployed by Aleks Stanisic
 =========================================================
 * 010db8e: Brian Martinez - GeGe's City Update
