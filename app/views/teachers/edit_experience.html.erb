@@ -47,11 +47,6 @@
 				<%= f.text_area :description %>
 			</fieldset>
 
-			<%= javascript_tag "$(\"#date_startMonth\").chosen()" %>
-			<%= javascript_tag "$(\"#date_startYear\").chosen()" %>
-			<%= javascript_tag "$(\"#date_endMonth\").chosen()" %>
-			<%= javascript_tag "$(\"#date_endYear\").chosen()" %>
-
 			<fieldset>
     			<input name="commit" type="submit" value="Update" onclick="$('#loader').show('fast');" class="button" />
 				<%= link_to 'Cancel', :back %>
