@@ -1,3 +1,8 @@
+v1.3.33 - Oct 19, 2012 12:54PM deployed by Kelly Becker
+=======================================================
+* fd3b401: Kelly Becker - possible speed up to nginx might also crash it
+* f395c70: Kelly Becker - fix to a format
+
 v1.3.32 - Oct 19, 2012 12:41PM deployed by Kelly Becker
 =======================================================
 * ca2cfa9: Kelly Becker - events redesign
