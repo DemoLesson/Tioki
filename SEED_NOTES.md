@@ -1,3 +1,10 @@
+v1.3.35 - Oct 19, 2012  2:25PM deployed by Kelly Becker
+=======================================================
+* 555c58b: Kelly Becker - event invite redesign
+* 95e2c45: Elijah Green - Remove old login tokens
+* c590af7: Kelly Becker - event rsvps no longer have deadlines
+* 4256fa0: Kelly Becker - tz removal
+
 v1.3.34 - Oct 19, 2012  1:04PM deployed by Kelly Becker
 =======================================================
 * 17f9ecd: Elijah Green - Add stay signed in checkbox for logins
