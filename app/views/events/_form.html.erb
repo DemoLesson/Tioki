@@ -68,19 +68,6 @@
 					<% end %>
 				</select>
 				<p class="bold">
-					What kind of topics are you planning to cover.<br />
-					<% unless OS.mac? %>
-					Select one (or more) Event Topic(s). Hold "Ctrl" to select multiple.
-					<% else %>
-					<%= html_entity_decode "Select one (or more) Event Topic(s). Hold \"Command &#8984;\" to select multiple." %>
-					<% end %>
-				</p>
-				<select name="eventtopic[]" multiple="multiple" style="height:100px;">
-					<% Eventtopic.all.each do |e| %>
-						<option <%= @event.eventtopics.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>"><%= e.name %></option>
-					<% end %>
-				</select>
-				<p class="bold">
 					What kind of skills are you planning to cover.<br />
 					<% unless OS.mac? %>
 					Select one (or more) Skill(s). Hold "Ctrl" to select multiple.
