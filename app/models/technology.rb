@@ -5,6 +5,10 @@ class Technology < ActiveRecord::Base
 	has_many :technology_tags, :dependent => :destroy
 	has_many :skills, :through => :technology_tags
 
+	def to_param
+		"#{id}-#{name.parameterize}"
+	end
+
 	has_attached_file :picture,
 		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
 		:storage => :fog,
