@@ -132,7 +132,7 @@ class Whiteboard < ActiveRecord::Base
 		# Temporary script
 		query = ["(`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags}))"]
 		query << "(`whiteboards`.`slug` IN (#{slugs}))"
-		query = self.where(query.join(' && ')).order('`created_at` DESC')
+		query = self.where(query.join(' || ')).order('`created_at` DESC')
 
 		# Generate the default query
 		# Temporarily disabled so we can show all events

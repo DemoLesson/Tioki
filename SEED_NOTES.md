@@ -1,3 +1,8 @@
+v1.3.30 - Oct 19, 2012  9:57AM deployed by Kelly Becker
+=======================================================
+* 96df16b: Kelly Becker - whiteboard timeline
+* d5b3b37: Brian Martinez - how it works changes plus header fixes
+
 v1.3.29 - Oct 18, 2012  6:33PM deployed by Aleks Stanisic
 =========================================================
 * 22d05f1: Aleks Stanisic - changes to teacher dashboard

@@ -39,7 +39,7 @@
 				</tr>
 				<%- @technologies.each do |technology| %>
 					<tr>
-						<td><%= link_to technology.name, { :action => "show", :id => technology.id } %></td>
+						<td><%= link_to technology.name, technology %></td>
 						<td><%= technology.technology_users.count %></td>
 						<td><%= link_to "Edit", {:action => "edit", :id => technology.id } %> |</td>
 						<td><%= link_to "Picture", {:action => "change_technology_picture", :id => technology.id } %> |</td>
