@@ -11,6 +11,11 @@
 				<li class="current">
 					Event Details
 				</li>
+				<li>
+					<a href="<%= event_path(@event) %>/invite">
+						Invite Friends
+					</a>
+				</li>
 				<% if @event.user == User.current || User.current.is_admin %>
 					<li>
 						<a href="<%= event_path(@event) + '/edit' %>">
