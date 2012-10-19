@@ -1,4 +1,28 @@
 class SkillsController < ApplicationController
+
+	def show
+    # Get the requests skill
+    @skill = Skill.find(params[:id])
+
+    # Load teachers that have claimed the above skill
+    @teachers = @skill.skill_claims.select('`teachers`.*').joins(:user => :teacher).paginate(:page => params[:page], :per_page => 25)
+
+    # Videos that claim the skill
+    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
+    
+    #Technologies that claim the skill
+    @technologies = @skill.technologies
+
+    # Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
+
+		respond_to do |format|
+			format.html # show.html.erb
+			format.json { render json: @skill }
+		end
+	end
+
   def get
     if params[:tokenizer].nil?
       if params[:q].nil?
@@ -30,29 +54,16 @@ class SkillsController < ApplicationController
   end
 
   def teacherskills
-
-    # Get the requests skill
-    @skill = Skill.find(params[:id])
-
-    # Load teachers that have claimed the above skill
-    @teachers = @skill.skill_claims.select('`teachers`.*').joins(:user => :teacher).paginate(:page => params[:page], :per_page => 25)
-
-    # Videos that claim the skill
-    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
-    
-    #Technologies that claim the skill
-    @technologies = @skill.technologies
-
-    # Get a list of my connections
-    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
-    @my_connections = Array.new if self.current_user.nil?
+		#Depreciated
+		#There are still links to the teacherskill page so just redirect to
+		#to the new show page
+		@skill = Skill.find(params[:id])
+		redirect_to @skill
   end
   
   def skillpage
-    
     #Redirecting users to skills pages
-    redirect_to "/teacherskills/#{params[:topic]}"
-  
+		@skill = Skill.find(params[:topic])
+    redirect_to @skill
   end
-    
 end
