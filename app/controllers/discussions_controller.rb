@@ -5,7 +5,7 @@ class DiscussionsController < ApplicationController
   # GET /discussions
   # GET /discussions.json
   def index
-    @discussions = Discussion.all
+    @discussions = Discussion.order("created_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -62,7 +62,6 @@ class DiscussionsController < ApplicationController
 			else
 				format.html { redirect_to @discussion }
 			end
-
     end
 	end
 
@@ -123,7 +122,7 @@ class DiscussionsController < ApplicationController
 		@comment = Comment.new
 		if request.post?
 			@discussion = Discussion.find(params[:id])
-			@comment = Comment.build_from(@discussion, self.current_user, params[:comment][:body])
+			@comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
 			if @comment.save
 				redirect_to  @discussion
 			else
@@ -137,7 +136,7 @@ class DiscussionsController < ApplicationController
 		@replied_to_comment = Comment.find(params[:comment_id])
 		@comment = Comment.new
 		if request.post?
-			comment = Comment.build_from(@discussion, self.current_user, params[:comment][:body])
+			comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
 			if comment.save
 				comment.move_to_child_of(@replied_to_comment)
 				redirect_to @discussion

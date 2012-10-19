@@ -6,10 +6,12 @@
 			<% if @discussion.following.count > 0 %>
 				Followers:<br />
 				<% @discussion.following.each do |user| %>
-					<% if user.avatar? %>
-						<%= link_to image_tag(user.avatar.url(:tiny), :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
-					<% else %>
-						<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
+					<% if user %>
+						<% if user.avatar? %>
+							<%= link_to image_tag(user.avatar.url(:tiny), :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
+						<% else %>
+							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:20px;max-width:20px;'), "/profile/#{user.teacher.url}" %>
+						<% end %>
 					<% end %>
 				<% end %>
 			<% end %>
@@ -24,13 +26,19 @@
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
 			<div class="profile-thumb-small">
-				<% if @discussion.user.avatar? %>
-					<%= link_to image_tag @discussion.user.avatar.url(:tiny), "/profile/#{@discussion.user.teacher.url}" %>
-				<% else %>
-					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
+				<% if @discussion.user %>
+					<% if @discussion.user.avatar? %>
+						<%= link_to image_tag @discussion.user.avatar.url(:tiny), "/profile/#{@discussion.user.teacher.url}" %>
+					<% else %>
+						<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
+					<% end %>
 				<% end %>
 			</div>
-			<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}" %></strong><br />
+			<% if @discussion.user %>
+				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}" %></strong><br />
+			<% else %>
+				[Deleted]
+			<% end %>
 			<% if @discussion.deleted_at %>
 				[Message Deleted]
 			<% else %>
@@ -55,10 +63,12 @@
 
 							<div <% if comment.child? %>style="margin-left:90px"<% end %>>
 								<div class="profile-thumb-small">
-									<% if comment.user.avatar? %>
-										<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
-									<% else %>
-										<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+									<% if comment.user %>
+										<% if comment.user.avatar? %>
+											<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
+										<% else %>
+											<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+										<% end %>
 									<% end %>
 								</div>
 								<% if comment.child? %>
@@ -67,7 +77,11 @@
 									</p>
 								<% end %>
 								<p>
-									<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+									<% if comment.user %>
+										<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+									<% else %>
+										[deleted]
+									<% end %>
 								</p>
 
 								<p>
@@ -81,7 +95,7 @@
 
 							<% if self.current_user && self.current_user.teacher %>
 								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
-								<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.user.deleted_at %>
+								<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
 									|
 									<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
 									|
