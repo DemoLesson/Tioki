@@ -1,3 +1,7 @@
+v1.3.29 - Oct 18, 2012  6:33PM deployed by Aleks Stanisic
+=========================================================
+* 22d05f1: Aleks Stanisic - changes to teacher dashboard
+
 v1.3.28 - Oct 18, 2012  5:50PM deployed by Kelly Becker
 =======================================================
 * 8fc6ed5: Kelly Becker - add skills to events
