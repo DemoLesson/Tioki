@@ -1,3 +1,7 @@
+v1.3.34 - Oct 19, 2012  1:04PM deployed by Kelly Becker
+=======================================================
+* 17f9ecd: Elijah Green - Add stay signed in checkbox for logins
+
 v1.3.33 - Oct 19, 2012 12:54PM deployed by Kelly Becker
 =======================================================
 * fd3b401: Kelly Becker - possible speed up to nginx might also crash it
