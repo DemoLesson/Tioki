@@ -94,9 +94,17 @@ class EventsController < ApplicationController
 
 		# Link up the topics that will be covered at this event
 		if params.has_key?("eventtopic")
+			@event.eventtopics = []
 			params['eventtopic'].each do |topic|
-				@event.eventtopics = []
 				@event.eventtopics << Eventtopic.find(topic)
+			end
+		end
+
+		# Load in skills
+		if params.has_key?("skills")
+			@event.skills = []
+			params['skills'].each do |skill|
+				@event.skills << Skill.find(skill)
 			end
 		end
 
@@ -132,6 +140,14 @@ class EventsController < ApplicationController
 			@event.eventtopics = []
 			params['eventtopic'].each do |topic|
 				@event.eventtopics << Eventtopic.find(topic)
+			end
+		end
+
+		# Load in skills
+		if params.has_key?("skills")
+			@event.skills = []
+			params['skills'].each do |skill|
+				@event.skills << Skill.find(skill)
 			end
 		end
 

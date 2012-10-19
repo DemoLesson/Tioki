@@ -9,6 +9,9 @@ class Event < ActiveRecord::Base
 	has_many :events_eventformats
 	belongs_to :user
 
+	# Event Skills
+	has_and_belongs_to_many :skills, :join_table => 'events_skills'
+
 	# RSVP Connections (this is will look kinda weird)
 	has_and_belongs_to_many :rsvp, :class_name => 'User', :join_table => 'events_rsvps'
 	has_many :events_rsvps
