@@ -249,13 +249,13 @@ class EventsController < ApplicationController
 		unless params.has_key?("disconnect")
 
 			# If the RSVP deadline is up do not allow connecting
-			if @event.rsvp_deadline.nil? || @event.rsvp_deadline < Time.now
-				return redirect_to event_path(@event), :notice => 'The RSVP Deadline for this event has expired'
-			end
+			#if @event.rsvp_deadline.nil? || @event.rsvp_deadline < Time.now
+			#	return redirect_to event_path(@event), :notice => 'The RSVP Deadline for this event has expired'
+			#end
 
 			# If you are already connected return
 			if self.current_user.rsvp.index(@event) != nil
-				return redirect_to event_path(@event), :notice => 'Your RSVP is already in'    
+				return redirect_to event_path(@event), :notice => 'You are already marked as attending.'    
 			end
 
 			# Create the connection
@@ -268,7 +268,7 @@ class EventsController < ApplicationController
 			self.log_analytic(:event_rsvp, "A user put in an rsvp to an event.", @event)
 
 			# Show on whiteboard
-			Whiteboard.createActivity(:event_rsvp, "{user.teacher.profile_link} just rsvp'ed to attent {tag.event_link}.", @event)
+			Whiteboard.createActivity(:event_rsvp, "{user.teacher.profile_link} is now planning on going to {tag.event_link}.", @event)
 
 			# Redirect back
 			return redirect_to event_path(@event), :notice => 'You have submitted your RSVP for ' + @event.name
