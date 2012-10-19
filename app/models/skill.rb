@@ -5,6 +5,7 @@ class Skill < ActiveRecord::Base
   has_many :skill_claims, :dependent => :destroy
   has_many :vouched_skills, :dependent => :destroy
   has_many :returned_skills, :dependent => :destroy
+  has_and_belongs_to_many :events, :join_table => 'events_skills'
 
   # Video Skills
   has_and_belongs_to_many :videos, :join_table => 'videos_skills'
@@ -16,4 +17,8 @@ class Skill < ActiveRecord::Base
 
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :discussions, :through => :discussion_tags
+
+	def to_param
+		"#{id}-#{name.parameterize}"
+	end
 end

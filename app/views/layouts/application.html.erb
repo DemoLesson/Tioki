@@ -94,6 +94,7 @@
 						<%= email_field "user", "email", :placeholder => "Email" %>
 						<%= password_field "user", "password", :placeholder => "Password" %>
 						<%= submit_tag "Login", :class => "button primary-button" %>
+						<%= check_box_tag :remember_me %>Stay Signed In?
 						<%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
 					<% end %>
 				</div>
@@ -211,7 +212,7 @@
 							</ul>
 						</li>
 						<li>
-							<a href="teacherskills/671">
+							<a href="/teacherskills/671">
 							Discover
 							</a>
 							<ul>

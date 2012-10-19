@@ -367,7 +367,7 @@
 					<% @teacher.user.skill_groups.each do |skill_group| %>
 						<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
 							<div style="border-bottom: 1px dashed #CFD4D5;padding-top:5px">
-								<%= link_to skill.name, '/teacherskills/' + skill.id.to_s, :style => "font-size:15px" %>
+								<%= link_to skill.name, skill, :style => "font-size:15px" %>
 								<% if @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
 									<%= @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) %>
 								<% end %>

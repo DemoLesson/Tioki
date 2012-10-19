@@ -1,3 +1,46 @@
+v1.3.35 - Oct 19, 2012  2:25PM deployed by Kelly Becker
+=======================================================
+* 555c58b: Kelly Becker - event invite redesign
+* 95e2c45: Elijah Green - Remove old login tokens
+* c590af7: Kelly Becker - event rsvps no longer have deadlines
+* 4256fa0: Kelly Becker - tz removal
+
+v1.3.34 - Oct 19, 2012  1:04PM deployed by Kelly Becker
+=======================================================
+* 17f9ecd: Elijah Green - Add stay signed in checkbox for logins
+
+v1.3.33 - Oct 19, 2012 12:54PM deployed by Kelly Becker
+=======================================================
+* fd3b401: Kelly Becker - possible speed up to nginx might also crash it
+* f395c70: Kelly Becker - fix to a format
+
+v1.3.32 - Oct 19, 2012 12:41PM deployed by Kelly Becker
+=======================================================
+* ca2cfa9: Kelly Becker - events redesign
+* 06bce1d: Elijah Green - Change some links to skills/show instead of teacher_skills
+* 034fc10: Elijah Green - Replace teacherskills with show and the skill name as part of the url
+
+v1.3.31 - Oct 19, 2012 10:46AM deployed by Kelly Becker
+=======================================================
+* 7d437c4: Aleks Stanisic - changes to whiteboard
+* 7b3daef: Kelly Becker - show stuff other then shares again
+* 487306e: Elijah Green - Add name of technology to the technology_url
+* 034e53a: Kelly Becker - removed chosen because it was not working properly and isnt 100% needed.
+
+v1.3.30 - Oct 19, 2012  9:57AM deployed by Kelly Becker
+=======================================================
+* 96df16b: Kelly Becker - whiteboard timeline
+* d5b3b37: Brian Martinez - how it works changes plus header fixes
+
+v1.3.29 - Oct 18, 2012  6:33PM deployed by Aleks Stanisic
+=========================================================
+* 22d05f1: Aleks Stanisic - changes to teacher dashboard
+
+v1.3.28 - Oct 18, 2012  5:50PM deployed by Kelly Becker
+=======================================================
+* 8fc6ed5: Kelly Becker - add skills to events
+* 11ca4b0: Kelly Becker - added rsvping for remote events
+
 v1.3.27 - Oct 18, 2012  2:34PM deployed by Kelly Becker
 =======================================================
 * e1768e2: Kelly Becker - tooltips and ajaxed whiteboard functions

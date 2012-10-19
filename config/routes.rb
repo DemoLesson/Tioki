@@ -352,6 +352,8 @@ Preview::Application.routes.draw do
 			get 'add_and_redir'
 		end
 	end
+
+	resources :skills
 	
 	# pitches
 	match '/techstars' => 'home#video1'

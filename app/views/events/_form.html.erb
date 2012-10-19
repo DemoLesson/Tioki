@@ -40,12 +40,6 @@
 				<p class="heading top-line">
 				Would you like people to RSVP?
 				</p>
-				<%= f.check_box :rsvp_req, :style => "display:inline;" %>
-				<%= f.label :rsvp_req, "Require attendees to RSVP?", :style => "display:inline;" %>
-				<p class="bold">
-					RSVP Deadline
-				</p>
-				<%= f.text_field :rsvp_deadline, :class => "datetime", :value => date2format(@event, "rsvp_deadline", "%m/%d/%Y %l:%M %P") %>
 				<p class="bold">
 				External RSVP URL (e.g. Eventbrite URL)<br />
 				Please enter the web address including the "http://"
@@ -68,16 +62,16 @@
 					<% end %>
 				</select>
 				<p class="bold">
-					What kind of topics are you planning to cover.<br />
+					What kind of skills are you planning to cover.<br />
 					<% unless OS.mac? %>
-					Select one (or more) Event Topic(s). Hold "Ctrl" to select multiple.
+					Select one (or more) Skill(s). Hold "Ctrl" to select multiple.
 					<% else %>
-					<%= html_entity_decode "Select one (or more) Event Topic(s). Hold \"Command &#8984;\" to select multiple." %>
+					<%= html_entity_decode "Select one (or more) Skill(s). Hold \"Command &#8984;\" to select multiple." %>
 					<% end %>
 				</p>
-				<select name="eventtopic[]" multiple="multiple" style="height:100px;">
-					<% Eventtopic.all.each do |e| %>
-						<option <%= @event.eventtopics.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>"><%= e.name %></option>
+				<select name="skills[]" multiple="multiple" style="height:100px;">
+					<% Skill.all.each do |e| %>
+						<option <%= @event.skills.include?(e) ? 'selected="selected"' : '' %> value="<%= e.id %>"><%= e.name %></option>
 					<% end %>
 				</select>
 			</section>
@@ -187,9 +181,6 @@ $(document).ready(function() {
 		},
 		ampm: true,
 		addSliderAccess: true
-	});
-	$('#event_rsvp_deadline').datetimepicker({
-		ampm: true
 	});
 	$('input#event_virtual').change(function(e) {
 		if($(this).prop('checked')) {

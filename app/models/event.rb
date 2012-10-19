@@ -9,6 +9,9 @@ class Event < ActiveRecord::Base
 	has_many :events_eventformats
 	belongs_to :user
 
+	# Event Skills
+	has_and_belongs_to_many :skills, :join_table => 'events_skills'
+
 	# RSVP Connections (this is will look kinda weird)
 	has_and_belongs_to_many :rsvp, :class_name => 'User', :join_table => 'events_rsvps'
 	has_many :events_rsvps
@@ -25,12 +28,6 @@ class Event < ActiveRecord::Base
 		if id.nil?
 			if start_time.blank? || start_time < Time.now.yesterday
 				errors.add(:start_time, "Start time must be in the future")
-			end
-
-			# If an RSVP Deadline was provided
-			# Maker sure it is before the start time
-			if !rsvp_deadline.blank? && start_time < rsvp_deadline
-				errors.add(:rsvp_deadline, "The RSVP Deadline must be in the future")
 			end
 		end
 	end
