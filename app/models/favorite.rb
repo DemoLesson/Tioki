@@ -2,6 +2,6 @@ class Favorite < ActiveRecord::Base
 	belongs_to :user
 
 	def model
-		mapTag!(super)
+		_map!(super)
 	end
 end

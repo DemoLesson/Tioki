@@ -35,7 +35,6 @@
 			</div>
 
 			<!-- Name / Headline -->
-
 			<h3 style="margin: 0px 0px -10px -5px"><%= @teacher.user.name %></h3>
 			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
 
@@ -186,7 +185,6 @@
 		
 		
 		<!-- START Checklist Content -->
-		
 		<section class="profile-content">
 		
 			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
@@ -510,6 +508,18 @@
 						<% end %>
 					</section>
 				<% end %>
+			<% end %>
+
+			<!-- Show this teachers favorites -->
+			<% unless @teacher.user.favorites.empty? %>
+				<section class="profile-info group">
+					<ul>
+						<% @teacher.user.favorites.where('`favorites`.`model` IS NOT NULL').each do |fav| %>
+							<% next if fav.model.nil? %>
+							<%= fav.model.getMessage %>
+						<% end %>
+					</ul>
+				</section>
 			<% end %>
 			
 		</section> <!-- End Profile Content -->
