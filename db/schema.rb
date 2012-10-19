@@ -251,6 +251,10 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.datetime "updated_at"
   end
 
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
+  end
+
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -546,7 +550,7 @@ ActiveRecord::Schema.define(:version => 20121016220849) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                     :default => ""
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
