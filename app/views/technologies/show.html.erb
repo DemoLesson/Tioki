@@ -24,9 +24,7 @@
 			<h3>Tags</h3>
 			<% @technology.skills.each do |skill| %>
 				<span class="skills">
-				<a href="/teacherskills/<%= skill.id.to_s %>" >
-					<%= skill.name %>
-					</a>
+					<%= link_to skill.name, skill %>
 				</span>
 				<br />
 			<% end %>
