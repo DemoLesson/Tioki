@@ -1,3 +1,8 @@
+v1.3.28 - Oct 18, 2012  5:50PM deployed by Kelly Becker
+=======================================================
+* 8fc6ed5: Kelly Becker - add skills to events
+* 11ca4b0: Kelly Becker - added rsvping for remote events
+
 v1.3.27 - Oct 18, 2012  2:34PM deployed by Kelly Becker
 =======================================================
 * e1768e2: Kelly Becker - tooltips and ajaxed whiteboard functions
