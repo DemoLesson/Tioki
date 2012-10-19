@@ -9,6 +9,10 @@ class Discussion < ActiveRecord::Base
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
+	def to_param
+		"#{id}-#{title.parameterize}"
+	end
+
 	def participants
 		self.comment_threads.collect(&:user).unshift(self.user).uniq
 	end
