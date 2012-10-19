@@ -19,6 +19,10 @@ class Event < ActiveRecord::Base
 	# Validations
 	validate :dates
 
+	def to_param
+		"#{id}-#{name.parameterize}"
+	end
+
 	def dates
 		if start_time.blank? || end_time.blank? || end_time < start_time
 			errors.add(:end_time, "Start time must be before the End Time") 
