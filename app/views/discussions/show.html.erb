@@ -28,7 +28,7 @@
 			<div class="profile-thumb-small">
 				<% if @discussion.user %>
 					<% if @discussion.user.avatar? %>
-						<%= link_to image_tag @discussion.user.avatar.url(:tiny), "/profile/#{@discussion.user.teacher.url}" %>
+						<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.teacher.url}" %>
 					<% else %>
 						<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
 					<% end %>

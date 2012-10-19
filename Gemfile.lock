@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/brianmario/mysql2.git
-  revision: 3f49e3982fb34d76aa53d4a6149ac10d69f20c26
+  revision: 4c702c9cc3c9aae60091afd35f88707f2c267ae6
   specs:
     mysql2 (0.3.12b4)
 
@@ -120,7 +120,7 @@ GEM
     clamp (0.5.0)
     cloudsponge (0.9.9)
       json (>= 1.6.1)
-    cocaine (0.4.0)
+    cocaine (0.4.2)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
