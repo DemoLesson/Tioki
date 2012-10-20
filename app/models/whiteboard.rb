@@ -7,7 +7,7 @@ class Whiteboard < ActiveRecord::Base
 
 	# Add support for getting comments
 	def getComments
-		dump self.root_comments.to_sql
+		self.root_comments
 	end
 
 	# Create a Comment

@@ -114,5 +114,27 @@
 				<% end %>
 			</div>
 		</section>
+		<section class="profile-content panel">
+			<h3>Comments</h3>
+			<ul>
+				<% @event.getComments.each do |c| %>
+					<li>
+						<div class="profile-thumb-small" style="display:inline-block;">
+							<%= image_tag c.user.avatar.url(:tiny) if c.user.avatar? %>
+							<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless c.user.avatar? %>
+						</div>
+						<p style="display:inline;float:none;"><strong><%= time_ago_in_words(c.created_at) %> ago <%= c.user.teacher.profile_link %> posted:</strong> <%= c.body %></p>
+					</li>
+				<% end %>
+				<% unless User.current.nil? %>
+					<li>
+						<form action="<%= event_path(@event) + "/comment"  %>" method="post">
+							<textarea name="comment" style="height:50px;"></textarea>
+							<input type="submit" value="Post Comment" />
+						</form>
+					</li>
+				<% end %>
+			</ul>
+		</section>
 	</section>
 </section>

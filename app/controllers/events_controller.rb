@@ -324,4 +324,32 @@ class EventsController < ApplicationController
 		# Return the data
 		return data
 	end
+
+	# Add a comment to an event
+	def comment
+
+		# Get the event in question
+		event = Event.find(params[:id])
+
+		# Go ahead and post the comment
+		if event.createComment(params[:comment]).save
+			return redirect_to :back, :success => "Successfully added comment."
+			#return render :json => {"type" => "success", "message" => "Successfully added comment."}
+		else
+			return redirect_to :back, :error => "Could not add a comment."
+			#return render :json => {"type" => "error", "message" => "Could not add a comment."}
+		end
+	end
+
+	def delete_comment
+
+		# Delete comment
+		if Comment.find(params[:id]).destroy
+			return redirect_to :back, :success => "Successfully deleted comment."
+			#return render :json => {"type" => "success", "message" => "Successfully deleted a comment."}
+		else
+			return redirect_to :back, :error => "Could not delete comment."
+			#return render :json => {"type" => "error", "message" => "Could not delete comment."}
+		end
+	end
 end

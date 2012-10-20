@@ -34,6 +34,8 @@ Preview::Application.routes.draw do
 	#Warning: make sure user URL can't be set to any of these
 
 	# Events routing
+	match 'events/:id/comment' => 'events#comment'
+	match 'events/delete_comment/:id' => 'events#delete_comment'
 	resources :events do
 		collection do
 			get 'list'
