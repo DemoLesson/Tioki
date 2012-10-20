@@ -513,10 +513,13 @@
 			<!-- Show this teachers favorites -->
 			<% unless @teacher.user.favorites.empty? %>
 				<section class="profile-info group">
+					<h3 class="bottom-line">Favorites</h3>
 					<ul>
 						<% @teacher.user.favorites.where('`favorites`.`model` IS NOT NULL').each do |fav| %>
-							<% next if fav.model.nil? %>
-							<%= fav.model.getMessage %>
+							<% next unless fav.model?(:whiteboard, :video) %>
+							<li>
+								<%= fav.model.getMessage if fav.model?(:whiteboard) %>
+							</li>
 						<% end %>
 					</ul>
 				</section>
