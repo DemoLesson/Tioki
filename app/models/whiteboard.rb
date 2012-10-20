@@ -1,6 +1,19 @@
 class Whiteboard < ActiveRecord::Base
+	# Comments integration
+	acts_as_commentable
+	
 	belongs_to :user
 	has_and_belongs_to_many :whiteboard_hidden, :class_name => 'User', :join_table => 'whiteboards_hidden'
+
+	# Add support for getting comments
+	def getComments
+		dump self.root_comments.to_sql
+	end
+
+	# Create a Comment
+	def createComment(body)
+		Comment.build_from(self, User.current.id, body)
+	end
 
 	def map_tag
 		mapTag!(self.tag)
