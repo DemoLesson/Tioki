@@ -35,7 +35,6 @@
 			</div>
 
 			<!-- Name / Headline -->
-
 			<h3 style="margin: 0px 0px -10px -5px"><%= @teacher.user.name %></h3>
 			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
 
@@ -176,17 +175,15 @@
 			</section>
 			
 			<!-- Request Vouch -->
-			
 			<section class="info">
 				<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
 					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-green" %>
 				<% end %>
-			</section> 
+			</section>
 		</section><!-- End Sidebar -->
 		
 		
 		<!-- START Checklist Content -->
-		
 		<section class="profile-content">
 		
 			<% if self.current_user != nil && @teacher == self.current_user.teacher %>

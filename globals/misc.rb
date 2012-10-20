@@ -18,6 +18,21 @@ class ActiveRecord::Base
 		# Return the text tag
 		self.class.name + ':' + self.id.to_s
 	end
+
+	def _map!(tag)
+
+		# If tag is not a string return nil
+		return nil unless tag.is_a?(String)
+
+		# If not a tag then return nil
+		return nil if tag.count(':') != 1
+
+		# Get the class and ID
+		_class, _id = tag.split(':')
+
+		# Get the model by class and ID
+		Kernel.const_get(_class).find(_id.to_i)
+	end
 end
 
 def mapTag!(tag)

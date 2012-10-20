@@ -1,0 +1,12 @@
+<li class="no-actions">
+	<!--div class="small-heading">Whiteboard Post</div-->
+	<% i=0; @post.getModels.each do |x| %>
+		<% next if i>0; i+=1; %>
+		<% next unless x.is_a?(User) %>
+		<div class="profile-thumb-small">
+			<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{x.teacher.url}" if x.avatar? %>
+			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.teacher.url}" unless x.avatar? %>
+		</div>
+	<% end %>
+	<p><strong><%= time_ago_in_words(@post.created_at) %> ago:</strong> <%= raw @post.getMessage %></p>
+</li>
