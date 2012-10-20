@@ -175,12 +175,11 @@
 			</section>
 			
 			<!-- Request Vouch -->
-			
 			<section class="info">
 				<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
 					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-green" %>
 				<% end %>
-			</section> 
+			</section>
 		</section><!-- End Sidebar -->
 		
 		
@@ -508,21 +507,6 @@
 						<% end %>
 					</section>
 				<% end %>
-			<% end %>
-
-			<!-- Show this teachers favorites -->
-			<% unless @teacher.user.favorites.empty? %>
-				<section class="profile-info group">
-					<h3 class="bottom-line">Favorites</h3>
-					<ul>
-						<% @teacher.user.favorites.where('`favorites`.`model` IS NOT NULL').each do |fav| %>
-							<% next unless fav.model?(:whiteboard, :video) %>
-							<li>
-								<%= fav.model.getMessage if fav.model?(:whiteboard) %>
-							</li>
-						<% end %>
-					</ul>
-				</section>
 			<% end %>
 			
 		</section> <!-- End Profile Content -->

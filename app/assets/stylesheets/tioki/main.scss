@@ -545,8 +545,26 @@ span.connection_degree {
 		li {
 			padding: 12px 50px 12px 15px !important;
 			border-top: 1px dashed $ltgray;
-			overflow: hidden;
 			position: relative;
+			overflow: hidden;
+			display: block;
+
+			div.small-heading {
+				-webkit-border-bottom-left-radius: 10px;
+				-moz-border-bottom-left-radius: 10px;
+				border-bottom: 1px dashed $ltgray;
+				border-left: 1px dashed $ltgray;
+				border-bottom-left-radius: 10px;
+				position: absolute;
+				font-weight: bold;
+				padding: 3px 5px;
+				right: 0px;
+				top: 0px;
+			}
+
+			&.no-actions {
+				padding-right: 15px;
+			}
 
 			a.item_picture img {
 				margin: 15px;
@@ -574,7 +592,8 @@ span.connection_degree {
 					visibility: visible;
 				}
 			}
-			div {
+			.float-left {
+				float: left;
 			}
 			p {
 				display: inline;

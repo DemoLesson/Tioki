@@ -2,7 +2,7 @@ class WhiteboardsController < ApplicationController
 	layout false
 
 	def show
-		w = Whiteboard.getActivity.paginate(:per_page => 10, :page => params[:page]).all
+		w = Whiteboard.getActivity.paginate(:per_page => 15, :page => params[:page]).all
 		return render :json => w unless params[:raw].nil?
 
 		divs = Array.new

@@ -67,24 +67,6 @@
 				</li>
 			</ul>
 		</div>
-		<!--<div class="suggested-connections">
-			<h3>Suggested Connections based on Skills</h3>
-			<div class="panel">
-				<ul>
-					<% @suggested_connections.each do |user| %>
-						<a href="/profile/<%= user.teacher.url %>?--@=<%= e64("suggested_connection:#{user.id}") %>">
-							<li>
-								<span class="name"><%= user.name %></span>
-								<div class="profile-thumb-small">
-									<%= image_tag(user.avatar(:tiny)) %>
-								</div>
-							</li>
-						</a>
-					<% end %>
-				</ul>
-				<div class="clear"></div>
-			</div>
-		</div>-->
 	</section>
 	<section id="panels">
 		<section id="list" class="panel two-column left-side">
@@ -98,7 +80,7 @@
 					<%= image_tag @user.avatar.url(:tiny) if @user.avatar? %>
 					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @user.avatar? %>
 				</div>
-				<div id="submit-whiteboard">	
+				<div id="submit-whiteboard">
 					<form action="/share_on_whiteboard" method="post">
 						<fieldset>
 							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
@@ -117,7 +99,7 @@
 		<section id="list" class="panel one-column right-side">
 			<div class="suggested-connections">
 				<h3>Suggested Connections</h3>
-					<ul>
+				<ul>
 						<% @suggested_connections.each do |user| %>
 						<li style="width:275px;padding:12px 15px 12px 15px !important">
 							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
@@ -138,191 +120,107 @@
 							</p>
 						</li>
 						<% end %>
-					</ul>
-					<div class="clear"></div>
+				</ul>
+				<div class="clear"></div>
 			</div>
-			<!--<h3 style="margin:0px;">Twitter Feed</h3>
-			<ul style="margin:0px;">
-				<% Twitter.search("#tioki OR #edtech OR #edchat", :rpp => 8).results.each do |t| %>
-					<li>
-						<div class="profile-thumb-small" style="float:left;">
-							<%= image_tag(t.user.profile_image_url) %>
-						</div>
-						<strong>
-							<%= link_to "#{t.from_user_name} (@#{t.from_user})", "http://twitter.com/#{t.from_user}", :class => "byline" %> at <%= t.created_at.strftime("%l:%M%P on %B %e, %Y") %>
-						</strong><br />
-						<p style="float:none;"><%= t.text.url2link(:target => '_blank').tweetify(:target => '_blank') %></p>
-					</li>
-				<% end %>
-			</ul>-->
 		</section>
-			<section id="list" class="panel one-column right-side">
-				<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
-				<h3>
-					<a href="#">
-					Latest Demo Lessons
-					</a>
-				</h3>
-				<ul>
-					<% @latest_dl.each do |vid| %>
-						<li>
-							<a href="/profile/<%= vid.user.teacher.url %>">
-								<div class="video-thumb-small">
-									<div class="play-button">
-									</div>
-								</div>
-							</a>
-							<p><%= vid.getMessage %></p>
-							<!--div class=" quick-action star-empty">
-							</div-->
-						</li>
-					<% end %>
-				</ul>
-				<section class="panel-actions demolesson">
-					<a href="/me/profile/edit/upload-video" class="action-button">
-					Upload Demo Lesson
-					</a>
-				</section>
-			</section> <!-- END DEMO LESSONS -->
-			<section id="list" class="panel one-column right-side">
-				<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
-				<h3>
-					<a href="#">
-					Upcoming Events
-					</a>
-				</h3>
-				<ul>
-					<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
-					<% if rsvp.empty? %>
-						<li>You have no RSVP's. So here are some upcoming events.</li>
-						<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
-							<li>
-								<div class="calendar-thumb">
-									<div class="cal-month">
-									<%= event.start_time.localtime.strftime("%^b") %>
-									</div>
-									<div class="cal-date">
-									<%= event.start_time.localtime.strftime("%e") %>
-									</div>
-								</div>
-								<p>
-								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-								</p>
-								<!--div class=" quick-action star-gold"></div-->
-							</li>
-						<% end %>
-					<% else %>
-						<% rsvp.each do |event| %>
-							<li>
-								<div class="calendar-thumb">
-									<div class="cal-month">
-									<%= event.start_time.localtime.strftime("%^b") %>
-									</div>
-									<div class="cal-date">
-									<%= event.start_time.localtime.strftime("%e") %>
-									</div>
-								</div>
-								<p>
-								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-								</p>
-								<div class=" quick-action star-gold"></div>
-							</li>
-						<% end %>
-					<% end %>
-				</ul>
-				<section class="panel-actions events">
-					<a href="/events/new" class="action-button">
-					Create New Event
-					</a>
-				</section>		
-			</section> <!-- END UPCOMING EVENTS -->
-			<div class="clearfloat"></div>
-		</section>
-		<!--section class="panel one-column right-side">
+		<section id="list" class="panel one-column right-side">
+			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
 			<h3>
 				<a href="#">
-				My Favorites <span style ="color: #F66C4C"> Coming Soon </span>
+				Latest Demo Lessons
 				</a>
 			</h3>
-			
 			<ul>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				<li>
-					<div class="profile-thumb-small">
-					</div>
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="profile.html" class="byline">Aleksandar Stanisic</a>
-					</p>
-					<div class=" quick-action close">
-					</div>
-				</li>
-				
+				<% @latest_dl.each do |vid| %>
+					<li>
+						<a href="/profile/<%= vid.user.teacher.url %>">
+							<div class="video-thumb-small">
+								<div class="play-button">
+								</div>
+							</div>
+						</a>
+						<p><%= vid.getMessage %></p>
+						<!--div class=" quick-action star-empty">
+						</div-->
+					</li>
+				<% end %>
 			</ul>
-		</section--> <!-- END MY FAVORITES -->
+			<section class="panel-actions demolesson">
+				<a href="/me/profile/edit/upload-video" class="action-button">
+				Upload Demo Lesson
+				</a>
+			</section>
+		</section> <!-- END DEMO LESSONS -->
+		<section id="list" class="panel one-column right-side">
+			<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
+			<h3>
+				<a href="#">
+				Upcoming Events
+				</a>
+			</h3>
+			<ul>
+				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
+				<% if rsvp.empty? %>
+					<li>You have no RSVP's. So here are some upcoming events.</li>
+					<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
+						<li>
+							<div class="calendar-thumb">
+								<div class="cal-month">
+								<%= event.start_time.localtime.strftime("%^b") %>
+								</div>
+								<div class="cal-date">
+								<%= event.start_time.localtime.strftime("%e") %>
+								</div>
+							</div>
+							<p>
+							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+							</p>
+							<!--div class=" quick-action star-gold"></div-->
+						</li>
+					<% end %>
+				<% else %>
+					<% rsvp.each do |event| %>
+						<li>
+							<div class="calendar-thumb">
+								<div class="cal-month">
+								<%= event.start_time.localtime.strftime("%^b") %>
+								</div>
+								<div class="cal-date">
+								<%= event.start_time.localtime.strftime("%e") %>
+								</div>
+							</div>
+							<p>
+							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+							</p>
+							<div class=" quick-action star-gold"></div>
+						</li>
+					<% end %>
+				<% end %>
+			</ul>
+			<section class="panel-actions events">
+				<a href="/events/new" class="action-button">
+				Create New Event
+				</a>
+			</section>		
+		</section> <!-- END UPCOMING EVENTS -->
+		<section id="list" class="panel one-column right-side">
+			<h3>My Favorites</h3>
+			<ul>
+				<% User.current.favorites.limit(3).where('`favorites`.`model` IS NOT NULL').each do |fav| %>
+					<% next unless fav.model?(:whiteboard, :video) %>
+					<% if fav.model?(:whiteboard) %>
+						<% @post = fav.model %>
+						<%= render :template => 'whiteboards/favorite' %>
+					<% end %>
+				<% end %>
+			</ul>
+		</section> <!-- END MY FAVORITES -->
+		<div class="clearfloat"></div>
+	</section>
 	<div class="clearfloat"></div>
 </section> <!-- End Main Content -->
+
 <script type="text/javascript">
 // White board more
 $(document).ready(function() {
@@ -410,26 +308,27 @@ $(document).ready(function() {
 </script>
 
 <% if !session[:teacherdashboard_viewed] %>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('body').introOverlay({
-			introLength: 10000, // anything numeric no quotes
-			transitionSpeed: 400, // ditto
-			introAutoFade: false, //timed fade on overlay...true or false
-			introCloseBtn: true, //btn to close overlay...true or false
-			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
-			openAnimation: true, //opening animation...true or false
-			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
-			cookieActive : false,
-			/* also you can use 'href' to load content for a seperate page..
-			when using href it also uses the class of the clicked element to find the content...
-			it goes like this .load(href class); check source for use */ 
-			introTemplate: 'full', // either 'full' or 'module'
-			introTurnOffLights: false, //turn off and on lights...true or false
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('body').introOverlay({
+				introLength: 10000, // anything numeric no quotes
+				transitionSpeed: 400, // ditto
+				introAutoFade: false, //timed fade on overlay...true or false
+				introCloseBtn: true, //btn to close overlay...true or false
+				introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+				openAnimation: true, //opening animation...true or false
+				introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+				cookieActive : false,
+				/* also you can use 'href' to load content for a seperate page..
+				when using href it also uses the class of the clicked element to find the content...
+				it goes like this .load(href class); check source for use */ 
+				introTemplate: 'full', // either 'full' or 'module'
+				introTurnOffLights: false, //turn off and on lights...true or false
+			});
 		});
-	});
-</script>
+	</script>
 <% end %>
+
 <% session[:teacherdashboard_viewed] = true %>
 
 
