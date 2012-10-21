@@ -2,38 +2,49 @@
 <h1>Discussions
 	<% if self.current_user && self.current_user.teacher %>
 	<div style="float:right;margin-top:0px">
-		<%= link_to "Create New Discussion", new_discussion_path, :class => "action-button bg-salmon" %>
+		<%= link_to "Start New Discussion", new_discussion_path, :class => "action-button bg-green" %>
 	</div>
 <% end %>
 </h1>
 	<section id="panels">
-		<section id="list" class="panel two-column left-side">
+		<section id="list" class="panel three-column left-side">
+		<h4 style="margin-left:25px">
+		<%= link_to 'Recent', '/discussions', :style => "margin-right:10px;" %>
+		<%= link_to 'Mine', '#', :style => "margin-right:10px;" %>	
+		<%= link_to 'Following', '/followed_discussions', :style => "margin-right:10px;" %>
+		</h4>
 		<ul>
 			<% @discussions.each do |discussion| %>
 				<li>
 					<%  if self.current_user && self.current_user.teacher %>
 						<div style="float:right">
-							<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }%>
+							<%= link_to "Follow", { :action => "follow_discussion", :id => discussion.id }, :class => "button bg-ltgray", :style => "color:#000" %>
 						</div>
 					<% end %>
-					<p><%= link_to discussion.title, discussion %></p>
 					<p>
+						<strong>
+						<%= link_to discussion.title, discussion %>
+						</strong>
+					</p>
+					<p style="color:#999">
 						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
 						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
 					</p>
-					<p>
+					<p style="float:left;margin-left:12px">
+						Topics: 
 						<% discussion.skills.each do |skill| %>
-							<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
+							<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
 						<% end %>
 					</p>
-					<p>
+					<p style="float:left;margin:15px 0px 0px 12px">
+						Participants:
 						<% discussion.participants.each do |user| %>
 							<% if user %>
 								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.teacher.url}" %>
+									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}" %>
 								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.teacher.url}"  %>
-								<% end %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}"  %>
+								<% end %>	
 							<% end %>
 						<% end %>
 					</p>

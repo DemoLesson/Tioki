@@ -17,6 +17,7 @@ class DiscussionsController < ApplicationController
   # GET /discussions/1.json
   def show
     @discussion = Discussion.find(params[:id])
+    @comment =Comment.new
 
     respond_to do |format|
       format.html # show.html.erb

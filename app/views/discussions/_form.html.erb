@@ -11,22 +11,34 @@
     </div>
   <% end %>
 
+  <article style="margin-left:75px">
   <div class="field">
-		<strong>Title:</strong><br />
-		<%= f.text_field :title %>
+		<strong>Title</strong>
+		<%= f.text_field :title, :style => "margin-left:25px;width:600px" %><br/>
+		<span style="margin-left:60px">This is what shows up on the discussion board, so make it something catchy.</span>
 	</div><br />
 
   <div class="field">
-		<strong>Body:</strong><br />
-		<%= f.text_area :message %>
-  </div>
+		<strong>Body</strong><br/>
+		<%= f.text_area :message, :style => "margin:-20px 0px 0px 60px;width:600px" %>
+  </div><br />
 
-	<div class="field">
+  <div class="field" style="margin-bottom:70px">
+		<strong>Topics</strong><br />
+		<textarea style="margin:-20px 0px 0px 60px;width:600px; height:75px;color:#fff">
+		</textarea>
+
+		<p style="margin:-90px 0px 0px 72px;z-index:1">
+		<span id="current_skills" >
+		</span>	
+		</p>	
+  </div><br/>
+
+  <div class="field" style="margin-left:60px">
 		<%= select "skill", 'skillList', Skill.all.collect { |skill| [skill.name, skill.id] } %>
-		<button type="button" id="addSkill">Add Skill</button>
-
-		<div id="current_skills">
-		</div>
+		<a id="addSkill" class="button bg-green" >Add Topic</a>
+		
+		
 
 		<script type="text/javascript">
 			$(document).ready(function () {
@@ -37,7 +49,7 @@
 				$(tab).addClass('skilldiv')
 				$(tab).append('<%= skill.name %>');
 				$(tab).append('<input type="hidden" name="skills[]" value="' + <%= skill.id %> + '" />');
-				$(tab).append(' | <a href="#" id="remove">Remove</a><br />');
+				$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
 				$('#current_skills').append(tab);
 
 				<% end %>
@@ -48,7 +60,7 @@
 					$(tab).addClass('skilldiv')
 					$(tab).append(skillValue);
 					$(tab).append('<input type="hidden" name="skills[]" value="' + skillId + '" />');
-					$(tab).append(' | <a href="#" id="remove">Remove</a><br />');
+					$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
 					$('#current_skills').append(tab);
 				});
 				$("#remove").live("click", function () {
@@ -59,6 +71,7 @@
 	</div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :style => "margin:10px 0px 0px 60px" %> <%= link_to ' Cancel', discussions_path %>
   </div>
+  </article>
 <% end %>

@@ -1,12 +1,18 @@
 <section id="main-content" class="inner-content">
 <%= form_for @comment, :url => 'reply_to_discussion', :id => @discussion.id do |f| %>
-	You are replying to:
-	<h2><%= @discussion.title %></h2>
-	<%= @discussion.message %><br />
-	<hr>
+	<section style="width: 675px">
+		<h2>
+		<%= @discussion.title %>
+		</h2>
+		<p style="margin-left:25px;width:650px">
+		<%= @discussion.message %>
+		<p>
+		<hr>
+		<br />
 
-	The body of your mesage:<br />
-	<%= f.text_area :body %><br />
-	<%= f.submit "Reply" %>
+		<strong>Body</strong><br />
+		<%= f.text_area :body, :style => "width:600px;margin:-17px 0px 0px 50px" %><br />
+		<%= f.submit "Add Your Response", :style => "margin-left:50px" %>
+	</section>
 <% end %>
 </section>
