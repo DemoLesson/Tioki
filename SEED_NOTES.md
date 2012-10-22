@@ -1,3 +1,12 @@
+v1.4.3 - Oct 22, 2012  3:43PM deployed by Kelly Becker
+======================================================
+* 889ef5d: Elijah Green - fix javascript on discussions form
+* 66926ad: Kelly Becker - updated hide/delete methods of whiteboard posts
+* bed63f1: Elijah Green - remove ifve refferals emails on account creation
+* 0b3764f: Kelly Becker - updated hide/delete methods of whiteboard posts
+* 5de9c2d: Kelly Becker - remove tooltips after removing the parent element
+* 41f0907: Elijah Green - add connections like header to discussions
+
 v1.4.2 - Oct 22, 2012  1:17PM deployed by Aleks Stanisic
 ========================================================
 * 313814f: Aleks Stanisic - fix to favorite.rb
