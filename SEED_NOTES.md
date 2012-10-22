@@ -1,3 +1,7 @@
+v1.4.2 - Oct 22, 2012  1:17PM deployed by Aleks Stanisic
+========================================================
+* 313814f: Aleks Stanisic - fix to favorite.rb
+
 v1.4.1 - Oct 22, 2012  1:07PM deployed by Aleks Stanisic
 ========================================================
 * 6fd06ff: Kelly Becker - figure out favorite not found issue
