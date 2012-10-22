@@ -116,25 +116,49 @@
 		</section>
 		<section class="profile-content panel">
 			<h3>Comments</h3>
-			<ul>
-				<% @event.getComments.each do |c| %>
-					<li>
-						<div class="profile-thumb-small" style="display:inline-block;">
-							<%= image_tag c.user.avatar.url(:tiny) if c.user.avatar? %>
-							<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless c.user.avatar? %>
-						</div>
-						<p style="display:inline;float:none;"><strong><%= time_ago_in_words(c.created_at) %> ago <%= c.user.teacher.profile_link %> posted:</strong> <%= c.body %></p>
-					</li>
-				<% end %>
-				<% unless User.current.nil? %>
-					<li>
-						<form action="<%= event_path(@event) + "/comment"  %>" method="post">
-							<textarea name="comment" style="height:50px;"></textarea>
-							<input type="submit" value="Post Comment" />
-						</form>
-					</li>
+			<ul id="comments">
+				<% @comments.each do |comment| %>
+					<% @comment = comment %>
+					<%= render 'comments/show' %>
 				<% end %>
 			</ul>
+			<% unless User.current.nil? %>
+				<section class="panel-actions">
+					<form id="post-comment" action="<%= event_path(@event) + "/comment"  %>" method="post">
+						<textarea name="comment" style="height:50px;"></textarea>
+						<input type="submit" value="Post Comment" />
+					</form>
+				</section>
+
+				<!-- Load js for processing comments - AJAX HACK -->
+				<script type="text/javascript">
+				$(document).ready(function() {
+					$('form#post-comment').submit(function(e) {
+						e.preventDefault();
+
+						var form = $(this);
+						$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+							if(r.id !== undefined && r.type == 'success') {
+								form.find('textarea').val('Posted!').prop('disabled', true);
+								$.get('/comments/' + r.id, function(d) {
+									comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
+									$('ul#comments').append(comment);
+									comment.slideDown(500, function() {
+										$('ul#comments').scrollTo('100%', 800);
+										setTimeout(function() {
+											comment.animate({backgroundColor: '#FFF'}, 600);
+											form.find('textarea').val('').prop('disabled', false);
+										}, 1000);
+									});
+								});
+							}
+						})
+
+						return false;
+					});
+				});
+				</script>
+			<% end %>
 		</section>
 	</section>
 </section>

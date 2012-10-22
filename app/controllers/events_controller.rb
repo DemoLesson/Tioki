@@ -57,6 +57,7 @@ class EventsController < ApplicationController
 	# GET /events/1.json
 	def show
 		@event = Event.find(params[:id])
+		@comments = @event.getComments
 		self.log_analytic(:event_view, "A user viewed an event.", @event)
 	end
 
@@ -328,28 +329,46 @@ class EventsController < ApplicationController
 	# Add a comment to an event
 	def comment
 
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
 		# Get the event in question
 		event = Event.find(params[:id])
 
-		# Go ahead and post the comment
-		if event.createComment(params[:comment]).save
-			return redirect_to :back, :success => "Successfully added comment."
-			#return render :json => {"type" => "success", "message" => "Successfully added comment."}
+		# Create the comment
+		comment = event.createComment(params[:comment])
+
+		# save and get the proper message
+		if comment.save
+			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
 		else
-			return redirect_to :back, :error => "Could not add a comment."
-			#return render :json => {"type" => "error", "message" => "Could not add a comment."}
+			message = {:type => :error, :message => "There was an error posting your comment."}
+		end
+
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
 		end
 	end
 
+	# Delete a comment from an event
 	def delete_comment
 
-		# Delete comment
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
+		# Post the comment and get the proper message
 		if Comment.find(params[:id]).destroy
-			return redirect_to :back, :success => "Successfully deleted comment."
-			#return render :json => {"type" => "success", "message" => "Successfully deleted a comment."}
+			message = {:type => :success, :message => "Comment was successfully deleted."}
 		else
-			return redirect_to :back, :error => "Could not delete comment."
-			#return render :json => {"type" => "error", "message" => "Could not delete comment."}
+			message = {:type => :error, :message => "There was an error deleting your comment."}
+		end
+
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
 		end
 	end
 end

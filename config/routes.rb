@@ -1,6 +1,7 @@
 Preview::Application.routes.draw do
 
-  resources :discussions do
+	resources :comments
+	resources :discussions do
 		member do
 			get 'reply_to_discussion'
 			post 'reply_to_discussion'
@@ -16,7 +17,7 @@ Preview::Application.routes.draw do
 	match 'edit_comment/:id' => 'discussions#edit_comment'
 	match 'update_comment/:id' => 'discussions#update_comment'
 
-  resources :technologies do
+	resources :technologies do
 		member do
 			get 'change_technology_picture'
 			get 'edit_technology_tags'

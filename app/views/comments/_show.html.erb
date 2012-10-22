@@ -1,0 +1,10 @@
+<li>
+	<div class="profile-thumb-small" style="display:inline-block;">
+		<%= image_tag @comment.user.avatar.url(:tiny) if @comment.user.avatar? %>
+		<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @comment.user.avatar? %>
+	</div>
+	<p style="display:inline;float:none;">
+		<strong><%= time_ago_in_words(@comment.created_at) %> ago <%= @comment.user.teacher.profile_link %> posted:</strong>
+		 <%= @comment.body %>
+	</p>
+</li>

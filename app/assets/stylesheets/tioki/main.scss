@@ -331,6 +331,19 @@ span.connection_degree {
 					float: right;
 					width: 115px;
 				}
+				ul#comments {
+					max-height: 350px;
+					overflow-y: scroll;
+					border-top: dashed 1px #CFD4D5;
+
+					li {
+						display: block;
+
+						&:first-child {
+							border-top: none;	
+						}
+					}
+				}
 			}
 			.profile-info {
 					.heading {
