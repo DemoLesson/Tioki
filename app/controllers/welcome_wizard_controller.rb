@@ -95,11 +95,6 @@ class WelcomeWizardController < ApplicationController
 						@invite.update_attribute(:created_user_id, @user.id)
 						@invite.update_attribute(:pending, false)
 
-						#Check if this five emails have been sent out from this connection invite
-						if @invite.user.successful_referrals.size % 5 == 0
-							UserMailer.five_referrals(@invite.user.email).deliver
-						end
-
 						session[:_ak] = "unlock_invite_link"
 					end
 				elsif params[:invitecode]
@@ -108,9 +103,6 @@ class WelcomeWizardController < ApplicationController
 					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id)
 					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
 
-					if @inviter.successful_referrals.size % 5 == 0
-						UserMailer.five_referrals(@inviter.email).deliver
-					end
 				elsif params[:welcomecode]
 					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
 
