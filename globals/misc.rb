@@ -149,7 +149,7 @@ class String
 
 		# Create links and screenshots
 		addData["urls"].each do |u|
-			message = message.gsub(" #{u} ", " <a href=\"#{u}\" #{attributes}>#{u}</a> ")
+			message = message.gsub("#{u}", "<a href=\"#{u}\" #{attributes}>#{u}</a>")
 		end
 
 		return message.strip.html_safe

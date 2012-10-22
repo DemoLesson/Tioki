@@ -49,7 +49,7 @@
 				[Message Deleted]
 			<% else %>
 				<p style="width:675px;margin-left:65px">
-					<%= @discussion.message %>
+				<%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
 				</p>
 			<% end %>
 			<section style="margin-left:65px">
@@ -69,7 +69,7 @@
 				<% @discussion.root_comments.each do |root| %>
 					
 					<% root.self_and_descendants.each do |comment| %>
-						<li style="width:700px;padding:12px 0px 12px 15px !important">
+						<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
 
 							<div <% if comment.child? %>style="margin-left:65px"<% end %>>
 								<div class="profile-thumb-small">
@@ -86,23 +86,21 @@
 								<% else %>
 									[deleted]
 								<% end %><br />
-								<!--<% if comment.child? %>
-										In reply to <%= comment.parent.user.name %>
-								<% end %>-->
-
 								
 								<% if comment.deleted_at %>
 									[Message Deleted]
 								<% else %>
-								<p style="width:auto;margin-left:65px">
-									<%= comment.body %>
+								<p style="margin-left:65px">
+								<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
 								</p>
 								<% end %>
 							</div><br/><br/>
 				
 							<% if self.current_user && self.current_user.teacher %>
 								<p style="float:left;margin-left:65px">
-								<%= link_to "Reply", { :action => "reply_to_comment", :id => @discussion.id, :comment_id => comment.id } %>
+								<div class ="reply_to_comment">
+									<a>Reply</a>
+								</div>
 								<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
 									|
 									<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
@@ -116,10 +114,20 @@
 					<% end %>
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
-					<%= render "comment_form" %>
+					<%= render "reply_to_discussion" %>
 				</li>
 			</ul>
 			</section>
 		</section>
 	</section>
 </section>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".reply_to_comment").live("click", function () {
+			var list = document.createElement('li');
+			var id = $(this).closest("li").attr('id').replace(/comment/, '');
+			list.innerHTML = '<form accept-charset=\"UTF-8\" action=\"/discussions/<%= @discussion.id %>/reply_to_comment?comment_id&comment_id=' + id + '\" class=\"new_comment\" id=\"new_comment\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" /><\/div>\n <strong>Add Your Reply<\/strong><br />\n <textarea cols=\"40\" id=\"comment_body\" name=\"comment[body]\" rows=\"20\" style=\"width:650px\"><\/textarea><br />\n <input name=\"commit\" type=\"submit\" value=\"Add Reply\" />\n<\/form>'
+			$(this).closest("li").append(list);
+		});
+	});
+</script>
