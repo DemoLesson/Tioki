@@ -151,6 +151,10 @@ class DiscussionsController < ApplicationController
 		@discussions = self.current_user.followed_discussions
 	end
 
+	def my_discussions
+		@discussions = self.current_user.discussions
+	end
+
 	def follow_discussion
 		@discussion = Discussion.find(params[:id])
 		@follower = Follower.new(:discussion => @discussion, :user => self.current_user)

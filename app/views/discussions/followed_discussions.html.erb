@@ -1,27 +1,54 @@
-<section id="main-content" class="inner-content">
-<h1>Discussions
-</h1>
+<section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/discussions">
+						Recent Discussions
+					</a>
+				</li>
+				<li>
+					<a href="/my_discussions">
+						My Discussions
+					</a>
+				</li>
+				<li class="current">
+						Followed Discussion
+				</li>
+			</ul>
+		</nav>
+	</section>
 	<section id="panels">
-		<section id="list" class="panel two-column left-side">
+		<section id="list" class="panel three-column left-side">
+		<h4 style="margin-left:25px">
+		</h4>
 		<ul>
 			<% @discussions.each do |discussion| %>
 				<li>
-					<p><%= link_to discussion.title, discussion %></p>
 					<p>
-					<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
-					<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+						<strong>
+						<%= link_to discussion.title, discussion %>
+						</strong>
 					</p>
-					<p>
-					<% discussion.skills.each do |skill| %>
-						<%= link_to skill.name, "/teacherskills/#{skill.id}" %>
-					<% end %>
+					<p style="color:#999">
+						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
 					</p>
-					<p>
+					<p style="float:left;margin-left:12px">
+						Topics: 
+						<% discussion.skills.each do |skill| %>
+							<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
+						<% end %>
+					</p>
+					<p style="float:left;margin:15px 0px 0px 12px">
+						Participants:
 						<% discussion.participants.each do |user| %>
-							<% if user.avatar? %>
-								<%= image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;") %>
-							<% else %>
-								<%= image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
+							<% if user %>
+								<% if user.avatar? %>
+									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}" %>
+								<% else %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}"  %>
+								<% end %>	
 							<% end %>
 						<% end %>
 					</p>

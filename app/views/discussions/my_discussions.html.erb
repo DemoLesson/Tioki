@@ -2,24 +2,18 @@
 	<section>
 		<nav class="subpage">
 			<ul>
-				<li class="current">
-				Recent Discussions
-				</li>
 				<li>
-					<a href="/my_discussions">
-						My Discussions
+					<a href="/discussions">
+						Recent Discussions
 					</a>
 				</li>
+				<li class="current">
+						My Discussions
 				<li>
 					<a href="/followed_discussions">
 						Followed Discussion
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
-					<div style="float:right;margin-top:0px">
-						<%= link_to "Start New Discussion", new_discussion_path, :class => "action-button bg-green" %>
-					</div>
-				<% end %>
 			</ul>
 		</nav>
 	</section>
