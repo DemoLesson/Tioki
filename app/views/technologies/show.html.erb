@@ -120,6 +120,7 @@
 
 							// Hide the post
 							if(r.type == 'success') li.slideUp(500, function() {
+								$('span.tooltip').remove();
 								$(this).remove();
 							});
 						});
