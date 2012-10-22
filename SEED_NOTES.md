@@ -1,3 +1,11 @@
+v1.4.1 - Oct 22, 2012  1:07PM deployed by Aleks Stanisic
+========================================================
+* 6fd06ff: Kelly Becker - figure out favorite not found issue
+* e082cd3: Kelly Becker - figure out favorite not found issue
+* f0a9b3f: Kelly Becker - technology comments
+* 5e47225: Kelly Becker - technology comments
+* b3aa273: Kelly Becker - deleting and favoriting of event comments as well as the fix for NaN on favorites
+
 v1.4.0 - Oct 22, 2012 12:22PM deployed by Aleks Stanisic
 ========================================================
 * d5e3979: Kelly Becker - comments are now ajax
