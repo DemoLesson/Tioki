@@ -28,9 +28,9 @@ class CommentsController < ApplicationController
     else
       # Delete the favorite
       if fav.destroy
-        message = {:type => :success, :message => "Comment was successfully favorited.", :new => 0}
+        message = {:type => :success, :message => "Favorite was successfully deleted.", :new => 0}
       else
-        message = {:type => :error, :message => "There was an error favoriting your comment.", :new => 0}
+        message = {:type => :error, :message => "There was an error deleting your favorite.", :new => 0}
       end
     end
 

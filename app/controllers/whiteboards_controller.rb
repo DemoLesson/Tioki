@@ -15,6 +15,10 @@ class WhiteboardsController < ApplicationController
 	end
 
 	def favorite
+
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
 		w = Whiteboard.find(params[:post])
 		fav = Favorite.where("`favorites`.`model` = ? && `favorites`.`user_id` = ?", "#{w.class.name}:#{w.id}", User.current.id).first
 
@@ -23,38 +27,26 @@ class WhiteboardsController < ApplicationController
 			fav.model = "#{w.class.name}:#{w.id}"
 			fav.user = self.current_user
 
-			unless params[:json].nil?
-				if fav.save
-					return render :json => {'type' => 'success', 'new' => 1}
-				else
-					return render :json => {'type' => 'error', 'new' => 1}
-				end
+			# Save the favorite
+			if fav.save
+				message = {:type => :success, :message => "Whiteboard post was successfully favorited.", :new => 1}
 			else
-				if fav.save
-					flash[:success] = "The whiteboard posting was been favorited."
-					redirect_to :back
-				else
-					flash[:success] = "The whiteboard could not be favorited."
-					redirect_to :back
-				end
+				message = {:type => :error, :message => "There was an error favoriting the specified post.", :new => 1}
 			end
 		else
-			unless params[:json].nil?
-				if fav.destroy
-					return render :json => {'type' => 'success', 'new' => 0}
-				else
-					return render :json => {'type' => 'error', 'new' => 0}
-				end
+			# Delete the favorite
+			if fav.destroy
+				message = {:type => :success, :message => "Whiteboard post was successfully favorited.", :new => 0}
 			else
-				if fav.destroy
-					flash[:success] = "The whiteboard posting was been unfavorited."
-					redirect_to :back
-				else
-					flash[:success] = "The whiteboard could not be unfavorited."
-					redirect_to :back
-				end
+				message = {:type => :error, :message => "There was an error deleting your favorite.", :new => 0}
 			end
-		end		
+		end
+
+    	# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
+		end
 	end
 
 	# Add a comment to an event
@@ -113,7 +105,7 @@ class WhiteboardsController < ApplicationController
 
     	# Destroy and get the proper message
 		if w.destroy
-			message = {:type => :success, :message => "Successfully deleted whiteboard post.", :id => comment.id}
+			message = {:type => :success, :message => "Successfully deleted whiteboard post."}
 		else
 			message = {:type => :error, :message => "There was an error deleting the whiteboard post."}
 		end
