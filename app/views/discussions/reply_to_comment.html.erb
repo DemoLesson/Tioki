@@ -5,7 +5,7 @@
 		<%= @comment.user %>
 	You are replying to:<br />
 	<p style="margin-left:25px;width:650px">
-	<%= @replied_to_comment.body %>
+	<%= h(@replied_to_comment.body).url2link.gsub(/\n/, '<br />').html_safe %>
 	</p>
 	<hr>
 	<br />
