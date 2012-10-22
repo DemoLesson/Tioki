@@ -20,6 +20,7 @@ Preview::Application.routes.draw do
 	match 'edit_comment/:id' => 'discussions#edit_comment'
 	match 'update_comment/:id' => 'discussions#update_comment'
 
+	match 'technologies/:id/comment' => 'technologies#comment'
 	resources :technologies do
 		member do
 			get 'change_technology_picture'
@@ -39,7 +40,6 @@ Preview::Application.routes.draw do
 
 	# Events routing
 	match 'events/:id/comment' => 'events#comment'
-	match 'events/delete_comment/:id' => 'events#delete_comment'
 	resources :events do
 		collection do
 			get 'list'

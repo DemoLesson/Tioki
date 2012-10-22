@@ -23,6 +23,7 @@ class TechnologiesController < ApplicationController
 	# GET /technologies/1.json
 	def show
 		@technology = Technology.find(params[:id])
+		@comments = @technology.getComments
 		@users = @technology.users.joins("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`")
 		@users = @users.where("`teachers`.`id` IS NOT NULL && `teachers`.`url` IS NOT NULL").paginate(:page => params[:page], :per_page => 5)
 
@@ -158,6 +159,32 @@ class TechnologiesController < ApplicationController
 	def sendtechsuggestion
 		TechnologySuggestion.create(params[:technology_suggestion])
 		redirect_to :back, :notice => "Thank you for your suggestion."
+	end
+
+	# Add a comment to an technology
+	def comment
+
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
+		# Get the tech in question
+		tech = Technology.find(params[:id])
+
+		# Create the comment
+		comment = tech.createComment(params[:comment])
+
+		# save and get the proper message
+		if comment.save
+			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
+		else
+			message = {:type => :error, :message => "There was an error posting your comment."}
+		end
+
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
+		end
 	end
 	
 	private
