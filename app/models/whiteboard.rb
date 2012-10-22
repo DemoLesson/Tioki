@@ -1,9 +1,10 @@
 class Whiteboard < ActiveRecord::Base
-	# Comments integration
-	acts_as_commentable
 	
 	belongs_to :user
 	has_and_belongs_to_many :whiteboard_hidden, :class_name => 'User', :join_table => 'whiteboards_hidden'
+
+	# Comments integration
+	acts_as_commentable
 
 	# Add support for getting comments
 	def getComments

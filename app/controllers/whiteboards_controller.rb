@@ -14,13 +14,6 @@ class WhiteboardsController < ApplicationController
 		render :json => divs
 	end
 
-	def hide
-		w = Whiteboard.find(params[:post])
-		w.whiteboard_hidden << self.current_user
-    	return redirect_to :back if params[:json].nil?
-    	return render :json => {'type' => 'success'}
-	end
-
 	def favorite
 		w = Whiteboard.find(params[:post])
 		fav = Favorite.where("`favorites`.`model` = ? && `favorites`.`user_id` = ?", "#{w.class.name}:#{w.id}", User.current.id).first
@@ -64,15 +57,72 @@ class WhiteboardsController < ApplicationController
 		end		
 	end
 
-	def delete
+	# Add a comment to an event
+	def comment
+
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
+		# Get the event in question
+		whiteboard = Whiteboard.find(params[:id])
+
+		# Create the comment
+		comment = whiteboard.createComment(params[:comment])
+
+		# save and get the proper message
+		if comment.save
+			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
+		else
+			message = {:type => :error, :message => "There was an error posting your comment."}
+		end
+
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
+		end
+	end
+
+	def hide
+
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
+		# Hide the whiteboard post
 		w = Whiteboard.find(params[:post])
-    	return redirect_to :back if (self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)) && params[:json].nil?
+		w.whiteboard_hidden << self.current_user
 
-    	# Destroy
-    	w.destroy
+		message = {:type => "success", :message => "Whiteboard post was successfully hidden."}
 
-    	return redirect_to :back if params[:json].nil?
-    	return render :json => {'type' => 'success'}
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
+		end
+	end
+
+	def delete
+
+		# Require an authenticated user
+		raise HTTPStatus::Unauthorized if User.current.nil?
+
+		w = Whiteboard.find(params[:post])
+
+		# Does this post belong to the current user or is the current user an admin
+		raise HTTPStatus::Unauthorized if w.user != self.current_user && !self.current_user.is_admin 	
+
+    	# Destroy and get the proper message
+		if w.destroy
+			message = {:type => :success, :message => "Successfully deleted whiteboard post.", :id => comment.id}
+		else
+			message = {:type => :error, :message => "There was an error deleting the whiteboard post."}
+		end
+
+		# Respond with either html or json
+		respond_to do |format|
+			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
+			format.json { render :json => message }
+		end
 	end
 
 end

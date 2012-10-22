@@ -2,9 +2,6 @@ class Event < ActiveRecord::Base
 	# Set the page length
 	self.per_page = 10
 
-	# Add Comments
-	acts_as_commentable
-
 	# Create connections
 	has_and_belongs_to_many :eventtopics
 	has_and_belongs_to_many :eventformats, :join_table => 'events_eventformats'
@@ -21,6 +18,9 @@ class Event < ActiveRecord::Base
 
 	# Validations
 	validate :dates
+
+	# Add Comments
+	acts_as_commentable
 
 	# Add support for getting comments
 	def getComments

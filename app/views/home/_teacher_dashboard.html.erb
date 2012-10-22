@@ -297,7 +297,7 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var link = $(this);
-		$.get(link.attr('href') + '?json=true', function(r) {
+		$.get(link.attr('href') + '.json', function(r) {
 			var li = link.closest('li');
 
 			// Hide the post
