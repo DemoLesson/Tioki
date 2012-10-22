@@ -2,8 +2,12 @@ class Favorite < ActiveRecord::Base
 	belongs_to :user
 
 	def model(sup = false)
-		return super() if sup
-		return _map!(super()) unless sup
+		begin
+			return super() if sup
+			return _map!(super()) unless sup
+		rescue ActiveRecord::RecordNotFound =>
+			return nil
+		end
 	end
 
 	def model?(*classes)
