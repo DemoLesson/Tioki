@@ -51,7 +51,7 @@
 			<% unless User.current.nil? %>
 				<section class="panel-actions">
 					<form id="post-comment" action="<%= "/technologies/#{@technology.id}/comment" %>" method="post">
-						<textarea name="comment" style="height:50px;"></textarea>
+						<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
 						<input type="submit" value="Post Comment" />
 					</form>
 				</section>
