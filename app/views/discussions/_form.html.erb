@@ -46,7 +46,7 @@
 				var skillValue, skillId, tab;
 				<% @discussion.skills.each do |skill| %>
 				tab = document.createElement('div');
-				$(tab).addClass('skilldiv')
+				$(tab).addClass('skilldiv');
 				$(tab).append('<%= skill.name %>');
 				$(tab).append('<input type="hidden" name="skills[]" value="' + <%= skill.id %> + '" />');
 				$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
@@ -57,7 +57,7 @@
 					skillValue = $("#skill_skillList option:selected").text();
 					skillId = $("#skill_skillList option:selected").val();
 					tab = document.createElement('div');
-					$(tab).addClass('skilldiv')
+					$(tab).addClass('skilldiv');
 					$(tab).append(skillValue);
 					$(tab).append('<input type="hidden" name="skills[]" value="' + skillId + '" />');
 					$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
