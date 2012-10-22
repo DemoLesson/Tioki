@@ -351,24 +351,4 @@ class EventsController < ApplicationController
 			format.json { render :json => message }
 		end
 	end
-
-	# Delete a comment from an event
-	def delete_comment
-
-		# Require an authenticated user
-		raise HTTPStatus::Unauthorized if User.current.nil?
-
-		# Post the comment and get the proper message
-		if Comment.find(params[:id]).destroy
-			message = {:type => :success, :message => "Comment was successfully deleted."}
-		else
-			message = {:type => :error, :message => "There was an error deleting your comment."}
-		end
-
-		# Respond with either html or json
-		respond_to do |format|
-			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
-			format.json { render :json => message }
-		end
-	end
 end

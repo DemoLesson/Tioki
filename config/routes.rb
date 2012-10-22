@@ -1,6 +1,9 @@
 Preview::Application.routes.draw do
 
+	match 'comments/:id/favorite' => 'comments#favorite'
+	match 'comments/:id/delete' => 'comments#delete'
 	resources :comments
+
 	resources :discussions do
 		member do
 			get 'reply_to_discussion'

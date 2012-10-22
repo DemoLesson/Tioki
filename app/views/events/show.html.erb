@@ -156,6 +156,50 @@
 
 						return false;
 					});
+
+					// Favorite a comment
+					$('a[comment-action="favorite"]').live('click', function(e) {
+						e.preventDefault();
+
+						var link = $(this);
+						$.get(link.attr('href') + '.json', function(r) {
+
+							// Star the post
+							if(r.type == 'success' && r.new) {
+								link.removeClass('star-empty').addClass('star-gold');
+								var inc = parseInt(link.text()) + 1;
+								if(isNaN(inc)) link.text('1');
+								else link.text(inc);
+							}
+
+							// Unstar the post
+							if(r.type == 'success' && !r.new) {
+								link.removeClass('star-gold').addClass('star-empty');
+								var dec = parseInt(link.text()) - 1;
+								if(isNaN(dec) || dec === 0) link.text('');
+								else link.text(dec);
+							}
+						});
+
+						return false;
+					});
+
+					// Delete a comment
+					$('a[comment-action="delete"]').live('click', function(e) {
+						e.preventDefault();
+
+						var link = $(this);
+						$.get(link.attr('href') + '.json', function(r) {
+							var li = link.closest('li');
+
+							// Hide the post
+							if(r.type == 'success') li.slideUp(500, function() {
+								$(this).remove();
+							});
+						});
+
+						return false;
+					});
 				});
 				</script>
 			<% end %>

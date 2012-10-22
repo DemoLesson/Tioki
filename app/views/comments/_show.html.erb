@@ -7,4 +7,14 @@
 		<strong><%= time_ago_in_words(@comment.created_at) %> ago <%= @comment.user.teacher.profile_link %> posted:</strong>
 		 <%= @comment.body %>
 	</p>
+	<div class="quick-actions">
+		<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action <%= favorited(@comment) ? 'star-gold' : 'star-empty' %>" title="Favorite Comment">
+			<%= favorites(@comment) %>
+		</a>
+		<% if @comment.user == User.current || User.current.is_admin %>
+			<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Comment">
+				<span class="iconic x_alt"></span>
+			</a>
+		<% end %>
+	</div>
 </li>

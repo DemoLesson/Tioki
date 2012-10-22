@@ -275,13 +275,17 @@ $(document).ready(function() {
 			// Star the post
 			if(r.type == 'success' && r.new) {
 				link.removeClass('star-empty').addClass('star-gold');
-				link.text(parseInt(link.text()) + 1);
+				var inc = parseInt(link.text()) + 1;
+				if(isNaN(inc)) link.text('1');
+				else link.text(inc);
 			}
 
 			// Unstar the post
 			if(r.type == 'success' && !r.new) {
 				link.removeClass('star-gold').addClass('star-empty');
-				link.text(parseInt(link.text()) - 1);
+				var dec = parseInt(link.text()) - 1;
+				if(isNaN(dec) || dec === 0) link.text('');
+				else link.text(dec);
 			}
 		});
 
