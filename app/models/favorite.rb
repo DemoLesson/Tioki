@@ -6,6 +6,7 @@ class Favorite < ActiveRecord::Base
 			return super() if sup
 			return _map!(super()) unless sup
 		rescue ActiveRecord::RecordNotFound =>
+			self.destroy
 			return nil
 		end
 	end
