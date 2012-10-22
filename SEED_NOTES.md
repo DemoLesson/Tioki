@@ -1,3 +1,36 @@
+v1.4.0 - Oct 22, 2012 12:22PM deployed by Aleks Stanisic
+========================================================
+* d5e3979: Kelly Becker - comments are now ajax
+* 5c42009: Elijah Green - Add replies to button of comments and add links and paragraphs
+* 5c41fa0: Aleks Stanisic - changes to header
+* b4806e4: Aleks Stanisic - changes to vouch email, bug fixes to dashboard and wizard
+* 507c496: Aleks Stanisic - changes to donor choose wording
+* 0f436e5: Brian Martinez - discussions changes
+* 76a6fb1: Elijah Green - Add comment form ondiscussion show
+* 01dcc36: Kelly Becker - event comments
+* 8fa1149: Kelly Becker - added whiteboard comments
+* cb60866: Kelly Becker - favorites
+* 46b047e: Kelly Becker - favorites
+* db6c1ec: Kelly Becker - favorites working ish
+* 769d2d1: Elijah Green - Add name of an event to the url
+* 5ceddc3: Kelly Becker - debugging some code for you
+* 8e8a498: Elijah Green - Add title to url
+* 8d99b9b: Elijah Green - If user is deleted don't show name or avatar
+* 51b20da: Elijah Green - Fix other users able to link to edit and delete to other users comments
+* a3ef728: Elijah Green - Make sure site admins can update other users comments
+* 1e8e1bb: Elijah Green - Add discussion to skills page and fix edit comment.
+* d51f663: Elijah Green - Fix up some pages and link to profile for all names and images
+* 69ce560: Elijah Green - Editing skills of discussions
+* 454d5e5: Elijah Green - Allow the user to  edit and delete their message
+* 61b8dc4: Elijah Green - Add some more controller methods for deletion and resotring of messages
+* 58ecfc0: Elijah Green - Can't only reply if teacher
+* 29e67e6: Elijah Green - Add the ui for skills
+* 87ddc0f: Elijah Green - Add some style to discussions
+* 0db01cf: Kelly Becker - schema gemlock
+* 465be4f: Elijah Green - Add some more things to migrations and finish up replies
+* 7204892: Elijah Green - Add comments and replying to discussion
+* 0c66cdd: Elijah Green - Add tables for discussions
+
 v1.3.35 - Oct 19, 2012  2:25PM deployed by Kelly Becker
 =======================================================
 * 555c58b: Kelly Becker - event invite redesign
