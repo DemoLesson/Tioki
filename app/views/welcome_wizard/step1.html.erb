@@ -2,13 +2,13 @@
 	<div class="twelve columns">
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px">
 			<% if params[:invitestring] %>
-				User, create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
+				Create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
 			<% elsif params[:invitecode] %>
-				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% elsif params[:welcomecode] %>
-				User, create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% else %>
-				User, create your Tioki account to join Invitor's professional network.
+				Create your Tioki account to join the premier professional education network.
 			<% end %>
 		</h1>
 	</div>
