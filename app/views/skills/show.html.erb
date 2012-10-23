@@ -46,34 +46,62 @@
 	</fieldset>
 
 	<section id="panels">
-		<section class="panel one-column left-side">
-			
-			<h3>Top Technologies</h3>
-			<ul>
-				<% unless @technologies.empty? %>
-					<% @technologies.each do |technology| %>
-						<a href="/technologies/<%= technology.id %>">
-							<li style="width:275px;padding:12px 15px 12px 15px !important">
-								<div style="float:left;" class="profile-thumb-small">
-									<%= image_tag(technology.picture(:medium), :width => '45', :height => '45') %>
-								</div>
-								<strong><%= technology.name %></strong><br />
-								<p style="float:left;width:215px">
-									<% if technology.description.size > 100 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
-									<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
-									<% end %>
-								</p>
-							</li>
-						</a>
+		<section class="one-column left-side">
+			<section class="panel">
+				<h3>Top Technologies</h3>
+				<ul>
+					<% unless @technologies.empty? %>
+						<% @technologies.each do |technology| %>
+							<a href="/technologies/<%= technology.id %>">
+								<li style="width:275px;padding:12px 15px 12px 15px !important">
+									<div style="float:left;" class="profile-thumb-small">
+										<%= image_tag(technology.picture(:medium), :width => '45', :height => '45') %>
+									</div>
+									<strong><%= technology.name %></strong><br />
+									<p style="float:left;width:215px">
+										<% if technology.description.size > 100 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+										<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+										<% end %>
+									</p>
+								</li>
+							</a>
+						<% end %>
+					<% else %>
+						<li>Do you know of a great <%= @skill.name %> technology?
+							<%= link_to "Send us a note", "/techsuggestion" %> and we'll add it.
+						</li>
 					<% end %>
-				<% else %>
-					<li>Do you know of a great <%= @skill.name %> technology?
-						<%= link_to "Send us a note", "/techsuggestion" %> and we'll add it.
-					</li>
-				<% end %>
-			</ul>
+				</ul>
+			</section>
+			<section class="panel">
+				<h3>Videos</h3>
+				<ul>
+					<% unless @videodb.empty? %>
+						<% @videodb.each do |vid| %>
+							<a href="/videos/<%= vid.id %>">
+								<li style="width:275px;padding:12px 15px 12px 15px !important">
+									<div style="float:left;" class="profile-thumb-small">
+										<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+									</div>
+									<strong><%= vid.name %></strong><br />
+									<p style="float:left;width:215px">
+										<% if vid.description.size > 100 %><%=h (vid.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+										<% else %><%=h vid.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+										<% end %>
+									</p>
+								</li>
+							</a>
+						<% end %>
+						<li>
+							<%= will_paginate @videodb, :param_name => 'vpage' %>
+						</li>
+					<% else %>
+						<li>No videos showing off skills in <%= @skill.name %>.</li>
+					<% end %>
+				</ul>
+			</section>
 		</section>
-		
+
 		<section class="panel one-column left-side">
 			<h3>Educators</h3>
 			<ul>
@@ -118,34 +146,57 @@
 				<% end %>
 			</ul>
 		</section>
-		
-		<section class="panel one-column right-side">
-			
-			<h3>Videos</h3>
-			<ul>
-				<% unless @videodb.empty? %>
-					<% @videodb.each do |vid| %>
-						<a href="/videos/<%= vid.id %>">
-							<li style="width:275px;padding:12px 15px 12px 15px !important">
-								<div style="float:left;" class="profile-thumb-small">
-									<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+
+		<section class="one-column right-side">
+			<section class="panel">
+				<h3>Upcoming Events</h3>
+				<ul>
+					<% if @events.count < 1 %>
+						<li>No events with the <%= @skill.name %> tag.</li>
+					<% else %>
+						<% @events.each do |event| %>
+							<li>
+								<div class="calendar-thumb" style="float:left;">
+									<div class="cal-month">
+									<%= event.start_time.localtime.strftime("%^b") %>
+									</div>
+									<div class="cal-date">
+									<%= event.start_time.localtime.strftime("%e") %>
+									</div>
 								</div>
-								<strong><%= vid.name %></strong><br />
-								<p style="float:left;width:215px">
-									<% if vid.description.size > 100 %><%=h (vid.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
-									<% else %><%=h vid.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
-									<% end %>
+								<p style="display:inline;">
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 								</p>
+								<!--div class=" quick-action star-gold"></div-->
 							</li>
-						</a>
+						<% end %>
 					<% end %>
-					<li>
-						<%= will_paginate @videodb, :param_name => 'vpage' %>
-					</li>
-				<% else %>
-					<li>No videos showing off skills in <%= @skill.name %>.</li>
-				<% end %>
-			</ul>
+				</ul>
+			</section>
+			<section class="panel">
+				<h3>Discussions</h3>
+				<ul>
+					<% if @discussions.count < 1 %>
+						<li>No discussions with the <%= @skill.name %> tag.</li>
+					<% else %>
+						<% @discussions.each do |discuss| %>
+							<li>
+								<div class="profile-thumb-small" style="float:left;">
+									<%= image_tag(discuss.user.avatar.url(:medium), :width => '70px', :height => '70px') if discuss.user.avatar? %>
+									<%= image_tag("dl_icons/no_avatar_medium.jpg") unless discuss.user.avatar? %>
+								</div>
+								<p style="display:inline;">
+								<strong><%= link_to discuss.title, discussion_path(discuss) %></strong><br />
+								started <%= time_ago_in_words(discuss.created_at) %> ago by
+								<%= discuss.user.teacher.profile_link unless discuss.user.teacher.nil? %>
+								<%= discuss.user.name if discuss.user.teacher.nil? %>
+								</p>
+								<!--div class=" quick-action star-gold"></div-->
+							</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</section>
 		</section>
 		
 	</section>

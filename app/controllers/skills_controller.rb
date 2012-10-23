@@ -17,6 +17,12 @@ class SkillsController < ApplicationController
     @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
     @my_connections = Array.new if self.current_user.nil?
 
+    # Get a list of events
+    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).joins(:skills).limit(5)
+
+    # Get the associated discussions
+    @discussions = Discussion.joins(:skills).where("`skills`.`id` = ?", @skill.id)
+
 		respond_to do |format|
 			format.html # show.html.erb
 			format.json { render json: @skill }
