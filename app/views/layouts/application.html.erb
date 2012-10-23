@@ -73,18 +73,15 @@
 </head>
 
 <body>
-	<!-- Testing rollback -->
-	<!-- FaceBook Integration -->
+	<!-- Facebook JS API -->
 	<div id="fb-root"></div>
-	<script type="text/javascript">
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=250203168393549";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	</script>
+	<script type="text/javascript">(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=440391786011809";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 			
 	<div id="page-wrapper" class="<%= "logged-in" unless self.current_user.nil? %>">
 		<% if self.current_user.nil? %>
