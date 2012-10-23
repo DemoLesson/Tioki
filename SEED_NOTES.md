@@ -1,3 +1,8 @@
+v1.4.12 - Oct 23, 2012  3:52PM deployed by Kelly Becker
+=======================================================
+* ec4470e: Kelly Becker - share discussions
+* 74a75ee: Kelly Becker - sort events on discover page by start_time asc
+
 v1.4.11 - Oct 23, 2012  2:21PM deployed by Aleks Stanisic
 =========================================================
 * 71b6625: Aleks Stanisic - changes to discovery page' '
