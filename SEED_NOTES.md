@@ -1,3 +1,7 @@
+v1.4.10 - Oct 23, 2012  1:25PM deployed by Aleks Stanisic
+=========================================================
+* 960f21b: Elijah Green - Fix donors choose and referral page
+
 v1.4.9 - Oct 23, 2012 12:52PM deployed by Kelly Becker
 ======================================================
 * a7853a5: Kelly Becker - updated discover page
