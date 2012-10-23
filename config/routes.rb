@@ -11,6 +11,7 @@ Preview::Application.routes.draw do
 			get 'reply_to_comment'
 			post 'reply_to_comment'
 			get 'follow_discussion'
+			get 'unfollow_discussion'
 			get 'destroy_discussion'
 			get 'restore_discussion'
 		end
@@ -68,6 +69,7 @@ Preview::Application.routes.draw do
 	resource :whiteboard
 	match 'whiteboard/hide/:post' => 'whiteboards#hide'
 	match 'whiteboard/delete/:post' => 'whiteboards#delete'
+	match 'whiteboard/:id/comment' => 'whiteboards#comment'
 	match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 
 	# Signup / Login
