@@ -18,6 +18,7 @@ class DiscussionsController < ApplicationController
   def show
     @discussion = Discussion.find(params[:id])
     @comment =Comment.new
+		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -157,11 +158,25 @@ class DiscussionsController < ApplicationController
 
 	def follow_discussion
 		@discussion = Discussion.find(params[:id])
+		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		if @follower
+			return redirect_to :back, :notice => "You are already following this discussion"
+		end
 		@follower = Follower.new(:discussion => @discussion, :user => self.current_user)
 		if @follower.save
 			redirect_to :back, :notice => "You are now following this discussion."
 		else
 			redirect_to :back, :notice => "Unable to follow."
+		end
+	end
+
+	def unfollow_discussion
+		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		if @follower
+			@follower.destroy
+			redirect_to :back, :notice => "You are no longer following this discussion."
+		else
+			redirect_to :back, :notice => "You are already not following this discussion."
 		end
 	end
 

@@ -1,3 +1,9 @@
+v1.4.8 - Oct 23, 2012 12:35PM deployed by Aleks Stanisic
+========================================================
+* 742cc9f: Aleks Stanisic - wizard step 1 redesign
+* 550433b: Elijah Green - Fix a few typos
+* cb2138b: Elijah Green - Allow unfollowing of discussions
+
 v1.4.7 - Oct 23, 2012 11:44AM deployed by Kelly Becker
 ======================================================
 * cb4a4dd: Kelly Becker - whiteboard comments

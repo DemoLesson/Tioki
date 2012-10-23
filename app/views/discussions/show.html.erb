@@ -16,7 +16,13 @@
 			
 			<!-- Followers Section -->
 			<section style="float:right;margin:0px 15px 0px 0px">
-				<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+			<% if self.current_user && self.current_user.teacher %>
+				<% if @follower %>
+					<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+				<% else %>
+					<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+				<% end %>
+			<% end %>
 				<% @discussion.following.each do |user| %>
 					<% if user %>
 						<% if user.avatar? %>
