@@ -49,7 +49,7 @@ class WhiteboardsController < ApplicationController
 		end
 	end
 
-	# Add a comment to an event
+	# Add a comment to a post
 	def comment
 
 		# Require an authenticated user

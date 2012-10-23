@@ -68,6 +68,7 @@ Preview::Application.routes.draw do
 	resource :whiteboard
 	match 'whiteboard/hide/:post' => 'whiteboards#hide'
 	match 'whiteboard/delete/:post' => 'whiteboards#delete'
+	match 'whiteboard/:id/comment' => 'whiteboards#comment'
 	match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 
 	# Signup / Login
