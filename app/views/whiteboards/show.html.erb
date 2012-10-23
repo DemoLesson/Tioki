@@ -8,17 +8,27 @@
 		</div>
 	<% end %>
 	<p><strong><%= time_ago_in_words(@post.created_at) %> ago:</strong> <%= raw @post.getMessage %></p>
-	<ul class="comments">
-		<li>
-			HELLO
-		</li>
-	</ul>
+	<div id="comment-wrapper" style="display:none;">
+		<ul id="comments" class="comments">
+			<% @post.getComments.each do |comment| %>
+				<% @comment = comment %>
+				<%= render 'comments/show' %>
+			<% end %>
+		</ul>
+		<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
+			<textarea name="comment" style="height:25px;width:94%;padding:10px 3%;"></textarea>
+			<input type="submit" value="Post Comment" />
+		</form>
+	</div>
 	<div class="quick-actions">
 		<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>" title="Favorite Post">
 			<%= favorites(@post) %>
 		</a>
 		<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
 			<span class="iconic eye"></span>
+		</a>
+		<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments">
+			<span class="iconic chat_alt_stroke"></span>
 		</a>
 		<% if @post.user == User.current || User.current.is_admin %>
 			<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
