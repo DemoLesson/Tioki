@@ -16,13 +16,13 @@
 			
 			<!-- Followers Section -->
 			<section style="float:right;margin:0px 15px 0px 0px">
-			<% if self.current_user && self.current_user.teacher %>
-				<% if @follower %>
-					<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
-				<% else %>
-					<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+				<% if self.current_user && self.current_user.teacher %>
+					<% if @follower %>
+						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% else %>
+						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% end %>
 				<% end %>
-			<% end %>
 				<% @discussion.following.each do |user| %>
 					<% if user %>
 						<% if user.avatar? %>
@@ -32,6 +32,12 @@
 						<% end %>
 					<% end %>
 				<% end %>
+				<div style="display:block;">
+					<h3>Share</h3>
+					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
+					<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
+					<% #<a href="#"><%= image_tag('tioki/icons/tioki.png') </a> %>
+				</div>
 			</section>
 			
 			<!--Content Section-->
@@ -135,6 +141,51 @@
 			var id = $(this).closest("li").attr('id').replace(/comment/, '');
 			list.innerHTML = '<form accept-charset=\"UTF-8\" action=\"/discussions/<%= @discussion.id %>/reply_to_comment?comment_id&comment_id=' + id + '\" class=\"new_comment\" id=\"new_comment\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" /><\/div>\n <strong>Add Your Reply<\/strong><br />\n <textarea cols=\"40\" id=\"comment_body\" name=\"comment[body]\" rows=\"20\" style=\"width:650px\"><\/textarea><br />\n <input name=\"commit\" type=\"submit\" value=\"Add Reply\" />\n<\/form>'
 			$(this).closest("li").append(list);
+		});
+		$('a[href="#facebook"]').click(function(e) {
+
+			// Block the link
+			e.preventDefault();
+
+			// Trigger the facebook method
+			FB.ui({
+				method: 'feed',
+				name: '<%= @discussion.title %>',
+				link: '<%= url_for(:only_path => false) %>',
+				picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+				caption: 'Come join the discussion on Tioki.',
+				description: 'Come join the "<%= @discussion.title %>" discussion on Tioki; a professional development site for educators!'
+			}
+			/*function(response) {
+				if (response && response.post_id) {
+					alert('Post was published.');
+				} else {
+					alert('Post was not published.');
+				}
+			}*/);
+
+			return false;
+		});
+		$('a[href="#twitter"]').click(function(e) {
+
+			// URL to go to
+			url = 'https://twitter.com/share';
+
+			// Paramaters to build
+			var params = {
+				via: 'tioki',
+				url: '<%= url_for(:only_path => false) %>',
+				text: 'Come join the "<%= @discussion.title %>" discussion on Tioki; a professional development site for educators!'
+			}
+
+			// URL plus params
+			url += '?' + $.param(params);
+			
+			// Apply to the link
+			$(this).attr('href', url).attr('target', '_blank');
+
+			// GO!
+			return true;
 		});
 	});
 </script>
