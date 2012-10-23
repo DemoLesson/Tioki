@@ -1,3 +1,7 @@
+v1.4.5 - Oct 23, 2012 10:22AM deployed by Kelly Becker
+======================================================
+* 26691c8: Kelly Becker - favoriting fix
+
 v1.4.4 - Oct 22, 2012  6:09PM deployed by Aleks Stanisic
 ========================================================
 * 5e50664: Aleks Stanisic - changes to profile completion guide
