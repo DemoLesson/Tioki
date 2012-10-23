@@ -1,3 +1,9 @@
+v1.4.4 - Oct 22, 2012  6:09PM deployed by Aleks Stanisic
+========================================================
+* 5e50664: Aleks Stanisic - changes to profile completion guide
+* fe37d29: Elijah Green - End donorschoose
+* 8557558: Elijah Green - redirect to the profile correctly
+
 v1.4.3 - Oct 22, 2012  3:43PM deployed by Kelly Becker
 ======================================================
 * 889ef5d: Elijah Green - fix javascript on discussions form
