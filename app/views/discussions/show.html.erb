@@ -90,7 +90,7 @@
 								<% if comment.deleted_at %>
 									[Message Deleted]
 								<% else %>
-								<p style="margin-left:65px">
+								<p style="margin-left:65px;width:auto">
 								<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
 								</p>
 								<% end %>
