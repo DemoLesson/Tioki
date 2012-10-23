@@ -1,3 +1,7 @@
+v1.4.14 - Oct 23, 2012  4:40PM deployed by Kelly Becker
+=======================================================
+
+
 v1.4.13 - Oct 23, 2012  4:18PM deployed by Kelly Becker
 =======================================================
 * 49facbf: Kelly Becker - facebook js api fix
