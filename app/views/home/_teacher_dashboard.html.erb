@@ -270,7 +270,7 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var link = $(this);
-		$.get(link.attr('href') + '?json=true', function(r) {
+		$.get(link.attr('href') + '.json', function(r) {
 
 			// Star the post
 			if(r.type == 'success' && r.new) {
