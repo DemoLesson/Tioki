@@ -1,3 +1,9 @@
+v1.4.6 - Oct 23, 2012 11:22AM deployed by Aleks Stanisic
+========================================================
+* 01c413f: Elijah Green - Only show reply if there is a current user and they are a teacher
+* 4530f8a: Elijah Green - Add width auto to discussion comments
+* 34b41a4: Elijah Green - Only show referrals where users were created after donors choose
+
 v1.4.5 - Oct 23, 2012 10:22AM deployed by Kelly Becker
 ======================================================
 * 26691c8: Kelly Becker - favoriting fix
