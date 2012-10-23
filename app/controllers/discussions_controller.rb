@@ -1,5 +1,5 @@
 class DiscussionsController < ApplicationController
-	before_filter :login_required, :except => [:index, :show]
+	before_filter :login_required, :except => [:index, :show, :reply_nologin]
 	before_filter :teacher_required, :except => [:index, :show]
 
   # GET /discussions
@@ -18,7 +18,9 @@ class DiscussionsController < ApplicationController
   def show
     @discussion = Discussion.find(params[:id])
     @comment =Comment.new
-		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])
+		if self.current_user
+			@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])
+		end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -146,6 +148,13 @@ class DiscussionsController < ApplicationController
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
 			end
 		end
+	end
+
+	def reply_nologin
+		if self.current_user
+			return redirect_to :back, "You are already logined"
+		end
+		redirect_to "'/welcome_wizard&x=step1&discussion_id=#{params[:id]}?body=#{params[:body]}"
 	end
 
 	def followed_discussions
