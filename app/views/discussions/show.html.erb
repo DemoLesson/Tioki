@@ -109,12 +109,13 @@
 								<% end %>
 								</p>
 							<% end %>
-
 						</li>
 					<% end %>
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
+				<% if self.current_user && self.current_user.teacher %>
 					<%= render "reply_to_discussion" %>
+				<% end %>
 				</li>
 			</ul>
 			</section>
