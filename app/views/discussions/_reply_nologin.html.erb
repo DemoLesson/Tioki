@@ -1,0 +1,5 @@
+<%= form_for @comment, :url => { :action => 'reply_nologin', :id => @discussion.id } do |f| %>
+	<strong>Add Your Reply</strong><br />
+	<%= f.text_area :body, :style => "width:650px" %><br />
+	<%= f.submit "Add Reply" %>
+<% end %>

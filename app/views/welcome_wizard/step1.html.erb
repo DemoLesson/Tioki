@@ -68,6 +68,9 @@
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
 			<% elsif params[:welcomecode] %>
 				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% elsif params[:discussion_id] %>
+				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
+				<%= hidden_field_tag :body, params[:body] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">

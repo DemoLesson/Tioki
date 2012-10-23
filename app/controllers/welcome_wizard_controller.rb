@@ -130,7 +130,17 @@ class WelcomeWizardController < ApplicationController
 
 				# Notice and redirect
 				flash[:notice] = "Signup successful"
-				return redirect_to "#{@buri}?x=step2#{@url}"
+				if params[:discussion_id]
+					@discussion = Discussion.find(params[:discussion_id])
+					comment = Comment.build_from(@discussion, @user.id, params[:body])
+					if comment.save
+						return redirect_to @discussion
+					else
+						return redirect_to @discussion
+					end
+				else
+					return redirect_to "#{@buri}?x=step2#{@url}"
+				end
 			else
 
 				# If the user save failed then notice and redirect
