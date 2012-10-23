@@ -1,3 +1,7 @@
+v1.4.9 - Oct 23, 2012 12:52PM deployed by Kelly Becker
+======================================================
+* a7853a5: Kelly Becker - updated discover page
+
 v1.4.8 - Oct 23, 2012 12:35PM deployed by Aleks Stanisic
 ========================================================
 * 742cc9f: Aleks Stanisic - wizard step 1 redesign
