@@ -1,3 +1,13 @@
+v1.4.11 - Oct 23, 2012  2:21PM deployed by Aleks Stanisic
+=========================================================
+* 71b6625: Aleks Stanisic - changes to discovery page' '
+* a270eb0: Elijah Green - Fix error where users that weren't logged in couldn't see a discussion
+* cb56055: Elijah Green - Fix error where users that weren't logged in couldn't see a discussion
+
+v1.4.10 - Oct 23, 2012  1:25PM deployed by Aleks Stanisic
+=========================================================
+* 960f21b: Elijah Green - Fix donors choose and referral page
+
 v1.4.9 - Oct 23, 2012 12:52PM deployed by Kelly Becker
 ======================================================
 * a7853a5: Kelly Becker - updated discover page
