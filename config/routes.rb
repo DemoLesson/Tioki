@@ -14,6 +14,7 @@ Preview::Application.routes.draw do
 			get 'unfollow_discussion'
 			get 'destroy_discussion'
 			get 'restore_discussion'
+			post 'reply_nologin'
 		end
 	end
 	match 'followed_discussions' => 'discussions#followed_discussions'

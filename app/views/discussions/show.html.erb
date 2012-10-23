@@ -127,6 +127,8 @@
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
 				<% if self.current_user && self.current_user.teacher %>
 					<%= render "reply_to_discussion" %>
+				<% if !self.current_user %>
+					<%= render "reply_nologin" %>
 				<% end %>
 				</li>
 			</ul>
