@@ -554,8 +554,8 @@ span.connection_degree {
 			border-top: 1px solid $ltgray;
 		}
 	}
-	ul {
-		li {
+	& > ul {
+		& > li {
 			padding: 12px 50px 12px 15px !important;
 			border-top: 1px dashed $ltgray;
 			position: relative;
@@ -585,6 +585,21 @@ span.connection_degree {
 
 			&.has-actions {
 				min-height: 70px;
+			}
+
+			ul.comments {
+				border: none;
+				display: block;
+				margin-top: 10px !important;
+
+				li {
+					margin-top: 10px;
+					background: $ltgray;
+					box-sizing: border-box;
+					-moz-box-sizing: border-box;
+					-webkit-box-sizing: border-box;
+					padding: 12px 15px 12px 15px !important;
+				}
 			}
 			
 			a {

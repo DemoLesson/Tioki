@@ -8,6 +8,11 @@
 		</div>
 	<% end %>
 	<p><strong><%= time_ago_in_words(@post.created_at) %> ago:</strong> <%= raw @post.getMessage %></p>
+	<ul class="comments">
+		<li>
+			HELLO
+		</li>
+	</ul>
 	<div class="quick-actions">
 		<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action <%= favorited(@post) ? 'star-gold' : 'star-empty' %>" title="Favorite Post">
 			<%= favorites(@post) %>
