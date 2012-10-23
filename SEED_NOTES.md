@@ -1,3 +1,8 @@
+v1.4.13 - Oct 23, 2012  4:18PM deployed by Kelly Becker
+=======================================================
+* 49facbf: Kelly Becker - facebook js api fix
+* 5305dc6: Elijah Green - If a replying user isn't loggined send send them to step 1 of welcome wizard
+
 v1.4.12 - Oct 23, 2012  3:52PM deployed by Kelly Becker
 =======================================================
 * ec4470e: Kelly Becker - share discussions
