@@ -19,7 +19,7 @@ class VouchesController < ApplicationController
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s )
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-				redirect_to '/'+User.current.teacher.url, :notice => "Success"
+				redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
@@ -37,7 +37,7 @@ class VouchesController < ApplicationController
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-				redirect_to '/'+User.current.teacher.url
+				redirect_to '/profile/'+User.current.teacher.url
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
@@ -56,7 +56,7 @@ class VouchesController < ApplicationController
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email], url).deliver
-				redirect_to '/'+User.current.teacher.url, :notice => "Success"
+				redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
@@ -123,7 +123,7 @@ class VouchesController < ApplicationController
 		if @vouch.for_new_educator == true
 			redirect_to "/welcome_wizard?x=step1&vouchstring=#{@vouch.url}", :notice => "Success"
 		else
-			redirect_to '/'+User.current.teacher.url, :notice => "Success"
+			redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
 		end
 	end
 
