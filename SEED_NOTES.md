@@ -1,3 +1,9 @@
+v1.4.7 - Oct 23, 2012 11:44AM deployed by Kelly Becker
+======================================================
+* cb4a4dd: Kelly Becker - whiteboard comments
+* ae5a860: Aleks Stanisic - changes to wizard step 1
+* 57cfde0: Kelly Becker - whiteboard comments
+
 v1.4.6 - Oct 23, 2012 11:22AM deployed by Aleks Stanisic
 ========================================================
 * 01c413f: Elijah Green - Only show reply if there is a current user and they are a teacher
