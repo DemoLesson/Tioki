@@ -1,3 +1,8 @@
+v1.4.15 - Oct 23, 2012  4:41PM deployed by Kelly Becker
+=======================================================
+* 8d1993a: Elijah Green - Fix styling of discussions
+* b1eabb7: Elijah Green - Fix to broken is statement on discussions/show
+
 v1.4.14 - Oct 23, 2012  4:40PM deployed by Kelly Becker
 =======================================================
 
