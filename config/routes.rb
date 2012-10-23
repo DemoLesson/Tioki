@@ -11,6 +11,7 @@ Preview::Application.routes.draw do
 			get 'reply_to_comment'
 			post 'reply_to_comment'
 			get 'follow_discussion'
+			get 'unfollow_discussion'
 			get 'destroy_discussion'
 			get 'restore_discussion'
 		end
