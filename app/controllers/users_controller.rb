@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
 	USER_ID, PASSWORD = "andreas", "dl2012"
-	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list ]
+	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list ]
 
 	def create(*args)
 		if request.post?
@@ -541,8 +541,16 @@ class UsersController < ApplicationController
 		@stats.push({:name => 'Total Applicants', :value => @applicants})
 	end
 
+	def donors_choose_list
+		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
+			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+	end
+
 	def referral_user_list
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true']).uniq.paginate(:per_page => 100, :page => params[:page])
+		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
+			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ?', 
+			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list

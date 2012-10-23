@@ -1,0 +1,69 @@
+
+<section id="main-content" class="inner-content">
+<h1>Administration</h1>
+
+<ul id="breadcrumbs">
+  <li><%= link_to 'Home', :admin %></li>
+  <li>Donors Choose</li>
+</ul>
+
+<%= render :partial => "admin_menu" %>
+
+<div class="clear" style="margin-top: 2.5em; border-bottom: 1px solid #ccc;"></div>
+
+<div id="wrapper">
+
+<div id="left" style="width: 905px"align="left">
+
+<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
+<table border="1" cellpadding="10">
+  <tr>
+    <th>Teacher Name</th>
+    <th>Email</th>
+    <th>Registered</th>
+    <th>Last Login</th>
+    <th>Login Count</th>
+    <th>Referrals-since-start</th>
+    <th>People Reffered<th>
+  </tr>
+<%- @teachers.each do |teacher| %>
+  <tr>
+    <td>
+      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
+      <%= teacher.user.name if teacher.nil? %>
+    </td>
+    <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>
+    <td><%= teacher.user.created_at.to_formatted_s(:long) %></td>
+    <td>
+      <% if teacher.user.last_login? %>
+        <%= teacher.user.last_login.to_formatted_s(:long) %>
+      <% else %>
+        Unknown
+      <% end %>
+    </td>
+    <td>
+      <% if teacher.user.login_count? %>
+        <%= teacher.user.login_count.to_s %>
+      <% else %>
+        Unknown
+      <% end %>
+    </td>
+    <td>
+      <%= teacher.user.successful_referrals.size %>
+    </td>
+    <td>
+      <% numOfReferrals = 1 %>
+      <% teacher.user.successful_referrals.each do |referral| %>
+		  <%= numOfReferrals %>. <% if referral.created_user %><%= referral.created_user.name %>- <%= referral.created_user.email %><% end %><br />
+		  <% numOfReferrals +=1 %>
+      <% end %>
+    </td>
+  </tr>
+<% end -%>
+</table>
+<%= will_paginate @teachers %>
+
+</div>
+
+</div>
+</section>
