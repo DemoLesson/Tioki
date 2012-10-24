@@ -20,7 +20,7 @@
 	<section>
 		<p>
 		<span class="bold caps"> Events</span><br />
-		Search for events that interest you.!
+		Search for events that interest you!
 		</p>
 	</section>
 	<section>
@@ -41,6 +41,17 @@
 			Welcome back, <%= @user.first_name %>
 			</h3>
 			<ul class="stats">
+				<% if Connection.mine(:pending => true, :creator => false).count > 0 %>
+					<li>
+						<a href="my_connections.html">
+							<div class="count">
+								<span class="iconic lightbulb" style="color:#cdcdcf;font-size:32px;margin:0px 0px -5px -25px"></span>
+								<%= Connection.mine(:pending => true, :creator => false).count %> 
+							</div>
+							Pending <%= ablang('connection.plural') %>
+						</a>
+					</li>
+				<% end %>
 				<li>
 					<a href="my_connections.html">
 					<div class="count connections">
@@ -49,22 +60,26 @@
 					My <%= ablang('connection.plural') %>
 					</a>
 				</li>
-				<li>
-					<a href="/messages">
-					<div class="count inbox">
-					<%= unread_messages %>
-					</div>
-					New Messages
-					</a>
-				</li>
-				<li>
-					<a href="teacher_applications">
-					<div class="count applications">
-					<%= Application.mine(:status => true).count %>
-					</div>
-					Job Applications
-					</a>
-				</li>
+				<% if unread_messages > 0 %>
+					<li>
+						<a href="/messages">
+							<div class="count inbox">
+							<%= unread_messages %>
+							</div>
+							New Messages
+						</a>
+					</li>
+				<% end %>
+				<% if Application.mine(:status => true).count > 0 %>
+					<li>
+						<a href="teacher_applications">
+							<div class="count applications">
+								<%= Application.mine(:status => true).count %>
+							</div>
+							Job Applications
+						</a>
+					</li>
+				<% end %>
 			</ul>
 		</div>
 	</section>
@@ -153,7 +168,25 @@
 			</section>
 		</section> <!-- END DEMO LESSONS -->
 		<section id="list" class="panel one-column right-side">
-			<%= link_to image_tag("tioki/icons/calendar.png"),  "/events/new", :style => "float:right;margin:17px 15px 0px 0px" %>
+			<h3>
+				<a href="#">
+				Who's Viewed Your Profile? 
+				</a>
+			</h3>
+			<ul>
+						<li style="padding:12px 15px 12px 15px !important;width:280px">
+							<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
+								<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
+							</div>
+							<p style="width:230px;margin-top:5px">
+							
+							<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
+							</p>
+						<li>
+			</ul>
+		</section> <!-- END WHO'S VIEWED YOUR PROFILE -->
+		<section id="list" class="panel one-column right-side">
+			<%= link_to image_tag("tioki/icons/calendar.png"), "/events/new", :style => "float:right;margin:17px 15px 0px 0px;" %>
 			<h3>
 				<a href="#">
 				Upcoming Events

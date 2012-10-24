@@ -53,6 +53,8 @@ class HomeController < ApplicationController
         @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
         @pendingcount = self.current_user.pending_connections.count
+        
+        @profile_views = self.get_analytics(:view_teacher_profile, self.current_user.teacher, nil, nil, true).count
 
         @user = User.find(self.current_user)
 
