@@ -18,7 +18,7 @@ class SkillsController < ApplicationController
     @my_connections = Array.new if self.current_user.nil?
 
     # Get a list of events
-    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).joins(:skills).limit(5)
+    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).order('`events`.`start_time` ASC').joins(:skills).limit(5)
 
     # Get the associated discussions
     @discussions = Discussion.joins(:skills).where("`skills`.`id` = ?", @skill.id)

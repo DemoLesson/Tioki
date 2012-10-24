@@ -1,6 +1,6 @@
 class DiscussionsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :reply_nologin]
-	before_filter :teacher_required, :except => [:index, :show]
+	before_filter :teacher_required, :except => [:index, :show, :reply_nologin]
 
   # GET /discussions
   # GET /discussions.json
@@ -154,7 +154,7 @@ class DiscussionsController < ApplicationController
 		if self.current_user
 			return redirect_to :back, "You are already logined"
 		end
-		redirect_to "'/welcome_wizard&x=step1&discussion_id=#{params[:id]}?body=#{params[:body]}"
+		redirect_to "/welcome_wizard?x=step1&discussion_id=#{params[:id]}&body=#{CGI.escape(params[:comment][:body])}"
 	end
 
 	def followed_discussions
