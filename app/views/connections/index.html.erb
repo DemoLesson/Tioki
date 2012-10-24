@@ -1,22 +1,22 @@
 <section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
 	<section>
 		<nav class="subpage">
-			<ul>
-				<li>
-					<a href="/my_connections">
-						My <%= ablang("connection.plural", true) %>
-					</a>
-				</li>
-				<li class="current">
-					Find New <%= ablang("connection.plural", true) %>
+		<ul>
+			<li>
+				<a href="/my_connections">
+					My <%= ablang("connection.plural", true) %>
+				</a>
+			</li>
+			<li class="current">
+				Find New <%= ablang("connection.plural", true) %>
 
-				</li>
-				<li>
-					<a href="/inviteconnections">
+			</li>
+			<li>
+				<a href="/inviteconnections">
 					Invite <%= ablang("connection.plural", true) %>
-					</a>
-				</li>
-			</ul>
+				</a>
+			</li>
+		</ul>
 		</nav>
 	</section>
 	<section id="panels" class="group">
@@ -24,6 +24,38 @@
 			<h3>
 				Find New <%= ablang('connection.plural', true) %>
 			</h3>
+			<div class="accordion filterconnections">
+				<p class="bold caps head closed-arrow">
+				<a href="#">
+					School
+				</a>
+				</p>
+				<div>
+					<ul>
+						<% @schools.each do |school| %>
+							<li>
+								<input type="checkbox" >
+								<%= school %>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+				<p class="bold caps head closed-arrow">
+				<a href="#">
+					Skills
+				</a>
+				</p>
+				<div>
+					<ul>
+						<% @skills.each do |skill| %>
+							<li>
+								<input type="checkbox" >
+								<%= skill.name %>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+			</div>
 			<div style="padding:15px">
 				<%= form_tag "/connections", :method => "get" do %>
 					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:280px;"} %>
@@ -46,24 +78,27 @@
 				<% end %>
 				<li>
 					<a href="#" class="viewmore">
-					View More
+						View More
 					</a>
 				</li>
 			</ul>
 		</section> <!-- END MY CONNECTIONS -->
-		
 	</section>
-
 </section> <!-- End Main Content -->
-<!--	<script>
+<script type="text/javascript">
 	$(document).ready(function(){
-	$('.accordion .head').click(function() {
-		$(this).toggleClass('closed-arrow open-arrow');
-		$(this).next().toggle('slow');
-		return false;
-	}).next().hide();
-});
-	</script>-->
+		$('.accordion .head').click(function() {
+			$(this).toggleClass('closed-arrow open-arrow');
+			$(this).next().toggle('slow');
+			return false;
+		}).next().hide();
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+	});
+</script>
 <script type="text/javascript">
 // White board more
 $(document).ready(function() {
