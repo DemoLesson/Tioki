@@ -14,12 +14,12 @@ class ConnectionsController < ApplicationController
 
 		if params[:skill]
 			teachers = Teacher.search(:skill => params[:skill])
-		elsif params[:topic].empty? || params[:topic] == name
-			teachers = Teacher.search(:name => params[:search])
+		elsif params[:topic].empty? || params[:topic] == 'name'
+			teachers = Teacher.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.search(:email => params[:search])
+			teachers = Teacher.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.search(:school => params[:search])
+			teachers = Teacher.search(:school => params[:connectsearch])
 		else
 			teachers = []
 		end
