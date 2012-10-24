@@ -1,3 +1,8 @@
+v1.4.16 - Oct 23, 2012  5:18PM deployed by Aleks Stanisic
+=========================================================
+* dadb164: Aleks Stanisic - changing welcome emails
+* 81284c7: Elijah Green - Speed up discussions pages
+
 v1.4.15 - Oct 23, 2012  4:41PM deployed by Kelly Becker
 =======================================================
 * 8d1993a: Elijah Green - Fix styling of discussions
