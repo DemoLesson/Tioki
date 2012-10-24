@@ -77,52 +77,49 @@
 	  </section>
 	  <!-- Start of Replies to Discussion-->
 	  <ul>
-		<% @discussion.root_comments.each do |root| %>
+			<% @discussion.comment_threads.order("lft").each do |comment| %>
+				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
 
-		  <% root.self_and_descendants.each do |comment| %>
-			<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+					<div <% if comment.child? %>style="margin-left:65px"<% end %>>
+						<div class="profile-thumb-small">
+							<% if comment.user %>
+								<% if comment.user.avatar? %>
+									<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
+								<% else %>
+									<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+								<% end %>
+							<% end %>
+						</div>
+						<% if comment.user %>
+							<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+						<% else %>
+							[deleted]
+						<% end %><br />
 
-			  <div <% if comment.child? %>style="margin-left:65px"<% end %>>
-				<div class="profile-thumb-small">
-				  <% if comment.user %>
-					<% if comment.user.avatar? %>
-					  <%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
-					<% else %>
-					  <%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+						<% if comment.deleted_at %>
+							[Message Deleted]
+						<% else %>
+							<p style="margin-left:65px;width:auto">
+								<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
+							</p>
+						<% end %>
+					</div><br/><br/>
+
+					<% if self.current_user && self.current_user.teacher %>
+						<p style="float:left;margin-left:65px">
+							<div class ="reply_to_comment">
+								<a>Reply</a>
+							</div>
+							<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
+								|
+								<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
+								|
+								<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+							<% end %>
+						</p>
 					<% end %>
-				  <% end %>
-				</div>
-				<% if comment.user %>
-				  <%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
-				<% else %>
-				  [deleted]
-				<% end %><br />
-
-				<% if comment.deleted_at %>
-				  [Message Deleted]
-				<% else %>
-				  <p style="margin-left:65px;width:auto">
-					<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
-				  </p>
-				<% end %>
-			  </div><br/><br/>
-
-			  <% if self.current_user && self.current_user.teacher %>
-				<p style="float:left;margin-left:65px">
-				  <div class ="reply_to_comment">
-					<a>Reply</a>
-				  </div>
-				  <% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
-					|
-					<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
-					|
-					<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
-				  <% end %>
-				</p>
-			  <% end %>
-			</li>
-		  <% end %>
-		<% end %>
+				</li>
+			<% end %>
 		<li style="width:700px;padding:12px 0px 12px 15px !important">
 		  <% if self.current_user && self.current_user.teacher %>
 			<%= render "reply_to_discussion" %>
