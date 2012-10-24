@@ -111,10 +111,16 @@ class Hash
   		return self.to_hash unless block_given?
 
   		replace = Hash.new
+		begin
   		self.each do |key, val|
   			returned = yield(key, val)
   			replace[key] = returned.nil? ? val : returned
   		end
+		rescue
+			#It is possible that some things need the enumerable version of collect 
+			#when called on a hash
+			return super
+		end
 
   		return replace
   	end

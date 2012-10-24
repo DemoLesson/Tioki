@@ -1,3 +1,20 @@
+v1.4.19 - Oct 24, 2012 11:37AM deployed by Aleks Stanisic
+=========================================================
+* 7ee1a28: Elijah Green - If an error occurs in our version of Hash.collect, use the orginal version
+
+v1.4.18 - Oct 23, 2012  6:01PM deployed by Aleks Stanisic
+=========================================================
+* cdcf9b9: Aleks Stanisic - changing twitter share on discussions
+
+v1.4.17 - Oct 23, 2012  5:32PM deployed by Aleks Stanisic
+=========================================================
+* e3d36d3: Brian Martinez - who's viewed your profile and invitation notifications
+
+v1.4.16 - Oct 23, 2012  5:18PM deployed by Aleks Stanisic
+=========================================================
+* dadb164: Aleks Stanisic - changing welcome emails
+* 81284c7: Elijah Green - Speed up discussions pages
+
 v1.4.15 - Oct 23, 2012  4:41PM deployed by Kelly Becker
 =======================================================
 * 8d1993a: Elijah Green - Fix styling of discussions
