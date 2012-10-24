@@ -14,6 +14,8 @@ class ConnectionsController < ApplicationController
 
 		if params[:skill]
 			teachers = Teacher.search(:skill => params[:skill])
+		elsif params[:connectsearch].empty?
+			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
 			teachers = Teacher.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
@@ -305,15 +307,19 @@ class ConnectionsController < ApplicationController
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 		if params[:skill]
 			teachers = Teacher.search(:skill => params[:skill]).paginate(:per_page => 25, :page => params[:page])
+		elsif params[:connectsearch].empty?
+			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.search(:name => params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+			teachers = Teacher.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.search(:email => params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+			teachers = Teacher.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.search(:school => params[:connectsearch]).paginate(:per_page => 25, :page => params[:page])
+			teachers = Teacher.search(:school => params[:connectsearch])
 		else
 			teachers = []
 		end
+
+		teachers = teachers.paginate(:per_page => 25, :page => params[:page])
 		return render :json => connections unless params[:raw].nil?
 
 		divs = Array.new

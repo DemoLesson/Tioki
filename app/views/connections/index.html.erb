@@ -72,11 +72,11 @@
 					</fieldset>
 				<% end %>
 			</div>
-			<ul>
+			<ul id="connection_list">
 				<% @teachers.each do |teacher| %>
 					<%= raw teacher %>
 				<% end %>
-				<li>
+				<li class="viewmorelist">
 					<a href="#" class="viewmore">
 						View More
 					</a>
@@ -96,7 +96,11 @@
 </script>
 <script type="text/javascript">
 	$(document).ready(function(){
-
+			$("input:checkbox").click(function() {
+				//keep the viewmore
+				var view = $('.viewmorelist');
+				$("#connection_list").empty().append(view);
+			});
 	});
 </script>
 <script type="text/javascript">
@@ -144,7 +148,7 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-$(document).ready(function() {
-		$("#skills").chosen();
-		});
+	$(document).ready(function() {
+			$("#skills").chosen();
+			});
 </script>
