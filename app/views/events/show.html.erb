@@ -16,7 +16,7 @@
 						Invite Friends
 					</a>
 				</li>
-				<% if @event.user == User.current || User.current.is_admin %>
+				<% if @event.user == User.current || (User.current && User.current.is_admin) %>
 					<li>
 						<a href="<%= event_path(@event) + '/edit' %>">
 							Edit Event

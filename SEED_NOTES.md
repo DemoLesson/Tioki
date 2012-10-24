@@ -1,3 +1,39 @@
+v1.4.19 - Oct 24, 2012 11:37AM deployed by Aleks Stanisic
+=========================================================
+* 7ee1a28: Elijah Green - If an error occurs in our version of Hash.collect, use the orginal version
+
+v1.4.18 - Oct 23, 2012  6:01PM deployed by Aleks Stanisic
+=========================================================
+* cdcf9b9: Aleks Stanisic - changing twitter share on discussions
+
+v1.4.17 - Oct 23, 2012  5:32PM deployed by Aleks Stanisic
+=========================================================
+* e3d36d3: Brian Martinez - who's viewed your profile and invitation notifications
+
+v1.4.16 - Oct 23, 2012  5:18PM deployed by Aleks Stanisic
+=========================================================
+* dadb164: Aleks Stanisic - changing welcome emails
+* 81284c7: Elijah Green - Speed up discussions pages
+
+v1.4.15 - Oct 23, 2012  4:41PM deployed by Kelly Becker
+=======================================================
+* 8d1993a: Elijah Green - Fix styling of discussions
+* b1eabb7: Elijah Green - Fix to broken is statement on discussions/show
+
+v1.4.14 - Oct 23, 2012  4:40PM deployed by Kelly Becker
+=======================================================
+
+
+v1.4.13 - Oct 23, 2012  4:18PM deployed by Kelly Becker
+=======================================================
+* 49facbf: Kelly Becker - facebook js api fix
+* 5305dc6: Elijah Green - If a replying user isn't loggined send send them to step 1 of welcome wizard
+
+v1.4.12 - Oct 23, 2012  3:52PM deployed by Kelly Becker
+=======================================================
+* ec4470e: Kelly Becker - share discussions
+* 74a75ee: Kelly Becker - sort events on discover page by start_time asc
+
 v1.4.11 - Oct 23, 2012  2:21PM deployed by Aleks Stanisic
 =========================================================
 * 71b6625: Aleks Stanisic - changes to discovery page' '

@@ -1,138 +1,135 @@
 <section id="main-content" class="inner-content">
-	<h2>
-		<%= @discussion.title %>
-	</h2>
-	
-	<!-- Topics of the Discussion -->
-	<section style="width: 650px">
-	<p style="margin-top:-10px">Topics:
-	<% @discussion.skills.each do |skill| %>
-		<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
-	<% end %>
-	</p>
-	</section>
-	<section id="panels">
-		<section id="list" class="panel three-column left-side" >
-			
-			<!-- Followers Section -->
-			<section style="float:right;margin:0px 15px 0px 0px">
-				<% if self.current_user && self.current_user.teacher %>
-					<% if @follower %>
-						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
-					<% else %>
-						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
-					<% end %>
-				<% end %>
-				<% @discussion.following.each do |user| %>
-					<% if user %>
-						<% if user.avatar? %>
-							<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
-						<% else %>
-							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
-						<% end %>
-					<% end %>
-				<% end %>
-				<div style="display:block;">
-					<h3>Share</h3>
-					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
-					<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
-					<a href="#"><%= image_tag('tioki/icons/tioki.png') %></a>
-				</div>
-			</section>
-			
-			<!--Content Section-->
-			<section style="margin:15px 0px 0px 15px;width:700px">
-			<div class="profile-thumb-small">
-				
-				<% if @discussion.user %>
-					<% if @discussion.user.avatar? %>
-						<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.teacher.url}" %>
-					<% else %>
-						<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
-					<% end %>
-				<% end %>
-			</div>
-			<% if @discussion.user %>
-				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}", :style => "color:#F66C4C" %></strong><br />
-			<% else %>
-				[Deleted]
-			<% end %>
-			<% if @discussion.deleted_at %>
-				[Message Deleted]
-			<% else %>
-				<p style="width:675px;margin-left:65px">
-				<%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
-				</p>
-			<% end %>
-			<section style="margin-left:65px">
-			<% if self.current_user && self.current_user.teacher %>
-				<%= link_to 'Reply to discussion', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-green" %>
-				<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
-					<% if !@discussion.deleted_at %>
-						<%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
-						|
-						<%= link_to "Delete", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?", :style => "color:#F66C4C" %><br/><br />
-					<% end %>
-				<% end %>
-			<% end %>
-			</section>
-			<!-- Start of Replies to Discussion-->
-			<ul>
-				<% @discussion.root_comments.each do |root| %>
-					
-					<% root.self_and_descendants.each do |comment| %>
-						<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+  <h2>
+	<%= @discussion.title %>
+  </h2>
 
-							<div <% if comment.child? %>style="margin-left:65px"<% end %>>
-								<div class="profile-thumb-small">
-									<% if comment.user %>
-										<% if comment.user.avatar? %>
-											<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
-										<% else %>
-											<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
-										<% end %>
-									<% end %>
-								</div>
-								<% if comment.user %>
-									<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+  <!-- Topics of the Discussion -->
+  <section style="width: 650px">
+	<p style="margin-top:-10px">Topics:
+	  <% @discussion.skills.each do |skill| %>
+		<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
+	  <% end %>
+	</p>
+  </section>
+  <section id="panels">
+	<section id="list" class="panel three-column left-side" >
+
+	  <!-- Followers Section -->
+	  <section style="float:right;margin:0px 15px 0px 0px">
+		<% if self.current_user && self.current_user.teacher %>
+		  <% if @follower %>
+			<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+		  <% else %>
+			<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+		  <% end %>
+		<% end %>
+		<% @discussion.following.each do |user| %>
+		  <% if user %>
+			<% if user.avatar? %>
+			  <%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+			<% else %>
+			  <%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+			<% end %>
+		  <% end %>
+		<% end %>
+		<div style="display:block;">
+		  <h3>Share</h3>
+		  <a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
+		  <a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
+		  <% #<a href="#"><%= image_tag('tioki/icons/tioki.png') </a> %>
+		</div>
+	  </section>
+
+	  <!--Content Section-->
+	  <div class="profile-thumb-small">
+
+		<% if @discussion.user %>
+		  <% if @discussion.user.avatar? %>
+			<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.teacher.url}" %>
+		  <% else %>
+			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
+		  <% end %>
+		<% end %>
+	  </div>
+	  <% if @discussion.user %>
+		<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}", :style => "color:#F66C4C" %></strong><br />
+	  <% else %>
+		[Deleted]
+	  <% end %>
+	  <% if @discussion.deleted_at %>
+		[Message Deleted]
+	  <% else %>
+		<p style="width:675px;margin-left:65px">
+		  <%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
+		</p>
+	  <% end %>
+	  <section style="margin-left:65px">
+		<% if self.current_user && self.current_user.teacher %>
+		  <%= link_to 'Reply to discussion', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-green" %>
+		  <% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
+			<% if !@discussion.deleted_at %>
+			  <%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
+			  |
+			  <%= link_to "Delete", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?", :style => "color:#F66C4C" %><br/><br />
+			<% end %>
+		  <% end %>
+		<% end %>
+	  </section>
+	  <!-- Start of Replies to Discussion-->
+	  <ul>
+			<% @discussion.comment_threads.order("lft").each do |comment| %>
+				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+
+					<div <% if comment.child? %>style="margin-left:65px"<% end %>>
+						<div class="profile-thumb-small">
+							<% if comment.user %>
+								<% if comment.user.avatar? %>
+									<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
 								<% else %>
-									[deleted]
-								<% end %><br />
-								
-								<% if comment.deleted_at %>
-									[Message Deleted]
-								<% else %>
-								<p style="margin-left:65px;width:auto">
-								<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
-								</p>
+									<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
 								<% end %>
-							</div><br/><br/>
-				
-							<% if self.current_user && self.current_user.teacher %>
-								<p style="float:left;margin-left:65px">
-								<div class ="reply_to_comment">
-									<a>Reply</a>
-								</div>
-								<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
-									|
-									<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
-									|
-									<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
-								<% end %>
-								</p>
 							<% end %>
-						</li>
+						</div>
+						<% if comment.user %>
+							<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+						<% else %>
+							[deleted]
+						<% end %><br />
+
+						<% if comment.deleted_at %>
+							[Message Deleted]
+						<% else %>
+							<p style="margin-left:65px;width:auto">
+								<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
+							</p>
+						<% end %>
+					</div><br/><br/>
+
+					<% if self.current_user && self.current_user.teacher %>
+						<p style="float:left;margin-left:65px">
+							<div class ="reply_to_comment">
+								<a>Reply</a>
+							</div>
+							<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
+								|
+								<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
+								|
+								<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+							<% end %>
+						</p>
 					<% end %>
-				<% end %>
-				<li style="width:700px;padding:12px 0px 12px 15px !important">
-				<% if self.current_user && self.current_user.teacher %>
-					<%= render "reply_to_discussion" %>
-				<% end %>
 				</li>
-			</ul>
-			</section>
-		</section>
+			<% end %>
+		<li style="width:700px;padding:12px 0px 12px 15px !important">
+		  <% if self.current_user && self.current_user.teacher %>
+			<%= render "reply_to_discussion" %>
+		  <% elsif !self.current_user %>
+			<%= render "reply_nologin" %>
+		  <% end %>
+		</li>
+	  </ul>
 	</section>
+  </section>
 </section>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -175,7 +172,7 @@
 			var params = {
 				via: 'tioki',
 				url: '<%= url_for(:only_path => false) %>',
-				text: 'Come join the "<%= @discussion.title %>" discussion on Tioki; a professional development site for educators!'
+				text: 'Come join the "<%= @discussion.title %>" on Tioki!'
 			}
 
 			// URL plus params
