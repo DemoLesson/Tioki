@@ -1,3 +1,7 @@
+v1.4.17 - Oct 23, 2012  5:32PM deployed by Aleks Stanisic
+=========================================================
+* e3d36d3: Brian Martinez - who's viewed your profile and invitation notifications
+
 v1.4.16 - Oct 23, 2012  5:18PM deployed by Aleks Stanisic
 =========================================================
 * dadb164: Aleks Stanisic - changing welcome emails
