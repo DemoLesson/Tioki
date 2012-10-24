@@ -1,3 +1,7 @@
+v1.4.19 - Oct 24, 2012 11:37AM deployed by Aleks Stanisic
+=========================================================
+* 7ee1a28: Elijah Green - If an error occurs in our version of Hash.collect, use the orginal version
+
 v1.4.18 - Oct 23, 2012  6:01PM deployed by Aleks Stanisic
 =========================================================
 * cdcf9b9: Aleks Stanisic - changing twitter share on discussions
