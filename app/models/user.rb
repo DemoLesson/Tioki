@@ -179,8 +179,8 @@ class User < ActiveRecord::Base
 			# Generate a profile url
 			url = Random.rand(10..99).to_s + self.id.to_s + self.name
 
-			# Remove any spaces in the URL
-			url = url.gsub(/[ .?&:=+]/, '')
+			# Remove bad url characters
+			url = url.parameterize('')
 
 			# Downcase the URL
 			t.url = url.downcase
