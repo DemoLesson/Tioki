@@ -77,6 +77,53 @@ class Teacher < ActiveRecord::Base
       return []
     end
   end
+
+  def self.search(args = {})
+    if args[:email]
+			#only one person can have this email
+      return find(:all, :include => :user, :conditions => ['teachers.user_id = users.id && users.email = ?', args[:email]])
+		end
+
+		tup = SmartTuple.new(" AND ")
+
+		if args[:skill]
+			tup << ["skills.id = ?", args[:skill]]
+		end
+
+		if args[:skills]
+			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
+		end
+
+    if args[:name]
+      args[:name].split.each do |token|
+        tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", 
+          "#{token}%", "% #{token}%","#{token}%"]
+      end
+		end
+
+    if args[:school]
+      args[:school].split.each do |token|
+        tup << ["teachers.school LIKE ? OR teachers.school LIKE ?", "#{token}%", "% #{token}%"]
+      end
+    end
+
+		if args[:schools]
+			#Will be eact messages
+			subtup = SmartTuple.new(" OR ")
+
+      params[:schools].each do |school|
+        subtup << ["teachers.school = ?", school]
+      end
+
+			tup << subtup
+		end
+
+		if args[:skill] || args[:skills]
+			find(:all, :include => [:user, :skills], :conditions => tup.compile)
+		else
+			find(:all, :include => :user, :conditions => tup.compile)
+		end
+  end
   
   def self.owner_id(owner_id)
     @teacher = Teacher.find(owner_id)

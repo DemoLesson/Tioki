@@ -13,10 +13,17 @@ class ConnectionsController < ApplicationController
 		@teachers = Array.new
 
 		if params[:skill]
-			teachers = Teacher.find(:all, :include => :skills, :conditions => ["skills.id = ?", params[:skill]]).paginate(:per_page => 25, :page => params[:page])
+			teachers = Teacher.search(:skill => params[:skill])
+		elsif params[:topic].empty? || params[:topic] == name
+			teachers = Teacher.search(:name => params[:search])
+		elsif params[:topic] == 'email'
+			teachers = Teacher.search(:email => params[:search])
+		elsif params[:topic] == 'school'
+			teachers = Teacher.search(:school => params[:search])
 		else
-			teachers = Teacher.search(params[:connectsearch], params[:topic]).paginate(:per_page => 25, :page => params[:page])
+			teachers = []
 		end
+
 		teachers.each do |teacher|
 			@teacher = teacher
 			@teachers << render_to_string("connections/new_connections", :layout => false)
