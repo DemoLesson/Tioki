@@ -1,3 +1,7 @@
+v1.4.18 - Oct 23, 2012  6:01PM deployed by Aleks Stanisic
+=========================================================
+* cdcf9b9: Aleks Stanisic - changing twitter share on discussions
+
 v1.4.17 - Oct 23, 2012  5:32PM deployed by Aleks Stanisic
 =========================================================
 * e3d36d3: Brian Martinez - who's viewed your profile and invitation notifications
