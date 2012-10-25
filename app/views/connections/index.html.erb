@@ -24,7 +24,7 @@
 			<h3>
 				Find New <%= ablang('connection.plural', true) %>
 			</h3>
-			<% if params[:topic].empty? || params[:topic] == 'name' %>
+			<% if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'  %>
 				<div class="accordion filterconnections">
 					<p class="bold caps head closed-arrow">
 					<a href="#">
@@ -98,17 +98,24 @@
 </script>
 <script type="text/javascript">
 	$(document).ready(function(){
+			window.connectionPage = 1;
+			window.connectionMax = false;
+			var skillstring = "";
+			<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
 			$("input:checkbox").click(function() {
 				//keep the viewmore
-				var view = $('.viewmorelist');
-				$("#connection_list").empty().append(view);
-				//var schoolArray= [];
-				//$("input[name='schools[]']:checked").each(function(){});
+				$('.viewmore').text("View More");
+				$("#connection_list li:not(:last)").remove();
 
-				var skillstring = '';
+				window.connectionPage = 1;
+				window.connectionMax = false;
+
+				var schoolstring= '';
+				$("input[name='schools[]']:checked").each(function(){schoolstring += "&schools[]=" + $(this).val();});
+
+				skillstring = '';
 				$("input[name='skills[]']:checked").each(function(){skillstring += "&skills[]=" + $(this).val();});
-				<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
-				$.getJSON('/newconnections?page=1<%= searchstring %>' + skillstring, function(data) {
+				$.getJSON('/newconnections?page=1<%= searchstring %>' + skillstring + schoolstring, function(data) {
 
 					// For every element
 					for(var x in data) {
@@ -117,51 +124,43 @@
 					}
 				});
 			});
-	});
-</script>
-<script type="text/javascript">
-// White board more
-$(document).ready(function() {
-	window.connectionPage = 1;
-	window.connectionMax = false;
-	$('.viewmore').click(function(e) {
-		e.preventDefault();
+			$('.viewmore').click(function(e) {
+				e.preventDefault();
 
-		// If we have already reached the end of the connections then stop
-		if(window.connectionMax) return false;
-		
-		// Get the number for the next page of data to pull
-		window.connectionPage++;
+				// If we have already reached the end of the connections then stop
+				if(window.connectionMax) return false;
+				
+				// Get the number for the next page of data to pull
+				window.connectionPage++;
 
-		// Store for future use down the stack
-		more = $(this);
-		<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
+				// Store for future use down the stack
+				more = $(this);
 
-		// Get the next pieces of activity via JSON
-		$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>", function(data) {
+				// Get the next pieces of activity via JSON
+				$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>" + skillstring + schoolstring, function(data) {
 
-			// If no data was returned handle by removing the button and erroring
-			if(data.length == 0) {
-				more.animate({"opacity": 0}, 700, function() {
-					window.connectionMax = true;
-					more.text('No More <%= ablang('connection.plural', true)%>');
-					setTimeout(function() {
-						more.animate({"opacity": 1}, 1000);
-					}, 50);
+					// If no data was returned handle by removing the button and erroring
+					if(data.length == 0) {
+						more.animate({"opacity": 0}, 700, function() {
+							window.connectionMax = true;
+							more.text('No More <%= ablang('connection.plural', true)%>');
+							setTimeout(function() {
+								more.animate({"opacity": 1}, 1000);
+							}, 50);
+						});
+					}
+
+					// For every element
+					for(var x in data) {
+
+						// Create the object, insert, and fade it in
+						$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+					}
 				});
-			}
 
-			// For every element
-			for(var x in data) {
-
-				// Create the object, insert, and fade it in
-				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
-			}
+				return false;
+			});
 		});
-
-		return false;
-	});
-});
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
