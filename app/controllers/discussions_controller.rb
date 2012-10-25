@@ -240,14 +240,16 @@ class DiscussionsController < ApplicationController
 		subject = "You have been invited to join the \"#{d.title}\" discussion."
 		body = <<-BODY
 Hi, I was browsing Tioki's discussion board and I thought you might be interested in this discussion.
-Come join the conversation. <a href="http://google.com">Click Here</a>
+Come join the conversation. <a href="http://tioki.com/discussions/#{d.id}">Click Here</a>
 BODY
 
 		# Send the message
 		params[:connection].each do |user|
-			Message.send(:to => 117091, :subject => subject, :body => body)
+			Message.send!(user, :subject => subject, :body => body.html_safe)
 		end
 
+		flash[:success] = "Share successfully."
+		return redirect_to :back
 	end
 
   # DELETE /discussions/1

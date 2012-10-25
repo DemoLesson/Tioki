@@ -30,13 +30,13 @@ class Message < ActiveRecord::Base
     self.save
   end
 
-  def self.send(opts = {})
+  def self.send!(to, opts = {})
 
     # Return false if a subject and body were not provided
-    return false if opts[:subject].nil? || opts[:body].nil? || opts[:to].nil?
+    return false if opts[:subject].nil? || opts[:body].nil?
 
     # Make sure user is a user model
-    to = User.find(opts[:to]) unless opts[:to].is_a?(User)
+    to = User.find(to) unless to.is_a?(User)
 
     # Get from value from user.current unless one was specified
     from = User.current if opts[:from].nil?
@@ -57,18 +57,22 @@ class Message < ActiveRecord::Base
 
     # Create the message
     msg = new
-    dump msg
-    msg.user_id_to = to.id.to_s
+    msg.user_id_to = to.id
     msg.user_id_from = from.id
     msg.subject = subject
     msg.body = body
     msg.read = read
 
     if msg.save
+      
       # Notify the user of the message via email
       UserMailer.message_notification(msg.user_id_to, msg.subject, msg.body, msg.id, from.name).deliver
+      
+      # Return true on success
       return true
     else
+
+      # Return false on failure
       return false
     end
     
