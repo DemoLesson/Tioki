@@ -1,3 +1,10 @@
+v1.4.23 - Oct 25, 2012  4:27PM deployed by Kelly Becker
+=======================================================
+* 8de8fbd: Kelly Becker - added discussions to the whiteboard
+* 21236d4: Elijah Green - Fix adding full and limited admins
+* efa9771: Kelly Becker - discussions style change
+* 9d7b630: Aleks Stanisic - adding search filter title
+
 v1.4.22 - Oct 25, 2012  3:41PM deployed by Kelly Becker
 =======================================================
 * 98660c1: Kelly Becker - sharing discussions to connections
