@@ -24,38 +24,40 @@
 			<h3>
 				Find New <%= ablang('connection.plural', true) %>
 			</h3>
-			<div class="accordion filterconnections">
-				<p class="bold caps head closed-arrow">
-				<a href="#">
-					School
-				</a>
-				</p>
-				<div>
-					<ul>
-						<% @schools.each do |school| %>
-							<li>
-								<input type="checkbox" >
-								<%= school %>
-							</li>
-						<% end %>
-					</ul>
+			<% if params[:topic].empty? || params[:topic] == 'name' %>
+				<div class="accordion filterconnections">
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						School
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @schools.each do |school| %>
+								<li>
+									<%= check_box_tag "schools[]", school %>
+									<%= school %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						Skills
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @teacher_skills.each do |skill| %>
+								<li>
+									<%= check_box_tag "skills[]", skill.id %>
+									<%= skill.name %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
 				</div>
-				<p class="bold caps head closed-arrow">
-				<a href="#">
-					Skills
-				</a>
-				</p>
-				<div>
-					<ul>
-						<% @skills.each do |skill| %>
-							<li>
-								<input type="checkbox" >
-								<%= skill.name %>
-							</li>
-						<% end %>
-					</ul>
-				</div>
-			</div>
+			<% end %>
 			<div style="padding:15px">
 				<%= form_tag "/connections", :method => "get" do %>
 					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:280px;"} %>
@@ -100,6 +102,20 @@
 				//keep the viewmore
 				var view = $('.viewmorelist');
 				$("#connection_list").empty().append(view);
+				//var schoolArray= [];
+				//$("input[name='schools[]']:checked").each(function(){});
+
+				var skillstring = '';
+				$("input[name='skills[]']:checked").each(function(){skillstring += "&skills[]=" + $(this).val();});
+				<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
+				$.getJSON('/newconnections?page=1<%= searchstring %>' + skillstring, function(data) {
+
+					// For every element
+					for(var x in data) {
+						// Create the object, insert, and fade it in
+						$(data[x]).css('display','none').insertBefore($('.viewmore').closest('li')).fadeIn(700);
+					}
+				});
 			});
 	});
 </script>

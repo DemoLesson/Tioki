@@ -26,8 +26,10 @@ class ConnectionsController < ApplicationController
 			teachers = []
 		end
 
-		@schools = teachers.collect(&:school).uniq
-		@skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", teachers.collect(&:user_id)]).uniq
+		if params[:topic].empty? || params[:topic] == 'name'
+			@schools = teachers.collect(&:school).uniq
+			@teacher_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", teachers.collect(&:user_id)]).uniq
+		end
 		teachers = teachers.paginate(:per_page => 25, :page => params[:page])
 
 		teachers.each do |teacher|
@@ -310,11 +312,11 @@ class ConnectionsController < ApplicationController
 		elsif params[:connectsearch].empty?
 			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.search(:name => params[:connectsearch])
+			teachers = Teacher.search(:name => params[:connectsearch], :skills => params[:skills])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.search(:email => params[:connectsearch])
+			teachers = Teacher.search(:email => params[:connectsearch], :skills => params[:skills])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.search(:school => params[:connectsearch])
+			teachers = Teacher.search(:school => params[:connectsearch], :skills => params[:skills])
 		else
 			teachers = []
 		end
