@@ -100,7 +100,8 @@
 	$(document).ready(function(){
 			window.connectionPage = 1;
 			window.connectionMax = false;
-			var skillstring = "";
+			var skillstring = '';
+			var schoolstring = '';
 			<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
 			$("input:checkbox").click(function() {
 				//keep the viewmore
