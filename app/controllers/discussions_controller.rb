@@ -69,27 +69,31 @@ class DiscussionsController < ApplicationController
     end
 	end
 
-  # POST /discussions
-  # POST /discussions.json
-  def create
-    @discussion = Discussion.new(params[:discussion])
+	# POST /discussions
+	# POST /discussions.json
+	def create
+		@discussion = Discussion.new(params[:discussion])
 		@discussion.user = self.current_user
 
-    respond_to do |format|
-      if @discussion.save
+		respond_to do |format|
+			if @discussion.save
 				if params[:skills]
 					params[:skills].uniq.each do |skill_id|
 						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
 					end
 				end
-        format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
-        format.json { render json: @discussion, status: :created, location: @discussion }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @discussion.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+
+				# Tell the whiteboard about this new discussion
+				Whiteboard.createActivity(:created_discussion, "{user.teacher.profile_link} created a new discussion {tag.link}.", @discussion)
+				
+				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
+				format.json { render json: @discussion, status: :created, location: @discussion }
+			else
+				format.html { render action: "new" }
+				format.json { render json: @discussion.errors, status: :unprocessable_entity }
+			end
+		end
+	end
 
   # PUT /discussions/1
   # PUT /discussions/1.json
