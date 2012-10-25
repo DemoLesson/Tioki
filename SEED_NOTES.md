@@ -1,3 +1,19 @@
+v1.4.22 - Oct 25, 2012  3:41PM deployed by Kelly Becker
+=======================================================
+* 98660c1: Kelly Becker - sharing discussions to connections
+* 5c440cc: Kelly Becker - making progress
+* 4e7990f: Elijah Green - Don't show rsvp buttons if a user is not logged in
+* 0159d59: Elijah Green - Don't link to invite friends for not logged in users
+* ab90135: Elijah Green - Fix search on school not being rest correctly
+* d3d690f: Elijah Green - Small fix to connections searching on schools
+* 50ded49: Elijah Green - Add school search
+* 61e63e4: Elijah Green - Got search on skills working.
+* 634d65a: Elijah Green - Add some javascript for removing the original elements and make sure if there is no input don't show anything
+* 446c24d: Elijah Green - Add search dropdowns
+* ee07221: Elijah Green - actaully have the search function correclt
+* ff983e0: Elijah Green - add new search function for connections
+* aa215a5: Kelly Becker - added tioki icon and link
+
 v1.4.21 - Oct 24, 2012  7:46PM deployed by Aleks Stanisic
 =========================================================
 * c21a477: Aleks Stanisic - changing suggested connections number to 3
