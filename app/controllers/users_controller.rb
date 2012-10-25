@@ -590,7 +590,7 @@ class UsersController < ApplicationController
 				redirect_to :back, :notice => 'You are not authorized to do this action.'
 				return
 			end
-			@user.update_attributes(:name => params[:name], :email => params[:email])
+			@user.update_attributes(:first_name => params[:first_name], :last_name => params[:last_name], :email => params[:email])
 			@user.update_attribute(:is_limited, params[:is_limited])
 			#on update delete all rows then reGreate based on editted version if the user is_limited
 			if @user.is_limited == true
@@ -625,7 +625,7 @@ class UsersController < ApplicationController
 				flash[:notice]="Your current admin account allowance is too small to create this user.  Please contact support in order to increase it."
 				return
 			end
-			@user= User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
+			@user= User.new(:first_name => params[:first_name], :last_name => params[:last_name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
 
 			if @user.save
 				self.current_user.organization.update_attribute(:totaladmins,total+1)
@@ -642,7 +642,7 @@ class UsersController < ApplicationController
 				flash[:notice] = "User creation successful"
 				redirect_to '/accounts/'+self.current_user.id.to_s
 			else
-				flash[:notice] = "User could not be created"
+				redirect_to :back, :notice => @user.errors.full_messages.to_sentence
 			end
 		end
 	end
