@@ -1,3 +1,7 @@
+v1.4.21 - Oct 24, 2012  7:46PM deployed by Aleks Stanisic
+=========================================================
+* c21a477: Aleks Stanisic - changing suggested connections number to 3
+
 v1.4.20 - Oct 24, 2012 12:57PM deployed by Aleks Stanisic
 =========================================================
 * a1d9d22: Elijah Green - Deal with removing bad url characters from from teacher urls better
