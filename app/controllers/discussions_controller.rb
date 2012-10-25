@@ -230,6 +230,26 @@ class DiscussionsController < ApplicationController
 		redirect_to @discussion
 	end
 
+	def invite
+		return redirect_to :back unless request.post?
+		return redirect_to :back if User.current.nil?
+
+		# Get the discussion
+		d = Discussion.find(params[:id])
+
+		subject = "You have been invited to join the \"#{d.title}\" discussion."
+		body = <<-BODY
+Hi, I was browsing Tioki's discussion board and I thought you might be interested in this discussion.
+Come join the conversation. <a href="http://google.com">Click Here</a>
+BODY
+
+		# Send the message
+		params[:connection].each do |user|
+			Message.send(:to => 117091, :subject => subject, :body => body)
+		end
+
+	end
+
   # DELETE /discussions/1
   # DELETE /discussions/1.json
   def destroy

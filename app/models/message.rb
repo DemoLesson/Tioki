@@ -29,5 +29,49 @@ class Message < ActiveRecord::Base
     self.read = true
     self.save
   end
+
+  def self.send(opts = {})
+
+    # Return false if a subject and body were not provided
+    return false if opts[:subject].nil? || opts[:body].nil? || opts[:to].nil?
+
+    # Make sure user is a user model
+    to = User.find(opts[:to]) unless opts[:to].is_a?(User)
+
+    # Get from value from user.current unless one was specified
+    from = User.current if opts[:from].nil?
+
+    # Get from value from the opts array
+    unless opts[:from].nil?
+      from = User.find(opts[:from]) unless opts[:from].is_a?(User)
+      from = opts[:from] if opts[:from].is_a?(User)
+    end
+
+    # Get subject and body
+    subject = opts[:subject]
+    body = opts[:body]
+
+    # Allow setting if the message was read by default
+    read = opts[:read] unless opts[:read].nil?
+    read = false if opts[:read].nil?
+
+    # Create the message
+    msg = new
+    dump msg
+    msg.user_id_to = to.id.to_s
+    msg.user_id_from = from.id
+    msg.subject = subject
+    msg.body = body
+    msg.read = read
+
+    if msg.save
+      # Notify the user of the message via email
+      UserMailer.message_notification(msg.user_id_to, msg.subject, msg.body, msg.id, from.name).deliver
+      return true
+    else
+      return false
+    end
+    
+  end
  
 end

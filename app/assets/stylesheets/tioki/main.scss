@@ -839,3 +839,35 @@ span.connection_degree {
 		}
 	}
 }
+
+/**
+ * kModal Popups
+ */
+div.kmodal {
+	top: 55px !important;
+	padding: 15px;
+	display: none;
+	min-width: 800px;
+	max-width: 960px;
+	background: #FFF;
+	border: solid 5px #000;
+
+	// Border box it
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+
+	h2 {
+		color:#2AA99B;
+		margin-bottom:5px;
+		margin-top:0;
+	}
+
+	p {
+		margin:0;
+	}
+
+	section {
+		display: block;
+	}
+}
