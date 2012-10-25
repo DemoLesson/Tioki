@@ -1,22 +1,22 @@
 <section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
 	<section>
 		<nav class="subpage">
-			<ul>
-				<li>
-					<a href="/my_connections">
-						My <%= ablang("connection.plural", true) %>
-					</a>
-				</li>
-				<li class="current">
-					Find New <%= ablang("connection.plural", true) %>
+		<ul>
+			<li>
+				<a href="/my_connections">
+					My <%= ablang("connection.plural", true) %>
+				</a>
+			</li>
+			<li class="current">
+				Find New <%= ablang("connection.plural", true) %>
 
-				</li>
-				<li>
-					<a href="/inviteconnections">
+			</li>
+			<li>
+				<a href="/inviteconnections">
 					Invite <%= ablang("connection.plural", true) %>
-					</a>
-				</li>
-			</ul>
+				</a>
+			</li>
+		</ul>
 		</nav>
 	</section>
 	<section id="panels" class="group">
@@ -24,6 +24,40 @@
 			<h3>
 				Find New <%= ablang('connection.plural', true) %>
 			</h3>
+			<% if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'  %>
+				<div class="accordion filterconnections">
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						School
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @schools.each do |school| %>
+								<li>
+									<%= check_box_tag "schools[]", school %>
+									<%= school %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						Skills
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @teacher_skills.each do |skill| %>
+								<li>
+									<%= check_box_tag "skills[]", skill.id %>
+									<%= skill.name %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
+				</div>
+			<% end %>
 			<div style="padding:15px">
 				<%= form_tag "/connections", :method => "get" do %>
 					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:280px;"} %>
@@ -40,76 +74,97 @@
 					</fieldset>
 				<% end %>
 			</div>
-			<ul>
+			<ul id="connection_list">
 				<% @teachers.each do |teacher| %>
 					<%= raw teacher %>
 				<% end %>
-				<li>
+				<li class="viewmorelist">
 					<a href="#" class="viewmore">
-					View More
+						View More
 					</a>
 				</li>
 			</ul>
 		</section> <!-- END MY CONNECTIONS -->
-		
 	</section>
-
 </section> <!-- End Main Content -->
-<!--	<script>
-	$(document).ready(function(){
-	$('.accordion .head').click(function() {
-		$(this).toggleClass('closed-arrow open-arrow');
-		$(this).next().toggle('slow');
-		return false;
-	}).next().hide();
-});
-	</script>-->
 <script type="text/javascript">
-// White board more
-$(document).ready(function() {
-	window.connectionPage = 1;
-	window.connectionMax = false;
-	$('.viewmore').click(function(e) {
-		e.preventDefault();
-
-		// If we have already reached the end of the connections then stop
-		if(window.connectionMax) return false;
-		
-		// Get the number for the next page of data to pull
-		window.connectionPage++;
-
-		// Store for future use down the stack
-		more = $(this);
-		<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
-
-		// Get the next pieces of activity via JSON
-		$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>", function(data) {
-
-			// If no data was returned handle by removing the button and erroring
-			if(data.length == 0) {
-				more.animate({"opacity": 0}, 700, function() {
-					window.connectionMax = true;
-					more.text('No More <%= ablang('connection.plural', true)%>');
-					setTimeout(function() {
-						more.animate({"opacity": 1}, 1000);
-					}, 50);
-				});
-			}
-
-			// For every element
-			for(var x in data) {
-
-				// Create the object, insert, and fade it in
-				$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
-			}
-		});
-
-		return false;
+	$(document).ready(function(){
+		$('.accordion .head').click(function() {
+			$(this).toggleClass('closed-arrow open-arrow');
+			$(this).next().toggle('slow');
+			return false;
+		}).next().hide();
 	});
-});
 </script>
 <script type="text/javascript">
-$(document).ready(function() {
-		$("#skills").chosen();
+	$(document).ready(function(){
+			window.connectionPage = 1;
+			window.connectionMax = false;
+			var skillstring = '';
+			var schoolstring = '';
+			<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
+			$("input:checkbox").click(function() {
+				//keep the viewmore
+				$('.viewmore').text("View More");
+				$("#connection_list li:not(:last)").remove();
+
+				window.connectionPage = 1;
+				window.connectionMax = false;
+
+				 schoolstring= '';
+				$("input[name='schools[]']:checked").each(function(){schoolstring += "&schools[]=" + $(this).val();});
+
+				skillstring = '';
+				$("input[name='skills[]']:checked").each(function(){skillstring += "&skills[]=" + $(this).val();});
+				$.getJSON('/newconnections?page=1<%= searchstring %>' + skillstring + schoolstring, function(data) {
+
+					// For every element
+					for(var x in data) {
+						// Create the object, insert, and fade it in
+						$(data[x]).css('display','none').insertBefore($('.viewmore').closest('li')).fadeIn(700);
+					}
+				});
+			});
+			$('.viewmore').click(function(e) {
+				e.preventDefault();
+
+				// If we have already reached the end of the connections then stop
+				if(window.connectionMax) return false;
+				
+				// Get the number for the next page of data to pull
+				window.connectionPage++;
+
+				// Store for future use down the stack
+				more = $(this);
+
+				// Get the next pieces of activity via JSON
+				$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>" + skillstring + schoolstring, function(data) {
+
+					// If no data was returned handle by removing the button and erroring
+					if(data.length == 0) {
+						more.animate({"opacity": 0}, 700, function() {
+							window.connectionMax = true;
+							more.text('No More <%= ablang('connection.plural', true)%>');
+							setTimeout(function() {
+								more.animate({"opacity": 1}, 1000);
+							}, 50);
+						});
+					}
+
+					// For every element
+					for(var x in data) {
+
+						// Create the object, insert, and fade it in
+						$(data[x]).css('display','none').insertBefore(more.closest('li')).fadeIn(700);
+					}
+				});
+
+				return false;
+			});
 		});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+			$("#skills").chosen();
+			});
 </script>
