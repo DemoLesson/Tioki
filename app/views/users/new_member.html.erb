@@ -1,7 +1,10 @@
+<section id="main-content" class="inner-content">
 <%= form_tag :action => "new_member" do %>
   <div class="field">
-    Name<br />
-    <%= text_field_tag :name %>
+    First Name<br />
+		<%= text_field_tag :first_name %><br />
+		Last Name<br />
+    <%= text_field_tag :last_name %>
   </div>
   <div class="field">
     Email<br />
@@ -15,22 +18,17 @@
     Confirm Password<br />
     <%= password_field_tag :password_confirmation %>
   </div>
-  <div class="field">
   User Type<br/>
-  <%= radio_button_tag :is_limited, false %>
-  <%= label_tag "Full admin" %>
-  <%= radio_button_tag :is_limited, true %>
-  <%= label_tag "Limited" %>
-  </div>
+	<%= radio_button_tag :is_limited, false %> Full admin<br />
+	<%= radio_button_tag :is_limited, true %> Limited<br /><br />
   Assigned Schools<br />
   If full admin is selected all schools can be accessed by the user.<br />
   <% @schools.each do |school| %>
     <%= check_box_tag "school_ids[]", school.id %>
-    <%= label_tag school.name %><br />
+    <%= school.name %><br />
   <% end %>
   <div class="actions">
     <%= submit_tag "Save" %>
   </div>
 <% end %>
-
-<% link_to "Back", :back %>
+</section>

@@ -1,28 +1,25 @@
+<section id="main-content" class="inner-content">
 <%= form_tag :action => "edit_member" do %>
   <div class="field">
-    Name<br />
-    <%= text_field_tag :name, @user.name %>
+    First Name<br />
+		<%= text_field_tag :first_name, @user.first_name %><br />
+		Last Name<br />
+    <%= text_field_tag :last_name, @user.last_name %>
   </div>
   <div class="field">
     Email<br />
     <%= text_field_tag :email, @user.email %>
   </div>
-  <div class="field">
-    User Type<br/>
-  <%= radio_button_tag :is_limited, false, !@user.is_limited %>
-  <%= label_tag "Full admin" %>
-  <%= radio_button_tag :is_limited, true, @user.is_limited %>
-  <%= label_tag "Limited" %>
-  </div>
-  Assigned Schools<br />
+	User Type<br/>
+	<%= radio_button_tag :is_limited, false, !@user.is_limited %>Full admin<br />
+	<%= radio_button_tag :is_limited, true, @user.is_limited %> Limited<br /><br />
+	Assigned Schools<br />
   If full admin is selected all schools can be accessed by the user.<br />
   <% @schools.each do |school| %>
-    <%= check_box_tag "school_ids[]", school.id, !SharedSchool.where(:user_id => @user.id, :school_id => school.id).empty? %>
-    <%= label_tag school.name %><br />
+		<%= check_box_tag "school_ids[]", school.id, !SharedSchool.where(:user_id => @user.id, :school_id => school.id).empty? %><%= school.name %><br />
   <% end %>
   <div class="actions">
     <%= submit_tag "Save" %>
   </div>
 <% end %>
 
-<% link_to "Back", :back %>
