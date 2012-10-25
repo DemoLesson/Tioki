@@ -1,3 +1,12 @@
+v1.4.21 - Oct 24, 2012  7:46PM deployed by Aleks Stanisic
+=========================================================
+* c21a477: Aleks Stanisic - changing suggested connections number to 3
+
+v1.4.20 - Oct 24, 2012 12:57PM deployed by Aleks Stanisic
+=========================================================
+* a1d9d22: Elijah Green - Deal with removing bad url characters from from teacher urls better
+* 099581d: Elijah Green - Fix error on events/show when user is not logged in
+
 v1.4.19 - Oct 24, 2012 11:37AM deployed by Aleks Stanisic
 =========================================================
 * 7ee1a28: Elijah Green - If an error occurs in our version of Hash.collect, use the orginal version
