@@ -1,3 +1,7 @@
+v1.4.27 - Oct 25, 2012  9:24PM deployed by Aleks Stanisic
+=========================================================
+* 75f0b04: Aleks Stanisic - changes to dashboard
+
 v1.4.26 - Oct 25, 2012  8:52PM deployed by Aleks Stanisic
 =========================================================
 
