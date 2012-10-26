@@ -123,14 +123,8 @@
 							</div>
 							<strong>
 								<%= link_to "#{user.name}", "/profile/#{user.teacher.url}", :class => "byline" %>
-							</strong><br />
+							</strong>
 							<p style="width:195px;float:left;">
-								<% if user.teacher.position.present?  && user.teacher.school.present? %>
-									<%= user.teacher.position %> at <%= user.teacher.school %><br />
-								<% end %>
-								<% if user.teacher.location.present? %>
-									<%= user.teacher.location %><br />
-								<% end %><br />
 								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
 							</p>
 						</li>
@@ -138,6 +132,34 @@
 				</ul>
 				<div class="clear"></div>
 			</div>
+		</section>
+		<section id="list" class="panel one-column right-side">
+			<h3>Discussions</h3>
+			<ul>
+				<% @discussions.each do |discussion| %>
+					<li>
+					<%  if self.current_user && self.current_user.teacher %>
+						<div style="float:right">
+							<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }%>
+						</div>
+					<% end %>
+						<p><%= link_to discussion.title, discussion %></p>
+						<p>
+						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+						</p>
+						<p>
+							<% discussion.participants.each do |user| %>
+								<% if user.avatar? %>
+									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.teacher.url}" %>
+								<% else %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
+								<% end %>
+							<% end %>
+						</p>
+					</li>
+				<% end %>
+			</ul>
 		</section>
 		<section id="list" class="panel one-column right-side">
 			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>

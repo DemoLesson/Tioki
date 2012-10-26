@@ -60,6 +60,8 @@ class HomeController < ApplicationController
 
         @jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
         
+        @discussions = Discussion.find(:all, :limit => 3, :order => 'created_at DESC')
+        
         @featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
 
         @interviews = self.current_user.teacher.interviews
