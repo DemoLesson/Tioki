@@ -1,3 +1,8 @@
+v1.4.24 - Oct 25, 2012  6:05PM deployed by Aleks Stanisic
+=========================================================
+* 8e0c0f3: Elijah Green - Fix uploading by rolling back some gems.
+* 98bf1c2: Kelly Becker - added app02
+
 v1.4.23 - Oct 25, 2012  4:27PM deployed by Kelly Becker
 =======================================================
 * 8de8fbd: Kelly Becker - added discussions to the whiteboard
