@@ -137,7 +137,7 @@
 			<h3>Discussions</h3>
 			<ul>
 				<% @discussions.each do |discussion| %>
-					<li>
+					<li style="padding:12px 50px 12px 0px !important">
 					<%  if self.current_user && self.current_user.teacher %>
 						<div style="float:right">
 							<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }%>
