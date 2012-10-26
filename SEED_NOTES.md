@@ -1,3 +1,7 @@
+v1.4.25 - Oct 25, 2012  8:43PM deployed by Aleks Stanisic
+=========================================================
+* fccbddd: Aleks Stanisic - adding discussions to teacher dashboard
+
 v1.4.24 - Oct 25, 2012  6:05PM deployed by Aleks Stanisic
 =========================================================
 * 8e0c0f3: Elijah Green - Fix uploading by rolling back some gems.
