@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121025192944) do
+ActiveRecord::Schema.define(:version => 20121029213231) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -306,6 +306,18 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
 
   add_index "followers", ["discussion_id"], :name => "index_followers_on_discussion_id"
   add_index "followers", ["user_id"], :name => "index_followers_on_user_id"
+
+  create_table "groups", :force => true do |t|
+    t.string   "name",                       :null => false
+    t.text     "description",                :null => false
+    t.integer  "permissions", :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
+  end
 
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
@@ -602,7 +614,7 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                     :default => ""
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -624,8 +636,6 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
     t.string   "betterlesson"
     t.string   "teachingchannel"
     t.integer  "video_id"
-    t.float    "latitude"
-    t.float    "longitude"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
@@ -710,6 +720,13 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+
+  create_table "users_groups", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "video_views", :force => true do |t|
     t.integer  "user_id",    :null => false

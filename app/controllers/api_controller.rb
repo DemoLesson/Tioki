@@ -3,11 +3,19 @@ end
 
 class ApiController < ApplicationController
 	load 'api/users.rb'
+	load 'api/groups.rb'
 
 	def method_missing(collection, *args)
 
 		# Get the method to run
 		method = '_' + collection.to_s
+
+		# Get params and cut out actions and controller
+		_params = params.clone
+		_params.delete_if{|k,v| k == 'action' || k == 'controller' }
+
+		# Append new params to the args
+		args.push(_params)
 
 		begin
 			if params[:id].nil?

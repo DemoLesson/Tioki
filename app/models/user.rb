@@ -62,6 +62,9 @@ class User < ActiveRecord::Base
 	before_create :set_full_name
 	after_create :send_verification_email
 
+	# Groups
+	has_and_belongs_to_many :groups, :join_table => 'users_groups'
+
 	has_one :teacher
 	has_many :videos, :through => :teacher
 	has_many :applications, :through => :teacher

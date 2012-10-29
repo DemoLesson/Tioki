@@ -15,6 +15,9 @@ development:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "group"
+      1: "organization"
 staging:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -31,6 +34,9 @@ staging:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "group"
+      1: "organization"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -47,3 +53,6 @@ production:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "group"
+      1: "organization"

@@ -6,6 +6,9 @@ Preview::Application.routes.draw do
 		match ':action' => 'api#:action'
 	end
 
+	# Groups
+	resources :groups
+
 	# Match Comment URLS
 	match 'comments/:id/favorite' => 'comments#favorite'
 	match 'comments/:id/delete' => 'comments#delete'

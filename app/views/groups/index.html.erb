@@ -1,0 +1,28 @@
+<section id="main-content" class="inner-content">
+</section>
+
+<div id="_main-content_" style="display:none;">
+	<h1 data-bind="name"><h1 />
+	<div id="sidebar">
+		<div class="bordered_image" data-bind="image"></div>
+	</div>
+	<div id="content">
+		<h3 class="top-line">Tioki users who are part of <span data-bind="name"></span></h3>
+		<ul class="users"></ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+//$(document).ready(function() {
+	// Group Data
+	var group = $$({'id': 1}).persist($$.adapter.restful, {collection: 'groups'});
+	var group = $$(group, {
+		view: {
+			format: $('div#_main-content_').html()
+		}
+	});
+
+	// Append to main-content
+	$$.document.append(group, $('#main-content'));
+//});
+</script>
