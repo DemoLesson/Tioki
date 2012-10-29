@@ -1,9 +1,17 @@
 Preview::Application.routes.draw do
 
+	# Match API urls
+	scope '/api' do
+		match ':action/:id' => 'api#:action'
+		match ':action' => 'api#:action'
+	end
+
+	# Match Comment URLS
 	match 'comments/:id/favorite' => 'comments#favorite'
 	match 'comments/:id/delete' => 'comments#delete'
 	resources :comments
 
+	# Match Discussions
 	resources :discussions do
 		member do
 			get 'reply_to_discussion'
@@ -24,6 +32,7 @@ Preview::Application.routes.draw do
 	match 'update_comment/:id' => 'discussions#update_comment'
 	match 'discussions/:id/invite' => 'discussions#invite'
 
+	# Match Technologies
 	match 'technologies/:id/comment' => 'technologies#comment'
 	resources :technologies do
 		member do
@@ -36,8 +45,10 @@ Preview::Application.routes.draw do
 		end
 	end
 
+	# Match S3 Uploads
 	resources :s3_uploads
 
+	# Get the connections distance
 	match 'distance/:id' => 'connections#distance'
 
 	#Warning: make sure user URL can't be set to any of these

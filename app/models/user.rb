@@ -480,6 +480,12 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	# Is rank
+	def rank?(type = false)
+		return !nil? unless type
+		return !nil? && is_admin if type == 'admin'
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)
