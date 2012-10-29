@@ -8,7 +8,8 @@ class Asset < ActiveRecord::Base
   has_attached_file :file,
                     :storage => :s3,
                     :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
-                    :url  => '/assets/:basename.:extension',
+                    :s3_host_alias => 'tioki.s3.amazonaws.com',
+                    :url => ':s3_alias_url',
                     :path => 'assets/:basename.:extension',
                     :bucket => 'tioki'
                     #add validation !!
