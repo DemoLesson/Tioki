@@ -1,5 +1,5 @@
 s3_output:
-  bucket: DLEncodedVideo
+  bucket: tioki-video-encoded
   access_key_id: AKIAJIHMXETPW2S76K4A
   secret_access_key: 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
 settings:

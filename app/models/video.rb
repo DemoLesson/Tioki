@@ -15,8 +15,8 @@ class Video < ActiveRecord::Base
 
       # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
-      output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
-      thumbnails = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}/"
+      output = "s3://tioki-video-encoded/#{self.id}-#{Time.now.to_i}.mp4"
+      thumbnails = "s3://tioki-video-encoded/#{self.id}-#{Time.now.to_i}/"
 
       # Create a new zencoder job
       zen = Zencoder::Job.create({
@@ -57,8 +57,8 @@ class Video < ActiveRecord::Base
 
       # Set I/O file names
       input = "s3://DemoLessonVideo/#{self.secret_url}"
-      output = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}.mp4"
-      thumbnails = "s3://DLEncodedVideo/#{self.id}-#{Time.now.to_i}/"
+      output = "s3://tioki-video-encoded/#{self.id}-#{Time.now.to_i}.mp4"
+      thumbnails = "s3://tioki-video-encoded/#{self.id}-#{Time.now.to_i}/"
 
       # Create a new zencoder job
       zen = Zencoder::Job.create({
