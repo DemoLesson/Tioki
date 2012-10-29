@@ -138,7 +138,7 @@ class Video < ActiveRecord::Base
   #     self.encoded_state = output[:state]
   #     if self.encoded_state == "finished"
   #       self.output_url = output[:url]
-  #       self.thumbnail = open(URI.parse("http://s3.amazonaws.com/" + zencoder_setting["s3_output"]["bucket"] + "/thumbnails_#{self.id}/frame_0000.png"))
+  #       self.thumbnail = open(URI.parse("http://" + zencoder_setting["s3_output"]["bucket"] + ".s3.amazonaws.com/thumbnails_#{self.id}/frame_0000.png"))
   #       self.thumbnail_content_type = "image/png"
   #       # get the job details so we can retrieve the length of the video in milliseconds
   #       zen = Zencoder.new
