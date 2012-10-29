@@ -19,18 +19,13 @@ class School < ActiveRecord::Base
   default_scope joins(:user).where('users.deleted_at' => nil).readonly(false)
   
   has_attached_file :picture,
+                    :storage => :s3,
                     :styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-                    :storage => :fog,
                     :content_type => [ 'image/jpeg', 'image/png' ],
-										:fog_credentials => {
-											:provider => 'AWS',
-											:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-											:aws_secret_access_key => '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'
-										},
-										:fog_public => true,
-										:fog_directory => 'tioki',
+										:s3_credentials => Rails.root.to_s + "/config/s3.yml",
                     :url  => '/schools/:style/:basename.:extension',
                     :path => 'schools/:style/:basename.:extension',
+										:bucket => 'tioki',
                     :processors => [:thumbnail, :timestamper],
                     :date_format => "%Y%m%d%H%M%S"
                     
