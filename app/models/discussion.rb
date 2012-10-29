@@ -17,6 +17,10 @@ class Discussion < ActiveRecord::Base
 		self.comment_threads.collect(&:user).unshift(self.user).uniq
 	end
 
+	def following_and_participants
+		(self.participants + self.following).uniq
+	end
+
 	def link(attrs = {})
 
 		# Parse attrs

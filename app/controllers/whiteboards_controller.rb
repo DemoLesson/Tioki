@@ -64,9 +64,12 @@ class WhiteboardsController < ApplicationController
 		# save and get the proper message
 		if comment.save
 			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
+			Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user)
 		else
 			message = {:type => :error, :message => "There was an error posting your comment."}
 		end
+
+		#Put email here
 
 		# Respond with either html or json
 		respond_to do |format|

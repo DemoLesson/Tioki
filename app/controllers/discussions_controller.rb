@@ -131,7 +131,11 @@ class DiscussionsController < ApplicationController
 		if request.post?
 			@discussion = Discussion.find(params[:id])
 			@comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
+
 			if @comment.save
+				@discussion.following_and_participants.each do |user|
+					Notification.create(:notifiable_type => @comment.tag!, :user_id => user)
+				end
 				redirect_to  @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
@@ -147,6 +151,9 @@ class DiscussionsController < ApplicationController
 			comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
 			if comment.save
 				comment.move_to_child_of(@replied_to_comment)
+				@discussion.following_and_participants.each do |user|
+					Notification.create(:notifiable_type => @comment.tag!, :user_id => user)
+				end
 				redirect_to @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
