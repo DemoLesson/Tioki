@@ -1,3 +1,64 @@
+v1.4.27 - Oct 25, 2012  9:24PM deployed by Aleks Stanisic
+=========================================================
+* 75f0b04: Aleks Stanisic - changes to dashboard
+
+v1.4.26 - Oct 25, 2012  8:52PM deployed by Aleks Stanisic
+=========================================================
+
+
+v1.4.25 - Oct 25, 2012  8:43PM deployed by Aleks Stanisic
+=========================================================
+* fccbddd: Aleks Stanisic - adding discussions to teacher dashboard
+
+v1.4.24 - Oct 25, 2012  6:05PM deployed by Aleks Stanisic
+=========================================================
+* 8e0c0f3: Elijah Green - Fix uploading by rolling back some gems.
+* 98bf1c2: Kelly Becker - added app02
+
+v1.4.23 - Oct 25, 2012  4:27PM deployed by Kelly Becker
+=======================================================
+* 8de8fbd: Kelly Becker - added discussions to the whiteboard
+* 21236d4: Elijah Green - Fix adding full and limited admins
+* efa9771: Kelly Becker - discussions style change
+* 9d7b630: Aleks Stanisic - adding search filter title
+
+v1.4.22 - Oct 25, 2012  3:41PM deployed by Kelly Becker
+=======================================================
+* 98660c1: Kelly Becker - sharing discussions to connections
+* 5c440cc: Kelly Becker - making progress
+* 4e7990f: Elijah Green - Don't show rsvp buttons if a user is not logged in
+* 0159d59: Elijah Green - Don't link to invite friends for not logged in users
+* ab90135: Elijah Green - Fix search on school not being rest correctly
+* d3d690f: Elijah Green - Small fix to connections searching on schools
+* 50ded49: Elijah Green - Add school search
+* 61e63e4: Elijah Green - Got search on skills working.
+* 634d65a: Elijah Green - Add some javascript for removing the original elements and make sure if there is no input don't show anything
+* 446c24d: Elijah Green - Add search dropdowns
+* ee07221: Elijah Green - actaully have the search function correclt
+* ff983e0: Elijah Green - add new search function for connections
+* aa215a5: Kelly Becker - added tioki icon and link
+
+v1.4.21 - Oct 24, 2012  7:46PM deployed by Aleks Stanisic
+=========================================================
+* c21a477: Aleks Stanisic - changing suggested connections number to 3
+
+v1.4.20 - Oct 24, 2012 12:57PM deployed by Aleks Stanisic
+=========================================================
+* a1d9d22: Elijah Green - Deal with removing bad url characters from from teacher urls better
+* 099581d: Elijah Green - Fix error on events/show when user is not logged in
+
+v1.4.19 - Oct 24, 2012 11:37AM deployed by Aleks Stanisic
+=========================================================
+* 7ee1a28: Elijah Green - If an error occurs in our version of Hash.collect, use the orginal version
+
+v1.4.18 - Oct 23, 2012  6:01PM deployed by Aleks Stanisic
+=========================================================
+* cdcf9b9: Aleks Stanisic - changing twitter share on discussions
+
+v1.4.17 - Oct 23, 2012  5:32PM deployed by Aleks Stanisic
+=========================================================
+* e3d36d3: Brian Martinez - who's viewed your profile and invitation notifications
+
 v1.4.16 - Oct 23, 2012  5:18PM deployed by Aleks Stanisic
 =========================================================
 * dadb164: Aleks Stanisic - changing welcome emails

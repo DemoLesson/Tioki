@@ -48,7 +48,7 @@ class HomeController < ApplicationController
         @suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
         @suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
         @suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
-        @suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(5).order('(RAND() / COUNT(*) * 2)')
+        @suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
 
         @latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
@@ -59,6 +59,8 @@ class HomeController < ApplicationController
         @user = User.find(self.current_user)
 
         @jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
+        
+        @discussions = Discussion.find(:all, :limit => 3, :order => 'created_at DESC')
         
         @featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
 

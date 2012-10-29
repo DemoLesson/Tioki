@@ -11,12 +11,14 @@
 				<li class="current">
 					Event Details
 				</li>
+				<% if User.current %>
 				<li>
 					<a href="<%= event_path(@event) %>/invite">
 						Invite Friends
 					</a>
 				</li>
-				<% if @event.user == User.current || User.current.is_admin %>
+				<% end %>
+				<% if @event.user == User.current || (User.current && User.current.is_admin) %>
 					<li>
 						<a href="<%= event_path(@event) + '/edit' %>">
 							Edit Event
@@ -52,14 +54,16 @@
 					</div>
 				<% end %>
 
-				<!-- RSVP Status -->
-				<h3 style="margin: 0px 0px -10px -5px">
-					RSVP Status
-				</h3>
-				<div style="margin: 0px 10px 10px;">
-					<a href="<%= event_path(@event) + '/rsvp' %>" class="button <%= "bg-green" if rsvp_status(@event) %> large"><span class="iconic check"></span> Going</a>
-					<a href="<%= event_path(@event) + '/rsvp?disconnect=1' %>" class="button <%= "bg-green" unless rsvp_status(@event) %> large"><span class="iconic x"></span> Not Going</a>
-				</div>
+				<% if User.current %>
+					<!-- RSVP Status -->
+					<h3 style="margin: 0px 0px -10px -5px">
+						RSVP Status
+					</h3>
+					<div style="margin: 0px 10px 10px;">
+						<a href="<%= event_path(@event) + '/rsvp' %>" class="button <%= "bg-green" if rsvp_status(@event) %> large"><span class="iconic check"></span> Going</a>
+						<a href="<%= event_path(@event) + '/rsvp?disconnect=1' %>" class="button <%= "bg-green" unless rsvp_status(@event) %> large"><span class="iconic x"></span> Not Going</a>
+					</div>
+				<% end %>
 			</section>
 
 			<!-- RSVPs -->

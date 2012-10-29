@@ -80,31 +80,15 @@ class User < ActiveRecord::Base
 	has_many :events_rsvps
 	
 	has_attached_file :avatar,
-										:storage => :fog,
-										:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-										:content_type => [ 'image/jpeg', 'image/png' ],
-										:fog_credentials => {
-											:provider => 'AWS',
-											:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-											:aws_secret_access_key => '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'
-										},
-										:fog_public => true,
-										:fog_directory => 'DemoLessonS3',
-										:url  => '/avatars/:style/:basename.:extension',
-										:path => 'avatars/:style/:basename.:extension',
-										:processors => [:thumbnail, :timestamper],
-										:date_format => "%Y%m%d%H%M%S"
-
-	#has_attached_file :avatar,
-	#	:storage => :s3,
-	#	:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-	#	:content_type => [ 'image/jpeg', 'image/png' ],
-	#	:s3_credentials => Rails.root.to_s + "/config/s3.yml",
-	#	:url => '/avatars/:style/:basename.:extension',
-	#	:path => 'avatars/:style/:basename.:extension',
-	#	:bucket => 'DemoLessonS3',
-	#	:processors => [:thumbnail, :timestamper],
-	#	:date_format => "%Y%m%d%H%M%S"
+		:storage => :s3,
+		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
+		:content_type => [ 'image/jpeg', 'image/png' ],
+		:s3_credentials => Rails.root.to_s + "/config/s3.yml",
+		:url => '/avatars/:style/:basename.:extension',
+		:path => 'avatars/:style/:basename.:extension',
+		:bucket => 'tioki',
+		:processors => [:thumbnail, :timestamper],
+		:date_format => "%Y%m%d%H%M%S"
 
 	#validates_attachment_presence :avatar
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'  
@@ -179,8 +163,8 @@ class User < ActiveRecord::Base
 			# Generate a profile url
 			url = Random.rand(10..99).to_s + self.id.to_s + self.name
 
-			# Remove any spaces in the URL
-			url = url.gsub(/[ .?&:=+]/, '')
+			# Remove bad url characters
+			url = url.parameterize('')
 
 			# Downcase the URL
 			t.url = url.downcase

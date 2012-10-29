@@ -69,27 +69,31 @@ class DiscussionsController < ApplicationController
     end
 	end
 
-  # POST /discussions
-  # POST /discussions.json
-  def create
-    @discussion = Discussion.new(params[:discussion])
+	# POST /discussions
+	# POST /discussions.json
+	def create
+		@discussion = Discussion.new(params[:discussion])
 		@discussion.user = self.current_user
 
-    respond_to do |format|
-      if @discussion.save
+		respond_to do |format|
+			if @discussion.save
 				if params[:skills]
 					params[:skills].uniq.each do |skill_id|
 						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
 					end
 				end
-        format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
-        format.json { render json: @discussion, status: :created, location: @discussion }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @discussion.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+
+				# Tell the whiteboard about this new discussion
+				Whiteboard.createActivity(:created_discussion, "{user.teacher.profile_link} created a new discussion {tag.link}.", @discussion)
+				
+				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
+				format.json { render json: @discussion, status: :created, location: @discussion }
+			else
+				format.html { render action: "new" }
+				format.json { render json: @discussion.errors, status: :unprocessable_entity }
+			end
+		end
+	end
 
   # PUT /discussions/1
   # PUT /discussions/1.json
@@ -228,6 +232,28 @@ class DiscussionsController < ApplicationController
 			@discussion.update_attribute(:deleted_at, nil)
 		end
 		redirect_to @discussion
+	end
+
+	def invite
+		return redirect_to :back unless request.post?
+		return redirect_to :back if User.current.nil?
+
+		# Get the discussion
+		d = Discussion.find(params[:id])
+
+		subject = "You have been invited to join the \"#{d.title}\" discussion."
+		body = <<-BODY
+Hi, I was browsing Tioki's discussion board and I thought you might be interested in this discussion.
+Come join the conversation. <a href="http://tioki.com/discussions/#{d.id}">Click Here</a>
+BODY
+
+		# Send the message
+		params[:connection].each do |user|
+			Message.send!(user, :subject => subject, :body => body.html_safe)
+		end
+
+		flash[:success] = "Share successfully."
+		return redirect_to :back
 	end
 
   # DELETE /discussions/1

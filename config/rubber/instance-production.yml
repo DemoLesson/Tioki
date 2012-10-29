@@ -82,5 +82,38 @@
   zone: us-west-2c
   platform: linux
   root_device_type: instance-store
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: app02
+  domain: tioki.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger_nginx
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options: {}
+  instance_id: i-e36551d0
+  image_type: m1.small
+  image_id: ami-2add531a
+  security_groups:
+  - tioki_production_default
+  - tioki_production_web
+  - tioki_production_app02
+  - tioki_production_app
+  - tioki_production_passenger_nginx
+  - tioki_production_db
+  external_host: ec2-50-112-216-214.us-west-2.compute.amazonaws.com
+  external_ip: 50.112.216.214
+  internal_host: ip-10-244-150-203.us-west-2.compute.internal
+  internal_ip: 10.244.150.203
+  zone: us-west-2c
+  platform: linux
+  root_device_type: instance-store
 - volumes: {}
   static_ips: {}

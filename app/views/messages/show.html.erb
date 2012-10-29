@@ -18,7 +18,7 @@
 </p>
 	
 <p>
-<%=raw h(@message.body).gsub(/\n/, '<br />') %>
+<%=raw h(@message.body.html_safe).gsub(/\n/, '<br />') %>
 </p>
 
 <div class="actions">

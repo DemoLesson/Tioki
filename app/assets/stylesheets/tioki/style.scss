@@ -303,6 +303,7 @@ section.notice {
 	margin-top: -60px;
 	height: 60px;
 	background: $ltgray;
+	z-index: 9999;
 	.drawer-wrapper {
 		position: relative;
 		padding: 15px 0 0 0;
