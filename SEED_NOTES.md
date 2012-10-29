@@ -1,3 +1,14 @@
+v1.4.28 - Oct 29, 2012  3:18PM deployed by Aleks Stanisic
+=========================================================
+* 5850fef: Elijah Green - Anchor tag for for clicking on reply to discussion
+* 6569681: Elijah Green - If the current user is not logged in don't show email and phone
+* baf3c65: Aleks Stanisic - bug fix to wizard step 1 and minor design change to discover page
+* b869106: Kelly Becker - migrates all video buckets to the new location
+* 1cc40c9: Brian Martinez - press and static changes
+* 6131280: Elijah Green - Switch back to old way of uploading pictures.
+* d3b2dd5: Kelly Becker - renamed some s3 buckets during transfer to oregon
+* 5ba1708: Kelly Becker - added missing jquery icons
+
 v1.4.27 - Oct 25, 2012  9:24PM deployed by Aleks Stanisic
 =========================================================
 * 75f0b04: Aleks Stanisic - changes to dashboard
