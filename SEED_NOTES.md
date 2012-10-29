@@ -1,3 +1,7 @@
+v1.4.30 - Oct 29, 2012  3:56PM deployed by Kelly Becker
+=======================================================
+* c4e2e56: Kelly Becker - DLEncodedVideo not tioki-video-encoded
+
 v1.4.29 - Oct 29, 2012  3:19PM deployed by Aleks Stanisic
 =========================================================
 
