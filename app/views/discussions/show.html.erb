@@ -65,7 +65,7 @@
 				<% end %>
 				<section>
 					<% if self.current_user && self.current_user.teacher %>
-					<%= link_to 'Reply to discussion', {:action => :reply_to_discussion, :id => @discussion.id} , :class => "action-button bg-green" %>
+					<%= link_to 'Reply to discussion', "#discussion_reply" , :class => "action-button bg-green" %>
 					<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
 					<% if !@discussion.deleted_at %>
 					<%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
@@ -122,11 +122,13 @@
 				</li>
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
+				<a id="discussion_reply">
 					<% if self.current_user && self.current_user.teacher %>
-					<%= render "reply_to_discussion" %>
+						<%= render "reply_to_discussion" %>
 					<% elsif !self.current_user %>
-					<%= render "reply_nologin" %>
+						<%= render "reply_nologin" %>
 					<% end %>
+				</a>
 				</li>
 			</ul>
 		</section>
