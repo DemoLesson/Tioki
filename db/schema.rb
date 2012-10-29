@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121025192944) do
+ActiveRecord::Schema.define(:version => 20121029183859) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -307,6 +307,10 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
   add_index "followers", ["discussion_id"], :name => "index_followers_on_discussion_id"
   add_index "followers", ["user_id"], :name => "index_followers_on_user_id"
 
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
+  end
+
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -378,6 +382,13 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "read"
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.string   "notifiable_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "organizations", :force => true do |t|
@@ -602,7 +613,7 @@ ActiveRecord::Schema.define(:version => 20121025192944) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",                                     :default => ""
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
