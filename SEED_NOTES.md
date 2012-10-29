@@ -1,3 +1,7 @@
+v1.4.32 - Oct 29, 2012  4:57PM deployed by Kelly Becker
+=======================================================
+* 3ead197: Kelly Becker - fix to avatars i hope
+
 v1.4.31 - Oct 29, 2012  4:30PM deployed by Kelly Becker
 =======================================================
 * 04b439e: Kelly Becker - buckets now using subdomain access
