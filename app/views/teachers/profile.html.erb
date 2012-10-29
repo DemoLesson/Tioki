@@ -140,8 +140,9 @@
 				</div>
 			</section>
 
-			<!-- Contact Information-->
-			<section class="info">
+			<% if self.current_user %>
+				<!-- Contact Information-->
+				<section class="info">
 				<p class="heading">
 				Contact Information
 				</p>
@@ -157,7 +158,8 @@
 					<%= @teacher.phone %>
 					</p>
 				<% end %>
-			</section>
+				</section>
+			<% end %>
 			
 			<!-- Teacher Technology Tags -->
 			<section class="info">
