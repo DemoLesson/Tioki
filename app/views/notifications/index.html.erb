@@ -1,0 +1,7 @@
+<% @notifications.each do |notification| %>
+	<% if notification.type == "Whiteboard" %>
+		<%= notification.user %> has commented on your whiteboard
+	<% elsif notification.type == "Discussion" %>
+		<%= notif
+	<% end %>
+<% end %>
