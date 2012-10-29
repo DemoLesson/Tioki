@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
 		:s3_credentials => Rails.root.to_s + "/config/s3.yml",
 		:url => '/avatars/:style/:basename.:extension',
 		:path => 'avatars/:style/:basename.:extension',
-		:bucket => 'DemoLessonS3',
+		:bucket => 'tioki',
 		:processors => [:thumbnail, :timestamper],
 		:date_format => "%Y%m%d%H%M%S"
 

@@ -32,7 +32,7 @@ class Technology < ActiveRecord::Base
 			:aws_secret_access_key => 'aJYDpwaG8afNHqYACmh3xMKiIsqrjJHd6E15wilT'
 		},
 		:fog_public => true,
-		:fog_directory => 'DemoLessonS3',
+		:fog_directory => 'tioki',
 		:url  => '/technologies/:style/:basename.:extension',
 		:path => 'technologies/:style/:basename.:extension',
 		:processors => [:thumbnail, :timestamper],
