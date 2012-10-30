@@ -100,9 +100,29 @@ class User < ActiveRecord::Base
 	#validates_attachment_size :avatar, :less_than => 2.megabytes,
 	#                                   :message => 'Picture was too large, try scaling it down.'
 
-
 	#soft deletion
 	default_scope where(:deleted_at => nil)
+
+	def self.privacy(conds = {})
+
+		# Get available bits and list of conditions
+		bits = APP_CONFIG['bitswitches']['user_privacy'].invert
+		conditions = Array.new
+
+		# Run bitwise conditions
+		conds[:slugs].each do |slug, tf|
+			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
+			conditions << "POW(2, #{bits[slug]}) & `users`.`privacy`" + (tf ? ' > 0' : ' <= 0')
+		end
+
+		# Add conditions
+		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
+	end
+
+	# Add bitswitch filter
+	def privacy
+		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
+	end
 
 	def vouched_skill_groups
 		SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
@@ -380,10 +400,6 @@ class User < ActiveRecord::Base
 		else
 			return "Your current password was incorrect." 
 		end
-	end
-
-	def privacy
-		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
 	end
 
 	def cleanup
