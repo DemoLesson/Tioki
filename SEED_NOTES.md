@@ -1,3 +1,34 @@
+v1.4.33 - Oct 30, 2012 10:08AM deployed by Kelly Becker
+=======================================================
+* 773e886: Kelly Becker - delete connections if the record does not exist and then commented cleanup
+
+v1.4.32 - Oct 29, 2012  4:57PM deployed by Kelly Becker
+=======================================================
+* 3ead197: Kelly Becker - fix to avatars i hope
+
+v1.4.31 - Oct 29, 2012  4:30PM deployed by Kelly Becker
+=======================================================
+* 04b439e: Kelly Becker - buckets now using subdomain access
+
+v1.4.30 - Oct 29, 2012  3:56PM deployed by Kelly Becker
+=======================================================
+* c4e2e56: Kelly Becker - DLEncodedVideo not tioki-video-encoded
+
+v1.4.29 - Oct 29, 2012  3:19PM deployed by Aleks Stanisic
+=========================================================
+
+
+v1.4.28 - Oct 29, 2012  3:18PM deployed by Aleks Stanisic
+=========================================================
+* 5850fef: Elijah Green - Anchor tag for for clicking on reply to discussion
+* 6569681: Elijah Green - If the current user is not logged in don't show email and phone
+* baf3c65: Aleks Stanisic - bug fix to wizard step 1 and minor design change to discover page
+* b869106: Kelly Becker - migrates all video buckets to the new location
+* 1cc40c9: Brian Martinez - press and static changes
+* 6131280: Elijah Green - Switch back to old way of uploading pictures.
+* d3b2dd5: Kelly Becker - renamed some s3 buckets during transfer to oregon
+* 5ba1708: Kelly Becker - added missing jquery icons
+
 v1.4.27 - Oct 25, 2012  9:24PM deployed by Aleks Stanisic
 =========================================================
 * 75f0b04: Aleks Stanisic - changes to dashboard

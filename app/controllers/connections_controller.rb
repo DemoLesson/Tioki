@@ -13,15 +13,15 @@ class ConnectionsController < ApplicationController
 		@teachers = Array.new
 
 		if params[:skill]
-			teachers = Teacher.search(:skill => params[:skill])
+			teachers = Teacher.active..search(:skill => params[:skill])
 		elsif params[:connectsearch].empty?
 			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.search(:name => params[:connectsearch])
+			teachers = Teacher.active.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.search(:email => params[:connectsearch])
+			teachers = Teacher.active.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.search(:school => params[:connectsearch])
+			teachers = Teacher.active.search(:school => params[:connectsearch])
 		else
 			teachers = []
 		end
@@ -309,15 +309,15 @@ class ConnectionsController < ApplicationController
 	def new_connections
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 		if params[:skill]
-			teachers = Teacher.search(:skill => params[:skill]).paginate(:per_page => 25, :page => params[:page])
+			teachers = Teacher.active.search(:skill => params[:skill]).paginate(:per_page => 25, :page => params[:page])
 		elsif params[:connectsearch].empty?
 			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.search(:name => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
+			teachers = Teacher.active.search(:name => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.search(:email => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
+			teachers = Teacher.active.search(:email => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.search(:school => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
+			teachers = Teacher.active..search(:school => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
 		else
 			teachers = []
 		end

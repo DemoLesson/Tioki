@@ -33,6 +33,6 @@ class Discussion < ActiveRecord::Base
 		end; attrs = _attrs.join(' ')
 
 		# Return the link to the profile
-		return "<a href=\"/discusions/#{self.id}\" #{attrs}>#{self.title}</a>".html_safe
+		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{self.title}</a>".html_safe
 	end
 end
