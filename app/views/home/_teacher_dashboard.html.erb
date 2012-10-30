@@ -445,6 +445,12 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+	//Came to comments from email
+	if(window.location.hash.indexOf("whiteboard_comments") >= 0){
+		var hash = window.location.hash;
+		$(hash).click();
+	}
 });
 </script>
 

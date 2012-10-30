@@ -24,7 +24,7 @@
 							<table border="0" cellpadding="10" cellspacing="0" width="100%">
 								<tr>
 									<td valign="top" style="border-collapse: collapse;">
-										<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;"><%= @commenter.name %> replied to your discussion</span></div>
+										<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;"><%= @comment.user.name %> replied to your discussion</span></div>
 									</td>
 									<!--  -->
 								</tr>
@@ -86,9 +86,9 @@
 																	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 																		<tr>
 																			<td style="line-height: 18px;color: #555;font-size: 13px;padding-left: 5px;border-collapse: collapse;">
-																				<span style="color: #000;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left; padding-left:1px; "><strong><%= @commenter.name %> commented on your Whiteboard post </strong></span><br>
+																				<span style="color: #000;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left; padding-left:1px; "><strong><%= @comment.user.name %> commented on your Whiteboard post </strong></span><br>
 														<!-- Message Sampler Starts -->
-														<span style="color: #000; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://tioki.com/profile/<%= @comment.user.teacher.url %>" text-decoration="none" style="color:#2aa99b;text-decoration:none;" target="_blank"><%= @commenter.name %></a> said:</span><br>
+														<span style="color: #000; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://tioki.com/profile/<%= @comment.user.teacher.url %>" text-decoration="none" style="color:#2aa99b;text-decoration:none;" target="_blank"><%= @comment.user.name %></a> said:</span><br>
 
 																				<span style="color: #6d6d6d; font: lighter 13px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"> <em><% if @comment.body.size > 80 %><%= @comment.body[0..77] %>...<% else %><%= @comment.body %><% end %></em><a href="http://www.tioki.com/" target="_blank" text-decoration="none" style="color:#2aa99b; text-decoration:none; font-type:bold;">[Read More]</a></span>
 																				<br>
@@ -114,7 +114,7 @@
 																							<tr style="text-decoration:none;"> 
 																								<td style="color:#FFFFFF;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold;white-space:nowrap;text-shadow:0px -1px 0px #666666; text-decoration:none;" align="center">
 																									
-																									<a style="text-decoration:none; color:#FFFFFF" href="http://www.tioki.com/" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">See Whiteboard Activity</strong></span></a></td>
+																									<a style="text-decoration:none; color:#FFFFFF" href="http://www.tioki.com/<%= @url %>" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">See Whiteboard Activity</strong></span></a></td>
 																									
 																								</tr> 
 																							</tbody>

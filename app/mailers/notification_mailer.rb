@@ -18,19 +18,17 @@ class NotificationMailer < ActionMailer::Base
 		return mail
 	end
 
-	def comment(user, comment)
-		#Whiteboard only, as they
+	def comment(user, comment, commentable)
+		#Whiteboard only currently
 		@user = user
-		@commenter = comment.user
 		@comment = comment
+		@whiteboard = commentable
+		@url = "#whiteboard_comments#{commentable.id}"
 
-
-		@type = comment.commentable_type
-
-		mail = mail(:to => @user.email, :subject => "#{comment.user.name} commented on your #{@type} Post")
+		mail = mail(:to => @user.email, :subject => "#{@comment.user.name} commented on your #{@comment.commentable_type} Post")
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag("one_comment_#{@type.downcase}")
+			mail.delivery_method.tag("one_comment_#{@comment.commentable_type.downcase}")
 		end
 
 		return mail

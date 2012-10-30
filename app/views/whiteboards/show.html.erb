@@ -27,7 +27,7 @@
 		<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
 			<span class="iconic eye"></span>
 		</a>
-		<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments">
+		<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments" id="whiteboard_comments<%= @post.id %>">
 			<span class="iconic chat_alt_stroke"></span>
 		</a>
 		<% if @post.user == User.current || User.current.is_admin %>
