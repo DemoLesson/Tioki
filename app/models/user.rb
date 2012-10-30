@@ -384,25 +384,37 @@ class User < ActiveRecord::Base
 	end
 
 	def cleanup
+
+		# Delete Schools
 		@schools = School.find(:all, :conditions => ['owned_by = ?', self.id])
 		@schools.each do |school|
 			school.remove_associated_data
 		end
 		@schools.map(&:destroy)
+
+		# Delete Teachers
 		@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
 		@teachers.map(&:destroy)
+
+		# Delete Shared Users
 		@sharedusers = SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
 		@sharedusers.map(&:destroy)
+
+		# Delete Shared Schools
 		@sharedschools = SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
 		@sharedschools.map(&:destroy)
+
+		# Delete all Applications
 		@applications = Application.find(:all, :conditions => ['teacher_id = ?', self.id])
-		@connections = Connection.mine(:user => self.id)
-		@connections.map(&:destroy)
 		@applications.each do |application|
 			@activities = Activity.find(:all, :conditions => ['application_id = ?', application.id])
 			@activities.map(&:destroy)
 		end
 		@applications.map(&:destroy)
+
+		# Delete all Connections
+		@connections = Connection.mine(:user => self.id)
+		@connections.map(&:destroy)
 	end
 
 	# Get user percent completion
