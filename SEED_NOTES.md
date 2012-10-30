@@ -1,3 +1,19 @@
+v1.4.33 - Oct 30, 2012 10:08AM deployed by Kelly Becker
+=======================================================
+* 773e886: Kelly Becker - delete connections if the record does not exist and then commented cleanup
+
+v1.4.32 - Oct 29, 2012  4:57PM deployed by Kelly Becker
+=======================================================
+* 3ead197: Kelly Becker - fix to avatars i hope
+
+v1.4.31 - Oct 29, 2012  4:30PM deployed by Kelly Becker
+=======================================================
+* 04b439e: Kelly Becker - buckets now using subdomain access
+
+v1.4.30 - Oct 29, 2012  3:56PM deployed by Kelly Becker
+=======================================================
+* c4e2e56: Kelly Becker - DLEncodedVideo not tioki-video-encoded
+
 v1.4.29 - Oct 29, 2012  3:19PM deployed by Aleks Stanisic
 =========================================================
 
