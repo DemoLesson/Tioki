@@ -1,5 +1,9 @@
 class Teacher < ActiveRecord::Base
   acts_as_mappable
+
+	#Deals with deactivated users
+	#May want this to be a default_scope
+  scope :active, joins(:user).where('users.deleted_at' => nil)
   
   belongs_to :user
   attr_protected :user_id
