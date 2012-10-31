@@ -62,6 +62,9 @@ class User < ActiveRecord::Base
 	before_create :set_full_name
 	after_create :send_verification_email
 
+	# Groups
+	has_and_belongs_to_many :groups, :join_table => 'users_groups'
+
 	has_one :teacher
 	has_many :videos, :through => :teacher
 	has_many :applications, :through => :teacher
@@ -78,18 +81,33 @@ class User < ActiveRecord::Base
 	# Event RSVPs (This might look a bit weird)
 	has_and_belongs_to_many :rsvp, :class_name => 'Event', :join_table => 'events_rsvps'
 	has_many :events_rsvps
-	
 	has_attached_file :avatar,
-		:storage => :s3,
+		:storage => :fog,
 		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
 		:content_type => [ 'image/jpeg', 'image/png' ],
-		:s3_credentials => Rails.root.to_s + "/config/s3.yml",
-		:s3_host_alias => 'tioki.s3.amazonaws.com',
-		:url => ':s3_alias_url',
+		:fog_credentials => {
+			:provider => 'AWS',
+			:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+			:aws_secret_access_key  => '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',
+			:region => 'us-west-2'
+		},
+		:fog_public => true,
+		:fog_directory => 'tioki',
 		:path => 'avatars/:style/:basename.:extension',
-		:bucket => 'tioki',
 		:processors => [:thumbnail, :timestamper],
 		:date_format => "%Y%m%d%H%M%S"
+	
+	#has_attached_file :avatar,
+	#	:storage => :s3,
+	#	:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
+	#	:content_type => [ 'image/jpeg', 'image/png' ],
+	#	:s3_credentials => Rails.root.to_s + "/config/s3.yml",
+	#	:s3_host_name => 's3-us-west-2.amazonaws.com',
+	#	:url => ':s3_path_url',
+	#	:bucket => 'tioki',
+	#	:path => '/avatars/:style/:basename.:extension',
+	#	:processors => [:thumbnail, :timestamper],
+	#	:date_format => "%Y%m%d%H%M%S"
 
 	#validates_attachment_presence :avatar
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'  
@@ -97,9 +115,29 @@ class User < ActiveRecord::Base
 	#validates_attachment_size :avatar, :less_than => 2.megabytes,
 	#                                   :message => 'Picture was too large, try scaling it down.'
 
-
 	#soft deletion
 	default_scope where(:deleted_at => nil)
+
+	def self.privacy(conds = {})
+
+		# Get available bits and list of conditions
+		bits = APP_CONFIG['bitswitches']['user_privacy'].invert
+		conditions = Array.new
+
+		# Run bitwise conditions
+		conds[:slugs].each do |slug, tf|
+			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
+			conditions << "POW(2, #{bits[slug]}) & `users`.`privacy`" + (tf ? ' > 0' : ' <= 0')
+		end
+
+		# Add conditions
+		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
+	end
+
+	# Add bitswitch filter
+	def privacy
+		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
+	end
 
 	def vouched_skill_groups
 		SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
@@ -379,10 +417,6 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	def privacy
-		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
-	end
-
 	def cleanup
 
 		# Delete Schools
@@ -491,6 +525,17 @@ class User < ActiveRecord::Base
 			return results.min if level == 1
 			return results
 		end
+	end
+
+	# Is rank
+	def rank?(type = false)
+		return !nil? unless type
+		return !nil? && is_admin if type == 'admin'
+	end
+
+	# Filter to accounts with avatars
+	def self.avatar?(has = true)
+		where('`users`.`avatar_updated_at` IS ' + (has ? 'NOT ' : '') + 'NULL')
 	end
 
 	protected

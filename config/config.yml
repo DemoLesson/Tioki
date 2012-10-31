@@ -15,6 +15,15 @@ development:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "public"
+      1: "private"
+      2: "hidden"
+      3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"
 staging:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -31,6 +40,15 @@ staging:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "public"
+      1: "private"
+      2: "hidden"
+      3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -47,3 +65,12 @@ production:
       2: "avatar"
       3: "video"
       4: "current_job"
+    group_permissions:
+      0: "public"
+      1: "private"
+      2: "hidden"
+      3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"
