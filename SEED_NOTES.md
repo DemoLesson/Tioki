@@ -1,3 +1,7 @@
+v1.4.36 - Oct 31, 2012  1:08AM deployed by Aleks Stanisic
+=========================================================
+* 1ae87ed: Brian Martinez - school profile page changes
+
 v1.4.35 - Oct 31, 2012 12:42AM deployed by Aleks Stanisic
 =========================================================
 * 6b5897b: Elijah Green - Make sure only members of a group can comment
