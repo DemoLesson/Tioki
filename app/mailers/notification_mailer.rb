@@ -53,6 +53,8 @@ class NotificationMailer < ActionMailer::Base
 		@user = user
 		@favorite = favorite
 
+		@url = "whiteboard#{favorite.model.id}"
+
 		mail = mail(:to => @user.email, :subject => "#{@favorite.user} liked your post.")
 
 		if mail.delivery_method.respond_to?('tag')

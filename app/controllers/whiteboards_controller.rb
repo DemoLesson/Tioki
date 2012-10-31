@@ -64,7 +64,7 @@ class WhiteboardsController < ApplicationController
 		# save and get the proper message
 		if comment.save
 			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
-			Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user)
+			Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user.id)
 			NotificationMailer.comment(whiteboard.user, comment, whiteboard).deliver
 		else
 			message = {:type => :error, :message => "There was an error posting your comment."}
