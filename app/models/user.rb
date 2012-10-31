@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 	validates_uniqueness_of :email
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."  
 
+	has_many :notifications
+
 	has_many :school_administrators, :dependent => :destroy
 	has_many :administered_schools, :through => :school_administrators, :source => :school
 

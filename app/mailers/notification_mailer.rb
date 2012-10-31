@@ -34,23 +34,29 @@ class NotificationMailer < ActionMailer::Base
 		return mail
 	end
 
-	def likes
-		mail = mail(:to => @user.email, :subject => "#{} and #{} others liked your post")
+	def likes(user, liked_notifications)
+		#Get the ids of the favorites
+		favorite_ids = liked_notifications.collect(&:notifiable_id)
+		@favorites = Favorite.find(:all, :conditions => ["id in (?)", favorite_ids])
+
+
+		mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and #{@favorites.count - 1} others liked your post")
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('multiple_likes')
+			mail.delivery_method.tag('multiple_likes_whiteboard')
 		end
 
 		return mail
 	end
 
-	def like(liker, likee)
-		@liker = liker
+	def like(user, favorite)
+		@user = user
+		@favorite = favorite
 
-		mail = mail(:to => @user.email, :subject => '#{} liked your post.')
+		mail = mail(:to => @user.email, :subject => "#{@favorite.user} liked your post.")
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('one_like')
+			mail.delivery_method.tag('one_like_whiteboard')
 		end
 
 		return mail
