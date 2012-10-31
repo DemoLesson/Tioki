@@ -468,6 +468,14 @@ span.connection_degree {
 			margin-top: 3px;
 		}
 	}
+	.count_recruit {
+		display: block;
+		padding: 2px 0 2px 0px;
+		margin: 2px 0px 0px 10px; 
+		font: 20px/1.0 $oswald;
+		color: $salmon;
+		font-weight: 300;
+	}
 	.count {
 		display: block;
 		padding: 2px 0 2px 30px;

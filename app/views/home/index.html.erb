@@ -5,7 +5,7 @@
   <%= render :partial => 'teacher_dashboard' %>
   </div>
 <% elsif self.current_user.school != nil || self.current_user.is_shared %>
-  <div id="wrapper_admin_dashboard">
+  <div id="wrapper_global">
   <%= render :partial => 'admin_dashboard' %>
   </div>
 <% end %>
