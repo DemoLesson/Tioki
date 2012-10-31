@@ -1,4 +1,5 @@
 class Group < ActiveRecord::Base
+	acts_as_commentable
 
 	has_and_belongs_to_many :users, :join_table => 'users_groups'
 
@@ -16,6 +17,15 @@ class Group < ActiveRecord::Base
 
 	def to_param
 		"#{id}-#{name.parameterize}"
+	end
+
+	def get_comments
+		self.root_comments
+	end
+
+	# Create a Comment
+	def create_comment(body)
+		Comment.build_from(self, User.current.id, body)
 	end
 
 	def self.permissions(conds = {})

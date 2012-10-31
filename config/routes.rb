@@ -7,7 +7,11 @@ Preview::Application.routes.draw do
 	end
 
 	# Groups
-	resources :groups
+	resources :groups do
+		member do
+			get 'edit_picture'
+		end
+	end
 
 	# Match Comment URLS
 	match 'comments/:id/favorite' => 'comments#favorite'

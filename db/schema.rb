@@ -396,6 +396,13 @@ ActiveRecord::Schema.define(:version => 20121030235743) do
     t.boolean  "read"
   end
 
+  create_table "notifications", :force => true do |t|
+    t.string   "notifiable_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organizations", :force => true do |t|
     t.integer  "owned_by"
     t.string   "name"
@@ -640,6 +647,8 @@ ActiveRecord::Schema.define(:version => 20121030235743) do
     t.string   "betterlesson"
     t.string   "teachingchannel"
     t.integer  "video_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"

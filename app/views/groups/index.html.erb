@@ -1,5 +1,23 @@
-<section id="main-content" class="inner-content">
-	<h1>Groups</h1>
+<section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+					Groups
+				</li>
+				<li>
+					<a href="/my_groups">
+						My Groups
+					</a>
+				</li>
+				<% if self.current_user && self.current_user.teacher %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Create Group", new_group_path, :class => "action-button bg-green" %>
+					</div>
+				<% end %>
+			</ul>
+		</nav>
+	</section>
 	<div id="content">
 		<% @groups.each do |group| %>
 			<div class="item_jobs" style="height:auto;margin-left: -30px">
