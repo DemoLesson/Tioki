@@ -92,22 +92,27 @@
   </div>
 
   <div class="field">
-    <label>School Website</label><br />
+    <label>School Website</label>
 	<% if @school.website == nil %>
 		<%= f.text_field :website, :value => 'http://' %>
 	<% else %>
     	<%= f.text_field :website %>
-	<% end %>
+	<% end %><br />
   </div>
 
   <div class="field">
-    <label>GreatSchools Profile</label><br />
-    <%= f.text_field :greatschools, :placeholder => "http://www.greatschools.org/" %>
+    <label>GreatSchools Profile</label>
+    <%= f.text_field :greatschools, :placeholder => "http://www.greatschools.org/" %><br />
+  </div>
+
+<div class="field">
+    <label>Twitter</label>
+    <%= f.text_field :twitter, :placeholder => "http://twitter.com/tioki" %><br />
   </div>
 
   <div class="field">
-    <label>Facebook Page</label><br />
-    <%= f.text_field :facebook, :placeholder => "http://facebook.com/" %>
+    <label>Facebook Page</label>
+    <%= f.text_field :facebook, :placeholder => "http://facebook.com/tiokiapp" %><br />
   </div>
 
   <div class="field">

@@ -32,7 +32,8 @@ gem 'twitter'
 gem 'gibberish'
 
 # File Uploading/Storage
-gem 'paperclip', '~> 2.3.12'
+gem 'paperclip', '~> 3.3.0'
+gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave'
 gem 'carrierwave_direct'
@@ -138,4 +139,3 @@ gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exception
 gem 'graylog2-resque'
 gem 'delayed_job_active_record'
 gem 'acts_as_commentable_with_threading'
-gem 'cocaine', '0.3.2'

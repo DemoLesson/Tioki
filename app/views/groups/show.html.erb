@@ -1,0 +1,141 @@
+<section id="main-content" class="inner-content">
+	<h1><%= @group.name %></h1>
+	<div id="sidebar">
+		<div class="bordered_image">
+			<% if @group.picture? %>
+				<%= image_tag @group.picture.url(:medium) %>
+			<% else %>
+				<img src="http://placehold.it/220x220" />
+			<% end %>
+		</div>
+		<% unless @group.site == nil || @group.site == "" %>
+			<a href="<%= @group.site %>" target="_blank">
+				<%= image_tag('tioki/icons/globe.png') %>
+			</a>
+		<% end %>
+		<% unless @group.twitter == nil || @group.twitter == "" %>
+			<a href="<%= @group.twitter %>" target="_blank">
+				<%= image_tag('tioki/icons/twitter2.png') %>
+			</a>
+		<% end %>
+	</div>
+	<div id="content">
+		<% if self.current_user %>
+			<% if @admin %>
+				<%= link_to "Edit Group", edit_group_path, :class => "button", :style => "float:right" %>
+			<% elsif @in_group %>
+				<%= link_to "Explore More Groups", "/groups", :class => "button", :style => "float:right" %>
+			<% else %>
+				<% if @group.permissions['public'] %>
+					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :class => "button", :style => "float:right" %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<% if @group.description? %>
+			<p>
+				<h3>Description</h3>
+				<%=raw auto_link(@group.description).gsub(/\n/, '<br />') %>
+			</p>
+		<% end %>
+		
+		<h3 class="top-line">Tioki Users that are part of <%= @group.name %></h3>
+		<div class="avatars">
+			<% @group.users.avatar?.each do |user| %>
+				<%= link_to image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url %>
+			<% end %>
+		</div>
+		<section class="profile-content panel" style="margin:30px 0px;">
+		<h3>Comments</h3>
+		<ul id="comments">
+			<% @comments.each do |comment| %>
+				<% @comment = comment %>
+				<%= render 'comments/show' %>
+			<% end %>
+		</ul>
+		<% unless User.current.nil? %>
+			<section class="panel-actions">
+				<% if @in_group %>
+				<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
+					<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
+					<input type="submit" value="Post Comment" />
+				</form>
+			<% end %>
+			</section>
+
+			<!-- Load js for processing comments - AJAX HACK -->
+			<script type="text/javascript">
+			$(document).ready(function() {
+				$('form#post-comment').submit(function(e) {
+					e.preventDefault();
+
+					var form = $(this);
+					$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+						if(r.id !== undefined && r.type == 'success') {
+							form.find('textarea').val('Posted!').prop('disabled', true);
+							$.get('/comments/' + r.id, function(d) {
+								comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
+								$('ul#comments').append(comment);
+								comment.slideDown(500, function() {
+									$('ul#comments').scrollTo('100%', 800);
+									setTimeout(function() {
+										comment.animate({backgroundColor: '#FFF'}, 600);
+										form.find('textarea').val('').prop('disabled', false);
+									}, 1000);
+								});
+							});
+						}
+					})
+
+					return false;
+				});
+
+				// Favorite a comment
+				$('a[comment-action="favorite"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+
+						// Star the post
+						if(r.type == 'success' && r.new) {
+							link.removeClass('star-empty').addClass('star-gold');
+							var inc = parseInt(link.text()) + 1;
+							if(isNaN(inc)) link.text('1');
+							else link.text(inc);
+						}
+
+						// Unstar the post
+						if(r.type == 'success' && !r.new) {
+							link.removeClass('star-gold').addClass('star-empty');
+							var dec = parseInt(link.text()) - 1;
+							if(isNaN(dec) || dec === 0) link.text('');
+							else link.text(dec);
+						}
+					});
+
+					return false;
+				});
+
+				// Delete a comment
+				$('a[comment-action="delete"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+						var li = link.closest('li');
+
+						// Hide the post
+						if(r.type == 'success') li.slideUp(500, function() {
+							$('span.tooltip').remove();
+							$(this).remove();
+						});
+					});
+
+					return false;
+				});
+			});
+			</script>
+		<% end %>
+	</section>
+	</div>
+</section>
