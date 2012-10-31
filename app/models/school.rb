@@ -22,11 +22,15 @@ class School < ActiveRecord::Base
                     :storage => :s3,
                     :styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
                     :content_type => [ 'image/jpeg', 'image/png' ],
-                    :s3_credentials => Rails.root.to_s + "/config/s3.yml",
-                    :s3_host_alias => 'tioki.s3.amazonaws.com',
-                    :url => ':s3_alias_url',
+										:fog_credentials => {
+											:provider => 'AWS',
+											:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+											:aws_secret_access_key  => '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',
+											:region => 'us-west-2'
+										},
+										:fog_public => true,
+										:fog_directory => 'tioki',
                     :path => 'schools/:style/:basename.:extension',
-										:bucket => 'tioki',
                     :processors => [:thumbnail, :timestamper],
                     :date_format => "%Y%m%d%H%M%S"
                     
