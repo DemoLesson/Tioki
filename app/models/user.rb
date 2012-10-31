@@ -518,6 +518,11 @@ class User < ActiveRecord::Base
 		return !nil? && is_admin if type == 'admin'
 	end
 
+	# Filter to accounts with avatars
+	def self.avatar?(has = true)
+		where('`users`.`avatar_updated_at` IS ' + (has ? 'NOT ' : '') + 'NULL')
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)

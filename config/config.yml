@@ -20,6 +20,10 @@ development:
       1: "private"
       2: "hidden"
       3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"
 staging:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -41,6 +45,10 @@ staging:
       1: "private"
       2: "hidden"
       3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -62,3 +70,7 @@ production:
       1: "private"
       2: "hidden"
       3: "organization"
+    user_group_permissions:
+      0: "member"
+      1: "moderator"
+      2: "administrator"

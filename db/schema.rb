@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121029213231) do
+ActiveRecord::Schema.define(:version => 20121030235743) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -308,11 +308,15 @@ ActiveRecord::Schema.define(:version => 20121029213231) do
   add_index "followers", ["user_id"], :name => "index_followers_on_user_id"
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                       :null => false
-    t.text     "description",                :null => false
-    t.integer  "permissions", :default => 0, :null => false
+    t.string   "name",                                :null => false
+    t.text     "description",                         :null => false
+    t.integer  "permissions",          :default => 0, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -726,6 +730,7 @@ ActiveRecord::Schema.define(:version => 20121029213231) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "permissions", :default => 0
   end
 
   create_table "video_views", :force => true do |t|

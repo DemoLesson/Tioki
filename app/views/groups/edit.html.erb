@@ -1,0 +1,15 @@
+<section id="main-content" class="inner-content">
+  <%= form_for(@group) do |f| %>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div><br />
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div><br />
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</section>

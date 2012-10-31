@@ -1,2 +1,36 @@
 <section id="main-content" class="inner-content">
+	<h1><%= @group.name %></h1>
+	<div id="sidebar">
+		<div class="bordered_image">
+			<% if @group.picture? %>
+				<%= image_tag @group.picture.url(:medium) %>
+			<% else %>
+				<img src="http://placehold.it/220x220" />
+			<% end %>
+		</div>
+	</div>
+	<div id="content">
+		<% if self.current_user %>
+			<% if @in_group %>
+				<%= link_to "Explore More Groups", "/groups", :class => "button", :style => "float:right" %>
+			<% else %>
+				<% if @group.permissions['public'] %>
+					<%= link_to "Join Group", { :action => "add_technology", :id => @group.id}, :class => "button", :style => "float:right" %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<% if @group.description? %>
+			<p>
+				<h3>Description</h3>
+				<%=raw auto_link(@group.description).gsub(/\n/, '<br />') %>
+			</p>
+		<% end %>
+		
+		<h3 class="top-line">Tioki Users that are part of <%= @group.name %></h3>
+		<div class="avatars">
+			<% @group.users.avatar?.each do |user| %>
+				<%= link_to image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url %>
+			<% end %>
+		</div>
+	</div>
 </section>

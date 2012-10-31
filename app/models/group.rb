@@ -1,5 +1,22 @@
 class Group < ActiveRecord::Base
-	has_and_belongs_to_many :user, :join_table => 'users_groups'
+
+	has_and_belongs_to_many :users, :join_table => 'users_groups'
+
+	has_attached_file :picture,
+		:storage => :s3,
+		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
+		:content_type => [ 'image/jpeg', 'image/png' ],
+		:s3_credentials => Rails.root.to_s + "/config/s3.yml",
+		:s3_host_alias => 'tioki.s3.amazonaws.com',
+		:url => ':s3_alias_url',
+		:path => 'groups/:style/:basename.:extension',
+		:bucket => 'tioki',
+		:processors => [:thumbnail, :timestamper],
+		:date_format => "%Y%m%d%H%M%S"
+
+	def to_param
+		"#{id}-#{name.parameterize}"
+	end
 
 	def self.permissions(conds = {})
 
@@ -19,5 +36,14 @@ class Group < ActiveRecord::Base
 
 	def permissions
 		super.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
+	end
+
+	def user_permissions(conds = {})
+		user = User.find(conds[:user]) unless conds[:user].nil?
+		user = User.current if conds[:user].nil? && !User.current.nil?
+
+		return false if user.nil?
+
+		return User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first.permissions
 	end
 end
