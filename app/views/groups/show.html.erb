@@ -8,6 +8,16 @@
 				<img src="http://placehold.it/220x220" />
 			<% end %>
 		</div>
+		<% unless @group.site == nil || @group.site == "" %>
+			<a href="<%= @group.site %>" target="_blank">
+				<%= image_tag('tioki/icons/globe.png') %>
+			</a>
+		<% end %>
+		<% unless @group.twitter == nil || @group.twitter == "" %>
+			<a href="<%= @group.twitter %>" target="_blank">
+				<%= image_tag('tioki/icons/twitter2.png') %>
+			</a>
+		<% end %>
 	</div>
 	<div id="content">
 		<% if self.current_user %>
@@ -34,6 +44,7 @@
 				<%= link_to image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url %>
 			<% end %>
 		</div>
+		<section class="profile-content panel" style="margin:30px 0px;">
 		<h3>Comments</h3>
 		<ul id="comments">
 			<% @comments.each do |comment| %>
@@ -43,7 +54,7 @@
 		</ul>
 		<% unless User.current.nil? %>
 			<section class="panel-actions">
-				<form id="post-comment" action="<%= "/technologies/#{@group.id}/comment" %>" method="post">
+				<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
 					<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
 					<input type="submit" value="Post Comment" />
 				</form>
@@ -123,5 +134,6 @@
 			});
 			</script>
 		<% end %>
+	</section>
 	</div>
 </section>

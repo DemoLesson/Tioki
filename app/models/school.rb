@@ -19,7 +19,7 @@ class School < ActiveRecord::Base
   default_scope joins(:user).where('users.deleted_at' => nil).readonly(false)
   
   has_attached_file :picture,
-                    :storage => :s3,
+                    :storage => :fog,
                     :styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
                     :content_type => [ 'image/jpeg', 'image/png' ],
 										:fog_credentials => {

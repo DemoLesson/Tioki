@@ -7,9 +7,12 @@ Preview::Application.routes.draw do
 	end
 
 	# Groups
+	match 'groups/:id/comment' => 'groups#comment'
+	match 'my_groups' => 'groups#my_groups'
 	resources :groups do
 		member do
 			get 'edit_picture'
+			get 'add_group'
 		end
 	end
 

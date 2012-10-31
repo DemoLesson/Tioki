@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
 
 		respond_to do |format|
 			format.html # new.html.erb
-			format.json { render json: @technology }
+			format.json { render json: @group }
 		end
 	end
 
@@ -20,11 +20,11 @@ class GroupsController < ApplicationController
 		group.permissions = 1
 
 		respond_to do |format|
-			if @group.save
+			if group.save
 				#create join row
 				#all three permissions 2^3-1
-				User_Group.create(:user_id => self.current_user_id, :group_id => group.id, :permissions => 7)
-				format.html { redirect_to group, notice: 'Technology was successfully created.' }
+				User_Group.create(:user_id => self.current_user.id, :group_id => group.id, :permissions => 7)
+				format.html { redirect_to group, notice: 'Group was successfully created.' }
 				format.json { render json: group, status: :created, location: group }
 			else
 				format.html { render action: "new" }
@@ -90,10 +90,10 @@ class GroupsController < ApplicationController
 
 		@group.update_attributes(params[:group])
 
-		redirect_to group
+		redirect_to @group
 	end
 
-	# Add a comment to an technology
+	# Add a comment to an group
 	def comment
 		# Get the group in question
 		group = Group.find(params[:id])
@@ -117,6 +117,10 @@ class GroupsController < ApplicationController
 			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
 			format.json { render :json => message }
 		end
+	end
+
+	def my_groups
+		@groups = self.current_user.groups
 	end
 
 	def edit_picture

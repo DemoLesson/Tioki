@@ -2,19 +2,14 @@
 	<section>
 		<nav class="subpage">
 			<ul>
-				<li class="current">
-					Groups
-				</li>
 				<li>
-					<a href="/my_groups">
-						My Groups
+					<a href="/groups">
+					Groups
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
-					<div style="float:right;margin-top:0px">
-						<%= link_to "Create Group", new_group_path, :class => "action-button bg-green" %>
-					</div>
-				<% end %>
+				<li class="current">
+						My Groups
+				</li>
 			</ul>
 		</nav>
 	</section>

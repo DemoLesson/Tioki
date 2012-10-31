@@ -23,7 +23,7 @@ class Technology < ActiveRecord::Base
 	end
 
 	has_attached_file :picture,
-		:storage => :s3,
+		:storage => :fog,
 		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
 		:content_type => [ 'image/jpeg', 'image/png' ],
 		:fog_credentials => {
