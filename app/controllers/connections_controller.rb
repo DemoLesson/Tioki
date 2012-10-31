@@ -13,7 +13,7 @@ class ConnectionsController < ApplicationController
 		@teachers = Array.new
 
 		if params[:skill]
-			teachers = Teacher.active..search(:skill => params[:skill])
+			teachers = Teacher.active.search(:skill => params[:skill])
 		elsif params[:connectsearch].empty?
 			teachers = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
