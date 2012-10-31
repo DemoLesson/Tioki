@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+	before_filter :login_required, :except => [:index, :show]
+	before_filter :teacher_required, :except => [:index, :show]
 
 	def index
 		#@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
