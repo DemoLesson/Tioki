@@ -1,3 +1,18 @@
+v1.4.35 - Oct 31, 2012 12:42AM deployed by Aleks Stanisic
+=========================================================
+* 6b5897b: Elijah Green - Make sure only members of a group can comment
+* 8a95f95: Elijah Green - Make sure school admins can't use groups
+* f526810: Elijah Green - Actaully fix rest of pictures and finish up groups
+* 9614c77: Elijah Green - Fix rest of picture uploading
+* 07e568c: Elijah Green - Add more things to groups and fix uploading
+* 938f75a: Brian Martinez - admin dashboard changes
+* 30bd39e: Kelly Becker - groups
+* d30c845: Kelly Becker - bitwise conditions for bitswitch
+* 0d4741f: Kelly Becker - stripped the repo of agility
+* b827976: Kelly Becker - making progress now have saving models through api
+* f04e613: Kelly Becker - api
+* 314ef94: Kelly Becker - added agility
+
 v1.4.34 - Oct 30, 2012  2:51PM deployed by Aleks Stanisic
 =========================================================
 * 8d6eb7a: Elijah Green - Have git ignore ctags file
