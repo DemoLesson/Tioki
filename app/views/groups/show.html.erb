@@ -21,7 +21,7 @@
 	</div>
 	<div id="content">
 		<% if self.current_user %>
-			<% if @group.user_permissions.to_hash['administrator'] %>
+			<% if @admin %>
 				<%= link_to "Edit Group", edit_group_path, :class => "button", :style => "float:right" %>
 			<% elsif @in_group %>
 				<%= link_to "Explore More Groups", "/groups", :class => "button", :style => "float:right" %>
@@ -54,10 +54,12 @@
 		</ul>
 		<% unless User.current.nil? %>
 			<section class="panel-actions">
+				<% if @in_group %>
 				<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
 					<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
 					<input type="submit" value="Post Comment" />
 				</form>
+			<% end %>
 			</section>
 
 			<!-- Load js for processing comments - AJAX HACK -->

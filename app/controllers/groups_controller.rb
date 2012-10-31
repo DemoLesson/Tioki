@@ -41,7 +41,11 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Is the current user an administrator
-		@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
 
 		@comments = @group.get_comments
 
@@ -59,7 +63,7 @@ class GroupsController < ApplicationController
 			redirect_to :back, :notice => "You have already added this group."
 		else
 			#add as member
-			group = User_Group.create(:user => self.current_user, :group_id => params[:id], :permissions => 1)
+			group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id], :permissions => 1)
 			#self.log_analytic(:user_added_group, "A user added a group", group)
 			redirect_to :back, :notice => "Technology was successfully added."
 		end
