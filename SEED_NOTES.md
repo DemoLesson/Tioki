@@ -1,3 +1,9 @@
+v1.4.34 - Oct 30, 2012  2:51PM deployed by Aleks Stanisic
+=========================================================
+* 8d6eb7a: Elijah Green - Have git ignore ctags file
+* 6eebdcf: Elijah Green - Deal with deactivated users on specific pages
+* afe4437: Elijah Green - Fix typo on whiteboard for links to discussions
+
 v1.4.33 - Oct 30, 2012 10:08AM deployed by Kelly Becker
 =======================================================
 * 773e886: Kelly Becker - delete connections if the record does not exist and then commented cleanup
