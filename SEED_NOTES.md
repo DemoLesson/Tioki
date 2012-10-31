@@ -1,3 +1,7 @@
+v1.4.37 - Oct 31, 2012  1:17AM deployed by Aleks Stanisic
+=========================================================
+* b38dfc6: Aleks Stanisic - fixing school profile pictures
+
 v1.4.36 - Oct 31, 2012  1:08AM deployed by Aleks Stanisic
 =========================================================
 * 1ae87ed: Brian Martinez - school profile page changes
