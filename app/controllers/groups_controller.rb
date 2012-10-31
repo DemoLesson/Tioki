@@ -132,4 +132,26 @@ class GroupsController < ApplicationController
 	def edit_picture
 		@group = Group.find(params[:id])
 	end
+	
+		def invite
+  		return redirect_to :back unless request.post?
+  		return redirect_to :back if User.current.nil?
+
+  		# Get the discussion
+  		d = Group.find(params[:id])
+
+  		subject = "You have been invited to join the Group \"#{d.name}\"."
+  		body = <<-BODY
+  Hi, I was browsing Tioki's groups and I thought you might be interested in this group.
+  Come join this group! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
+  BODY
+
+  		# Send the message
+  		params[:connection].each do |user|
+  			Message.send!(user, :subject => subject, :body => body.html_safe)
+  		end
+
+  		flash[:success] = "Share successfully."
+  		return redirect_to :back
+  	end
 end

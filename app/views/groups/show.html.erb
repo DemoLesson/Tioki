@@ -18,6 +18,12 @@
 				<%= image_tag('tioki/icons/twitter2.png') %>
 			</a>
 		<% end %>
+		<div style="display:block;">
+			<h3>Share</h3>
+			<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
+			<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
+			<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
+		</div>
 	</div>
 	<div id="content">
 		<% if self.current_user %>
@@ -139,3 +145,100 @@
 	</section>
 	</div>
 </section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%= @group.name %>',
+			link: '<%= url_for(:only_path => false) %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join this Group on Tioki.',
+			description: 'Come join the "<%= @group.name %>" group on Tioki; a professional development site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: '<%= url_for(:only_path => false) %>',
+			text: 'Come join the "<%= @group.name %>" Group on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
+
+<% unless User.current.nil? %>
+<div id="share_on_tioki" class="kmodal">
+	<h2>
+		Share with other Tioki users.
+	</h2>
+	<p>
+		Please select some of your connections to share with.
+	</p>
+	<section style="max-height:300px;overflow-y:scroll;">
+		<form method="post" action="/groups/<%= @group.id %>/invite">
+			<% Connection.mine(:pending => false).each do |connection| %>
+			<% user = connection.not_me %>
+			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
+				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
+				<div class="profile-thumb-small" style="float:left;">
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.teacher.url}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.teacher.url}" unless user.avatar? %>
+				</div>
+				<p style="margin-top:0px;"><strong><%= user.teacher.profile_link %></strong><br /><%= user.teacher.location %>
+			</div>
+			<% end %>
+			<div style="clear:both;"></div>
+			<a style="float:right;margin:25px 5px 5px;font-size:20px;" href="javascript:void(0);" onclick="$(this).closest('form').submit();" class="button">Invite Connections</a>
+		</form>
+	</section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div.user').click(function(e) {
+		e.preventDefault();
+
+		var check = $(this).children('input');
+		if(check.prop('checked')) {
+			$(this).css('border-color', '#DADADA');
+			check.prop('checked', false);
+		}
+		else {
+			$(this).css('border-color', '#F66C4C');
+			check.prop('checked', true);
+		}
+
+		return false;
+	})
+});
+</script>
+<% end %>
