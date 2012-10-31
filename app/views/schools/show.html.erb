@@ -119,9 +119,7 @@
 			
 		<!--START SCHOOL PICTURE-->	
 		<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
-			<!-- Make sure you input statement about the school picture
-			<% if @school.picture? %><%= image_tag @school.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %>-->
-			<%= image_tag '/assets/tioki/press/edweek.png', :style => "width:161px" %>
+			<% if @school.picture? %><%= image_tag @school.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %>
 		</section>
 	</section>
 	<!-- CONTENT SECTION -->
