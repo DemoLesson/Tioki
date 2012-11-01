@@ -11,6 +11,7 @@ Preview::Application.routes.draw do
 	match 'my_groups' => 'groups#my_groups'
 	match 'groups/:id/inviting' => 'groups#inviting'
 	match ':id/invite_email' => 'groups#invite_email'
+	match 'groups/:id/invite' => 'groups#invite'
 	resources :groups do
 		member do
 			get 'edit_picture'

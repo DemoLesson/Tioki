@@ -178,25 +178,25 @@ class GroupsController < ApplicationController
 		redirect_to group_path(@group), :notice => 'Email Sent Successfully'
 	end
 	
-		def invite
-  		return redirect_to :back unless request.post?
-  		return redirect_to :back if User.current.nil?
+	def invite
+		return redirect_to :back unless request.post?
+		return redirect_to :back if User.current.nil?
 
-  		# Get the discussion
-  		d = Group.find(params[:id])
+		# Get the discussion
+		d = Group.find(params[:id])
 
-  		subject = "You have been invited to join the Group \"#{d.name}\"."
-  		body = <<-BODY
-  Hi, I was browsing Tioki's groups and I thought you might be interested in this group.
-  Come join this group! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
-  BODY
+		subject = "You have been invited to join the Group \"#{d.name}\"."
+		body = <<-BODY
+	Hi, I was browsing Tioki's groups and I thought you might be interested in this group.
+	Come join this group! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
+		BODY
 
-  		# Send the message
-  		params[:connection].each do |user|
-  			Message.send!(user, :subject => subject, :body => body.html_safe)
-  		end
+		# Send the message
+		params[:connection].each do |user|
+			Message.send!(user, :subject => subject, :body => body.html_safe)
+		end
 
-  		flash[:success] = "Share successfully."
-  		return redirect_to :back
-  	end
+		flash[:success] = "Share successfully."
+		return redirect_to :back
+	end
 end
