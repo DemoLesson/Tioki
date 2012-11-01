@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+	before_filter :login_required, :only => [:invite, :rsvp]
 
 	# GET /events
 	# GET /events.json

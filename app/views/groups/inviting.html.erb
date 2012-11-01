@@ -1,0 +1,78 @@
+<!-- Include these scripts to import address books with CloudSponge -->
+<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
+<script type="text/javascript" charset="utf-8">
+var csPageOptions = {
+	domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
+	textarea_id:"referral_emails"
+};
+</script>
+
+<section id="main-content" class="inner-content events-wrapper">
+	<h1><%= @group.name %></h1>
+	<section class="profile group">
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+					Invite Friends
+				</li>
+			</ul>
+		</nav>
+		<section style="margin:25px;">
+			<%= form_for :referral, :url => { :controller => :groups, :action => :invite_email} do |f| -%>
+				<table style="width:100%">
+					<tr>
+						<td style="width:40%;vertical-align:top;">
+							<div class="field">
+								<%= f.label :teachername, "Your Name" %>
+								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+							</div>
+						</td>
+						<td rowspan="2" style="width:60%;vertical-align:top;padding-left:20px">
+							<div class="field">
+								<%= f.label :message, "Email Message" %>
+								<%= f.text_area :message, :value => @default_message, :style => "height:150px;width:100%;", :class => "css3-border-box" %>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;">
+							<div class="field">
+								<%= f.label :emails, "Friend's Emails" %>
+								<%= f.text_area :emails, :placeholder => "Friend's Emails", :style => "height:75px;width:100%", :class => "css3-border-box" %><br />
+							</div>
+
+							<div style="margin-bottom:10px;">
+								<label style="margin-bottom:10px;">Import contacts from your address book</label>
+								<a href="#" onclick="return cloudsponge.launch('yahoo');">
+									<img src="/assets/cs_icons/yahoo.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('windowslive');">
+									<img src="/assets/cs_icons/msn.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('gmail');">
+									<img src="/assets/cs_icons/google.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('aol');">
+									<img src="/assets/cs_icons/aol.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('plaxo');">
+									<img src="/assets/cs_icons/plaxo.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('addressbook');">
+									<img src="/assets/cs_icons/apple.png" />
+								</a>
+								<a href="#" onclick="return cloudsponge.launch('outlook');">
+									<img src="/assets/cs_icons/microsoft.png" />
+								</a>
+							</div>
+
+							<div>
+								<%= f.submit "Send Email", :class => "btn btn-success" %>
+							</div>
+						</td>
+					</tr>
+				</table>
+			<% end %>
+		</section>
+	</section>
+</section>

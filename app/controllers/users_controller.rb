@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
-	USER_ID, PASSWORD = "andreas", "dl2012"
 	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list ]
 
 	def create(*args)
@@ -695,10 +694,6 @@ class UsersController < ApplicationController
 		render :text => "Access Denied"
 		return 401
 
-		# Block old HTTP Auth
-		#authenticate_or_request_with_http_basic do |id, password| 
-		#  id == USER_ID && password == PASSWORD
-		#end
 	end
 end
 

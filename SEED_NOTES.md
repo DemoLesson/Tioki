@@ -1,3 +1,18 @@
+v1.4.40 - Nov 1, 2012 12:04PM deployed by Aleks Stanisic
+========================================================
+* 9eb5a19: Elijah Green - Add groups/invite to routes
+
+v1.4.39 - Oct 31, 2012  8:19PM deployed by Aleks Stanisic
+=========================================================
+* 1c7b304: Aleks Stanisic - adding email invites for groups
+
+v1.4.38 - Oct 31, 2012  2:07PM deployed by Aleks Stanisic
+=========================================================
+* bed5822: Aleks Stanisic - sharing for groups
+* 0d30018: Elijah Green - Fix assets uploading
+* 9beb2dc: Brian Martinez - Job Posting changes
+* 8d467f1: Elijah Green - Fix search by skill
+
 v1.4.37 - Oct 31, 2012  1:17AM deployed by Aleks Stanisic
 =========================================================
 * b38dfc6: Aleks Stanisic - fixing school profile pictures
