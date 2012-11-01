@@ -1,3 +1,7 @@
+v1.4.40 - Nov 1, 2012 12:04PM deployed by Aleks Stanisic
+========================================================
+* 9eb5a19: Elijah Green - Add groups/invite to routes
+
 v1.4.39 - Oct 31, 2012  8:19PM deployed by Aleks Stanisic
 =========================================================
 * 1c7b304: Aleks Stanisic - adding email invites for groups
