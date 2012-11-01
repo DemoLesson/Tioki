@@ -1,3 +1,7 @@
+v1.4.39 - Oct 31, 2012  8:19PM deployed by Aleks Stanisic
+=========================================================
+* 1c7b304: Aleks Stanisic - adding email invites for groups
+
 v1.4.38 - Oct 31, 2012  2:07PM deployed by Aleks Stanisic
 =========================================================
 * bed5822: Aleks Stanisic - sharing for groups
