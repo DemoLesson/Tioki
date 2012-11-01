@@ -30,6 +30,7 @@ class WhiteboardsController < ApplicationController
 			# Save the favorite
 			if fav.save
 				message = {:type => :success, :message => "Whiteboard post was successfully favorited.", :new => 1}
+				Notification.create(:notifiable_type => fav.tag!, :user_id => w.user.id)
 			else
 				message = {:type => :error, :message => "There was an error favoriting the specified post.", :new => 1}
 			end
