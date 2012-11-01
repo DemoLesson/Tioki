@@ -17,27 +17,29 @@
 			<!-- Followers Section -->
 			<section style="float:right;margin:0px 15px 0px 0px">
 				<% if self.current_user && self.current_user.teacher %>
-				<% if @follower %>
-				<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
-				<% else %>
-				<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
-				<% end %>
+					<% if @follower %>
+						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% else %>
+						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% end %>
 				<% end %>
 				<% @discussion.following.each do |user| %>
-				<% if user %>
-				<% if user.avatar? %>
-				<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
-				<% else %>
-				<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+					<% if user %>
+						<% if user.avatar? %>
+							<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+						<% else %>
+							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+						<% end %>
+					<% end %>
 				<% end %>
-				<% end %>
-				<% end %>
-				<div style="display:block;">
-					<h3>Share</h3>
-					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
-					<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
-					<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
-				</div>
+					<div style="display:block;">
+						<h3>Share</h3>
+						<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
+						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
+						<% if self.current_user %>
+							<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
+						<% end %>
+					</div>
 			</section>
 
 			<!--Content Section-->
