@@ -132,6 +132,51 @@ class GroupsController < ApplicationController
 	def edit_picture
 		@group = Group.find(params[:id])
 	end
+
+	def inviting 
+
+		# Load the group
+		@group = Group.find(params[:id])
+
+		# Load in the current users name
+		unless self.current_user.nil?
+			name = self.current_user.name
+		else
+			name = "[name]"
+		end
+
+		# What is the default message for the email
+		@default_message = "I thought you might be interested in joining the \"#{@group.name}\" group. Check it out on Tioki.\n\n-#{name}"
+	end
+	
+	def invite_email
+
+		# Load the event
+		@group = Group.find(params[:id])
+
+		# Get the post data key
+		@referral = params[:referral]
+
+		# Interpret the post data from the form
+		@teachername = @referral[:teachername]
+		@emails = @referral[:emails]
+		@message = @referral[:message]
+
+		# Swap out any instances of [name] with the name of the sender
+		@message = @message.gsub("[name]", @teachername);
+
+		# Swap out all new lines with line breaks
+		@message = @message.gsub("\n", '<br />');
+
+		# Get the current user if applicable
+		user = self.current_user unless self.current_user.nil?
+
+		# Send out the email to the list of emails
+		UserMailer.group_invite_email(@teachername, @emails, @message, @group, user).deliver
+
+		# Return user back to the home page 
+		redirect_to group_path(@group), :notice => 'Email Sent Successfully'
+	end
 	
 		def invite
   		return redirect_to :back unless request.post?

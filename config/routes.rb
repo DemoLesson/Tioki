@@ -9,7 +9,8 @@ Preview::Application.routes.draw do
 	# Groups
 	match 'groups/:id/comment' => 'groups#comment'
 	match 'my_groups' => 'groups#my_groups'
-	match 'groups/:id/invite' => 'groups#invite'
+	match 'groups/:id/inviting' => 'groups#inviting'
+	match ':id/invite_email' => 'groups#invite_email'
 	resources :groups do
 		member do
 			get 'edit_picture'

@@ -23,6 +23,7 @@
 			<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
 			<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
 			<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
+			<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png') %></a>
 		</div>
 	</div>
 	<div id="content">
@@ -51,6 +52,7 @@
 			<% end %>
 		</div>
 		<section class="profile-content panel" style="margin:30px 0px;">
+		<% unless User.current.nil? %>
 		<h3>Comments</h3>
 		<ul id="comments">
 			<% @comments.each do |comment| %>
@@ -58,6 +60,7 @@
 				<%= render 'comments/show' %>
 			<% end %>
 		</ul>
+		<% end %>
 		<% unless User.current.nil? %>
 			<section class="panel-actions">
 				<% if @in_group %>
