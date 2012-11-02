@@ -1,3 +1,18 @@
+v1.4.41 - Nov 1, 2012  6:20PM deployed by Aleks Stanisic
+========================================================
+* bc3214c: Elijah Green - Fixing notifications for likes
+* 4642c79: Elijah Green - Fix various pages for not logged in users
+* 0621d13: Elijah Green - Don't show share with tioki connections if there is no currently logged user
+* 32e73ab: Elijah Green - Seperate the likes on different whiteboard post
+* d23ef0d: Elijah Green - Set the correct ids for notifications
+* 7540bce: Elijah Green - Add more to the notification emailer
+* 21658cc: Elijah Green - Link directly to comments of a whiteboard post.
+* 4221f82: Elijah Green - Added whiteboard post notification
+* 0c7013b: Elijah Green - Add functions for notification mailers
+* 0922501: Elijah Green - Finish notifications for discusions and whiteboard
+* 0c81249: Elijah Green - Use map tag instead of polymorphic types
+* 786f1f7: Elijah Green - Add basic model for notifications
+
 v1.4.40 - Nov 1, 2012 12:04PM deployed by Aleks Stanisic
 ========================================================
 * 9eb5a19: Elijah Green - Add groups/invite to routes
