@@ -1,4 +1,4 @@
-<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %>>
+<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %> id="<%= @post.id %>">
 	<% i=0; @post.getModels.each do |x| %>
 		<% next if i>0; i+=1; %>
 		<% next unless x.is_a?(User) %>

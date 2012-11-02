@@ -34,13 +34,18 @@ class NotificationMailer < ActionMailer::Base
 		return mail
 	end
 
-	def likes(user, liked_notifications)
+	def likes(user, favorites)
 		#Get the ids of the favorites
-		favorite_ids = liked_notifications.collect(&:notifiable_id)
-		@favorites = Favorite.find(:all, :conditions => ["id in (?)", favorite_ids])
+		@user = user
+		@favorites = favorites
 
+		@url = "#whiteboard#{favorites.first.model.id}"
 
-		mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and #{@favorites.count - 1} others liked your post")
+		if favorites.count === 2
+			mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and 1 other liked your post")
+		else
+			mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and #{@favorites.count - 1} others liked your post")
+		end
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('multiple_likes_whiteboard')
@@ -53,7 +58,7 @@ class NotificationMailer < ActionMailer::Base
 		@user = user
 		@favorite = favorite
 
-		@url = "whiteboard#{favorite.model.id}"
+		@url = "#whiteboard#{favorite.model.id}"
 
 		mail = mail(:to => @user.email, :subject => "#{@favorite.user.name} liked your post.")
 
