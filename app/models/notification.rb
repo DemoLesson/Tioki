@@ -28,9 +28,23 @@ class Notification < ActiveRecord::Base
 				elsif count == 1
 					NotificationMailer.like(user, favorites.first)
 				end
-			end
+@url 			end
 		end
 		#For now use delayed_job, however its probably better to use a cron job
 		#as this is going to be done on a hourly basis
+	end
+
+	def self.notify_videos
+		Discussion.all.each do |discussion|
+			comments = discussion.comment_threads.where("comments.created_at > ? ", 1.hour.ago)
+
+			discussion.following_and_participants.each do |user|
+				if comments.count > 1
+					NotificationMailer.comments(user, comments, discussion).deliver
+				elsif comments.count == 1
+					NotificationMailer.comment(user, comments.first, discussion).deliver
+				end
+			end
+		end
 	end
 end

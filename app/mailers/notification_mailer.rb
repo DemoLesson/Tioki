@@ -1,15 +1,31 @@
 class NotificationMailer < ActionMailer::Base
 	default :from => "Tioki <tioki@tioki.com>"
 
-	def comments(user, commentable)
-		@user= user
+	def comments(user, comments, commentable)
+		#currently only discussions
 
-		#Was this created, participanted in, or followed in that order
+		@user= user
 		@type = commentable.class.name
-		if @type == "Discussion"
+		@comments = comments
+
+		#followed, participated in, or created
+		if commentable.user_id == @user.id
+			@subtype = ""
+		elsif commentable.following.include?(user)
+			@subtype = " followed"
+		else
+			@subtype = " participated in"
 		end
 
-		mail = mail(:to => @user.email, :subject => '#{} and #{} other commented on your #{@type} Post')
+		@url = "discussions/#{commentable.id}"
+
+		if comments.size == 2
+			@action = "#{@comments.first.user.name} and 1 other commented on your#{@subtype} Discussion"
+		else
+			@action = "#{@comments.first.user.name} and #{@comments.size-1} others commented on your#{@subtype} Discussion"
+		end
+
+		mail = mail(:to => @user.email, :subject => @action)
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag("multiple_comments_#{@type.downcase}")
@@ -19,13 +35,30 @@ class NotificationMailer < ActionMailer::Base
 	end
 
 	def comment(user, comment, commentable)
-		#Whiteboard only currently
 		@user = user
 		@comment = comment
-		@whiteboard = commentable
-		@url = "#whiteboard_comments#{commentable.id}"
+		@type = commentable.class.name
 
-		mail = mail(:to => @user.email, :subject => "#{@comment.user.name} commented on your #{@comment.commentable_type} Post")
+		if @type == "Discussion"
+			#followed, participated in, or created
+			if commentable.user_id == @user.id
+				@subtype = ""
+			elsif commentable.following.include?(user)
+				@subtype = " followed"
+			else
+				@subtype = " participated in"
+			end
+		end
+
+		if @type == "Discussion"
+			@url = "discussions/#{commentable.id}"
+			@action = "#{@comment.user.name} commented on your#{@subtype} Discussion"
+		elsif @type == "Whiteboard"
+			@url = "#whiteboard_comments#{commentable.id}"
+			@action = "#{@comment.user.name} commented on your Whiteboard Post"
+		end
+
+		mail = mail(:to => @user.email, :subject => @action)
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag("one_comment_#{@comment.commentable_type.downcase}")
@@ -41,7 +74,7 @@ class NotificationMailer < ActionMailer::Base
 
 		@url = "#whiteboard#{favorites.first.model.id}"
 
-		if favorites.count === 2
+		if favorites.count == 2
 			mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and 1 other liked your post")
 		else
 			mail = mail(:to => @user.email, :subject => "#{@favorites.first.user.name} and #{@favorites.count - 1} others liked your post")
