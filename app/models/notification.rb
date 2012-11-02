@@ -34,7 +34,7 @@ class Notification < ActiveRecord::Base
 		#as this is going to be done on a hourly basis
 	end
 
-	def self.notify_videos
+	def self.notify_discussions
 		Discussion.all.each do |discussion|
 			comments = discussion.comment_threads.where("comments.created_at > ? ", 1.hour.ago)
 
@@ -46,5 +46,8 @@ class Notification < ActiveRecord::Base
 				end
 			end
 		end
+		#recursively crate this job
+		#Should probably use a cron job instead of doing it this way
+		Notification.delay({:run_at => 1.hour.from_now}).notify_discussions
 	end
 end
