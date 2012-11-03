@@ -454,7 +454,7 @@ $(document).ready(function() {
 });
 </script>
 
-<% if !session[:teacherdashboard_viewed] %>
+<% if !cookies[:teacherdashboard_viewed] %>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('body').introOverlay({
@@ -476,7 +476,7 @@ $(document).ready(function() {
 	</script>
 <% end %>
 
-<% session[:teacherdashboard_viewed] = true %>
+<% cookies[:teacherdashboard_viewed] = true %>
 
 
 
