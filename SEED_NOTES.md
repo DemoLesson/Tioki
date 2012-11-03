@@ -1,3 +1,8 @@
+v1.4.44 - Nov 3, 2012  3:31PM deployed by Aleks Stanisic
+========================================================
+* 0ba11e5: Elijah Green - Add index on url for teachers
+* d0799ca: Elijah Green - Change session to cookies on pages with an intro.
+
 v1.4.43 - Nov 3, 2012  2:19PM deployed by Aleks Stanisic
 ========================================================
 * 967d555: Elijah Green - Fix message notifications
