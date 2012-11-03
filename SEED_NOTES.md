@@ -1,3 +1,8 @@
+v1.4.42 - Nov 2, 2012  5:08PM deployed by Aleks Stanisic
+========================================================
+* 5755d1a: Elijah Green - Add notify to delaye job
+* 6902cab: Elijah Green - Discussion comments are now emailed
+
 v1.4.41 - Nov 1, 2012  6:20PM deployed by Aleks Stanisic
 ========================================================
 * bc3214c: Elijah Green - Fixing notifications for likes
