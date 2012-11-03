@@ -1,3 +1,7 @@
+v1.4.43 - Nov 3, 2012  2:19PM deployed by Aleks Stanisic
+========================================================
+* 967d555: Elijah Green - Fix message notifications
+
 v1.4.42 - Nov 2, 2012  5:08PM deployed by Aleks Stanisic
 ========================================================
 * 5755d1a: Elijah Green - Add notify to delaye job
