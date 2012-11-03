@@ -29,12 +29,20 @@ class MessagesController < ApplicationController
   # GET /messages/1.xml
   def show
     @message = Message.find(params[:id])
-    @message.mark_read
+
+		#Only mark read if the receiver was the one who viewed it
+		if self.current_user.id == @message.user_id_to
+			@message.mark_read
+		end
     @title = @message.subject
     
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @message }
+			if self.current_user.id == @message.user_id_to || self.current_user.id == @message.user_id_from
+				format.html # show.html.erb
+				format.xml  { render :xml => @message }
+			else
+        format.html { redirect_to :root, :notice => 'Unauthorized' }
+			end
     end
   end
 
