@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031075241) do
+ActiveRecord::Schema.define(:version => 20121103213515) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -654,6 +654,7 @@ ActiveRecord::Schema.define(:version => 20121031075241) do
     t.float    "longitude"
   end
 
+  add_index "teachers", ["url"], :name => "index_teachers_on_url"
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
 
   create_table "technologies", :force => true do |t|
