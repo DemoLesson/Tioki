@@ -15,7 +15,7 @@
 		<section id="list" class="panel three-column left-side" >
 
 			<!-- Followers Section -->
-			<section style="float:right;margin:0px 15px 0px 0px">
+			<section style="float:right;margin:0px 15px 0px 0px;overflow:hidden;width: 175px;">
 				<% if self.current_user && self.current_user.teacher %>
 					<% if @follower %>
 						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
