@@ -1,3 +1,7 @@
+v1.4.45 - Nov 3, 2012  5:06PM deployed by Aleks Stanisic
+========================================================
+* 8fce030: Elijah Green - Messages can only be seen by eitheir the sender or receiver
+
 v1.4.44 - Nov 3, 2012  3:31PM deployed by Aleks Stanisic
 ========================================================
 * 0ba11e5: Elijah Green - Add index on url for teachers
