@@ -20,8 +20,15 @@
 <% @messages.each do |message| %>
   <tr>
 	<td width="200px">
-		<%= link_to message.receiver.name, message.receiver unless message.receiver.nil? %>
-		<%= "User no longer exists" if message.receiver.nil? %>
+		<% if message.sender %>
+			<% if message.sender.teacher %>
+				<%= link_to message.sender.name, '/profile/' + message.sender.teacher.url %>
+			<% else %>
+				<%= link_to message.sender.name, message.sender %>
+			<% end %>
+		<% else %>
+			User no longer exists
+		<% end %>
 	</td>
 	<td width="35%"><% if message.read == false %><strong><%= link_to message.subject, message %></strong><% else %><%= link_to message.subject, message %><% end %></td>
 	<td width="30%"><%= message.created_at.to_s(:message_time)%></td>

@@ -3,8 +3,16 @@
 
 <p class="table">
 	<strong>From:</strong> 
-	<%= link_to @message.sender.name, @message.sender unless @message.sender.nil? %>
-	<%= "User no longer exists" if @message.sender.nil? %>
+	<% if @message.sender %>
+		<% if @message.sender.teacher %>
+			<%= link_to @message.sender.name, '/profile/' + @message.sender.teacher.url %>
+		<% else %>
+			<%= link_to @message.sender.name, @message.sender %>
+		<% end %>
+	<% else %>
+		User no longer exists
+	<% end %>
+
 </p>
 
 <p class="table">

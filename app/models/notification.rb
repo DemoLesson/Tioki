@@ -28,10 +28,8 @@ class Notification < ActiveRecord::Base
 				elsif count == 1
 					NotificationMailer.like(user, favorites.first)
 				end
-@url 			end
+			end
 		end
-		#For now use delayed_job, however its probably better to use a cron job
-		#as this is going to be done on a hourly basis
 	end
 
 	def self.notify_discussions
@@ -49,5 +47,8 @@ class Notification < ActiveRecord::Base
 		#recursively crate this job
 		#Should probably use a cron job instead of doing it this way
 		Notification.delay({:run_at => 1.hour.from_now}).notify_discussions
+	end
+
+	def self.notify_all
 	end
 end
