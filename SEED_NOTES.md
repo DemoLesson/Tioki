@@ -1,3 +1,8 @@
+v1.4.46 - Nov 3, 2012  7:10PM deployed by Aleks Stanisic
+========================================================
+* 9d42cbd: Aleks Stanisic - pics are now on 5 wide in discussions
+* 4b5579e: Elijah Green - If message is from a teacher, link to their profile
+
 v1.4.45 - Nov 3, 2012  5:06PM deployed by Aleks Stanisic
 ========================================================
 * 8fce030: Elijah Green - Messages can only be seen by eitheir the sender or receiver
