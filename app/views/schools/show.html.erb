@@ -119,7 +119,7 @@
 			
 		<!--START SCHOOL PICTURE-->	
 		<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
-			<% if @school.picture? %><%= image_tag @school.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %>
+			<% if @school.picture? %><%= image_tag @school.picture.url(:medium), :style => "width:160px;height:auto" %><% else %><%= image_tag('tioki/icons/placeholder.png') %><% end %>
 		</section>
 	</section>
 	<!-- CONTENT SECTION -->
@@ -162,8 +162,8 @@
 								</span>
 								</p>
 							</section>
-					<% end%>
-					<% else%>
+							<% end %>
+					<% else %>
 						<p>
 							Looks like their all shored up right now. Follow them, and we'll let you know when they post a new position.
 						</p>
