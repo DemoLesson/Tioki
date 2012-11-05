@@ -390,10 +390,18 @@ class UsersController < ApplicationController
 	def email_settings
 		@user = User.find(self.current_user.id)
 
-		# Maybe think about making this code more dry by creating a update function using a ruby hash
-		@user.update_attribute(:emailsubscription, params[:user][:emailsubscription])
-		@user.update_attribute(:emaileventreminder, params[:user][:emaileventreminder])
-		@user.update_attribute(:emaileventapproved, params[:user][:emaileventapproved])
+		# Get BitSwitch
+		email_permissions = @user.email_permissions
+
+		# Set the new values
+		params[:permissions].each do |slug, tf|
+			email_permissions[slug] = tf.to_i
+		end
+
+		@user.update_attributes(params[:user])
+
+		@user.update_attribute(:email_permissions, email_permissions)
+
 		self.log_analytic(:user_changed_email_settings, "A user changed their email settings.")
 
 		respond_to do |format|

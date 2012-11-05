@@ -36,15 +36,20 @@ class Notification < ActiveRecord::Base
 		Discussion.all.each do |discussion|
 			comments = discussion.comment_threads.where("comments.created_at > ? ", 1.hour.ago)
 
-			discussion.following_and_participants.each do |user|
+			if comments.size != 0
+				discussion.following_and_participants.each do |user|
 
-				#remove comments created by this user
-				comments.reject! { |comment| comment.user_id == user.id }
+					#remove comments created by this user
+					comments.reject! { |comment| comment.user_id == user.id }
 
-				if comments.size > 1
-					NotificationMailer.comments(user, comments, discussion).deliver
-				elsif comments.size == 1
-						NotificationMailer.comment(user, comments.first, discussion).deliver
+					#email_permissions
+					if (discussion.participants.include?(user) && !user.email_permissions["participated_discussion"]) || (discussion.following.include?(user) && !user.email_permissions["following_discussion"])
+						if comments.size > 1
+							NotificationMailer.comments(user, comments, discussion).deliver
+						elsif comments.size == 1
+							NotificationMailer.comment(user, comments.first, discussion).deliver
+						end
+					end
 				end
 			end
 		end

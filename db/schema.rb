@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121103213515) do
+ActiveRecord::Schema.define(:version => 20121105183759) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -734,6 +734,7 @@ ActiveRecord::Schema.define(:version => 20121103213515) do
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
+    t.integer  "email_permissions",   :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
