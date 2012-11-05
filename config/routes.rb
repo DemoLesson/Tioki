@@ -16,6 +16,8 @@ Preview::Application.routes.draw do
 		member do
 			get 'edit_picture'
 			get 'add_group'
+			get 'message_all_new'
+			post 'message_all_create'
 		end
 	end
 

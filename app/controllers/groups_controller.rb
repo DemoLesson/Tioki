@@ -199,4 +199,24 @@ class GroupsController < ApplicationController
 		flash[:success] = "Share successfully."
 		return redirect_to :back
 	end
+
+	def message_all_new
+		@group = Group.find(params[:id])
+		@message = Message.new
+	end
+
+	def message_all_create
+		@group = Group.find(params[:id])
+		if @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+			@group = Group.find(params[:id])
+			@group.users.each do |user|
+				if user != self.current_user
+					Message.send!(user, :subject => params[:message][:body], :body => params[:message][:body])
+				end
+			end
+			redirect_to @group, :notice => "Messages successfully sent."
+		else
+			redirect_to :back, "Unauthorized"
+		end
+	end
 end

@@ -30,6 +30,7 @@
 		<% if self.current_user %>
 			<% if @admin %>
 				<%= link_to "Edit Group", edit_group_path, :class => "button", :style => "float:right" %>
+				<%= link_to "Mesage Group", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "float:right" %>
 			<% elsif @in_group %>
 				<%= link_to "Explore More Groups", "/groups", :class => "button", :style => "float:right" %>
 			<% else %>
