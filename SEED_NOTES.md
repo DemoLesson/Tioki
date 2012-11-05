@@ -1,3 +1,7 @@
+v1.4.48 - Nov 5, 2012  1:46PM deployed by Aleks Stanisic
+========================================================
+* 156f01a: Elijah Green - Add email permissions for emailing comments
+
 v1.4.47 - Nov 5, 2012 11:08AM deployed by Aleks Stanisic
 ========================================================
 * 28b5cf5: Elijah Green - Don't email people the creator of a comment
