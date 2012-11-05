@@ -1,3 +1,7 @@
+v1.4.47 - Nov 5, 2012 11:08AM deployed by Aleks Stanisic
+========================================================
+* 28b5cf5: Elijah Green - Don't email people the creator of a comment
+
 v1.4.46 - Nov 3, 2012  7:10PM deployed by Aleks Stanisic
 ========================================================
 * 9d42cbd: Aleks Stanisic - pics are now on 5 wide in discussions
