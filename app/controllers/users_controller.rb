@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
-	USER_ID, PASSWORD = "andreas", "dl2012"
 	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list ]
 
 	def create(*args)
@@ -245,13 +244,6 @@ class UsersController < ApplicationController
 	def show
 		if self.current_user.nil?
 			redirect_to :action=>'login'
-		# elsif self.current_user.teacher
-		#       redirect_to :controller=>'teachers', :action=>'edit', :id => self.current_user.teacher.id
-		#     elsif self.current_user.school
-		#       redirect_to :controller=>'schools', :action=>'edit', :id => self.current_user.school.id
-		# else
-		#  logger.info(self.current_user.inspect)
-		#  redirect_to :controller=>'users', :action=>'select_type'
 		else
 			@user = User.find(params[:id])
 			@school = School.find_by_owned_by(@user.id, :limit => 1)
@@ -398,10 +390,18 @@ class UsersController < ApplicationController
 	def email_settings
 		@user = User.find(self.current_user.id)
 
-		# Maybe think about making this code more dry by creating a update function using a ruby hash
-		@user.update_attribute(:emailsubscription, params[:user][:emailsubscription])
-		@user.update_attribute(:emaileventreminder, params[:user][:emaileventreminder])
-		@user.update_attribute(:emaileventapproved, params[:user][:emaileventapproved])
+		# Get BitSwitch
+		email_permissions = @user.email_permissions
+
+		# Set the new values
+		params[:permissions].each do |slug, tf|
+			email_permissions[slug] = tf.to_i
+		end
+
+		@user.update_attributes(params[:user])
+
+		@user.update_attribute(:email_permissions, email_permissions)
+
 		self.log_analytic(:user_changed_email_settings, "A user changed their email settings.")
 
 		respond_to do |format|
@@ -695,10 +695,6 @@ class UsersController < ApplicationController
 		render :text => "Access Denied"
 		return 401
 
-		# Block old HTTP Auth
-		#authenticate_or_request_with_http_basic do |id, password| 
-		#  id == USER_ID && password == PASSWORD
-		#end
 	end
 end
 

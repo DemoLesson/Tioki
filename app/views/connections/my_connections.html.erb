@@ -160,7 +160,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-<% if !session[:my_connections_viewed] %>
+<% if !cookies[:my_connections_viewed] %>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('body').introOverlay({
@@ -181,4 +181,4 @@ $(document).ready(function() {
 	});
 </script>
 <% end %>
-<% session[:my_connections_viewed] = true %>
+<% cookies[:my_connections_viewed] = true %>

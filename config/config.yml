@@ -24,6 +24,10 @@ development:
       0: "member"
       1: "moderator"
       2: "administrator"
+    email_permissions:
+      0: "followed_discussion"
+      1: "participated_discussion"
+      2: "whiteboard_post"
 staging:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -49,6 +53,10 @@ staging:
       0: "member"
       1: "moderator"
       2: "administrator"
+    email_permissions:
+      0: "followed_discussion"
+      1: "participated_discussion"
+      2: "whiteboard_post"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -74,3 +82,7 @@ production:
       0: "member"
       1: "moderator"
       2: "administrator"
+    email_permissions:
+      0: "followed_discussion"
+      1: "participated_discussion"
+      2: "whiteboard_post"

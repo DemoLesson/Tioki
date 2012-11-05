@@ -1,3 +1,57 @@
+v1.4.48 - Nov 5, 2012  1:46PM deployed by Aleks Stanisic
+========================================================
+* 156f01a: Elijah Green - Add email permissions for emailing comments
+
+v1.4.47 - Nov 5, 2012 11:08AM deployed by Aleks Stanisic
+========================================================
+* 28b5cf5: Elijah Green - Don't email people the creator of a comment
+
+v1.4.46 - Nov 3, 2012  7:10PM deployed by Aleks Stanisic
+========================================================
+* 9d42cbd: Aleks Stanisic - pics are now on 5 wide in discussions
+* 4b5579e: Elijah Green - If message is from a teacher, link to their profile
+
+v1.4.45 - Nov 3, 2012  5:06PM deployed by Aleks Stanisic
+========================================================
+* 8fce030: Elijah Green - Messages can only be seen by eitheir the sender or receiver
+
+v1.4.44 - Nov 3, 2012  3:31PM deployed by Aleks Stanisic
+========================================================
+* 0ba11e5: Elijah Green - Add index on url for teachers
+* d0799ca: Elijah Green - Change session to cookies on pages with an intro.
+
+v1.4.43 - Nov 3, 2012  2:19PM deployed by Aleks Stanisic
+========================================================
+* 967d555: Elijah Green - Fix message notifications
+
+v1.4.42 - Nov 2, 2012  5:08PM deployed by Aleks Stanisic
+========================================================
+* 5755d1a: Elijah Green - Add notify to delaye job
+* 6902cab: Elijah Green - Discussion comments are now emailed
+
+v1.4.41 - Nov 1, 2012  6:20PM deployed by Aleks Stanisic
+========================================================
+* bc3214c: Elijah Green - Fixing notifications for likes
+* 4642c79: Elijah Green - Fix various pages for not logged in users
+* 0621d13: Elijah Green - Don't show share with tioki connections if there is no currently logged user
+* 32e73ab: Elijah Green - Seperate the likes on different whiteboard post
+* d23ef0d: Elijah Green - Set the correct ids for notifications
+* 7540bce: Elijah Green - Add more to the notification emailer
+* 21658cc: Elijah Green - Link directly to comments of a whiteboard post.
+* 4221f82: Elijah Green - Added whiteboard post notification
+* 0c7013b: Elijah Green - Add functions for notification mailers
+* 0922501: Elijah Green - Finish notifications for discusions and whiteboard
+* 0c81249: Elijah Green - Use map tag instead of polymorphic types
+* 786f1f7: Elijah Green - Add basic model for notifications
+
+v1.4.40 - Nov 1, 2012 12:04PM deployed by Aleks Stanisic
+========================================================
+* 9eb5a19: Elijah Green - Add groups/invite to routes
+
+v1.4.39 - Oct 31, 2012  8:19PM deployed by Aleks Stanisic
+=========================================================
+* 1c7b304: Aleks Stanisic - adding email invites for groups
+
 v1.4.38 - Oct 31, 2012  2:07PM deployed by Aleks Stanisic
 =========================================================
 * bed5822: Aleks Stanisic - sharing for groups

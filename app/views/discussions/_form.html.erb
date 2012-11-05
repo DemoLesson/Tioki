@@ -63,7 +63,8 @@
 					$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
 					$('#current_skills').append(tab);
 				});
-				$("#remove").live("click", function () {
+				$("#remove").live("click", function (e) {
+					e.preventDefault();
 					$(this).closest("div.skilldiv").remove();
 				});
 			});

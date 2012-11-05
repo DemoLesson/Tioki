@@ -85,7 +85,7 @@
 </div>
 </section>
 
-<% if !session[:technologies_viewed] %>
+<% if !cookies[:technologies_viewed] %>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('body').introOverlay({
@@ -106,4 +106,4 @@
 	});
 </script>
 <% end %>
-<% session[:technologies_viewed] = true %>
+<% cookies[:technologies_viewed] = true %>

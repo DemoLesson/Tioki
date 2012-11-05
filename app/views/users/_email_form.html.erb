@@ -2,16 +2,20 @@
 	<h2>Email settings</h2>
 	<div class="field">
 		<%= check_box "user", :emailsubscription %>
-		<%= label_tag "Have tioki give me emails that show what job postings fit my profile in the last week." %>
+		<%= "Have tioki give me emails that show what job postings fit my profile in the last week." %>
 	</div>
 	<div class="field">
 		<%= check_box "user", :emaileventreminder %>
-		<%= label_tag "Have tioki send me emails reminding me about my events." %>
-	</div>
-	<div class="field">
-		<%= check_box "user", :emaileventapproved %>
-		<%= label_tag "Have tioki send me emails when my events are approved." %>
-	</div>
+		<%= "Have tioki send me emails reminding me about my events." %>
+	</div><br />
+	Receive an email when there is a comment on a
+	<% APP_CONFIG['bitswitches']['email_permissions'].each do |bit, name| %>
+		<fieldset>
+			<input type="hidden" name="permissions[<%= name %>]" value="1" />
+			<input type="checkbox" name="permissions[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.email_permissions[name] %> value="0" />
+			<%= name.gsub('_', ' ') %>
+		</fieldset>
+	<% end %>
 	<div class="actions">
 		<%= submit_tag "Update Email settings" %>
 	</div>

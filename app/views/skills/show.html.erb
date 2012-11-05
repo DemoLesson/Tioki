@@ -202,7 +202,7 @@
 	</section>
 </section>
 
-<% if !session[:discovery_viewed] %>
+<% if !cookies[:discovery_viewed] %>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('body').introOverlay({
@@ -223,4 +223,4 @@
 	});
 </script>
 <% end %>
-<% session[:discovery_viewed] = true %>
+<% cookies[:discovery_viewed] = true %>

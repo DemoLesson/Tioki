@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 	validates_uniqueness_of :email
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."  
 
+	has_many :notifications
+
 	has_many :school_administrators, :dependent => :destroy
 	has_many :administered_schools, :through => :school_administrators, :source => :school
 
@@ -57,7 +59,7 @@ class User < ActiveRecord::Base
 	attr_protected :id, :salt, :is_admin, :verified
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h #, :login_count, :last_login
+	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :emaileventreminder, :emailsubscription, :email_permissions
 
 	before_create :set_full_name
 	after_create :send_verification_email
@@ -137,6 +139,25 @@ class User < ActiveRecord::Base
 	# Add bitswitch filter
 	def privacy
 		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
+	end
+
+	def self.email_permissions
+		# Get available bits and list of conditions
+		bits = APP_CONFIG['bitswitches']['email_permissions'].invert
+		conditions = Array.new
+
+		# Run bitwise conditions
+		conds[:slugs].each do |slug, tf|
+			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
+			conditions << "POW(2, #{bits[slug]}) & `users`.`email_permissions`" + (tf ? ' > 0' : ' <= 0')
+		end
+
+		# Add conditions
+		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
+	end
+
+	def email_permissions
+		super.to_switch(APP_CONFIG['bitswitches']['email_permissions'])
 	end
 
 	def vouched_skill_groups

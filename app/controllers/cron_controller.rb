@@ -30,7 +30,7 @@ class CronController < ApplicationController
 			users = e.rsvp.select{|x| x.emaileventreminder}
 
 			users.each do |u|
-				EventMailer.notification(u, e).deliver
+				EventMailer.notification(u, e)
 			end
 			
 		end

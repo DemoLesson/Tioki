@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121031075241) do
+ActiveRecord::Schema.define(:version => 20121105183759) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -394,6 +394,13 @@ ActiveRecord::Schema.define(:version => 20121031075241) do
     t.boolean  "read"
   end
 
+  create_table "notifications", :force => true do |t|
+    t.string   "notifiable_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organizations", :force => true do |t|
     t.integer  "owned_by"
     t.string   "name"
@@ -639,8 +646,11 @@ ActiveRecord::Schema.define(:version => 20121031075241) do
     t.string   "betterlesson"
     t.string   "teachingchannel"
     t.integer  "video_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
+  add_index "teachers", ["url"], :name => "index_teachers_on_url"
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
 
   create_table "technologies", :force => true do |t|
@@ -720,6 +730,7 @@ ActiveRecord::Schema.define(:version => 20121031075241) do
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
+    t.integer  "email_permissions",   :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
