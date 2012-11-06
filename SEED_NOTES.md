@@ -1,3 +1,7 @@
+v1.4.51 - Nov 5, 2012  7:52PM deployed by Aleks Stanisic
+========================================================
+* 873660b: Brian Martinez - fix to header and groups page
+
 v1.4.50 - Nov 5, 2012  7:25PM deployed by Aleks Stanisic
 ========================================================
 * a214b0a: Brian Martinez - edit and profile changes for icons
