@@ -43,6 +43,9 @@
 				<% elsif self.current_user.teacher != nil %>
 					<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 				<% end %>
+				<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+					<%= link_to "My Public Profile", "/profile/"+@teacher.url %>
+				<% end %>
 				</div>
 			<% end %>
 			
@@ -52,11 +55,69 @@
 			</h2>
 			
 			<% if @teacher.headline? %>
-				<p style="margin-left:10px;margin-top:50px;width:auto">
+				<p style="margin-left:10px;margin-top:10px;width:auto">
 					"<%= @teacher.headline %>"
 				</p>
 			<% end %>
 			
+			<p style="margin-left:10px; margin-top:-10px;width:auto">
+			  	<% if @teacher.position.present? && @teacher.school.present?%>
+					<strong style="color:#2AA99B">
+						Currently:
+					</strong> 
+					<%= @teacher.position %> at <%= @teacher.school %> in  
+				<% end %>
+				<%= @teacher.location %>
+			</p>
+			<section id="updates" style="margin: 
+			0px 0px 0px 10px;>
+				<!-- SOCIAL LINKS -->
+					<a href="my_connections.html" style= "margin-right:10px;">
+					<div class="count connections" style= "margin-bottom:-10px;">
+					<%= User.current.pending_connections(false).count %>
+					</div>
+					<%= ablang('connection.plural') %>
+					</a>
+					<% if @teacher.twitter.present? %>
+						<% if @teacher.twitter.include? '//' %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), '//'+@teacher.twitter %>
+						<% end %>
+					<% end %>
+
+					<% if @teacher.linkedin.present? %>
+						<% if @teacher.linkedin.include? '//' %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//' + @teacher.linkedin %>
+						<% end %>
+					<% end %>
+
+					<% if @teacher.edmodo.present? %>
+						<% if @teacher.edmodo.include? '//' %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), '//'+@teacher.edmodo %>
+						<% end %>
+					<% end %>
+
+					<% if @teacher.betterlesson.present? %>
+						<% if @teacher.betterlesson.include? '//' %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//'+@teacher.betterlesson %>
+						<% end %>
+					<% end %>
+
+					<% if @teacher.teachingchannel.present? %>
+						<% if @teacher.teachingchannel.include? '//' %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//'+@teacher.teachingchannel %>
+						<% end %>
+					<% end %>
+			</section>
 		</section>
 		<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
 			<% if @teacher.me? %>
