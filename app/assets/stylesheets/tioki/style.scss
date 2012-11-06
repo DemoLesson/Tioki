@@ -359,6 +359,22 @@ section.notice {
 			text-indent: -9999em;
 			background: url(image_path('tioki/tioki_logo.png')) no-repeat;
 		}
+		.notifications {
+			position: absolute;
+			top: 15px;
+			left: 130px;
+			height: 41px;
+			font-size: 23px;
+			text-align: left;
+			color: #DADADA;
+
+			&:hover {
+				color: $salmon;
+			}
+			&.unread {
+				color: $blood;
+			}
+		}
 		#drawer-handle {
 			position: absolute;
 			top: 17px;

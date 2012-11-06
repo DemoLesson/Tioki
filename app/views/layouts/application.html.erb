@@ -87,6 +87,8 @@
 	}(document, 'script', 'facebook-jssdk'));</script>
 			
 	<div id="page-wrapper" class="<%= "logged-in" unless self.current_user.nil? %>">
+
+		<!-- Login Drawer -->
 		<% if self.current_user.nil? %>
 			<section id="login-drawer" class="wrapper">
 				<div class="drawer-wrapper inner-content">
@@ -104,13 +106,25 @@
 			</section>
 		<% end %>
 
+		<!-- Header / User Dropdown -->
 		<section class="login-header wrapper">
 			<header class="inner-content">
+
+				<!-- Logo Link -->
 				<a href="/">
 					<div class="logo">
 					Tioki
 					</div>
 				</a>
+				
+				<!-- Notifications Icon -->
+				<% unless self.current_user.nil? %>
+					<a href="#" class="notifications">
+						<span class="iconic rss_alt"></span>
+					</a>
+				<% end %>
+
+				<!-- What is and how does tioki work -->
 				<% if self.current_user.nil? %>
 					<h4 style="float:right;margin:20px 100px 0px 0px;">
 					<a href="/static/whatistioki" style="color:#4D4D4D;margin-right:15px">What is "Tioki?"</a>
@@ -120,7 +134,10 @@
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>
-				<% else %>
+				<% end %>
+
+				<!-- If the user is authenticated -->
+				<% unless self.current_user.nil? %>
 					<div id="user-actions">
 						<ul>
 							<li class="user-name">
@@ -174,6 +191,8 @@
 				<% end %>
 			</header>
 		</section>
+
+		<!-- Navigation Bar -->
 		<% unless self.current_user.nil? %>
 			<nav class="wrapper top-nav">
 				<ul class="inner-content">
@@ -263,6 +282,7 @@
 				</ul>
 			</nav><!-- End Nav -->
 		<% end %>
+
 		<!-- Display Notices -->
 		<% flash.each do |type, message| %>
 			<% next unless message.is_a?(String) %>
@@ -275,6 +295,8 @@
 		<%= yield %>
 
 		<div class="clearfloat" style="height:230px;"></div>
+
+		<!-- Load Footer -->
 		<section class="footer-wrapper wrapper">
 			<footer class="inner-content">
 				<nav class="footer-nav">
@@ -392,43 +414,10 @@
 					&copy; 2012 Tioki.com. All Rights Reserved.
 				</section>
 			</footer>
-		</section> <!-- End Footer Wrapper -->
-	</div> <!-- End Page Wrapper -->
+		</section><!-- End Footer Wrapper -->
+	</div><!-- End Page Wrapper -->
 
-<!-- Google Analytics Pixel -->
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-34398774-1']);
-  _gaq.push(['_setDomainName', 'tioki.com']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
-<!-- AdRoll Pixel -->
-<script type="text/javascript">
-adroll_adv_id = "BFYV3DSVXJH5NH7FZCHDDW";
-adroll_pix_id = "NM7SDILLX5CTJM4Q6LW4UX";
-(function () {
-var oldonload = window.onload;
-window.onload = function(){
-	__adroll_loaded=true;
-	var scr = document.createElement("script");
-	var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
-	scr.setAttribute('async', 'true');
-	scr.type = "text/javascript";
-	scr.src = host + "/j/roundtrip.js";
-	((document.getElementsByTagName('head') || [null])[0] ||
-	document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
-	if(oldonload){oldonload()}};
-}());
-</script>
-
-
+<!-- IE Placeholder Shim -->
 <!--[if IE]>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -458,7 +447,41 @@ $(document).ready(function() {
 </script>
 <![endif]-->
 
+<% # Don't run the following scripts in development %>
 <% unless Rails.env == 'development' %>
+
+	<!-- Google Analytics Pixel -->
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-34398774-1']);
+	  _gaq.push(['_setDomainName', 'tioki.com']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+
+	<!-- AdRoll Pixel -->
+	<script type="text/javascript">
+	adroll_adv_id = "BFYV3DSVXJH5NH7FZCHDDW";
+	adroll_pix_id = "NM7SDILLX5CTJM4Q6LW4UX";
+	(function () {
+	var oldonload = window.onload;
+	window.onload = function(){
+		__adroll_loaded=true;
+		var scr = document.createElement("script");
+		var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+		scr.setAttribute('async', 'true');
+		scr.type = "text/javascript";
+		scr.src = host + "/j/roundtrip.js";
+		((document.getElementsByTagName('head') || [null])[0] ||
+		document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+		if(oldonload){oldonload()}};
+	}());
+	</script>
 
 	<!-- Olark Pixel -->
 	<script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/
