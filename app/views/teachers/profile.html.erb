@@ -1,4 +1,76 @@
 <section id="main-content" class="inner-content">
+<% if self.current_user.id.odd? %>
+
+<nav class="subpage" style=" margin:30px 0px 0px 0px;">
+	<ul>
+		<li class="current">
+			Tioki Profile
+		</li>
+		<!--li>
+			<a href="terms.html">
+			Card Profile
+			</a>
+		</li-->
+		<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+			<li>
+				<a href="/me/profile/stats">
+				Profile Stats
+				</a>
+			</li>
+		<% end %>
+	</ul>
+</nav>	
+<section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+		<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
+			<!-- EDIT AND FOLLOW BUTTONS -->
+			<% if self.current_user != nil %>
+				<div style="float:right;margin-top:0px">
+				<!-- Connection Options -->
+				<% # IF this is my profile allow me to edit %>
+				<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+					<a href="/me/profile/edit" class="action-button bg-salmon">
+						Improve My Profile
+					</a>
+				<% # IF im not a user then let me register %>
+				<% elsif !self.current_user %>
+					<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+						<%= ablang('connection.connect') %>
+					</a>
+				<% # IF we are already connected or if i am a school allow me to send a message %>
+				<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @teacher.user.id || !self.current_user.school.nil? %>
+					<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+				<% # IF we are not connected then display "connect" button %>
+				<% elsif self.current_user.teacher != nil %>
+					<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+				<% end %>
+				</div>
+			<% end %>
+			
+			<!-- START Teacher INFO -->
+			<h2 style="margin: 10px 0px -5px 10px">
+			<%= @teacher.user.name %>
+			</h2>
+			
+			<% if @teacher.headline? %>
+				<p style="margin-left:10px;margin-top:50px;width:auto">
+					"<%= @teacher.headline %>"
+				</p>
+			<% end %>
+			
+		</section>
+		<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
+			<% if @teacher.me? %>
+				<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
+			<% end %>
+			<% if (@connected || @guest || !@teacher.user.privacy["avatar"]) && @teacher.user.avatar? %>
+				<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") %>
+			<% else %>
+				<%= image_tag('dl_icons/no_avatar_large.jpg') %>
+			<% end %>
+		</section>
+</section>
+
+<% else %>
 	<section class="profile group">
 		<nav class="subpage">
 			<ul>
@@ -18,7 +90,7 @@
 					</li>
 				<% end %>
 			</ul>
-		</nav>
+		</nav>	
 		<section class="sidebar">
 			<section class="panel" style="padding:10px 0px 5px 0px">
 
@@ -513,4 +585,5 @@
 			
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
+<% end %>
 </section> <!-- End Main Content -->
