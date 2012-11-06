@@ -1,3 +1,8 @@
+v1.4.50 - Nov 5, 2012  7:25PM deployed by Aleks Stanisic
+========================================================
+* a214b0a: Brian Martinez - edit and profile changes for icons
+* 0a3b2eb: Aleks Stanisic - fixing bug with tech suggestions
+
 v1.4.49 - Nov 5, 2012  4:26PM deployed by Aleks Stanisic
 ========================================================
 * 91fb7d0: Elijah Green - Message all members of a group
