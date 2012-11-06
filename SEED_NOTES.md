@@ -1,3 +1,11 @@
+v1.4.52 - Nov 6, 2012  1:11PM deployed by Kelly Becker
+======================================================
+* 37e4c1e: Kelly Becker - fixes to privacy settings
+* 45dff36: Kelly Becker - more fixes and cleanliness
+* 574e61f: Kelly Becker - fix some naming issues
+* b36950f: Kelly Becker - fix an issue with overriding model methods
+* fb29e8d: Kelly Becker - db schema
+
 v1.4.51 - Nov 5, 2012  7:52PM deployed by Aleks Stanisic
 ========================================================
 * 873660b: Brian Martinez - fix to header and groups page
