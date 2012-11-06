@@ -12,15 +12,16 @@
 				</li>
 				<% if self.current_user && self.current_user.teacher %>
 					<div style="float:right;margin-top:0px">
-						<%= link_to "Create Group", new_group_path, :class => "action-button bg-green" %>
+						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
 					</div>
 				<% end %>
 			</ul>
 		</nav>
 	</section>
-	<div id="content">
+	<section class="panels">
+		<section class="two-column left-side" style ="width:725px;margin-left:25px">
 		<% @groups.each do |group| %>
-			<div class="item_jobs" style="height:auto;margin-left: -30px">
+			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
 					<% if group.picture? %><%= link_to image_tag(group.picture.url(:thumb)), group %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %><% end %>
 				</div>
@@ -29,14 +30,14 @@
 						<h3>
 						<%= link_to group.name, group, :style => "color:#4D4D4D" %>
 						</h3>
-						<p style="margin-top:-15px">
+						<p style="margin-top:-15px;width:auto">
 							<% if group.description.size > 270 %><%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..274]+'...').html_safe %>
 							<% else %><%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
 							<% end %>
 						</p>
 						<% if self.current_user && self.current_user.teacher %>
 							<% unless self.current_user.groups.include? group %>
-								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
+								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
 							<% end %>
 						<% end %>
 						
@@ -45,6 +46,6 @@
 				</div>
 			</div>
 		<% end %>
-		
-	</div>
+		</section>
+	</section>
 </section>
