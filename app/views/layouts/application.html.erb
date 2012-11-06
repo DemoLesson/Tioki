@@ -207,11 +207,11 @@
 							</ul>
 						</li>
 						<li>
-							<a href="/events">
-							Events
+							<a href="/groups">
+							Groups
 							</a>
 							<ul>
-								<li><a href="/events/new">Submit an Event</a></li>
+								<li><a href="/my_groups">My Groups</a></li>
 							</ul>
 						</li>
 						<li>
@@ -220,9 +220,8 @@
 							</a>
 							<ul>
 								<li><a href="/discussions">Discussions</a></li>
-								<li><a href="/followed_discussions">Followed Discussions</a></li>
-								<li><a href="/groups">Groups</a></li>
-								<li><a href="/technologies">Technology</a></li>
+								<li><a href="/technologies">Education Technology</a></li>
+								<li><a href="/events">Events</a></li>
 								<li><a href="/videos">Videos</a></li>
 							</ul>
 						</li>
@@ -231,12 +230,13 @@
 							Jobs
 							</a>
 							<ul>
+								<li><a href="/jobs">Search Jobs</a></li>
 								<li><a href="/teacher_applications">My Applications</a></li>
 							</ul>
 						</li>
 						<li>
 							<a href="/messages">
-							<%= "Inbox [" + unread_messages.to_s + "]" %>
+							<%= "Inbox (" + unread_messages.to_s + ")" %>
 							</a>
 						</li>
 					<% elsif self.current_user.is_admin? %>

@@ -45,41 +45,51 @@
 
 					<% if @teacher.twitter.present? %>
 						<% if @teacher.twitter.include? '//' %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter, :target => "_blank" %>
+						<% elsif @teacher.twitter.include? '@' %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
 						<% else %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), '//'+@teacher.twitter %>
+							<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
 						<% end %>
 					<% end %>
 
 					<% if @teacher.linkedin.present? %>
 						<% if @teacher.linkedin.include? '//' %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin, :target => "_blank" %>
 						<% else %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//' + @teacher.linkedin %>
+							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//linkedin.com/' + @teacher.linkedin, :target => "_blank" %>
+						<% end %>
+					<% end %>
+					
+					<% if @teacher.pinterest.present? %>
+						<% if @teacher.pinterest.include? '//' %>
+							<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.pinterest, :target => "_blank" %>
+						<% else %>
+							<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//pinterest.com/' + @teacher.pinterest, :target => "_blank" %>
 						<% end %>
 					<% end %>
 
 					<% if @teacher.edmodo.present? %>
 						<% if @teacher.edmodo.include? '//' %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo, :target => "_blank" %>
 						<% else %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), '//'+@teacher.edmodo %>
+							<%= link_to image_tag('tioki/icons/edmodo.png'), '//edmodo.com/'+@teacher.edmodo, :target => "_blank" %>
 						<% end %>
 					<% end %>
 
 					<% if @teacher.betterlesson.present? %>
 						<% if @teacher.betterlesson.include? '//' %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson, :target => "_blank" %>
 						<% else %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//'+@teacher.betterlesson %>
+							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//betterlesson.com'+@teacher.betterlesson, :target => "_blank" %>
 						<% end %>
 					<% end %>
 
 					<% if @teacher.teachingchannel.present? %>
 						<% if @teacher.teachingchannel.include? '//' %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel, :target => "_blank" %>
 						<% else %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//'+@teacher.teachingchannel %>
+							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//teachingchannel.org'+@teacher.teachingchannel, :target => "_blank" %>
 						<% end %>
 					<% end %>
 
