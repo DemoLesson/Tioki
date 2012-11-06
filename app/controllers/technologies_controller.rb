@@ -1,5 +1,5 @@
 class TechnologiesController < ApplicationController
-	before_filter :authenticate, :except => [ :index, :show, :add_technology, :remove_technology]
+	before_filter :authenticate, :except => [ :index, :show, :add_technology, :remove_technology, :techsuggestion]
 
 	# GET /technologies
 	# GET /technologies.json

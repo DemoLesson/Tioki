@@ -1,0 +1,18 @@
+<section id="main-content" class="inner-content">
+	Message Group
+	<%= form_for @message, :url => { :action => "message_all_create", :id => @group.id} do |f| %>
+		<div class="field">
+			<%= f.label :subject %><br />
+			<%= f.text_field :subject %>
+		</div>
+
+		<div class="field">
+			<%= f.label :body %><br />
+			<%= f.text_area :body %>
+		</div>
+
+		<div class="actions">
+			<%= f.submit "Send Message" %>
+		</div>
+	<% end %>
+</section>

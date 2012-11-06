@@ -1,3 +1,9 @@
+v1.4.49 - Nov 5, 2012  4:26PM deployed by Aleks Stanisic
+========================================================
+* 91fb7d0: Elijah Green - Message all members of a group
+* b9dc24a: Brian Martinez - pinterest for teachers and school placeholder
+* bdba36e: Elijah Green - Hide the invite checkbox until the box is clicked
+
 v1.4.48 - Nov 5, 2012  1:46PM deployed by Aleks Stanisic
 ========================================================
 * 156f01a: Elijah Green - Add email permissions for emailing comments
