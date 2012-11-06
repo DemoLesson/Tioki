@@ -16,7 +16,7 @@ class Favorite < ActiveRecord::Base
 	def model?(*classes)
 
 		# Get model
-		comp = model(true)
+		comp = model!
 
 		# IDK why i have to use this
 		comp = comp.class.name unless comp.is_a?(String)
