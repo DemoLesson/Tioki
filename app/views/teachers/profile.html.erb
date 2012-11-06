@@ -39,78 +39,79 @@
 			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
 
 			<!-- Contact Info -->
-			<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
 				<section class="info" style="margin-left:10px;margin-right:5px">
-					<p>
-
-					<% if @teacher.twitter.present? %>
-						<% if @teacher.twitter.include? '//' %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter, :target => "_blank" %>
-						<% elsif @teacher.twitter.include? '@' %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+					<% if @connected || @guest || !@teacher.user.privacy["social_networks"] %>
+						<p>
+						<% if @teacher.twitter.present? %>
+							<% if @teacher.twitter.include? '//' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter, :target => "_blank" %>
+							<% elsif @teacher.twitter.include? '@' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.linkedin.present? %>
-						<% if @teacher.linkedin.include? '//' %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//linkedin.com/' + @teacher.linkedin, :target => "_blank" %>
+						<% if @teacher.linkedin.present? %>
+							<% if @teacher.linkedin.include? '//' %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//linkedin.com/' + @teacher.linkedin, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
-					
-					<% if @teacher.pinterest.present? %>
-						<% if @teacher.pinterest.include? '//' %>
-							<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.pinterest, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//pinterest.com/' + @teacher.pinterest, :target => "_blank" %>
+						
+						<% if @teacher.pinterest.present? %>
+							<% if @teacher.pinterest.include? '//' %>
+								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.pinterest, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//pinterest.com/' + @teacher.pinterest, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.edmodo.present? %>
-						<% if @teacher.edmodo.include? '//' %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), '//edmodo.com/'+@teacher.edmodo, :target => "_blank" %>
+						<% if @teacher.edmodo.present? %>
+							<% if @teacher.edmodo.include? '//' %>
+								<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/edmodo.png'), '//edmodo.com/'+@teacher.edmodo, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.betterlesson.present? %>
-						<% if @teacher.betterlesson.include? '//' %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//betterlesson.com'+@teacher.betterlesson, :target => "_blank" %>
+						<% if @teacher.betterlesson.present? %>
+							<% if @teacher.betterlesson.include? '//' %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png'), '//betterlesson.com'+@teacher.betterlesson, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.teachingchannel.present? %>
-						<% if @teacher.teachingchannel.include? '//' %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel, :target => "_blank" %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//teachingchannel.org'+@teacher.teachingchannel, :target => "_blank" %>
+						<% if @teacher.teachingchannel.present? %>
+							<% if @teacher.teachingchannel.include? '//' %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//teachingchannel.org'+@teacher.teachingchannel, :target => "_blank" %>
+							<% end %>
 						<% end %>
+						</p>
 					<% end %>
-
-					</p>
 					
 					<!-- Current Job / Location -->
-					<p>
-					<% if @teacher.position.present? && @teacher.school.present?%>
-						<span class="bold">Currently:</span>
-						<%= @teacher.position %> at <%= @teacher.school %>,
+					<% if @connected || @guest || !@teacher.user.privacy["current_job"] %>
+						<p>
+						<% if @teacher.position.present? && @teacher.school.present?%>
+							<span class="bold">Currently:</span>
+							<%= @teacher.position %> at <%= @teacher.school %>,
+						<% end %>
+						<%= @teacher.location %>
+						</p>
 					<% end %>
-					<%= @teacher.location %>
-					</p>
+
+					<!-- Public profile link -->
 					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 						<p>
 						<%= link_to "My Public Profile", "/profile/"+@teacher.url %>
 						</p>
 					<% end %>
 				</section>
-			<% end %>
-	
 	
 				<section style="margin-left:25px">
 					<!-- Connection Options -->
@@ -151,24 +152,26 @@
 			</section>
 
 			<% if self.current_user %>
-				<!-- Contact Information-->
-				<section class="info">
-				<p class="heading">
-				Contact Information
-				</p>
-				<% unless @teacher.user.email.empty? %>
-					<p>
-					<span class="bold black">Email:</span>
-					<%= @teacher.user.email %><br/>
+				<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
+					<!-- Contact Information-->
+					<section class="info">
+					<p class="heading">
+					Contact Information
 					</p>
+					<% unless @teacher.user.email.empty? %>
+						<p>
+						<span class="bold black">Email:</span>
+						<%= @teacher.user.email %><br/>
+						</p>
+					<% end %>
+					<% unless @teacher.phone == nil %>
+						<p>
+						<span class="bold black">Phone:</span>
+						<%= @teacher.phone %>
+						</p>
+					<% end %>
+					</section>
 				<% end %>
-				<% unless @teacher.phone == nil %>
-					<p>
-					<span class="bold black">Phone:</span>
-					<%= @teacher.phone %>
-					</p>
-				<% end %>
-				</section>
 			<% end %>
 			
 			<!-- Teacher Technology Tags -->
