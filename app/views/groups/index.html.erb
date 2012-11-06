@@ -37,7 +37,7 @@
 						</p>
 						<% if self.current_user && self.current_user.teacher %>
 							<% unless self.current_user.groups.include? group %>
-								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
+								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions!['public'] %>
 							<% end %>
 						<% end %>
 						

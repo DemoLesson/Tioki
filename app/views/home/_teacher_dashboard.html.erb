@@ -265,7 +265,7 @@
 				<% User.current.favorites.limit(3).where('`favorites`.`model` IS NOT NULL').each do |fav| %>
 					<% next unless fav.model?(:whiteboard, :video) %>
 					<% if fav.model?(:whiteboard) %>
-						<% @post = fav.model %>
+						<% @post = fav.model! %>
 						<%= render :template => 'whiteboards/favorite' %>
 					<% end %>
 				<% end %>
