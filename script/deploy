@@ -106,7 +106,7 @@ def seedNoteMessage(version = nil)
 	message[:commits] = `git log --pretty=format:"* %h: %an - %s" --no-merges "#{message[:lastBump]}"..HEAD`.strip
 	
 	headline = version.nil? ? "" : "v#{version} - "
-	headline << Time.now.strftime("%b %-d, %Y %l:%M%p %Z")
+	headline << Time.now.strftime("%b %-d, %Y %l:%M%p %Z ")
 	headline << "deployed by " + message[:author]
 
 	output = Array.new

@@ -1,5 +1,5 @@
-v1.4.53 - Nov 6, 2012  1:32PM PSTdeployed by Kelly Becker
-=========================================================
+v1.4.53 - Nov 6, 2012  1:32PM PST deployed by Kelly Becker
+==========================================================
 * 8fdd1c9: Kelly Becker - typo
 * 8e67c2c: Elijah Green - Rename twitter initializer and remove global oauth keys
 
