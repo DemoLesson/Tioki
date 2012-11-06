@@ -48,8 +48,8 @@ class Group < ActiveRecord::Base
 		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
-	def permissions
-		super.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
+	def permissions!
+		self.permissions.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
 	end
 
 	def user_permissions(conds = {})

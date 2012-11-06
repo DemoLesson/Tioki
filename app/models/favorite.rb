@@ -1,10 +1,12 @@
 class Favorite < ActiveRecord::Base
 	belongs_to :user
 
-	def model(sup = false)
-		begin
-			return super() if sup
-			return _map!(super()) unless sup
+	def model!
+
+		# Return the object in question
+		begin; return _map!(self.model)
+		
+		# If the object that was favorited does not exist delete the favorite
 		rescue ActiveRecord::RecordNotFound => e
 			self.destroy
 			return nil
