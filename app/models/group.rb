@@ -49,7 +49,10 @@ class Group < ActiveRecord::Base
 	end
 
 	def permissions!
-		self.permissions.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
+		perms = self.permissions unless self.permissions.nil?
+		perms = 0 if self.permissions.nil?
+
+		perms.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
 	end
 
 	def user_permissions(conds = {})
@@ -58,6 +61,6 @@ class Group < ActiveRecord::Base
 
 		return false if user.nil?
 
-		return User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first.permissions
+		return User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first.permissions!
 	end
 end

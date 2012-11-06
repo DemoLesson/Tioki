@@ -21,6 +21,9 @@ class User_Group < ActiveRecord::Base
 	end
 
 	def permissions!
-		return self.permissions.to_switch(APP_CONFIG['bitswitches']['user_group_permissions'])
+		perms = self.permissions unless self.permissions.nil?
+		perms = 0 if self.permissions.nil?
+
+		perms.to_switch(APP_CONFIG['bitswitches']['user_group_permissions'])
 	end
 end
