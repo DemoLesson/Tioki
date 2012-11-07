@@ -210,6 +210,8 @@ Preview::Application.routes.draw do
 	match 'change_picture', :to => 'users#change_picture'
 	match 'create_profile', :to => 'teachers#create_profile'
 	match 'callback', :to => 'teachers#callback'
+	match 'twitter_auth', :to => 'teachers#twitter_auth'
+	match 'twitter_callback', :to => 'teachers#twitter_callback'
 	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
 	match 'skills', :to => 'skills#get'

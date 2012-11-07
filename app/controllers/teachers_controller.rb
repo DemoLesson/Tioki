@@ -712,4 +712,18 @@ class TeachersController < ApplicationController
 		self.current_user.teacher.update_attribute(:video_id, params[:id])
 		redirect_to :back
 	end
+
+	def twitter_auth
+		@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+		callback_url = "http://127.0.0.1:3000/twitter_callback"
+		@request_token = @consumer.get_request_token(:oauth_callback => callback_url)
+		session[:rtoken] = @request_token.token
+		session[:rsecret] = @request_token.secret
+
+		redirect_to @request_token.authorize_url
+	end
+
+	def twitter_callback
+		redirect_to :root, :notice => "success"
+	end
 end
