@@ -100,6 +100,6 @@ class Notification < ActiveRecord::Base
 	end
 
 	def link
-		map_tag.link #rescue nil
+		map_tag.link rescue nil
 	end
 end
