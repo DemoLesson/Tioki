@@ -70,6 +70,7 @@
 
 		// Localscroll
 		$.localScroll();
+		$.localScroll.hash();
 	});
 	</script>
 
@@ -422,15 +423,46 @@
 
 	<!-- Notifications Window -->
 	<div id="notifications" kmodal-resize="false">
-		<h2>Notifications</h2>
-		<p>Put notifications here.</p>
+		<ul>
+			<% notes = Notification.mine %>
+			<% if notes.count == 0 %>
+				<li>
+					No notifications
+				</li>
+			<% end %>
+			<% notes.each do |note| %>
+				<li href="<%= note.link %>">
+					<%= note.message %>
+					<span><%= time_ago_in_words(note.created_at) %> ago...</span>
+				</li>
+			<% end %>
+		</ul>
 	</div>
 
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('#notifications').kModal('bind', 'resize', function(e) {
+
+			// Set the left position
 			var pos = $('div.logo').offset();
 			e.css('left', pos.left);
+
+			// Set a max height
+			height = $(window).height() - 100;
+			e.css('max-height', height);
+		});
+
+		$('#notifications [href]').click(function() {
+			$link = $(this);
+
+			$.defercall(function() {
+				$('#notifications').kModal('hide');
+			}).always(function() {
+				hash = $link.attr('href').match(/#.*/,'');
+				return $.scrollTo(hash[0], 500);
+			}).always(function() {
+				window.location = $link.attr('href');
+			});
 		});
 	});
 	</script>
