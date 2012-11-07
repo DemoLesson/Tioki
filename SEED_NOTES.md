@@ -1,3 +1,11 @@
+v1.4.54 - Nov 7, 2012  1:13PM PST deployed by Aleks Stanisic
+============================================================
+* 7055961: Elijah Green - On edit experience, output experience like on profile
+* a950378: Elijah Green - Add twitter follow and facebook like buttons
+* 1e8f2fc: Kelly Becker - application layout cleanup
+* 9d6a041: Kelly Becker - added notification icon
+* 0d75bb0: Kelly Becker - deploy script updates (now shows timezone of the deployer)
+
 v1.4.53 - Nov 6, 2012  1:32PM PST deployed by Kelly Becker
 ==========================================================
 * 8fdd1c9: Kelly Becker - typo
