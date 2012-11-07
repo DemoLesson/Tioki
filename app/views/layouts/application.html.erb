@@ -421,10 +421,19 @@
 	</div><!-- End Page Wrapper -->
 
 	<!-- Notifications Window -->
-	<div id="notifications">
+	<div id="notifications" kmodal-resize="false">
 		<h2>Notifications</h2>
 		<p>Put notifications here.</p>
 	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#notifications').kModal('bind', 'resize', function(e) {
+			var pos = $('div.logo').offset();
+			e.css('left', pos.left);
+		});
+	});
+	</script>
 
 	<!-- IE Placeholder Shim -->
 	<!--[if IE]>
