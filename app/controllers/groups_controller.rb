@@ -182,6 +182,9 @@ class GroupsController < ApplicationController
 		# Swap out any instances of [name] with the name of the sender
 		@message = @message.gsub("[name]", @teachername);
 
+		# Swap out all new lines with line breaks
+		@message = @message.gsub("\n", '<br />');
+
 		# Get the current user if applicable
 		user = self.current_user unless self.current_user.nil?
 
