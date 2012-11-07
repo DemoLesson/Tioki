@@ -1,3 +1,10 @@
+v1.4.55 - Nov 7, 2012  1:56PM PST deployed by Kelly Becker
+==========================================================
+* d210e8a: Kelly Becker - notifications w00t
+* 2ad91cf: Kelly Becker - notifications w00t
+* 5db7230: Kelly Becker - updates to defercall and kmodal
+* 8ace467: Kelly Becker - notifications popup
+
 v1.4.54 - Nov 7, 2012  1:13PM PST deployed by Aleks Stanisic
 ============================================================
 * 7055961: Elijah Green - On edit experience, output experience like on profile
