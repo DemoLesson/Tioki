@@ -1077,3 +1077,15 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		
 	}
 }
+
+/* Notifications */
+#notifications {
+	display:none;
+	min-width:300px;
+	width:300px;
+}
+
+/* Hax0r */
+span.tooltip {
+	z-index: 9999999999;
+}
