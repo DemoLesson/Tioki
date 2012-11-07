@@ -714,16 +714,39 @@ class TeachersController < ApplicationController
 	end
 
 	def twitter_auth
-		@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+		consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
 		callback_url = "http://127.0.0.1:3000/twitter_callback"
-		@request_token = @consumer.get_request_token(:oauth_callback => callback_url)
-		session[:rtoken] = @request_token.token
-		session[:rsecret] = @request_token.secret
+		request_token = consumer.get_request_token(:oauth_callback => callback_url)
+		session[:rtoken] = request_token.token
+		session[:rsecret] = request_token.secret
+		session[:twitter_action] = "follow"
 
-		redirect_to @request_token.authorize_url
+		redirect_to request_token.authorize_url
 	end
 
 	def twitter_callback
-		redirect_to :root, :notice => "success"
+		consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+		request_token = OAuth::RequestToken.new(consumer, session[:rtoken], session[:rsecret])
+		access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verfifier])
+
+		session[:rsecret] = nil
+		session[:rtoken] = nil
+
+		client = Twitter::Client.new(
+			:oauth_token => access_token.token,
+			:access_token_secret => access_token.secret
+		)
+
+		if session[:twitter_action] == "follow"
+			client.follow("Tioki")
+			notice = You are now following tioki
+		elsif session[:twitter_action] == "tweet"
+			client.update("Hey, I just using @tioki")
+		end
+
+		#Follow and tweet are one time things so we should
+		#remove those keys
+		session[:twitter_action] = nil
+		redirect_to :root, :notice => "You are now following @tioki"
 	end
 end
