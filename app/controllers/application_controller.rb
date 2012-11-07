@@ -302,4 +302,8 @@ class ApplicationController < ActionController::Base
 				Rails.logger.fatal(error) if severity == 3
 			end
 		end
+
+		def twitter_oauth
+			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+		end
 end
