@@ -1,3 +1,7 @@
+v1.5.1 - Nov 8, 2012  1:35PM PST deployed by Kelly Becker
+=========================================================
+* e0081b0: Kelly Becker - js fix to objects passed by ref
+
 v1.5.0 - Nov 8, 2012  1:21PM PST deployed by Kelly Becker
 =========================================================
 * a347709: Kelly Becker - got connections working in their own things
