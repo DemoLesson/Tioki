@@ -32,7 +32,7 @@ class HomeController < ApplicationController
         end         
       elsif not self.current_user.teacher.nil?
         @whiteboard = Array.new
-        Whiteboard.getActivity.paginate(:per_page => 15, :page => params[:page]).each do |post|
+        Whiteboard.getActivity(true, :exclude => :user_connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
           @post = post
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
