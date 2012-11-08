@@ -71,7 +71,7 @@
 				$('ul.whiteboard li.connections div.facepile a[data_id]').mouseover(function(e) {
 
 					// Get the connections for this user
-					connect = connections[$(this).attr('data_id')];
+					connect = $.extend(true, {}, connections[$(this).attr('data_id')]);
 
 					// If there is more then one connection get the last one
 					if(connect.to.length > 1) last = connect.to.pop();
