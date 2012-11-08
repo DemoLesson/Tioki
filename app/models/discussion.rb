@@ -9,6 +9,9 @@ class Discussion < ActiveRecord::Base
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
+	# Cleanup everything
+	before_destroy :cleanup!
+
 	def to_param
 		"#{id}-#{title.parameterize}"
 	end
@@ -34,5 +37,9 @@ class Discussion < ActiveRecord::Base
 
 		# Return the link to the profile
 		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{self.title}</a>".html_safe
+	end
+
+	def cleanup!
+		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
 end
