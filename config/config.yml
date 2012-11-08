@@ -8,6 +8,9 @@ development:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -38,6 +41,9 @@ staging:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -68,6 +74,9 @@ production:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
   bitswitches:
     user_privacy:
       0: "contact_info"

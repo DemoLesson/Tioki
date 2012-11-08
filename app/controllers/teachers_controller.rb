@@ -749,4 +749,18 @@ class TeachersController < ApplicationController
 		#session[:twitter_action] = nil
 		redirect_to :root, :notice => "You are now following @tioki"
 	end
+
+	def facebook_auth
+		@oauth = facebook_oauth
+		redirect_to @oauth.url_for_oauth_code(:permissions => "publish_stream")
+	end
+
+	def facebook_callback
+		access_token = facebook_oauth.get_access_token(params[:code])
+
+		@graph = Koala::Facebook.API.new(access_token)
+
+		@graph.put_wall_post("Testing wallposts through graph api")
+		redirect_to :root, :notice => "Successfully added a tioki wall post."
+	end
 end

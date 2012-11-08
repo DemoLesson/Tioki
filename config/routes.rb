@@ -212,6 +212,8 @@ Preview::Application.routes.draw do
 	match 'callback', :to => 'teachers#callback'
 	match 'twitter_auth', :to => 'teachers#twitter_auth'
 	match 'twitter_callback', :to => 'teachers#twitter_callback'
+	match 'facebook_auth', :to => 'teachers#facebook_auth'
+	match 'facebook_callback', :to => 'teachers#facebook_callback'
 	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
 	match 'skills', :to => 'skills#get'
@@ -266,6 +268,7 @@ Preview::Application.routes.draw do
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
+	match 'get_started' => 'teachers#get_started'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
