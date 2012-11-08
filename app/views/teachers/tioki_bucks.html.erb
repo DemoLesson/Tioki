@@ -1,0 +1,67 @@
+<section id="main-content" class="inner-content">
+	<h1>Tioki Bucks</h1>
+	<section id="panels" class="group">
+		<section class="panel three-column right-side">
+			<h3>You have earned <%= @tioki_bucks %> Tioki Bucks</h3>
+			<ul>
+				<li>
+					<a href="#" id="get_started">
+						<h2>Get started with Tioki
+							<div style="float:right">
+								$5
+							</div>
+						</h2>
+					</a>
+				</li>
+				<li id="get_started_fields" style="display:none">
+					Add 5 connections<%if @connected %> true <% end %><br />
+					Follow 3 Discussions<%if @followed %> true <% end %><br />
+					Join 3 Groups<%if @groups %> true <% end %><br />
+					Vouch 5 skills<%if @vouched_skills %>true <% end %><br />
+					Post to Whiteboard<%if @whiteboard_post %> true <% end %><br />
+					Post a reply to discussion<%if @commented %> true <% end %><br />
+					Upload a profile picture <%if @avatar %> true <% end %><br />
+				</li>
+				<li>
+					<h2>Write about us on your facebook wall
+						<div style="float:right">
+							$1
+						</div>
+					</h2>
+				</li>
+				<li>
+					<h2>
+						Follow us on twitter
+						<div style="float:right">
+							$1
+						</div>
+					</h2>
+				</li>
+				<li>
+					<h2>
+						Tweet about us
+						<div style="float:right">
+							$1
+						</div>
+					</h2>
+				</li>
+				<li>
+					<h2>
+						Refer Friends
+						<div style="float:right">
+							Up to $42
+						</div>
+					</h2>
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+<script>
+	$(document).ready(function () {
+		$("#get_started").click(function(e) {
+			e.preventDefault();
+			$("#get_started_fields").toggle(700);
+		});
+	});
+</script>

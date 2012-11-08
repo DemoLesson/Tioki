@@ -758,9 +758,69 @@ class TeachersController < ApplicationController
 	def facebook_callback
 		access_token = facebook_oauth.get_access_token(params[:code])
 
-		@graph = Koala::Facebook.API.new(access_token)
+		@graph = Koala::Facebook::API.new(access_token)
 
-		@graph.put_wall_post("Testing wallposts through graph api")
+		@graph.put_wall_post("Testing wallposts through graph api.")
 		redirect_to :root, :notice => "Successfully added a tioki wall post."
+	end
+
+	def tioki_bucks
+		start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).where("created_at > ?", 1.hour.ago).count >= 5
+			@connected = true
+			start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, 
+				:conditions => ["user_id = ? && created_at > ?", self.current_user.id, 1.hour.ago ]).count >= 3
+			@followed = true
+			start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, 
+				:conditions => ["user_id = ? && created_at = ?", self.current_user.id, 1.hour.ago]).count >= 3
+			@groups = true
+			start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, 
+				:conditions => ["voucher_id = ? && created_at > ?" , self.current_user.id, 1.hour.ago]).count >= 5
+			@vouched_skills = true
+			start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, 
+				:conditions => ["whiteboards.slug = ? && whiteboards.created_at > ?", 'share', 1.hour.ago])
+			@whiteboard_post = true
+			start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, 
+				:conditions => ["commentable_type = 'Discussion' && comments.user_id = ? && comments.created_at > ?", 
+				self.current_user.id, 1.hour.ago])
+			@commented = true
+			start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.current_user.avatar
+			@avatar = true
+			start_count += 1
+		end
+
+		if start_count >= 5
+			@tioki_bucks += 5
+		end
+
+
 	end
 end

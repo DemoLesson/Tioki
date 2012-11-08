@@ -268,7 +268,7 @@ Preview::Application.routes.draw do
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
-	match 'get_started' => 'teachers#get_started'
+	match 'tioki_bucks' => 'teachers#tioki_bucks'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
