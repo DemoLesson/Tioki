@@ -1,3 +1,9 @@
+v1.4.58 - Nov 8, 2012 11:00AM PST deployed by Kelly Becker
+==========================================================
+* 0a2c38e: Kelly Becker - undid a git commit
+* eb2067c: Kelly Becker - cleanup of favorite model
+* d75d67b: Kelly Becker - recurse through arrays
+
 v1.4.57 - Nov 7, 2012  7:07PM PST deployed by Aleks Stanisic
 ============================================================
 * a351ac4: Elijah Green - Removing notification bar for now
