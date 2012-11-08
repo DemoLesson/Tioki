@@ -31,11 +31,18 @@ class HomeController < ApplicationController
           total += job.new_applicants.count
         end         
       elsif not self.current_user.teacher.nil?
+
+        # Get whiteboard activity
         @whiteboard = Array.new
         Whiteboard.getActivity(true, :exclude => :user_connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
           @post = post
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
+
+        # Prepare the new connections bin
+        connections = Whiteboard.getActivity(true, :restrict => :user_connection).limit(6).all.recurse{|w| w.getModels}
+        @post = {:type => 'connections', :data => connections}
+        @whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
         # Get a list of all my skills and a list of all my connections
         skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
