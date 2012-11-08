@@ -425,23 +425,22 @@
 	<% unless self.current_user.nil? %>
 		<div id="notifications" kmodal-resize="false">
 			<ul>
-				<% notes = Notification.mine %>
-				<% if notes.count == 0 %>
-					<li>
-						No notifications
-					</li>
-				<% end %>
-				<% notes.each do |note| %>
-					<li href="<%= note.link %>">
-						<%= note.message %>
-						<span><%= time_ago_in_words(note.created_at) %> ago...</span>
-					</li>
-				<% end %>
+				<li class="empty">
+					No notifications
+				</li>
+				<li href="%note.link%" style="display:none;" class="template">
+					%note.message%
+					<span>%time_ago_in_words(note.created_at)% ago...</span>
+				</li>
 			</ul>
 		</div>
 
 		<script type="text/javascript">
 		$(document).ready(function() {
+
+			/**
+			 * Bind a placement on the resize method for notifications
+			 */
 			$('#notifications').kModal('bind', 'resize', function(e) {
 
 				// Set the left position
@@ -453,6 +452,9 @@
 				e.css('max-height', height);
 			});
 
+			/**
+			 * Allow clicking any item with an href in notifications
+			 */
 			$('#notifications [href]').click(function() {
 				$link = $(this);
 
@@ -465,6 +467,23 @@
 					window.location = $link.attr('href');
 				});
 			});
+
+			/**
+			 * Get notifications
+			 */
+			var notifications;
+			var to = setInterval(function() {
+
+				// Make API Call
+				var result = $.get('/api/notifications');
+
+				// If the call was successful
+				result.then(function(d) {
+					console.log(d);
+				});
+
+				clearTimeout(to);
+			}, 500);
 		});
 		</script>
 	<% end %>

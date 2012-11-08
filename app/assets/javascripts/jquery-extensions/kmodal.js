@@ -48,7 +48,15 @@
 					e.preventDefault();
 					var id = $(this).attr('href');
 
-					$(id).kModal('show');
+					// If you clicked the opening link close the modal
+					if($(id).css('display') == 'block') $('.kmodal').each(function() {
+						$(this).kModal('hide');
+					});
+
+					// Otherwise open the modal
+					else $(id).kModal('show');
+
+					return false;
 				});
 			}
 			
@@ -164,7 +172,7 @@
 			$.defercall(scrollPosition, fadeInModal).done(function() {
 
 				// Lock the scroll poisition
-				var html = jQuery('html');
+				var html = $('html');
 				html.data('scroll-position', scrollPosition);
 				html.data('previous-overflow', html.css('overflow'));
 				html.css('overflow', 'hidden');
@@ -197,10 +205,12 @@
 			/**
 			 * Unlock scroll position
 			 */
-			var html = jQuery('html');
+			var html = $('html');
 			var scrollPosition = html.data('scroll-position');
 			html.css('overflow', html.data('previous-overflow'));
-			window.scrollTo(scrollPosition[0], scrollPosition[1])
+
+			if(settings['fixed-top'] === false)
+				$(window).scrollTo(scrollPosition[0], scrollPosition[1]);
 
 			/**
 			 * Fade out the modal and the mask

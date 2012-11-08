@@ -4,6 +4,7 @@ end
 class ApiController < ApplicationController
 	load 'api/users.rb'
 	load 'api/groups.rb'
+	load 'api/notifications.rb'
 
 	def method_missing(collection, *args)
 
