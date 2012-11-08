@@ -12,7 +12,10 @@ class Notification < ActiveRecord::Base
 		user = conds[:user] unless conds[:user].nil?
 		user = User.find(user) if user.is_a?(Fixnum)
 
-		self.where('`notifications`.`user_id` = ?', user.id)
+		conds[:order] = 'DESC' if conds[:order].nil?
+
+		query = self.where('`notifications`.`user_id` = ?', user.id)
+		query = query.order("`notifications`.`created_at` #{conds[:order]}")
 	end
 
 	def self.notify_likes

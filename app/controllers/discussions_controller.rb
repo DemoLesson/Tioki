@@ -134,7 +134,9 @@ class DiscussionsController < ApplicationController
 
 			if @comment.save
 				@discussion.following_and_participants.each do |user|
-					Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					if self.current_user.id != user.id
+						Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					end
 				end
 				redirect_to  @discussion
 			else
@@ -152,7 +154,9 @@ class DiscussionsController < ApplicationController
 			if comment.save
 				comment.move_to_child_of(@replied_to_comment)
 				@discussion.following_and_participants.each do |user|
-					Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					if self.current_user.id != user.id
+						Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					end
 				end
 				redirect_to @discussion
 			else
