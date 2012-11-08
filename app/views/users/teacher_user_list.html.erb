@@ -30,6 +30,7 @@
 <p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
 <table cellspacing = "7">
   <tr>
+		<th>Teacher ID</th>
     <th>Teacher Name</th>
     <th>Email</th>
     <th>Registered</th>
@@ -43,6 +44,11 @@
   </tr>
 <%- @users.each do |user| %>
   <tr>
+		<td>
+			<% if user.teacher %>
+				<%= user.teacher.id %>
+			<% end %>
+		</td>
     <td>
       <%= link_to user.name, "/profile/#{user.teacher.url}" unless user.teacher.nil? %>
       <%= user.name if user.teacher.nil? %>
