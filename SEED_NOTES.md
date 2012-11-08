@@ -1,3 +1,31 @@
+v1.4.57 - Nov 7, 2012  7:07PM PST deployed by Aleks Stanisic
+============================================================
+* a351ac4: Elijah Green - Removing notification bar for now
+
+v1.4.56 - Nov 7, 2012  4:02PM PST deployed by Kelly Becker
+==========================================================
+* b2c9d7e: Kelly Becker - notifications created unless you created it
+* 99f3cb3: Elijah Green - Re-add swapping newlines with breaks on group_email
+* 5a6ab41: Kelly Becker - fix to notification allocation
+* 0981c13: Elijah Green - show breaks in group invite correctly
+* 43bcfdb: Aleks Stanisic - changes to group emails
+* 1c5cb6a: Kelly Becker - aplication layout fix
+
+v1.4.55 - Nov 7, 2012  1:56PM PST deployed by Kelly Becker
+==========================================================
+* d210e8a: Kelly Becker - notifications w00t
+* 2ad91cf: Kelly Becker - notifications w00t
+* 5db7230: Kelly Becker - updates to defercall and kmodal
+* 8ace467: Kelly Becker - notifications popup
+
+v1.4.54 - Nov 7, 2012  1:13PM PST deployed by Aleks Stanisic
+============================================================
+* 7055961: Elijah Green - On edit experience, output experience like on profile
+* a950378: Elijah Green - Add twitter follow and facebook like buttons
+* 1e8f2fc: Kelly Becker - application layout cleanup
+* 9d6a041: Kelly Becker - added notification icon
+* 0d75bb0: Kelly Becker - deploy script updates (now shows timezone of the deployer)
+
 v1.4.53 - Nov 6, 2012  1:32PM PST deployed by Kelly Becker
 ==========================================================
 * 8fdd1c9: Kelly Becker - typo

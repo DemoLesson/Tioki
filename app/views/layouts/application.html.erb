@@ -70,6 +70,7 @@
 
 		// Localscroll
 		$.localScroll();
+		$.localScroll.hash();
 	});
 	</script>
 
@@ -117,12 +118,6 @@
 					</div>
 				</a>
 				
-				<!-- Notifications Icon -->
-				<% unless self.current_user.nil? %>
-					<a href="#" class="notifications">
-						<span class="iconic rss_alt"></span>
-					</a>
-				<% end %>
 
 				<!-- What is and how does tioki work -->
 				<% if self.current_user.nil? %>
@@ -421,6 +416,7 @@
 		</section><!-- End Footer Wrapper -->
 	</div><!-- End Page Wrapper -->
 
+
 	<!-- IE Placeholder Shim -->
 	<!--[if IE]>
 	<script type="text/javascript">
@@ -501,7 +497,6 @@
 		a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/8633.js?"+Math.floor(new Date().getTime()/3600000);
 		a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
 		</script>
-
 	<% end %>
 
 </body>

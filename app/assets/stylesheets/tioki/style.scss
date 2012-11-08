@@ -1077,3 +1077,45 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		
 	}
 }
+
+/* Notifications */
+#notifications {
+	display:none;
+	min-width:300px;
+	width:300px;
+	position: absolute;
+	overflow-y: scroll;
+	padding: 0px;
+
+	ul {
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			padding: 15px;
+			display: block;
+			border-bottom: solid 1px #DADADA;
+
+			&:hover {
+
+			}
+
+			span {
+				color: $dkgray;
+				font-size: 10px;
+				display: block;
+				text-align: right;
+			}
+		}
+	}
+}
+
+*[href] {
+	cursor: pointer;
+}
+
+/* Hax0r */
+span.tooltip {
+	z-index: 9999999999;
+}

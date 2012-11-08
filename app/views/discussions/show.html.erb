@@ -82,6 +82,7 @@
 			<ul>
 				<% @discussion.comment_threads.order("lft").each do |comment| %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+					<a name="c<%= comment.id %>"></a>
 
 					<div <% if comment.child? %>style="margin-left:65px"<% end %>>
 						<div class="profile-thumb-small">
