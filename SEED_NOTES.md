@@ -1,3 +1,11 @@
+v1.5.0 - Nov 8, 2012  1:21PM PST deployed by Kelly Becker
+=========================================================
+* a347709: Kelly Becker - got connections working in their own things
+* 4021ff9: Elijah Green - Search on teachers on admin
+* 16adf2e: Kelly Becker - allow restriction of whiteboard posts
+* ac41f71: Kelly Becker - cleanup discussion
+* 0a86bfc: Kelly Becker - gem and schema
+
 v1.4.58 - Nov 8, 2012 11:00AM PST deployed by Kelly Becker
 ==========================================================
 * 0a2c38e: Kelly Becker - undid a git commit
