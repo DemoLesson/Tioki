@@ -1,3 +1,7 @@
+v1.4.57 - Nov 7, 2012  7:07PM PST deployed by Aleks Stanisic
+============================================================
+* a351ac4: Elijah Green - Removing notification bar for now
+
 v1.4.56 - Nov 7, 2012  4:02PM PST deployed by Kelly Becker
 ==========================================================
 * b2c9d7e: Kelly Becker - notifications created unless you created it
