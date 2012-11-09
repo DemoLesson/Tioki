@@ -1,0 +1,40 @@
+<section id="main-content" class="inner-content">
+<h1>Administration</h1>
+
+<ul id="breadcrumbs">
+  <li><%= link_to 'Home', :admin %></li>
+  <li>Toki Coins</li>
+</ul>
+
+<%= render :partial => "admin_menu" %>
+
+<div class="clear" style="margin-top: 2.5em; border-bottom: 1px solid #ccc;"></div>
+
+<div id="wrapper">
+
+<div id="left" style="width: 905px"align="left">
+
+<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
+<table border="1" cellpadding="10">
+  <tr>
+    <th>Teacher Name</th>
+    <th>Email</th>
+		<th>Tioki Coins</th>
+  </tr>
+<%- @teachers.each do |teacher| %>
+  <tr>
+    <td>
+      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
+      <%= teacher.user.name if teacher.nil? %>
+    </td>
+    <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>
+		<td></td>
+  </tr>
+<% end -%>
+</table>
+<%= will_paginate @teachers %>
+
+</div>
+
+</div>
+</section>
