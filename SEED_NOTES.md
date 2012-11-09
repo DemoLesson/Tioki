@@ -1,3 +1,7 @@
+v1.6.2 - Nov 9, 2012  1:12PM PST deployed by Kelly Becker
+=========================================================
+* 18d5dfc: Kelly Becker - excalmation point!
+
 v1.6.1 - Nov 9, 2012 12:56PM PST deployed by Aleks Stanisic
 ===========================================================
 * 6fbd574: Aleks Stanisic - changing groups back
