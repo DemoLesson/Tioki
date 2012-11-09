@@ -1151,6 +1151,48 @@ ul.whiteboard {
 				transition: all 1s linear;
 			}
 		}
+
+		&.article {
+			& > a {
+				float: left;
+				margin-right: 2px;
+
+				&.screen {
+					padding: 2px;
+					margin: auto 15px 15px 5px;
+					border: solid 1px #DADADA;
+					background: #FFF;
+				}
+			}
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			p {
+				margin: 0px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+			}
+
+			div.bar {
+				display: block !important;
+				margin-bottom: -35px;
+				width: auto;
+				height: 35px;
+				clear: both;
+
+				span.timestamp {
+					line-height: 35px;
+					font-size: 12px;
+					float: left;
+				}
+
+			}
+			
+		}
 	}
 }
 

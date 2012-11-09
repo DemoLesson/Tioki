@@ -1,4 +1,79 @@
-<% unless @post.is_a?(Hash) %>
+<% case @post.slug %>
+<% when 'connections' %>
+	<% # Lets go ahead and languageify the models 
+	data = Hash.new
+	@post.data.collect do |models|
+		data[models.first.id] = {:who => models.first.name, :to => []} unless data[models.first.id].is_a?(Hash)
+		data[models.last.id] = {:who => models.last.name, :to => []} unless data[models.last.id].is_a?(Hash)
+		data[models.first.id][:to] << models.last.name
+		data[models.last.id][:to] << models.first.name
+	end; data.collect!{|k1,v1| v1[:to].uniq!; v1}
+
+	# Now lets uniqify for profile photos
+	uniq = @post.data.clone.flatten.uniq
+	%>
+	<li class="new-style connections">
+		<h3><%= data.count %> people have new connections.</h3>
+		<div class="facepile">
+			<% uniq.each do |user| %>
+				<%= link_to(image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url, :title => user.name, :class => 'has-tip', :data_id => user.id) if user.avatar? %>
+
+				<%= link_to(image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + user.teacher.url, :title => user.name, :class => 'has-tip', :data_id => user.id) unless user.avatar? %>
+			<% end %>
+		</div>
+		<p class="message">Hover over a face to see who they connected to.</p>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$message = $('ul.whiteboard li.connections p.message');
+			$face = $('ul.whiteboard li.connections div.facepile a[data_id]');
+
+			var connections = <%= raw data.to_json %>;
+
+			$('ul.whiteboard li.connections div.facepile a[data_id]').mouseover(function(e) {
+
+				// Get the connections for this user
+				connect = $.extend(true, {}, connections[$(this).attr('data_id')]);
+
+				// If there is more then one connection get the last one
+				if(connect.to.length > 1) last = connect.to.pop();
+				else last = false;
+
+				// Prepare the list of users this user is connected to
+				connected = (connect.to.length > 1 ? connect.to.join(', ') : connect.to[0]) + (last ? ' and ' + last : '')
+				connect = '<span>' + connect.who + '</span> connected to ' + connected
+
+				// Apply the text
+				$message.html(connect);
+
+				return false;
+			});
+
+			$('ul.whiteboard li.connections div.facepile a[data_id]').mouseout(function(e) {
+
+				// Reset the text
+				$message.html('Hover over a face to see who they connected to.');
+
+				return false;
+			});
+		});
+		</script>
+	</li>
+<% when 'article' %>
+	<li class="new-style article">
+		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.teacher.url if @post.user.avatar? %>
+		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.teacher.url unless @post.user.avatar? %>
+		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen' %>
+
+		<h3><span class="salmon"><%= @post.user.name %></span> shared an article.</h3>
+
+		<p><%= @post.getMessage.more!(266) %></p>
+
+		<div class="bar">
+			<span class="timestamp"><%= time_ago_in_words(@post.created_at) %> ago...</span>
+		</div>
+		<div class="clear"></div>
+	</li>
+<% else %>
 	<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %> id="<%= @post.id %>">
 		<% i=0; @post.getModels.each do |x| %>
 			<% next if i>0; i+=1; %>
@@ -38,65 +113,4 @@
 			<% end %>
 		</div>
 	</li>
-<% else %>
-	<% case @post.type %>
-	<% when 'connections' %>
-		<% # Lets go ahead and languageify the models 
-		data = Hash.new
-		@post.data.collect do |models|
-			data[models.first.id] = {:who => models.first.name, :to => []} unless data[models.first.id].is_a?(Hash)
-			data[models.last.id] = {:who => models.last.name, :to => []} unless data[models.last.id].is_a?(Hash)
-			data[models.first.id][:to] << models.last.name
-			data[models.last.id][:to] << models.first.name
-		end; data.collect!{|k1,v1| v1[:to].uniq!; v1}
-
-		# Now lets uniqify for profile photos
-		uniq = @post.data.clone.flatten.uniq
-		%>
-		<li class="new-style connections">
-			<h3><%= data.count %> people have new connections.</h3>
-			<div class="facepile">
-				<% uniq.each do |user| %>
-					<%= link_to image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url, :title => user.name, :class => 'has-tip', :data_id => user.id %>
-				<% end %>
-			</div>
-			<p class="message">Hover over a face to see who they connected to.</p>
-			<script type="text/javascript">
-			$(document).ready(function() {
-				$message = $('ul.whiteboard li.connections p.message');
-				$face = $('ul.whiteboard li.connections div.facepile a[data_id]');
-
-				var connections = <%= raw data.to_json %>;
-
-				$('ul.whiteboard li.connections div.facepile a[data_id]').mouseover(function(e) {
-
-					// Get the connections for this user
-					connect = $.extend(true, {}, connections[$(this).attr('data_id')]);
-
-					// If there is more then one connection get the last one
-					if(connect.to.length > 1) last = connect.to.pop();
-					else last = false;
-
-					// Prepare the list of users this user is connected to
-					connected = (connect.to.length > 1 ? connect.to.join(', ') : connect.to[0]) + (last ? ' and ' + last : '')
-					connect = '<span>' + connect.who + '</span> connected to ' + connected
-
-					// Apply the text
-					$message.html(connect);
-
-					return false;
-				});
-
-				$('ul.whiteboard li.connections div.facepile a[data_id]').mouseout(function(e) {
-
-					// Reset the text
-					$message.html('Hover over a face to see who they connected to.');
-
-					return false;
-				});
-			});
-			</script>
-		</li>
-	<% else %>
-	<% end %>
 <% end %>

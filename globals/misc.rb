@@ -227,6 +227,65 @@ class String
 	def numeric?
   		self.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
 	end
+
+	def more!(limit = 250, type = 'chars')
+
+		o = [('a'..'z'), ('A'..'Z')].map{|i| i.to_a}.flatten
+		random = (0...25).map{o[rand(o.length)]}.join
+
+		link = <<-LINK
+<a href="javascript:void(0);" ruby-more="#{random}" class="more">(More)</a>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[ruby-more]').live('click', function(e) {
+		e.preventDefault();
+
+		var $link = $(this);
+		var hash = $link.attr('ruby-more');
+
+		if($link.hasClass('more')) $('span[ruby-more="' + hash + '"]').fadeIn(500, function() {
+			$link.removeClass('more').addClass('less').text('(Less)');
+		});
+		else $('span[ruby-more="' + hash + '"]').fadeOut(500, function() {
+			$link.removeClass('less').addClass('more').text('(More)');
+		});
+		return false;
+	});
+});
+</script>
+LINK
+
+		string = self
+		type = ' ' if type == 'words'
+
+		if type == 'chars'
+			if string.length > limit
+				new_string = String.new
+				new_string = string[0...limit] 
+				more_string = string[limit..-1]
+				new_string += "<span ruby-more=\"#{random}\" style=\"display:none;\">#{more_string}</span>".html_safe
+				new_string += " ... #{link}".html_safe
+			else
+				new_string = string
+			end
+		else
+			new_string = Array.new
+			string = string.split(type)
+
+			if string.length > limit
+				new_string = string[0...limit]
+				more_string = string[limit..-1].join(type)
+				new_string += ["<span ruby-more=\"#{random}\" style=\"display:none;\">#{more_string}</span>".html_safe]
+				new_string += ["... #{link}".html_safe]
+			else
+				new_string = string
+			end
+
+			new_string = new_string.join(type).html_safe
+		end
+
+		return new_string.html_safe
+	end
 end
 
 class NilClass
