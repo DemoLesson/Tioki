@@ -39,20 +39,20 @@
 		</div>
 	</li>
 <% else %>
-	<% # Lets go ahead and languageify the models 
-	data = Hash.new
-	@post.data.collect do |models|
-		data[models.first.id] = {:who => models.first.name, :to => []} unless data[models.first.id].is_a?(Hash)
-		data[models.last.id] = {:who => models.last.name, :to => []} unless data[models.last.id].is_a?(Hash)
-		data[models.first.id][:to] << models.last.name
-		data[models.last.id][:to] << models.first.name
-	end; data.collect!{|k1,v1| v1[:to].uniq!; v1}
-
-	# Now lets uniqify for profile photos
-	uniq = @post.data.clone.flatten.uniq
-	%>
 	<% case @post.type %>
 	<% when 'connections' %>
+		<% # Lets go ahead and languageify the models 
+		data = Hash.new
+		@post.data.collect do |models|
+			data[models.first.id] = {:who => models.first.name, :to => []} unless data[models.first.id].is_a?(Hash)
+			data[models.last.id] = {:who => models.last.name, :to => []} unless data[models.last.id].is_a?(Hash)
+			data[models.first.id][:to] << models.last.name
+			data[models.last.id][:to] << models.first.name
+		end; data.collect!{|k1,v1| v1[:to].uniq!; v1}
+
+		# Now lets uniqify for profile photos
+		uniq = @post.data.clone.flatten.uniq
+		%>
 		<li class="new-style connections">
 			<h3><%= data.count %> people have new connections.</h3>
 			<div class="facepile">
