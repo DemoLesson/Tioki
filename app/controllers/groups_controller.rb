@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
 			end
 		end
 	end
-
+ 
 	def show
 
 		# Load group
@@ -73,7 +73,28 @@ class GroupsController < ApplicationController
 			@in_group = false
 		end
 	end
+	
+  def members
+    # Load group
+		@group = Group.find(params[:id])
 
+		# Is the current user an administrator
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
+
+		@comments = @group.get_comments
+
+		# Is the current user in a group
+		unless self.current_user.nil?
+			@in_group = self.current_user.groups.include?(@group)
+		else
+			@in_group = false
+		end
+  end
+   
 	def add_group
 		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
 		if user_group
@@ -205,7 +226,7 @@ class GroupsController < ApplicationController
 		subject = "You have been invited to join the Group \"#{d.name}\"."
 		body = <<-BODY
 	Hi, I was browsing Tioki's groups and I thought you might be interested in this group.
-	Come join this group! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
+	Come join! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
 		BODY
 
 		# Send the message

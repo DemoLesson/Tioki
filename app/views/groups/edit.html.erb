@@ -1,6 +1,22 @@
 <section id="main-content" class="inner-content">
 
-	<%= link_to "Change Group Picture", {:action => "edit_picture", :id => @group.id }%>
+	<h2>
+		Edit Your Group
+	</h2>
+	<section style ="float:right;margin-right:50px">
+		<h4>
+			Current Group Picture
+		</h4>
+		<div class="bordered_image">
+			<% if @group.picture? %>
+				<%= image_tag @group.picture.url(:medium) %>
+			<% else %>
+				<img src="http://placehold.it/220x220" />
+			<% end %>
+		</div>
+		<br/>
+		<%= link_to "Update Group Picture", {:action => "edit_picture", :id => @group.id }, :class => "button bg-salmon", :style => "margin-left:20px" %>
+	</section>
 
 	<%= render "form" %>
 </section>
