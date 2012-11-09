@@ -1116,6 +1116,12 @@ ul.whiteboard {
 
 	// New Style
 	li.new-style {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		
+		padding-right: 15px !important;
+		width: 100%;
 
 		// Connection List Item
 		&.connections {
@@ -1188,6 +1194,12 @@ ul.whiteboard {
 					line-height: 35px;
 					font-size: 12px;
 					float: left;
+				}
+
+				span.icons {
+					line-height: 35px;
+					font-size: 20px;
+					float: right;
 				}
 
 			}
