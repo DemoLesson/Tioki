@@ -204,7 +204,7 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 
   def whiteboard_share
     redirect_to :root if self.current_user.nil?
-    Whiteboard.createActivity('share', "{user.teacher.profile_link} Shared: " + params[:message], '', {"deleteable" => true}) unless params[:message].nil?
+    Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true}) unless params[:message].nil?
     redirect_to :root
   end
 
