@@ -718,7 +718,7 @@ class TeachersController < ApplicationController
 		request_token = twitter_oauth.get_request_token(:oauth_callback => callback_url)
 		session[:rtoken] = request_token.token
 		session[:rsecret] = request_token.secret
-		session[:twitter_action] = "follow"
+		session[:twitter_action] = params[:twitter_action]
 
 		redirect_to request_token.authorize_url
 	end
@@ -735,19 +735,21 @@ class TeachersController < ApplicationController
 			:oauth_token_secret => access_token.secret
 		)
 
-		client.follow("Tioki")
+		if session[:twitter_action] == "follow"
+			client.follow("Tioki")
+			self.current_user.teacher.update_attribute(:twitter_connect, true)
+			notice = "You are now following tioki"
+		elsif session[:twitter_action] == "tweet"
+			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+			self.current_user.teacher.update_attribute(:tweet_about, true)
+			notice = "Success"
+		end
 
-		#if session[:twitter_action] == "follow"
-		#	client.follow("Tioki")
-		#	notice = "You are now following tioki"
-		#elsif session[:twitter_action] == "tweet"
-		#	client.update("Hey, I just using @tioki")
-		#end
+		#Follow and tweet are one time things so we should
+		#remove those keys
+		session[:twitter_action] = nil
 
-		##Follow and tweet are one time things so we should
-		##remove those keys
-		#session[:twitter_action] = nil
-		redirect_to :root, :notice => "You are now following @tioki"
+		redirect_to "/tioki_bucks", :notice => notice
 	end
 
 	def facebook_auth
@@ -760,46 +762,48 @@ class TeachersController < ApplicationController
 
 		@graph = Koala::Facebook::API.new(access_token)
 
-		@graph.put_wall_post("Testing wallposts through graph api.")
-		redirect_to :root, :notice => "Successfully added a tioki wall post."
+		@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
+		self.current_user.teacher.update_attribute(:facebook_connect, true)
+
+		redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
 	end
 
 	def tioki_bucks
-		start_count  = 0
+		@start_count  = 0
 		@tioki_bucks = 0
 
 		#3 connections
 		if Connection.mine(:pending => false).where("created_at > ?", 1.hour.ago).count >= 5
 			@connected = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#follow three discussions
 		if Follower.find(:all, 
 				:conditions => ["user_id = ? && created_at > ?", self.current_user.id, 1.hour.ago ]).count >= 3
 			@followed = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#Join three groups
 		if User_Group.find(:all, 
-				:conditions => ["user_id = ? && created_at = ?", self.current_user.id, 1.hour.ago]).count >= 3
+				:conditions => ["user_id = ? && created_at > ?", self.current_user.id, 1.hour.ago]).count >= 3
 			@groups = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#Vouch 5 skills
 		if VouchedSkill.find(:all, 
 				:conditions => ["voucher_id = ? && created_at > ?" , self.current_user.id, 1.hour.ago]).count >= 5
 			@vouched_skills = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#post to whiteboard
 		if Whiteboard.find(:first, 
 				:conditions => ["whiteboards.slug = ? && whiteboards.created_at > ?", 'share', 1.hour.ago])
 			@whiteboard_post = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#Post a reply to discussion
@@ -807,20 +811,40 @@ class TeachersController < ApplicationController
 				:conditions => ["commentable_type = 'Discussion' && comments.user_id = ? && comments.created_at > ?", 
 				self.current_user.id, 1.hour.ago])
 			@commented = true
-			start_count += 1
+			@start_count += 1
 		end
 
 		#require a date fot his one, ccureently there is not avatar_created_at
 		#we could create one, but it would be just one more thing to update on avatar creation
 		if self.current_user.avatar
 			@avatar = true
-			start_count += 1
+			@start_count += 1
 		end
 
-		if start_count >= 5
+
+		#referrals
+		@invite_count = ConnectionInvite.find(:all, 
+			:conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, 1.hour.ago]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if @invite_count*2 > 42
+			@tioki_bucks += 42
+		else
+			@tioki_bucks += @invite_count*2
+		end
+
+		if @start_count >= 5
 			@tioki_bucks += 5
 		end
 
-
+		if self.current_user.teacher.facebook_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.twitter_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.tweet_about
+			@tioki_bucks += 1
+		end
 	end
 end
