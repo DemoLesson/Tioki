@@ -4,7 +4,14 @@ class Notification < ActiveRecord::Base
 	default_scope where("`notifications`.`notifiable_type` != ?", 0.to_s)
 
 	def map_tag
-		mapTag!(self.notifiable_type)
+		# Return the object in question
+		begin; return mapTag!(self.notifiable_type)
+		
+		# If the object that was favorited does not exist delete the favorite
+		rescue ActiveRecord::RecordNotFound => e
+			self.destroy
+			return nil
+		end
 	end
 
 	def self.mine(conds = {})

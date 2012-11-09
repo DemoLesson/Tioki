@@ -1111,11 +1111,54 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 	}
 }
 
-*[href] {
-	cursor: pointer;
+/* Whiteboard Style */
+ul.whiteboard {
+
+	// New Style
+	li.new-style {
+
+		// Connection List Item
+		&.connections {
+
+			background: none !important;
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			div.facepile {
+				display: block;
+			}
+
+			p.message {
+				display: block;
+				font-size: 16px;
+				font-weight: bold;
+				margin: 15px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+
+				span {
+					color: $salmon;
+				}
+
+				-webkit-transition: all 1s linear;
+				-moz-transition: all 1s linear;
+				-o-transition: all 1s linear;
+				-ms-transition: all 1s linear;
+				transition: all 1s linear;
+			}
+		}
+	}
 }
 
 /* Hax0r */
 span.tooltip {
 	z-index: 9999999999;
+}
+
+*[href] {
+	cursor: pointer;
 }

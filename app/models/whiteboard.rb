@@ -119,7 +119,7 @@ class Whiteboard < ActiveRecord::Base
 	# #
 	### Get activity data
 	# #
-	def self.getActivity(hidden = true)
+	def self.getActivity(hidden = true, conds = {})
 
 		# Get the current user
 		currentUser = User.current
@@ -147,6 +147,20 @@ class Whiteboard < ActiveRecord::Base
 		query = ["(`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags}))"]
 		query << "(`whiteboards`.`slug` IN (#{slugs}))"
 		query = self.where(query.join(' || ')).order('`created_at` DESC')
+
+		# Excludes specific slugs
+		unless conds[:exclude].nil?
+			conds[:exclude] = [conds[:exclude]] unless conds[:exclude].is_a?(Array)
+			exclude = conds[:exclude].collect{|x| "'#{x}'"}.join(',')
+			query = query.where("`whiteboards`.`slug` NOT IN (#{exclude})")
+		end
+
+		# Restrict results to specific slugs
+		unless conds[:restrict].nil?
+			conds[:restrict] = [conds[:restrict]] unless conds[:restrict].is_a?(Array)
+			restrict = conds[:restrict].collect{|x| "'#{x}'"}.join(',')
+			query = query.where("`whiteboards`.`slug` IN (#{restrict})")
+		end
 
 		# Generate the default query
 		# Temporarily disabled so we can show all events

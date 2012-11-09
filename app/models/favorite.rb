@@ -1,6 +1,9 @@
 class Favorite < ActiveRecord::Base
 	belongs_to :user
 
+	# Bore we destroy the favorite cleanup
+	before_destroy :cleanup!
+
 	def model!
 
 		# Return the object in question
@@ -34,5 +37,9 @@ class Favorite < ActiveRecord::Base
 
 		# Return false
 		return false
+	end
+
+	def cleanup!
+		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
 end

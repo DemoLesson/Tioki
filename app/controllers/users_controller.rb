@@ -435,9 +435,14 @@ class UsersController < ApplicationController
 	
 	def teacher_user_list
 
-		# Search for a specific user via name
+		# Search for a specific user via name or id
 		if params[:tname]
-			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+			#is it a valid integer?
+			if params[:tname].numeric?
+				@users = User.find :all, :include => :teacher,:conditions => ["teachers.id = ?", params[:tname]], :order => "users.created_at DESC"
+			else
+				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+			end
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
