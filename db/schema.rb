@@ -319,6 +319,7 @@ ActiveRecord::Schema.define(:version => 20121108181806) do
     t.datetime "picture_updated_at"
     t.string   "site"
     t.string   "twitter"
+    t.string   "facebook"
   end
 
   create_table "helpful_queries", :force => true do |t|

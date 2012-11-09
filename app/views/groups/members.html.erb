@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 	<section class="info panel">
 		<section class="two-column left-side" style="height:120px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px;float:left;height:auto;min-width:100px;background:#F0F0F0">
+			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px; float:left;height:auto;min-width:100px;background:#F0F0F0">
 					<% if @group.picture? %>
 						<%= image_tag @group.picture.url(:medium), :style => "width:200px" %>
 					<% else %>
@@ -43,150 +43,64 @@
 			</p>	
 		</section>
 		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;">
-		<span style="padding:0px 0px 0px 20px" >
-		<% if self.current_user %>
-			<% if @admin %>
-			
-				<%= link_to "Edit Group", edit_group_path, :class => "button" %>
-				<%= link_to "Message Members", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "margin-right: 10px" %>
-			
-			<% elsif @in_group %>
-				<%= link_to "Explore More Groups", "/groups", :class => "button" %>
-			<% else %>
-				<% if @group.permissions!['public'] %>
-					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :class => "button", :style => "float:right" %>
+			<span style="padding:0px 0px 0px 20px" >
+				<% if self.current_user %>
+					<% if @admin %>
+						<%= link_to "Edit Group", edit_group_path, :class => "button" %>
+						<%= link_to "Message Members", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "margin-right: 10px" %>
+					<% elsif @in_group %>
+						<%= link_to "Explore More Groups", "/groups", :class => "button" %>
+					<% else %>
+						<% if @group.permissions['public'] %>
+							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
+						<% end %>
+					<% end %>
 				<% end %>
-			<% end %>
-		<% end %>
-		</span>
-		<section style="margin:0px 0px 0px 20px">
-		<h4 class="bottom-line">
-			Share: <br />
-		</h4>
-		<p>
-		<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
-		<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
-		<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "width:30px") %></a>
-		<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png', :style => "width:30px") %></a>
-		</p>
+			</span>
+			<section style="margin:0px 0px 0px 20px">
+				<h4 class="bottom-line">
+					Share: <br />
+				</h4>
+				<p>
+					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
+					<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
+					<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "width:30px") %></a>
+					<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png', :style => "width:30px") %></a>
+				</p>
+			</section>
 		</section>
-		</section>
-	</section><br /><br />
-	<section>
+	</section>
 	<nav class="subpage">
 		<ul>
-			<li class="current">
-				Discussions
-			</li>
 			<li>
-				<a href='/groups/<%= @group.id %>/members'>
-					Members
+				<a href='/groups/<%= @group.id %>'>
+					Discussions
+				</a>
+			</li>
+			<li class="current">
+				Members 
 					<% if @group.users.count > 0 %>
 						(<%= @group.users.count %>)
 					<% end %>
-				</a>
 			</li>
 		</ul>
 	</nav>
-	</section>
 	<section class="panels">
-		<section id="list" class="two-column left-side">
-		<section class="profile-content panel" style="margin:-10px 0px 30px 0px;">
-		<% unless User.current.nil? %>
-		<h3>Top Comments</h3>
-		<ul id="comments">
-			<% @comments.each do |comment| %>
-				<% @comment = comment %>
-				<%= render 'comments/show' %>
-			<% end %>
-		</ul>
-		<% end %>
-		<% unless User.current.nil? %>
-			<section class="panel-actions">
-				<% if @in_group %>
-				<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
-					<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
-					<input type="submit" value="Post Comment" />
-				</form>
-			<% end %>
+		<section class="two-column left-side" style="background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section style="margin: 10px 0px 0px 10px">
+				<% @group.users.avatar?.each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.teacher.url %>
+						<section style="width:225px;margin:-80px 0px 0px 80px">
+							<p>	<%= link_to user.name, '#', :style => "color:#F66C4C;font-weight:bold" %>
+								<span style="float:right;color:#F66C4C">Connect</span>
+								<br/>
+							Math Teacher at State of the Art Middle School<br />
+							San Francisco, California
+							</p>
+						</section>
+				<% end %>
 			</section>
-
-			<!-- Load js for processing comments - AJAX HACK -->
-			<script type="text/javascript">
-			$(document).ready(function() {
-				$('form#post-comment').submit(function(e) {
-					e.preventDefault();
-
-					var form = $(this);
-					$.post(form.attr('action') + '.json', form.serialize(), function(r) {
-						if(r.id !== undefined && r.type == 'success') {
-							form.find('textarea').val('Posted!').prop('disabled', true);
-							$.get('/comments/' + r.id, function(d) {
-								comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-								$('ul#comments').append(comment);
-								comment.slideDown(500, function() {
-									$('ul#comments').scrollTo('100%', 800);
-									setTimeout(function() {
-										comment.animate({backgroundColor: '#FFF'}, 600);
-										form.find('textarea').val('').prop('disabled', false);
-									}, 1000);
-								});
-							});
-						}
-					})
-
-					return false;
-				});
-
-				// Favorite a comment
-				$('a[comment-action="favorite"]').live('click', function(e) {
-					e.preventDefault();
-
-					var link = $(this);
-					$.get(link.attr('href') + '.json', function(r) {
-
-						// Star the post
-						if(r.type == 'success' && r.new) {
-							link.removeClass('star-empty').addClass('star-gold');
-							var inc = parseInt(link.text()) + 1;
-							if(isNaN(inc)) link.text('1');
-							else link.text(inc);
-						}
-
-						// Unstar the post
-						if(r.type == 'success' && !r.new) {
-							link.removeClass('star-gold').addClass('star-empty');
-							var dec = parseInt(link.text()) - 1;
-							if(isNaN(dec) || dec === 0) link.text('');
-							else link.text(dec);
-						}
-					});
-
-					return false;
-				});
-
-				// Delete a comment
-				$('a[comment-action="delete"]').live('click', function(e) {
-					e.preventDefault();
-
-					var link = $(this);
-					$.get(link.attr('href') + '.json', function(r) {
-						var li = link.closest('li');
-
-						// Hide the post
-						if(r.type == 'success') li.slideUp(500, function() {
-							$('span.tooltip').remove();
-							$(this).remove();
-						});
-					});
-
-					return false;
-				});
-			});
-			</script>
-		<% end %>
-	</section>
-	</section>
+		</section>
 	</section>
 </section>
 
