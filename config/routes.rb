@@ -326,6 +326,7 @@ Preview::Application.routes.draw do
 	match 'referrallist' => 'users#referral_user_list'
 	match 'donorschoose' => 'users#donors_choose_list'
 	match 'technologylist' => 'technologies#technology_list'
+	match 'tiokicoinslist' => 'users#tioki_coins_list'
 	match 'blogadmin' => 'blog_entries#list'
 	match 'fetch_code' => 'users#fetch_code'
 	match 'jobattachpurge/:id' => 'jobs#jobattachpurge'

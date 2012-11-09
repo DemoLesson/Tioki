@@ -590,9 +590,8 @@ class UsersController < ApplicationController
 	def tioki_coins_list
 		#get users tioki dollars except from those that received
 		#them solely from getting started which depends on 6 different tables
-		connection_invites = ConnectionInvite.find(:all, :conditions => ["connections_invites.created_at > ?", 1.hour.ago]).collect(&:user_id)
-		User.find(:all, :include => :teacher, :conditions => 
-			["teachers.facebook_connect == true || teachers.twitter_connect == true || teachers.tweet_about == true || users.id IN (?)", connection_invites])
+		connection_invites = ConnectionInvite.find(:all, :conditions => ["connection_invites.created_at > ?", 1.hour.ago]).collect(&:user_id)
+		@teachers = Teacher.find(:all, :conditions => ["teachers.facebook_connect = true || teachers.twitter_connect = true || teachers.tweet_about = true || teachers.user_id IN (?)", connection_invites])
 	end
 
 	def edit_member
