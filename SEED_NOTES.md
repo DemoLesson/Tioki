@@ -1,3 +1,20 @@
+v1.6.2 - Nov 9, 2012  1:12PM PST deployed by Kelly Becker
+=========================================================
+* 18d5dfc: Kelly Becker - excalmation point!
+
+v1.6.1 - Nov 9, 2012 12:56PM PST deployed by Aleks Stanisic
+===========================================================
+* 6fbd574: Aleks Stanisic - changing groups back
+
+v1.6.0 - Nov 9, 2012 12:40PM PST deployed by Kelly Becker
+=========================================================
+* 66000d3: Kelly Becker - fixed a style bug and a shre bug
+* 4ee4d73: Kelly Becker - comments redesign
+* 7c795ef: Kelly Becker - added icons just need to hook em up
+* c8529e8: Kelly Becker - whiteboard articles
+* e810c99: Kelly Becker - move something into a switch
+* b9058dd: Brian Martinez - group changes
+
 v1.5.1 - Nov 8, 2012  1:35PM PST deployed by Kelly Becker
 =========================================================
 * e0081b0: Kelly Becker - js fix to objects passed by ref

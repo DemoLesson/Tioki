@@ -34,14 +34,14 @@ class HomeController < ApplicationController
 
         # Get whiteboard activity
         @whiteboard = Array.new
-        Whiteboard.getActivity(true, :exclude => :user_connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
+        Whiteboard.getActivity(true, :exclude => :connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
           @post = post
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
 
         # Prepare the new connections bin
-        connections = Whiteboard.getActivity(true, :restrict => :user_connection).limit(6).all.recurse{|w| w.getModels}
-        @post = {:type => 'connections', :data => connections}
+        connections = Whiteboard.getActivity(true, :restrict => :connection).limit(6).all.recurse{|w| w.getModels}
+        @post = {:slug => 'connections', :data => connections}
         @whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
         # Get a list of all my skills and a list of all my connections
@@ -204,7 +204,7 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 
   def whiteboard_share
     redirect_to :root if self.current_user.nil?
-    Whiteboard.createActivity('share', "{user.teacher.profile_link} Shared: " + params[:message], '', {"deleteable" => true}) unless params[:message].nil?
+    Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true}) unless params[:message].nil?
     redirect_to :root
   end
 
