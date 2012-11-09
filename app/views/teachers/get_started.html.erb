@@ -1,2 +1,37 @@
-<%= link_to "Twitter", "/twitter_auth" %><br />
-<%= link_to "Face", "/facebook_auth" %><br />
+<section id="main-content" class="inner-content">
+	<h1>Get Started wiht Tioki</h1>
+	<section id="panels" class="group">
+		<section class="panel three-column right-side">
+			<ul>
+				<li>
+					<a href="/connections">Add 5 connections</a><br />
+				<li>
+					<a href="/discussions">Follow 3 Discussions</a><br />
+				</li>
+				<li>
+					<a href="/groups">Join 3 Groups</a><%if @groups %><% end %><br />
+				</li>
+				<li>
+					<a>Vouch 5 skills</a><%if @vouched_skills %><% end %><br />
+				</li>
+				<li>
+					<a href="/">Post to Whiteboard</a><%if @whiteboard_post %><% end %><br />
+				</li>
+				<li>
+					<a href="/discussions">Post a reply to discussion</a><%if @commented %><% end %><br />
+				</li>
+				<li>
+					<a href="/me/profile/edit/upload-avatar">Upload a profile picture</a><%if @avatar %><% end %><br />
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+<script>
+	$(document).ready(function () {
+		$("#get_started").click(function(e) {
+			e.preventDefault();
+			$("#get_started_fields").toggle(700);
+		});
+	});
+</script>

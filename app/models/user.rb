@@ -560,41 +560,35 @@ class User < ActiveRecord::Base
 	end
 
 	def got_started
-		start_count  = 0
+		start_count = 0
 
 		#3 connections
-		if Connection.mine(:pending => false).where("created_at > ?", 1.hour.ago).count >= 5
+		if Connection.mine(:pending => false).count >= 5
 			start_count += 1
 		end
 
 		#follow three discussions
-		if Follower.find(:all, 
-				:conditions => ["user_id = ? && created_at > ?", self.id, 1.hour.ago ]).count >= 3
+		if Follower.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
 			start_count += 1
 		end
 
 		#Join three groups
-		if User_Group.find(:all, 
-				:conditions => ["user_id = ? && created_at > ?", self.id, 1.hour.ago]).count >= 3
+		if User_Group.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
 			start_count += 1
 		end
 
 		#Vouch 5 skills
-		if VouchedSkill.find(:all, 
-				:conditions => ["voucher_id = ? && created_at > ?" , self.id, 1.hour.ago]).count >= 5
+		if VouchedSkill.find(:all, :conditions => ["voucher_id = ?", self.id]).count >= 5
 			start_count += 1
 		end
 
 		#post to whiteboard
-		if Whiteboard.find(:first, 
-				:conditions => ["whiteboards.slug = ? && whiteboards.created_at > ?", 'share', 1.hour.ago])
+		if Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
 			start_count += 1
 		end
 
 		#Post a reply to discussion
-		if Comment.find(:first, 
-				:conditions => ["commentable_type = 'Discussion' && comments.user_id = ? && comments.created_at > ?", 
-				self.id, 1.hour.ago])
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.id])
 			start_count += 1
 		end
 
@@ -629,8 +623,8 @@ class User < ActiveRecord::Base
 			tioki_bucks += 1
 		end
 
-		invite_count = ConnectionInvite.find(:all, 
-			:conditions => ["user_id = ? && connection_invites.created_at > ?", self.id, 1.hour.ago]).count
+		#TODO Start at beginning of tioki bucks
+		invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ?", self.id]).count
 
 		#two dollars per invite maxed at 42 dollars
 		if invite_count*2 > 42

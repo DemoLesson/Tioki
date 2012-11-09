@@ -270,6 +270,7 @@ Preview::Application.routes.draw do
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
 	match 'tioki_bucks' => 'teachers#tioki_bucks'
+	match 'get_started' => 'teachers#get_started'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'

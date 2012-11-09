@@ -773,43 +773,41 @@ class TeachersController < ApplicationController
 		@tioki_bucks = 0
 
 		#3 connections
-		if Connection.mine(:pending => false).where("created_at > ?", 1.hour.ago).count >= 5
+		if Connection.mine(:pending => false).where("created_at > ?").count >= 5
 			@connected = true
 			@start_count += 1
 		end
 
 		#follow three discussions
 		if Follower.find(:all, 
-				:conditions => ["user_id = ? && created_at > ?", self.current_user.id, 1.hour.ago ]).count >= 3
+				:conditions => ["user_id = ? && created_at > ?", self.current_user.id]).count >= 3
 			@followed = true
 			@start_count += 1
 		end
 
 		#Join three groups
 		if User_Group.find(:all, 
-				:conditions => ["user_id = ? && created_at > ?", self.current_user.id, 1.hour.ago]).count >= 3
+				:conditions => ["user_id = ? && created_at > ?", self.current_user.id]).count >= 3
 			@groups = true
 			@start_count += 1
 		end
 
 		#Vouch 5 skills
 		if VouchedSkill.find(:all, 
-				:conditions => ["voucher_id = ? && created_at > ?" , self.current_user.id, 1.hour.ago]).count >= 5
+				:conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
 			@vouched_skills = true
 			@start_count += 1
 		end
 
 		#post to whiteboard
 		if Whiteboard.find(:first, 
-				:conditions => ["whiteboards.slug = ? && whiteboards.created_at > ?", 'share', 1.hour.ago])
+				:conditions => ["whiteboards.slug = ?", 'share'])
 			@whiteboard_post = true
 			@start_count += 1
 		end
 
 		#Post a reply to discussion
-		if Comment.find(:first, 
-				:conditions => ["commentable_type = 'Discussion' && comments.user_id = ? && comments.created_at > ?", 
-				self.current_user.id, 1.hour.ago])
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
 			@commented = true
 			@start_count += 1
 		end
@@ -823,8 +821,8 @@ class TeachersController < ApplicationController
 
 
 		#referrals
-		@invite_count = ConnectionInvite.find(:all, 
-			:conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, 1.hour.ago]).count
+		#TODO start at beginging of tioki bucks
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
 
 		#two dollars per invite maxed at 42 dollars
 		if @invite_count*2 > 42
@@ -845,6 +843,53 @@ class TeachersController < ApplicationController
 		end
 		if self.current_user.teacher.tweet_about
 			@tioki_bucks += 1
+		end
+	end
+
+	def get_started
+		@start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			@connected = true
+			@start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@followed = true
+			@start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@groups = true
+			@start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+			@vouched_skills = true
+			@start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
+			@whiteboard_post = true
+			@start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => 
+				["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+			@commented = true
+			@start_count += 1
+		end
+
+		if self.current_user.avatar
+			@avatar = true
+			@start_count += 1
 		end
 	end
 end
