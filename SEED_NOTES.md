@@ -1,3 +1,7 @@
+v1.6.1 - Nov 9, 2012 12:56PM PST deployed by Aleks Stanisic
+===========================================================
+* 6fbd574: Aleks Stanisic - changing groups back
+
 v1.6.0 - Nov 9, 2012 12:40PM PST deployed by Kelly Becker
 =========================================================
 * 66000d3: Kelly Becker - fixed a style bug and a shre bug
