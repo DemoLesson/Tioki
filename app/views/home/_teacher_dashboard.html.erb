@@ -329,18 +329,18 @@ $(document).ready(function() {
 
 			// Star the post
 			if(r.type == 'success' && r.new) {
-				link.removeClass('star-empty').addClass('star-gold');
-				var inc = parseInt(link.text()) + 1;
-				if(isNaN(inc)) link.text('1');
-				else link.text(inc);
+				link.addClass('salmon').removeClass('gray');
+				var inc = parseInt(link.children('span').text()) + 1;
+				if(isNaN(inc)) link.children('span').text('1');
+				else link.children('span').text(inc);
 			}
 
 			// Unstar the post
 			if(r.type == 'success' && !r.new) {
-				link.removeClass('star-gold').addClass('star-empty');
-				var dec = parseInt(link.text()) - 1;
-				if(isNaN(dec) || dec === 0) link.text('');
-				else link.text(dec);
+				link.removeClass('salmon').addClass('gray');
+				var dec = parseInt(link.children('span').text()) - 1;
+				if(isNaN(dec) || dec === 0) link.children('span').text('');
+				else link.children('span').text(dec);
 			}
 		});
 
@@ -352,7 +352,7 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		// Show the comments wrapper
-		$(this).closest('div').prev('div#comment-wrapper').slideDown(500);
+		$(this).closest('div.bar').next('div.comments').slideDown(500);
 
 		return false;
 	});
@@ -384,9 +384,9 @@ $(document).ready(function() {
 				form.find('textarea').val('Posted!').prop('disabled', true);
 				$.get('/comments/' + r.id, function(d) {
 					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-					form.prev('ul#comments').append(comment);
+					form.prev('ul').append(comment);
 					comment.slideDown(500, function() {
-						$('ul#comments').scrollTo('100%', 800);
+						$('ul').scrollTo('100%', 800);
 						setTimeout(function() {
 							comment.animate({backgroundColor: '#FFF'}, 600, function() {
 								comment.css('background-color', '');
@@ -410,18 +410,18 @@ $(document).ready(function() {
 
 			// Star the post
 			if(r.type == 'success' && r.new) {
-				link.removeClass('star-empty').addClass('star-gold');
-				var inc = parseInt(link.text()) + 1;
-				if(isNaN(inc)) link.text('1');
-				else link.text(inc);
+				link.addClass('salmon').removeClass('gray');;
+				var inc = parseInt(link.children('span').text()) + 1;
+				if(isNaN(inc)) link.children('span').text('1');
+				else link.children('span').text(inc);
 			}
 
 			// Unstar the post
 			if(r.type == 'success' && !r.new) {
-				link.removeClass('star-gold').addClass('star-empty');
-				var dec = parseInt(link.text()) - 1;
-				if(isNaN(dec) || dec === 0) link.text('');
-				else link.text(dec);
+				link.removeClass('salmon').addClass('gray');;
+				var dec = parseInt(link.children('span').text()) - 1;
+				if(isNaN(dec) || dec === 0) link.children('span').text('');
+				else link.children('span').text(dec);
 			}
 		});
 
