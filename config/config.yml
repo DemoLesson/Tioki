@@ -15,6 +15,7 @@ development:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social_networks"
     group_permissions:
       0: "public"
       1: "private"
@@ -44,6 +45,7 @@ staging:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social"
     group_permissions:
       0: "public"
       1: "private"
@@ -73,6 +75,7 @@ production:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social"
     group_permissions:
       0: "public"
       1: "private"

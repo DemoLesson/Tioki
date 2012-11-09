@@ -1,10 +1,15 @@
 class Favorite < ActiveRecord::Base
 	belongs_to :user
 
-	def model(sup = false)
-		begin
-			return super() if sup
-			return _map!(super()) unless sup
+	# Bore we destroy the favorite cleanup
+	before_destroy :cleanup!
+
+	def model!
+
+		# Return the object in question
+		begin; return _map!(self.model)
+		
+		# If the object that was favorited does not exist delete the favorite
 		rescue ActiveRecord::RecordNotFound => e
 			self.destroy
 			return nil
@@ -14,7 +19,7 @@ class Favorite < ActiveRecord::Base
 	def model?(*classes)
 
 		# Get model
-		comp = model(true)
+		comp = model!
 
 		# IDK why i have to use this
 		comp = comp.class.name unless comp.is_a?(String)
@@ -32,5 +37,9 @@ class Favorite < ActiveRecord::Base
 
 		# Return false
 		return false
+	end
+
+	def cleanup!
+		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
 end

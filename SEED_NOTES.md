@@ -1,3 +1,66 @@
+v1.5.1 - Nov 8, 2012  1:35PM PST deployed by Kelly Becker
+=========================================================
+* e0081b0: Kelly Becker - js fix to objects passed by ref
+
+v1.5.0 - Nov 8, 2012  1:21PM PST deployed by Kelly Becker
+=========================================================
+* a347709: Kelly Becker - got connections working in their own things
+* 4021ff9: Elijah Green - Search on teachers on admin
+* 16adf2e: Kelly Becker - allow restriction of whiteboard posts
+* ac41f71: Kelly Becker - cleanup discussion
+* 0a86bfc: Kelly Becker - gem and schema
+
+v1.4.58 - Nov 8, 2012 11:00AM PST deployed by Kelly Becker
+==========================================================
+* 0a2c38e: Kelly Becker - undid a git commit
+* eb2067c: Kelly Becker - cleanup of favorite model
+* d75d67b: Kelly Becker - recurse through arrays
+
+v1.4.57 - Nov 7, 2012  7:07PM PST deployed by Aleks Stanisic
+============================================================
+* a351ac4: Elijah Green - Removing notification bar for now
+
+v1.4.56 - Nov 7, 2012  4:02PM PST deployed by Kelly Becker
+==========================================================
+* b2c9d7e: Kelly Becker - notifications created unless you created it
+* 99f3cb3: Elijah Green - Re-add swapping newlines with breaks on group_email
+* 5a6ab41: Kelly Becker - fix to notification allocation
+* 0981c13: Elijah Green - show breaks in group invite correctly
+* 43bcfdb: Aleks Stanisic - changes to group emails
+* 1c5cb6a: Kelly Becker - aplication layout fix
+
+v1.4.55 - Nov 7, 2012  1:56PM PST deployed by Kelly Becker
+==========================================================
+* d210e8a: Kelly Becker - notifications w00t
+* 2ad91cf: Kelly Becker - notifications w00t
+* 5db7230: Kelly Becker - updates to defercall and kmodal
+* 8ace467: Kelly Becker - notifications popup
+
+v1.4.54 - Nov 7, 2012  1:13PM PST deployed by Aleks Stanisic
+============================================================
+* 7055961: Elijah Green - On edit experience, output experience like on profile
+* a950378: Elijah Green - Add twitter follow and facebook like buttons
+* 1e8f2fc: Kelly Becker - application layout cleanup
+* 9d6a041: Kelly Becker - added notification icon
+* 0d75bb0: Kelly Becker - deploy script updates (now shows timezone of the deployer)
+
+v1.4.53 - Nov 6, 2012  1:32PM PST deployed by Kelly Becker
+==========================================================
+* 8fdd1c9: Kelly Becker - typo
+* 8e67c2c: Elijah Green - Rename twitter initializer and remove global oauth keys
+
+v1.4.52 - Nov 6, 2012  1:11PM deployed by Kelly Becker
+======================================================
+* 37e4c1e: Kelly Becker - fixes to privacy settings
+* 45dff36: Kelly Becker - more fixes and cleanliness
+* 574e61f: Kelly Becker - fix some naming issues
+* b36950f: Kelly Becker - fix an issue with overriding model methods
+* fb29e8d: Kelly Becker - db schema
+
+v1.4.51 - Nov 5, 2012  7:52PM deployed by Aleks Stanisic
+========================================================
+* 873660b: Brian Martinez - fix to header and groups page
+
 v1.4.50 - Nov 5, 2012  7:25PM deployed by Aleks Stanisic
 ========================================================
 * a214b0a: Brian Martinez - edit and profile changes for icons

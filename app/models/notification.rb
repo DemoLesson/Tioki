@@ -1,8 +1,28 @@
 class Notification < ActiveRecord::Base
 	belongs_to :user
 
+	default_scope where("`notifications`.`notifiable_type` != ?", 0.to_s)
+
 	def map_tag
-		mapTag!(self.notifiable_type)
+		# Return the object in question
+		begin; return mapTag!(self.notifiable_type)
+		
+		# If the object that was favorited does not exist delete the favorite
+		rescue ActiveRecord::RecordNotFound => e
+			self.destroy
+			return nil
+		end
+	end
+
+	def self.mine(conds = {})
+		user = User.current if conds[:user].nil?
+		user = conds[:user] unless conds[:user].nil?
+		user = User.find(user) if user.is_a?(Fixnum)
+
+		conds[:order] = 'DESC' if conds[:order].nil?
+
+		query = self.where('`notifications`.`user_id` = ?', user.id)
+		query = query.order("`notifications`.`created_at` #{conds[:order]}")
 	end
 
 	def self.notify_likes
@@ -62,5 +82,34 @@ class Notification < ActiveRecord::Base
 		#recursively create this job
 		#Should probably use a cron job instead of doing it this way
 		Notification.delay({:run_at => 1.hour.from_now}).notify_all
+	end
+
+	def triggered
+		_class = notifiable_type.split(':').first
+
+		case _class
+		when 'Comment'
+			return map_tag.user
+		when 'Favorite'
+			return map_tag.user
+		end
+	end
+
+	def message
+		_class = notifiable_type.split(':').first
+
+		ret = String.new
+		case _class
+		when 'Comment'
+			ret = "#{triggered.teacher.profile_link} replied to a discussion."
+		when 'Favorite'
+			ret = "#{triggered.teacher.profile_link} favorited a post of yours."
+		end	
+
+		ret.html_safe
+	end
+
+	def link
+		map_tag.link rescue nil
 	end
 end

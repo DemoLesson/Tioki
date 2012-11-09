@@ -64,6 +64,30 @@ class Array
 		return returned if misc == 'break' && !returned.delete_if{|x| x.nil?}.empty?
 		returned.concat(self.eachX(times - 1, misc, done + 1, &Proc.new))
 	end
+
+	def recurse(array = nil)
+
+		# Return false if no block given
+		return false unless block_given?
+
+		# Get self if not passed
+		array = self unless array.is_a?(Array)
+
+		# If no more results exist return
+		return Array.new if array.empty?
+
+		# Process function
+		result = yield(array.first)
+		array.shift
+
+		# Handle next item and add
+		results = Array.new
+		results << result
+		_results = recurse(array, &Proc.new)
+		results += _results if _results.is_a?(Array)
+
+		return results
+	end
 end
 
 # Hash cleaner

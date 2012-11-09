@@ -359,6 +359,22 @@ section.notice {
 			text-indent: -9999em;
 			background: url(image_path('tioki/tioki_logo.png')) no-repeat;
 		}
+		.notifications {
+			position: absolute;
+			top: 15px;
+			left: 130px;
+			height: 41px;
+			font-size: 23px;
+			text-align: left;
+			color: #DADADA;
+
+			&:hover {
+				color: $salmon;
+			}
+			&.unread {
+				color: $blood;
+			}
+		}
 		#drawer-handle {
 			position: absolute;
 			top: 17px;
@@ -1060,4 +1076,89 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		}
 		
 	}
+}
+
+/* Notifications */
+#notifications {
+	display:none;
+	min-width:300px;
+	width:300px;
+	position: absolute;
+	overflow-y: scroll;
+	padding: 0px;
+
+	ul {
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			padding: 15px;
+			display: block;
+			border-bottom: solid 1px #DADADA;
+
+			&:hover {
+
+			}
+
+			span {
+				color: $dkgray;
+				font-size: 10px;
+				display: block;
+				text-align: right;
+			}
+		}
+	}
+}
+
+/* Whiteboard Style */
+ul.whiteboard {
+
+	// New Style
+	li.new-style {
+
+		// Connection List Item
+		&.connections {
+
+			background: none !important;
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			div.facepile {
+				display: block;
+			}
+
+			p.message {
+				display: block;
+				font-size: 16px;
+				font-weight: bold;
+				margin: 15px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+
+				span {
+					color: $salmon;
+				}
+
+				-webkit-transition: all 1s linear;
+				-moz-transition: all 1s linear;
+				-o-transition: all 1s linear;
+				-ms-transition: all 1s linear;
+				transition: all 1s linear;
+			}
+		}
+	}
+}
+
+/* Hax0r */
+span.tooltip {
+	z-index: 9999999999;
+}
+
+*[href] {
+	cursor: pointer;
 }

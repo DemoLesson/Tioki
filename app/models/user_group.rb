@@ -20,9 +20,10 @@ class User_Group < ActiveRecord::Base
 		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
-	def permissions
-		result = super
-		return result.to_switch(APP_CONFIG['bitswitches']['user_group_permissions']) unless result.is_a?(BitSwitch)
-		return result if result.is_a?(BitSwitch)
+	def permissions!
+		perms = self.permissions unless self.permissions.nil?
+		perms = 0 if self.permissions.nil?
+
+		perms.to_switch(APP_CONFIG['bitswitches']['user_group_permissions'])
 	end
 end

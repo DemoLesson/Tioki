@@ -3,8 +3,8 @@ class GroupsController < ApplicationController
 	before_filter :teacher_required, :except => [:index, :show]
 
 	def index
-		#@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
-		@groups = Group.all
+		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
+		#@groups = Group.all
 	end
 
 	def new
@@ -18,14 +18,31 @@ class GroupsController < ApplicationController
 
 	def create
 		group = Group.new(params[:group])
-		#public
-		group.permissions = 1
+		
+		# Make the groups public by default
+		perms = group.permissions!
+		perms["public"] = 1
+		group.permissions = perms
 
 		respond_to do |format|
 			if group.save
-				#create join row
-				#all three permissions 2^3-1
-				User_Group.create(:user_id => self.current_user.id, :group_id => group.id, :permissions => 7)
+
+				# Create join row for users -> groups
+				user_group = User_Group.new
+				user_group.user_id = self.current_user.id
+				user_group.group_id = group.id
+				
+				# Create the permissions
+				perms = user_group.permissions!
+				perms["member"] = 1
+				perms["moderator"] = 1
+				perms["administrator"] = 1
+				user_group.permissions = perms
+
+				# Save the join row
+				user_group.save
+
+				# Return HTML or JSON
 				format.html { redirect_to group, notice: 'Group was successfully created.' }
 				format.json { render json: group, status: :created, location: group }
 			else
