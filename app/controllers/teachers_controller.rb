@@ -62,6 +62,18 @@ class TeachersController < ApplicationController
 		# Get the latest video the user posted
 		@video = @teacher.video
 		
+		# Get all the videos
+		@videodb = Video.where("'1' = '1'").order("`created_at` DESC")
+
+		# Url to video list
+		@videolist = request.url
+
+			# Narrow the videos to only those attached to this teacher
+			@videodb = @videodb.where('`teacher_id` = ?', @teacher.id)
+
+		# Get first video
+		@video = @videodb.first
+		
 		begin
 			if @video.encoded_state == 'queued'
 				Zencoder.api_key = 'ebbcf62dc3d33b40a9ac99e623328583'

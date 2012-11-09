@@ -133,8 +133,24 @@
 </section>
 
 <!-- CONTENT SECTION -->
-<section class="profile-content">
+<section class="profile-content" style="width:1000px;">
 	<section class="panels">
+		<section class="one-column right-side" style="border: 1px solid #ccc; border-radius: 0;">
+			<h3>Most recent videos</h3>
+			<ul>
+				<% @videodb.limit(6).each do |vid| %>
+					<a href="<%= "#{@videolist}/#{vid.id}" %>">
+						<li>
+							<div style="float:left;" class="profile-thumb-small">
+								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+							</div>
+							<strong><%= vid.name %></strong><br />
+							<p style="float:none;"><%= vid.description %></p>
+						</li>
+					</a>
+				<% end %>
+			</ul>
+		</section>
 		<section class="two-column left-side" style ="min-height:150px">
 			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 				<section class="info panel" style="height:175px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
