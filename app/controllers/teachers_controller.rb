@@ -881,8 +881,7 @@ class TeachersController < ApplicationController
 		end
 
 		#Post a reply to discussion
-		if Comment.find(:first, :conditions => 
-				["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
 			@commented = true
 			@start_count += 1
 		end
