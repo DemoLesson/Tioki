@@ -40,9 +40,9 @@
 		<% end %>
 		<% if @technology.description? %><p><h3>Description</h3><%=raw auto_link(@technology.description).gsub(/\n/, '<br />') %></p><% end %>
 
-		<section class="profile-content panel" style="margin:30px 0px;">
+		<section class="profile-content panel comments inline" style="margin:30px 0px;clear:none;">
 			<h3>Comments</h3>
-			<ul id="comments">
+			<ul>
 				<% @comments.each do |comment| %>
 					<% @comment = comment %>
 					<%= render 'comments/show' %>
@@ -68,9 +68,9 @@
 								form.find('textarea').val('Posted!').prop('disabled', true);
 								$.get('/comments/' + r.id, function(d) {
 									comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-									$('ul#comments').append(comment);
+									$('section.comments ul').append(comment);
 									comment.slideDown(500, function() {
-										$('ul#comments').scrollTo('100%', 800);
+										$('section.comments ul').scrollTo('100%', 800);
 										setTimeout(function() {
 											comment.animate({backgroundColor: '#FFF'}, 600);
 											form.find('textarea').val('').prop('disabled', false);
@@ -92,18 +92,18 @@
 
 							// Star the post
 							if(r.type == 'success' && r.new) {
-								link.removeClass('star-empty').addClass('star-gold');
-								var inc = parseInt(link.text()) + 1;
-								if(isNaN(inc)) link.text('1');
-								else link.text(inc);
+								link.removeClass('gray').addClass('salmon');
+								var inc = parseInt(link.children('span').text()) + 1;
+								if(isNaN(inc)) link.children('span').text('1');
+								else link.children('span').text(inc);
 							}
 
 							// Unstar the post
 							if(r.type == 'success' && !r.new) {
-								link.removeClass('star-gold').addClass('star-empty');
-								var dec = parseInt(link.text()) - 1;
-								if(isNaN(dec) || dec === 0) link.text('');
-								else link.text(dec);
+								link.removeClass('salmon').addClass('gray');
+								var dec = parseInt(link.children('span').text()) - 1;
+								if(isNaN(dec) || dec === 0) link.children('span').text('');
+								else link.children('span').text(dec);
 							}
 						});
 

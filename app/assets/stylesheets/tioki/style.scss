@@ -1116,6 +1116,12 @@ ul.whiteboard {
 
 	// New Style
 	li.new-style {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		
+		padding-right: 15px !important;
+		width: 100%;
 
 		// Connection List Item
 		&.connections {
@@ -1151,6 +1157,127 @@ ul.whiteboard {
 				transition: all 1s linear;
 			}
 		}
+
+		&.article {
+			& > a {
+				float: left;
+				margin-right: 2px;
+
+				&.screen {
+					padding: 2px;
+					margin: auto 15px 15px 5px;
+					border: solid 1px #DADADA;
+					background: #FFF;
+				}
+			}
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			p {
+				margin: 0px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+			}
+
+			div.bar {
+				display: block !important;
+				//margin-bottom: -35px;
+				width: auto;
+				height: 35px;
+				clear: both;
+
+				span.timestamp, a.comments {
+					line-height: 35px;
+					margin: auto 3px;
+					font-size: 12px;
+					float: left;
+				}
+
+				span.icons {
+					line-height: 35px;
+					font-size: 20px;
+					float: right;
+				}
+
+			}
+		}
+	}
+}
+
+/** Comments Styles **/
+div.comments, section.comments {
+	margin-bottom: -15px;
+	display: none;
+	width: auto;
+	clear: both;
+
+	&.inline {
+		display: block;
+
+		& > ul li {
+			padding: 15px !important;
+		}
+	}
+
+	ul {
+		display: block;
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			padding: 10px 0px !important;
+			border-top: dashed 1px #CFD4D5;
+			position: relative;
+			display: block;
+			width: 100%;
+
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			& > a {
+				margin-bottom: 15px;
+				margin-right: 15px;
+				float: left;
+			}
+
+			h4 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			p {
+				margin: 0px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+			}
+
+			div.bar {
+				display: block !important;
+				//margin-bottom: -35px;
+				width: auto;
+				height: 35px;
+				clear: both;
+
+				span.timestamp, a.comments {
+					line-height: 35px;
+					margin: auto 3px;
+					font-size: 12px;
+					float: left;
+				}
+
+				span.icons {
+					line-height: 35px;
+					font-size: 20px;
+					float: right;
+				}
+			}
+		}
 	}
 }
 
@@ -1161,4 +1288,10 @@ span.tooltip {
 
 *[href] {
 	cursor: pointer;
+}
+
+a.gray {
+	&, & > * {
+		color: $dkgray;
+	}
 }
