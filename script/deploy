@@ -51,7 +51,7 @@ def confirm(text, color = nil, _sleep = nil, default = 'n')
 		long = 'yes'
 	end
 
-	_confirm = lambda { |time|
+	_confirm = lambda { |time = nil|
 		echo text + " [#{query}]" + (time.nil? ? '' : "... will assume #{long} in #{time} seconds."), color
 		yesno = STDIN.gets.chomp
 		yesno = default if yesno.empty?
@@ -173,6 +173,10 @@ class DeployCLI
 
 	def update(type = "staging")
 
+		# Filters hack
+		filters = String.new
+		filters = ' FILTER=-tools' if type == 'production'
+
 		# Show Tioki
 		show_tioki
 
@@ -190,12 +194,12 @@ class DeployCLI
 
 		# Confirm if were trying to deploy of develop
 		unless branch == 'develop'
-			return unless confirm("You are trying to deploy from '#{branch}'. Continue?", nil, nil, 'n')
+			return unless confirm("You are trying to deploy from '#{branch}'. Continue?")
 		end
 
 		# Make sure we want to be deploying with uncommited changes
 		unless commited
-			return unless confirm("You are trying to deploy with uncommited files. Continue?", nil, nil, 'n')
+			return unless confirm("You are trying to deploy with uncommited files. Continue?")
 		# Push any unpushed changes to the remote
 		else
 			system("git push #{remote} #{branch}")
@@ -303,28 +307,30 @@ class DeployCLI
 
 		# Ask if we would like to bootstrap the boxes
 		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)", nil, 5
-			system('cap rubber:bootstrap FILTER=-tools')
+			system("cap rubber:bootstrap#{filters}")
 		end
 
 		# Deploy the new code
 		echo "\nDeploying the latest code base.\n"
-		system('cap deploy:update_code FILTER=-tools')
+		system("cap deploy:update_code#{filters}")
 		echo "\nDone...\n"
 
 		# Migrate the database
 		if confirm("Would you like to migrate the database?", nil, 5, 'y')
-			system('cap deploy:migrate FILTER=-tools')
+			system("cap deploy:migrate#{filters}")
+		else
+			system("cap rubber:config#{filters}")
 		end
 
 		# Rake the assets
 		echo "\nRaking the assets...\n"
-		system('cap deploy:assets FILTER=-tools')
+		system("cap deploy:assets#{filters}")
 
 		# Publish update
 		if confirm("Would you like to publish the update?", nil, 5, 'y')
-			system('cap deploy:create_symlink FILTER=-tools')
-			system('cap deploy:restart FILTER=-tools')
-			system('cap deploy:cleanup FILTER=-tools')
+			system("cap deploy:create_symlink#{filters}")
+			system("cap deploy:restart#{filters}")
+			system("cap deploy:cleanup#{filters}")
 		end
 
 		# Restore the original rails env
@@ -337,6 +343,10 @@ class DeployCLI
 
 	def publish(type = 'staging')
 
+		# Filters hack
+		filters = String.new
+		filters = ' FILTER=-tools' if type == 'production'
+
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
 
@@ -346,9 +356,9 @@ class DeployCLI
 
 		# Publish update
 		if confirm("Would you like to publish the update?", nil, 5, 'y')
-			system('cap deploy:create_symlink FILTER=-tools')
-			system('cap deploy:restart FILTER=-tools')
-			system('cap deploy:cleanup FILTER=-tools')
+			system("cap deploy:create_symlink#{filters}")
+			system("cap deploy:restart#{filters}")
+			system("cap deploy:cleanup#{filters}")
 		end
 
 		# Remind
@@ -362,6 +372,10 @@ class DeployCLI
 
 	def rollback(type = 'staging')
 
+		# Filters hack
+		filters = String.new
+		filters = ' FILTER=-tools' if type == 'production'
+
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
 
@@ -371,7 +385,7 @@ class DeployCLI
 
 		# Rollback code update
 		if confirm("Would you like to rollback the code?", nil, nil, 'n')
-			system('cap deploy:rollback FILTER=-tools')
+			system("cap deploy:rollback#{filters}")
 		end
 
 		# Notify
@@ -387,6 +401,10 @@ class DeployCLI
 	end
 
 	def create(type = 'staging', _alias = nil)
+
+		# Filters hack
+		filters = String.new
+		filters = ' FILTER=-tools' if type == 'production'
 
 		# Set alias if nil
 		_alias = type + '_' + Socket.gethostname + '_' + Time.now.to_i.to_s[-4,4].gsub('.','') if _alias.nil?
@@ -404,9 +422,9 @@ class DeployCLI
 			ENV['ALIAS'] = _alias
 			ENV['ROLES'] = 'web,app,db:primary=true' if type != 'production'
 			ENV['ROLES'] = 'web,app,db:primary=false' if type == 'production'
-			system('cap rubber:create')
-			system('cap rubber:bootstrap FILTER=-tools')
-			system('cap deploy:full FILTER=-tools')
+			system("cap rubber:create")
+			system("cap rubber:bootstrap#{filters}")
+			system("cap deploy:full#{filters}")
 		end
 
 		# Restore the original rails env
@@ -467,6 +485,10 @@ class DeployCLI
 
 	def rake(type = 'staging', command = nil)
 
+		# Filters hack
+		filters = String.new
+		filters = ' FILTER=-tools' if type == 'production'
+
 		# If no command given then exit
 		return echo "No rake task given." if command.nil? || !command.is_a?(String)
 
@@ -479,7 +501,7 @@ class DeployCLI
 
 		if confirm "Confirm you want to run \`rake #{command}\`..."
 			ENV["COMMAND"] = command
-			system('cap rubber:rake FILTER=-tools')
+			system("cap rubber:rake#{filters}")
 			echo "\nFinished..."
 		else
 			echo "\nCancelled..."
