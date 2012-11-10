@@ -474,13 +474,6 @@ $(document).ready(function() {
 			});
 		});
 	</script>
+	<% cookies[:teacherdashboard_viewed] = { :value => true, :expires => 1.month.from_now } %>
 <% end %>
-
-<% cookies[:teacherdashboard_viewed] = true %>
-
-
-
-
-
-
 
