@@ -8,6 +8,7 @@
 # Load serialization engine
 require 'yaml'
 require 'socket'
+require 'timeout'
 
 # Start by getting the command line arguments
 CLIargs = ARGV
@@ -32,13 +33,40 @@ def echo(text, color = 'green', _sleep = nil)
 end
 
 # Confirm the message
-def confirm(text, color = 'red')
-	echo text + " [y/N]", color
-	yesno = STDIN.gets.chomp
-	if !yesno.empty? && yesno[0].downcase == "y"
-		return true
+def confirm(text, color = nil, _sleep = nil, default = 'n')
+	color = 'red' if color.nil?
+
+	# Default option
+	default = 'n' unless ['y','n'].include?(default)
+
+	# If default is no
+	if default == 'n'
+		query = 'y/N'
+		long = 'no'
+	end
+
+	# If defauly is yes
+	if default == 'y'
+		query = 'Y/n'
+		long = 'yes'
+	end
+
+	_confirm = lambda { |time|
+		echo text + " [#{query}]" + (time.nil? ? '' : "... will assume #{long} in #{time} seconds."), color
+		yesno = STDIN.gets.chomp
+		yesno = default if yesno.empty?
+
+		if yesno[0].downcase == 'y'
+			return true
+		else
+			return false
+		end
+	}
+
+	unless _sleep.nil?
+		return Timeout::timeout(_sleep, &_confirm) rescue return (default == 'y' ? true : false)
 	else
-		return false
+		return _confirm.call()
 	end
 end
 
@@ -144,14 +172,9 @@ end
 class DeployCLI
 
 	def update(type = "staging")
+
 		# Show Tioki
 		show_tioki
-
-		# Capture terminal logs
-		logs = Array.new
-
-		# Did we merge into master
-		masterMerge = false
 
 		# Get the current branch and tracked remote
 		branch = `git symbolic-ref --short -q HEAD`.strip
@@ -167,13 +190,12 @@ class DeployCLI
 
 		# Confirm if were trying to deploy of develop
 		unless branch == 'develop'
-			return unless confirm("You are deploying from '#{branch}'. You should be deploying from 'develop' Continue?")
+			return unless confirm("You are trying to deploy from '#{branch}'. You should be deploying from 'develop' Continue?", nil, 5)
 		end
 
 		# Make sure we want to be deploying with uncommited changes
 		unless commited
-			return unless confirm("You are trying to deploy with uncommited files. Continue?")
-
+			return unless confirm("You are trying to deploy with uncommited files. Continue?", nil, 5)
 		# Push any unpushed changes to the remote
 		else
 			system("git push #{remote} #{branch}")
@@ -190,7 +212,7 @@ class DeployCLI
 				tag = versionBump(type, false)
 			end
 
-			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok? If not we will deploy without a tag.")
+			if (!tag.nil? || !tag.empty?) && confirm("Tagging and releasing version \"#{tag}\" is this ok?")
 
 				# Add data to Seednote
 				echo "Generating default seednote..."
@@ -272,75 +294,44 @@ class DeployCLI
 				echo "\mChecking out develop branch..."
 				system('git checkout develop')
 				echo "\mIt is now safe to develop code again..."
-			else
-				# Merge master
-				echo "\nSwitching to master..."
-				system('git checkout master')
-				echo "\nPulling master..."
-				system("git pull -u #{remote} master")
-				echo "\nMerging in changes from develop..."
-				system('git merge develop')
-				echo "Merge completed...\n"
-				system("git push -u #{remote} master")
-				
-				# If we are in master go back to develop
-				echo "\mChecking out develop branch..."
-				system('git checkout develop')
-				echo "\mIt is now safe to develop code again..."
 			end
 
 			# Continue
-			echo "\nContinuing with deploy...\n"
+			echo "\nTagged and released ^_^\n"
 			masterMerge = true
 		end
 
-		#stopping delayed_job
-		system("cap delayed_job:stop")
-
 		# Ask if we would like to bootstrap the boxes
-		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)"
-			echo "Bootstrapping the EC2 instances."
-			echo "(Installing new Software/Gems)"
-			echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-			echo "This may take awhile...\n"
+		if confirm "Would you like to bootstrap the boxes? (Update OS and Main Gems)", nil, 5
 			system('cap rubber:bootstrap FILTER=-tools')
 		end
 
-		# Deploy the code run assets
-		echo "\nCopying the rails app to the server and deploying."
-		echo "(Runs rake assets:precompile on finish)"
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-		system('cap deploy:cold FILTER=-tools')
+		# Deploy the new code
+		echo "\nDeploying the latest code base.\n"
+		system('cap deploy:update_code FILTER=-tools')
+		echo "\nDone...\n"
 
-		# Run DB Migrate
-		# => DB Migrates in the rubber deploy.rb now
-		#echo "\nMigrating database"
-		#echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		#echo "This may take awhile...\n"
-		#system('COMMAND="db:migrate" cap rubber:rake FILTER=-tools')
+		# Migrate the database
+		if confirm("Would you like to migrate the database?", nil, 5, 'y')
+			system('cap deploy:migrate FILTER=-tools')
+		end
 
-		# Chmod jCrop upload dir
-		echo "\nChmodding jCrop Upload Directory"
-		system('CHMOD="0777 ./public/uploads" cap rubber:chmod FILTER=-tools')
+		# Rake the assets
+		echo "\nRaking the assets...\n"
+		system('cap deploy:assets FILTER=-tools')
 
-		# Launch new code
-		echo "\nThe new code is on the server and everything is ready to go."
-		if confirm "Would you like to publish now?"
-			echo "This may take awhile...\n"
+		# Publish update
+		if confirm("Would you like to publish the update?", nil, 5, 'y')
 			system('cap deploy:create_symlink FILTER=-tools')
-			system('cap deploy:passenger:reload FILTER=-tools')
-			echo "The new code is now live. You can rollback by running:"
-			echo "\`./script/deploy rollback #{type}\`", 'red'
-		else
-			echo "\nYou can deploy later with:"
-			echo "\`./script/deploy publish #{type}\`", 'red'
+			system('cap deploy:restart FILTER=-tools')
+			system('cap deploy:cleanup FILTER=-tools')
 		end
 
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
 
+		# Show the kitty
 		show_cat
 	end
 
@@ -353,14 +344,12 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
-		# Notice
-		echo "Publishing the latest revision of code on all #{type} servers."
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-
-		# Do It Now
-		system('cap deploy:create_symlink FILTER=-tools')
-		system('cap deploy:passenger:reload FILTER=-tools')
+		# Publish update
+		if confirm("Would you like to publish the update?", nil, 5, 'y')
+			system('cap deploy:create_symlink FILTER=-tools')
+			system('cap deploy:restart FILTER=-tools')
+			system('cap deploy:cleanup FILTER=-tools')
+		end
 
 		# Remind
 		echo "\nThe new code is now live. You can rollback by running:"
@@ -372,7 +361,6 @@ class DeployCLI
 	end
 
 	def rollback(type = 'staging')
-		raise Exception, "BROKEN"
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -381,14 +369,10 @@ class DeployCLI
 		echo "Setting the rails environment to #{type}...\n"
 		ENV["RAILS_ENV"] = type
 
-		# Notice
-		echo "Rolling back to the last published code bade on all #{type} servers."
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-
-		# Do It Now
-		system('cap deploy:rollback:code FILTER=-tools')
-		system('cap deploy:passenger:reload FILTER=-tools')
+		# Rollback code update
+		if confirm("Would you like to rollback the code?", nil, nil, 'n')
+			system('cap deploy:rollback FILTER=-tools')
+		end
 
 		# Notify
 		echo "\nThe old code is now live."
@@ -405,10 +389,7 @@ class DeployCLI
 	def create(type = 'staging', _alias = nil)
 
 		# Set alias if nil
-		_alias = 'staging_' + Socket.gethostname + '_' + Time.now.to_i.to_s[-4,4].gsub('.','') if _alias.nil?
-
-		# Capture terminal logs
-		logs = Array.new
+		_alias = type + '_' + Socket.gethostname + '_' + Time.now.to_i.to_s[-4,4].gsub('.','') if _alias.nil?
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -418,45 +399,18 @@ class DeployCLI
 		ENV["RAILS_ENV"] = type
 
 		# Boot strap the boxes
-		echo "Bootstrapping/Launching the EC2 instances."
-		echo "(Creating Server, Installing new Software/Gems, Compiling assets, Migrating DB)"
-		echo "You have 5 seconds to cancel with (CTRL + C)", 'red', 5
-		echo "This may take awhile...\n"
-		ENV['ALIAS'] = _alias
-		ENV['ROLES'] = 'web,app,db:primary=false'
-		system('cap rubber:create')
-		system('cap rubber:bootstrap FILTER=-tools')
-		system('cap deploy:cold FILTER=-tools')
+		if confirm "Would you like to create a new server in the #{type} environment?", 'red', nil, 'n'
+			echo "This may take awhile...\n"
+			ENV['ALIAS'] = _alias
+			ENV['ROLES'] = 'web,app,db:primary=true' if type != 'production'
+			ENV['ROLES'] = 'web,app,db:primary=false' if type == 'production'
+			system('cap rubber:create')
+			system('cap rubber:bootstrap FILTER=-tools')
+			system('cap deploy:full FILTER=-tools')
+		end
 
 		# Restore the original rails env
 		echo "\n\nFinished! Restoring the environment to #{renvironment}..."
-		ENV["RAILS_ENV"] = renvironment
-
-		# Write to log
-		dir = File.expand_path(File.dirname(__FILE__)) + '/deploy_logs'
-		Dir.mkdir(dir) unless File.exists?(dir)
-		File.open(dir + "/create_staging_#{type}_#{Time.now.to_i}", 'w') do |f|
-			f.write(YAML::dump(logs))
-		end
-	end
-
-	def logs(type = 'staging')
-
-		# Save the current rails environment
-		renvironment = ENV["RAILS_ENV"]
-
-		# Set the new rails environment
-		echo "Setting the rails environment to #{type}...\n"
-		ENV["RAILS_ENV"] = type
-
-		# Explain Exit
-		echo "Type (CTRL + C) to exit when you are done", 'red', 2
-
-		# Tail the logs
-		system('cap rubber:tail_logs FILTER=-tools')
-
-		# Restore the original rails env
-		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
 	end
 
@@ -621,7 +575,6 @@ rescue => e
 	echo '####################', 'red'
 	echo 'Rubber Deploy - Help', 'red'
 	echo '####################', 'red'
-	echo './script/deploy logs [staging|production]             # Tail the server logs', 'red'
 	echo './script/deploy update [staging|production]           # Installs / Updates all packages and gems as well as stages new code from publishing', 'red'
 	echo './script/deploy publish [staging|production]          # Publishes pending code from `./script/deploy update`', 'red'
 	echo './script/deploy rollback [staging|production]         # Rolls all [staging|production] servers back to the previously live codebase', 'red'
