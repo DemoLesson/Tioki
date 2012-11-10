@@ -183,7 +183,7 @@ class ApplicationController < ActionController::Base
 	# Error Handling #
 	##################
 
-	unless Preview::Application.config.consider_all_requests_local
+	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] != 'production'
 
 		# Server Error
 		rescue_from Exception, with: :render_500
