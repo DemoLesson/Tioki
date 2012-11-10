@@ -180,5 +180,6 @@ $(document).ready(function() {
 		});
 	});
 </script>
+	<% cookies[:my_connections_viewed] = { :value => true, :expires => 1.month.from_now }  %>
 <% end %>
-<% cookies[:my_connections_viewed] = true %>
+
