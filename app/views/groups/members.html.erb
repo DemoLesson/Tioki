@@ -1,6 +1,6 @@
 <section id="main-content" class="inner-content">
 	<section class="info panel">
-		<section class="two-column left-side" style="height:120px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+		<section class="two-column left-side" style="height:120px;width:700px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px; float:left;height:auto;min-width:100px;background:#F0F0F0">
 					<% if @group.picture? %>
 						<%= image_tag @group.picture.url(:medium), :style => "width:200px" %>
@@ -44,7 +44,7 @@
 				<% end %>
 			</p>	
 		</section>
-		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;">
+		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;width:250px;">
 			<span style="padding:0px 0px 0px 20px" >
 				<% if self.current_user %>
 					<% if @admin %>
@@ -57,11 +57,13 @@
 							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
 						<% end %>
 					<% end %>
+				<% else %>
+					<%= link_to "Join Group", '/welcome_wizard?x=step1&join_group_button', :class => "button", :target => "_blank" %>
 				<% end %>
 			</span>
 			<section style="margin:0px 0px 0px 20px">
 				<h4 class="bottom-line">
-					Share: <br />
+					Invite Friends to Join: <br />
 				</h4>
 				<p>
 					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
@@ -93,13 +95,13 @@
 		</ul>
 	</nav>
 	<section class="panels">
-		<section class="two-column left-side" style="background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+		<section class="two-column left-side" style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0px 0px 10px 0px">
 			<section style="margin: 10px 0px 0px 10px">
 				<% @group.users.avatar?.each do |user| %>
 					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.teacher.url %>
-						<section style="width:225px;margin:-80px 0px 0px 80px">
-							<p>	<%= link_to user.name, '#', :style => "color:#F66C4C;font-weight:bold" %>
-								<span style="float:right;color:#F66C4C">Connect</span>
+						<section style="width:575px;margin:-80px 0px 0px 80px">
+							<p style="width:auto">	<%= link_to user.name, '#', :style => "color:#F66C4C;font-weight:bold" %>
+								<span style="float:right;color:#F66C4C">Connect +</span>
 								<br/>
 							Math Teacher at State of the Art Middle School<br />
 							San Francisco, California

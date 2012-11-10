@@ -1,6 +1,6 @@
 <section id="main-content" class="inner-content">
 	<section class="info panel">
-		<section class="two-column left-side" style="height:120px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+		<section class="two-column left-side" style="height:120px;width:700px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px;float:left;height:auto;min-width:100px;background:#F0F0F0">
 					<% if @group.picture? %>
 						<%= image_tag @group.picture.url(:medium), :style => "width:200px" %>
@@ -44,7 +44,7 @@
 				<% end %>
 			</p>	
 		</section>
-		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;">
+		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;width:250px;">
 		<span style="padding:0px 0px 0px 20px" >
 		<% if self.current_user %>
 			<% if @admin %>
@@ -59,11 +59,13 @@
 					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :class => "button", :style => "float:right" %>
 				<% end %>
 			<% end %>
+		<% else %>
+			<%= link_to "Join Group", '/welcome_wizard?x=step1&join_group_button', :class => "button", :target => "_blank" %>
 		<% end %>
 		</span>
 		<section style="margin:0px 0px 0px 20px">
 		<h4 class="bottom-line">
-			Share: <br />
+			Invite Friends to Join: <br />
 		</h4>
 		<p>
 		<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
@@ -98,24 +100,23 @@
 	</section>
 	<section class="profile-content panel" style="margin:30px 0px;">
 		<% unless User.current.nil? %>
-		<h3>Top Comments</h3>
-		<div class="comments inline">
-			<ul>
-				<% @comments.each do |comment| %>
-					<% @comment = comment %>
-					<%= render 'comments/show' %></br>
-				<% end %>
-			</ul>
-			<% end %>
-			<% unless User.current.nil? %>
-				<section class="panel-actions">
-					<% if @in_group %>
+			<section style="margin:15px 0px 0px 15px">
+				<h4>Start a Discussion</h4>
+				<% if @in_group %>
 					<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
-						<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
-						<input type="submit" value="Post Comment" />
+						<textarea name="comment" style="height:50px;width:84%;padding:10px 3%;" placeholder="Start a Discussion or Share Something with the Group"></textarea>
+						<input type="submit" value="Post" style="margin:20px 20px 0px 0px;float:right" />
 					</form>
+				<% end %>
+			</section>
+			<div class="comments inline">
+				<h4 style="margin:-10px 0px 0px 15px">Top Comments</h4>
+				<ul>
+					<% @comments.each do |comment| %>
+						<% @comment = comment %>
+						<%= render 'comments/show' %></br>
 					<% end %>
-				</section>
+				</ul>
 
 				<!-- Load js for processing comments - AJAX HACK -->
 				<script type="text/javascript">
@@ -191,9 +192,8 @@
 				});
 				</script>
 			<% end %>
-		</div>
+			</div>
 	</section>
-
 </section>
 
 <script type="text/javascript">
