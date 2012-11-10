@@ -17,7 +17,8 @@
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: db
-    options: {}
+    options:
+      primary: true
   - !ruby/object:Rubber::Configuration::RoleItem
     name: tools
     options: {}

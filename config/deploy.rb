@@ -51,45 +51,32 @@ default_run_options[:max_hosts] = max_hosts if max_hosts > 0
 # Comment out or use "required_task" for default cap behavior of a hard failure
 rubber.allow_optional_tasks(self)
 
-# Wrap tasks in the deploy namespace that have roles so that we can use FILTER
-# with something like a deploy:cold which tries to run deploy:migrate but can't
-# because we filtered out the :db role
-namespace :deploy do
-  rubber.allow_optional_tasks(self)
-  tasks.values.each do |t|
-    if t.options[:roles]
-      task t.name, t.options, &t.body
-    end
-  end
-end
-
-namespace :deploy do
-  namespace :assets do
-    rubber.allow_optional_tasks(self)
-    tasks.values.each do |t|
-      if t.options[:roles]
-        task t.name, t.options, &t.body
-      end
-    end
-  end
-end
-
 # Load in the deploy scripts installed by vulcanize for each rubber module
 Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
-# capistrano's deploy:cleanup doesn't play well with FILTER
-after "deploy", "cleanup"
-after "deploy:migrations", "cleanup"
+namespace :deploy do
+  task :full do
+    update_code
+    migrate
+    assets
+    create_symlink
+    restart
+    cleanup
+  end
 
-task :cleanup, :except => { :no_release => true } do
-  count = fetch(:keep_releases, 5).to_i
-  
-  rsudo <<-CMD
-    all=$(ls -x1 #{releases_path} | sort -n);
-    keep=$(ls -x1 #{releases_path} | sort -n | tail -n #{count});
-    remove=$(comm -23 <(echo -e "$all") <(echo -e "$keep"));
-    for r in $remove; do rm -rf #{releases_path}/$r; done;
-  CMD
+  task :assets do
+    rake = fetch(:rake, "rake")
+    rails_env = fetch(:rails_env, "production")
+    migrate_target = fetch(:migrate_target, :latest)
+
+    directory = case migrate_target.to_sym
+      when :current then current_path
+      when :latest  then latest_release
+      else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+      end
+
+    run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
+  end
 end
