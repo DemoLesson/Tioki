@@ -56,7 +56,10 @@ Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
+# Deploy scripting
 namespace :deploy do
+
+  # Do a full deploy (start -> finish)
   task :full do
     update_code
     migrate
@@ -66,21 +69,35 @@ namespace :deploy do
     cleanup
   end
 
-  task :assets do
-    rake = fetch(:rake, "rake")
-    rails_env = fetch(:rails_env, "production")
-    migrate_target = fetch(:migrate_target, :latest)
+  # Rake assets
+  namespace :assets do
 
-    # Deploy assets off specified directory
-    directory = case migrate_target.to_sym
-      when :current then current_path
-      when :latest  then latest_release
-      else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
-      end
+    # Rake the configured directory
+    task :default do
+      rake = fetch(:rake, "rake")
+      rails_env = fetch(:rails_env, "production")
+      migrate_target = fetch(:migrate_target, :latest)
 
-    run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
+      # Deploy assets off specified directory
+      directory = case migrate_target.to_sym
+        when :current then current_path
+        when :latest  then latest_release
+        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+        end
+
+      run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
+    end
+
+    # Rake the currently live directory
+    task :current do
+      migrate_target = fetch(:migrate_target, :latest)
+      set :migrate_target, :current
+      default
+      set :migrate_target, migrate_target
+    end
   end
 
+  # Roll back code to a previous revision
   namespace :rollback do
     task :default do
       revision
@@ -90,6 +107,7 @@ namespace :deploy do
   end
 end
 
+# Rubber config hacks
 namespace :rubber do
 
   # Delete the already existing config task
@@ -99,7 +117,10 @@ namespace :rubber do
     metaclass.send(:remove_method, :config)
   end
 
+  # Store the two config options
   namespace :config do
+
+    # Config based on the latest code
     task :default do
       opts = {}
       opts[:no_post] = true if ENV['NO_POST']
@@ -117,6 +138,7 @@ namespace :rubber do
       run_config(opts)
     end
 
+    # Config on the currently deployed code
     task :current, { :on_error => :continue } do
       migrate_target = fetch(:migrate_target, :latest)
       set :migrate_target, :current
@@ -132,3 +154,4 @@ after "deploy:restart", "delayed_job:start"
 
 # Reconfigure rubber on rollback
 after "deploy:rollback:revision", "rubber:config:current"
+after "deploy:rollback:revision", "deploy:assets:current"
