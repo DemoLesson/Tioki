@@ -71,6 +71,7 @@ namespace :deploy do
     rails_env = fetch(:rails_env, "production")
     migrate_target = fetch(:migrate_target, :latest)
 
+    # Deploy assets off specified directory
     directory = case migrate_target.to_sym
       when :current then current_path
       when :latest  then latest_release
@@ -79,8 +80,55 @@ namespace :deploy do
 
     run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
   end
+
+  namespace :rollback do
+    task :default do
+      revision
+      restart
+      cleanup
+    end
+  end
+end
+
+namespace :rubber do
+
+  # Delete the already existing config task
+  tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
+  if all_methods.include?(:config)
+    metaclass = class << self; self; end
+    metaclass.send(:remove_method, :config)
+  end
+
+  namespace :config do
+    task :default do
+      opts = {}
+      opts[:no_post] = true if ENV['NO_POST']
+      opts[:force] = true if ENV['FORCE']
+      opts[:file] = ENV['FILE'] if ENV['FILE']
+      migrate_target = fetch(:migrate_target, :latest)
+
+      # Config off the specifed directory
+      opts[:deploy_path] = case migrate_target.to_sym
+        when :current then current_path
+        when :latest then latest_release
+        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+        end
+
+      run_config(opts)
+    end
+
+    task :current, { :on_error => :continue } do
+      migrate_target = fetch(:migrate_target, :latest)
+      set :migrate_target, :current
+      default
+      set :migrate_target, migrate_target
+    end
+  end
 end
 
 # Reload delayed job
 before "deploy:restart", "delayed_job:stop"
 after "deploy:restart", "delayed_job:start"
+
+# Reconfigure rubber on rollback
+after "deploy:rollback:revision", "rubber:config:current"
