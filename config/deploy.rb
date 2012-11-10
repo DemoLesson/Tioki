@@ -80,3 +80,7 @@ namespace :deploy do
     run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
   end
 end
+
+# Reload delayed job
+before "deploy:restart", "delayed_job:stop"
+after "deploy:restart", "delayed_job:start"
