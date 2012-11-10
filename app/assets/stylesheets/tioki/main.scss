@@ -405,11 +405,10 @@ span.connection_degree {
 		vertical-align: top;
 	}
 
-	// Hack to fix white board issues
-	//section#list div {
-	//	display: inline-block;
-	//	vertical-align: top;
-	//}
+	section#list div {
+		display: inline-block;
+		vertical-align: top;
+	}
 
 	.profile-thumb-medium {
 		width: 70px;
