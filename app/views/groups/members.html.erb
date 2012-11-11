@@ -53,7 +53,7 @@
 					<% elsif @in_group %>
 						<%= link_to "Explore More Groups", "/groups", :class => "button" %>
 					<% else %>
-						<% if @group.permissions['public'] %>
+						<% if @group.permissions!['public'] %>
 							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
 						<% end %>
 					<% end %>
@@ -118,11 +118,11 @@
 								</span>
 								<br/>
 								<% if user.teacher.position.present?  && user.teacher.school.present? %>
-									<%= user.teacher.position %> at <%= user.teacher.school %><br />
-								<% end %>
-								<% if user.teacher.location.present? %>
-									<%= user.teacher.location %><br />
+									<%= user.teacher.position %> at <%= user.teacher.school %>
 								<% end %><br />
+								<% if user.teacher.location.present? %>
+									<%= user.teacher.location %>
+								<% end %><br /><br />
 							</p>
 						</section>
 				<% end %>
