@@ -16,6 +16,9 @@
     name: nginx
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
+    name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: db
     options:
       primary: true

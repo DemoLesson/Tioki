@@ -112,6 +112,8 @@ gem 'rest-client'
 
 # Use unicorn as the web server
 gem 'unicorn'
+gem 'faye'
+gem 'eventmachine'
 
 # Deploy with Capistrano
 # gem 'capistrano'
