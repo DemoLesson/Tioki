@@ -1,3 +1,7 @@
+v1.6.4 - Nov 10, 2012  5:42PM PST deployed by Aleks Stanisic
+============================================================
+* 4eaf9b0: Aleks Stanisic - fixes to groups
+
 v1.6.3 - Nov 10, 2012  5:24PM PST deployed by Aleks Stanisic
 ============================================================
 * 0975d30: Aleks Stanisic - changes to group members page
