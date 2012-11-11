@@ -4,7 +4,9 @@ class GroupsController < ApplicationController
 
 	def index
 		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
-		#@groups = Group.all
+		if params[:group_search]
+			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
+		end
 	end
 
 	def new

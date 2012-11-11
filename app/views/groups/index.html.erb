@@ -11,12 +11,18 @@
 					</a>
 				</li>
 				<% if self.current_user && self.current_user.teacher %>
-					<div style="float:right;margin-top:0px">
+					<div style="float:right;margin-top:0px;">
 						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
 					</div>
+						<div style="float:right;margin-top:20px">
+						</div>
 				<% end %>
 			</ul>
 		</nav>
+		<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
+			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 20px;width:500px" %>
+			<%= submit_tag "Search" %>
+	<% end %>
 	</section>
 	<section class="panels">
 		<section class="two-column left-side" style ="width:725px;margin-left:25px">
