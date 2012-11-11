@@ -1,3 +1,7 @@
+v1.6.7 - Nov 10, 2012  6:56PM PST deployed by Aleks Stanisic
+============================================================
+* 8fbc4b7: Brian Martinez - changes to signup and login pages
+
 v1.6.6 - Nov 10, 2012  6:25PM PST deployed by Aleks Stanisic
 ============================================================
 * ae8813e: Aleks Stanisic - chages to getting started and tioki bucks
