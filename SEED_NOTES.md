@@ -1,3 +1,21 @@
+v1.6.6 - Nov 10, 2012  6:25PM PST deployed by Aleks Stanisic
+============================================================
+* ae8813e: Aleks Stanisic - chages to getting started and tioki bucks
+* eaadb2c: Elijah Green - Set tioki_bucks date
+* 4e1bf5a: Elijah Green - Some fix and go to get_started on next step
+* 389e3dd: Elijah Green - Place get started button in the correct place
+* 3854228: Elijah Green - Add get started link to the profile
+* 0475927: Elijah Green - Strikeout completed get started tasks
+* d6974ee: Elijah Green - Get started actions can happen anytime and create getstarted
+* da22083: Elijah Green - Add tioki coins admin list
+* 767f005: Elijah Green - Start get adding a tioki coins admin list
+* 8645355: Elijah Green - Finished the tioki_bucks page
+* 6644d34: Elijah Green - Add tioki_bucks page
+* a713913: Elijah Green - Add facebook auth
+* 72363dd: Elijah Green - Successfully following tioki
+* 3954d35: Elijah Green - Add code for twitter following and twitter tweeting
+* ab39bb6: Elijah Green - Add twitter auth
+
 v1.6.5 - Nov 10, 2012  5:56PM PST deployed by Aleks Stanisic
 ============================================================
 * 50360d6: Elijah Green - Add groups search
