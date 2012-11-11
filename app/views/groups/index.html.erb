@@ -3,16 +3,20 @@
 		<nav class="subpage">
 			<ul>
 				<li class="current">
-					Groups
+					All Groups
 				</li>
+				<% if self.current_user && self.current_user.teacher %>
 				<li>
 					<a href="/my_groups">
 						My Groups
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
 					<div style="float:right;margin-top:0px">
 						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
+					</div>
+				<% else %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&group_index', :class => "action-button bg-green" %>
 					</div>
 				<% end %>
 			</ul>
@@ -39,6 +43,8 @@
 							<% unless self.current_user.groups.include? group %>
 								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions!['public'] %>
 							<% end %>
+						<% else %>
+								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin:0px", :target => "_blank" %>
 						<% end %>
 						
 						<div style="clear:both"></div>
