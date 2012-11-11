@@ -1,8 +1,8 @@
-<section id="main-content" class="inner-content signup-page">
-	<h3>
-	Welcome back to Tioki! Please login.
-	</h3>
-	<div class="signup-form">
+<section id="main-content" class="inner-content signup-page" style="height:325px">
+	<section class="one-column left-side" >
+		<h3 style="margin-top:100px">
+		Welcome back to Tioki! Please login.
+		</h3>
 		<%= form_tag :action => "login", :id => "signup-form" do %>
 			<fieldset>
 				<%= email_field :user, "email", :placeholder => "Email" %>
@@ -11,16 +11,15 @@
 				<%= password_field :user, "password", :placeholder => "Password" %>
 			</fieldset>
 			<fieldset>
-				<%= submit_tag "Login to Tioki", :class => "button huge-button" %>
+				<%= submit_tag "Login to Tioki", :class => "button bg-green" %>
+				<%= link_to 'Forgot Password?', :forgot_password, :class => "forgot-password" %>
 			</fieldset>
-				<%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
-				<a href="/signup" class="action-button edit-video bg-green">
-				Sign Up Here!
-				</a>
-			<!--p class="smalltext">
-			By logging in, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
-			</p-->
 		<% end %>
-		<iframe src="http://www.facebook.com/plugins/facepile.php? href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;overflow:hidden; width:300px;" allowTransparency="true"></iframe>
-	</div>
+	</section>
+	<section class="two-column right-side" style="margin-top:0px">
+		<h3 style="margin-left: 150px;">
+			New to Tioki? <%= link_to 'Start Connecting Today!', '/welcome_wizard?x=step1', :style => "color:#2AA99B" %>
+		</h3>
+			<%= image_tag 'tioki/connected_map.png', :style => "width:500px;margin-left:100px" %>
+	</section>
 </section><!-- End Main Content -->
