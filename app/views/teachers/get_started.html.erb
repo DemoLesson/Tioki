@@ -5,7 +5,7 @@
 			<ul>
 				<li>
 					<a href="/connections">
-						<% if @connected %>
+						<% if @connections >= 5 %>
 							<del>Add 5 connections</del>
 						<% else %>
 							Add 5 connections
@@ -22,7 +22,7 @@
 						<% else %>
 							Follow 3 Discussions
 							<div style="float:right">
-								<%= @following %> of 5
+								<%= @following %> of 3
 							</div>
 						<% end %>
 					</a>

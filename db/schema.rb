@@ -651,8 +651,6 @@ ActiveRecord::Schema.define(:version => 20121108181806) do
     t.string   "betterlesson"
     t.string   "teachingchannel"
     t.integer  "video_id"
-    t.float    "latitude"
-    t.float    "longitude"
     t.string   "pinterest"
     t.boolean  "facebook_connect",                        :default => false
     t.boolean  "twitter_connect",                         :default => false
