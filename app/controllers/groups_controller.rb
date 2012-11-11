@@ -1,10 +1,12 @@
 class GroupsController < ApplicationController
-	before_filter :login_required, :except => [:index, :show]
-	before_filter :teacher_required, :except => [:index, :show]
+	before_filter :login_required, :except => [:index, :show, :members, :about]
+	before_filter :teacher_required, :except => [:index, :show, :members, :about]
 
 	def index
 		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
-		#@groups = Group.all
+		if params[:group_search]
+			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
+		end
 	end
 
 	def new
@@ -93,6 +95,10 @@ class GroupsController < ApplicationController
 		else
 			@in_group = false
 		end
+		
+		# Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
   end
   
   def about

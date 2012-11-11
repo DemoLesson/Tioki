@@ -5,6 +5,7 @@
 				<li class="current">
 				Recent Discussions
 				</li>
+				<% if self.current_user && self.current_user.teacher %>
 				<li>
 					<a href="/my_discussions">
 						My Discussions
@@ -15,9 +16,12 @@
 						Followed Discussions
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
 					<div style="float:right;margin-top:0px">
 						<%= link_to "Start New Discussion", new_discussion_path, :class => "action-button bg-green" %>
+					</div>
+				<% else %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&discussion_signup', :class => "action-button bg-green", :target => "_blank" %>
 					</div>
 				<% end %>
 			</ul>
