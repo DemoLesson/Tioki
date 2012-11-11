@@ -34,16 +34,16 @@
 		<ul>
 			<% @discussions.each do |discussion| %>
 				<li>
-					<p>
+					<p style="float:left;margin-left:12px">
 						<strong>
 						<%= link_to discussion.title, discussion %>
 						</strong>
 					</p>
-					<p style="color:#999">
+					<p style="color:#999;float:left;margin-left:12px;font-size:12px">
 						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
 						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
 					</p>
-					<p style="float:left;margin-left:12px">
+					<p style="float:left;margin-left:12px;font-size:12px">
 						Topics: 
 						<% discussion.skills.each do |skill| %>
 							<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
