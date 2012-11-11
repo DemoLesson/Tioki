@@ -68,6 +68,7 @@ GEM
       activerecord (>= 3.0)
       activesupport (~> 3.0)
       awesome_nested_set (>= 2.0)
+    addressable (2.3.2)
     arel (2.2.1)
     arrayfields (4.7.4)
     autotest-rails (4.1.2)
@@ -144,7 +145,11 @@ GEM
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
     dnsruby (1.53)
+    em-websocket (0.3.8)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
     erubis (2.7.0)
+    eventmachine (1.0.0)
     excon (0.16.7)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -385,6 +390,8 @@ DEPENDENCIES
   debugger-ruby_core_source!
   delayed_job_active_record
   dnsruby
+  em-websocket
+  eventmachine
   fog
   gelf
   geocoder
