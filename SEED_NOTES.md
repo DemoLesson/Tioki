@@ -1,3 +1,7 @@
+v1.6.5 - Nov 10, 2012  5:56PM PST deployed by Aleks Stanisic
+============================================================
+* 50360d6: Elijah Green - Add groups search
+
 v1.6.4 - Nov 10, 2012  5:42PM PST deployed by Aleks Stanisic
 ============================================================
 * 4eaf9b0: Aleks Stanisic - fixes to groups
