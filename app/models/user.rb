@@ -594,7 +594,7 @@ class User < ActiveRecord::Base
 
 		#require a date fot his one, ccureently there is not avatar_created_at
 		#we could create one, but it would be just one more thing to update on avatar creation
-		if self.avatar
+		if self.avatar?
 			start_count += 1
 		end
 
