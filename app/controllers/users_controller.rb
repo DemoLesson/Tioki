@@ -553,9 +553,10 @@ class UsersController < ApplicationController
 	end
 
 	def referral_user_list
+		#after ddonors choose before tioki bucks
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ?', 
-			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -590,8 +591,7 @@ class UsersController < ApplicationController
 	def tioki_coins_list
 		#get users tioki dollars except from those that received
 		#them solely from getting started which depends on 6 different tables
-		#TODO set time for tioki_bucks start
-		connection_invites = ConnectionInvite.find(:all, :conditions => ["connection_invites.created_at > ?", 1.hour.ago]).collect(&:user_id)
+		connection_invites = ConnectionInvite.find(:all, :conditions => ["connection_invites.created_at > ?", TIOKI_BUCKS_START]).collect(&:user_id)
 		@teachers = Teacher.find(:all, :conditions => ["teachers.facebook_connect = true || teachers.twitter_connect = true || teachers.tweet_about = true || teachers.user_id IN (?)", connection_invites])
 	end
 

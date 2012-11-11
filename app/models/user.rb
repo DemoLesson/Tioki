@@ -415,7 +415,8 @@ class User < ActiveRecord::Base
 	end
 
 	def referrals
-		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL and created_at > ?', self.id, "2012-10-22 20:00:00")
+		#after donors choose before tioki bucks
+		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL && created_at > ? && created_at < ?', self.id, "2012-10-22 20:00:00", TIOKI_BUCKS_START)
 	end
 	
 	def change_password(params)
@@ -623,8 +624,7 @@ class User < ActiveRecord::Base
 			tioki_bucks += 1
 		end
 
-		#TODO Start at beginning of tioki bucks
-		invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ?", self.id]).count
+		invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.id, TIOKI_BUCKS_START]).count
 
 		#two dollars per invite maxed at 42 dollars
 		if invite_count*2 > 42

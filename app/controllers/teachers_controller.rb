@@ -819,8 +819,7 @@ class TeachersController < ApplicationController
 		end
 
 		#referrals
-		#TODO start at beginging of tioki bucks
-		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
 
 		#two dollars per invite maxed at 42 dollars
 		if @invite_count*2 > 42
