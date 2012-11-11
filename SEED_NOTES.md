@@ -1,3 +1,15 @@
+v1.6.3 - Nov 10, 2012  5:24PM PST deployed by Aleks Stanisic
+============================================================
+* 0975d30: Aleks Stanisic - changes to group members page
+* c036bd8: Brian Martinez - groups index public view
+* cae50f9: Brian Martinez - public discussion page changes
+* d2defab: Brian Martinez - groups changes
+* c4a1a6e: Aleks Stanisic - changes to group pages
+* 44919f1: Elijah Green - Uncomment css for section#list and remove list id from whiteboard
+* 96e0348: Brian Martinez - header changes
+* 1436cee: Elijah Green - Set the expiration date for the pop up cookies
+* 441679b: Brian Martinez - facebook and twitter like on splash page
+
 v1.6.2 - Nov 9, 2012  1:12PM PST deployed by Kelly Becker
 =========================================================
 * 18d5dfc: Kelly Becker - excalmation point!
