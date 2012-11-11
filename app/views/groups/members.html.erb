@@ -101,10 +101,28 @@
 					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.teacher.url %>
 						<section style="width:575px;margin:-80px 0px 0px 80px">
 							<p style="width:auto">	<%= link_to user.name, '#', :style => "color:#F66C4C;font-weight:bold" %>
-								<span style="float:right;color:#F66C4C">Connect +</span>
+								<span style="float:right;">
+									<% if !self.current_user.nil? && self.current_user.teacher %>	
+										<% unless self.current_user == user.teacher.user %>
+											<% if @my_connections.include? user.teacher.user_id %>
+												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+											<% else %>
+												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+											<% end %>
+										<% end %>
+
+									<% else %>
+										<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+									<% end %>
+								</span>
 								<br/>
-							Math Teacher at State of the Art Middle School<br />
-							San Francisco, California
+								<% if user.teacher.position.present?  && user.teacher.school.present? %>
+									<%= user.teacher.position %> at <%= user.teacher.school %><br />
+								<% end %>
+								<% if user.teacher.location.present? %>
+									<%= user.teacher.location %><br />
+								<% end %><br />
 							</p>
 						</section>
 				<% end %>

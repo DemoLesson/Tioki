@@ -93,6 +93,10 @@ class GroupsController < ApplicationController
 		else
 			@in_group = false
 		end
+		
+		# Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
   end
   
   def about
