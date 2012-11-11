@@ -1,10 +1,11 @@
 <section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
 	<section>
 		<nav class="subpage">
-			<ul>
-				<li class="current">
-					Groups
-				</li>
+		<ul>
+			<li class="current">
+				All Groups
+			</li>
+			<% if self.current_user && self.current_user.teacher %>
 				<li>
 					<a href="/my_groups">
 						My Groups
@@ -14,15 +15,18 @@
 					<div style="float:right;margin-top:0px;">
 						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
 					</div>
-						<div style="float:right;margin-top:20px">
-						</div>
+				<% else %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&group_index', :class => "action-button bg-green" %>
+					</div>
 				<% end %>
+			<% end %>
 			</ul>
-		</nav>
-		<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
-			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 20px;width:500px" %>
-			<%= submit_tag "Search" %>
-	<% end %>
+			</nav>
+			<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
+				<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 20px;width:500px" %>
+				<%= submit_tag "Search" %>
+			<% end %>
 	</section>
 	<section class="panels">
 		<section class="two-column left-side" style ="width:725px;margin-left:25px">
@@ -45,6 +49,8 @@
 							<% unless self.current_user.groups.include? group %>
 								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions!['public'] %>
 							<% end %>
+						<% else %>
+								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin:0px", :target => "_blank" %>
 						<% end %>
 						
 						<div style="clear:both"></div>
