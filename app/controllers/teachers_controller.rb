@@ -712,4 +712,156 @@ class TeachersController < ApplicationController
 		self.current_user.teacher.update_attribute(:video_id, params[:id])
 		redirect_to :back
 	end
+
+	def twitter_auth
+		callback_url = "http://127.0.0.1:3000/twitter_callback"
+		request_token = twitter_oauth.get_request_token(:oauth_callback => callback_url)
+		session[:rtoken] = request_token.token
+		session[:rsecret] = request_token.secret
+		session[:twitter_action] = params[:twitter_action]
+
+		redirect_to request_token.authorize_url
+	end
+
+	def twitter_callback
+		request_token = OAuth::RequestToken.new(twitter_oauth, session[:rtoken], session[:rsecret])
+		access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+
+		session[:rsecret] = nil
+		session[:rtoken] = nil
+
+		client = Twitter::Client.new(
+			:oauth_token => access_token.token,
+			:oauth_token_secret => access_token.secret
+		)
+
+		if session[:twitter_action] == "follow"
+			client.follow("Tioki")
+			self.current_user.teacher.update_attribute(:twitter_connect, true)
+			notice = "You are now following tioki"
+		elsif session[:twitter_action] == "tweet"
+			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+			self.current_user.teacher.update_attribute(:tweet_about, true)
+			notice = "Success"
+		end
+
+		#Follow and tweet are one time things so we should
+		#remove those keys
+		session[:twitter_action] = nil
+
+		redirect_to "/tioki_bucks", :notice => notice
+	end
+
+	def facebook_auth
+		@oauth = facebook_oauth
+		redirect_to @oauth.url_for_oauth_code(:permissions => "publish_stream")
+	end
+
+	def facebook_callback
+		access_token = facebook_oauth.get_access_token(params[:code])
+
+		@graph = Koala::Facebook::API.new(access_token)
+
+		@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
+		self.current_user.teacher.update_attribute(:facebook_connect, true)
+
+		redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
+	end
+
+	def tioki_bucks
+		@start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			@connected = true
+			@start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@followed = true
+			@start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, 
+				:conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@groups = true
+			@start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, 
+				:conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+			@vouched_skills = true
+			@start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, 
+				:conditions => ["whiteboards.slug = ?", 'share'])
+			@whiteboard_post = true
+			@start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+			@commented = true
+			@start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.current_user.avatar?
+			@avatar = true
+			@start_count += 1
+		end
+
+		#referrals
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if @invite_count*2 > 42
+			@tioki_bucks += 42
+		else
+			@tioki_bucks += @invite_count*2
+		end
+
+		if @start_count >= 5
+			@tioki_bucks += 5
+		end
+
+		if self.current_user.teacher.facebook_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.twitter_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.tweet_about
+			@tioki_bucks += 1
+		end
+	end
+
+	def get_started
+		@tioki_bucks = 0
+
+		#3 connections
+		@connections = Connection.mine(:pending => false).count
+
+		#follow three discussions
+		@following = Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Join three groups
+		@groups = User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Vouch 5 skills
+		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
+
+		#post to whiteboard
+		@white_board_post =  Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
+
+		#Post a reply to discussion
+		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+	end
 end

@@ -54,7 +54,7 @@
     <td>
       <% numOfReferrals = 1 %>
       <% teacher.user.successful_referrals.each do |referral| %>
-				<% if referral.created_user.created_at > "2012-10-22 20:00:00" %>
+				<% if referral.created_user.created_at > "2012-10-22 20:00:00" && referral.created_user.created_at < TIOKI_BUCKS_START %>
 					<%= numOfReferrals %>. <% if referral.created_user %><%= referral.created_user.name %>- <%= referral.created_user.email %><% end %><br />
 					<% numOfReferrals +=1 %>
 				<% end %>

@@ -302,4 +302,13 @@ class ApplicationController < ActionController::Base
 				Rails.logger.fatal(error) if severity == 3
 			end
 		end
+
+		def twitter_oauth
+			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+		end
+
+		def facebook_oauth
+			callback_url = "http://#{request.host_with_port}/facebook_callback"
+			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
+		end
 end

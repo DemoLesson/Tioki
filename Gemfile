@@ -139,3 +139,6 @@ gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exception
 gem 'graylog2-resque'
 gem 'delayed_job_active_record'
 gem 'acts_as_commentable_with_threading'
+
+#Facebook api gem
+gem 'koala'

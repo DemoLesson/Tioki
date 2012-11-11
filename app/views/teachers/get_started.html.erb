@@ -1,0 +1,101 @@
+<section id="main-content" class="inner-content">
+	<h1>Get Started with Tioki</h1>
+	<section id="panels" class="group">
+		<section class="panel three-column right-side">
+			<ul>
+				<li>
+					<a href="/connections">
+						<% if @connections >= 5 %>
+							<del>Add 5 connections</del>
+						<% else %>
+							Add 5 connections
+							<div style="float:right">
+								<%= @connections %> of 5
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a href="/discussions">
+						<% if @following >= 3  %>
+							<del>Follow 3 Discussions</del>
+						<% else %>
+							Follow 3 Discussions
+							<div style="float:right">
+								<%= @following %> of 3
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a href="/groups">
+						<%if @groups >= 3 %>
+							<del>Join 3 Groups</del>
+						<% else %>
+							Join 3 Groups
+							<div style="float:right">
+								<%= @groups %> of 3
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a>
+						<%if @vouched_skills >= 5 %>
+							<del>Vouch 5 skills</del>
+						<% else %>
+							Vouch 5 skills
+							<div style="float:right">
+								<%= @vouched_skills %> of 5
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a href="/">
+						<%if @whiteboard_post %>
+							<del>Post to Whiteboard</del>
+						<% else %>
+							Post to Whiteboard
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a href="/discussions">
+						<%if @comment %>
+							<del>Post a reply to discussion</del>
+						<% else %>
+							Post a reply to discussion
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li>
+					<a href="/me/profile/edit/upload-avatar">
+						<% if self.current_user.avatar? %>
+							<del>Upload a profile picture</del>
+						<% else %>
+							Upload a profile picture
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+<script>
+	$(document).ready(function () {
+		$("#get_started").click(function(e) {
+			e.preventDefault();
+			$("#get_started_fields").toggle(700);
+		});
+	});
+</script>

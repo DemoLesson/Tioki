@@ -141,7 +141,10 @@
 				<% unless self.current_user.nil? %>
 					<div id="user-actions">
 						<ul>
-							<li class="user-name">
+							<li style="float:left">
+								<a href="/get_started">Get Started</a>
+							</li>
+							<li class="user-name" style="float:left">
 								<a href="/me/profile">
 								<%= self.current_user.name %>
 								<div class="gear">
