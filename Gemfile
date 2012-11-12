@@ -111,7 +111,9 @@ gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git'
 gem 'rest-client'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
+gem 'eventmachine'
+gem 'em-websocket'
 
 # Deploy with Capistrano
 # gem 'capistrano'

@@ -1,40 +1,35 @@
-# This is a sample Capistrano config file for rubber
+# Load the delayed job recipies
 require "delayed/recipes"
 
+# Set the rails environment
 set :rails_env, Rubber.env
 
+# Set the generic config info
 on :load do
-  set :application, rubber_env.app_name
-  set :runner,      rubber_env.app_user
-  set :deploy_to,   "/mnt/#{application}-#{Rubber.env}"
-  set :copy_exclude, [".git/*", ".bundle/*", "log/*", ".rvmrc"]
+  set :application, rubber_env.app_name                         # Application name
+  set :runner,      rubber_env.app_user                         # User under which this application runs
+  set :deploy_to,   "/mnt/#{application}-#{Rubber.env}"         # Folder on server where the application runs from
+  set :copy_exclude, [".git/*", ".bundle/*", "log/*", ".rvmrc"] # What files should we ignore
 end
 
-# Use a simple directory tree copy here to make demo easier.
-# You probably want to use your own repository for a real app
+# Start by using Git checkout
 set :scm, :git
 set :scm_verbose, true
 set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic@github.com/DemoLesson/Tioki"
 
-# If this is a production release only deploy master!
+# In production deploy only master otherwise use the current branch
 set :branch, "master" if Rubber.env == 'production'
-# Otherwise deploy current branch from github
 set :branch, `git symbolic-ref --short -q HEAD`.strip if Rubber.env != 'production'
-
-# Get the code via export only the latest commit
-set :deploy_via, :export
 set :git_shallow_clone, 1
 
-# Easier to do system level config as root - probably should do it through
-# sudo in the future.  We use ssh keys for access, so no passwd needed
+# Run system level server configuration as root (no pass rqd)
 set :user, 'root'
 set :password, nil
 
-# Use sudo with user rails for cap deploy:[stop|start|restart]
-# This way exposed services (mongrel) aren't running as a privileged user
+# Run deploy using sudo (where possible)
 set :use_sudo, true
 
-# How many old releases should be kept around when running "cleanup" task
+# Keep 3 releases to rollback too
 set :keep_releases, 3
 
 # Lets us work with staging instances without having to checkin config files
@@ -56,74 +51,141 @@ default_run_options[:max_hosts] = max_hosts if max_hosts > 0
 # Comment out or use "required_task" for default cap behavior of a hard failure
 rubber.allow_optional_tasks(self)
 
-# Wrap tasks in the deploy namespace that have roles so that we can use FILTER
-# with something like a deploy:cold which tries to run deploy:migrate but can't
-# because we filtered out the :db role
-namespace :deploy do
-  rubber.allow_optional_tasks(self)
-  tasks.values.each do |t|
-    if t.options[:roles]
-      task t.name, t.options, &t.body
-    end
-  end
-end
-
-namespace :deploy do
-  namespace :assets do
-    rubber.allow_optional_tasks(self)
-    tasks.values.each do |t|
-      if t.options[:roles]
-        task t.name, t.options, &t.body
-      end
-    end
-  end
-end
-
-# load in the deploy scripts installed by vulcanize for each rubber module
+# Load in the deploy scripts installed by vulcanize for each rubber module
 Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
-# capistrano's deploy:cleanup doesn't play well with FILTER
-after "deploy", "cleanup"
-after "deploy:migrations", "cleanup"
+# Deploy scripting
+namespace :deploy do
 
-task :cleanup, :except => { :no_release => true } do
-  count = fetch(:keep_releases, 5).to_i
-  
-  rsudo <<-CMD
-    all=$(ls -x1 #{releases_path} | sort -n);
-    keep=$(ls -x1 #{releases_path} | sort -n | tail -n #{count});
-    remove=$(comm -23 <(echo -e "$all") <(echo -e "$keep"));
-    for r in $remove; do rm -rf #{releases_path}/$r; done;
-  CMD
+  # Do a full deploy (start -> finish)
+  task :full do
+    update_code
+    migrate
+    assets.default
+    create_symlink
+    restart
+    cleanup
+  end
+
+  # Rake assets
+  namespace :assets do
+
+    # Rake the configured directory
+    task :default do
+      rake = fetch(:rake, "rake")
+      rails_env = fetch(:rails_env, "production")
+      migrate_target = fetch(:migrate_target, :latest)
+
+      # Deploy assets off specified directory
+      directory = case migrate_target.to_sym
+        when :current then current_path
+        when :latest  then latest_release
+        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+        end
+
+      run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
+    end
+
+    # Rake the currently live directory
+    task :current do
+      migrate_target = fetch(:migrate_target, :latest)
+      set :migrate_target, :current
+      default
+      set :migrate_target, migrate_target
+    end
+  end
+
+  # Roll back code to a previous revision
+  namespace :rollback do
+    task :default do
+      revision
+      restart
+      cleanup
+    end
+  end
+
+  namespace :chmod do
+    task :uploads do
+      run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
+    end
+
+    task :all do
+      uploads
+    end
+  end
 end
 
-if Rubber::Util.has_asset_pipeline?
-  # load asset pipeline tasks, and reorder them to run after
-  # rubber:config so that database.yml/etc has been generated
-  load 'deploy/assets'
+# Rubber config hacks
+namespace :rubber do
 
-  # Delete preloaded callbacks
-  after = ["deploy:assets:precompile"]
-  before = ["deploy:assets:symlink", "rubber:config"]
-  after = callbacks[:after].delete_if {|c| after.include? c.source}
-  before = callbacks[:before].delete_if {|c| before.include? c.source}
+  # Delete the already existing config task
+  tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
+  if all_methods.include?(:config)
+    metaclass = class << self; self; end
+    metaclass.send(:remove_method, :config)
+  end
 
-  # Debugging code
-  #after.each{ |x|
-  #  next if x.class.name == 'Capistrano::ProcCallback'
-  #  puts x.only.first + " --> " + x.source
-  #}
-  #exit
+  # Store the two config options
+  namespace :config do
 
-  # Before we precompile link assets to shared
-  before "deploy:assets:precompile", "deploy:assets:symlink"
+    # Config based on the latest code
+    task :default do
+      opts = {}
+      opts[:no_post] = true if ENV['NO_POST']
+      opts[:force] = true if ENV['FORCE']
+      opts[:file] = ENV['FILE'] if ENV['FILE']
+      migrate_target = fetch(:migrate_target, :latest)
 
-  # Dont precompile until rubber config has been run
-  after "rubber:config", "deploy:assets:precompile"
+      # Config off the specifed directory
+      opts[:deploy_path] = case migrate_target.to_sym
+        when :current then current_path
+        when :latest then latest_release
+        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+        end
 
-  # After precompile migrate the database
-  after "deploy:assets:precompile", "deploy:db:migrate"
-  after "deploy:db:migrate", "delayed_job:start"
+      run_config(opts)
+    end
+
+    # Config on the currently deployed code
+    task :current, { :on_error => :continue } do
+      migrate_target = fetch(:migrate_target, :latest)
+      set :migrate_target, :current
+      default
+      set :migrate_target, migrate_target
+    end
+  end
 end
+
+# Handle websockets daemon
+namespace :websockets do
+
+  task :start do
+    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets start"
+  end
+
+  task :stop do
+    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets stop"
+  end
+
+  task :reload do
+    stop
+    start
+  end
+
+end
+
+# Reload delayed job
+before "deploy:restart", "delayed_job:stop"
+after "deploy:restart", "delayed_job:start"
+
+# Reload websockets daemon
+before "deploy:restart", "websockets:reload"
+
+# Add chmod to after rubber:setup_app_permissions
+after "rubber:setup_app_permissions", "deploy:chmod:all"
+
+# Reconfigure rubber on rollback
+after "deploy:rollback:revision", "rubber:config:current"
+after "deploy:rollback:revision", "deploy:assets:current"

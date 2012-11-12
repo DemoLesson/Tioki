@@ -1,10 +1,10 @@
 role_dependencies:
-  app: [passenger_nginx]
+  app: [unicorn]
 
 web_port: 80
 web_ssl_port: 443
-web_tools_port: 8080
-web_tools_ssl_port: 8443
+web_tools_port: 8081
+web_tools_ssl_port: 8444
 
 security_groups:
   web:
