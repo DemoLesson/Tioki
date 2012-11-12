@@ -1,0 +1,47 @@
+<section id="main-content" class="inner-content">
+	<h1>Administration</h1>
+
+	<ul id="breadcrumbs">
+		<li><%= link_to 'Home', :admin %></li>
+		<li>Toki Coins</li>
+	</ul>
+
+	<%= render :partial => "admin_menu" %>
+
+	<div class="clear" style="margin-top: 2.5em; border-bottom: 1px solid #ccc;"></div>
+
+	<div id="wrapper">
+
+		<div id="left" style="width: 905px"align="left">
+
+			<p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
+			<table border="1" cellpadding="10">
+				<tr>
+					<th>Teacher Name</th>
+					<th>Email</th>
+					<th>Tioki Coins</th>
+					<th>Got started?</th>
+					<th>Post on facebook</th>
+					<th>Followed Twitter</th>
+					<th>Tweet Tioki</th>
+					<th># of Referrals</th>
+				</tr>
+				<%- @teachers.each do |teacher| %>
+					<tr>
+						<td>
+							<%= link_to teacher.user.name, "/profile/#{teacher.user.teacher.url}" %>
+						</td>
+						<td><%= link_to teacher.user.email, 'mailto:' +teacher.user.email %></td>
+						<td><%= teacher.user.tioki_bucks %></td>
+						<td><%= teacher.user.got_started %></td>
+						<td><%= teacher.facebook_connect %></td>
+						<td><%= teacher.facebook_connect %></td>
+						<td><%= teacher.tweet_about %></td>
+						<td><%= ConnectionInvite.find(:all, :conditions => ["connection_invites.user_id = ? && connection_invites.created_at > ?", teacher.user_id, 1.hour.ago]).count %></td>
+					</tr>
+				<% end -%>
+			</table>
+		</div>
+
+	</div>
+</section>

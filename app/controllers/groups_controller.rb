@@ -1,10 +1,12 @@
 class GroupsController < ApplicationController
-	before_filter :login_required, :except => [:index, :show]
-	before_filter :teacher_required, :except => [:index, :show]
+	before_filter :login_required, :except => [:index, :show, :members, :about]
+	before_filter :teacher_required, :except => [:index, :show, :members, :about]
 
 	def index
 		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
-		#@groups = Group.all
+		if params[:group_search]
+			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
+		end
 	end
 
 	def new
@@ -86,6 +88,29 @@ class GroupsController < ApplicationController
 		end
 
 		@comments = @group.get_comments
+
+		# Is the current user in a group
+		unless self.current_user.nil?
+			@in_group = self.current_user.groups.include?(@group)
+		else
+			@in_group = false
+		end
+		
+		# Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
+  end
+  
+  def about
+    # Load group
+		@group = Group.find(params[:id])
+
+		# Is the current user an administrator
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
 
 		# Is the current user in a group
 		unless self.current_user.nil?

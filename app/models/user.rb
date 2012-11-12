@@ -415,7 +415,8 @@ class User < ActiveRecord::Base
 	end
 
 	def referrals
-		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL and created_at > ?', self.id, "2012-10-22 20:00:00")
+		#after donors choose before tioki bucks
+		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL && created_at > ? && created_at < ?', self.id, "2012-10-22 20:00:00", TIOKI_BUCKS_START)
 	end
 	
 	def change_password(params)
@@ -557,6 +558,82 @@ class User < ActiveRecord::Base
 	# Filter to accounts with avatars
 	def self.avatar?(has = true)
 		where('`users`.`avatar_updated_at` IS ' + (has ? 'NOT ' : '') + 'NULL')
+	end
+
+	def got_started
+		start_count = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
+			start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
+			start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, :conditions => ["voucher_id = ?", self.id]).count >= 5
+			start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
+			start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.id])
+			start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.avatar?
+			start_count += 1
+		end
+
+		if start_count >= 5
+			return true
+		else
+			return false
+		end
+	end
+
+	def tioki_bucks
+		tioki_bucks = 0
+		if self.got_started
+			tioki_bucks += 5
+		end
+
+		if self.teacher.facebook_connect
+			tioki_bucks += 1
+		end
+
+		if self.teacher.twitter_connect
+			tioki_bucks += 1
+		end
+
+		if self.teacher.tweet_about
+			tioki_bucks += 1
+		end
+
+		invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.id, TIOKI_BUCKS_START]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if invite_count*2 > 42
+			tioki_bucks += 42
+		else
+			tioki_bucks += invite_count*2
+		end
+
+		return tioki_bucks
 	end
 
 	protected

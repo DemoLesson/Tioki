@@ -22,6 +22,8 @@
 					<% else %>
 						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
 					<% end %>
+				<% else %>
+					<%= link_to "Follow", '/welcome_wizard?x=step1&discussion_follow', :class => "action-button bg-green", :target => "_blank" %>
 				<% end %>
 				<% @discussion.following.each do |user| %>
 					<% if user %>
@@ -33,7 +35,7 @@
 					<% end %>
 				<% end %>
 					<div style="display:block;">
-						<h3>Share</h3>
+						<h3 class="top-line" style="margin:15px 0px 0px -15px">Share Discussion:</h3>
 						<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
 						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
 						<% if self.current_user %>
@@ -63,18 +65,20 @@
 				<% else %>
 				<p style="width:675px;margin-left:65px">
 					<%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
-				</p><br />
+				</p>
 				<% end %>
-				<section>
+				<section style="margin-left:65px">
 					<% if self.current_user && self.current_user.teacher %>
-					<%= link_to 'Reply to discussion', "#discussion_reply" , :class => "action-button bg-green" %>
-					<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
-					<% if !@discussion.deleted_at %>
-					<%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
-					|
-					<%= link_to "Delete", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?", :style => "color:#F66C4C" %><br/><br />
-					<% end %>
-					<% end %>
+						<%= link_to 'Reply to discussion', "#discussion_reply" , :class => "action-button bg-green" %>
+						<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
+							<% if !@discussion.deleted_at %>
+								<%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
+									|
+								<%= link_to "Delete", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?", :style => "color:#F66C4C" %><br/><br />
+							<% end %>
+						<% end %>
+					<% else %>
+						<%= link_to 'Reply to discussion', "/welcome_wizard?x=step1&discussion_reply" , :class => "action-button bg-green" %>
 					<% end %>
 				</section>
 			</div>
@@ -121,7 +125,12 @@
 						<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
 						<% end %>
 					</p>
+					<% else %>
+					<p style="float:left;margin-left:65px">
+						<%= link_to 'Reply', "/welcome_wizard?x=step1&discussion_reply" %>
+					</p>
 					<% end %>
+						
 				</li>
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">

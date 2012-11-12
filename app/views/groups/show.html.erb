@@ -1,76 +1,122 @@
 <section id="main-content" class="inner-content">
-	<h1><%= @group.name %></h1>
-	<div id="sidebar">
-		<div class="bordered_image">
-			<% if @group.picture? %>
-				<%= image_tag @group.picture.url(:medium) %>
-			<% else %>
-				<img src="http://placehold.it/220x220" />
-			<% end %>
-		</div>
-		<% unless @group.site == nil || @group.site == "" %>
-			<a href="<%= @group.site %>" target="_blank">
-				<%= image_tag('tioki/icons/globe.png') %>
-			</a>
-		<% end %>
-		<% unless @group.twitter == nil || @group.twitter == "" %>
-			<a href="<%= @group.twitter %>" target="_blank">
-				<%= image_tag('tioki/icons/twitter2.png') %>
-			</a>
-		<% end %>
-		<div style="display:block;">
-			<h3>Share</h3>
-			<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
-			<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
-			<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
-			<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png') %></a>
-		</div>
-	</div>
-	<div id="content">
+	<section class="info panel">
+		<section class="two-column left-side" style="height:120px;width:700px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px;float:left;height:auto;min-width:100px;background:#F0F0F0">
+					<% if @group.picture? %>
+						<%= image_tag @group.picture.url(:medium), :style => "width:200px" %>
+					<% else %>
+						<img src="http://placehold.it/220x220" />
+					<% end %>
+			</section>
+			<section style="float:right;margin:10px 10px 0px 0px">
+				<% unless @group.site == nil || @group.site == "" %>
+					<a href="<%= @group.site %>" target="_blank">
+						<%= image_tag('tioki/icons/globe.png') %>
+					</a>
+				<% end %>
+				<% if @group.twitter.present? %>
+					<% if @group.twitter.include? '//' %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), @group.twitter, :target => "_blank" %>
+					<% elsif @group.twitter.include? 'com' %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), 'http://'+@group.twitter, :target => "_blank" %>
+					<% else %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@group.twitter, :target => "_blank" %>
+					<% end %>
+				<% end %>
+				<% if @group.facebook.present? %>
+					<% if @group.facebook.include? '//' %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), @group.facebook, :target => "_blank" %>
+					<% elsif @group.facebook.include? 'com' %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), 'http://'+@group.facebook, :target => "_blank" %>
+					<% else %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), '//facebook.com/'+@group.facebook, :target => "_blank" %>
+					<% end %>
+				<% end %>
+			</section>
+			<h2 style="margin: 10px 0px -5px 10px;color:#000">
+				<%= @group.name %>
+			</h2>
+			<p style="margin-left:10px; width:auto">
+				<% if @group.description? %>
+					<% if @group.description.size > 200 %><%=h (@group.description.gsub(%r{</?[^>]+?>}, '')[0..200]+'...').html_safe %>
+					<% else %><%=h @group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+					<% end %>
+				<% end %>
+			</p>	
+		</section>
+		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;width:250px;">
+		<span style="padding:0px 0px 0px 20px" >
 		<% if self.current_user %>
 			<% if @admin %>
-				<%= link_to "Edit Group", edit_group_path, :class => "button", :style => "float:right" %>
+			
+				<%= link_to "Edit Group", edit_group_path, :class => "button" %>
+				<%= link_to "Message Members", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "margin-right: 10px" %>
+			
 			<% elsif @in_group %>
-				<%= link_to "Explore More Groups", "/groups", :class => "button", :style => "float:right" %>
+				<%= link_to "Explore More Groups", "/groups", :class => "button" %>
 			<% else %>
 				<% if @group.permissions!['public'] %>
 					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :class => "button", :style => "float:right" %>
 				<% end %>
 			<% end %>
+		<% else %>
+			<%= link_to "Join Group", '/welcome_wizard?x=step1&join_group_button', :class => "button", :target => "_blank" %>
 		<% end %>
-		<% if @group.description? %>
-			<p>
-				<h3>Description</h3>
-				<%=raw auto_link(@group.description).gsub(/\n/, '<br />') %>
-			</p>
-		<% end %>
-		
-		<h3 class="top-line">Tioki Users that are part of <%= @group.name %></h3>
-		<div class="avatars">
-			<% @group.users.avatar?.each do |user| %>
-				<%= link_to image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url %>
-			<% end %>
-		</div>
-		<section class="profile-content panel" style="margin:30px 0px;">
-		<% unless User.current.nil? %>
-		<h3>Top Comments</h3>
-		<div class="comments inline">
-			<ul>
-				<% @comments.each do |comment| %>
-					<% @comment = comment %>
-					<%= render 'comments/show' %>
-				<% end %>
-			</ul>
-			<% end %>
-			<% unless User.current.nil? %>
-				<section class="panel-actions">
-					<% if @in_group %>
-					<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
-						<textarea name="comment" style="height:50px;width:94%;padding:10px 3%;"></textarea>
-						<input type="submit" value="Post Comment" />
-					</form>
+		</span>
+		<section style="margin:0px 0px 0px 20px">
+		<h4 class="bottom-line">
+			Invite Friends to Join: <br />
+		</h4>
+		<p>
+		<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
+		<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
+		<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "width:30px") %></a>
+		<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png', :style => "width:30px") %></a>
+		</p>
+		</section>
+		</section>
+	</section><br /><br />
+	<section>
+	<nav class="subpage">
+		<ul>
+			<li class="current">
+				Discussions
+			</li>
+			<li>
+				<a href='/groups/<%= @group.id %>/members'>
+					Members
+					<% if @group.users.count > 0 %>
+						(<%= @group.users.count %>)
 					<% end %>
-				</section>
+				</a>
+			</li>
+			<li>
+				<a href='/groups/<%= @group.id %>/about'>
+					About
+				</a>
+			</li>
+		</ul>
+	</nav>
+	</section>
+	<section class="profile-content panel" style="margin:30px 0px;">
+		<% unless User.current.nil? %>
+			<section style="margin:15px 0px 0px 15px">
+				<h4>Start a Discussion</h4>
+				<% if @in_group %>
+					<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
+						<textarea name="comment" style="height:50px;width:84%;padding:10px 3%;" placeholder="Start a Discussion or Share Something with the Group"></textarea>
+						<input type="submit" value="Post" style="margin:20px 20px 0px 0px;float:right" />
+					</form>
+				<% end %>
+			</section>
+			<div class="comments inline">
+				<h4 style="margin:-10px 0px 0px 15px">Top Comments</h4>
+				<ul>
+					<% @comments.each do |comment| %>
+						<% @comment = comment %>
+						<%= render 'comments/show' %></br>
+					<% end %>
+				</ul>
 
 				<!-- Load js for processing comments - AJAX HACK -->
 				<script type="text/javascript">
@@ -146,9 +192,8 @@
 				});
 				</script>
 			<% end %>
-		</div>
+			</div>
 	</section>
-	</div>
 </section>
 
 <script type="text/javascript">

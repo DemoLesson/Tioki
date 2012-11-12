@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121107031345) do
+ActiveRecord::Schema.define(:version => 20121108181806) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -620,7 +620,7 @@ ActiveRecord::Schema.define(:version => 20121107031345) do
   end
 
   create_table "teachers", :force => true do |t|
-    t.integer  "user_id",                                                   :null => false
+    t.integer  "user_id",                                                    :null => false
     t.boolean  "willing_to_move"
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
@@ -648,6 +648,9 @@ ActiveRecord::Schema.define(:version => 20121107031345) do
     t.string   "teachingchannel"
     t.integer  "video_id"
     t.string   "pinterest"
+    t.boolean  "facebook_connect",                        :default => false
+    t.boolean  "twitter_connect",                         :default => false
+    t.boolean  "tweet_about",                             :default => false
   end
 
   add_index "teachers", ["url"], :name => "index_teachers_on_url"
