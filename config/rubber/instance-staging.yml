@@ -1,11 +1,8 @@
 ---
 - !ruby/object:Rubber::Configuration::InstanceItem
-  name: unicorn01
+  name: unicorn
   domain: tioki.com
   roles:
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: web
-    options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: app
     options: {}
@@ -16,31 +13,62 @@
     name: nginx
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
+    name: elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_elasticsearch
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: mongodb
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_server
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: graylog_web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger_nginx
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web_tools
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: db
     options:
       primary: true
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: tools
-    options: {}
-  instance_id: i-1b999628
+  instance_id: i-733b3240
   image_type: m1.small
   image_id: ami-2add531a
   security_groups:
   - tioki_staging_default
   - tioki_staging_web
-  - tioki_staging_unicorn01
-  - tioki_staging_app
+  - tioki_staging_web_tools
   - tioki_staging_unicorn
+  - tioki_staging_app
   - tioki_staging_nginx
+  - tioki_staging_elasticsearch
+  - tioki_staging_graylog_elasticsearch
+  - tioki_staging_graylog_mongodb
+  - tioki_staging_mongodb
+  - tioki_staging_graylog_server
+  - tioki_staging_graylog_web
+  - tioki_staging_haproxy
+  - tioki_staging_passenger_nginx
   - tioki_staging_db
-  - tioki_staging_tools
-  external_host: ec2-54-245-74-63.us-west-2.compute.amazonaws.com
-  external_ip: 54.245.74.63
-  internal_host: ip-10-244-21-20.us-west-2.compute.internal 
-  internal_ip: 10.244.21.20
+  external_host: ec2-50-112-64-173.us-west-2.compute.amazonaws.com
+  external_ip: 50.112.64.173
+  internal_host: ip-10-244-26-237.us-west-2.compute.internal
+  internal_ip: 10.244.26.237
   zone: us-west-2c
   platform: linux
   root_device_type: instance-store
