@@ -1,3 +1,8 @@
+v1.6.9 - Nov 12, 2012  9:42AM PST deployed by Aleks Stanisic
+============================================================
+* a40f9f5: Aleks Stanisic - flash notice for Tioki Monday
+* 81d6d26: Elijah Green - Fix check on whiteboard posts on get_started
+
 v1.6.8 - Nov 12, 2012  9:03AM PST deployed by Aleks Stanisic
 ============================================================
 * 9588a83: Brian Martinez - commenting out donors choose
