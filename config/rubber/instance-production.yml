@@ -66,7 +66,7 @@
     name: elasticsearch
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: passenger_nginx
+    name: nginx
     options: {}
   instance_id: i-ad222a9e
   image_type: m1.small
@@ -81,7 +81,7 @@
   - tioki_production_mongodb
   - tioki_production_graylog_elasticsearch
   - tioki_production_elasticsearch
-  - tioki_production_passenger_nginx
+  - tioki_production_nginx
   external_host: ec2-50-112-39-252.us-west-2.compute.amazonaws.com
   external_ip: 50.112.39.252
   internal_host: ip-10-244-161-158.us-west-2.compute.internal
