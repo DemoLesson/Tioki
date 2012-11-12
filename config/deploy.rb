@@ -177,11 +177,12 @@ namespace :websockets do
 end
 
 # Reload delayed job
-before "deploy:restart", "delayed_job:stop"
+before "deploy:create_symlink", "delayed_job:stop"
 after "deploy:restart", "delayed_job:start"
 
 # Reload websockets daemon
-before "deploy:restart", "websockets:reload"
+before "deploy:create_symlink", "websockets:stop"
+after "deploy:restart", "websockets:start"
 
 # Add chmod to after rubber:setup_app_permissions
 after "rubber:setup_app_permissions", "deploy:chmod:all"
