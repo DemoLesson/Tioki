@@ -1,3 +1,8 @@
+v1.6.8 - Nov 12, 2012  9:03AM PST deployed by Aleks Stanisic
+============================================================
+* 9588a83: Brian Martinez - commenting out donors choose
+* e8c1d4e: Brian Martinez - changes to Get Started page
+
 v1.6.7 - Nov 10, 2012  6:56PM PST deployed by Aleks Stanisic
 ============================================================
 * 8fbc4b7: Brian Martinez - changes to signup and login pages
