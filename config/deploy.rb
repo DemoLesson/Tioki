@@ -148,9 +148,30 @@ namespace :rubber do
   end
 end
 
+# Handle websockets daemon
+namespace :websockets do
+
+  task :start do
+    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets start"
+  end
+
+  task :stop do
+    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets stop"
+  end
+
+  task :reload do
+    stop
+    start
+  end
+
+end
+
 # Reload delayed job
 before "deploy:restart", "delayed_job:stop"
 after "deploy:restart", "delayed_job:start"
+
+# Reload websockets daemon
+before "deploy:restart", "websockets:reload"
 
 # Reconfigure rubber on rollback
 after "deploy:rollback:revision", "rubber:config:current"
