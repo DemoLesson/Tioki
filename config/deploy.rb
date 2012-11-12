@@ -111,7 +111,7 @@ namespace :deploy do
       run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
     end
 
-    task :all
+    task :all do
       uploads
     end
   end
