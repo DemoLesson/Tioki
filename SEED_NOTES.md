@@ -1,3 +1,7 @@
+v2.0.1 - Nov 12, 2012 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 382ecec: Aleks Stanisic - changes to banner url
+
 v2.0.0 - Nov 12, 2012 11:53AM PST deployed by Aleks Stanisic
 ============================================================
 * db106f4: Aleks Stanisic - gemlock
