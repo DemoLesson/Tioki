@@ -135,6 +135,9 @@
     name: db
     options:
       primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: haproxy
+    options: {}
   instance_id: i-41787072
   image_type: m1.small
   image_id: ami-2add531a
