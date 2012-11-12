@@ -13,28 +13,7 @@
     name: nginx
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: elasticsearch
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: graylog_elasticsearch
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: graylog_mongodb
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: mongodb
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: graylog_server
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: graylog_web
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
     name: haproxy
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: passenger_nginx
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: web
