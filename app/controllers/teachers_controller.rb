@@ -859,7 +859,7 @@ class TeachersController < ApplicationController
 		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
 
 		#post to whiteboard
-		@white_board_post =  Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
+		@whiteboard_post =  Whiteboard.find(:first, :conditions => ["user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share'])
 
 		#Post a reply to discussion
 		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])

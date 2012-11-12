@@ -60,6 +60,7 @@ class ApplicationController < ActionController::Base
 
 	def check_if_referer
 		
+		flash[:notice] = "Today's Featured Event: <a href=\"http://blog.tioki.com/tioki-teacher-spotlight-angela-estrella/\" style=\"color:#fff\">Tioki Teacher Spotlight - Angela Estrella</a>".html_safe
 		# Check if we have a referer set anywhere
 		if params.has_key?("_email_referer")
 			session[:_referer] = params['_email_referer']
