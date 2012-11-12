@@ -95,6 +95,14 @@ namespace :deploy do
       default
       set :migrate_target, migrate_target
     end
+
+    # Allow items to silently fail if necessary
+    rubber.allow_optional_tasks(self)
+    tasks.values.each do |t|
+      if t.options[:roles]
+        task t.name, t.options, &t.body
+      end
+    end
   end
 
   # Roll back code to a previous revision
@@ -106,6 +114,7 @@ namespace :deploy do
     end
   end
 
+  # Handle chmodding of certain directories
   namespace :chmod do
     task :uploads do
       run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
@@ -113,6 +122,14 @@ namespace :deploy do
 
     task :all do
       uploads
+    end
+  end
+
+  # Allow items to silently fail if necessary
+  rubber.allow_optional_tasks(self)
+  tasks.values.each do |t|
+    if t.options[:roles]
+      task t.name, t.options, &t.body
     end
   end
 end

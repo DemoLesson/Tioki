@@ -48,7 +48,7 @@ security_groups:
         source_ips: [0.0.0.0/0]
 
 role_dependencies:
-  web_tools: [graylog_web, graylog_server]
+  web_tools: [graylog_web, graylog_server, nginx]
   graylog_server: [graylog_mongodb, graylog_elasticsearch]
   graylog_mongodb: [mongodb]
   graylog_elasticsearch: [elasticsearch]
