@@ -19,9 +19,6 @@
     name: web
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: web_tools
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
     name: db
     options:
       primary: true
@@ -31,18 +28,10 @@
   security_groups:
   - tioki_staging_default
   - tioki_staging_web
-  - tioki_staging_web_tools
   - tioki_staging_unicorn
   - tioki_staging_app
   - tioki_staging_nginx
-  - tioki_staging_elasticsearch
-  - tioki_staging_graylog_elasticsearch
-  - tioki_staging_graylog_mongodb
-  - tioki_staging_mongodb
-  - tioki_staging_graylog_server
-  - tioki_staging_graylog_web
   - tioki_staging_haproxy
-  - tioki_staging_passenger_nginx
   - tioki_staging_db
   external_host: ec2-50-112-64-173.us-west-2.compute.amazonaws.com
   external_ip: 50.112.64.173
