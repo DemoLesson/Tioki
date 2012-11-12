@@ -63,7 +63,7 @@ namespace :deploy do
   task :full do
     update_code
     migrate
-    assets
+    assets.default
     create_symlink
     restart
     cleanup
