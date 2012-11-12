@@ -6,7 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'envi
 
 EventMachine.run {
 
-	EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 8080) do |ws|
+	EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 7777) do |ws|
 		
 		# Load in websockets
 		Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), 'websocket')) + "/*.{rb}").each do |file|
