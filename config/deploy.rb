@@ -105,6 +105,16 @@ namespace :deploy do
       cleanup
     end
   end
+
+  namespace :chmod do
+    task :uploads do
+      run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
+    end
+
+    task :all
+      uploads
+    end
+  end
 end
 
 # Rubber config hacks
@@ -172,6 +182,9 @@ after "deploy:restart", "delayed_job:start"
 
 # Reload websockets daemon
 before "deploy:restart", "websockets:reload"
+
+# Add chmod to after rubber:setup_app_permissions
+after "rubber:setup_app_permissions", "deploy:chmod:all"
 
 # Reconfigure rubber on rollback
 after "deploy:rollback:revision", "rubber:config:current"
