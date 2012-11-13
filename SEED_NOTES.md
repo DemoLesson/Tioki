@@ -1,3 +1,21 @@
+v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
+==========================================================
+* fcdb345: Kelly Becker - graylog
+
+v2.0.3 - Nov 13, 2012 10:33AM PST deployed by Aleks Stanisic
+============================================================
+* 121e069: Aleks Stanisic - Tioki Tuesday Banner
+* a1ce200: Kelly Becker - commented out filter
+
+v2.0.2 - Nov 13, 2012  9:05AM PST deployed by Kelly Becker
+==========================================================
+* 58b4ac9: Kelly Becker - removed tools
+* a0411ce: Kelly Becker - rubber config
+* 9b86d96: Kelly Becker - nginx not passenger_nginx
+* 454051c: Kelly Becker - made nginx a req
+* 16300bd: Kelly Becker - web_tools config
+* 7b8e0a4: Kelly Becker - tools server redone
+
 v2.0.1 - Nov 12, 2012 12:09PM PST deployed by Aleks Stanisic
 ============================================================
 * 382ecec: Aleks Stanisic - changes to banner url
