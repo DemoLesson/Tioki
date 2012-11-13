@@ -214,7 +214,7 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 			elsif params[:share_on_twitter]
 
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to "/twitter_auth?twitter_action=auth"
+				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
 
 			end
 		end
