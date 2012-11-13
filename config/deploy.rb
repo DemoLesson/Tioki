@@ -58,6 +58,12 @@ end
 
 # Deploy scripting
 namespace :deploy do
+  rubber.allow_optional_tasks(self)
+  
+  # Re-taskify
+  tasks.values.each do |t|
+    task t.name, t.options, &t.body if t.options[:roles]
+  end
 
   # Do a full deploy (start -> finish)
   task :full do
@@ -69,8 +75,19 @@ namespace :deploy do
     cleanup
   end
 
+  task :tools do
+    update_code
+    rubber.config
+    rubber.mongodb.restart
+    rubber.graylog.server.restart
+    rubber.graylog.web.restart
+    rubber.nginx.reload
+    rubber.nginx.restart
+  end
+
   # Rake assets
   namespace :assets do
+    rubber.allow_optional_tasks(self)
 
     # Rake the configured directory
     task :default do
@@ -98,15 +115,12 @@ namespace :deploy do
 
     # Allow items to silently fail if necessary
     rubber.allow_optional_tasks(self)
-    tasks.values.each do |t|
-      if t.options[:roles]
-        task t.name, t.options, &t.body
-      end
-    end
   end
 
   # Roll back code to a previous revision
   namespace :rollback do
+    rubber.allow_optional_tasks(self)
+
     task :default do
       revision
       restart
@@ -116,6 +130,8 @@ namespace :deploy do
 
   # Handle chmodding of certain directories
   namespace :chmod do
+    rubber.allow_optional_tasks(self)
+
     task :uploads do
       run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
     end
@@ -124,18 +140,11 @@ namespace :deploy do
       uploads
     end
   end
-
-  # Allow items to silently fail if necessary
-  rubber.allow_optional_tasks(self)
-  tasks.values.each do |t|
-    if t.options[:roles]
-      task t.name, t.options, &t.body
-    end
-  end
 end
 
 # Rubber config hacks
 namespace :rubber do
+  rubber.allow_optional_tasks(self)
 
   # Delete the already existing config task
   tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
@@ -146,6 +155,7 @@ namespace :rubber do
 
   # Store the two config options
   namespace :config do
+    rubber.allow_optional_tasks(self)
 
     # Config based on the latest code
     task :default do
@@ -177,6 +187,7 @@ end
 
 # Handle websockets daemon
 namespace :websockets do
+  rubber.allow_optional_tasks(self)
 
   task :start do
     run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets start"
@@ -190,7 +201,6 @@ namespace :websockets do
     stop
     start
   end
-
 end
 
 # Reload delayed job

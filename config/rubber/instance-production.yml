@@ -45,6 +45,18 @@
   domain: tioki.com
   roles:
   - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: unicorn
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: web_tools
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
@@ -73,6 +85,11 @@
   image_id: ami-2add531a
   security_groups:
   - tioki_production_default
+  - tioki_production_web
+  - tioki_production_app
+  - tioki_production_unicorn
+  - tioki_production_nginx
+  - tioki_production_db
   - tioki_production_web_tools
   - tioki_production_tools
   - tioki_production_graylog_web
@@ -81,7 +98,6 @@
   - tioki_production_mongodb
   - tioki_production_graylog_elasticsearch
   - tioki_production_elasticsearch
-  - tioki_production_nginx
   external_host: ec2-50-112-39-252.us-west-2.compute.amazonaws.com
   external_ip: 50.112.39.252
   internal_host: ip-10-244-161-158.us-west-2.compute.internal
