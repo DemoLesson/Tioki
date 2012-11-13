@@ -1,3 +1,8 @@
+v2.0.3 - Nov 13, 2012 10:33AM PST deployed by Aleks Stanisic
+============================================================
+* 121e069: Aleks Stanisic - Tioki Tuesday Banner
+* a1ce200: Kelly Becker - commented out filter
+
 v2.0.2 - Nov 13, 2012  9:05AM PST deployed by Kelly Becker
 ==========================================================
 * 58b4ac9: Kelly Becker - removed tools
