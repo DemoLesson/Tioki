@@ -10,14 +10,13 @@ admin_email: "kelly@demolesson.com"
 
 # OPTIONAL: If not set, you won't be able to access web_tools
 # server (graphite, graylog, monit status, haproxy status, etc)
-web_tools_user: admin
-web_tools_password: sekret
+web_tools_user: tioki
+web_tools_password: 10Marley10
 
 # REQUIRED: The timezone the server should be in
 timezone: UTC
 
 # REQUIRED: the domain all the instances should be associated with
-#
 domain: tioki.com
 
 # OPTIONAL: See rubber-dns.yml for dns configuration
@@ -183,7 +182,7 @@ prompt_for_security_group_sync: true
 # OPTIONAL: The packages to install on all instances
 # You can install a specific version of a package by using a sub-array of pkg, version
 # For example, packages: [[rake, 0.7.1], irb]
-packages: [postfix, build-essential, git-core, ec2-ami-tools, libxslt-dev, ntp, imagemagick, libmagickwand-dev, mysql-client, libmysqlclient-dev, libmysql-ruby]
+packages: [postfix, build-essential, git-core, ec2-ami-tools, libxslt-dev, ntp, imagemagick, libmagickwand-dev, mysql-client, libmysqlclient-dev, libmysql-ruby, libcurl4-openssl-dev]
 
 # OPTIONAL: gem sources to setup for rubygems
 # gemsources: ["http://rubygems.org", "http://gems.github.com"]
@@ -191,7 +190,7 @@ packages: [postfix, build-essential, git-core, ec2-ami-tools, libxslt-dev, ntp, 
 # OPTIONAL: The gems to install on all instances
 # You can install a specific version of a gem by using a sub-array of gem, version
 # For example, gem: [[rails, 2.2.2], open4, aws-s3]
-gems: [open4, aws-s3, bundler, [rubber, "#{Rubber.version}"], mysql2]
+gems: [open4, aws-s3, bundler, [rubber, "#{Rubber.version}"], mysql2, daemons]
 
 # OPTIONAL: A string prepended to shell command strings that cause multi
 # statement shell commands to fail fast.  You may need to comment this out

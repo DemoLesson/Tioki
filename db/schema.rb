@@ -404,6 +404,7 @@ ActiveRecord::Schema.define(:version => 20121112201303) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "read"
   end
 
   create_table "organizations", :force => true do |t|

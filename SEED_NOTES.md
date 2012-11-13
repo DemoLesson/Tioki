@@ -1,3 +1,52 @@
+v2.0.1 - Nov 12, 2012 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 382ecec: Aleks Stanisic - changes to banner url
+
+v2.0.0 - Nov 12, 2012 11:53AM PST deployed by Aleks Stanisic
+============================================================
+* db106f4: Aleks Stanisic - gemlock
+* b50073e: Aleks Stanisic - changes to tioki banner
+* 4b4cc0a: Kelly Becker - production instances now on Unicorn!
+* c255023: Brian Martinez - changes to new message
+* fdaacd2: Kelly Becker - hozproxy
+* 9df9716: Brian Martinez - fix to job description
+* 880cb40: Kelly Becker - server instances and added libcurl
+* dc37d2c: Kelly Becker - added app permissions
+* caf44d5: Kelly Becker - added app permissions
+* 7f1c204: Kelly Becker - load rails config into websocket intializer
+* 1f532b2: Kelly Becker - shoot was trying to bind to an already bound port
+* ce79365: Kelly Becker - whoops this might have made that last comment a failure... removing spawner
+* 7d2ab10: Kelly Becker - got a working configuration now fix compile assets
+* 03479fb: Kelly Becker - trying to fix an issue with ports conflicting
+* df1abcb: Kelly Becker - trying to fix an issue with ports conflicting
+* 4dfad4d: Kelly Becker - changing permissions
+* 957956f: Kelly Becker - some fixes and the new instance
+* 24a4429: Kelly Becker - lets retroactively try an old configuration again ^_^
+* 3ae7875: Kelly Becker - update haproxy
+* b601c0c: Kelly Becker - hqproxy config update
+* 427f0bf: Kelly Becker - I think i got websockets working!
+* 0e0e548: Kelly Becker - em-websocket
+* c780715: Kelly Becker - faye? .... maybe?
+* b987b16: Kelly Becker - lets see if this remotely works xD ... added HaProxy
+* 224a5b4: Kelly Becker - deploy script upgrades
+* 11641e4: Kelly Becker - massive deploy script upgrades;
+* 11a5881: Kelly Becker - massive deploy script upgrades;
+* 4a6cbcb: Kelly Becker - big config rewrite
+* 8b01b91: Kelly Becker - config dirs now adjustable
+* 6d9c507: Kelly Becker - much simpler deploys
+* 8067ede: Kelly Becker - much simpler deploys
+* 4948be2: Kelly Becker - trying to make the deploy smaller
+* 25c5df5: Kelly Becker - show errors on staging
+* 9e34df9: Kelly Becker - dependencies
+* c56ecb3: Kelly Becker - save
+* 6db1064: Kelly Becker - unicorn configuration
+* 875b116: Kelly Becker - unicorn configuration
+
+v1.6.9 - Nov 12, 2012  9:42AM PST deployed by Aleks Stanisic
+============================================================
+* a40f9f5: Aleks Stanisic - flash notice for Tioki Monday
+* 81d6d26: Elijah Green - Fix check on whiteboard posts on get_started
+
 v1.6.8 - Nov 12, 2012  9:03AM PST deployed by Aleks Stanisic
 ============================================================
 * 9588a83: Brian Martinez - commenting out donors choose
