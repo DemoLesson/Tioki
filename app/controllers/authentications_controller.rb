@@ -202,7 +202,9 @@ class AuthenticationsController < ApplicationController
 			client.update(message)
 		rescue
 			#TODO set specific error
-			notice = "Successfully posted but it seems that you need to reauthrize  our twitter access in order to post to twitter as well."
+			#if the error is that oauth keys are invalid
+			#we could reauthenticate 
+			notice = "Successfully posted but it seems that you need to reauthrize our twitter access in account settings in order to post to twitter as well."
 		end
 		redirect_to :root, :notice => notice
 	end
