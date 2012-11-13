@@ -205,11 +205,20 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
   def whiteboard_share
     redirect_to :root if self.current_user.nil?
 		if params[:message].present?
-			Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true}) unless params[:message].nil?
-			if self.current_user.twitter_auth?
+
+			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
+			if self.current_user.twitter_auth? && params[:share_on_twitter]
+
 				return redirect_to whiteboard_share_twitter_authentications_url(:message => params[:message])
+
+			elsif params[:share_on_twitter]
+
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to "/twitter_auth?twitter_action=auth"
+
 			end
 		end
+
 		redirect_to :root
   end
 

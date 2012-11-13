@@ -32,6 +32,16 @@ class AuthenticationsController < ApplicationController
 			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 			notice = "Success"
+			if session[:whiteboard_id]
+				whiteboard = Whiteboard.find(session[:whiteboard_id])
+
+				session[:whiteboard_id] = nil
+				session[:rsecret] = nil
+				session[:rtoken] = nil
+				session[:twitter_action] = nil
+
+				return redirect_to whiteboard_share_twitter_authentications_url(:message => whiteboard.message)
+			end
 		end
 
 		#no longer need these session variables
