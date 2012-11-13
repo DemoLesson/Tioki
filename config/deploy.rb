@@ -75,16 +75,6 @@ namespace :deploy do
     cleanup
   end
 
-  task :tools do
-    update_code
-    rubber.config
-    rubber.mongodb.restart
-    rubber.graylog.server.restart
-    rubber.graylog.web.restart
-    rubber.nginx.reload
-    rubber.nginx.restart
-  end
-
   # Rake assets
   namespace :assets do
     rubber.allow_optional_tasks(self)
