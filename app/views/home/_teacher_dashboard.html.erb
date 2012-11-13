@@ -101,6 +101,9 @@
 							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
 							<input type="submit" class="button" />
 						</fieldset>
+						<% if self.current_user.twitter_auth? %>
+							This message will also being posted on your twitter.
+						<% end %>
 					</form>
 				</div>
 			</section>

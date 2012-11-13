@@ -205,7 +205,12 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
   def whiteboard_share
     redirect_to :root if self.current_user.nil?
     Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true}) unless params[:message].nil?
-    redirect_to :root
+
+		if self.current_user.twitter_auth?
+			redirect_to whiteboard_share_twitter_authentications_url(:message => params[:message])
+		else
+			redirect_to :root
+		end
   end
 
   def whiteboard_rmv
