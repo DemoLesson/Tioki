@@ -1,3 +1,7 @@
+v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
+==========================================================
+* fcdb345: Kelly Becker - graylog
+
 v2.0.3 - Nov 13, 2012 10:33AM PST deployed by Aleks Stanisic
 ============================================================
 * 121e069: Aleks Stanisic - Tioki Tuesday Banner
