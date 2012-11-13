@@ -42,7 +42,7 @@ class AuthenticationsController < ApplicationController
 				session[:rtoken] = nil
 				session[:twitter_action] = nil
 
-				return redirect_to whiteboard_share_twitter_authentications_url(:message => whiteboard.message)
+				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
 		end
 
 		#no longer need these session variables
@@ -189,22 +189,22 @@ class AuthenticationsController < ApplicationController
 			:oauth_token => self.current_user.twitter_oauth_token,
 			:oauth_token_secret => self.current_user.twitter_oauth_secret
 		)
+		whiteboard = Whiteboard.find(params[:whiteboard_id])
 
 		#140 characters minus the via @tioki
 		#" via @tioki" being 11 chars
-		if params[:message].size > 128
-			message = "#{params[:message][0..125]}... via @tioki"
+		if whiteboard.message.size > 128
+			message = "#{whiteboard.message[0..125]}... via @tioki"
 		else
-			message = "#{params[:message]} via @tioki"
+			message = "#{whiteboard.message} via @tioki"
 		end
 
 		begin
 			client.update(message)
-		rescue
-			#TODO set specific error
-			#if the error is that oauth keys are invalid
-			#we could reauthenticate 
-			notice = "Successfully posted but it seems that you need to reauthrize our twitter access in account settings in order to post to twitter as well."
+		rescue Twitter::Error::Unauthorized
+			#Old auth keys, need new ones
+			session[:whiteboard_id] = whiteboard.id
+			return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
 		end
 		redirect_to :root, :notice => notice
 	end

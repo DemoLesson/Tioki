@@ -209,7 +209,7 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
 
-				return redirect_to whiteboard_share_twitter_authentications_url(:message => params[:message])
+				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
 
 			elsif params[:share_on_twitter]
 
