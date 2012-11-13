@@ -2,7 +2,7 @@ class AuthenticationsController < ApplicationController
 	before_filter :login_required
 
 	def twitter_auth
-		callback_url = "http://127.0.0.1:3000/twitter_callback"
+		callback_url = "http://#{request.host_with_port}/twitter_callback"
 		request_token = twitter_oauth.get_request_token(:oauth_callback => callback_url)
 		session[:rtoken] = request_token.token
 		session[:rsecret] = request_token.secret
