@@ -1,3 +1,16 @@
+v2.0.5 - Nov 13, 2012  5:48PM PST deployed by Kelly Becker
+==========================================================
+* 50a74bb: Kelly Becker - banners
+* 714647a: Elijah Green - Escape javascript on groups/show page
+* f345ab2: Elijah Green - Escape javascript on discussions/show
+* ab11dde: Elijah Green - Instead of localhost ip use our domain
+* ce58a2e: Elijah Green - Deal with the possibility that the oauth keys are invalid
+* 790f3b0: Elijah Green - Some change in wording
+* dd00436: Elijah Green - Fix possible bug twitter authorization is canceled
+* b6c21a5: Elijah Green - Get twitter oauth keys if we don't have them
+* d35a77f: Elijah Green - Have Whiteboard.createActivty return either the saved model or nil if post_always
+* 1d4dd50: Elijah Green - Can now tweet whiteboard posts
+
 v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
 ==========================================================
 * fcdb345: Kelly Becker - graylog
