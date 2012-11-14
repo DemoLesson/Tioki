@@ -184,7 +184,7 @@ class ApplicationController < ActionController::Base
 	# Error Handling #
 	##################
 
-	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] != 'production'
+	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'staging'
 
 		# Server Error
 		rescue_from Exception, with: :render_500
@@ -316,7 +316,7 @@ class ApplicationController < ActionController::Base
 		end
 
 		def facebook_oauth
-			callback_url = "http://#{request.host_with_port}/facebook_callback"
+			callback_url = "http://#{request.host_with_port}/authentications/facebook_callback"
 			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
 		end
 end
