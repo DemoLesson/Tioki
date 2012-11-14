@@ -1,3 +1,7 @@
+v2.0.8 - Nov 13, 2012 11:56PM PST deployed by Aleks Stanisic
+============================================================
+* 06c5157: Brian Martinez - changes to the messaging system
+
 v2.0.7 - Nov 13, 2012  7:11PM PST deployed by Aleks Stanisic
 ============================================================
 * 1f1a42e: Elijah Green - Remove tags from twitter message
