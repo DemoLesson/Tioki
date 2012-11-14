@@ -204,6 +204,7 @@ class UsersController < ApplicationController
 	#  end
 
 	def logout
+		reset_session
 		session[:user] = nil
 		flash[:notice] = 'You\'ve been logged out.'
 		login_token = LoginToken.find_by_user_id(cookies[:login_token_user])

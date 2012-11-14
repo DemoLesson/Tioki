@@ -7,7 +7,7 @@
 	<form method="POST">
 		<span style="font-weight:bold;display:block;">Message</span>
 		<input style="display:block;width:50%" name="message" /><br />
-		<span style="font-weight:bold;display:block;">Timeframe relative to <%= Time.now.strftime('%Z') %> (ex. every monday from 2am, may 12th from 1pm to 3pm, etc...)</span>
+		<span style="font-weight:bold;display:block;">Timeframe relative to <%= Time.now.localtime.strftime('%Z') %> (ex. every monday from 2am, may 12th from 1pm to 3pm, etc...)</span>
 		<input style="display:block;width:50%" name="time" /><br />
 		<input type="submit" value="Select" />
 	</form>
