@@ -33,6 +33,22 @@ class CreateGrades < ActiveRecord::Migration
   	# Index the name
   	add_index :grades, :name
 
+    # Add connection tables for jobs and teachers
+    create_table :grades_teachers do |t|
+      t.integer :teacher_id
+      t.integer :grade_id
+
+      t.timestamps
+    end
+
+    # Add connection tables for jobs and teachers
+    create_table :grades_jobs do |t|
+      t.integer :job_id
+      t.integer :grade_id
+
+      t.timestamps
+    end
+
   	# Alter some connection tables by adding some timestamps
   	change_table :jobs_subjects do |t|
     	t.timestamps
