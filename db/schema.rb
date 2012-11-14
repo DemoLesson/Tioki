@@ -324,6 +324,20 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
 
   add_index "grades", ["name"], :name => "index_grades_on_name"
 
+  create_table "grades_jobs", :force => true do |t|
+    t.integer  "job_id"
+    t.integer  "grade_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "grades_teachers", :force => true do |t|
+    t.integer  "teacher_id"
+    t.integer  "grade_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "groups", :force => true do |t|
     t.string   "name",                                :null => false
     t.text     "description",                         :null => false
@@ -389,8 +403,10 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
 
   create_table "jobs_subjects", :id => false, :force => true do |t|
-    t.integer "job_id",     :null => false
-    t.integer "subject_id", :null => false
+    t.integer  "job_id",     :null => false
+    t.integer  "subject_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "jobs_subjects", ["job_id"], :name => "index_jobs_subjects_on_job_id"
@@ -624,8 +640,10 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
   end
 
   create_table "subjects_teachers", :id => false, :force => true do |t|
-    t.integer "teacher_id", :null => false
-    t.integer "subject_id", :null => false
+    t.integer  "teacher_id", :null => false
+    t.integer  "subject_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
