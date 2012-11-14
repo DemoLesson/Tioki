@@ -33,11 +33,15 @@
 		<% @groups.each do |group| %>
 			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
-					<% if group.picture? %><%= link_to image_tag(group.picture.url(:thumb)), group %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %><% end %>
+					<% if group.picture? %>
+						<%= link_to image_tag(group.picture.url(:thumb)), group %>
+					<% else %>
+						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %>
+					<% end %>
 				</div>
 				<div class ="item_desc">
 					<p>
-						<h3>
+						<h3 style="padding-left:122px">
 						<%= link_to group.name, group, :style => "color:#4D4D4D" %>
 						</h3>
 						<p style="margin-top:-15px;width:auto">
