@@ -78,8 +78,8 @@ class AuthenticationsController < ApplicationController
 			session[:facebook_action] = nil
 			return redirect_to "/me/settings"
 
-		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-			self.current_user.update_attribute(:twitter_oauth_token, access_token)
+		elsif session[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
+			self.current_user.update_attribute(:facebook_access_token, access_token)
 			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
 			session[:whiteboard_id] = nil
@@ -227,6 +227,17 @@ class AuthenticationsController < ApplicationController
 			session[:whiteboard_id] = whiteboard.id
 			return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
 		end
+
+		if session[:share_on_facebook]
+				session[:share_on_facebook] = nil
+			if self.current_user.facebook_access_token
+				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+			else
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+			end
+		end
+
 		redirect_to :root, :notice => notice
 	end
 

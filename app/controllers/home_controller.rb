@@ -209,6 +209,12 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
 
+				if params[:share_on_facebook]
+					#need to share on both platforms
+					#Store this fact in session as it may need to go
+					#through a callback, so just can't pass as params
+					session[:share_on_facebook] = true
+				end
 				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
 
 			elsif params[:share_on_twitter]
@@ -223,6 +229,7 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 
 			elsif params[:share_on_facebook]
 
+				session[:whiteboard_id] = whiteboard.id
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 
 			end
