@@ -58,6 +58,12 @@ end
 
 # Deploy scripting
 namespace :deploy do
+  rubber.allow_optional_tasks(self)
+  
+  # Re-taskify
+  tasks.values.each do |t|
+    task t.name, t.options, &t.body if t.options[:roles]
+  end
 
   # Do a full deploy (start -> finish)
   task :full do
@@ -71,6 +77,7 @@ namespace :deploy do
 
   # Rake assets
   namespace :assets do
+    rubber.allow_optional_tasks(self)
 
     # Rake the configured directory
     task :default do
@@ -95,10 +102,15 @@ namespace :deploy do
       default
       set :migrate_target, migrate_target
     end
+
+    # Allow items to silently fail if necessary
+    rubber.allow_optional_tasks(self)
   end
 
   # Roll back code to a previous revision
   namespace :rollback do
+    rubber.allow_optional_tasks(self)
+
     task :default do
       revision
       restart
@@ -106,7 +118,10 @@ namespace :deploy do
     end
   end
 
+  # Handle chmodding of certain directories
   namespace :chmod do
+    rubber.allow_optional_tasks(self)
+
     task :uploads do
       run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
     end
@@ -119,6 +134,7 @@ end
 
 # Rubber config hacks
 namespace :rubber do
+  rubber.allow_optional_tasks(self)
 
   # Delete the already existing config task
   tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
@@ -129,6 +145,7 @@ namespace :rubber do
 
   # Store the two config options
   namespace :config do
+    rubber.allow_optional_tasks(self)
 
     # Config based on the latest code
     task :default do
@@ -160,6 +177,7 @@ end
 
 # Handle websockets daemon
 namespace :websockets do
+  rubber.allow_optional_tasks(self)
 
   task :start do
     run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets start"
@@ -173,15 +191,15 @@ namespace :websockets do
     stop
     start
   end
-
 end
 
 # Reload delayed job
-before "deploy:restart", "delayed_job:stop"
+before "deploy:create_symlink", "delayed_job:stop"
 after "deploy:restart", "delayed_job:start"
 
 # Reload websockets daemon
-before "deploy:restart", "websockets:reload"
+before "deploy:create_symlink", "websockets:stop"
+after "deploy:restart", "websockets:start"
 
 # Add chmod to after rubber:setup_app_permissions
 after "rubber:setup_app_permissions", "deploy:chmod:all"

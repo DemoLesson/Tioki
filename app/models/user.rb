@@ -636,6 +636,10 @@ class User < ActiveRecord::Base
 		return tioki_bucks
 	end
 
+	def twitter_auth?
+		self.twitter_oauth_token && self.twitter_oauth_secret
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)

@@ -175,7 +175,7 @@ class DeployCLI
 
 		# Filters hack
 		filters = String.new
-		filters = ' FILTER=-tools' if type == 'production'
+		#filters = ' FILTER=-tools' if type == 'production'
 
 		# Show Tioki
 		show_tioki
@@ -345,7 +345,7 @@ class DeployCLI
 
 		# Filters hack
 		filters = String.new
-		filters = ' FILTER=-tools' if type == 'production'
+		#filters = ' FILTER=-tools' if type == 'production'
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -374,7 +374,7 @@ class DeployCLI
 
 		# Filters hack
 		filters = String.new
-		filters = ' FILTER=-tools' if type == 'production'
+		#filters = ' FILTER=-tools' if type == 'production'
 
 		# Save the current rails environment
 		renvironment = ENV["RAILS_ENV"]
@@ -404,7 +404,7 @@ class DeployCLI
 
 		# Filters hack
 		filters = String.new
-		filters = ' FILTER=-tools' if type == 'production'
+		#filters = ' FILTER=-tools' if type == 'production'
 
 		# Set alias if nil
 		_alias = type + '_' + Socket.gethostname + '_' + Time.now.to_i.to_s[-4,4].gsub('.','') if _alias.nil?
@@ -487,7 +487,7 @@ class DeployCLI
 
 		# Filters hack
 		filters = String.new
-		filters = ' FILTER=-tools' if type == 'production'
+		#filters = ' FILTER=-tools' if type == 'production'
 
 		# If no command given then exit
 		return echo "No rake task given." if command.nil? || !command.is_a?(String)

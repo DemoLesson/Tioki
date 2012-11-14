@@ -1,3 +1,86 @@
+v2.0.7 - Nov 13, 2012  7:11PM PST deployed by Aleks Stanisic
+============================================================
+* 1f1a42e: Elijah Green - Remove tags from twitter message
+
+v2.0.6 - Nov 13, 2012  6:08PM PST deployed by Aleks Stanisic
+============================================================
+* 382ea45: Elijah Green - Remove some test code from whiteboard.rb
+
+v2.0.5 - Nov 13, 2012  5:48PM PST deployed by Kelly Becker
+==========================================================
+* 50a74bb: Kelly Becker - banners
+* 714647a: Elijah Green - Escape javascript on groups/show page
+* f345ab2: Elijah Green - Escape javascript on discussions/show
+* ab11dde: Elijah Green - Instead of localhost ip use our domain
+* ce58a2e: Elijah Green - Deal with the possibility that the oauth keys are invalid
+* 790f3b0: Elijah Green - Some change in wording
+* dd00436: Elijah Green - Fix possible bug twitter authorization is canceled
+* b6c21a5: Elijah Green - Get twitter oauth keys if we don't have them
+* d35a77f: Elijah Green - Have Whiteboard.createActivty return either the saved model or nil if post_always
+* 1d4dd50: Elijah Green - Can now tweet whiteboard posts
+
+v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
+==========================================================
+* fcdb345: Kelly Becker - graylog
+
+v2.0.3 - Nov 13, 2012 10:33AM PST deployed by Aleks Stanisic
+============================================================
+* 121e069: Aleks Stanisic - Tioki Tuesday Banner
+* a1ce200: Kelly Becker - commented out filter
+
+v2.0.2 - Nov 13, 2012  9:05AM PST deployed by Kelly Becker
+==========================================================
+* 58b4ac9: Kelly Becker - removed tools
+* a0411ce: Kelly Becker - rubber config
+* 9b86d96: Kelly Becker - nginx not passenger_nginx
+* 454051c: Kelly Becker - made nginx a req
+* 16300bd: Kelly Becker - web_tools config
+* 7b8e0a4: Kelly Becker - tools server redone
+
+v2.0.1 - Nov 12, 2012 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 382ecec: Aleks Stanisic - changes to banner url
+
+v2.0.0 - Nov 12, 2012 11:53AM PST deployed by Aleks Stanisic
+============================================================
+* db106f4: Aleks Stanisic - gemlock
+* b50073e: Aleks Stanisic - changes to tioki banner
+* 4b4cc0a: Kelly Becker - production instances now on Unicorn!
+* c255023: Brian Martinez - changes to new message
+* fdaacd2: Kelly Becker - hozproxy
+* 9df9716: Brian Martinez - fix to job description
+* 880cb40: Kelly Becker - server instances and added libcurl
+* dc37d2c: Kelly Becker - added app permissions
+* caf44d5: Kelly Becker - added app permissions
+* 7f1c204: Kelly Becker - load rails config into websocket intializer
+* 1f532b2: Kelly Becker - shoot was trying to bind to an already bound port
+* ce79365: Kelly Becker - whoops this might have made that last comment a failure... removing spawner
+* 7d2ab10: Kelly Becker - got a working configuration now fix compile assets
+* 03479fb: Kelly Becker - trying to fix an issue with ports conflicting
+* df1abcb: Kelly Becker - trying to fix an issue with ports conflicting
+* 4dfad4d: Kelly Becker - changing permissions
+* 957956f: Kelly Becker - some fixes and the new instance
+* 24a4429: Kelly Becker - lets retroactively try an old configuration again ^_^
+* 3ae7875: Kelly Becker - update haproxy
+* b601c0c: Kelly Becker - hqproxy config update
+* 427f0bf: Kelly Becker - I think i got websockets working!
+* 0e0e548: Kelly Becker - em-websocket
+* c780715: Kelly Becker - faye? .... maybe?
+* b987b16: Kelly Becker - lets see if this remotely works xD ... added HaProxy
+* 224a5b4: Kelly Becker - deploy script upgrades
+* 11641e4: Kelly Becker - massive deploy script upgrades;
+* 11a5881: Kelly Becker - massive deploy script upgrades;
+* 4a6cbcb: Kelly Becker - big config rewrite
+* 8b01b91: Kelly Becker - config dirs now adjustable
+* 6d9c507: Kelly Becker - much simpler deploys
+* 8067ede: Kelly Becker - much simpler deploys
+* 4948be2: Kelly Becker - trying to make the deploy smaller
+* 25c5df5: Kelly Becker - show errors on staging
+* 9e34df9: Kelly Becker - dependencies
+* c56ecb3: Kelly Becker - save
+* 6db1064: Kelly Becker - unicorn configuration
+* 875b116: Kelly Becker - unicorn configuration
+
 v1.6.9 - Nov 12, 2012  9:42AM PST deployed by Aleks Stanisic
 ============================================================
 * a40f9f5: Aleks Stanisic - flash notice for Tioki Monday

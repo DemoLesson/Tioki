@@ -700,6 +700,84 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def banners
+		if request.post?
+
+			# Get unprocessed time
+			time = params[:time]
+			time = time.split(' ')
+
+			# Determine if this is a recurring slot
+			every = time.slice!(time.index("every")) == "every" rescue false
+
+			begin
+				# Assume a date range is specified if not an exception will be thrown
+				from = time[0...time.index("to")].delete_if{|x| x == "from"}.join(' ')
+				to = time[0...time.index("to") - 2].concat(time[time.index("to") + 1 .. -1]).join(' ')
+			rescue
+
+				# If no from was found then no date range was specified
+				if time.index("from").nil?
+					to = from = time.join(' ')
+
+				# If a from was specified assume they meant the remainder of the day
+				else
+					from = time.delete_if{|x| x == "from"}.join(' ')
+					time[-1] = 'midnight'
+					to = time.join(' ')
+				end
+			end
+
+			# If we only have one date to parse
+			if to == from
+				time = [Chronic.parse(to)]
+
+			# If we have two
+			else
+				time = Array.new
+				time << Chronic.parse(from)
+				time << Chronic.parse(to)
+			end
+
+			# Create the banner
+			banner = Banner.new
+			banner.message = params[:message]
+
+			# Determine the recurring day
+			if every == true
+				weekday = time.first.wday
+				weekday = 7 if weekday == 0
+				banner.recurring = weekday
+			end
+
+			# Banner date range
+			if time.count > 1
+				banner.start = time.first
+				banner.stop = time.last
+			else
+				banner.start = time.first
+			end
+
+			if banner.save
+				flash[:success] = "Banner successfully added."
+			else
+				flash[:error] = "Banner could not be created."
+			end
+
+			redirect_to request.path
+		end
+	end
+
+	def delete_banner
+		if Banner.find(params[:id]).destroy
+			flash[:success] = "Banner was deleted successfully"
+		else
+			flash[:error] = "Banner could not be deleted"
+		end
+
+		redirect_to '/admin/banners'
+	end
+
 	private
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin

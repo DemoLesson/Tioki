@@ -10,14 +10,13 @@ admin_email: "kelly@demolesson.com"
 
 # OPTIONAL: If not set, you won't be able to access web_tools
 # server (graphite, graylog, monit status, haproxy status, etc)
-web_tools_user: admin
-web_tools_password: sekret
+web_tools_user: tioki
+web_tools_password: 10Marley10
 
 # REQUIRED: The timezone the server should be in
 timezone: UTC
 
 # REQUIRED: the domain all the instances should be associated with
-#
 domain: tioki.com
 
 # OPTIONAL: See rubber-dns.yml for dns configuration

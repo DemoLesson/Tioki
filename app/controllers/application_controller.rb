@@ -59,8 +59,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def check_if_referer
-		
-		flash[:notice] = "Today's Featured Event: <a href=\"http://blog.tioki.com/tioki-teacher-spotlight-angela-estrella/\" style=\"color:#fff\">Tioki Teacher Spotlight - Angela Estrella</a>".html_safe
+
 		# Check if we have a referer set anywhere
 		if params.has_key?("_email_referer")
 			session[:_referer] = params['_email_referer']
@@ -184,7 +183,7 @@ class ApplicationController < ActionController::Base
 	# Error Handling #
 	##################
 
-	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] != 'production'
+	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'production'
 
 		# Server Error
 		rescue_from Exception, with: :render_500
@@ -305,7 +304,14 @@ class ApplicationController < ActionController::Base
 		end
 
 		def twitter_oauth
-			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+			#specifically set the authorize ath for authenticate in order
+			#to only have to authorize once
+			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
+																			APP_CONFIG.twitter.consumer_secret, 
+																			{ :site => "http://twitter.com", 
+																				:authorize_path => "/oauth/authenticate" 
+																			}
+																		 )
 		end
 
 		def facebook_oauth

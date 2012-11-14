@@ -202,7 +202,7 @@ class Whiteboard < ActiveRecord::Base
 
 		# Get rid of the current user if nil
 		currentUser = User.current
-		return false if currentUser.nil?
+		return nil if currentUser.nil?
 
 		# Get the tag of the passed tag model
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
@@ -256,5 +256,6 @@ class Whiteboard < ActiveRecord::Base
 		w.tag = tag
 		w.data = ActiveSupport::JSON.encode(data)
 		w.save
+		return w
 	end
 end

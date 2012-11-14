@@ -296,6 +296,9 @@ section.notice {
 	&.success {
 		background: $green;
 	}
+	&.tioki_message {
+		background: $salmon;
+	}
 }
 
 #login-drawer {
