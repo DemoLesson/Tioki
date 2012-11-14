@@ -1,3 +1,7 @@
+v2.0.7 - Nov 13, 2012  7:11PM PST deployed by Aleks Stanisic
+============================================================
+* 1f1a42e: Elijah Green - Remove tags from twitter message
+
 v2.0.6 - Nov 13, 2012  6:08PM PST deployed by Aleks Stanisic
 ============================================================
 * 382ea45: Elijah Green - Remove some test code from whiteboard.rb
