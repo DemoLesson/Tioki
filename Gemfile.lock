@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/KellyLSB/chronic.git
-  revision: 908039f2710ef9c0a9afcea22dad320a3ee76903
+  revision: 26a96abc7e93afdc8104bec7a9ffc3f4129c0cc5
   specs:
     chronic (0.8.0)
 
