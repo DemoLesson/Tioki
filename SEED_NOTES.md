@@ -1,3 +1,7 @@
+v2.0.10 - Nov 14, 2012 11:28AM PST deployed by Kelly Becker
+===========================================================
+* 276b397: Kelly Becker - gemlock
+
 v2.0.9 - Nov 14, 2012 11:20AM PST deployed by Kelly Becker
 ==========================================================
 * 480cf21: Kelly Becker - pathfile, chronic mod, and localtime
