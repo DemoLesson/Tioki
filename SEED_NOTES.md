@@ -1,3 +1,7 @@
+v2.0.6 - Nov 13, 2012  6:08PM PST deployed by Aleks Stanisic
+============================================================
+* 382ea45: Elijah Green - Remove some test code from whiteboard.rb
+
 v2.0.5 - Nov 13, 2012  5:48PM PST deployed by Kelly Becker
 ==========================================================
 * 50a74bb: Kelly Becker - banners
