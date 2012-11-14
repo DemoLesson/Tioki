@@ -304,7 +304,14 @@ class ApplicationController < ActionController::Base
 		end
 
 		def twitter_oauth
-			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, APP_CONFIG.twitter.consumer_secret, { :site => "http://twitter.com" })
+			#specifically set the authorize ath for authenticate in order
+			#to only have to authorize once
+			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
+																			APP_CONFIG.twitter.consumer_secret, 
+																			{ :site => "http://twitter.com", 
+																				:authorize_path => "/oauth/authenticate" 
+																			}
+																		 )
 		end
 
 		def facebook_oauth

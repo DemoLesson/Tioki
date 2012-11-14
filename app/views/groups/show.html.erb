@@ -206,11 +206,11 @@ $(document).ready(function() {
 		// Trigger the facebook method
 		FB.ui({
 			method: 'feed',
-			name: '<%= @group.name %>',
+			name: '<%=j @group.name %>',
 			link: '<%= url_for(:only_path => false) %>',
 			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
 			caption: 'Come join this Group on Tioki.',
-			description: 'Come join the "<%= @group.name %>" group on Tioki; a professional development site for educators!'
+			description: 'Come join the "<%=j @group.name %>" group on Tioki; a professional development site for educators!'
 		}
 		/*function(response) {
 			if (response && response.post_id) {
@@ -231,7 +231,7 @@ $(document).ready(function() {
 		var params = {
 			via: 'tioki',
 			url: '<%= url_for(:only_path => false) %>',
-			text: 'Come join the "<%= @group.name %>" Group on Tioki!'
+			text: 'Come join the "<%=j @group.name %>" Group on Tioki!'
 		}
 
 		// URL plus params

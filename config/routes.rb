@@ -6,6 +6,20 @@ Preview::Application.routes.draw do
 		match ':action' => 'api#:action'
 	end
 
+	#Authentication for twitter, facebook, linkedin etc.
+	resources :authentications do
+		collection do
+			get 'facebook_auth'
+			get 'facebook_callback'
+			get 'whiteboard_share_twitter'
+			get 'revoke_twitter'
+		end
+	end
+	match 'twitter_callback', :to => 'authentications#twitter_callback' 
+	match 'twitter_auth', :to => 'authentications#twitter_auth'
+	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
+	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+
 	# Groups
 	match 'groups/:id/comment' => 'groups#comment'
 	match 'my_groups' => 'groups#my_groups'
@@ -213,12 +227,6 @@ Preview::Application.routes.draw do
 	#match 'choose_stored', :to => 'users#choose_stored', :as => 'choose_stored'
 	match 'change_picture', :to => 'users#change_picture'
 	match 'create_profile', :to => 'teachers#create_profile'
-	match 'callback', :to => 'teachers#callback'
-	match 'twitter_auth', :to => 'teachers#twitter_auth'
-	match 'twitter_callback', :to => 'teachers#twitter_callback'
-	match 'facebook_auth', :to => 'teachers#facebook_auth'
-	match 'facebook_callback', :to => 'teachers#facebook_callback'
-	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
 	match 'skills', :to => 'skills#get'
 	match 'crop', :to => 'users#crop'

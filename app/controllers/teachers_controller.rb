@@ -1,6 +1,5 @@
 class TeachersController < ApplicationController
 	before_filter :login_required, :except => [:profile, :guest_entry]
-	API_KEY, SECRET_KEY = "mgb6uz10qf31", "9WXAkgt6TyPdfJGI"
 
 	# GET /teachers/1
 	# GET /teachers/1.json
@@ -437,122 +436,6 @@ class TeachersController < ApplicationController
 		end
 	end
 
-	def linkedinprofile
-		if request.post?
-			if params[:response] == 'yes'
-				client = LinkedIn::Client.new(API_KEY, SECRET_KEY)
-				#oauth_Callback=where linkedin will redirect back to
-				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/callback")
-				session[:rtoken] = request_token.token
-				session[:rsecret] = request_token.secret
-				redirect_to client.request_token.authorize_url
-			elsif params[:response] == 'no'
-				redirect_to '/profile/'+self.current_user.teacher.url     
-			end
-		end
-	end
-
-	def callback
-		@teacher = Teacher.find(self.current_user.teacher.id)
-		client = LinkedIn::Client.new(API_KEY, SECRET_KEY)
-		pin = params[:oauth_verifier]
-		client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
-
-		#begin populating profile
-		#set teacher.linkedin
-		user = client.profile(:fields => %w(public-profile-url))
-		@teacher.update_attribute(:linkedin, user.public_profile_url)
-
-		#educations
-		user = client.profile(:fields => %w(educations))
-		if user.educations.all != nil
-			user.educations.all.each do |education|
-				school = education.school_name
-				degree = education.degree
-				concentrations = education.field_of_study
-				if education.end_date
-					year = education.end_date.year
-				end
-				@teacher.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
-				@teacher.save
-			end
-		end
-
-		#positions
-		user = client.profile(:fields => %w(positions))
-		currentposition=nil
-		currentschool=nil
-		if user.positions.all != nil
-			user.positions.all.each do |position|
-				company = position.company.name
-				positiontitle = position.title
-				if position.start_date
-					startMonth = position.start_date.month
-					startYear = position.start_date.year
-				end
-				if position.is_current == true
-					endMonth = Time.now.month
-					endYear = Time.now.year
-					current = true
-					if position.company.industry == "Primary/Secondary Education"
-						currentposition = position.title
-						currentschool = position.company.name
-					end
-				else
-					endMonth = position.end_date.month
-					endYear = position.end_date.year
-					current = false
-				end
-				@teacher.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
-				@teacher.save
-			end
-		end
-		if currentschool != nil && currentposition != nil
-			@teacher.update_attribute(:school, currentschool)
-			@teacher.update_attribute(:position, currentposition)
-		end
-
-		#phone number
-		user= client.profile(:fields => %w(phone-numbers))
-		phone=nil
-		if user.phone_numbers.all != nil
-			user.phone_numbers.all.each do |number|
-				if number.phone_type == "home" || number.phone_type == "mobile"
-					phone = number.phone_number
-					break
-				end
-			end
-		end
-		if phone != nil
-			@teacher.update_attribute(:phone, phone)
-		end
-
-		#Addtional Information:
-		addinfo = ""
-		#Interests
-		user =client.profile(:fields => %w(interests))
-		if user.interests != nil
-			addinfo = "Interests: " + user.interests
-		end
-		#groups and associations
-		user =client.profile(:fields => %w(associations))
-		if user.associations != nil
-			addinfo = addinfo + "\nGroups and Associations: " + user.associations
-		end
-		#honors
-		user =client.profile(:fields => %w(honors))
-		if user.honors != nil
-			addinfo = addinfo + "\nHonors: " + user.honors
-		end
-		@teacher.update_attribute(:additional_information, addinfo)
-
-		#Linkedin integration is currently a one time thing so deleting session keys
-		#and redirecting to profile like create_profile does
-		session[:rtoken]=nil
-		session[:rsecret]=nil
-		redirect_to '/profile/'+self.current_user.teacher.url     
-	end
-
 	def favorites
 		@pins = Pin.paginate(:page=> params[:page], :conditions => [ 'user_id = ?', self.current_user.id] )
 	end
@@ -713,61 +596,6 @@ class TeachersController < ApplicationController
 		redirect_to :back
 	end
 
-	def twitter_auth
-		callback_url = "http://127.0.0.1:3000/twitter_callback"
-		request_token = twitter_oauth.get_request_token(:oauth_callback => callback_url)
-		session[:rtoken] = request_token.token
-		session[:rsecret] = request_token.secret
-		session[:twitter_action] = params[:twitter_action]
-
-		redirect_to request_token.authorize_url
-	end
-
-	def twitter_callback
-		request_token = OAuth::RequestToken.new(twitter_oauth, session[:rtoken], session[:rsecret])
-		access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
-
-		session[:rsecret] = nil
-		session[:rtoken] = nil
-
-		client = Twitter::Client.new(
-			:oauth_token => access_token.token,
-			:oauth_token_secret => access_token.secret
-		)
-
-		if session[:twitter_action] == "follow"
-			client.follow("Tioki")
-			self.current_user.teacher.update_attribute(:twitter_connect, true)
-			notice = "You are now following tioki"
-		elsif session[:twitter_action] == "tweet"
-			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
-			self.current_user.teacher.update_attribute(:tweet_about, true)
-			notice = "Success"
-		end
-
-		#Follow and tweet are one time things so we should
-		#remove those keys
-		session[:twitter_action] = nil
-
-		redirect_to "/tioki_bucks", :notice => notice
-	end
-
-	def facebook_auth
-		@oauth = facebook_oauth
-		redirect_to @oauth.url_for_oauth_code(:permissions => "publish_stream")
-	end
-
-	def facebook_callback
-		access_token = facebook_oauth.get_access_token(params[:code])
-
-		@graph = Koala::Facebook::API.new(access_token)
-
-		@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
-		self.current_user.teacher.update_attribute(:facebook_connect, true)
-
-		redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
-	end
-
 	def tioki_bucks
 		@start_count  = 0
 		@tioki_bucks = 0
@@ -840,6 +668,21 @@ class TeachersController < ApplicationController
 		end
 		if self.current_user.teacher.tweet_about
 			@tioki_bucks += 1
+		end
+	end
+
+	def linkedinprofile
+		if request.post?
+			if params[:response] == 'yes'
+				client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
+				#oauth_Callback=where linkedin will redirect back to
+				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
+				session[:rtoken] = request_token.token
+				session[:rsecret] = request_token.secret
+				redirect_to client.request_token.authorize_url
+			elsif params[:response] == 'no'
+				redirect_to '/profile/'+self.current_user.teacher.url
+			end
 		end
 	end
 
