@@ -59,8 +59,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def check_if_referer
-		
-		flash[:tioki_message] = "<a target =\"_blank\" href=\"http://blog.tioki.com/student-blogging\" style=\"color:#fff\">Today's Featured Event: EdTech Made Easy</a>".html_safe
+
 		# Check if we have a referer set anywhere
 		if params.has_key?("_email_referer")
 			session[:_referer] = params['_email_referer']
@@ -184,7 +183,7 @@ class ApplicationController < ActionController::Base
 	# Error Handling #
 	##################
 
-	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'staging'
+	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'production'
 
 		# Server Error
 		rescue_from Exception, with: :render_500

@@ -210,13 +210,14 @@ class AuthenticationsController < ApplicationController
 			:oauth_token_secret => self.current_user.twitter_oauth_secret
 		)
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
+		whiteboard_message = ActionController::Base.helpers.strip_links(whiteboard.message)
 
 		#140 characters minus the via @tioki
 		#" via @tioki" being 11 chars
-		if whiteboard.message.size > 128
-			message = "#{whiteboard.message[0..125]}... via @tioki"
+		if whiteboard_message.size > 128
+			message = "#{whiteboard_message[0..125]}... via @tioki"
 		else
-			message = "#{whiteboard.message} via @tioki"
+			message = "#{whiteboard_message} via @tioki"
 		end
 
 		begin

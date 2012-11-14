@@ -1,5 +1,6 @@
 def dump(v, type = "ex")
-	return raise StandardError, v if type == "ex"
+	print v.inspect
+	return raise StandardError, v.inspect if type == "ex"
 	puts v
 	exit
 end

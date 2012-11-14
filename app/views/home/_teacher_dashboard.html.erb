@@ -100,19 +100,21 @@
 						<fieldset>
 							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
 							<input type="submit" class="button" />
-						</fieldset><br />
-						<% if self.current_user.twitter_auth? %>
-							<%= check_box_tag :share_on_twitter, 'yes', true %>
-						<% else %>
-							<%= check_box_tag :share_on_twitter, 'yes', false %>
-						<% end %>
-						Post this message on twitter<br />
-						<% if self.current_user.facebook_access_token %>
-							<%= check_box_tag :share_on_facebook, 'yes', true %>
-						<% else %>
-							<%= check_box_tag :share_on_facebook, 'yes', false %>
-						<% end %>
-						Post this message on your facebook wall
+						</fieldset>
+						<span style="float:right;margin-right:60px">
+							<% if self.current_user.twitter_auth? %>
+								<%= check_box_tag :share_on_twitter, 'yes', true %>
+							<% else %>
+								<%= check_box_tag :share_on_twitter, 'yes', false %>
+							<% end %>
+							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
+							<% if self.current_user.facebook_access_token %>
+								<%= check_box_tag :share_on_facebook, 'yes', true %>
+							<% else %>
+								<%= check_box_tag :share_on_facebook, 'yes', false %>
+							<% end %>
+							<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
+						</span>
 					</form>
 				</div>
 			</section>

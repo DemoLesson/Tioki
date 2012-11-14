@@ -11,6 +11,9 @@ gem 'rails', '3.1.3'
 gem 'multimap'
 gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
 
+# Relative time engine
+gem 'chronic', :git => 'git://github.com/KellyLSB/chronic.git'
+
 # Assets processing
 gem 'coffee-script'
 gem 'uglifier'

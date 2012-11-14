@@ -1,3 +1,42 @@
+v2.0.11 - Nov 14, 2012 11:36AM PST deployed by Kelly Becker
+===========================================================
+* ca3a190: Kelly Becker - gemlock
+
+v2.0.10 - Nov 14, 2012 11:28AM PST deployed by Kelly Becker
+===========================================================
+* 276b397: Kelly Becker - gemlock
+
+v2.0.9 - Nov 14, 2012 11:20AM PST deployed by Kelly Becker
+==========================================================
+* 480cf21: Kelly Becker - pathfile, chronic mod, and localtime
+* beb37f6: Brian Martinez - style change on the twitter share on whiteboard
+* 4422159: Kelly Becker - added .path file useful if you have multiple versions of rails installed like me
+
+v2.0.8 - Nov 13, 2012 11:56PM PST deployed by Aleks Stanisic
+============================================================
+* 06c5157: Brian Martinez - changes to the messaging system
+
+v2.0.7 - Nov 13, 2012  7:11PM PST deployed by Aleks Stanisic
+============================================================
+* 1f1a42e: Elijah Green - Remove tags from twitter message
+
+v2.0.6 - Nov 13, 2012  6:08PM PST deployed by Aleks Stanisic
+============================================================
+* 382ea45: Elijah Green - Remove some test code from whiteboard.rb
+
+v2.0.5 - Nov 13, 2012  5:48PM PST deployed by Kelly Becker
+==========================================================
+* 50a74bb: Kelly Becker - banners
+* 714647a: Elijah Green - Escape javascript on groups/show page
+* f345ab2: Elijah Green - Escape javascript on discussions/show
+* ab11dde: Elijah Green - Instead of localhost ip use our domain
+* ce58a2e: Elijah Green - Deal with the possibility that the oauth keys are invalid
+* 790f3b0: Elijah Green - Some change in wording
+* dd00436: Elijah Green - Fix possible bug twitter authorization is canceled
+* b6c21a5: Elijah Green - Get twitter oauth keys if we don't have them
+* d35a77f: Elijah Green - Have Whiteboard.createActivty return either the saved model or nil if post_always
+* 1d4dd50: Elijah Green - Can now tweet whiteboard posts
+
 v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
 ==========================================================
 * fcdb345: Kelly Becker - graylog

@@ -5,6 +5,12 @@ GIT
     bitswitch (0.0.3)
 
 GIT
+  remote: git://github.com/KellyLSB/chronic.git
+  revision: 26a96abc7e93afdc8104bec7a9ffc3f4129c0cc5
+  specs:
+    chronic (0.8.0)
+
+GIT
   remote: git://github.com/KellyLSB/debugger-ruby_core_source.git
   revision: e0ea8865def5bc91bfed085ff790624a03296fb3
   specs:
@@ -21,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/brianmario/mysql2.git
-  revision: 24ac04eb29b11db78fed235a47e5f3519e90f74e
+  revision: c9de50684e73bb63035daf084d4848bd92a31c75
   specs:
     mysql2 (0.3.12b4)
 
@@ -92,14 +98,14 @@ GEM
       main (>= 2.6.0)
       orderedhash (>= 0.0.3)
       systemu (>= 1.2.0)
-    brakeman (1.8.2)
+    brakeman (1.8.3)
       activesupport
       erubis (~> 2.6)
       fastercsv (~> 1.5)
       haml (~> 3.0)
       highline (~> 1.6)
       i18n
-      json_pure
+      multi_json (~> 1.3)
       ruby2ruby (~> 1.2)
       ruby_parser (= 2.3.1)
       sass (~> 3.0)
@@ -117,7 +123,6 @@ GEM
       carrierwave
       fog
       uuid
-    chronic (0.8.0)
     clamp (0.5.0)
     cloudsponge (0.9.9)
       json (>= 1.6.1)
@@ -132,7 +137,7 @@ GEM
     crack (0.3.1)
     curb (0.8.3)
     daemons (1.1.9)
-    dalli (2.3.0)
+    dalli (2.5.0)
     debugger (1.2.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -193,7 +198,6 @@ GEM
       thor (~> 0.14)
     jruby-pageant (1.1.1)
     json (1.7.5)
-    json_pure (1.7.5)
     kgio (2.7.4)
     koala (1.5.0)
       faraday (~> 0.7)
@@ -384,6 +388,7 @@ DEPENDENCIES
   brakeman
   carrierwave
   carrierwave_direct
+  chronic!
   cloudsponge (~> 0.9.9)
   coffee-script
   country_select

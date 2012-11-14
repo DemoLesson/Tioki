@@ -201,7 +201,7 @@ class Whiteboard < ActiveRecord::Base
 		end
 
 		# Get rid of the current user if nil
-		currentUser = User.where("first_name like 'elijah%'").first
+		currentUser = User.current
 		return nil if currentUser.nil?
 
 		# Get the tag of the passed tag model
