@@ -1,0 +1,33 @@
+<section id="main-content" class="inner-content">
+	<h1>Banners Settings</h1>
+
+	<%= render :partial => "admin_menu" %>
+	<br />
+
+	<form method="POST">
+		<span style="font-weight:bold;display:block;">Message</span>
+		<input style="display:block;width:50%" name="message" /><br />
+		<span style="font-weight:bold;display:block;">Timeframe relative to <%= Time.now.strftime('%Z') %> (ex. every monday from 2am, may 12th from 1pm to 3pm, etc...)</span>
+		<input style="display:block;width:50%" name="time" /><br />
+		<input type="submit" value="Select" />
+	</form>
+
+	<table style="width:100%;">
+		<tr>
+			<th style="padding:8px 3px;">Message</th>
+			<th style="padding:8px 3px;">Display Times</th>
+			<th style="padding:8px 3px;">Recurring</th>
+			<th style="padding:8px 3px;">Delete</th>
+		</tr>
+		<% Banner.all.each do |b| %>
+		<tr>
+			<td style="padding:8px 3px;"><%= b.message %></td>
+			<td style="padding:8px 3px;"><%= b.timeframe %></td>
+			<td style="padding:8px 3px;"><%= b.recurring_day %></td>
+			<td style="padding:8px 3px;">
+				<a href="/admin/banners/delete/<%= b.id %>" class="button bg-green">Delete Banner</a>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+</section>

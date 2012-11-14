@@ -184,6 +184,8 @@ Preview::Application.routes.draw do
 		scope 'users' do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
+		match 'banners' => 'users#banners'
+		match 'banners/delete/:id' => 'users#delete_banner'
 		match 'videos' => 'videos#admin'
 	end
 

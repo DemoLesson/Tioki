@@ -384,6 +384,7 @@ DEPENDENCIES
   brakeman
   carrierwave
   carrierwave_direct
+  chronic
   cloudsponge (~> 0.9.9)
   coffee-script
   country_select

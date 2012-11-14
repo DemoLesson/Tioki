@@ -288,6 +288,13 @@
 			</nav><!-- End Nav -->
 		<% end %>
 
+		<!-- Featured Banner -->
+		<% if banner = Banner.current %>
+			<section class="notice tioki_message">
+				<%= banner.message %>
+			</section>
+		<% end %>
+
 		<!-- Display Notices -->
 		<% flash.each do |type, message| %>
 			<% next unless message.is_a?(String) %>
