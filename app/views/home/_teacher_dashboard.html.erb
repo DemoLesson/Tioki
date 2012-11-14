@@ -100,13 +100,19 @@
 						<fieldset>
 							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
 							<input type="submit" class="button" />
-						</fieldset>
+						</fieldset><br />
 						<% if self.current_user.twitter_auth? %>
 							<%= check_box_tag :share_on_twitter, 'yes', true %>
 						<% else %>
 							<%= check_box_tag :share_on_twitter, 'yes', false %>
 						<% end %>
-							Post this message on twitter
+						Post this message on twitter<br />
+						<% if self.current_user.facebook_access_token %>
+							<%= check_box_tag :share_on_facebook, 'yes', true %>
+						<% else %>
+							<%= check_box_tag :share_on_facebook, 'yes', false %>
+						<% end %>
+						Post this message on your facebook wall
 					</form>
 				</div>
 			</section>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112201303) do
+ActiveRecord::Schema.define(:version => 20121114192444) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(:version => 20121112201303) do
     t.datetime "date"
     t.string   "description"
     t.integer  "teacher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "banners", :force => true do |t|
+    t.string   "message"
+    t.datetime "start"
+    t.datetime "stop"
+    t.integer  "recurring"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -404,7 +413,6 @@ ActiveRecord::Schema.define(:version => 20121112201303) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "read"
   end
 
   create_table "organizations", :force => true do |t|
@@ -709,12 +717,12 @@ ActiveRecord::Schema.define(:version => 20121112201303) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                         :null => false
-    t.string   "hashed_password",                               :null => false
-    t.string   "salt",                                          :null => false
+    t.string   "email",                                    :null => false
+    t.string   "hashed_password",                          :null => false
+    t.string   "salt",                                     :null => false
     t.string   "name"
-    t.boolean  "is_verified",                :default => false, :null => false
-    t.boolean  "is_admin",                   :default => false, :null => false
+    t.boolean  "is_verified",           :default => false, :null => false
+    t.boolean  "is_admin",              :default => false, :null => false
     t.string   "default_home"
     t.string   "verification_code"
     t.datetime "created_at"
@@ -723,28 +731,27 @@ ActiveRecord::Schema.define(:version => 20121112201303) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.integer  "login_count",                :default => 0
+    t.integer  "login_count",           :default => 0
     t.datetime "last_login"
     t.datetime "deleted_at"
-    t.boolean  "is_shared",                  :default => false, :null => false
-    t.boolean  "is_limited",                 :default => false, :null => false
-    t.boolean  "emailsubscription",          :default => true
-    t.string   "time_zone",                  :default => "UTC"
+    t.boolean  "is_shared",             :default => false, :null => false
+    t.boolean  "is_limited",            :default => false, :null => false
+    t.boolean  "emailsubscription",     :default => true
+    t.string   "time_zone",             :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
-    t.integer  "privacy",                    :default => 0,     :null => false
+    t.integer  "privacy",               :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
-    t.integer  "email_permissions",          :default => 0
+    t.integer  "email_permissions",     :default => 0
     t.string   "twitter_oauth_token"
     t.string   "twitter_oauth_secret"
-    t.string   "facebook_oauth_token_token"
-    t.string   "facebook_oauth_secret"
+    t.string   "facebook_access_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

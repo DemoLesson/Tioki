@@ -216,6 +216,15 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
 
+			elsif self.current_user.facebook_access_token && params[:share_on_facebook]
+
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+
+			elsif params[:share_on_facebook]
+
+				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+
 			end
 		end
 

@@ -316,7 +316,7 @@ class ApplicationController < ActionController::Base
 		end
 
 		def facebook_oauth
-			callback_url = "http://#{request.host_with_port}/authentications/facebook_callback"
+			callback_url = "http://#{request.host_with_port}/facebook_callback"
 			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
 		end
 end
