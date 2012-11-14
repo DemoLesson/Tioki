@@ -1,3 +1,9 @@
+v2.0.9 - Nov 14, 2012 11:20AM PST deployed by Kelly Becker
+==========================================================
+* 480cf21: Kelly Becker - pathfile, chronic mod, and localtime
+* beb37f6: Brian Martinez - style change on the twitter share on whiteboard
+* 4422159: Kelly Becker - added .path file useful if you have multiple versions of rails installed like me
+
 v2.0.8 - Nov 13, 2012 11:56PM PST deployed by Aleks Stanisic
 ============================================================
 * 06c5157: Brian Martinez - changes to the messaging system
