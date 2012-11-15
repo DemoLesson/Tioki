@@ -245,8 +245,10 @@ class AuthenticationsController < ApplicationController
 		@graph = Koala::Facebook::API.new(self.current_user.facebook_access_token)
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 
+		message = ActionController::Base.helpers.strip_links(whiteboard.message)
+
 		begin
-			@graph.put_wall_post(whiteboard.message)
+			@graph.put_wall_post(message)
 		rescue Koala::Facebook::APIError => ex
 			if ex.fb_error_code == 190
 				#Oauthexception 
@@ -254,7 +256,9 @@ class AuthenticationsController < ApplicationController
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 			else
-				notice = "Couldn't post to your facebook wall, try reauthentiacting in your account settings"
+				#raise error so that it can be logged
+				#there are possible some errors that we aren't dealing with
+				raise ex
 			end
 		end
 
