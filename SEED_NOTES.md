@@ -1,3 +1,7 @@
+v2.0.16 - Nov 15, 2012 12:59PM PST deployed by Kelly Becker
+===========================================================
+* 24c606e: Kelly Becker - graylog new server info
+
 v2.0.15 - Nov 15, 2012 11:40AM PST deployed by Aleks Stanisic
 =============================================================
 * 995547a: Elijah Green - Profiles fixed for not logined users
