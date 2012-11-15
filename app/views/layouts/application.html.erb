@@ -160,6 +160,34 @@
 									<% end %>
 
 									<!-- Schools -->
+									
+									<!-- Teacher Methods -->
+									<% unless self.current_user.teacher.nil? %>
+										<li>
+											<a href="/inviteconnections">
+												Invite Friends
+											</a>
+										</li>
+										<hr>
+										<li>
+											<a href="/me/profile">
+												My Profile
+											</a>
+										</li>
+										<li>
+											<a href="/me/profile/edit">
+												Edit Profile
+											</a>
+										</li>
+										<hr>
+										<li>
+											<a href="/me/settings/privacy">
+											Privacy Settings
+											</a> 
+										</li>
+										
+									<% end %>
+									
 
 									<!-- All -->
 									<li>
@@ -168,20 +196,7 @@
 										</a> 
 									</li>
 
-									<!-- Teacher Methods -->
-									<% unless self.current_user.teacher.nil? %>
-										<li>
-											<a href="/me/settings/privacy">
-											Privacy Settings
-											</a> 
-										</li>
-										<li>
-											<a href="/me/profile/edit">
-											Edit Profile
-											</a>
-										</li>
-									<% end %>
-
+									
 									<!-- Logout -->
 									<li>
 										<a href="/logout">
