@@ -640,6 +640,10 @@ class User < ActiveRecord::Base
 		self.twitter_oauth_token && self.twitter_oauth_secret
 	end
 
+	def facebook_auth?
+		self.facebook_oauth_token.present?
+	end
+
 	protected
 
 		def self.encrypt(pass, salt)

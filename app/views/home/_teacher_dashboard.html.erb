@@ -108,6 +108,12 @@
 								<%= check_box_tag :share_on_twitter, 'yes', false %>
 							<% end %>
 							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
+							<% if self.current_user.facebook_access_token %>
+								<%= check_box_tag :share_on_facebook, 'yes', true %>
+							<% else %>
+								<%= check_box_tag :share_on_facebook, 'yes', false %>
+							<% end %>
+							<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
 						</span>
 					</form>
 				</div>

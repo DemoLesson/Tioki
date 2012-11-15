@@ -33,16 +33,16 @@ class AuthenticationsController < ApplicationController
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 			notice = "Success"
 		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-				self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
-				self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
-				whiteboard = Whiteboard.find(session[:whiteboard_id])
+			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
+			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
+			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
-				session[:whiteboard_id] = nil
-				session[:rsecret] = nil
-				session[:rtoken] = nil
-				session[:twitter_action] = nil
+			session[:whiteboard_id] = nil
+			session[:rsecret] = nil
+			session[:rtoken] = nil
+			session[:twitter_action] = nil
 
-				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
+			return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
 		end
 
 		#no longer need these session variables
@@ -66,21 +66,41 @@ class AuthenticationsController < ApplicationController
 
 	def facebook_auth
 		@oauth = facebook_oauth
+		session[:facebook_action] = params[:facebook_action]
 		redirect_to @oauth.url_for_oauth_code(:permissions => "publish_stream")
 	end
 
 	def facebook_callback
 		access_token = facebook_oauth.get_access_token(params[:code])
 
-		@graph = Koala::Facebook::API.new(access_token)
+		if session[:facebook_action] == "auth"
+			self.current_user.update_attribute(:facebook_access_token, access_token)
+			session[:facebook_action] = nil
+			return redirect_to "/me/settings"
 
-		@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
-		self.current_user.teacher.update_attribute(:facebook_connect, true)
+		elsif session[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
+			self.current_user.update_attribute(:facebook_access_token, access_token)
+			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
-		redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
+			session[:whiteboard_id] = nil
+			session[:facebook_action] = nil
+
+			return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+
+		elsif session[:facebook_action] == "wall_post"
+			@graph = Koala::Facebook::API.new(access_token)
+			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
+			self.current_user.teacher.update_attribute(:facebook_connect, true)
+
+			session[:facebook_action] = nil
+			return redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
+		end
+		redirect_to :root
 	end
 
 	def revoke_facebook
+		self.current_user.update_attribute(:facebook_access_token, nil)
+		redirect_to "/me/settings"
 	end
 
 	def linkedin_callback
@@ -207,6 +227,41 @@ class AuthenticationsController < ApplicationController
 			session[:whiteboard_id] = whiteboard.id
 			return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
 		end
+
+		if session[:share_on_facebook]
+				session[:share_on_facebook] = nil
+			if self.current_user.facebook_access_token
+				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+			else
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+			end
+		end
+
+		redirect_to :root, :notice => notice
+	end
+
+	def whiteboard_share_facebook
+		@graph = Koala::Facebook::API.new(self.current_user.facebook_access_token)
+		whiteboard = Whiteboard.find(params[:whiteboard_id])
+
+		message = ActionController::Base.helpers.strip_links(whiteboard.message)
+
+		begin
+			@graph.put_wall_post(message)
+		rescue Koala::Facebook::APIError => ex
+			if ex.fb_error_code == 190
+				#Oauthexception 
+				#most likely so bad or expired oauth keys
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+			else
+				#raise error so that it can be logged
+				#there are possible some errors that we aren't dealing with
+				raise ex
+			end
+		end
+
 		redirect_to :root, :notice => notice
 	end
 end

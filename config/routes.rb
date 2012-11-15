@@ -10,11 +10,13 @@ Preview::Application.routes.draw do
 	resources :authentications do
 		collection do
 			get 'facebook_auth'
-			get 'facebook_callback'
 			get 'whiteboard_share_twitter'
+			get 'whiteboard_share_facebook'
 			get 'revoke_twitter'
+			get 'revoke_facebook'
 		end
 	end
+	match 'facebook_callback', :to => 'authentications#facebook_callback'
 	match 'twitter_callback', :to => 'authentications#twitter_callback' 
 	match 'twitter_auth', :to => 'authentications#twitter_auth'
 	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
