@@ -10,13 +10,15 @@ end
 
 # Application Controller
 class ApplicationController < ActionController::Base
-	#filter_parameter_logging "password"
-	#filter_parameter_logging "password_confirmation"
+	protect_from_forgery
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
-	#layout 'application'
+	before_filter :sweep_session
 
-	protect_from_forgery
+	def sweep_session
+		Session.sweep("20 minutes")
+	end
+	
 	def login_required
 		if session[:user]
 			return true

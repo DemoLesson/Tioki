@@ -1,16 +1,29 @@
 <section id="main-content" class="inner-content">
-	<h2>Change Picture for <%= @group.name %></h2>
+	<h3 class="bottom-line">Change Group Picture / <span style="font-size:16px"> <%= @group.name %></span></h3>
 
-	<% if @group.picture? %><p>Current picture<br /><%= image_tag @group.picture.url(:medium) %></p><% else %><p>No picture uploaded yet.</p><% end %>
-
+	<h4>
+		Current Picture:
+	</h4>
+	
+	<!-- Pulling the current group picture-->
+	<% if @group.picture? %>
+		<%= image_tag @group.picture.url(:medium) %>
+	<% else %>
+		<%= image_tag("dl_icons/no_avatar_medium.jpg") %>	
+	<% end %>
+	<br />
+	<br />
+	
+	<!-- Form for uploading a new picture-->
 	<%= form_for @group, :html => { :multipart => true } do |f| %>
-		<div class="field">
+		<fieldset>
 		<%= f.file_field :picture %>
 		<br/><span style= "color:#ff0000; font-size:12px; margin-left: 2px; text-align: center"></span>
-		</div>
+		</fieldset>
 
 		<div class="actions">
 			<%= f.submit "Upload Picture" %>
+			<%= link_to "Cancel", :back %>
 		</div>
 	<% end %>
 </section>
