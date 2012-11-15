@@ -254,14 +254,12 @@
 
 			<!-- START Education Section-->
 			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.educations.empty? && self.current_user.teacher == @teacher %>
+			<% if @teacher.educations.empty? && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Where did you get that awesome brain of Yours? 
 						<span style="font-size:16px; margin-left:5px">
-							<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 							<a href="/me/profile/edit/education">  - - Update Education Details</a>
-							<% end %>
 						</span>
 					</h3>
 				</section>
@@ -424,14 +422,12 @@
 			
 			<!-- START Credential Section-->
 			<!-- If Credentials are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.credentials.empty? && self.current_user.teacher == @teacher %>
+			<% if @teacher.credentials.empty? && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						Credentials
 							<span style="font-size:16px; margin-left:5px">
-								<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-									<a href="/me/profile/edit/credentials"> - - Update</a>
-								<% end %>
+								<a href="/me/profile/edit/credentials"> - - Update</a>
 							</span>
 					</h3>
 				</section><br />
@@ -472,14 +468,12 @@
 			
 			<!-- START Presentation & Publications Section-->
 			<!-- If Presentations are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.presentations.empty?  && self.current_user.teacher == @teacher %>
+			<% if @teacher.presentations.empty?  && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						Show off your Press Here
 							<span style="font-size:16px; margin-left:5px">
-								<% if self.current_user != nil && @teacher == self.current_user.teacher %> 
-									<a href="/me/profile/edit/presentations"> - - Update Presentation & Publications</a>
-								<% end %>
+								<a href="/me/profile/edit/presentations"> - - Update Presentation & Publications</a>
 							</span>
 					</h3>
 				</section><br />
@@ -521,14 +515,12 @@
 			
 			<!-- START Awards & Honors Section-->
 			<!-- If Awards are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.awards.empty?  && self.current_user.teacher == @teacher %>
+			<% if @teacher.awards.empty?  && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Flaunt your Trophies!
 						<span style="font-size:16px; margin-left:5px">
-						<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-						<a href="/me/profile/edit/awards"> - - Update Honors & Awards</a>
-						<% end %>
+							<a href="/me/profile/edit/awards"> - - Update Honors & Awards</a>
 						</span>
 					</h3>
 				</section><br />
