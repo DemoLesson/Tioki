@@ -11,7 +11,7 @@ class MultiLogger
 end
 
 glconfig = Hash.new
-glconfig["server"] = "50.112.232.249"
+glconfig["server"] = "graylog2.tioki.com"
 glconfig["port"] = 12201
 glconfig["host"] = `hostname`
 
