@@ -12,3 +12,17 @@ $ ->
 			if currentVal in who
 				$(@).fadeIn 500
 			else $(@).fadeOut 500
+
+	# Load the tokenizer for subjects
+	$('input[name="teacher[subjects]"]').tokenInput "/api/subjects", {
+		hintText: "Subjects...",
+		theme: "facebook",
+		resultsLimit: 10
+	}
+
+	# Load the tokenizer for grades
+	$('input[name="teacher[grades]"]').tokenInput "/api/grades", {
+		hintText: "Grade Level...",
+		theme: "facebook",
+		resultsLimit: 10
+	}
