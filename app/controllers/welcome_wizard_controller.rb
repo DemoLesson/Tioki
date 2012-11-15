@@ -165,6 +165,14 @@ class WelcomeWizardController < ApplicationController
 
 			# Load the teach and update
 			@teacher = self.current_user.teacher
+
+			# Handle Subjects and Grades
+			params[:teacher].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subjects','grades'].include?(k)}
+			@teacher.subjects = params[:teacher][:subjects].collect{|x| Subject.find(x)}
+			@teacher.grades = params[:teacher][:grades].collect{|x| Grade.find(x)}
+			params[:teacher] = params[:teacher].delete_if{|k,v| v.empty? || v.is_a?(Array)}
+
+			# Save the updates attributes
 			@teacher.update_attributes(params[:teacher])
 
 			# Clean empty results from the hash

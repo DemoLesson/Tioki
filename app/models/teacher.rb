@@ -25,6 +25,10 @@ class Teacher < ActiveRecord::Base
   
   has_many :assets, :dependent => :destroy
   has_many :skills, :through => :user
+
+  # Join table
+  has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'
+  has_and_belongs_to_many :grades, :join_table => 'grades_teachers'
   
   validates_associated :assets
   validates_uniqueness_of :url, :message => "The name you selected is not available."
