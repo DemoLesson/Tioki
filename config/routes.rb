@@ -109,6 +109,11 @@ Preview::Application.routes.draw do
 	# Welcome Wizard Controller
 	resources :welcome_wizard
 
+	scope '/wizards' do
+		match 'welcome' => 'welcome_wizard#index'
+		match 'welcome/:action' => 'welcome_wizard#:action'
+	end
+
 	# Whiteboard JSON Access
 	resource :whiteboard
 	match 'whiteboard/hide/:post' => 'whiteboards#hide'
@@ -224,7 +229,6 @@ Preview::Application.routes.draw do
 	match 'update_settings' => 'users#update_settings'
 	match 'email_settings' => 'users#email_settings'
 	match 'change_org_info' => 'users#change_org_info'
-	#match 'choose_stored', :to => 'users#choose_stored', :as => 'choose_stored'
 	match 'change_picture', :to => 'users#change_picture'
 	match 'create_profile', :to => 'teachers#create_profile'
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'

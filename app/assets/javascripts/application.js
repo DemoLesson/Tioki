@@ -10,7 +10,7 @@
 //= require tinymce-jquery
 //= require jquery.form
 //= require jquery.remotipart
-//= require fire
+//= require_tree .
 //= require_tree ./tioki
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
