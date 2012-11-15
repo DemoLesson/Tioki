@@ -1,3 +1,19 @@
+v2.0.12 - Nov 14, 2012  5:06PM PST deployed by Aleks Stanisic
+=============================================================
+* 6fab88d: Brian Martinez - changes to profile and user dropdown menu
+* 694d10e: Elijah Green - Log error if not an oauth error
+* 6428691: Elijah Green - Checks whether oauth keys are invalid
+* c7671ec: Aleks Stanisic - db
+* d1e6a73: Brian Martinez - couple more changes to groups to adjust for really long names and descriptions
+* 3f3d82e: Brian Martinez - changes to the groups images and headings
+* edb7601: Elijah Green - Fix facebook share if the we aren't authenticated wiht facebook yet
+* f533672: Kelly Becker - forgot connection tables
+* 5013dc4: Kelly Becker - sweep session and reset on logout;
+* 1e67805: Kelly Becker - fix the subject table
+* 24f8468: Elijah Green - Add share on facebook
+* 2e49d3d: Kelly Becker - added new subjects to the seeds
+* 214a16f: Elijah Green - Show rails errors in development
+
 v2.0.11 - Nov 14, 2012 11:36AM PST deployed by Kelly Becker
 ===========================================================
 * ca3a190: Kelly Becker - gemlock
