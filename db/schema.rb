@@ -353,10 +353,6 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
     t.string   "facebook"
   end
 
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
-  end
-
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -664,7 +660,7 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
     t.boolean  "currently_seeking",                       :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
+    t.string   "url"
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -686,6 +682,8 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
     t.string   "betterlesson"
     t.string   "teachingchannel"
     t.integer  "video_id"
+    t.float    "latitude"
+    t.float    "longitude"
     t.string   "pinterest"
     t.boolean  "facebook_connect",                        :default => false
     t.boolean  "twitter_connect",                         :default => false
@@ -741,12 +739,12 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                         :null => false
-    t.string   "hashed_password",                               :null => false
-    t.string   "salt",                                          :null => false
+    t.string   "email",                                    :null => false
+    t.string   "hashed_password",                          :null => false
+    t.string   "salt",                                     :null => false
     t.string   "name"
-    t.boolean  "is_verified",                :default => false, :null => false
-    t.boolean  "is_admin",                   :default => false, :null => false
+    t.boolean  "is_verified",           :default => false, :null => false
+    t.boolean  "is_admin",              :default => false, :null => false
     t.string   "default_home"
     t.string   "verification_code"
     t.datetime "created_at"
@@ -755,28 +753,27 @@ ActiveRecord::Schema.define(:version => 20121114210756) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.integer  "login_count",                :default => 0
+    t.integer  "login_count",           :default => 0
     t.datetime "last_login"
     t.datetime "deleted_at"
-    t.boolean  "is_shared",                  :default => false, :null => false
-    t.boolean  "is_limited",                 :default => false, :null => false
-    t.boolean  "emailsubscription",          :default => true
-    t.string   "time_zone",                  :default => "UTC"
+    t.boolean  "is_shared",             :default => false, :null => false
+    t.boolean  "is_limited",            :default => false, :null => false
+    t.boolean  "emailsubscription",     :default => true
+    t.string   "time_zone",             :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
     t.boolean  "emaileventreminder"
     t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
-    t.integer  "privacy",                    :default => 0,     :null => false
+    t.integer  "privacy",               :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
-    t.integer  "email_permissions",          :default => 0
+    t.integer  "email_permissions",     :default => 0
     t.string   "twitter_oauth_token"
     t.string   "twitter_oauth_secret"
-    t.string   "facebook_oauth_token_token"
-    t.string   "facebook_oauth_secret"
+    t.string   "facebook_access_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

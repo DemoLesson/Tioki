@@ -253,7 +253,24 @@
 			<% end %>
 
 			<!-- START Education Section-->
-			<% unless @teacher.educations.empty? && self.current_user == nil %>
+			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.educations.empty? && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Where did you get that awesome brain of Yours? 
+						<span style="font-size:16px; margin-left:5px">
+							<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+							<a href="/me/profile/edit/education">  - - Update Education Details</a>
+							<% end %>
+						</span>
+					</h3>
+				</section>
+				
+			<!-- If Education is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @teacher.educations.empty? %>
+			
+			<!-- If Educations aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Education
@@ -262,7 +279,7 @@
 							<a href="/me/profile/edit/education">  - - Edit</a>
 							<% end %>
 						</span>
-					</h3>
+					</h3><br />
 					<% @teacher.educations.each do |edu| %>
 						<p class="bold">
 							<%= edu.school %>
@@ -301,7 +318,24 @@
 			<% end %>
 			
 			<!-- START Experience Section-->
-			<% unless @teacher.experiences.empty? && self.current_user == nil %>
+			<!-- If Experiences are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.experiences.empty? && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Where did you get so good at this?
+						<span style="font-size:16px; margin-left:5px">
+							<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+							<a href="/me/profile/edit/experience"> - - Update Work Experience</a>
+							<% end %>
+						</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Experiences are blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @teacher.experiences.empty? || self.current_user == @teacher %>
+			
+			<!-- If Experiences aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Experience
@@ -310,7 +344,7 @@
 							<a href="/me/profile/edit/experience"> - - Edit</a>
 							<% end %>
 						</span>
-					</h3>
+					</h3><br />
 
 					<% @teacher.experiences.each do |experience| %>
 						<p class="bold">
@@ -337,7 +371,22 @@
 			<% end %>
 
 			<!-- START Skills Section-->
-			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
+			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
+			<% if @teacher.user.skill_groups.empty? && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">We heard you had skills...<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						<span style="font-size:16px"><a href="/me/profile/edit/skills"> - - Tell us what they are</a></span>
+					<% end %>
+					<span style="float:right;color:#F66C4C;" >Vouches</span>
+					</h3>
+				</section><br />
+			
+			<!-- If Skills are blank and you do not own the profile, you will see nothing. -->
+			<% elsif @teacher.user.skill_groups.empty? %>
+			
+			<!-- If Skills aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">Skills<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
@@ -374,7 +423,24 @@
 				<% end %>
 			
 			<!-- START Credential Section-->
-			<% unless @teacher.credentials.empty? && self.current_user == nil %>
+			<!-- If Credentials are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.credentials.empty? && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						Credentials
+							<span style="font-size:16px; margin-left:5px">
+								<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+									<a href="/me/profile/edit/credentials"> - - Update</a>
+								<% end %>
+							</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Credentials are blank and you do not own the profile, you will see nothing. --> 	
+			<% elsif @teacher.credentials.empty? %>
+
+			<!-- If Credentials aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Credentials
@@ -405,13 +471,30 @@
 			<% end %>
 			
 			<!-- START Presentation & Publications Section-->
-			<% unless @teacher.presentations.empty? && self.current_user == nil %>
+			<!-- If Presentations are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.presentations.empty?  && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						Show off your Press Here
+							<span style="font-size:16px; margin-left:5px">
+								<% if self.current_user != nil && @teacher == self.current_user.teacher %> 
+									<a href="/me/profile/edit/presentations"> - - Update Presentation & Publications</a>
+								<% end %>
+							</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Presentations are blank and you do not own the profile, you will see nothing. --> 		
+			<% elsif @teacher.presentations.empty? %>
+				
+			<!-- If Presentations aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Presentation & Publications
 						<span style="font-size:16px; margin-left:5px">
 							<% if self.current_user != nil && @teacher == self.current_user.teacher %> 
-							<a href="/me/profile/edit/presentations"> - - Edit</a>
+							<a href="/me/profile/edit/presentations"> - - Update</a>
 							<% end %>
 						</span>
 					</h3>
@@ -437,7 +520,24 @@
 			<% end %>
 			
 			<!-- START Awards & Honors Section-->
-			<% unless @teacher.awards.empty? && self.current_user == nil %>
+			<!-- If Awards are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.awards.empty?  && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Flaunt your Trophies!
+						<span style="font-size:16px; margin-left:5px">
+						<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						<a href="/me/profile/edit/awards"> - - Update Honors & Awards</a>
+						<% end %>
+						</span>
+					</h3>
+				</section><br />
+			
+			<!-- If Awards are blank and you do not own the profile, you will see nothing. -->
+			<% elsif @teacher.awards.empty? %>
+			
+			<!-- If Awards aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Honors & Awards
@@ -461,13 +561,30 @@
 						<%= award.description %>
 					</p></br>
 					<% end %>
-				</section>
-					
+				</section>		
 			<% end %>
-
+			
 			<!-- START Attachments Section -->
 			<% if @connected || @guest || !@teacher.user.privacy["attachments"] %>
-				<% unless @teacher.assets.empty? && self.current_user == nil %>
+			
+				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
+				<% if @teacher.assets.empty?  && self.current_user.teacher == @teacher %>
+					<section class="profile-info group">
+						<h3 class="bottom-line">
+						Are you feeling Attached?
+							<span style="font-size:16px; margin-left:5px">
+								<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+								<a href="/profileattachments">- - Upload your teaching documents</a>
+								<% end %>
+							</span>
+						</h3>
+					</section>
+					
+				<!-- If Attachments are blank and you do not own the profile, you will see nothing. -->
+				<% elsif @teacher.assets.empty? %>
+				
+				<!-- If Attachments aren't nil, and they are not private, you will see them suckers. -->
+				<% else %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
 						Attachments
