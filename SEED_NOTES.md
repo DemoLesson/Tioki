@@ -1,3 +1,10 @@
+v2.0.13 - Nov 14, 2012  5:23PM PST deployed by Kelly Becker
+===========================================================
+* 8601f29: Kelly Becker - connecting grades and subjects now works
+* cd2e0d7: Kelly Becker - tokeninput is not styled properly
+* 94a08e0: Kelly Becker - we have tokens!
+* 2c77075: Kelly Becker - for the new stuff in place and updated the old js code to coffeescript
+
 v2.0.12 - Nov 14, 2012  5:06PM PST deployed by Aleks Stanisic
 =============================================================
 * 6fab88d: Brian Martinez - changes to profile and user dropdown menu
