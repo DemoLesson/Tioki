@@ -2,6 +2,8 @@ class Event < ActiveRecord::Base
 	# Set the page length
 	self.per_page = 10
 
+	before_destroy :cleanup!
+
 	# Create connections
 	has_and_belongs_to_many :eventtopics
 	has_and_belongs_to_many :eventformats, :join_table => 'events_eventformats'
@@ -64,5 +66,9 @@ class Event < ActiveRecord::Base
 		return "<a href=\"/events/#{self.id}\" #{attrs}>#{self.name}</a>".html_safe
 	end
 
-	#validates :name, :description, :virtual, :presence => true
+	def cleanup!
+		Whiteboard.find(:all, :conditions => ["whiteboards.tag = 'Event:?'", self.id]).each do |whiteboard|
+			whiteboard.destroy
+		end
+	end
 end
