@@ -1,3 +1,7 @@
+v2.0.14 - Nov 14, 2012  6:19PM PST deployed by Aleks Stanisic
+=============================================================
+* 19ccb93: Elijah Green - Delete whiteboards corresponding to deleted event
+
 v2.0.13 - Nov 14, 2012  5:23PM PST deployed by Kelly Becker
 ===========================================================
 * 8601f29: Kelly Becker - connecting grades and subjects now works
