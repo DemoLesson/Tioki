@@ -1,3 +1,7 @@
+v2.0.15 - Nov 15, 2012 11:40AM PST deployed by Aleks Stanisic
+=============================================================
+* 995547a: Elijah Green - Profiles fixed for not logined users
+
 v2.0.14 - Nov 14, 2012  6:19PM PST deployed by Aleks Stanisic
 =============================================================
 * 19ccb93: Elijah Green - Delete whiteboards corresponding to deleted event
