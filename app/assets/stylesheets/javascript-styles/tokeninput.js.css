@@ -3,18 +3,22 @@ ul.token-input-list-facebook {
     overflow: hidden; 
     height: auto !important; 
     height: 1%;
-    width: 400px;
-    border: 1px solid #8496ba;
+    width: 100%;
+    border: 1px solid #CFD4D5;
     cursor: text;
-    font-size: 12px;
-    font-family: Verdana;
+    font-size: 15px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     min-height: 1px;
     z-index: 999;
     margin: 0;
-    padding: 0;
+    padding: 4px 12px;
     background-color: #fff;
     list-style-type: none;
     clear: left;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 ul.token-input-list-facebook li input {

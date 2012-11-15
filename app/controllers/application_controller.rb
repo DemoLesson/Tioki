@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 	before_filter :sweep_session
 
 	def sweep_session
-		Session.sweep("20 minutes")
+		Session.sweep("1 hour")
 	end
 	
 	def login_required
