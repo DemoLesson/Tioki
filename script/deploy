@@ -9,6 +9,7 @@
 require 'yaml'
 require 'socket'
 require 'timeout'
+require 'terminal-notifier'
 
 # Start by getting the command line arguments
 CLIargs = ARGV
@@ -22,6 +23,12 @@ if CLIargs.first == '--debug'
 	debug = true
 else
 	debug = false
+end
+
+# OSX Notification
+def notify(message, opts = {})
+	return false if TerminalNotifier.nil?
+	TerminalNotifier.notify(message, opts)
 end
 
 # Output to terminal
@@ -64,7 +71,11 @@ def confirm(text, color = nil, _sleep = nil, default = 'n')
 	}
 
 	unless _sleep.nil?
-		return Timeout::timeout(_sleep, &_confirm) rescue return (default == 'y' ? true : false)
+		begin
+			return Timeout::timeout(_sleep, &_confirm) 
+		rescue Timeout::Error
+			return (default == 'y' ? true : false)
+		end
 	else
 		return _confirm.call()
 	end
@@ -333,6 +344,9 @@ class DeployCLI
 			system("cap deploy:cleanup#{filters}")
 		end
 
+		# Notify the user with OSX Notifications
+		notify("The deploy has completed", :title => "Tioki Deploy", :open => "http://tioki.com")
+
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."
 		ENV["RAILS_ENV"] = renvironment
@@ -364,6 +378,9 @@ class DeployCLI
 		# Remind
 		echo "\nThe new code is now live. You can rollback by running:"
 		echo "\`./script/deploy rollback #{type}\`", 'red'
+
+		# Notify the user with OSX Notifications
+		notify("Published new code", :title => "Tioki Deploy", :open => "http://tioki.com")
 
 		# Restore the original rails env
 		echo "\nFinished! Restoring the environment to #{renvironment}..."

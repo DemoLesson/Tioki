@@ -147,3 +147,6 @@ gem 'acts_as_commentable_with_threading'
 
 #Facebook api gem
 gem 'koala'
+
+# This gem doesnot do anything
+gem 'terminal-notifier'
