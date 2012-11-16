@@ -61,9 +61,6 @@ class User < ActiveRecord::Base
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :emaileventreminder, :emailsubscription, :email_permissions
 
-	before_create :set_full_name
-	after_create :send_verification_email
-
 	# Groups
 	has_and_belongs_to_many :groups, :join_table => 'users_groups'
 
@@ -119,6 +116,11 @@ class User < ActiveRecord::Base
 
 	#soft deletion
 	default_scope where(:deleted_at => nil)
+
+	# Callbacks
+	before_create :set_full_name
+	after_save :add_ab_test_data
+	after_create :create_profile_record
 
 	def self.privacy(conds = {})
 
@@ -354,12 +356,6 @@ class User < ActiveRecord::Base
 			u.login_count = 1
 		end
 		u.update_attribute(:last_login, Time.now)
-	end
-	
-	def send_verification_email
-		self.verification_code = User.random_string(10)
-			self.save!
-			#Notifications.deliver_verification(self.id, self.name, self.verification_code)
 	end
 	
 	def self.verify!(user_id, verification_code)
@@ -670,6 +666,27 @@ class User < ActiveRecord::Base
 		# Store the currently active user for access
 		def self.current
 			User.find(session[:user]) unless session[:user].nil?
+		end
+
+	private
+
+		def add_ab_test_data
+
+			# If the user id is even then apple the B ab test
+			update_attribute(:ab, 'B') if id.even?
+			update_attribute(:ab, 'A') unless id.even?
+		end
+
+		def create_profile_record
+
+			# Create a new teacher record
+			create_teacher
+
+			# Add the tioki technology :D
+			TechnologyUser.create(:user => self, :technology_id => 15)
+
+			# Send welcome email
+			UserMailer.teacher_welcome_email(@user.id).deliver
 		end
 end
  

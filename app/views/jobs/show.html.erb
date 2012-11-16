@@ -1,72 +1,72 @@
 <section id="main-content" class="inner-content">
 	<section id="info" class="one-column right-side">
-			<% if self.current_user == nil %>
-				<%= link_to "Apply Now", '/welcome_wizard?x=step1&job_application', :class => "action-button bg-salmon", :target => "_blank" %>
-			<% else %>
-				<% if self.current_user.teacher != nil %>
-					<% if @application == nil %>
-						<% if @owner.id == 100111 %>
-		                                  <%= link_to "Apply Now", {:controller => :jobs, :action => :tfa_apply, :id => @job.id}, {:class => "action-button bg-salmon"} %>				
-		                                <% elsif @owner.id == 19 %>
-		                                  <%if @job.external_url.present? %>
-		                                    <% if @job.external_url.include? '//'  %>
-		                                      <%= link_to "Apply Now", @job.external_url, {:class => "action-button bg-salmon", :target => '_blank'} %>
-		                                    <% else %>
-		                                      <%= link_to "Apply Now", '//'+@job.external_url, {:class => "action-button bg-salmon",:target => '_blank' }%>
-		                                    <% end %>
-		                                  <% else %>
-		                                    <%= link_to "Apply Now", "http://go.kippla.org/teach", {:class => "action-button bg-salmon", :target => "_blank"} %>
-		                                  <% end %>
-		                                <% else %>
-		                                  <% if self.current_user.teacher.tfa == 1 %> <% else %>
-		                                    <%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "action-button bg-salmon"} %><% end %>
-		                                <% end %>
-					<% else %>
-						<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "button"} %>
-					<% end %>
-						<%= link_to "Refer a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button bg-green"} %>
-				
-				<!-- Buttons that Appear if you are the school-->
-				<% elsif self.current_user.school != nil || self.current_user.is_shared %>
-					<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user)%>
-						<%= link_to "View Applicants", {:controller => :applications, :action => :index, :id => @job.id}, {:class => "button bg-salmon"} %>
-						<%= link_to "Edit Posting", job_path+'/edit', :class => "button bg-ltgray" %>
-					<% end %>
-				<% end %>
-			<% end %>
+		<% if self.current_user == nil %>
+		<%= link_to "Apply Now", '/welcome_wizard?x=step1&job_application', :class => "action-button bg-salmon", :target => "_blank" %>
+		<% else %>
+		<% if self.current_user.teacher != nil %>
+		<% if @application == nil %>
+		<% if @owner.id == 100111 %>
+		<%= link_to "Apply Now", {:controller => :jobs, :action => :tfa_apply, :id => @job.id}, {:class => "action-button bg-salmon"} %>				
+		<% elsif @owner.id == 19 %>
+		<%if @job.external_url.present? %>
+		<% if @job.external_url.include? '//'  %>
+		<%= link_to "Apply Now", @job.external_url, {:class => "action-button bg-salmon", :target => '_blank'} %>
+		<% else %>
+		<%= link_to "Apply Now", '//'+@job.external_url, {:class => "action-button bg-salmon",:target => '_blank' }%>
+		<% end %>
+		<% else %>
+		<%= link_to "Apply Now", "http://go.kippla.org/teach", {:class => "action-button bg-salmon", :target => "_blank"} %>
+		<% end %>
+		<% else %>
+		<% if self.current_user.teacher.tfa == 1 %> <% else %>
+		<%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "action-button bg-salmon"} %><% end %>
+		<% end %>
+		<% else %>
+		<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "button"} %>
+		<% end %>
+		<%= link_to "Refer a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button bg-green"} %>
+
+		<!-- Buttons that Appear if you are the school-->
+		<% elsif self.current_user.school != nil || self.current_user.is_shared %>
+		<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user)%>
+		<%= link_to "View Applicants", {:controller => :applications, :action => :index, :id => @job.id}, {:class => "button bg-salmon"} %>
+		<%= link_to "Edit Posting", job_path+'/edit', :class => "button bg-ltgray" %>
+		<% end %>
+		<% end %>
+		<% end %>
 	</section>
 	<section class="info panel" style="width:635px;height:90px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-			<section class="two-column left-side">
-				<section class="profile-thumb-medium" style="margin: 10px 10px 0px 10px;float:right">
-					<% if @job.school.picture? %>
-						<%= image_tag(@job.school.picture.url(:medium)) %>
-					<% else %>
-						<%= image_tag("tioki/icons/placeholder.png'") %>
-					<% end %>
-				</section>
-				<h2 style="margin: 10px 0px -5px 10px;color:#000">
-					<%= @job.title %>
-				</h2>
-				<p style="margin-left:10px">
-					<strong>
-						<%= link_to @job.school.name, @job.school %>
-					</strong>
-				 	|
-					<%= @job.school.map_city %><% if @job.school.map_state? %>, <%= STATES_ARRAY[@job.school.map_state.to_i-1] %><% end %>
-				</p>	
+		<section class="two-column left-side">
+			<section class="profile-thumb-medium" style="margin: 10px 10px 0px 10px;float:right;overflow:hidden;">
+				<% if @job.school.picture? %>
+				<%= image_tag(@job.school.picture.url(:medium)) %>
+				<% else %>
+				<%= image_tag("tioki/icons/placeholder.png'") %>
+				<% end %>
 			</section>
+			<h2 style="margin: 10px 0px -5px 10px;color:#000">
+				<%= @job.title %>
+			</h2>
+			<p style="margin-left:10px">
+				<strong>
+					<%= link_to @job.school.name, @job.school %>
+				</strong>
+				|
+				<%= @job.school.map_city %><% if @job.school.map_state? %>, <%= STATES_ARRAY[@job.school.map_state.to_i-1] %><% end %>
+			</p>	
+		</section>
 	</section>
 	<section class="panels">
 		<section id="list" class="two-column left-side">
 			
 			<!-- JOB DESCRIPTION -->
 			<% if @job.description? %>
-			  	<h3 class="bottom-line">
-					Job Description
-				</h3>
-				<p style="width:auto">
-			  		<%= @job.description.html_safe %>
-				</p>
+			<h3 class="bottom-line">
+				Job Description
+			</h3>
+			<p style="width:auto">
+				<%= @job.description.html_safe %>
+			</p>
 			<% end %>
 			
 			<!-- DESIRED SKILLS & EXPERTISE -->
@@ -77,113 +77,113 @@
 				<p style="width:auto">
 			  		<%= @job.description.html_safe %>
 				</p>
-			<% end %>-->
-			
-			<!-- SCHOOL/COMPANY DESCRIPTION -->
-			<% if @job.school.description? %>
+				<% end %>-->
+
+				<!-- SCHOOL/COMPANY DESCRIPTION -->
+				<% if @job.school.description? %>
 				<h3 class="bottom-line">
 					School Description
 				</h3>
 				<p style="width:auto">
 					<%= @job.school.description[0..501]+'...' %> <%= link_to 'Learn More', @job.school, :target => "_blank" %>
 				</p>
-			<% end %>
+				<% end %>
 				
-			<!-- JOB APPLICATION INSTRUCTIONS -->
-			<% if @job.instructions? %>
+				<!-- JOB APPLICATION INSTRUCTIONS -->
+				<% if @job.instructions? %>
 				<h3 class="bottom-line">
 					Application Instructions
 				</h3>
 				<p style="width:auto">
-				  <%= h(@job.instructions).gsub(/\n/, '<br/>').html_safe %>
+					<%= h(@job.instructions).gsub(/\n/, '<br/>').html_safe %>
 				</p>
-			<% end %>	
-			
-			<!-- ATTACHMENTS -->
-			<h3 class="bottom-line">
-				Job Attachments
-			</h3>
-			<% for asset in @job.assets %>
-			  	<% if asset.assetType != 1 %>
-			    	<div class="item">
-			      		<p>
-			      			<img src="<%= asset_path 'file.png' %>" />
-			      			<%= link_to asset.name, asset.file.url %><br />
-			      			<%= asset.description %>
-			      		</p>
-			    	</div>
-			  	<% end %>
-			<% end %>
-		</section>
-		<section id="list" class="panel one-column right-side" style ="border-radius:0px;margin-top:20px">
-			<h4 style="margin-left:10px">
-				Additional Information
-			</h4>
-			<section class="panel-actions">
-				<p style="width:auto">
-			  		<strong>
-						Type: 
-					</strong>
-					<span style="margin-left:41px">
-			  			<% if @job.employment_type == 0 %>Full Time
-			  			<% elsif @job.employment_type == 1 %>Part Time
-			  			<% elsif @job.employment_type == 2 %>Contract
-			  			<% elsif @job.employment_type == 3 %>Other
-						<% end %>
-					</span>
-				</p>
-				
-				<p style="width:auto">
-			  		<strong>
-						Deadline:
-					</strong>
-						<% if @job.rolling_deadline == true %>
-							<span style="margin-left:15px">
-								Rolling deadline, apply ASAP
-							</span>
-						<% else %>
-							<% if @job.deadline %>
-								<span style="color:#892A38;font-weight:bold;margin-left:16px">
-				  				<%= @job.deadline.to_s(:due_time) %>
-								</span>
+				<% end %>	
+
+				<!-- ATTACHMENTS -->
+				<h3 class="bottom-line">
+					Job Attachments
+				</h3>
+				<% for asset in @job.assets %>
+				<% if asset.assetType != 1 %>
+				<div class="item">
+					<p>
+						<img src="<%= asset_path 'file.png' %>" />
+						<%= link_to asset.name, asset.file.url %><br />
+						<%= asset.description %>
+					</p>
+				</div>
+				<% end %>
+				<% end %>
+			</section>
+			<section id="list" class="panel one-column right-side" style ="border-radius:0px;margin-top:20px">
+				<h4 style="margin-left:10px">
+					Additional Information
+				</h4>
+				<section class="panel-actions">
+					<p style="width:auto">
+						<strong>
+							Type: 
+						</strong>
+						<span style="margin-left:41px">
+							<% if @job.employment_type == 0 %>Full Time
+							<% elsif @job.employment_type == 1 %>Part Time
+							<% elsif @job.employment_type == 2 %>Contract
+							<% elsif @job.employment_type == 3 %>Other
 							<% end %>
+						</span>
+					</p>
+
+					<p style="width:auto">
+						<strong>
+							Deadline:
+						</strong>
+						<% if @job.rolling_deadline == true %>
+						<span style="margin-left:15px">
+							Rolling deadline, apply ASAP
+						</span>
+						<% else %>
+						<% if @job.deadline %>
+						<span style="color:#892A38;font-weight:bold;margin-left:16px">
+							<%= @job.deadline.to_s(:due_time) %>
+						</span>
 						<% end %>
-				</p>
+						<% end %>
+					</p>
 
-				<p style="width:auto">
-			  		<strong>
-						Salary: 
-					</strong> 
-					<span style="margin-left:35px">
-						<%= @job.salary %>
-					</span>
-				</p>
+					<p style="width:auto">
+						<strong>
+							Salary: 
+						</strong> 
+						<span style="margin-left:35px">
+							<%= @job.salary %>
+						</span>
+					</p>
 
-				<p style="width:auto">
-			  		<strong>
-						Start Date: 
-					</strong>
-					<span style="margin-left:10px">
-			    		<% if @job.immediate == true %>
-			      			Immediately
-			    		<% else %>
-			      			<% if @job.start_date %>
-			        			<%= @job.start_date.to_s(:due_time) %>
-			      			<% end %>
-			    		<% end %>
-					</span>
-				</p>
-				
-				<p style="width:auto">
-					<strong>
-						Subjects:
-					</strong>
-					<span style="padding-left:17px;">
-						<% @job.subjects.each do |subject| %>
+					<p style="width:auto">
+						<strong>
+							Start Date: 
+						</strong>
+						<span style="margin-left:10px">
+							<% if @job.immediate == true %>
+							Immediately
+							<% else %>
+							<% if @job.start_date %>
+							<%= @job.start_date.to_s(:due_time) %>
+							<% end %>
+							<% end %>
+						</span>
+					</p>
+
+					<p style="width:auto">
+						<strong>
+							Subjects:
+						</strong>
+						<span style="padding-left:17px;">
+							<% @job.subjects.each do |subject| %>
 							<%= Subject.find(subject.subject_id).name %>, 
-						<% end %>
-					</span>
-				</p>
+							<% end %>
+						</span>
+					</p>
 
 				<!--p style="width:auto">
 					<strong>
