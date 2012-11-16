@@ -1,22 +1,21 @@
 <li>
-	<div class="profile-thumb-small" style="display:inline-block;">
-		<%= image_tag @comment.user.avatar.url(:tiny) if @comment.user.avatar? %>
-		<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @comment.user.avatar? %>
-	</div>
-	<p style="display:inline;float:none;">
-		<strong><%= time_ago_in_words(@comment.created_at) %> ago <%= @comment.user.teacher.profile_link %> posted:</strong>
-		 <%= @comment.body %>
-	</p>
-	<div class="quick-actions">
-		<% if self.current_user %>
-			<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action <%= favorited(@comment) ? 'star-gold' : 'star-empty' %>" title="Favorite Comment">
-				<%= favorites(@comment) %>
+	<%= link_to(image_tag(@comment.user.avatar.url(:tiny)), '/profile/' + @comment.user.teacher.url) if @comment.user.avatar? %>
+	<%= link_to(image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/' + @comment.user.teacher.url) unless @comment.user.avatar? %>
+	<h4><%= @comment.user.teacher.profile_link %> replied.</h4>
+	<p><%= @comment.body %></p>
+	<div class="bar">
+		<span class="timestamp"><%= time_ago_in_words(@comment.created_at) %> ago</span>
+		<span class="icons">
+			<% if self.current_user %>
+			<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
+				<span class="iconic star"><%= favorites(@comment) %></span>
 			</a>
-		<% end %>
-		<% if @comment.user == User.current || (User.current && User.current.is_admin) %>
-			<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Comment">
-				<span class="iconic x_alt"></span>
-			</a>
-		<% end %>
+			<% end %>
+			<% if @comment.user == User.current || (User.current && User.current.is_admin) %>
+				<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action salmon" title="Delete Comment">
+					<span class="iconic x_alt"></span>
+				</a>
+			<% end %>
+		</span>
 	</div>
 </li>

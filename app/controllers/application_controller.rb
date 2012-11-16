@@ -10,13 +10,15 @@ end
 
 # Application Controller
 class ApplicationController < ActionController::Base
-	#filter_parameter_logging "password"
-	#filter_parameter_logging "password_confirmation"
+	protect_from_forgery
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
-	#layout 'application'
+	before_filter :sweep_session
 
-	protect_from_forgery
+	def sweep_session
+		Session.sweep("1 hour")
+	end
+	
 	def login_required
 		if session[:user]
 			return true
@@ -59,7 +61,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def check_if_referer
-		
+
 		# Check if we have a referer set anywhere
 		if params.has_key?("_email_referer")
 			session[:_referer] = params['_email_referer']
@@ -183,7 +185,7 @@ class ApplicationController < ActionController::Base
 	# Error Handling #
 	##################
 
-	unless Preview::Application.config.consider_all_requests_local
+	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'production'
 
 		# Server Error
 		rescue_from Exception, with: :render_500
@@ -301,5 +303,21 @@ class ApplicationController < ActionController::Base
 				Rails.logger.error(error) if severity == 4
 				Rails.logger.fatal(error) if severity == 3
 			end
+		end
+
+		def twitter_oauth
+			#specifically set the authorize ath for authenticate in order
+			#to only have to authorize once
+			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
+																			APP_CONFIG.twitter.consumer_secret, 
+																			{ :site => "http://twitter.com", 
+																				:authorize_path => "/oauth/authenticate" 
+																			}
+																		 )
+		end
+
+		def facebook_oauth
+			callback_url = "http://#{request.host_with_port}/facebook_callback"
+			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
 		end
 end

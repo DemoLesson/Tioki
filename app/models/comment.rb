@@ -49,4 +49,12 @@ class Comment < ActiveRecord::Base
     commentable_str.constantize.find(commentable_id)
   end
 	#END automatically generated acts_as_commentable methods
+
+  def owner
+    Kernel.const_get(commentable_type).find(commentable_id)
+  end
+
+  def link
+    "/discussions/#{owner.to_param}#c#{id}"
+  end
 end

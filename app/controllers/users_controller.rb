@@ -110,6 +110,7 @@ class UsersController < ApplicationController
 					login_token = LoginToken.generate_token_for!(session[:user])
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
+					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
 				end
 				return redirect_to_stored
 			else
@@ -204,6 +205,7 @@ class UsersController < ApplicationController
 	#  end
 
 	def logout
+		reset_session
 		session[:user] = nil
 		flash[:notice] = 'You\'ve been logged out.'
 		login_token = LoginToken.find_by_user_id(cookies[:login_token_user])
@@ -435,9 +437,14 @@ class UsersController < ApplicationController
 	
 	def teacher_user_list
 
-		# Search for a specific user via name
+		# Search for a specific user via name or id
 		if params[:tname]
-			@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+			#is it a valid integer?
+			if params[:tname].numeric?
+				@users = User.find :all, :include => :teacher,:conditions => ["teachers.id = ?", params[:tname]], :order => "users.created_at DESC"
+			else
+				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+			end
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
@@ -548,9 +555,10 @@ class UsersController < ApplicationController
 	end
 
 	def referral_user_list
+		#after ddonors choose before tioki bucks
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ?', 
-			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -580,6 +588,13 @@ class UsersController < ApplicationController
 			@organization.update_attributes(:name => params[:name], :job_allowance => params[:job_allowance], :admin_allowance => params[:admin_allowance], :school_allowance => params[:school_allowance])
 			redirect_to :schoollist
 		end
+	end
+
+	def tioki_coins_list
+		#get users tioki dollars except from those that received
+		#them solely from getting started which depends on 6 different tables
+		connection_invites = ConnectionInvite.find(:all, :conditions => ["connection_invites.created_at > ?", TIOKI_BUCKS_START]).collect(&:user_id)
+		@teachers = Teacher.find(:all, :conditions => ["teachers.facebook_connect = true || teachers.twitter_connect = true || teachers.tweet_about = true || teachers.user_id IN (?)", connection_invites])
 	end
 
 	def edit_member
@@ -685,6 +700,93 @@ class UsersController < ApplicationController
 			# Reload page
 			redirect_to :action => :privacy
 		end
+	end
+
+	def banners
+		if request.post?
+
+			# Get unprocessed time
+			time = params[:time]
+			time = time.split(' ')
+
+			# Determine if this is a recurring slot
+			every = time.slice!(time.index("every")) == "every" rescue false
+
+			begin
+				# Assume a date range is specified if not an exception will be thrown
+				from = time[0...time.index("to")].delete_if{|x| x == "from"}.join(' ')
+				to = time[0...time.index("to") - 2].concat(time[time.index("to") + 1 .. -1]).join(' ')
+			rescue
+
+				# If no from was found then no date range was specified
+				if time.index("from").nil?
+					to = from = time.join(' ')
+
+				# If a from was specified assume they meant the remainder of the day
+				else
+					from = time.delete_if{|x| x == "from"}.join(' ')
+					time[-1] = 'midnight'
+					to = time.join(' ')
+				end
+			end
+
+			# If we only have one date to parse
+			if to == from
+				time = [Chronic.parse(to)]
+
+			# If we have two
+			else
+				time = Array.new
+				time << Chronic.parse(from)
+				time << Chronic.parse(to)
+			end
+
+			# Create the banner
+			banner = Banner.new
+			banner.message = params[:message]
+
+			# Determine the recurring day
+			if every == true
+				weekday = time.first.wday
+				weekday = 7 if weekday == 0
+				banner.recurring = weekday
+			end
+
+			# Banner date range
+			if time.count > 1
+				banner.start = time.first
+				banner.stop = time.last
+			else
+				banner.start = time.first
+			end
+
+			if banner.save
+				flash[:success] = "Banner successfully added."
+			else
+				flash[:error] = "Banner could not be created."
+			end
+
+			redirect_to request.path
+		end
+	end
+
+	def delete_banner
+		if Banner.find(params[:id]).destroy
+			flash[:success] = "Banner was deleted successfully"
+		else
+			flash[:error] = "Banner could not be deleted"
+		end
+
+		redirect_to '/admin/banners'
+	end
+
+	def dismiss_banner
+		cookies[:tioki_banner_dismissed] = {
+  			:value => true,
+  			:expires => 3.hours.from_now
+		}
+
+		redirect_to :back
 	end
 
 	private

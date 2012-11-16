@@ -24,70 +24,55 @@ tr.seeking, tr.student {
 				<tr>
 					<td style="border-bottom: solid 1px #DADADA;padding:3px inherit;">
 						<label>
-							<span>I am currently</span>
+							<span>I am currently a</span>
 						</label>
 						<label class="radio inline">
-							<input type="radio" name="current" value="employed" checked="checked" /> Employed
+							<input type="radio" name="current" value="teacher" checked="checked" /> Teacher
 						</label>
 						<label class="radio inline">
-							<input type="radio" name="current" value="seeking" /> Job Seeking
+							<input type="radio" name="current" value="job_seeker" /> Job Seeker
 						</label>
 						<label class="radio inline">
-							<input type="radio" name="current" value="student" /> a Student
+							<input type="radio" name="current" value="student" /> Student
+						</label>
+						<label class="radio inline">
+							<input type="radio" name="current" value="administrator" /> Other
 						</label>
 					</td>
 				</tr>
-				<tr class="employed">
+				<tr data-who="teacher,job_seeker">
 					<td>
 						<label>
-							<span>Job Title</span>
+							<span>Subjects</span>
+							<input type="text" name="teacher[subjects]" />
+						</label>
+					</td>
+				</tr>
+				<tr data-who="teacher,job_seeker">
+					<td>
+						<label>
+							<span>Grade Levels</span>
+							<input type="text" name="teacher[grades]" />
+						</label>
+					</td>
+				</tr>
+				<tr data-who="administrator" style="display:none;">
+					<td>
+						<label>
+							<span>Current Position</span>
 							<input type="text" name="teacher[position]" />
 						</label>
 					</td>
 				</tr>
-				<tr class="employed">
+				<tr data-who="teacher,administrator">
 					<td>
 						<label>
-							<span>School or Place of Employment</span>
+							<span>Place of Employment</span>
 							<input type="text" name="teacher[school]" />
 						</label>
 					</td>
 				</tr>
-				<tr class="seeking">
-					<td>
-						<label>
-							<span>Most recent job title</span>
-							<input type="text" name="experience[position]" />
-						</label>
-					</td>
-				</tr>
-				<tr class="seeking">
-					<td>
-						<label>
-							<span>Previous Place of Employment</span>
-							<input type="text" name="experience[company]" />
-						</label>
-					</td>
-				</tr>
-				<tr class="seeking">
-					<td>
-						<label>
-							<span>Start Date</span>
-							<%= select_month Date.today, :field_name => 'exp_start_month', :add_month_numbers => false, :class => 'chzn' %>
-							<%= select_year Date.today, :field_name => 'exp_start_year', :start_year => 1900, :end_year => Time.now.year + 1, :class => 'chzn' %>
-						</label>
-					</td>
-				</tr>
-				<tr class="seeking">
-					<td>
-						<label>
-							<span>End Date</span>
-							<%= select_month Date.today, :field_name => 'exp_end_month', :add_month_numbers => false, :class => 'chzn' %>
-							<%= select_year Date.today, :field_name => 'exp_end_year', :start_year => 1900, :end_year => Time.now.year + 1, :class => 'chzn' %>
-						</label>
-					</td>
-				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>College / University</span>
@@ -95,7 +80,7 @@ tr.seeking, tr.student {
 						</label>
 					</td>
 				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>Degree</span>
@@ -103,7 +88,7 @@ tr.seeking, tr.student {
 						</label>
 					</td>
 				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>Major</span>
@@ -111,23 +96,23 @@ tr.seeking, tr.student {
 						</label>
 					</td>
 				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>Start Date</span>
 						</label>
-                                                <%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+						<%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
 					</td>
 				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>End Date</span>
-                                                        <%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+							<%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
 						</label>
 					</td>
 				</tr>
-				<tr class="student">
+				<tr data-who="student" style="display:none;">
 					<td>
 						<label class="checkbox">
 							<%= check_box_tag "edu[current]" %>
@@ -164,33 +149,3 @@ tr.seeking, tr.student {
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('input[name="current"]').change(function() {
-		var wait = 0;
-		var currentVal = $(this).val();
-		var classes = ['employed', 'seeking', 'student'];
-
-		for(var i in classes) {
-			if(classes[i] == currentVal) continue;
-			else $('tr.' + classes[i]).each(function() {
-				var obj = $(this);
-				setTimeout(function() { obj.fadeOut(500); }, wait * 500);
-			});
-			wait++;
-		}
-
-		for(var i in classes) {
-			if(classes[i] != currentVal) continue;
-			else $('tr.' + classes[i]).each(function() {
-				var obj = $(this);
-				setTimeout(function() { obj.fadeIn(500); }, wait * 500);
-			});
-			wait++;
-		}
-
-		return false;
-	});
-});
-</script>

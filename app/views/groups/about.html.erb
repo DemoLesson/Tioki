@@ -1,0 +1,196 @@
+<section id="main-content" class="inner-content">
+	<section class="info panel">
+		<section class="two-column left-side" style="height:auto;width:700px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section class="profile-thumb-medium" style="margin:10px 20px 0px 10px; float:left;height:auto;min-width:100px;background:#F0F0F0">
+					<% if @group.picture? %>
+						<%= image_tag @group.picture.url(:medium), :style => "width:200px" %>
+					<% else %>
+						<img src="http://placehold.it/220x220" />
+					<% end %>
+			</section>
+			<section style="float:right;margin:10px 10px 0px 0px">
+				<% unless @group.site == nil || @group.site == "" %>
+					<a href="<%= @group.site %>" target="_blank">
+						<%= image_tag('tioki/icons/globe.png') %>
+					</a>
+				<% end %>
+				<% if @group.twitter.present? %>
+					<% if @group.twitter.include? '//' %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), @group.twitter, :target => "_blank" %>
+					<% elsif @group.twitter.include? 'com' %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), 'http://'+@group.twitter, :target => "_blank" %>
+					<% else %>
+						<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@group.twitter, :target => "_blank" %>
+					<% end %>
+				<% end %>
+				<% if @group.facebook.present? %>
+					<% if @group.facebook.include? '//' %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), @group.facebook, :target => "_blank" %>
+					<% elsif @group.facebook.include? 'com' %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), 'http://'+@group.facebook, :target => "_blank" %>
+					<% else %>
+						<%= link_to image_tag('tioki/icons/fb_button.png'), '//facebook.com/'+@group.facebook, :target => "_blank" %>
+					<% end %>
+				<% end %>
+			</section>
+			<h3 style="margin: 10px 0px -5px 10px;color:#000">
+				About the <%= @group.name %> Group
+			</h3>
+			<p style="margin-left:10px; width:auto">
+				<% if @group.description? %>
+					<%=raw auto_link(@group.description).gsub(/\n/, '<br />') %>
+				<% end %>
+			</p>	
+		</section>
+		<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;width:250px;">
+			<span style="padding:0px 0px 0px 20px" >
+				<% if self.current_user %>
+					<% if @admin %>
+						<%= link_to "Edit Group", edit_group_path, :class => "button" %>
+						<%= link_to "Message Members", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "margin-right: 10px" %>
+					<% elsif @in_group %>
+						<%= link_to "Explore More Groups", "/groups", :class => "button" %>
+					<% else %>
+						<% if @group.permissions!['public'] %>
+							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
+						<% end %>
+					<% end %>
+				<% else %>
+					<%= link_to "Join Group", '/welcome_wizard?x=step1&join_group_button', :class => "button", :target => "_blank" %>
+				<% end %>
+			</span>
+			<section style="margin:0px 0px 0px 20px">
+				<h4 class="bottom-line">
+					Invite Friends to Join: <br />
+				</h4>
+				<p>
+					<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
+					<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
+					<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "width:30px") %></a>
+					<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png', :style => "width:30px") %></a>
+				</p>
+			</section>
+		</section>
+	</section>
+	<section style="float:left">
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href='/groups/<%= @group.id %>'>
+						Discussions
+					</a>
+				</li>
+				<li>
+					<a href='/groups/<%= @group.id %>/members'>
+						Members
+						<% if @group.users.count > 0 %>
+							(<%= @group.users.count %>)
+						<% end %>
+					</a>
+				</li>
+				<li class="current">
+					About
+				</li>
+			</ul>
+		</nav>
+	</section>
+</section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%= @group.name %>',
+			link: '<%= url_for(:only_path => false) %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join this Group on Tioki.',
+			description: 'Come join the "<%= @group.name %>" group on Tioki; a professional development site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: '<%= url_for(:only_path => false) %>',
+			text: 'Come join the "<%= @group.name %>" Group on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
+
+<% unless User.current.nil? %>
+<div id="share_on_tioki" class="kmodal">
+	<h2>
+		Share with other Tioki users.
+	</h2>
+	<p>
+		Please select some of your connections to share with.
+	</p>
+	<section style="max-height:300px;overflow-y:scroll;">
+		<form method="post" action="/groups/<%= @group.id %>/invite">
+			<% Connection.mine(:pending => false).each do |connection| %>
+			<% user = connection.not_me %>
+			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
+				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
+				<div class="profile-thumb-small" style="float:left;">
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.teacher.url}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.teacher.url}" unless user.avatar? %>
+				</div>
+				<p style="margin-top:0px;"><strong><%= user.teacher.profile_link %></strong><br /><%= user.teacher.location %>
+			</div>
+			<% end %>
+			<div style="clear:both;"></div>
+			<a style="float:right;margin:25px 5px 5px;font-size:20px;" href="javascript:void(0);" onclick="$(this).closest('form').submit();" class="button">Invite Connections</a>
+		</form>
+	</section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div.user').click(function(e) {
+		e.preventDefault();
+
+		var check = $(this).children('input');
+		if(check.prop('checked')) {
+			$(this).css('border-color', '#DADADA');
+			check.prop('checked', false);
+			check.hide();
+		}
+		else {
+			$(this).css('border-color', '#F66C4C');
+			check.prop('checked', true);
+			check.show();
+		}
+
+		return false;
+	})
+});
+</script>
+<% end %>

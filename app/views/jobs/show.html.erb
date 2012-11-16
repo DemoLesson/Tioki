@@ -1,10 +1,7 @@
 <section id="main-content" class="inner-content">
 	<section id="info" class="one-column right-side">
 			<% if self.current_user == nil %>
-				<h4>Apply now</h4>
-				<%= link_to "Sign Up", :root, :class => "button"%>
-				<%= link_to "Login", :login, :class => "button" %>
-				</br><%= link_to "Refer Job to a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button"} %>
+				<%= link_to "Apply Now", '/welcome_wizard?x=step1&job_application', :class => "action-button bg-salmon", :target => "_blank" %>
 			<% else %>
 				<% if self.current_user.teacher != nil %>
 					<% if @application == nil %>
@@ -44,7 +41,7 @@
 					<% if @job.school.picture? %>
 						<%= image_tag(@job.school.picture.url(:medium)) %>
 					<% else %>
-						<%= image_tag("no_image.png") %>
+						<%= image_tag("tioki/icons/placeholder.png'") %>
 					<% end %>
 				</section>
 				<h2 style="margin: 10px 0px -5px 10px;color:#000">
@@ -73,14 +70,14 @@
 			<% end %>
 			
 			<!-- DESIRED SKILLS & EXPERTISE -->
-			<% if @job.description? %>
+			<!--<% if @job.description? %>
 			  	<h3 class="bottom-line">
 					Desired Skills & Expertise
 				</h3>
 				<p style="width:auto">
 			  		<%= @job.description.html_safe %>
 				</p>
-			<% end %>
+			<% end %>-->
 			
 			<!-- SCHOOL/COMPANY DESCRIPTION -->
 			<% if @job.school.description? %>

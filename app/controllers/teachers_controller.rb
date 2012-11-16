@@ -1,6 +1,5 @@
 class TeachersController < ApplicationController
 	before_filter :login_required, :except => [:profile, :guest_entry]
-	API_KEY, SECRET_KEY = "mgb6uz10qf31", "9WXAkgt6TyPdfJGI"
 
 	# GET /teachers/1
 	# GET /teachers/1.json
@@ -449,122 +448,6 @@ class TeachersController < ApplicationController
 		end
 	end
 
-	def linkedinprofile
-		if request.post?
-			if params[:response] == 'yes'
-				client = LinkedIn::Client.new(API_KEY, SECRET_KEY)
-				#oauth_Callback=where linkedin will redirect back to
-				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/callback")
-				session[:rtoken] = request_token.token
-				session[:rsecret] = request_token.secret
-				redirect_to client.request_token.authorize_url
-			elsif params[:response] == 'no'
-				redirect_to '/profile/'+self.current_user.teacher.url     
-			end
-		end
-	end
-
-	def callback
-		@teacher = Teacher.find(self.current_user.teacher.id)
-		client = LinkedIn::Client.new(API_KEY, SECRET_KEY)
-		pin = params[:oauth_verifier]
-		client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
-
-		#begin populating profile
-		#set teacher.linkedin
-		user = client.profile(:fields => %w(public-profile-url))
-		@teacher.update_attribute(:linkedin, user.public_profile_url)
-
-		#educations
-		user = client.profile(:fields => %w(educations))
-		if user.educations.all != nil
-			user.educations.all.each do |education|
-				school = education.school_name
-				degree = education.degree
-				concentrations = education.field_of_study
-				if education.end_date
-					year = education.end_date.year
-				end
-				@teacher.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
-				@teacher.save
-			end
-		end
-
-		#positions
-		user = client.profile(:fields => %w(positions))
-		currentposition=nil
-		currentschool=nil
-		if user.positions.all != nil
-			user.positions.all.each do |position|
-				company = position.company.name
-				positiontitle = position.title
-				if position.start_date
-					startMonth = position.start_date.month
-					startYear = position.start_date.year
-				end
-				if position.is_current == true
-					endMonth = Time.now.month
-					endYear = Time.now.year
-					current = true
-					if position.company.industry == "Primary/Secondary Education"
-						currentposition = position.title
-						currentschool = position.company.name
-					end
-				else
-					endMonth = position.end_date.month
-					endYear = position.end_date.year
-					current = false
-				end
-				@teacher.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
-				@teacher.save
-			end
-		end
-		if currentschool != nil && currentposition != nil
-			@teacher.update_attribute(:school, currentschool)
-			@teacher.update_attribute(:position, currentposition)
-		end
-
-		#phone number
-		user= client.profile(:fields => %w(phone-numbers))
-		phone=nil
-		if user.phone_numbers.all != nil
-			user.phone_numbers.all.each do |number|
-				if number.phone_type == "home" || number.phone_type == "mobile"
-					phone = number.phone_number
-					break
-				end
-			end
-		end
-		if phone != nil
-			@teacher.update_attribute(:phone, phone)
-		end
-
-		#Addtional Information:
-		addinfo = ""
-		#Interests
-		user =client.profile(:fields => %w(interests))
-		if user.interests != nil
-			addinfo = "Interests: " + user.interests
-		end
-		#groups and associations
-		user =client.profile(:fields => %w(associations))
-		if user.associations != nil
-			addinfo = addinfo + "\nGroups and Associations: " + user.associations
-		end
-		#honors
-		user =client.profile(:fields => %w(honors))
-		if user.honors != nil
-			addinfo = addinfo + "\nHonors: " + user.honors
-		end
-		@teacher.update_attribute(:additional_information, addinfo)
-
-		#Linkedin integration is currently a one time thing so deleting session keys
-		#and redirecting to profile like create_profile does
-		session[:rtoken]=nil
-		session[:rsecret]=nil
-		redirect_to '/profile/'+self.current_user.teacher.url     
-	end
-
 	def favorites
 		@pins = Pin.paginate(:page=> params[:page], :conditions => [ 'user_id = ?', self.current_user.id] )
 	end
@@ -723,5 +606,117 @@ class TeachersController < ApplicationController
 	def feature_video
 		self.current_user.teacher.update_attribute(:video_id, params[:id])
 		redirect_to :back
+	end
+
+	def tioki_bucks
+		@start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			@connected = true
+			@start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@followed = true
+			@start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, 
+				:conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@groups = true
+			@start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, 
+				:conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+			@vouched_skills = true
+			@start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, 
+				:conditions => ["whiteboards.slug = ?", 'share'])
+			@whiteboard_post = true
+			@start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+			@commented = true
+			@start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.current_user.avatar?
+			@avatar = true
+			@start_count += 1
+		end
+
+		#referrals
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if @invite_count*2 > 42
+			@tioki_bucks += 42
+		else
+			@tioki_bucks += @invite_count*2
+		end
+
+		if @start_count >= 5
+			@tioki_bucks += 5
+		end
+
+		if self.current_user.teacher.facebook_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.twitter_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.tweet_about
+			@tioki_bucks += 1
+		end
+	end
+
+	def linkedinprofile
+		if request.post?
+			if params[:response] == 'yes'
+				client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
+				#oauth_Callback=where linkedin will redirect back to
+				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
+				session[:rtoken] = request_token.token
+				session[:rsecret] = request_token.secret
+				redirect_to client.request_token.authorize_url
+			elsif params[:response] == 'no'
+				redirect_to '/profile/'+self.current_user.teacher.url
+			end
+		end
+	end
+
+	def get_started
+		@tioki_bucks = 0
+
+		#3 connections
+		@connections = Connection.mine(:pending => false).count
+
+		#follow three discussions
+		@following = Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Join three groups
+		@groups = User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Vouch 5 skills
+		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
+
+		#post to whiteboard
+		@whiteboard_post =  Whiteboard.find(:first, :conditions => ["user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share'])
+
+		#Post a reply to discussion
+		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
 	end
 end

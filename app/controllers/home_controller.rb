@@ -31,11 +31,18 @@ class HomeController < ApplicationController
           total += job.new_applicants.count
         end         
       elsif not self.current_user.teacher.nil?
+
+        # Get whiteboard activity
         @whiteboard = Array.new
-        Whiteboard.getActivity.paginate(:per_page => 15, :page => params[:page]).each do |post|
+        Whiteboard.getActivity(true, :exclude => :connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
           @post = post
           @whiteboard << render_to_string('whiteboards/show', :layout => false)
         end
+
+        # Prepare the new connections bin
+        connections = Whiteboard.getActivity(true, :restrict => :connection).limit(6).all.recurse{|w| w.getModels}
+        @post = {:slug => 'connections', :data => connections}
+        @whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
         # Get a list of all my skills and a list of all my connections
         skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
@@ -197,8 +204,38 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
 
   def whiteboard_share
     redirect_to :root if self.current_user.nil?
-    Whiteboard.createActivity('share', "{user.teacher.profile_link} Shared: " + params[:message], '', {"deleteable" => true}) unless params[:message].nil?
-    redirect_to :root
+		if params[:message].present?
+
+			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
+			if self.current_user.twitter_auth? && params[:share_on_twitter]
+
+				if params[:share_on_facebook]
+					#need to share on both platforms
+					#Store this fact in session as it may need to go
+					#through a callback, so just can't pass as params
+					session[:share_on_facebook] = true
+				end
+				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
+
+			elsif params[:share_on_twitter]
+
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
+
+			elsif self.current_user.facebook_access_token && params[:share_on_facebook]
+
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+
+			elsif params[:share_on_facebook]
+
+				session[:whiteboard_id] = whiteboard.id
+				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+
+			end
+		end
+
+		redirect_to :root
   end
 
   def whiteboard_rmv

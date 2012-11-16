@@ -2,8 +2,10 @@ class BlockJson < StandardError
 end
 
 class ApiController < ApplicationController
-	load 'api/users.rb'
-	load 'api/groups.rb'
+
+	# Load in api methods
+	files = Dir.glob File.dirname(__FILE__) + "/api/*.{rb}"
+	files.each { |f| load f }
 
 	def method_missing(collection, *args)
 

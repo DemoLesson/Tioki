@@ -446,68 +446,79 @@
 			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
 
 			<!-- Contact Info -->
-			<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
 				<section class="info" style="margin-left:10px;margin-right:5px">
-					<p>
-
-					<% if @teacher.twitter.present? %>
-						<% if @teacher.twitter.include? '//' %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/twitter2.png'), '//'+@teacher.twitter %>
+					<% if @connected || @guest || !@teacher.user.privacy["social_networks"] %>
+						<p>
+						<% if @teacher.twitter.present? %>
+							<% if @teacher.twitter.include? '//' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter, :target => "_blank" %>
+							<% elsif @teacher.twitter.include? '@' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.linkedin.present? %>
-						<% if @teacher.linkedin.include? '//' %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//' + @teacher.linkedin %>
+						<% if @teacher.linkedin.present? %>
+							<% if @teacher.linkedin.include? '//' %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//linkedin.com/' + @teacher.linkedin, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
-
-					<% if @teacher.edmodo.present? %>
-						<% if @teacher.edmodo.include? '//' %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/edmodo.png'), '//'+@teacher.edmodo %>
+						
+						<% if @teacher.pinterest.present? %>
+							<% if @teacher.pinterest.include? '//' %>
+								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.pinterest, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//pinterest.com/' + @teacher.pinterest, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.betterlesson.present? %>
-						<% if @teacher.betterlesson.include? '//' %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/betterlesson.png'), '//'+@teacher.betterlesson %>
+						<% if @teacher.edmodo.present? %>
+							<% if @teacher.edmodo.include? '//' %>
+								<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/edmodo.png'), '//edmodo.com/'+@teacher.edmodo, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					<% if @teacher.teachingchannel.present? %>
-						<% if @teacher.teachingchannel.include? '//' %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel %>
-						<% else %>
-							<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//'+@teacher.teachingchannel %>
+						<% if @teacher.betterlesson.present? %>
+							<% if @teacher.betterlesson.include? '//' %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png'), '//betterlesson.com'+@teacher.betterlesson, :target => "_blank" %>
+							<% end %>
 						<% end %>
-					<% end %>
 
-					</p>
+						<% if @teacher.teachingchannel.present? %>
+							<% if @teacher.teachingchannel.include? '//' %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//teachingchannel.org'+@teacher.teachingchannel, :target => "_blank" %>
+							<% end %>
+						<% end %>
+						</p>
+					<% end %>
 					
 					<!-- Current Job / Location -->
-					<p>
-					<% if @teacher.position.present? && @teacher.school.present?%>
-						<span class="bold">Currently:</span>
-						<%= @teacher.position %> at <%= @teacher.school %>,
+					<% if @connected || @guest || !@teacher.user.privacy["current_job"] %>
+						<p>
+						<% if @teacher.position.present? && @teacher.school.present?%>
+							<span class="bold">Currently:</span>
+							<%= @teacher.position %> at <%= @teacher.school %>,
+						<% end %>
+						<%= @teacher.location %>
+						</p>
 					<% end %>
-					<%= @teacher.location %>
-					</p>
+
+					<!-- Public profile link -->
 					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 						<p>
 						<%= link_to "My Public Profile", "/profile/"+@teacher.url %>
 						</p>
 					<% end %>
 				</section>
-			<% end %>
-	
 	
 				<section style="margin-left:25px">
 					<!-- Connection Options -->
@@ -548,24 +559,26 @@
 			</section>
 
 			<% if self.current_user %>
-				<!-- Contact Information-->
-				<section class="info">
-				<p class="heading">
-				Contact Information
-				</p>
-				<% unless @teacher.user.email.empty? %>
-					<p>
-					<span class="bold black">Email:</span>
-					<%= @teacher.user.email %><br/>
+				<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
+					<!-- Contact Information-->
+					<section class="info">
+					<p class="heading">
+					Contact Information
 					</p>
+					<% unless @teacher.user.email.empty? %>
+						<p>
+						<span class="bold black">Email:</span>
+						<%= @teacher.user.email %><br/>
+						</p>
+					<% end %>
+					<% unless @teacher.phone == nil %>
+						<p>
+						<span class="bold black">Phone:</span>
+						<%= @teacher.phone %>
+						</p>
+					<% end %>
+					</section>
 				<% end %>
-				<% unless @teacher.phone == nil %>
-					<p>
-					<span class="bold black">Phone:</span>
-					<%= @teacher.phone %>
-					</p>
-				<% end %>
-				</section>
 			<% end %>
 			
 			<!-- Teacher Technology Tags -->
@@ -596,47 +609,17 @@
 		<section class="profile-content">
 		
 			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-				<section class="info panel" style="height:175px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
-				<h4 style="margin: 10px 0px -5px 10px">
-				Want a Rockstar profile? Complete this checklist.  
-				</h4>	
-				<h5 style="margin: 10px 0px -5px 80px">
-					<span style="float:right;margin-right: 80px">
-						5. <%= link_to "Upload a Video", "/me/profile/edit/upload-video" %> 
-							<% unless @video == nil%>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						6. <%= link_to "Connect your social networks", '/me/profile/edit#connect' %>
-							<% if @teacher.twitter.present? || @teacher.linkedin.present? || @teacher.edmodo.present? || @teacher.betterlesson.present? || @teacher.teachingchannel.present? %>
-						 		<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						7. <%= link_to "Update Education", "/me/profile/edit/education" %><%= link_to " & Experience", "/me/profile/edit/experience" %> 
-							<% unless @teacher.educations.empty? || @teacher.experiences.empty? %>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						8. <%= link_to "Add your Credentials", "/me/profile/edit/credentials" %>
-							<% unless @teacher.credentials.empty? %>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-					</span>
-				1. <%= link_to "Upload a Profile Picture", "/me/profile/edit/upload-avatar" %>
-					<% if @teacher.user.avatar? %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				2. <%= link_to "Add Skills Tags", "/me/profile/edit/skills" %>
-					<% unless @teacher.user.skill_groups.empty? %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>	
-				3. <%= link_to "Get 3 Vouches", "/requestvouch" %>
-					<% if @teacher.user.vouched_skills.count > 2 %>
-					<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				4. <%= link_to "Add Connections", "/inviteconnections" %>
-					<% if Connection.mine(:pending => false).count > 0 %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				</h5>	
-				</section>
+				<% if !self.current_user.got_started %>
+					<section class="info panel" style="height:45px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
+						<a href="/get_started" style="display:block">
+							<h4 style="margin: 10px 0px -5px 10px">
+								Want a Rockstar profile? Click here to get started
+							</h4>	
+							<h5 style="margin: 10px 0px -5px 80px">
+							</h5>
+						</a>
+					</section>
+				<% end %>
 			<% end %>
 
 			<!-- Video -->
@@ -677,7 +660,22 @@
 			<% end %>
 
 			<!-- START Education Section-->
-			<% unless @teacher.educations.empty? && self.current_user == nil %>
+			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.educations.empty? && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Where did you get that awesome brain of Yours? 
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/education">  - - Update Education Details</a>
+						</span>
+					</h3>
+				</section>
+				
+			<!-- If Education is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @teacher.educations.empty? %>
+			
+			<!-- If Educations aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Education
@@ -686,7 +684,7 @@
 							<a href="/me/profile/edit/education">  - - Edit</a>
 							<% end %>
 						</span>
-					</h3>
+					</h3><br />
 					<% @teacher.educations.each do |edu| %>
 						<p class="bold">
 							<%= edu.school %>
@@ -725,7 +723,22 @@
 			<% end %>
 			
 			<!-- START Experience Section-->
-			<% unless @teacher.experiences.empty? && self.current_user == nil %>
+			<!-- If Experiences are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.experiences.empty? && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Where did you get so good at this?
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/experience"> - - Update Work Experience</a>
+						</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Experiences are blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @teacher.experiences.empty? || self.current_user == @teacher %>
+			
+			<!-- If Experiences aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Experience
@@ -734,7 +747,7 @@
 							<a href="/me/profile/edit/experience"> - - Edit</a>
 							<% end %>
 						</span>
-					</h3>
+					</h3><br />
 
 					<% @teacher.experiences.each do |experience| %>
 						<p class="bold">
@@ -761,7 +774,22 @@
 			<% end %>
 
 			<!-- START Skills Section-->
-			<% unless @teacher.user.skill_groups.empty? && self.current_user == nil %>
+			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
+			<% if @teacher.user.skill_groups.empty? && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">We heard you had skills...<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
+					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						<span style="font-size:16px"><a href="/me/profile/edit/skills"> - - Tell us what they are</a></span>
+					<% end %>
+					<span style="float:right;color:#F66C4C;" >Vouches</span>
+					</h3>
+				</section><br />
+			
+			<!-- If Skills are blank and you do not own the profile, you will see nothing. -->
+			<% elsif @teacher.user.skill_groups.empty? %>
+			
+			<!-- If Skills aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">Skills<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
@@ -798,7 +826,22 @@
 				<% end %>
 			
 			<!-- START Credential Section-->
-			<% unless @teacher.credentials.empty? && self.current_user == nil %>
+			<!-- If Credentials are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.credentials.empty? && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						Credentials
+							<span style="font-size:16px; margin-left:5px">
+								<a href="/me/profile/edit/credentials"> - - Update</a>
+							</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Credentials are blank and you do not own the profile, you will see nothing. --> 	
+			<% elsif @teacher.credentials.empty? %>
+
+			<!-- If Credentials aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Credentials
@@ -829,13 +872,28 @@
 			<% end %>
 			
 			<!-- START Presentation & Publications Section-->
-			<% unless @teacher.presentations.empty? && self.current_user == nil %>
+			<!-- If Presentations are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.presentations.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						Show off your Press Here
+							<span style="font-size:16px; margin-left:5px">
+								<a href="/me/profile/edit/presentations"> - - Update Presentation & Publications</a>
+							</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Presentations are blank and you do not own the profile, you will see nothing. --> 		
+			<% elsif @teacher.presentations.empty? %>
+				
+			<!-- If Presentations aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Presentation & Publications
 						<span style="font-size:16px; margin-left:5px">
 							<% if self.current_user != nil && @teacher == self.current_user.teacher %> 
-							<a href="/me/profile/edit/presentations"> - - Edit</a>
+							<a href="/me/profile/edit/presentations"> - - Update</a>
 							<% end %>
 						</span>
 					</h3>
@@ -861,7 +919,22 @@
 			<% end %>
 			
 			<!-- START Awards & Honors Section-->
-			<% unless @teacher.awards.empty? && self.current_user == nil %>
+			<!-- If Awards are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @teacher.awards.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					Flaunt your Trophies!
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/awards"> - - Update Honors & Awards</a>
+						</span>
+					</h3>
+				</section><br />
+			
+			<!-- If Awards are blank and you do not own the profile, you will see nothing. -->
+			<% elsif @teacher.awards.empty? %>
+			
+			<!-- If Awards aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Honors & Awards
@@ -885,13 +958,28 @@
 						<%= award.description %>
 					</p></br>
 					<% end %>
-				</section>
-					
+				</section>		
 			<% end %>
-
+			
 			<!-- START Attachments Section -->
 			<% if @connected || @guest || !@teacher.user.privacy["attachments"] %>
-				<% unless @teacher.assets.empty? && self.current_user == nil %>
+			
+				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
+				<% if @teacher.assets.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+					<section class="profile-info group">
+						<h3 class="bottom-line">
+						Are you feeling Attached?
+							<span style="font-size:16px; margin-left:5px">
+								<a href="/profileattachments">- - Upload your teaching documents</a>
+							</span>
+						</h3>
+					</section>
+					
+				<!-- If Attachments are blank and you do not own the profile, you will see nothing. -->
+				<% elsif @teacher.assets.empty? %>
+				
+				<!-- If Attachments aren't nil, and they are not private, you will see them suckers. -->
+				<% else %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
 						Attachments

@@ -6,9 +6,27 @@ Preview::Application.routes.draw do
 		match ':action' => 'api#:action'
 	end
 
+	#Authentication for twitter, facebook, linkedin etc.
+	resources :authentications do
+		collection do
+			get 'facebook_auth'
+			get 'whiteboard_share_twitter'
+			get 'whiteboard_share_facebook'
+			get 'revoke_twitter'
+			get 'revoke_facebook'
+		end
+	end
+	match 'facebook_callback', :to => 'authentications#facebook_callback'
+	match 'twitter_callback', :to => 'authentications#twitter_callback' 
+	match 'twitter_auth', :to => 'authentications#twitter_auth'
+	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
+	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+
 	# Groups
 	match 'groups/:id/comment' => 'groups#comment'
 	match 'my_groups' => 'groups#my_groups'
+	match 'groups/:id/members' => 'groups#members'
+	match 'groups/:id/about' => 'groups#about'
 	match 'groups/:id/inviting' => 'groups#inviting'
 	match ':id/invite_email' => 'groups#invite_email'
 	match 'groups/:id/invite' => 'groups#invite'
@@ -16,6 +34,8 @@ Preview::Application.routes.draw do
 		member do
 			get 'edit_picture'
 			get 'add_group'
+			get 'message_all_new'
+			post 'message_all_create'
 		end
 	end
 
@@ -91,6 +111,11 @@ Preview::Application.routes.draw do
 	# Welcome Wizard Controller
 	resources :welcome_wizard
 
+	scope '/wizards' do
+		match 'welcome' => 'welcome_wizard#index'
+		match 'welcome/:action' => 'welcome_wizard#:action'
+	end
+
 	# Whiteboard JSON Access
 	resource :whiteboard
 	match 'whiteboard/hide/:post' => 'whiteboards#hide'
@@ -138,6 +163,9 @@ Preview::Application.routes.draw do
 			root :to => 'users#edit'
 		end
 
+		# Dismiss the banner
+		match 'dismiss_banner' => 'users#dismiss_banner'
+
 		# User dashboard
 		root :to => 'home#index'
 	end
@@ -180,6 +208,8 @@ Preview::Application.routes.draw do
 		scope 'users' do
 			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
+		match 'banners' => 'users#banners'
+		match 'banners/delete/:id' => 'users#delete_banner'
 		match 'videos' => 'videos#admin'
 	end
 
@@ -204,11 +234,8 @@ Preview::Application.routes.draw do
 	match 'update_settings' => 'users#update_settings'
 	match 'email_settings' => 'users#email_settings'
 	match 'change_org_info' => 'users#change_org_info'
-	#match 'choose_stored', :to => 'users#choose_stored', :as => 'choose_stored'
 	match 'change_picture', :to => 'users#change_picture'
 	match 'create_profile', :to => 'teachers#create_profile'
-	match 'callback', :to => 'teachers#callback'
-	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
 	match 'skills', :to => 'skills#get'
 	match 'crop', :to => 'users#crop'
@@ -262,6 +289,8 @@ Preview::Application.routes.draw do
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
+	match 'tioki_bucks' => 'teachers#tioki_bucks'
+	match 'get_started' => 'teachers#get_started'
 	
 	match 'experience', :to => 'teachers#experience'
 	match 'update_experience' => 'teachers#update_experience'
@@ -319,6 +348,7 @@ Preview::Application.routes.draw do
 	match 'referrallist' => 'users#referral_user_list'
 	match 'donorschoose' => 'users#donors_choose_list'
 	match 'technologylist' => 'technologies#technology_list'
+	match 'tiokicoinslist' => 'users#tioki_coins_list'
 	match 'blogadmin' => 'blog_entries#list'
 	match 'fetch_code' => 'users#fetch_code'
 	match 'jobattachpurge/:id' => 'jobs#jobattachpurge'

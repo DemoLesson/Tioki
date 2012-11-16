@@ -1,0 +1,168 @@
+<section id="main-content" class="inner-content">
+	<h2 style="margin-left:75px;margin-bottom:-15px">
+		Welcome to the Tioki Network!
+	</h2>
+	<section class="info panel" style="height:180px;width:800px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 75px">
+		<section class="two-column left-side" style ="width:580px;margin:30px 10px 10px 30px">
+			<h4>
+				Now, let's get you rolling.
+			</h4>
+			<p>
+				The seven tasks below will teach you how to get the most out of Tioki.<br/> 
+				Finish at least five of them and we'll give you a reward!
+			</p>
+		</section>
+		<section class="profile-thumb-large" style="float:right;margin: 10px 20px 10px 0px;">
+			<%= image_tag 'tioki/tioki-ok.png', :style => "width:160px;height:auto" %>
+		</section>
+	</section>
+	<section id="panels" class="group">
+		<section class="panel two-column left-side" style="width:800px;margin-left:75px;border:none;box-shadow:none;background:none;">
+			<ul>
+				<li style="width:735px">
+					<a href="/connections" target="_blank">
+						<% if @connections >= 5 %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Add 5 connections</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Add 5 connections
+							<div style="float:right">
+								<%= @connections %> of 5
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a href="/discussions" target="_blank">
+						<% if @following >= 3  %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">
+								Follow 3 Discussions
+							</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Follow 3 Discussions
+							<div style="float:right">
+								<%= @following %> of 3
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a href="/groups" target="_blank">
+						<%if @groups >= 3 %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Join 3 Groups</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Join 3 Groups
+							<div style="float:right">
+								<%= @groups %> of 3
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a target="_blank">
+						<%if @vouched_skills >= 5 %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Vouch 5 skills</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Vouch 5 skills
+							<div style="float:right">
+								<%= @vouched_skills %> of 5
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a href="/" target="_blank">
+						<%if @whiteboard_post %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Post to Whiteboard</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Post to Whiteboard
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a href="/discussions" target="_blank">
+						<%if @comment %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Post a reply to discussion</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Post a reply to discussion
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+				<li style="width:735px">
+					<a href="/me/profile/edit/upload-avatar" target="_blank">
+						<% if self.current_user.avatar? %>
+							<%= image_tag 'tioki/tioki-ok.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							<del style="color:#2AA99B">Upload a profile picture</del>
+							<div style="float:right;margin-top:8px">
+								<span style="color:#2AA99B">
+									Done!
+								</span>
+							</div>
+						<% else %>
+							<%= image_tag 'tioki/tioki-ok-salmon.png', :style => "width:30px;height:auto;margin-bottom:-7px;margin-right:10px" %>
+							Upload a profile picture
+							<div style="float:right">
+								0 of 1
+							</div>
+						<% end %>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+<script>
+	$(document).ready(function () {
+		$("#get_started").click(function(e) {
+			e.preventDefault();
+			$("#get_started_fields").toggle(700);
+		});
+	});
+</script>

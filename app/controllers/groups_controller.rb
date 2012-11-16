@@ -1,10 +1,12 @@
 class GroupsController < ApplicationController
-	before_filter :login_required, :except => [:index, :show]
-	before_filter :teacher_required, :except => [:index, :show]
+	before_filter :login_required, :except => [:index, :show, :members, :about]
+	before_filter :teacher_required, :except => [:index, :show, :members, :about]
 
 	def index
-		#@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
-		@groups = Group.all
+		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
+		if params[:group_search]
+			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
+		end
 	end
 
 	def new
@@ -18,14 +20,31 @@ class GroupsController < ApplicationController
 
 	def create
 		group = Group.new(params[:group])
-		#public
-		group.permissions = 1
+		
+		# Make the groups public by default
+		perms = group.permissions!
+		perms["public"] = 1
+		group.permissions = perms
 
 		respond_to do |format|
 			if group.save
-				#create join row
-				#all three permissions 2^3-1
-				User_Group.create(:user_id => self.current_user.id, :group_id => group.id, :permissions => 7)
+
+				# Create join row for users -> groups
+				user_group = User_Group.new
+				user_group.user_id = self.current_user.id
+				user_group.group_id = group.id
+				
+				# Create the permissions
+				perms = user_group.permissions!
+				perms["member"] = 1
+				perms["moderator"] = 1
+				perms["administrator"] = 1
+				user_group.permissions = perms
+
+				# Save the join row
+				user_group.save
+
+				# Return HTML or JSON
 				format.html { redirect_to group, notice: 'Group was successfully created.' }
 				format.json { render json: group, status: :created, location: group }
 			else
@@ -34,7 +53,7 @@ class GroupsController < ApplicationController
 			end
 		end
 	end
-
+ 
 	def show
 
 		# Load group
@@ -56,7 +75,51 @@ class GroupsController < ApplicationController
 			@in_group = false
 		end
 	end
+	
+  def members
+    # Load group
+		@group = Group.find(params[:id])
 
+		# Is the current user an administrator
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
+
+		@comments = @group.get_comments
+
+		# Is the current user in a group
+		unless self.current_user.nil?
+			@in_group = self.current_user.groups.include?(@group)
+		else
+			@in_group = false
+		end
+		
+		# Get a list of my connections
+    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+    @my_connections = Array.new if self.current_user.nil?
+  end
+  
+  def about
+    # Load group
+		@group = Group.find(params[:id])
+
+		# Is the current user an administrator
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
+
+		# Is the current user in a group
+		unless self.current_user.nil?
+			@in_group = self.current_user.groups.include?(@group)
+		else
+			@in_group = false
+		end
+  end
+   
 	def add_group
 		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
 		if user_group
@@ -65,7 +128,7 @@ class GroupsController < ApplicationController
 			#add as member
 			group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id], :permissions => 1)
 			#self.log_analytic(:user_added_group, "A user added a group", group)
-			redirect_to :back, :notice => "Technology was successfully added."
+			redirect_to :back, :notice => "Group was successfully added."
 		end
 	end
 
@@ -188,7 +251,7 @@ class GroupsController < ApplicationController
 		subject = "You have been invited to join the Group \"#{d.name}\"."
 		body = <<-BODY
 	Hi, I was browsing Tioki's groups and I thought you might be interested in this group.
-	Come join this group! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
+	Come join! <a href="http://tioki.com/groups/#{d.id}">Click Here</a>
 		BODY
 
 		# Send the message
@@ -198,5 +261,25 @@ class GroupsController < ApplicationController
 
 		flash[:success] = "Share successfully."
 		return redirect_to :back
+	end
+
+	def message_all_new
+		@group = Group.find(params[:id])
+		@message = Message.new
+	end
+
+	def message_all_create
+		@group = Group.find(params[:id])
+		if @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+			@group = Group.find(params[:id])
+			@group.users.each do |user|
+				if user != self.current_user
+					Message.send!(user, :subject => params[:message][:body], :body => params[:message][:body])
+				end
+			end
+			redirect_to @group, :notice => "Messages successfully sent."
+		else
+			redirect_to :back, "Unauthorized"
+		end
 	end
 end

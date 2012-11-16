@@ -11,6 +11,9 @@ gem 'rails', '3.1.3'
 gem 'multimap'
 gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
 
+# Relative time engine
+gem 'chronic', :git => 'git://github.com/KellyLSB/chronic.git'
+
 # Assets processing
 gem 'coffee-script'
 gem 'uglifier'
@@ -111,7 +114,9 @@ gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git'
 gem 'rest-client'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
+gem 'eventmachine'
+gem 'em-websocket'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -139,3 +144,9 @@ gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exception
 gem 'graylog2-resque'
 gem 'delayed_job_active_record'
 gem 'acts_as_commentable_with_threading'
+
+#Facebook api gem
+gem 'koala'
+
+# This gem doesnot do anything
+gem 'terminal-notifier'

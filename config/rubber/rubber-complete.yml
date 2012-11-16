@@ -1,5 +1,5 @@
 role_dependencies:
-  app: [passenger_nginx]
+  app: [unicorn]
 
 web_port: 80
 web_ssl_port: 443

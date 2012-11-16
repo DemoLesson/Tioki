@@ -296,6 +296,9 @@ section.notice {
 	&.success {
 		background: $green;
 	}
+	&.tioki_message {
+		background: $salmon;
+	}
 }
 
 #login-drawer {
@@ -358,6 +361,22 @@ section.notice {
 			text-align: left;
 			text-indent: -9999em;
 			background: url(image_path('tioki/tioki_logo.png')) no-repeat;
+		}
+		.notifications {
+			position: absolute;
+			top: 15px;
+			left: 130px;
+			height: 41px;
+			font-size: 23px;
+			text-align: left;
+			color: #DADADA;
+
+			&:hover {
+				color: $salmon;
+			}
+			&.unread {
+				color: $blood;
+			}
 		}
 		#drawer-handle {
 			position: absolute;
@@ -1059,5 +1078,223 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 			}
 		}
 		
+	}
+}
+
+/* Notifications */
+#notifications {
+	display:none;
+	min-width:300px;
+	width:300px;
+	position: absolute;
+	overflow-y: scroll;
+	padding: 0px;
+
+	ul {
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			padding: 15px;
+			display: block;
+			border-bottom: solid 1px #DADADA;
+
+			&:hover {
+
+			}
+
+			span {
+				color: $dkgray;
+				font-size: 10px;
+				display: block;
+				text-align: right;
+			}
+		}
+	}
+}
+
+/* Whiteboard Style */
+ul.whiteboard {
+
+	// New Style
+	li.new-style {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		
+		padding-right: 15px !important;
+		width: 100%;
+
+		// Connection List Item
+		&.connections {
+
+			background: none !important;
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			div.facepile {
+				display: block;
+			}
+
+			p.message {
+				display: block;
+				font-size: 16px;
+				font-weight: bold;
+				margin: 15px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+
+				span {
+					color: $salmon;
+				}
+
+				-webkit-transition: all 1s linear;
+				-moz-transition: all 1s linear;
+				-o-transition: all 1s linear;
+				-ms-transition: all 1s linear;
+				transition: all 1s linear;
+			}
+		}
+
+		&.article {
+			& > a {
+				float: left;
+				margin-right: 2px;
+
+				&.screen {
+					padding: 2px;
+					margin: auto 15px 15px 5px;
+					border: solid 1px #DADADA;
+					background: #FFF;
+				}
+			}
+
+			h3 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			p {
+				margin: 0px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+			}
+
+			div.bar {
+				display: block !important;
+				//margin-bottom: -35px;
+				width: auto;
+				height: 35px;
+				clear: both;
+
+				span.timestamp, a.comments {
+					line-height: 35px;
+					margin: auto 3px;
+					font-size: 12px;
+					float: left;
+				}
+
+				span.icons {
+					line-height: 35px;
+					font-size: 20px;
+					float: right;
+				}
+
+			}
+		}
+	}
+}
+
+/** Comments Styles **/
+div.comments, section.comments {
+	margin-bottom: -15px;
+	display: none;
+	width: auto;
+	clear: both;
+
+	&.inline {
+		display: block;
+
+		& > ul li {
+			padding: 15px !important;
+		}
+	}
+
+	ul {
+		display: block;
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			padding: 10px 0px !important;
+			border-top: dashed 1px #CFD4D5;
+			position: relative;
+			display: block;
+			width: 100%;
+
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+
+			& > a {
+				margin-bottom: 15px;
+				margin-right: 15px;
+				float: left;
+			}
+
+			h4 {
+				margin: 0px;
+				padding: 0px 0px 15px 0px !important;
+			}
+
+			p {
+				margin: 0px auto;
+				padding: 0px;
+				width: auto;
+				float: none;
+			}
+
+			div.bar {
+				display: block !important;
+				//margin-bottom: -35px;
+				width: auto;
+				height: 35px;
+				clear: both;
+
+				span.timestamp, a.comments {
+					line-height: 35px;
+					margin: auto 3px;
+					font-size: 12px;
+					float: left;
+				}
+
+				span.icons {
+					line-height: 35px;
+					font-size: 20px;
+					float: right;
+				}
+			}
+		}
+	}
+}
+
+/* Hax0r */
+span.tooltip {
+	z-index: 9999999999;
+}
+
+*[href] {
+	cursor: pointer;
+}
+
+a.gray {
+	&, & > * {
+		color: $dkgray;
 	}
 }

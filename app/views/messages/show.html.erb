@@ -1,36 +1,41 @@
 <section id="main-content" class="inner-content">
-<h1><%= link_to "Messages", :messages %> → <%= @message.subject %></h1>
+	<h4><%= link_to "Messages", :messages, :style => "color:#F66C4C" %> / Conversation with <%= @message.sender.name %></h4>
 
-<p class="table">
-	<strong>From:</strong> 
-	<% if @message.sender %>
-		<% if @message.sender.teacher %>
-			<%= link_to @message.sender.name, '/profile/' + @message.sender.teacher.url %>
+	<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px">
+		<!-- Pulling the Teachers Picture or the No Avatar-->
+		<% if @message.sender.avatar? %>
+			<%= link_to image_tag(@message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + @message.sender.teacher.url, :style => "margin:0px 0px 0px 5px" %>
 		<% else %>
-			<%= link_to @message.sender.name, @message.sender %>
+			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+ @message.sender.teacher.url, :style => "margin:0px 0px 0px 5px" %>
 		<% end %>
-	<% else %>
-		User no longer exists
-	<% end %>
+		
+		<p style="margin:-50px 10px 0px 60px;width:auto">
+			<span style="float:right">
+				<%= @message.created_at.to_s(:message_time)%>
+			</span>
+			
+			<strong>
+				<% if @message.sender %>
+					<% if @message.sender.teacher %>		
+						<%= link_to @message.sender.name, '/profile/' + @message.sender.teacher.url %>
+					<% else %>
+						<%= link_to @message.sender.name, @message.sender %>
+					<% end %>
+				<% else %>
+					User no longer exists
+				<% end %>
+			</strong>
+		</p>
+		<p style="margin:5px 10px 0px 60px;width:auto">
+			Subject: <%= @message.subject %>
+		</p>
+		
+		<p style="margin:20px 10px 0px 10px;width:auto">
+			<%=raw h(@message.body.html_safe).gsub(/\n/, '<br />') %>
+		</p>
 
-</p>
-
-<p class="table">
-	<strong>To:</strong> 
-	<%= @message.receiver.name unless @message.receiver.nil? %>
-	<%= "User no longer exists" if @message.receiver.nil? %>
-</p>
-
-<p class="table">
-<strong>Date:</strong> <%= @message.created_at.to_s(:message_time)%>
-</p>
-	
-<p>
-<%=raw h(@message.body.html_safe).gsub(/\n/, '<br />') %>
-</p>
-
-<div class="actions">
-	<%= link_to 'Back to Messages', messages_path %>
-	<%= link_to 'Reply', '/messages/new?user_id_to='+@message.sender.id.to_s+'&subject='+@message.subject %>
-</div>
+		<section style="margin-left:10px">
+		<%= link_to 'Reply', '/messages/new?user_id_to='+@message.sender.id.to_s+'&subject='+@message.subject, :class => "action-button bg-green" %>
+		</section>
+	</section>
 </section>

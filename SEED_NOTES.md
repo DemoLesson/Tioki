@@ -1,3 +1,309 @@
+v2.0.21 - Nov 16, 2012 11:43AM PST deployed by Aleks Stanisic
+=============================================================
+* 480f6e9: Aleks Stanisic - chnages to group notification
+* fc58d66: Kelly Becker - deploy script fix
+* 3b8cb5e: Elijah Green - fix profile for not loggined users
+
+v2.0.20 - Nov 16, 2012 10:08AM PST deployed by Aleks Stanisic
+=============================================================
+* eb3147e: Aleks Stanisic - making changes to welcome wizard
+
+v2.0.19 - Nov 15, 2012  5:57PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v2.0.18 - Nov 15, 2012  5:41PM PST deployed by Kelly Becker
+===========================================================
+* 19bb1cc: Kelly Becker - remember session
+
+v2.0.17 - Nov 15, 2012  5:01PM PST deployed by Kelly Becker
+===========================================================
+* abb161b: Kelly Becker - dismiss banners
+* 73ad495: Kelly Becker - deploy script updates
+
+v2.0.16 - Nov 15, 2012 12:59PM PST deployed by Kelly Becker
+===========================================================
+* 24c606e: Kelly Becker - graylog new server info
+
+v2.0.15 - Nov 15, 2012 11:40AM PST deployed by Aleks Stanisic
+=============================================================
+* 995547a: Elijah Green - Profiles fixed for not logined users
+
+v2.0.14 - Nov 14, 2012  6:19PM PST deployed by Aleks Stanisic
+=============================================================
+* 19ccb93: Elijah Green - Delete whiteboards corresponding to deleted event
+
+v2.0.13 - Nov 14, 2012  5:23PM PST deployed by Kelly Becker
+===========================================================
+* 8601f29: Kelly Becker - connecting grades and subjects now works
+* cd2e0d7: Kelly Becker - tokeninput is not styled properly
+* 94a08e0: Kelly Becker - we have tokens!
+* 2c77075: Kelly Becker - for the new stuff in place and updated the old js code to coffeescript
+
+v2.0.12 - Nov 14, 2012  5:06PM PST deployed by Aleks Stanisic
+=============================================================
+* 6fab88d: Brian Martinez - changes to profile and user dropdown menu
+* 694d10e: Elijah Green - Log error if not an oauth error
+* 6428691: Elijah Green - Checks whether oauth keys are invalid
+* c7671ec: Aleks Stanisic - db
+* d1e6a73: Brian Martinez - couple more changes to groups to adjust for really long names and descriptions
+* 3f3d82e: Brian Martinez - changes to the groups images and headings
+* edb7601: Elijah Green - Fix facebook share if the we aren't authenticated wiht facebook yet
+* f533672: Kelly Becker - forgot connection tables
+* 5013dc4: Kelly Becker - sweep session and reset on logout;
+* 1e67805: Kelly Becker - fix the subject table
+* 24f8468: Elijah Green - Add share on facebook
+* 2e49d3d: Kelly Becker - added new subjects to the seeds
+* 214a16f: Elijah Green - Show rails errors in development
+
+v2.0.11 - Nov 14, 2012 11:36AM PST deployed by Kelly Becker
+===========================================================
+* ca3a190: Kelly Becker - gemlock
+
+v2.0.10 - Nov 14, 2012 11:28AM PST deployed by Kelly Becker
+===========================================================
+* 276b397: Kelly Becker - gemlock
+
+v2.0.9 - Nov 14, 2012 11:20AM PST deployed by Kelly Becker
+==========================================================
+* 480cf21: Kelly Becker - pathfile, chronic mod, and localtime
+* beb37f6: Brian Martinez - style change on the twitter share on whiteboard
+* 4422159: Kelly Becker - added .path file useful if you have multiple versions of rails installed like me
+
+v2.0.8 - Nov 13, 2012 11:56PM PST deployed by Aleks Stanisic
+============================================================
+* 06c5157: Brian Martinez - changes to the messaging system
+
+v2.0.7 - Nov 13, 2012  7:11PM PST deployed by Aleks Stanisic
+============================================================
+* 1f1a42e: Elijah Green - Remove tags from twitter message
+
+v2.0.6 - Nov 13, 2012  6:08PM PST deployed by Aleks Stanisic
+============================================================
+* 382ea45: Elijah Green - Remove some test code from whiteboard.rb
+
+v2.0.5 - Nov 13, 2012  5:48PM PST deployed by Kelly Becker
+==========================================================
+* 50a74bb: Kelly Becker - banners
+* 714647a: Elijah Green - Escape javascript on groups/show page
+* f345ab2: Elijah Green - Escape javascript on discussions/show
+* ab11dde: Elijah Green - Instead of localhost ip use our domain
+* ce58a2e: Elijah Green - Deal with the possibility that the oauth keys are invalid
+* 790f3b0: Elijah Green - Some change in wording
+* dd00436: Elijah Green - Fix possible bug twitter authorization is canceled
+* b6c21a5: Elijah Green - Get twitter oauth keys if we don't have them
+* d35a77f: Elijah Green - Have Whiteboard.createActivty return either the saved model or nil if post_always
+* 1d4dd50: Elijah Green - Can now tweet whiteboard posts
+
+v2.0.4 - Nov 13, 2012 12:46PM PST deployed by Kelly Becker
+==========================================================
+* fcdb345: Kelly Becker - graylog
+
+v2.0.3 - Nov 13, 2012 10:33AM PST deployed by Aleks Stanisic
+============================================================
+* 121e069: Aleks Stanisic - Tioki Tuesday Banner
+* a1ce200: Kelly Becker - commented out filter
+
+v2.0.2 - Nov 13, 2012  9:05AM PST deployed by Kelly Becker
+==========================================================
+* 58b4ac9: Kelly Becker - removed tools
+* a0411ce: Kelly Becker - rubber config
+* 9b86d96: Kelly Becker - nginx not passenger_nginx
+* 454051c: Kelly Becker - made nginx a req
+* 16300bd: Kelly Becker - web_tools config
+* 7b8e0a4: Kelly Becker - tools server redone
+
+v2.0.1 - Nov 12, 2012 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 382ecec: Aleks Stanisic - changes to banner url
+
+v2.0.0 - Nov 12, 2012 11:53AM PST deployed by Aleks Stanisic
+============================================================
+* db106f4: Aleks Stanisic - gemlock
+* b50073e: Aleks Stanisic - changes to tioki banner
+* 4b4cc0a: Kelly Becker - production instances now on Unicorn!
+* c255023: Brian Martinez - changes to new message
+* fdaacd2: Kelly Becker - hozproxy
+* 9df9716: Brian Martinez - fix to job description
+* 880cb40: Kelly Becker - server instances and added libcurl
+* dc37d2c: Kelly Becker - added app permissions
+* caf44d5: Kelly Becker - added app permissions
+* 7f1c204: Kelly Becker - load rails config into websocket intializer
+* 1f532b2: Kelly Becker - shoot was trying to bind to an already bound port
+* ce79365: Kelly Becker - whoops this might have made that last comment a failure... removing spawner
+* 7d2ab10: Kelly Becker - got a working configuration now fix compile assets
+* 03479fb: Kelly Becker - trying to fix an issue with ports conflicting
+* df1abcb: Kelly Becker - trying to fix an issue with ports conflicting
+* 4dfad4d: Kelly Becker - changing permissions
+* 957956f: Kelly Becker - some fixes and the new instance
+* 24a4429: Kelly Becker - lets retroactively try an old configuration again ^_^
+* 3ae7875: Kelly Becker - update haproxy
+* b601c0c: Kelly Becker - hqproxy config update
+* 427f0bf: Kelly Becker - I think i got websockets working!
+* 0e0e548: Kelly Becker - em-websocket
+* c780715: Kelly Becker - faye? .... maybe?
+* b987b16: Kelly Becker - lets see if this remotely works xD ... added HaProxy
+* 224a5b4: Kelly Becker - deploy script upgrades
+* 11641e4: Kelly Becker - massive deploy script upgrades;
+* 11a5881: Kelly Becker - massive deploy script upgrades;
+* 4a6cbcb: Kelly Becker - big config rewrite
+* 8b01b91: Kelly Becker - config dirs now adjustable
+* 6d9c507: Kelly Becker - much simpler deploys
+* 8067ede: Kelly Becker - much simpler deploys
+* 4948be2: Kelly Becker - trying to make the deploy smaller
+* 25c5df5: Kelly Becker - show errors on staging
+* 9e34df9: Kelly Becker - dependencies
+* c56ecb3: Kelly Becker - save
+* 6db1064: Kelly Becker - unicorn configuration
+* 875b116: Kelly Becker - unicorn configuration
+
+v1.6.9 - Nov 12, 2012  9:42AM PST deployed by Aleks Stanisic
+============================================================
+* a40f9f5: Aleks Stanisic - flash notice for Tioki Monday
+* 81d6d26: Elijah Green - Fix check on whiteboard posts on get_started
+
+v1.6.8 - Nov 12, 2012  9:03AM PST deployed by Aleks Stanisic
+============================================================
+* 9588a83: Brian Martinez - commenting out donors choose
+* e8c1d4e: Brian Martinez - changes to Get Started page
+
+v1.6.7 - Nov 10, 2012  6:56PM PST deployed by Aleks Stanisic
+============================================================
+* 8fbc4b7: Brian Martinez - changes to signup and login pages
+
+v1.6.6 - Nov 10, 2012  6:25PM PST deployed by Aleks Stanisic
+============================================================
+* ae8813e: Aleks Stanisic - chages to getting started and tioki bucks
+* eaadb2c: Elijah Green - Set tioki_bucks date
+* 4e1bf5a: Elijah Green - Some fix and go to get_started on next step
+* 389e3dd: Elijah Green - Place get started button in the correct place
+* 3854228: Elijah Green - Add get started link to the profile
+* 0475927: Elijah Green - Strikeout completed get started tasks
+* d6974ee: Elijah Green - Get started actions can happen anytime and create getstarted
+* da22083: Elijah Green - Add tioki coins admin list
+* 767f005: Elijah Green - Start get adding a tioki coins admin list
+* 8645355: Elijah Green - Finished the tioki_bucks page
+* 6644d34: Elijah Green - Add tioki_bucks page
+* a713913: Elijah Green - Add facebook auth
+* 72363dd: Elijah Green - Successfully following tioki
+* 3954d35: Elijah Green - Add code for twitter following and twitter tweeting
+* ab39bb6: Elijah Green - Add twitter auth
+
+v1.6.5 - Nov 10, 2012  5:56PM PST deployed by Aleks Stanisic
+============================================================
+* 50360d6: Elijah Green - Add groups search
+
+v1.6.4 - Nov 10, 2012  5:42PM PST deployed by Aleks Stanisic
+============================================================
+* 4eaf9b0: Aleks Stanisic - fixes to groups
+
+v1.6.3 - Nov 10, 2012  5:24PM PST deployed by Aleks Stanisic
+============================================================
+* 0975d30: Aleks Stanisic - changes to group members page
+* c036bd8: Brian Martinez - groups index public view
+* cae50f9: Brian Martinez - public discussion page changes
+* d2defab: Brian Martinez - groups changes
+* c4a1a6e: Aleks Stanisic - changes to group pages
+* 44919f1: Elijah Green - Uncomment css for section#list and remove list id from whiteboard
+* 96e0348: Brian Martinez - header changes
+* 1436cee: Elijah Green - Set the expiration date for the pop up cookies
+* 441679b: Brian Martinez - facebook and twitter like on splash page
+
+v1.6.2 - Nov 9, 2012  1:12PM PST deployed by Kelly Becker
+=========================================================
+* 18d5dfc: Kelly Becker - excalmation point!
+
+v1.6.1 - Nov 9, 2012 12:56PM PST deployed by Aleks Stanisic
+===========================================================
+* 6fbd574: Aleks Stanisic - changing groups back
+
+v1.6.0 - Nov 9, 2012 12:40PM PST deployed by Kelly Becker
+=========================================================
+* 66000d3: Kelly Becker - fixed a style bug and a shre bug
+* 4ee4d73: Kelly Becker - comments redesign
+* 7c795ef: Kelly Becker - added icons just need to hook em up
+* c8529e8: Kelly Becker - whiteboard articles
+* e810c99: Kelly Becker - move something into a switch
+* b9058dd: Brian Martinez - group changes
+
+v1.5.1 - Nov 8, 2012  1:35PM PST deployed by Kelly Becker
+=========================================================
+* e0081b0: Kelly Becker - js fix to objects passed by ref
+
+v1.5.0 - Nov 8, 2012  1:21PM PST deployed by Kelly Becker
+=========================================================
+* a347709: Kelly Becker - got connections working in their own things
+* 4021ff9: Elijah Green - Search on teachers on admin
+* 16adf2e: Kelly Becker - allow restriction of whiteboard posts
+* ac41f71: Kelly Becker - cleanup discussion
+* 0a86bfc: Kelly Becker - gem and schema
+
+v1.4.58 - Nov 8, 2012 11:00AM PST deployed by Kelly Becker
+==========================================================
+* 0a2c38e: Kelly Becker - undid a git commit
+* eb2067c: Kelly Becker - cleanup of favorite model
+* d75d67b: Kelly Becker - recurse through arrays
+
+v1.4.57 - Nov 7, 2012  7:07PM PST deployed by Aleks Stanisic
+============================================================
+* a351ac4: Elijah Green - Removing notification bar for now
+
+v1.4.56 - Nov 7, 2012  4:02PM PST deployed by Kelly Becker
+==========================================================
+* b2c9d7e: Kelly Becker - notifications created unless you created it
+* 99f3cb3: Elijah Green - Re-add swapping newlines with breaks on group_email
+* 5a6ab41: Kelly Becker - fix to notification allocation
+* 0981c13: Elijah Green - show breaks in group invite correctly
+* 43bcfdb: Aleks Stanisic - changes to group emails
+* 1c5cb6a: Kelly Becker - aplication layout fix
+
+v1.4.55 - Nov 7, 2012  1:56PM PST deployed by Kelly Becker
+==========================================================
+* d210e8a: Kelly Becker - notifications w00t
+* 2ad91cf: Kelly Becker - notifications w00t
+* 5db7230: Kelly Becker - updates to defercall and kmodal
+* 8ace467: Kelly Becker - notifications popup
+
+v1.4.54 - Nov 7, 2012  1:13PM PST deployed by Aleks Stanisic
+============================================================
+* 7055961: Elijah Green - On edit experience, output experience like on profile
+* a950378: Elijah Green - Add twitter follow and facebook like buttons
+* 1e8f2fc: Kelly Becker - application layout cleanup
+* 9d6a041: Kelly Becker - added notification icon
+* 0d75bb0: Kelly Becker - deploy script updates (now shows timezone of the deployer)
+
+v1.4.53 - Nov 6, 2012  1:32PM PST deployed by Kelly Becker
+==========================================================
+* 8fdd1c9: Kelly Becker - typo
+* 8e67c2c: Elijah Green - Rename twitter initializer and remove global oauth keys
+
+v1.4.52 - Nov 6, 2012  1:11PM deployed by Kelly Becker
+======================================================
+* 37e4c1e: Kelly Becker - fixes to privacy settings
+* 45dff36: Kelly Becker - more fixes and cleanliness
+* 574e61f: Kelly Becker - fix some naming issues
+* b36950f: Kelly Becker - fix an issue with overriding model methods
+* fb29e8d: Kelly Becker - db schema
+
+v1.4.51 - Nov 5, 2012  7:52PM deployed by Aleks Stanisic
+========================================================
+* 873660b: Brian Martinez - fix to header and groups page
+
+v1.4.50 - Nov 5, 2012  7:25PM deployed by Aleks Stanisic
+========================================================
+* a214b0a: Brian Martinez - edit and profile changes for icons
+* 0a3b2eb: Aleks Stanisic - fixing bug with tech suggestions
+
+v1.4.49 - Nov 5, 2012  4:26PM deployed by Aleks Stanisic
+========================================================
+* 91fb7d0: Elijah Green - Message all members of a group
+* b9dc24a: Brian Martinez - pinterest for teachers and school placeholder
+* bdba36e: Elijah Green - Hide the invite checkbox until the box is clicked
+
+v1.4.48 - Nov 5, 2012  1:46PM deployed by Aleks Stanisic
+========================================================
+* 156f01a: Elijah Green - Add email permissions for emailing comments
+
 v1.4.47 - Nov 5, 2012 11:08AM deployed by Aleks Stanisic
 ========================================================
 * 28b5cf5: Elijah Green - Don't email people the creator of a comment

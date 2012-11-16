@@ -8,6 +8,12 @@ development:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
+  linkedin:
+    api_key: "mgb6uz10qf31"
+    app_secret: "9WXAkgt6TyPdfJGI"
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -15,6 +21,7 @@ development:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social_networks"
     group_permissions:
       0: "public"
       1: "private"
@@ -37,6 +44,12 @@ staging:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
+  linkedin:
+    api_key: "mgb6uz10qf31"
+    app_secret: "9WXAkgt6TyPdfJGI"
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -44,6 +57,7 @@ staging:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social"
     group_permissions:
       0: "public"
       1: "private"
@@ -66,6 +80,12 @@ production:
     consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
     oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
     oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
+  linkedin:
+    api_key: "mgb6uz10qf31"
+    app_secret: "9WXAkgt6TyPdfJGI"
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -73,6 +93,7 @@ production:
       2: "avatar"
       3: "video"
       4: "current_job"
+      5: "social"
     group_permissions:
       0: "public"
       1: "private"

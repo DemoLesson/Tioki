@@ -1,8 +1,8 @@
-<section id="main-content" class="inner-content signup-page">
-	<h3>
-	Educators join free, get started now
-	</h3>
-	<div class="signup-form" >
+<section id="main-content" class="inner-content signup-page" style="height:400px">
+	<h2>
+	Educators join free!
+	</h2>
+	<section class="one-column left-side" >
 		<form action="/create" id="signup-form" method="post">
 			<input type="hidden" name="_ak" value="splash" />
 			<fieldset>
@@ -21,13 +21,18 @@
 				<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
 			</fieldset>
 			<fieldset>
-				<input type="submit" class="button huge-button" value="Sign up for Tioki" />
+				<input type="submit" class="button huge-button" value="Get Started" />
 			</fieldset>
-			<p class="smalltext">
+			<p class="smalltext" style="width:auto">
 			By signing up, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
-			<br />* We will email your password to you.
 			</p>
 		</form>
+	</section>
+	<section class="two-column right-side" style="margin-top:-50px">
+		<h3 style="margin-left: 150px;color:#2AA99B">
+			Start connecting with amazing educators today.
+		</h3>
+			<%= image_tag 'tioki/connected_map.png', :style => "width:500px;margin-left:100px" %>
+	</section>
 		<iframe src="http://www.facebook.com/plugins/facepile.php? href=http://demolesson.com" scrolling="no" frameborder="0" style="border:none;overflow:hidden; width:300px;" allowTransparency="true"></iframe>
-	</div>
 </section> <!-- End Main Content -->

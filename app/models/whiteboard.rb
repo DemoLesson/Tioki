@@ -101,13 +101,6 @@ class Whiteboard < ActiveRecord::Base
 			m = m.gsub(var,val)
 		end
 
-		# Get any screencaps
-		if record["data"].has_key?("screens")
-			record["data"]["screens"].each do |k,v|
-				m << "<a href=\"#{k}\" target=\"_blank\" class=\"item_picture\"><img src=\"#{v}\" style=\"width:150px;\" /></a>"
-			end
-		end
-
 		# Return the new message
 		return m.html_safe
 	end
@@ -119,7 +112,7 @@ class Whiteboard < ActiveRecord::Base
 	# #
 	### Get activity data
 	# #
-	def self.getActivity(hidden = true)
+	def self.getActivity(hidden = true, conds = {})
 
 		# Get the current user
 		currentUser = User.current
@@ -147,6 +140,20 @@ class Whiteboard < ActiveRecord::Base
 		query = ["(`whiteboards`.`user_id` IN (#{connections}) || `whiteboards`.`tag` IN (#{tags}))"]
 		query << "(`whiteboards`.`slug` IN (#{slugs}))"
 		query = self.where(query.join(' || ')).order('`created_at` DESC')
+
+		# Excludes specific slugs
+		unless conds[:exclude].nil?
+			conds[:exclude] = [conds[:exclude]] unless conds[:exclude].is_a?(Array)
+			exclude = conds[:exclude].collect{|x| "'#{x}'"}.join(',')
+			query = query.where("`whiteboards`.`slug` NOT IN (#{exclude})")
+		end
+
+		# Restrict results to specific slugs
+		unless conds[:restrict].nil?
+			conds[:restrict] = [conds[:restrict]] unless conds[:restrict].is_a?(Array)
+			restrict = conds[:restrict].collect{|x| "'#{x}'"}.join(',')
+			query = query.where("`whiteboards`.`slug` IN (#{restrict})")
+		end
 
 		# Generate the default query
 		# Temporarily disabled so we can show all events
@@ -195,7 +202,7 @@ class Whiteboard < ActiveRecord::Base
 
 		# Get rid of the current user if nil
 		currentUser = User.current
-		return false if currentUser.nil?
+		return nil if currentUser.nil?
 
 		# Get the tag of the passed tag model
 		tag = tag.tag! if tag.is_a?(ActiveRecord::Base)
@@ -233,6 +240,9 @@ class Whiteboard < ActiveRecord::Base
 		addData["urls"].each do |u|
 			message = message.gsub("#{u}", "<a href=\"#{u}\">#{u}</a>")
 			addData["screens"].merge!({u => "http://api.snapito.com/web/2082a962d90ebd047fe4671d5146b73803c3e239/sc?url=#{u}"})
+
+			# Force to become an article
+			slug = :article
 		end
 
 		# Merge in the data
@@ -246,5 +256,6 @@ class Whiteboard < ActiveRecord::Base
 		w.tag = tag
 		w.data = ActiveSupport::JSON.encode(data)
 		w.save
+		return w
 	end
 end

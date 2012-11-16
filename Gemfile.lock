@@ -5,6 +5,12 @@ GIT
     bitswitch (0.0.3)
 
 GIT
+  remote: git://github.com/KellyLSB/chronic.git
+  revision: 26a96abc7e93afdc8104bec7a9ffc3f4129c0cc5
+  specs:
+    chronic (0.8.0)
+
+GIT
   remote: git://github.com/KellyLSB/debugger-ruby_core_source.git
   revision: e0ea8865def5bc91bfed085ff790624a03296fb3
   specs:
@@ -21,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/brianmario/mysql2.git
-  revision: ae6a32e1fe8091ea02acce07af0d3ffe390d6d7b
+  revision: c9de50684e73bb63035daf084d4848bd92a31c75
   specs:
     mysql2 (0.3.12b4)
 
@@ -68,6 +74,7 @@ GEM
       activerecord (>= 3.0)
       activesupport (~> 3.0)
       awesome_nested_set (>= 2.0)
+    addressable (2.3.2)
     arel (2.2.1)
     arrayfields (4.7.4)
     autotest-rails (4.1.2)
@@ -83,7 +90,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
-    axlsx (1.3.1)
+    axlsx (1.3.3)
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
       rubyzip (>= 0.9.5)
@@ -91,14 +98,14 @@ GEM
       main (>= 2.6.0)
       orderedhash (>= 0.0.3)
       systemu (>= 1.2.0)
-    brakeman (1.8.2)
+    brakeman (1.8.3)
       activesupport
       erubis (~> 2.6)
       fastercsv (~> 1.5)
       haml (~> 3.0)
       highline (~> 1.6)
       i18n
-      json_pure
+      multi_json (~> 1.3)
       ruby2ruby (~> 1.2)
       ruby_parser (= 2.3.1)
       sass (~> 3.0)
@@ -116,7 +123,6 @@ GEM
       carrierwave
       fog
       uuid
-    chronic (0.8.0)
     clamp (0.5.0)
     cloudsponge (0.9.9)
       json (>= 1.6.1)
@@ -129,30 +135,34 @@ GEM
     commonjs (0.2.6)
     country_select (1.0.1)
     crack (0.3.1)
-    curb (0.8.1)
+    curb (0.8.3)
     daemons (1.1.9)
-    dalli (2.3.0)
+    dalli (2.5.0)
     debugger (1.2.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
       debugger-ruby_core_source (~> 1.1.3)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    delayed_job (3.0.3)
+    delayed_job (3.0.4)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
     dnsruby (1.53)
+    em-websocket (0.3.8)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
     erubis (2.7.0)
-    excon (0.16.7)
+    eventmachine (1.0.0)
+    excon (0.16.8)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.4)
       multipart-post (~> 1.1)
     fastercsv (1.5.5)
     fattr (2.2.1)
-    fog (1.6.0)
+    fog (1.7.0)
       builder
       excon (~> 0.14)
       formatador (~> 0.2.0)
@@ -165,7 +175,7 @@ GEM
     formatador (0.2.4)
     gelf (1.3.2)
       json
-    geocoder (1.1.4)
+    geocoder (1.1.5)
     geokit (1.6.0)
     gibberish (1.2.0)
     gmaps4rails (0.10.2)
@@ -188,10 +198,13 @@ GEM
       thor (~> 0.14)
     jruby-pageant (1.1.1)
     json (1.7.5)
-    json_pure (1.7.5)
+    kgio (2.7.4)
+    koala (1.5.0)
+      faraday (~> 0.7)
+      multi_json (~> 1.3)
     less (2.2.2)
       commonjs (~> 0.2.6)
-    less-rails (2.2.5)
+    less-rails (2.2.6)
       actionpack (>= 3.1)
       less (~> 2.2.0)
     libv8 (3.3.10.4)
@@ -205,14 +218,14 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    main (5.1.0)
+    main (5.1.1)
       arrayfields (>= 4.7.4)
       chronic (>= 0.6.2)
       fattr (>= 2.2.0)
       map (>= 5.1.0)
     map (6.2.0)
     mime-types (1.19)
-    multi_json (1.3.6)
+    multi_json (1.3.7)
     multi_xml (0.5.1)
     multimap (1.1.2)
     multipart-post (1.1.5)
@@ -230,7 +243,7 @@ GEM
     open4 (1.3.0)
     orderedhash (0.0.6)
     os (0.9.6)
-    paperclip (3.3.0)
+    paperclip (3.3.1)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -264,7 +277,8 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
-    rake (0.9.2.2)
+    raindrops (0.10.0)
+    rake (10.0.0)
     rdoc (3.12)
       json (~> 1.4)
     redis (3.0.2)
@@ -297,7 +311,7 @@ GEM
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
     rubyzip (0.9.9)
-    sass (3.2.1)
+    sass (3.2.3)
     sass-rails (3.1.6)
       actionpack (~> 3.1.0)
       railties (~> 3.1.0)
@@ -326,6 +340,7 @@ GEM
       nokogiri
       sunspot (= 1.3.3)
     systemu (2.5.2)
+    terminal-notifier (1.4.2)
     terminal-table (1.4.5)
     therubyracer (0.9.10)
       libv8 (~> 3.3.10)
@@ -333,17 +348,21 @@ GEM
     tilt (1.3.3)
     tinymce-rails (3.5.7.1)
       railties (>= 3.1.1)
-    treetop (1.4.11)
+    treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter (4.1.2)
+    twitter (4.2.0)
       faraday (~> 0.8)
       multi_json (~> 1.3)
       simple_oauth (~> 0.1.6)
-    tzinfo (0.3.34)
+    tzinfo (0.3.35)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    unicorn (4.4.0)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     uuid (2.3.5)
       macaddr (~> 1.0)
     uuidtools (2.1.3)
@@ -370,6 +389,7 @@ DEPENDENCIES
   brakeman
   carrierwave
   carrierwave_direct
+  chronic!
   cloudsponge (~> 0.9.9)
   coffee-script
   country_select
@@ -379,6 +399,8 @@ DEPENDENCIES
   debugger-ruby_core_source!
   delayed_job_active_record
   dnsruby
+  em-websocket
+  eventmachine
   fog
   gelf
   geocoder
@@ -391,6 +413,7 @@ DEPENDENCIES
   httparty
   httpclient
   jquery-rails
+  koala
   less-rails
   linkedin
   mailgun-rails!
@@ -414,10 +437,12 @@ DEPENDENCIES
   sprockets
   squeel (= 0.8.9)
   sunspot_rails
+  terminal-notifier
   therubyracer (~> 0.9.3.beta1)
   tinymce-rails
   twitter
   uglifier
+  unicorn
   uuidtools
   will_paginate (= 3.0.pre4)
   zencoder (~> 2.4.0)
