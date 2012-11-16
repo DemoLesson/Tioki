@@ -304,8 +304,11 @@
 		<% end %>
 
 		<!-- Featured Banner -->
-		<% if banner = Banner.current %>
+		<% if (banner = Banner.current) && !User.current.nil? %>
 			<section class="notice tioki_message">
+				<a href="/me/dismiss_banner" style="float:right;color:#FFF;">
+					<span class="iconic x"></span>
+				</a>
 				<%= banner.message %>
 			</section>
 		<% end %>

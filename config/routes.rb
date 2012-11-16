@@ -163,6 +163,9 @@ Preview::Application.routes.draw do
 			root :to => 'users#edit'
 		end
 
+		# Dismiss the banner
+		match 'dismiss_banner' => 'users#dismiss_banner'
+
 		# User dashboard
 		root :to => 'home#index'
 	end

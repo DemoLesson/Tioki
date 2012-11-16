@@ -779,6 +779,15 @@ class UsersController < ApplicationController
 		redirect_to '/admin/banners'
 	end
 
+	def dismiss_banner
+		cookies[:tioki_banner_dismissed] = {
+  			:value => true,
+  			:expires => 3.hours.from_now
+		}
+
+		redirect_to :back
+	end
+
 	private
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin
