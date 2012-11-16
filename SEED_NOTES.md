@@ -1,3 +1,9 @@
+v2.0.22 - Nov 16, 2012  3:09PM PST deployed by Kelly Becker
+===========================================================
+* 5e77174: Kelly Becker - commented out a callback that was interfering with paperclip @astanisic @elijahgreen we need to fix this.
+* aaa3a36: Kelly Becker - new user.rb
+* f69d6c0: Kelly Becker - moved some stuff into the model
+
 v2.0.21 - Nov 16, 2012 11:43AM PST deployed by Aleks Stanisic
 =============================================================
 * 480f6e9: Aleks Stanisic - chnages to group notification
