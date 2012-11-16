@@ -1,0 +1,107 @@
+<section id="main-content" class="inner-content">
+	<h1>Vouch for <%= @invite.user.name %>'s skills</h1>	
+	<div class="kRap">
+		<form class="skills_form" method="POST">
+			<input type="hidden" name="skills" />
+
+			<div class="skill_cloud">
+        <div class="clear">
+          <a href="#" class="skill" id="1">Test test</a>
+					<% @invite.user.skills.each do |skill| %>
+						<a href="#" class="skill" id="<%= skill.id %>" name="<%= skill.name %>" ><%= skill.name %></a>
+					<% end %>
+        </div>
+			</div>
+
+			<div class="button_wrap">
+				<input type="submit" class="secondary large button" value="I'm Done" />
+			</div>
+		</form>
+	</div>
+</section>
+<script type="text/javascript">
+// Storage object for skills
+var skillStore = {
+
+	// This will be the container
+	"storage": new Object,
+
+	// This will be the addition method
+	"add": function(skillId, name) {
+
+		// If the id exists in the array then return false
+		if(this.storage[skillId] !== undefined)
+			return false;
+
+		// If the id does not go ahead and add it
+		else {
+
+			// Append to the list
+			this.storage[skillId] = name;
+
+			return true;
+		}
+	},
+
+	// This will be the removal method
+	"remove": function(skillId) {
+
+		// If a key was not found return false
+		if(this.storage[skillId] === undefined)
+			return false;
+
+		// Otherwise remove the item from the array
+		else {
+			delete this.storage[skillId]
+
+			return true;
+		}
+	},
+
+	// This will return an array of ids
+	"get": function() {
+		return this.storage;
+	}
+};
+
+$(document).ready(function() {
+	// Click on a skill and do something
+	$('a.skill').live('click', function(e) {
+		e.preventDefault();
+
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			skillStore.remove(x);
+		}
+		else {
+			$(this).addClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			skillStore.add(x, y);
+		}
+
+		return false;
+	});
+
+	$('form.skills_form').submit(function(e) {
+		e.preventDefault();
+
+		var skill = new Array;
+		var skills = skillStore.get();
+		for(var i in skills) {
+			skill.push(i);
+		}
+
+		
+		$('input[name="skills"]').val(skill.join(','));
+
+		var $form = $(this);
+		setTimeout(function() { $form.get(0).submit(); }, 500);
+
+		return false;
+	});
+
+});
+</script>

@@ -351,6 +351,7 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = self.current_user
+		@invite = ConnectionInvite.find(:first, :conditions => ["created_user_id = ?", self.current_user.id])
 
 		render :step5
 	end	

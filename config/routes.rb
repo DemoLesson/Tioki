@@ -388,8 +388,8 @@ Preview::Application.routes.draw do
 	match 'vouchresponse' => 'vouches#vouchresponse'
 	match 'updatevouch' => 'vouches#updatevouch'
 	match 'requestvouch' => 'teachers#request_vouch'
-	match 'unlocked' => 'vouches#unlocked'
 	match 'addvouch' => 'vouches#addvouch'
+	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
 	#resources :jobs do 
 	#  get :auto_complete_search, :on => :collection
