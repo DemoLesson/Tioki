@@ -602,3 +602,129 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
+<% if @invite %>
+	<div id="vouch">
+		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
+			Vouch for <%= @teacher.user.first_name %>'s skills
+		</h2>
+		<%= form_tag '/vouch_connection_skills' do %>
+			<input type="hidden" name="skills" />
+			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+
+			<div class="skill_cloud">
+				<div class="clear">
+					<% @teacher.skills.each do |skill| %>
+						<a href="#" class="skill" id="<%= skill.id %>" name="<%= skill.name %>" ><%= skill.name %></a>
+					<% end %>
+				</div>
+			</div>
+			<input type="submit" style="width:85%" value="I'm Done" />
+
+		<% end %>
+	</div>
+	<script type="text/javascript">
+	// Storage object for skills
+	var skillStore = {
+
+		// This will be the container
+		"storage": new Object,
+
+		// This will be the addition method
+		"add": function(skillId, name) {
+
+			// If the id exists in the array then return false
+			if(this.storage[skillId] !== undefined)
+				return false;
+
+			// If the id does not go ahead and add it
+			else {
+
+				// Append to the list
+				this.storage[skillId] = name;
+
+				return true;
+			}
+		},
+
+		// This will be the removal method
+		"remove": function(skillId) {
+
+			// If a key was not found return false
+			if(this.storage[skillId] === undefined)
+				return false;
+
+			// Otherwise remove the item from the array
+			else {
+				delete this.storage[skillId]
+
+				return true;
+			}
+		},
+
+		// This will return an array of ids
+		"get": function() {
+			return this.storage;
+		}
+	};
+
+	$(document).ready(function() {
+		// Click on a skill and do something
+		$('a.skill').live('click', function(e) {
+			e.preventDefault();
+
+			if($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				var x = $(this).attr('id');
+				var y = $(this).attr('name');
+				skillStore.remove(x);
+			}
+			else {
+				$(this).addClass('active');
+				var x = $(this).attr('id');
+				var y = $(this).attr('name');
+				skillStore.add(x, y);
+			}
+
+			return false;
+		});
+
+		$('form.skills_form').submit(function(e) {
+			e.preventDefault();
+
+			var skill = new Array;
+			var skills = skillStore.get();
+			for(var i in skills) {
+				skill.push(i);
+			}
+
+			
+			$('input[name="skills"]').val(skill.join(','));
+
+			var $form = $(this);
+			setTimeout(function() { $form.get(0).submit(); }, 500);
+
+			return false;
+		});
+
+	});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('body').introOverlay({
+				introLength: 10000, // anything numeric no quotes
+				transitionSpeed: 400, // ditto
+				introAutoFade: false, //timed fade on overlay...true or false
+				introCloseBtn: false, //btn to close overlay...true or false
+				introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+				openAnimation: true, //opening animation...true or false
+				introContent: '#vouch', //where the content is at, uses css selector # for id, and . for class
+				cookieActive : false,
+				/* also you can use 'href' to load content for a seperate page..
+				when using href it also uses the class of the clicked element to find the content...
+				it goes like this .load(href class); check source for use */ 
+				introTemplate: 'full', // either 'full' or 'module'
+				introTurnOffLights: false, //turn off and on lights...true or false
+			});
+		});
+	</script>
+<% end %>

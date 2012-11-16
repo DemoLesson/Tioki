@@ -112,6 +112,11 @@ class TeachersController < ApplicationController
 			(x.end_time.future? || x.end_time.today?) && x.published
 		end
 
+		#vouch referring teacher 
+		if params[:invite_id]
+			@invite = ConnectionInvite.find(params[:invite_id])
+		end
+
 		if @teacher == nil
 			redirect_to :root
 			flash[:alert]  = "Not found"
