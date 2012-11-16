@@ -1,3 +1,8 @@
+v2.0.17 - Nov 15, 2012  5:01PM PST deployed by Kelly Becker
+===========================================================
+* abb161b: Kelly Becker - dismiss banners
+* 73ad495: Kelly Becker - deploy script updates
+
 v2.0.16 - Nov 15, 2012 12:59PM PST deployed by Kelly Becker
 ===========================================================
 * 24c606e: Kelly Becker - graylog new server info
