@@ -110,6 +110,7 @@ class UsersController < ApplicationController
 					login_token = LoginToken.generate_token_for!(session[:user])
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
+					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
 				end
 				return redirect_to_stored
 			else
