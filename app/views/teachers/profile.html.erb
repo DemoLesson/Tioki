@@ -317,14 +317,12 @@
 			
 			<!-- START Experience Section-->
 			<!-- If Experiences are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.experiences.empty? && self.current_user.teacher == @teacher %>
+			<% if @teacher.experiences.empty? && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					Where did you get so good at this?
 						<span style="font-size:16px; margin-left:5px">
-							<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 							<a href="/me/profile/edit/experience"> - - Update Work Experience</a>
-							<% end %>
 						</span>
 					</h3>
 				</section><br />
@@ -370,7 +368,7 @@
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
-			<% if @teacher.user.skill_groups.empty? && self.current_user.teacher == @teacher %>
+			<% if @teacher.user.skill_groups.empty? && self.current_user && self.current_user.teacher == @teacher %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">We heard you had skills...<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
 					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
@@ -560,14 +558,12 @@
 			<% if @connected || @guest || !@teacher.user.privacy["attachments"] %>
 			
 				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @teacher.assets.empty?  && self.current_user.teacher == @teacher %>
+				<% if @teacher.assets.empty?  && self.current_user && self.current_user.teacher == @teacher %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
 						Are you feeling Attached?
 							<span style="font-size:16px; margin-left:5px">
-								<% if self.current_user != nil && @teacher == self.current_user.teacher %>
 								<a href="/profileattachments">- - Upload your teaching documents</a>
-								<% end %>
 							</span>
 						</h3>
 					</section>
