@@ -1,3 +1,7 @@
+v2.0.19 - Nov 15, 2012  5:57PM PST deployed by Aleks Stanisic
+=============================================================
+
+
 v2.0.18 - Nov 15, 2012  5:41PM PST deployed by Kelly Becker
 ===========================================================
 * 19bb1cc: Kelly Becker - remember session
