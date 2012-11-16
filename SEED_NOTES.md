@@ -1,3 +1,7 @@
+v2.0.18 - Nov 15, 2012  5:41PM PST deployed by Kelly Becker
+===========================================================
+* 19bb1cc: Kelly Becker - remember session
+
 v2.0.17 - Nov 15, 2012  5:01PM PST deployed by Kelly Becker
 ===========================================================
 * abb161b: Kelly Becker - dismiss banners
