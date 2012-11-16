@@ -28,7 +28,12 @@ end
 # OSX Notification
 def notify(message, opts = {})
 	return false if TerminalNotifier.nil?
-	TerminalNotifier.notify(message, opts)
+	
+	begin
+		return TerminalNotifier.notify(message, opts)
+	rescue RuntimeError
+		return false
+	end
 end
 
 # Output to terminal

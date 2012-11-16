@@ -67,18 +67,6 @@ class WelcomeWizardController < ApplicationController
 			# Attempt to save the user
 			if @user.save
 
-				# Set the AB is the id is divisible by 2
-				@user.update_attribute(:ab, 'follow') if @user.id % 2 == 0
-
-				# If the user saved then create the teacher record on the user
-				@user.create_teacher
-
-				# Link the Tioki technology automatically
-				TechnologyUser.create(:user => @user, :technology_id => 15)
-
-				# Go ahead and email the user with their login details
-				UserMailer.teacher_welcome_email(@user.id).deliver
-
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 

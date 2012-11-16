@@ -148,7 +148,6 @@ class UsersController < ApplicationController
 			if params[:role] == 'teacher'
 				self.current_user.create_teacher
 				self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-				UserMailer.teacher_welcome_email(self.current_user).deliver
 				
 				redirect_to current_user.default_home
 			elsif params[:role] == 'school'
@@ -169,9 +168,6 @@ class UsersController < ApplicationController
 		# Create the teacher
 		user.create_teacher
 		
-		# Send the teacher welcome email
-		UserMailer.teacher_welcome_email(user).deliver
-
 		# Logged in user is an admin redirect wherever
 		return redirect_to params[:redir] if self.current_user.is_admin && params[:redir] = '/admin'
 
@@ -193,7 +189,6 @@ class UsersController < ApplicationController
 	#      if params[:role] == 'teacher'
 	#        self.current_user.create_teacher
 	#        self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-	#        UserMailer.teacher_welcome_email(self.current_user).deliver
 	#        
 	#        redirect_to current_user.default_home
 	#      elsif params[:role] == 'school'

@@ -1,0 +1,192 @@
+<div class="row kRap" style="position:relative;">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 0px 0px">What skills do you have?</h1>
+		<h4 class="green" style="margin: 0px 0px 0px 3px">Don't be shy. Select a minimum of 5 skills.</h4>
+	</div>
+	<div class="clear"></div>
+
+	<div class="seven columns">
+		<form class="skills_form" method="POST">
+			<input type="hidden" name="skills" />
+
+			<div class="skill_cloud">
+				<div class="clear"></div>
+			</div>
+
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:invitestring] %>
+				<%= hidden_field_tag :invitestring, params[:invitestring] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% end %>
+
+			<div class="button_wrap">
+				<input type="submit" disabled="disabled" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
+			</div>
+		</form>
+	</div>
+	<div class="four columns">
+		<div class="fyi" style="margin-top: 15px">
+			<h3 class="green bold">We'll use these skills to:</h3>
+			<ul>
+				<li>Suggest events that match your interests.</li>
+				<li>Connect you to others that share your skills.</li>
+				<li>Showcase your talents to your network.</li>
+			</ul>
+		</div>
+	</div>
+
+	<% if params[:user_connection] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+	<% elsif params[:invitestring] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
+	<% elsif params[:vouchstring] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
+	<% elsif params[:invitecode] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
+	<% elsif params[:welcomecode] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+	<% else %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
+	<% end %>
+</div>
+
+<script type="text/javascript">
+// Storage object for skills
+var skillStore = {
+
+	// This will be the container
+	"storage": new Object,
+
+	// This will be the addition method
+	"add": function(skillId, name) {
+
+		// If the id exists in the array then return false
+		if(this.storage[skillId] !== undefined)
+			return false;
+
+		// If the id does not go ahead and add it
+		else {
+
+			// Append to the list
+			this.storage[skillId] = name;
+
+			// If there are five select then enable submit
+			if(Object.keys(this.storage).length >= 5)
+				$('input[type="submit"]').removeClass('secondary').prop('disabled', false);
+
+			return true;
+		}
+	},
+
+	// This will be the removal method
+	"remove": function(skillId) {
+
+		// If a key was not found return false
+		if(this.storage[skillId] === undefined)
+			return false;
+
+		// Otherwise remove the item from the array
+		else {
+			delete this.storage[skillId]
+
+			// If ther are less then 5 keys then disable the submit
+			if(Object.keys(this.storage).length < 5)
+				$('input[type="submit"]').addClass('secondary').prop('disabled', true);
+
+			return true;
+		}
+	},
+
+	// This will return an array of ids
+	"get": function() {
+		return this.storage;
+	}
+};
+
+$(document).ready(function() {
+
+	// Get a list of only the current skills the user has
+	$.getJSON("<%= @existing_skills %>", function(existingSkills) {
+		//console.log(existingSkills);
+
+		// Get a list of all the skills
+		$.getJSON("/skills.json?tokenizer=true", function(allSkills) {
+			var featuredSkills = ['Technology', 'Assessment', 'Lesson Plans & Materials','Culture Building'];
+
+			sub = new Array;
+			for(var skillGroup in allSkills) {
+
+				// Show only the featured skill groups
+				if($.inArray(skillGroup, featuredSkills) === -1)
+					continue;
+
+				// Create the skill group rapper
+				if(!(skillGroup in sub)) {
+					sub[skillGroup] = $('<div id="'+skillGroup+'"><div class="clear"></div>');
+					$('div.skill_cloud').append(sub[skillGroup]);	
+				}
+				
+				// Add the skills to the skill group
+				for(var i in allSkills[skillGroup]) {
+					skill = $("<a class=\"skill\" href=\"#\" />");
+					skill.attr('name', allSkills[skillGroup][i].name);
+					skill.attr('id', allSkills[skillGroup][i].id);
+					skill.text(allSkills[skillGroup][i].name);
+					sub[skillGroup].prepend(skill);
+				}
+
+				// Add the title to the skill group
+				sub[skillGroup].prepend($("<h3 style=\"font-weight:normal;font-size:18px;\">" + skillGroup + "</h3>"));
+			}
+                        $("div[id='Lesson Plans & Materials']").appendTo("#Technology");
+                        $("div[id='Culture Building']").appendTo("#Assessment")
+		});
+	});
+
+
+	// Click on a skill and do something
+	$('a.skill').live('click', function(e) {
+		e.preventDefault();
+
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			skillStore.remove(x);
+		}
+		else {
+			$(this).addClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			skillStore.add(x, y);
+		}
+
+		return false;
+	});
+
+	$('form.skills_form').submit(function(e) {
+		e.preventDefault();
+
+		var skill = new Array;
+		var skills = skillStore.get();
+		for(var i in skills) {
+			skill.push(i);
+		}
+
+		
+		$('input[name="skills"]').val(skill.join(','));
+
+		var $form = $(this);
+		setTimeout(function() { $form.get(0).submit(); }, 500);
+
+		return false;
+	});
+
+});
+</script>

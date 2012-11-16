@@ -109,11 +109,15 @@ Preview::Application.routes.draw do
 	resources :analytics
 
 	# Welcome Wizard Controller
+	# @todo Deprecate to new format
 	resources :welcome_wizard
 
 	scope '/wizards' do
 		match 'welcome' => 'welcome_wizard#index'
 		match 'welcome/:action' => 'welcome_wizard#:action'
+
+		match 'application' => 'application_wizard#index'
+		match 'application/:action' => 'application_wizard#:action'
 	end
 
 	# Whiteboard JSON Access
