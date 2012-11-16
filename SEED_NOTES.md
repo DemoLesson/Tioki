@@ -1,3 +1,9 @@
+v2.0.21 - Nov 16, 2012 11:43AM PST deployed by Aleks Stanisic
+=============================================================
+* 480f6e9: Aleks Stanisic - chnages to group notification
+* fc58d66: Kelly Becker - deploy script fix
+* 3b8cb5e: Elijah Green - fix profile for not loggined users
+
 v2.0.20 - Nov 16, 2012 10:08AM PST deployed by Aleks Stanisic
 =============================================================
 * eb3147e: Aleks Stanisic - making changes to welcome wizard

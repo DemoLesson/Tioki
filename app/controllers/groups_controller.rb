@@ -128,7 +128,7 @@ class GroupsController < ApplicationController
 			#add as member
 			group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id], :permissions => 1)
 			#self.log_analytic(:user_added_group, "A user added a group", group)
-			redirect_to :back, :notice => "Technology was successfully added."
+			redirect_to :back, :notice => "Group was successfully added."
 		end
 	end
 
