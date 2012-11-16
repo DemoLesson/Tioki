@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
 	# Callbacks in order or processing
 	before_create :set_full_name
 	after_create :create_profile_record
-	after_save :add_ab_test_data
+	#after_save :add_ab_test_data
 
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
@@ -639,7 +639,7 @@ class User < ActiveRecord::Base
 			TechnologyUser.create(:user => self, :technology_id => 15)
 
 			# Send welcome email
-			UserMailer.teacher_welcome_email(@user.id).deliver
+			UserMailer.teacher_welcome_email(self.id).deliver
 		end
 end
  
