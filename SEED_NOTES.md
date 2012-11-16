@@ -1,3 +1,7 @@
+v2.0.20 - Nov 16, 2012 10:08AM PST deployed by Aleks Stanisic
+=============================================================
+* eb3147e: Aleks Stanisic - making changes to welcome wizard
+
 v2.0.19 - Nov 15, 2012  5:57PM PST deployed by Aleks Stanisic
 =============================================================
 
