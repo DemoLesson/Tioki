@@ -1,3 +1,11 @@
+v2.0.23 - Nov 16, 2012  6:57PM PST deployed by Aleks Stanisic
+=============================================================
+* 708960b: Elijah Green - Fix add referral add vouches
+* 161331c: Elijah Green - Fix the tioki technology being added twice
+* 4a22016: Elijah Green - paginate the userconnections page
+* f069591: Elijah Green - change how skill vouch are displayed
+* 7f8d082: Elijah Green - Referred user vouch for referring user
+
 v2.0.22 - Nov 16, 2012  3:09PM PST deployed by Kelly Becker
 ===========================================================
 * 5e77174: Kelly Becker - commented out a callback that was interfering with paperclip @astanisic @elijahgreen we need to fix this.
