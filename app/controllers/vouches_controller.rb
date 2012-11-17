@@ -140,7 +140,7 @@ class VouchesController < ApplicationController
 
 		# Install the skills
 		if params[:skills]
-			skills = Skill.where(:id => params[:skills])
+			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
 				VouchedSkill.create(:skill_id => skill.id, :user_id => @invite.user.id, :voucher_id => User.current.id)
 			end
