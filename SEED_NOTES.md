@@ -1,3 +1,7 @@
+v2.0.24 - Nov 16, 2012  7:20PM PST deployed by Aleks Stanisic
+=============================================================
+* f141c4b: Elijah Green - Remove uniqunes validation for now, not working
+
 v2.0.23 - Nov 16, 2012  6:57PM PST deployed by Aleks Stanisic
 =============================================================
 * 708960b: Elijah Green - Fix add referral add vouches
