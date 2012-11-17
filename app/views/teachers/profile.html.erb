@@ -1,25 +1,6 @@
 <section id="main-content" class="inner-content">
 <% if self.current_user.id.odd? %>
 
-<nav class="subpage" style=" margin:30px 0px 0px 0px;">
-	<ul>
-		<li class="current">
-			Tioki Profile
-		</li>
-		<!--li>
-			<a href="terms.html">
-			Card Profile
-			</a>
-		</li-->
-		<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-			<li>
-				<a href="/me/profile/stats">
-				Profile Stats
-				</a>
-			</li>
-		<% end %>
-	</ul>
-</nav>	
 <section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 		<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
 			<!-- EDIT AND FOLLOW BUTTONS -->
@@ -29,7 +10,7 @@
 				<% # IF this is my profile allow me to edit %>
 				<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 					<a href="/me/profile/edit" class="action-button bg-salmon">
-						Improve My Profile
+						Edit My Profile
 					</a>
 				<% # IF im not a user then let me register %>
 				<% elsif !self.current_user %>
@@ -150,51 +131,6 @@
 					</a>
 				<% end %>
 			</ul>
-		</section>
-		<section class="two-column left-side" style ="min-height:150px">
-			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-				<section class="info panel" style="height:175px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
-				<h4 style="margin: 10px 0px -5px 10px">
-				Want a Rockstar profile? Complete this checklist.  
-				</h4>	
-				<h5 style="margin: 10px 0px -5px 80px">
-					<span style="float:right;margin-right: 80px">
-						5. <%= link_to "Upload a Video", "/me/profile/edit/upload-video" %> 
-							<% unless @video == nil%>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						6. <%= link_to "Connect your social networks", '/me/profile/edit#connect' %>
-							<% if @teacher.twitter.present? || @teacher.linkedin.present? || @teacher.edmodo.present? || @teacher.betterlesson.present? || @teacher.teachingchannel.present? %>
-						 		<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						7. <%= link_to "Update Education", "/me/profile/edit/education" %><%= link_to " & Experience", "/me/profile/edit/experience" %> 
-							<% unless @teacher.educations.empty? || @teacher.experiences.empty? %>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-						8. <%= link_to "Add your Credentials", "/me/profile/edit/credentials" %>
-							<% unless @teacher.credentials.empty? %>
-								<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-							<% end %><br>
-					</span>
-				1. <%= link_to "Upload a Profile Picture", "/me/profile/edit/upload-avatar" %>
-					<% if @teacher.user.avatar? %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				2. <%= link_to "Add Skills Tags", "/me/profile/edit/skills" %>
-					<% unless @teacher.user.skill_groups.empty? %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>	
-				3. <%= link_to "Get 3 Vouches", "/requestvouch" %>
-					<% if @teacher.user.vouched_skills.count > 2 %>
-					<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				4. <%= link_to "Add Connections", "/inviteconnections" %>
-					<% if Connection.mine(:pending => false).count > 0 %>
-						<%= image_tag('/card-assets/images/greencheck.png', :style => "margin-bottom:-7px" )%>
-					<% end %><br>
-				</h5>	
-				</section>
-			<% end %>
 		</section>
 		
 		<!-- START Experience Section-->
