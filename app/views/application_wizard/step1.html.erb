@@ -1,15 +1,7 @@
 <div class="row kRap" style="position:relative;">
 	<div class="twelve columns">
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px">
-			<% if params[:invitestring] %>
-				Create your Tioki account to join <%= @invite.user.first_name %>'s professional network.
-			<% elsif params[:invitecode] %>
-				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
-			<% elsif params[:welcomecode] %>
-				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
-			<% else %>
-				Create your Tioki account to join the premiere professional education network.
-			<% end %>
+			Hi, let's get to work on your application. This should only take a few minutes.
 		</h1>
 	</div>
 
@@ -58,31 +50,18 @@
 				</tr>
 			</table>
 
-			<% if params[:user_connection] %>
-				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
-			<% elsif params[:vouchstring] %>
-				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-			<% elsif params[:invitecode] %>
-				<%= hidden_field_tag :invitecode, params[:invitecode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-			<% elsif params[:discussion_id] %>
-				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
-				<%= hidden_field_tag :body, params[:body] %>
-			<% end %>
-
 			<div class="button_wrap" style="text-align:left">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
 				<br />
-				<p style="font-size: 12px">Already have a Tioki account? <span><a href="/login">Login.</a></span></p>
+				<p style="font-size: 12px">Already have a Tioki account? <span><a href="/wizards/application/login">Login.</a></span></p>
 				<p style="font-size: 12px">By clicking Next Step, you are agreeing to the <span><a href="/static/resources/terms">terms</a> and <span><a href="/static/resources/privacy">privacy policy.</a></p>	
 			</div>
 		</form>
 	</div>
 	
-	<section class="panel right-side" style="width: 384px; border:solid 1px #2AA99B">
+	<section class="panel right-side" style="width: 384px;">
+		<%
+=begin
 		<h3><span class="green bold">What Tioki means to you...</span></h3>
 		<ul>
 			<li>Establish your online <a href="http://tioki.com/profile/Mandela" target="_blank">Presence</a></li>
@@ -91,5 +70,7 @@
 			<li>Explore cutting edge <a href="http://tioki.com/technologies" target="_blank">Classroom Technology</a></li>
 			<li>Participate in <a href="http://tioki.com/discussions" target="_blank">Educational Discussions</a></li>
 		</ul>
+=end
+		%>
 	</section>
 </div>
