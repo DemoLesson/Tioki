@@ -607,9 +607,9 @@
 		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
 			Vouch for <%= @teacher.user.first_name %>'s skills
 		</h2>
-		<%= form_tag '/vouch_connection_skills' do %>
-			<input type="hidden" name="skills" />
+		<%= form_tag '/vouch_connection_skills', :class => "skills_form" do %>
 			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<input type="hidden" name="skills" />
 
 			<div class="skill_cloud">
 				<div class="clear">
@@ -622,92 +622,37 @@
 
 		<% end %>
 	</div>
-	<script type="text/javascript">
-	// Storage object for skills
-	var skillStore = {
+<script type="text/javascript">
+$(document).ready(function() {
 
-		// This will be the container
-		"storage": new Object,
+	var arr = new Array;
+	// Click on a skill and do something
+	$('a.skill').live('click', function(e) {
+		e.preventDefault();
 
-		// This will be the addition method
-		"add": function(skillId, name) {
-
-			// If the id exists in the array then return false
-			if(this.storage[skillId] !== undefined)
-				return false;
-
-			// If the id does not go ahead and add it
-			else {
-
-				// Append to the list
-				this.storage[skillId] = name;
-
-				return true;
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			var x = $(this).attr('id');
+			for(var i=0; i < arr.length; i++){
+				if(arr[i] == x) {
+					arr.splice(i, 1);
+					break;
+				}
 			}
-		},
-
-		// This will be the removal method
-		"remove": function(skillId) {
-
-			// If a key was not found return false
-			if(this.storage[skillId] === undefined)
-				return false;
-
-			// Otherwise remove the item from the array
-			else {
-				delete this.storage[skillId]
-
-				return true;
-			}
-		},
-
-		// This will return an array of ids
-		"get": function() {
-			return this.storage;
 		}
-	};
+		else {
+			$(this).addClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			arr.push(x);
+			$("input[name='skills']").val(arr.join(','));
+		}
 
-	$(document).ready(function() {
-		// Click on a skill and do something
-		$('a.skill').live('click', function(e) {
-			e.preventDefault();
-
-			if($(this).hasClass('active')) {
-				$(this).removeClass('active');
-				var x = $(this).attr('id');
-				var y = $(this).attr('name');
-				skillStore.remove(x);
-			}
-			else {
-				$(this).addClass('active');
-				var x = $(this).attr('id');
-				var y = $(this).attr('name');
-				skillStore.add(x, y);
-			}
-
-			return false;
-		});
-
-		$('form.skills_form').submit(function(e) {
-			e.preventDefault();
-
-			var skill = new Array;
-			var skills = skillStore.get();
-			for(var i in skills) {
-				skill.push(i);
-			}
-
-			
-			$('input[name="skills"]').val(skill.join(','));
-
-			var $form = $(this);
-			setTimeout(function() { $form.get(0).submit(); }, 500);
-
-			return false;
-		});
-
+		return false;
 	});
-	</script>
+
+});
+</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('body').introOverlay({
