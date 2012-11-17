@@ -1,3 +1,7 @@
+v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 81e0a30: Aleks Stanisic - fix to message emails
+
 v2.0.25 - Nov 17, 2012  1:43PM PST deployed by Aleks Stanisic
 =============================================================
 * 9e8d698: Aleks Stanisic - changes to dashboard
