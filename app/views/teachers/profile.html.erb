@@ -132,6 +132,23 @@
 				<% end %>
 			</ul>
 		</section>
+
+		<!-- START Checklist Content -->
+		<section class="profile-content">
+		
+			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+			
+					<section class="two-column left-side" style="height:45px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
+						<a href="/get_started" style="display:block">
+							<h4 style="margin: 10px 0px -5px 10px">
+								Want a Rockstar profile? Click <span style="color:#F66C4C">here</span> to get started.
+							</h4>	
+							<h5 style="margin: 10px 0px -5px 80px">
+							</h5>
+						</a>
+					</section>
+			
+			<% end %>
 		
 		<!-- START Experience Section-->
 		<section class="two-column left-side" style ="min-height:150px;  border: 1px solid #ccc; border-radius: 0;">
