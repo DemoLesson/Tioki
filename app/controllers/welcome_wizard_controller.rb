@@ -431,7 +431,6 @@ class WelcomeWizardController < ApplicationController
 					name << c.first_name unless c.first_name.nil?
 					name << c.last_name unless c.last_name.nil?
 					name = name.join(' ').strip.split(' ')
-					name = name.first + ' ' + name.last
 					contact.name = name
 
 					# Get all emails
