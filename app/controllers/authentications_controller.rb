@@ -199,9 +199,18 @@ class AuthenticationsController < ApplicationController
 
 		#Linkedin integration is currently a one time thing so deleting session keys
 		#and redirecting to profile like create_profile does
-		session[:rtoken]=nil
-		session[:rsecret]=nil
-		redirect_to '/profile/'+self.current_user.teacher.url     
+		session[:rtoken] = nil
+		session[:rsecret] = nil
+
+		# Redirect to a different location
+		unless session[:linkedin_redirect].nil?
+			redirect = session[:linkedin_redirect]
+			session[:linkedin_redirect] = nil
+			return redirect_to redirect
+		end
+
+		# Redirect back to the profile
+		redirect_to '/profile/' + self.current_user.teacher.url     
 	end
 
 	def whiteboard_share_twitter

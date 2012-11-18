@@ -684,6 +684,10 @@ class TeachersController < ApplicationController
 				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
 				session[:rtoken] = request_token.token
 				session[:rsecret] = request_token.secret
+
+				# Save a redirect url for the return
+				session[:linkedin_redirect] = params[:redirect] unless params[:redirect].nil?
+				
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
 				redirect_to '/profile/'+self.current_user.teacher.url

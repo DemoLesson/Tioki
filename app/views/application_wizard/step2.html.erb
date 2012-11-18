@@ -6,136 +6,16 @@ tr.seeking, tr.student {
 
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's get your professional profile started.</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's start with your prior experience.</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<form method="POST">
-			<table>
-				<tr>
-					<td>
-						<label>
-							<span>I live in</span>
-							<input type="text" name="teacher[location]" placeholder="(Los Angeles, CA)" />
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<td style="border-bottom: solid 1px #DADADA;padding:3px inherit;">
-						<label>
-							<span>I am currently a</span>
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="teacher" checked="checked" /> Teacher
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="job_seeker" /> Job Seeker
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="student" /> Student
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="administrator" /> Other
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,job_seeker">
-					<td>
-						<label>
-							<span>Subjects</span>
-							<input type="text" name="teacher[subjects]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,job_seeker">
-					<td>
-						<label>
-							<span>Grade Levels</span>
-							<input type="text" name="teacher[grades]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="administrator" style="display:none;">
-					<td>
-						<label>
-							<span>Current Position</span>
-							<input type="text" name="teacher[position]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,administrator">
-					<td>
-						<label>
-							<span>Place of Employment</span>
-							<input type="text" name="teacher[school]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>College / University</span>
-							<input type="text" name="edu[school]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Degree</span>
-							<input type="text" name="edu[degree]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Major</span>
-							<input type="text" name="edu[concentrations]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Start Date</span>
-						</label>
-						<%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>End Date</span>
-							<%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label class="checkbox">
-							<%= check_box_tag "edu[current]" %>
-							<span>Currently Attending</span>
-						</label>
-					</td>
-				</tr>
-			</table>
-			<% if params[:user_connection] %>
-				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
-			<% elsif params[:vouchstring] %>
-				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-			<% elsif params[:invitecode] %>
-				<%= hidden_field_tag :invitecode, params[:invitecode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-			<% end %>
-
-			<div class="button_wrap">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
-			</div>
+		<form action="/linkedinprofile" method="POST">
+			<h2>Import from linkedin</h2>
+			<input type="hidden" name="response" value="yes" />
+			<input type="hidden" name="redirect" value="<%= currentURL %>" />
+			<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
 		</form>
 	</div>
 	<div class="four columns">
