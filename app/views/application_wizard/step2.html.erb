@@ -11,12 +11,83 @@ tr.seeking, tr.student {
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<form action="/linkedinprofile" method="POST">
-			<h2>Import from linkedin</h2>
-			<input type="hidden" name="response" value="yes" />
-			<input type="hidden" name="redirect" value="<%= currentURL %>" />
-			<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
+		<% if User.current.teacher.linkedin.nil? %>
+			<form action="/linkedinprofile" method="POST">
+				<h2>Import from linkedin</h2>
+				<input type="hidden" name="response" value="yes" />
+				<input type="hidden" name="redirect" value="<%= currentURL %>" />
+				<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
+			</form>
+		<% end %>
+		<% if User.current.teacher.linkedin.nil? %>
+			<h2>or fill out the information below</h2>
+		<% else %>
+			<h2>Verify the imported information below</h2>
+		<% end %>
+		<ul>
+			<% User.current.teacher.experiences.each do |exp| %>
+				<li>
+					<h3><%= exp.position %> at <%= exp.company %></h3>
+					<span><%= exp.startMonth %>/<%= exp.startYear %></span>
+					<span> &mdash; </span>
+					<% if exp.current %>
+						<span>Present</span>
+					<% else %>
+						<span><%= exp.endMonth %>/<%= exp.endYear %></span>
+					<% end %><br /><br />
+					<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" class="button" />Delete</a>
+				</li>
+			<% end %>
+		</ul>
+		<form action="#" method="POST">
+			<h2>Add another Position</h2>
+			<fieldset>
+				<p>
+				Company, District or School
+				</p>
+				<input type="text" name="company" />
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Date: 
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
+				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+				End Date:
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
+				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<label>
+					<input type="checkbox" name="current" value="yes" />
+					I currently work here
+				</label>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position
+				</p>
+				<input type="text" name="position" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Description (optional)
+				</p>
+				<textarea name="description"></textarea>
+			</fieldset>
+			<fieldset>
+				<input type="submit" value="Add Position" class="button" style="padding:9px 50px;display:inline;width:auto;" />
+			</fieldset>
 		</form>
+		<% unless User.current.teacher.experiences.empty? %>
+			<a href="#" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;">
+				Next Step
+			</a>
+		<% end %><br /><br />
 	</div>
 	<div class="four columns">
 		<div class="fyi">

@@ -194,6 +194,10 @@ class TeachersController < ApplicationController
 	def remove_experience
 		@experience = Experience.find_by_id(params[:id], :limit => 1)
 		@experience.destroy
+
+		unless params[:redirect].nil?
+			return redirect_to params[:redirect]
+		end
 		
 		respond_to do |format|
 			format.html { redirect_to :experience }
