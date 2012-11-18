@@ -1,3 +1,7 @@
+v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 6197244: Aleks Stanisic - changes to events
+
 v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
 =============================================================
 * 81e0a30: Aleks Stanisic - fix to message emails
