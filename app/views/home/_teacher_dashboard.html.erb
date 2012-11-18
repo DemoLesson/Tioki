@@ -186,9 +186,8 @@
 				<% @latest_dl.each do |vid| %>
 					<li>
 						<a href="/profile/<%= vid.user.teacher.url %>">
-							<div class="video-thumb-small">
-								<div class="play-button">
-								</div>
+							<div class="profile-thumb-small">
+								<img alt="Play-icon" height="45" src="/assets/tioki/icons/play-icon.png" width="45">
 							</div>
 						</a>
 						<p><%= vid.getMessage %></p>
