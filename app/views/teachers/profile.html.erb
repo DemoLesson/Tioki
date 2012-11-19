@@ -499,11 +499,13 @@
 						<% end %>
 						</p>
 						<p>
-						<%= presentation.location %> | <%= presentation.date %>
+						<%= presentation.location %> | <%= presentation.date.to_s(:job_time) %>
 						</p>
+						<% if presentation.author?%>
 						<p>
 						Authors: <%= link_to presentation.author, "#" %>
 						</p>
+						<% end %>
 						<p>
 						<%= sanitize(presentation.description, :tags => %w(p a strong em span)) %>
 						</p><br/ >
@@ -545,7 +547,7 @@
 						<%= award.issuer %>
 					</p>
 					<p>
-						<%= award.date %>
+						<%= award.date.to_s(:job_time) %>
 					</p>
 					<p>
 						<%= award.description %>

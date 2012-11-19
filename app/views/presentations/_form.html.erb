@@ -32,7 +32,7 @@
   <fieldset>
     <p>
 	Date of Event/Publication<br />
-    <%= f.datetime_select :date %>
+    <%= f.date_select( "date", :start_year => 1940, :end_year => Time.now.year+1)%>
 	</p>
   </fieldset>
   <fieldset>

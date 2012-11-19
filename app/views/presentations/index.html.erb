@@ -18,7 +18,7 @@
 					<%= presentation.title %>
 				<% end %>
 			</strong><br />
-			<%= presentation.location %> | <%= presentation.date %><br />
+			<%= presentation.location %> | <%= presentation.date.to_s(:job_time) %><br />
 			Authors: <%= link_to presentation.author, "#" %> <br />
 			<%= sanitize(presentation.description, :tags => %w(p strong em span a)) %>
 		</p>
@@ -52,7 +52,7 @@
 			  <fieldset>
 			    <p>
 				Date of Event/Publication<br />
-			    <%= f.datetime_select :date %>
+			    <%= f.date_select( "date", :start_year => 1940, :end_year => Time.now.year+1)%>
 				</p>
 			  </fieldset>
 			  <fieldset>
