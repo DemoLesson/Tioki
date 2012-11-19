@@ -49,4 +49,13 @@ class ApplicationWizardController < ApplicationController
 		end
 	end
 
+	def step4
+		if request.post?
+			user = User.current
+
+			cred = Credential.create(params[:credential])
+			user.teacher.credentials << cred
+		end
+	end
+
 end
