@@ -1,3 +1,16 @@
+v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 6197244: Aleks Stanisic - changes to events
+
+v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 81e0a30: Aleks Stanisic - fix to message emails
+
+v2.0.25 - Nov 17, 2012  1:43PM PST deployed by Aleks Stanisic
+=============================================================
+* 9e8d698: Aleks Stanisic - changes to dashboard
+* 3820efe: Elijah Green - Fix referrals only given a single vouch
+
 v2.0.24 - Nov 16, 2012  7:20PM PST deployed by Aleks Stanisic
 =============================================================
 * f141c4b: Elijah Green - Remove uniqunes validation for now, not working
