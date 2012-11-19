@@ -499,7 +499,10 @@
 						<% end %>
 						</p>
 						<p>
-						<%= presentation.location %> | <%= presentation.date.to_s(:job_time) %>
+							<% if presentation.location? %>
+								<%= presentation.location %> | 
+							<% end %>
+							<%= presentation.date.to_s(:job_time) %>
 						</p>
 						<% if presentation.author?%>
 						<p>
