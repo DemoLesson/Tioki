@@ -1,3 +1,7 @@
+v2.0.30 - Nov 19, 2012  1:04PM PST deployed by Aleks Stanisic
+=============================================================
+* a5e6b71: Aleks Stanisic - changes to awards are presentations time input/output
+
 v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
 =============================================================
 * 46159e5: Aleks Stanisic - style change to schedule button
