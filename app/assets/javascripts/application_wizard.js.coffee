@@ -1,10 +1,8 @@
 $ ->
-	# Step 1
-
-	# Step 2
+	# Date pickers / Current
 	$dp1 = $('input[name="date[start_date]"]')
 	$dp2 = $('input[name="date[end_date]"]')
-	$current = $('input[name="experience[current]"]')
+	$current = $('input[name*="[current]"]')
 
 	$dp1.datepicker
 		changeMonth: true

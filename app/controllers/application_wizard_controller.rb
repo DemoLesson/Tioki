@@ -34,4 +34,19 @@ class ApplicationWizardController < ApplicationController
 		end
 	end
 
+	def step3
+		if request.post?
+			user = User.current
+
+			if params[:education][:current]
+				params[:education][:current] = true
+			else
+				params[:education][:current] = false
+			end
+
+			edu = Education.create(params[:education])
+			user.teacher.educations << edu
+		end
+	end
+
 end

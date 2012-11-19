@@ -1,192 +1,117 @@
-<div class="row kRap" style="position:relative;">
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 0px 0px">What skills do you have?</h1>
-		<h4 class="green" style="margin: 0px 0px 0px 3px">Don't be shy. Select a minimum of 5 skills.</h4>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's move on to your education.</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<form class="skills_form" method="POST">
-			<input type="hidden" name="skills" />
-
-			<div class="skill_cloud">
-				<div class="clear"></div>
-			</div>
-
-			<% if params[:user_connection] %>
-				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
-			<% elsif params[:vouchstring] %>
-				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-			<% elsif params[:invitecode] %>
-				<%= hidden_field_tag :invitecode, params[:invitecode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+		<% if User.current.teacher.linkedin.nil? %>
+			<h2>Fill out the information below</h2>
+		<% else %>
+			<h2>Verify the imported information below</h2>
+		<% end %>
+		<table style="width:100%;">
+			<% User.current.teacher.educations.each do |edu| %>
+				<tr>
+					<td>
+						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;" />Remove</a>
+						<h3><%= edu.school %></h3>
+						<span><%= edu.degree.empty? ? '' : edu.degree + ', ' %><%= edu.concentrations %></span><br />
+						<span><%= edu.start_year %></span>
+						<span> &mdash; </span>
+						<% if edu.current %>
+							<span>Present</span>
+						<% else %>
+							<span><%= edu.year %></span>
+						<% end %><br /><br />
+					</td>
+				</tr>
 			<% end %>
-
-			<div class="button_wrap">
-				<input type="submit" disabled="disabled" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
-			</div>
+		</table>
+		<form method="POST">
+			<input type="hidden" name="add_education" value="1" />
+			<h2>Add another Education</h2>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span>School</span>
+							<input type="text" name="education[school]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Degree</span>
+							<input type="text" name="education[degree]" placeholder="(e.g. B.A, Masters, etc.)" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Degree</span>
+							<input type="text" name="education[concentrations]" placeholder="(e.g. Sociology, Chemistry, etc.)" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Start Year</span>
+							<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>End Year</span>
+							<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="checkbox">
+							<input type="checkbox" name="education[current]" value="yes" />
+							I currently go to school here here
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Add this school to my application" />
+						</label>
+					</td>
+				</tr>
+			</table>
 		</form>
+		<% unless User.current.teacher.educations.empty? %>
+			<h2>I'm done adding my education...</h2>
+			<a href="step4" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+		<% else %>
+			<p>Please provide some kind of education background...</p>
+		<% end %>
+		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">
-		<div class="fyi" style="margin-top: 15px">
-			<h3 class="green bold">We'll use these skills to:</h3>
+		<div class="fyi">
+			<h3><span class="green bold">A Tioki profile helps you</span></h3>
 			<ul>
-				<li>Suggest events that match your interests.</li>
-				<li>Connect you to others that share your skills.</li>
-				<li>Showcase your talents to your network.</li>
+				<li>Showcase your talents using video, pictures, & skills tags</li>
+				<li>Establish your online presence as an educator</li>
+				<li>Promote your skills & increase your opportunities</li>
 			</ul>
 		</div>
 	</div>
-
-	<% if params[:user_connection] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitestring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
-	<% elsif params[:vouchstring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
-	<% elsif params[:welcomecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
-	<% else %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
-	<% end %>
 </div>
-
-<script type="text/javascript">
-// Storage object for skills
-var skillStore = {
-
-	// This will be the container
-	"storage": new Object,
-
-	// This will be the addition method
-	"add": function(skillId, name) {
-
-		// If the id exists in the array then return false
-		if(this.storage[skillId] !== undefined)
-			return false;
-
-		// If the id does not go ahead and add it
-		else {
-
-			// Append to the list
-			this.storage[skillId] = name;
-
-			// If there are five select then enable submit
-			if(Object.keys(this.storage).length >= 5)
-				$('input[type="submit"]').removeClass('secondary').prop('disabled', false);
-
-			return true;
-		}
-	},
-
-	// This will be the removal method
-	"remove": function(skillId) {
-
-		// If a key was not found return false
-		if(this.storage[skillId] === undefined)
-			return false;
-
-		// Otherwise remove the item from the array
-		else {
-			delete this.storage[skillId]
-
-			// If ther are less then 5 keys then disable the submit
-			if(Object.keys(this.storage).length < 5)
-				$('input[type="submit"]').addClass('secondary').prop('disabled', true);
-
-			return true;
-		}
-	},
-
-	// This will return an array of ids
-	"get": function() {
-		return this.storage;
-	}
-};
-
-$(document).ready(function() {
-
-	// Get a list of only the current skills the user has
-	$.getJSON("<%= @existing_skills %>", function(existingSkills) {
-		//console.log(existingSkills);
-
-		// Get a list of all the skills
-		$.getJSON("/skills.json?tokenizer=true", function(allSkills) {
-			var featuredSkills = ['Technology', 'Assessment', 'Lesson Plans & Materials','Culture Building'];
-
-			sub = new Array;
-			for(var skillGroup in allSkills) {
-
-				// Show only the featured skill groups
-				if($.inArray(skillGroup, featuredSkills) === -1)
-					continue;
-
-				// Create the skill group rapper
-				if(!(skillGroup in sub)) {
-					sub[skillGroup] = $('<div id="'+skillGroup+'"><div class="clear"></div>');
-					$('div.skill_cloud').append(sub[skillGroup]);	
-				}
-				
-				// Add the skills to the skill group
-				for(var i in allSkills[skillGroup]) {
-					skill = $("<a class=\"skill\" href=\"#\" />");
-					skill.attr('name', allSkills[skillGroup][i].name);
-					skill.attr('id', allSkills[skillGroup][i].id);
-					skill.text(allSkills[skillGroup][i].name);
-					sub[skillGroup].prepend(skill);
-				}
-
-				// Add the title to the skill group
-				sub[skillGroup].prepend($("<h3 style=\"font-weight:normal;font-size:18px;\">" + skillGroup + "</h3>"));
-			}
-                        $("div[id='Lesson Plans & Materials']").appendTo("#Technology");
-                        $("div[id='Culture Building']").appendTo("#Assessment")
-		});
-	});
-
-
-	// Click on a skill and do something
-	$('a.skill').live('click', function(e) {
-		e.preventDefault();
-
-		if($(this).hasClass('active')) {
-			$(this).removeClass('active');
-			var x = $(this).attr('id');
-			var y = $(this).attr('name');
-			skillStore.remove(x);
-		}
-		else {
-			$(this).addClass('active');
-			var x = $(this).attr('id');
-			var y = $(this).attr('name');
-			skillStore.add(x, y);
-		}
-
-		return false;
-	});
-
-	$('form.skills_form').submit(function(e) {
-		e.preventDefault();
-
-		var skill = new Array;
-		var skills = skillStore.get();
-		for(var i in skills) {
-			skill.push(i);
-		}
-
-		
-		$('input[name="skills"]').val(skill.join(','));
-
-		var $form = $(this);
-		setTimeout(function() { $form.get(0).submit(); }, 500);
-
-		return false;
-	});
-
-});
-</script>

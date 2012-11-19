@@ -147,6 +147,10 @@ class TeachersController < ApplicationController
 	def remove_education
 		@education = Education.find_by_id(params[:id], :limit => 1)
 		@education.destroy
+
+		unless params[:redirect].nil?
+			return redirect_to params[:redirect]
+		end
 		
 		respond_to do |format|
 			format.html { redirect_to :education }

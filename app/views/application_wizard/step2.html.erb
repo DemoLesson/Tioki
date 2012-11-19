@@ -91,7 +91,7 @@ tr.seeking, tr.student {
 					<td>
 						<label>
 							<span></span>
-							<input type="submit" class="large button" value="Add position" />
+							<input type="submit" class="large button" value="Add position to my application" />
 						</label>
 					</td>
 				</tr>
@@ -99,7 +99,7 @@ tr.seeking, tr.student {
 		</form>
 		<% unless User.current.teacher.experiences.empty? %>
 			<h2>I'm done adding positions...</h2>
-			<a href="#" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+			<a href="step3" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
 		<% else %>
 			<p>Please provide some kind of work experience...</p>
 		<% end %>
