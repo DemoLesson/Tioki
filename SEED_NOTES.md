@@ -1,3 +1,7 @@
+v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
+=============================================================
+* 46159e5: Aleks Stanisic - style change to schedule button
+
 v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
 =============================================================
 * d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page
