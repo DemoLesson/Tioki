@@ -1,3 +1,7 @@
+v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
+=============================================================
+* f9661c7: Aleks Stanisic - changes to connection action in tech page
+
 v2.0.31 - Nov 19, 2012  2:15PM PST deployed by Aleks Stanisic
 =============================================================
 * 37d58c2: Aleks Stanisic - changes to dashboard and presentations
