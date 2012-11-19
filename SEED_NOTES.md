@@ -1,3 +1,16 @@
+v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
+=============================================================
+* d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page
+* 189e2ac: Elijah Green - Add user_id as a getActivity condition
+
+v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 6197244: Aleks Stanisic - changes to events
+
+v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 81e0a30: Aleks Stanisic - fix to message emails
+
 v2.0.25 - Nov 17, 2012  1:43PM PST deployed by Aleks Stanisic
 =============================================================
 * 9e8d698: Aleks Stanisic - changes to dashboard
