@@ -382,8 +382,12 @@ class TeachersController < ApplicationController
 	def purge
 		@teacher = Teacher.find_by_id(self.current_user.teacher.id)
 		@asset = Asset.find_by_id(params[:id])
-		if @asset.teacher_id == self.current_user.teacher.id
+		if @asset.teacher_id == User.current.teacher.id
 			@asset.destroy
+
+			unless params[:redirect].nil?
+				return redirect_to params[:redirect]
+			end
 		
 			respond_to do |format|
 			 format.html { redirect_to(:back, :notice => 'Attachment removed.') }

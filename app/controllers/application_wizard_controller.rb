@@ -58,4 +58,41 @@ class ApplicationWizardController < ApplicationController
 		end
 	end
 
+	def step5
+		if session[:application].nil?
+
+			# Create a new application
+			@app = Application.new
+			@app.teacher_id = User.current.teacher.id
+			@app.job_id = session[:job] || 1
+
+			# Let the user know if we have an issue creation the application record
+			flash[:error] = "There was an error creating your application" unless @app.save
+
+			# Add the application id to the session
+			session[:application] = @app.id
+		else
+
+			# Load the application from session
+			@app = Application.find(session[:application])
+		end
+
+		if request.post?
+
+			# Decide whether or not to show this on the profile
+			if params[:profile]
+				params[:asset][:assetType] = false
+			else
+				params[:asset][:assetType] = true
+			end
+
+			# Set the application id for the asset
+			params[:asset][:application_id] = @app.id
+			params[:asset][:teacher_id] = User.current.teacher.id
+
+			# Yes I am taking this opportunity to name this var "ass"
+			ass = Asset.create(params[:asset])
+		end
+	end
+
 end
