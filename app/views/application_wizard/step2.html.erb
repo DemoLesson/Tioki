@@ -24,70 +24,86 @@ tr.seeking, tr.student {
 		<% else %>
 			<h2>Verify the imported information below</h2>
 		<% end %>
-		<ul>
+		<table style="width:100%;">
 			<% User.current.teacher.experiences.each do |exp| %>
-				<li>
-					<h3><%= exp.position %> at <%= exp.company %></h3>
-					<span><%= exp.startMonth %>/<%= exp.startYear %></span>
-					<span> &mdash; </span>
-					<% if exp.current %>
-						<span>Present</span>
-					<% else %>
-						<span><%= exp.endMonth %>/<%= exp.endYear %></span>
-					<% end %><br /><br />
-					<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" class="button" />Delete</a>
-				</li>
+				<tr>
+					<td>
+						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;" />Remove</a>
+						<h3><%= exp.position %> at <%= exp.company %></h3>
+						<span><%= exp.startMonth %>/<%= exp.startYear %></span>
+						<span> &mdash; </span>
+						<% if exp.current %>
+							<span>Present</span>
+						<% else %>
+							<span><%= exp.endMonth %>/<%= exp.endYear %></span>
+						<% end %><br /><br />
+					</td>
+				</tr>
 			<% end %>
-		</ul>
-		<form action="#" method="POST">
+		</table>
+		<form method="POST">
+			<input type="hidden" name="add_position" value="1" />
 			<h2>Add another Position</h2>
-			<fieldset>
-				<p>
-				Company, District or School
-				</p>
-				<input type="text" name="company" />
-			</fieldset>
-			<fieldset>
-				<p>
-				Start Date: 
-				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
-				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
-				</p>
-			</fieldset>
-			<fieldset>
-				<p>
-				End Date:
-				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
-				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
-				</p>
-			</fieldset>
-			<fieldset>
-				<label>
-					<input type="checkbox" name="current" value="yes" />
-					I currently work here
-				</label>
-			</fieldset>
-			<fieldset>
-				<p>
-				Title/Position
-				</p>
-				<input type="text" name="position" %>
-			</fieldset>
-			<fieldset>
-				<p>
-				Description (optional)
-				</p>
-				<textarea name="description"></textarea>
-			</fieldset>
-			<fieldset>
-				<input type="submit" value="Add Position" class="button" style="padding:9px 50px;display:inline;width:auto;" />
-			</fieldset>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span>Company, District or School</span>
+							<input type="text" name="experience[company]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Start Date</span>
+							<input type="text" placeholder="Click to select..." class="datepicker" name="date[start_date]" />
+						</label>
+						<p class="note">If you dont remember the exact date just enter the first of the month.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>End Date</span>
+							<input type="text" placeholder="Click to select..." class="datepicker" name="date[end_date]" />
+						</label>
+						<p class="note">If you dont remember the exact date just enter the first of the month.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="checkbox">
+							<input type="checkbox" name="experience[current]" value="yes" />
+							I currently work here
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Title/Position</span>
+							<input type="text" name="experience[position]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Add position" />
+						</label>
+					</td>
+				</tr>
+			</table>
 		</form>
 		<% unless User.current.teacher.experiences.empty? %>
-			<a href="#" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;">
-				Next Step
-			</a>
-		<% end %><br /><br />
+			<h2>I'm done adding positions...</h2>
+			<a href="#" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+		<% else %>
+			<p>Please provide some kind of work experience...</p>
+		<% end %>
+		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">
 		<div class="fyi">
