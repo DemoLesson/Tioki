@@ -115,7 +115,9 @@ class Whiteboard < ActiveRecord::Base
 	def self.getActivity(hidden = true, conds = {})
 
 		# Get the current user
-		currentUser = User.current
+		currentUser = User.current unless conds[:user_id]
+		currentUser = User.find(conds[:user_id]) unless currentUser
+
 		list_1 = Connection.select("`owned_by` as 'user'").where("`user_id` = ? AND `pending` = '0'", currentUser.id).to_sql
 		list_2 = Connection.select("`user_id` as 'user'").where("`owned_by` = ? AND `pending` = '0'", currentUser.id).to_sql
 		
