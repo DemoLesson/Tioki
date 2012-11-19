@@ -1,3 +1,7 @@
+v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
+=============================================================
+* 1e6d9a3: Aleks Stanisic - fix to tech page
+
 v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
 =============================================================
 * f9661c7: Aleks Stanisic - changes to connection action in tech page
