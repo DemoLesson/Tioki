@@ -1,3 +1,7 @@
+v2.0.36 - Nov 20, 2012 10:22AM PST deployed by Kelly Becker
+===========================================================
+* a407ca0: Kelly Becker - destory video exceptions
+
 v2.0.35 - Nov 20, 2012 10:11AM PST deployed by Kelly Becker
 ===========================================================
 * cb634c6: Kelly Becker - if a youtube video has been deleted then remove the video locally
