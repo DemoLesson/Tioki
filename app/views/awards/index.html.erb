@@ -15,7 +15,7 @@
 			<%= award.title %>
 			</strong><br />
 			<%= award.issuer %><br />
-			<%= award.date %><br />
+			<%= award.date.to_s(:job_time) %><br />
 			<%= award.description %>
 		</p>
 		<% end %>
@@ -42,7 +42,7 @@
 			  <fieldset>
 			    <p>
 				Date<br />
-			    <%= f.datetime_select :date %>
+			    <%= f.date_select( "date", :start_year => 1940, :end_year => Time.now.year+1)%>
 				</p>
 			  </fieldset>
 			  <fieldset>

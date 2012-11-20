@@ -3,24 +3,6 @@
 		<%= @user.name%>'s <%= ablang('connection.plural') %>
 	</span><br />
 
-	<div id="sidebar" class="job_browser">
-		<div id="myConnections">
-			<img src="/assets/contacts.png" id = "myConnectionsPic" class = "icon" width = "34" alt="contacts.png"/>
-			<h4><%= ablang('connection.plural') %></h4>
-			<%= link_to "Add "+ ablang('connection.plural'), :inviteconnections %><br />
-			<%= link_to 'My '+ ablang('connection.plural'), :my_connections %></br>
-			<%= link_to "Pending " + ablang('connection.plural') + " (" + pendingcount.to_s + ")", :pending_connections %><br />
-		</div>
-		<div id="whiteBox" style="height:280px;width:190px;position:fixed;font-size:12px;padding:0px 10px 0;margin: 0px 0px 0px auto">
-			<strong><%= ablang('connection.connecting') %> on DemoLesson</strong>
-			<ul style="list-style:disc;padding-left:12px">
-				<li>Helps you collarborate with those who share your interests</li>
-				<li>Enhances your opportunites for professional growth</li>
-				<li>Helps you stay in touch with your colleagues</li>
-			</ul>
-		</div>
-	</div>
-
 	<div id="content">
 	<% @connections.each do |connection| %>
 		<br />
@@ -51,5 +33,6 @@
 			</div>
 		</div>
 	<% end %>
+	<%= will_paginate @connections %>
 	</div>
 </section>

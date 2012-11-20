@@ -174,7 +174,7 @@ class ConnectionsController < ApplicationController
 
 	def userconnections
 		@user = User.find(params[:id])
-		@connections = Connection.user(params[:id])
+		@connections = Connection.user(params[:id]).paginate(:per_page => 20, :page => params[:page])
 		@my_connections = Connection.mine
 	end
 

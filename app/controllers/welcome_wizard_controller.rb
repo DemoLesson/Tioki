@@ -67,6 +67,8 @@ class WelcomeWizardController < ApplicationController
 			# Attempt to save the user
 			if @user.save
 
+				@user.create_teacher
+
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
@@ -339,6 +341,7 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = self.current_user
+		@invite = ConnectionInvite.find(:first, :conditions => ["created_user_id = ?", self.current_user.id])
 
 		render :step5
 	end	

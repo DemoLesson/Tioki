@@ -1,66 +1,61 @@
-<div id="wrapper">
+<section id="main-content" class="inner-content" style="margin-bottom: 30px;margin-top: 30px">	
 	
-<div margin-left:"0px" align="center">
+	<section class="two-column left-side" style="width:450px;height:285px;margin-bottom:35px;">
+		<h1 style="margin-top:0px;color:#2AA99B">
+			How Tioki can Work for You
+		</h1>
+		<h3>
+			Recruiting the best teachers is one of your most important, yet most difficult tasks. Tioki makes finding the right educators easier than ever before!
+		</h3>
+		<p style="width:450px">
+			Tioki gives you access to thousands of teachers around the country actively seeking new opportunities with organizations like yours.						
+		</p>
+		<%= link_to "Get Started for Free", "/school_signup", :class => "button huge-button" %>
+	</section>
 	
-	<span style="font-size:30px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left; margin-left: 10px">How DemoLesson Works for Schools</span><br>
-
-</div>
-
-</div>
-
-<div id="wrapper_schools">
-	<div id="clear_spacer"> </div>
-		<!--Begin How It Works Section-->
-
-
-	<div id="hiw">	
-		<div class="how_para">
-				<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">1) Create a School Profile</span><br>
-				<span style="font: lighter 14px/18px Helvetica">Market your school the way you want to. The more details you provide candidates with, the more likely you'll attract the one's that best match your school culture. </span>
-				<a target="_blank" href="http://demolesson.com/schools/103321" rel="nofollow">See It In Action</a><br>
-		</div>
-
-		<div class="how_pic">
-			<div class="photo">
-			<%= link_to image_tag("thumb_hiw_4.jpg", :border => 0), "http://tioki.s3.amazonaws.com/site/full_hiw_4.jpg", :rel => "shadowbox" %>
-			</div>
-		</div>
-
-	</div>	
-
-	<div id="hiw">	
-		<div class="how_pic" style="float:left; margin-left:30px">
-			<div class="photo">
-			<%= link_to image_tag("thumb_hiw_5.jpg", :border => 0), "http://tioki.s3.amazonaws.com/site/full_hiw_5.jpg", :rel => "shadowbox" %>
-			</div>
-		</div>
-
-		<div class="how_para" style="float:right; margin-left:10px">
-				<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">2) Post a Job Opening</span><br>
-				<span style="font: lighter 14px/18px Helvetica"> List the criteria you are looking for in an applicant. Specify whatever you want candidates to include on their profile for you to review (e.g. video, resume, lesson plan).</span><br>
-				<%= link_to 'See Our Schools', '/customers', :target => "_blank" %><br>
-		</div>	
-	</div>
-
-	<div id="hiw">
-		<div class="how_para">
-				<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">3) View Teacher Profiles and Schedule Interviews</span><br>
-				<span style="font: lighter 14px/18px Helvetica">We help you manage incoming applicants efficiently and effectively. View profiles and choose your next action: Invite candidates to interview, message applicants, send rejection notices, and more!</span>
-				<%= link_to 'Try It Out', '/signup' %><br>
-		</div>
-
-		<div class="how_pic">
-			<div class="photo">
-			<%= link_to image_tag("thumb_hiw_6.jpg", :border => 0), "http://tioki.s3.amazonaws.com/site/full_hiw_6.jpg", :rel => "shadowbox" %>
-			</div>
-		</div>	
-	</div>
-
-		<!--End How It Works Section-->
-
-		<div id="button_bar" align="center">
-			<p class="buttons"><span style="padding-right:15px"><%= link_to "How it Works for Teachers?", '/howitworks', :class => "btn btn-large" %></span>
-			<span style="padding-left:15px"><%= link_to "Start Posting Jobs Now →", '/school_signup', :class => "btn btn-large btn-success" %></span></p>
-		</div>
+	<section class="two-column right-side" style="width:450px;height:285px;margin-bottom:35px;">
+		<%= image_tag ("/assets/tioki/schools/school_hiw_main.png"), :style => "width:450px;height:285px" %>
+	</section>
 	
-</div>
+	
+	<section id="panels">
+		<section class="one-column left-side">
+			<%= image_tag("/assets/tioki/schools/school_hiw_1.png", :border => 1, :style => "width:310px;height:192px") %>
+			<h3>
+				Create a Company Profile
+			</h3>
+			<p style="width:auto;">
+				Market your institute the way you want to. The more details you provide candidates with, the more likely you'll attract the best!
+				<br/><br/>
+				Want an example? <%= link_to 'Check this one out >>', 'http://tioki.com/schools/102311', :style => "color:#F66C4C", :target => "_blank" %>
+			</p>
+		</section>
+		<section class="one-column left-side">
+			<%= image_tag("/assets/tioki/schools/school_hiw_2.png", :border => 1, :style => "width:310px;height:192px") %>
+			<h3>
+				Post a Job Opening
+			</h3>
+			<p style="width:auto">
+				Let the education world know that you are looking for amazing educators. You can even forward applicants to your current review funnel.
+				<br/><br/>
+				More about <%= link_to 'pricing and payment >>', '/schoolpricing', :style => "color:#F66C4C", :target => "_blank" %>
+			</p>
+		</section>
+		<section class="one-column right-side">
+			<%= image_tag("/assets/tioki/schools/school_hiw_3.png", :border => 1, :style => "width:310px;height:192px") %>
+			<h3>
+				Review Amazing Applicants
+			</h3>
+			<p style="width:auto">
+				Review candidates' profiles and choose your next action: Invite candidates to interview, message applicants, forward to colleagues, etc.
+				<br/><br/>
+				<%= link_to 'See an example teacher profile >>', 'http://tioki.com/profile/juliafranco', :style => "color:#F66C4C", :target => "_blank" %>
+			</p>
+		</section>
+	</section>	
+	<!--End How It Works Section-->
+	
+	<section class="two-column left-side" style="margin: 30px 0px 70px 0px">
+	<%= link_to "Start Posting Now", '/school_signup', :class => "button huge-button", :style => "float:right;text-align:center" %>
+	</section>
+</section>

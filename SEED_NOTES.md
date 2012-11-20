@@ -1,3 +1,59 @@
+v2.0.34 - Nov 19, 2012  5:55PM PST deployed by Aleks Stanisic
+=============================================================
+* c869492: Aleks Stanisic - adding school sign up
+* 661488a: Elijah Green - Don't automatically create a teacher for each user created
+* 70259e5: Brian Martinez - Revamp of the school side
+
+v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
+=============================================================
+* 1e6d9a3: Aleks Stanisic - fix to tech page
+
+v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
+=============================================================
+* f9661c7: Aleks Stanisic - changes to connection action in tech page
+
+v2.0.31 - Nov 19, 2012  2:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 37d58c2: Aleks Stanisic - changes to dashboard and presentations
+
+v2.0.30 - Nov 19, 2012  1:04PM PST deployed by Aleks Stanisic
+=============================================================
+* a5e6b71: Aleks Stanisic - changes to awards are presentations time input/output
+
+v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
+=============================================================
+* 46159e5: Aleks Stanisic - style change to schedule button
+
+v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
+=============================================================
+* d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page
+* 189e2ac: Elijah Green - Add user_id as a getActivity condition
+
+v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 6197244: Aleks Stanisic - changes to events
+
+v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 81e0a30: Aleks Stanisic - fix to message emails
+
+v2.0.25 - Nov 17, 2012  1:43PM PST deployed by Aleks Stanisic
+=============================================================
+* 9e8d698: Aleks Stanisic - changes to dashboard
+* 3820efe: Elijah Green - Fix referrals only given a single vouch
+
+v2.0.24 - Nov 16, 2012  7:20PM PST deployed by Aleks Stanisic
+=============================================================
+* f141c4b: Elijah Green - Remove uniqunes validation for now, not working
+
+v2.0.23 - Nov 16, 2012  6:57PM PST deployed by Aleks Stanisic
+=============================================================
+* 708960b: Elijah Green - Fix add referral add vouches
+* 161331c: Elijah Green - Fix the tioki technology being added twice
+* 4a22016: Elijah Green - paginate the userconnections page
+* f069591: Elijah Green - change how skill vouch are displayed
+* 7f8d082: Elijah Green - Referred user vouch for referring user
+
 v2.0.22 - Nov 16, 2012  3:09PM PST deployed by Kelly Becker
 ===========================================================
 * 5e77174: Kelly Becker - commented out a callback that was interfering with paperclip @astanisic @elijahgreen we need to fix this.

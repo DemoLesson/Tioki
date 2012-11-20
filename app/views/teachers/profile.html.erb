@@ -499,11 +499,16 @@
 						<% end %>
 						</p>
 						<p>
-						<%= presentation.location %> | <%= presentation.date %>
+							<% if presentation.location? %>
+								<%= presentation.location %> | 
+							<% end %>
+							<%= presentation.date.to_s(:job_time) %>
 						</p>
+						<% if presentation.author?%>
 						<p>
 						Authors: <%= link_to presentation.author, "#" %>
 						</p>
+						<% end %>
 						<p>
 						<%= sanitize(presentation.description, :tags => %w(p a strong em span)) %>
 						</p><br/ >
@@ -545,7 +550,7 @@
 						<%= award.issuer %>
 					</p>
 					<p>
-						<%= award.date %>
+						<%= award.date.to_s(:job_time) %>
 					</p>
 					<p>
 						<%= award.description %>
@@ -602,3 +607,74 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
+<% if @invite %>
+	<div id="vouch">
+		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
+			Vouch for <%= @teacher.user.first_name %>'s skills
+		</h2>
+		<%= form_tag '/vouch_connection_skills', :class => "skills_form" do %>
+			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<input type="hidden" name="skills" />
+
+			<div class="skill_cloud">
+				<div class="clear">
+					<% @teacher.skills.each do |skill| %>
+						<a href="#" class="skill" id="<%= skill.id %>" name="<%= skill.name %>" ><%= skill.name %></a>
+					<% end %>
+				</div>
+			</div>
+			<input type="submit" style="width:85%" value="I'm Done" />
+
+		<% end %>
+	</div>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var arr = new Array;
+	// Click on a skill and do something
+	$('a.skill').live('click', function(e) {
+		e.preventDefault();
+
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			var x = $(this).attr('id');
+			for(var i=0; i < arr.length; i++){
+				if(arr[i] == x) {
+					arr.splice(i, 1);
+					break;
+				}
+			}
+		}
+		else {
+			$(this).addClass('active');
+			var x = $(this).attr('id');
+			var y = $(this).attr('name');
+			arr.push(x);
+			$("input[name='skills']").val(arr.join(','));
+		}
+
+		return false;
+	});
+
+});
+</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('body').introOverlay({
+				introLength: 10000, // anything numeric no quotes
+				transitionSpeed: 400, // ditto
+				introAutoFade: false, //timed fade on overlay...true or false
+				introCloseBtn: false, //btn to close overlay...true or false
+				introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+				openAnimation: true, //opening animation...true or false
+				introContent: '#vouch', //where the content is at, uses css selector # for id, and . for class
+				cookieActive : false,
+				/* also you can use 'href' to load content for a seperate page..
+				when using href it also uses the class of the clicked element to find the content...
+				it goes like this .load(href class); check source for use */ 
+				introTemplate: 'full', // either 'full' or 'module'
+				introTurnOffLights: false, //turn off and on lights...true or false
+			});
+		});
+	</script>
+<% end %>

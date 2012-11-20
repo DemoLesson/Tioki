@@ -616,6 +616,31 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 			}
 		}
+		.signup-form-schools {
+			position: relative;
+			width: 460px;
+			padding: 20px 30px;
+			top: 90px;
+			left: 20px;
+			background: rgba(29, 29, 29, 0.7);
+			blockquote {
+				font: 32px/1.4 $oswald;
+				color: #fff;
+				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+				margin-bottom: -15px;
+			}
+		}
+		.featured-quote-schools {
+			position: absolute;
+			bottom: 60px;
+			left: 65px;
+			width: 425px;
+			blockquote {
+				font: 32px/1.4 $oswald;
+				color: #fff;
+				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+			}
+		}
 		.featured-box {
 			position: absolute;
 			width: 500px;
