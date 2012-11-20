@@ -1,3 +1,7 @@
+v2.0.38 - Nov 20, 2012  2:40PM PST deployed by Aleks Stanisic
+=============================================================
+* af570ec: Brian Martinez - changes to profile edits and prompts
+
 v2.0.37 - Nov 20, 2012  2:23PM PST deployed by Aleks Stanisic
 =============================================================
 * 60ce7a3: Aleks Stanisic - adding email sharing to discussions, fixed address in all emails
