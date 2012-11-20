@@ -1,3 +1,7 @@
+v2.0.35 - Nov 20, 2012 10:11AM PST deployed by Kelly Becker
+===========================================================
+* cb634c6: Kelly Becker - if a youtube video has been deleted then remove the video locally
+
 v2.0.34 - Nov 19, 2012  5:55PM PST deployed by Aleks Stanisic
 =============================================================
 * c869492: Aleks Stanisic - adding school sign up
