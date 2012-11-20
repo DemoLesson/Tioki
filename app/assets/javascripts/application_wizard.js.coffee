@@ -38,3 +38,7 @@ $ ->
 		for child in $accordian.children('div.data')
 			$(child).slideUp 500 if child != $child[0]
 			$(child).slideDown 500 unless child != $child[0]
+
+	$('form.new_video_uploader').submit (e) ->
+		submit = $('form.new_video_uploader label input[type="submit"]')
+		submit.prop('disabled', true).val("Uploading... This may take a while.")

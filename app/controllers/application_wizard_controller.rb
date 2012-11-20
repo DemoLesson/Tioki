@@ -1,7 +1,9 @@
 class ApplicationWizardController < ApplicationController
 	layout 'wizard'
 
-	def url; '/wizards/application'; end
+	helper_method :url
+
+	def url; currentHost + '/wizards/application'; end
 	def step2_url; url + '/step2'; end
 
 	def step1
@@ -96,7 +98,8 @@ class ApplicationWizardController < ApplicationController
 	end
 
 	def step6
-		
+		@uploader = Video.new.video
+		@uploader.success_action_redirect = new_video_url + '?redirect=' + url + '/step7'
 	end
 
 end

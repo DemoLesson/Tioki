@@ -10,46 +10,38 @@ tr.seeking, tr.student {
 	</div>
 	<div class="clear"></div>
 
-	<div class="seven columns accordian">
+	<div class="seven columns">
 
-		<h2 class="button bdata">A. Select a video from you library</h2>
-		<div class="data">
-			<ul class="videolist">
-				<% User.current.videos.each do |v| %>
-					<li>
-						<fieldset>
-							<legend><%= v.name %></legend>
-							<%= v.embed_code(200) %>
-						</fieldset>
-					</li>
-				<% end %>
-			</ul>
-		</div>
+		<h2>Attach a new video from YouTube or Vimeo</h2>
+		<form action="/add_embed" method="POST">
+			<input type="hidden" name="redirect" value="<%= url + '/step7' %>" />
+			<label>
+				<span>Video URL</span>
+				<input type="text" name="video_embed_url" />
+			</label>
+			<label>
+				<span></span>
+				<input type="submit" class="button large" value="Attach Video &amp; Continue" />
+			</label>
+		</form>
 
-		<h2 class="button bdata">B. Attach a new video from YouTube or Vimeo</h2>
-		<div class="data">
-			Option B
-		</div>
+		<h2>or Upload a new video</h2>
+		<%= direct_upload_form_for @uploader do |f| %>
+			<label>
+				<span>Video File</span>
+				<%= f.file_field :video %>
+			</label>
+		  	<label>
+				<span></span>
+				<input type="submit" class="button large" value="Upload / Attach Video &amp; Continue" />
+			</label>
+			</div> 
+		<% end %>
 
-		<h2 class="button bdata">C. Upload a new video</h2>
-		<div class="data">
-			Option C
-		</div>
-
-		<h2 class="button bdata">D. Skip... We recommend you attach a video.</h2>
-		<div class="data">
-			<a href="step7" class="secondary large button" style="padding:9px 50px;width:auto;">Skip</a>
-		</div>
+		<h2>or skip</h2>
+		<a href="step7" data-confirm="Are you sure? We highly recommend you attach a video." class="large button" style="padding:9px 50px;width:auto;">Skip</a>
 		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">
-		<div class="fyi">
-			<h3><span class="green bold">A Tioki profile helps you</span></h3>
-			<ul>
-				<li>Showcase your talents using video, pictures, & skills tags</li>
-				<li>Establish your online presence as an educator</li>
-				<li>Promote your skills & increase your opportunities</li>
-			</ul>
-		</div>
 	</div>
 </div>

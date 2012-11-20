@@ -4,6 +4,7 @@ class Video < ActiveRecord::Base
 
   # Video Skills
   has_and_belongs_to_many :skills, :join_table => 'videos_skills'
+  has_many :applications
   
   mount_uploader :video, VideoUploader
   
