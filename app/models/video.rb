@@ -218,8 +218,13 @@ class Video < ActiveRecord::Base
       # Get the API Response
       response = details(width, height, output_url)
       
-      # Return HTML Embed Code
-      return response["html"].html_safe
+      begin
+        # Return HTML Embed Code
+        return response["html"].html_safe
+      rescue
+        self.destroy
+        return nil
+      end
     end
 
     if job_status == 'finished'

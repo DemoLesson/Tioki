@@ -1,3 +1,17 @@
+v2.0.36 - Nov 20, 2012 10:22AM PST deployed by Kelly Becker
+===========================================================
+* a407ca0: Kelly Becker - destory video exceptions
+
+v2.0.35 - Nov 20, 2012 10:11AM PST deployed by Kelly Becker
+===========================================================
+* cb634c6: Kelly Becker - if a youtube video has been deleted then remove the video locally
+
+v2.0.34 - Nov 19, 2012  5:55PM PST deployed by Aleks Stanisic
+=============================================================
+* c869492: Aleks Stanisic - adding school sign up
+* 661488a: Elijah Green - Don't automatically create a teacher for each user created
+* 70259e5: Brian Martinez - Revamp of the school side
+
 v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
 =============================================================
 * 1e6d9a3: Aleks Stanisic - fix to tech page

@@ -4,37 +4,41 @@
 		Start Recruiting Top Talent with Tioki
 	</h2>
 	<section class="one-column left-side" >
-		<%= form_tag  :controller => :users, :action => :create_admin do %>
+		<%= form_tag  :controller => :home, :action => :school_signup do %>
 			<fieldset>
-				<small><em>Your Full Name:</em></small>
-          		<%= text_field_tag :name, params[:name],:placeholder => "John Smith" %>
+				<small><em>First Name:</em></small>
+          		<%= text_field_tag :contact_first, params[:contact_first],:placeholder => "Abe" %>
 			</fieldset>
-		
+
+			<fieldset>
+				<small><em>Last Name:</em></small>
+				<%= text_field_tag :contact_last, params[:contact_last], :placeholder => "Lincoln" %><br />
+			</fieldset>
+					
     		<fieldset>
 				<small><em>School/Company Name:</em></small>
-				<%= text_field_tag :schoolname, params[:schoolname],:placeholder => "Los Angeles School District" %>
+				<%= text_field_tag :name, params[:name],:placeholder => "Los Angeles School District" %>
 			</fieldset>
 
 			<fieldset>
 				<small><em>Your Email Address:</em></small>
 				<%= text_field_tag :email, params[:email], :placeholder => "john@lausd.org" %><br />
 			</fieldset>
-
-			<fieldset>
-				<small><em>Phone Number:</em></small>
-				<%= text_field_tag :phonenumber, params[:phonenumber], :placeholder => "(323) 555-5555" %><br />
-			</fieldset>
 		
 			<fieldset>
 				<small><em>Password:</em></small>
-				<%= password_field_tag :password, params[:password], :placeholder => "********" %><br />
-			</fieldset>
-
-			<fieldset>
-				<small><em>Confirm Password:</em></small>
-				<%= password_field_tag :password_confirmation, params[:password_confirmation],:placeholder => "********" %>	
+				<%= password_field_tag :pass, params[:pass], :placeholder => "********" %><br />
 			</fieldset>
 			
+			<fieldset>
+				<small><em>Confirm Password:</em></small>
+				<%= password_field_tag :confirm_pass, params[:confirm_pass], :placeholder => "********" %><br />
+			</fieldset>
+			
+			<fieldset>
+				<small><em>Type:</em></small><br/>
+				<%= select(:school, :school_type, { "District" => "1", "Charter" => "2", "Private" => "3", "Other" => "4" }) %><br />
+			</fieldset>
 			<p>
 				<%= submit_tag "Start Posting", :class => "button" %>
 			</p>
