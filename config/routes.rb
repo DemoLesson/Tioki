@@ -64,6 +64,8 @@ Preview::Application.routes.draw do
 	match 'edit_comment/:id' => 'discussions#edit_comment'
 	match 'update_comment/:id' => 'discussions#update_comment'
 	match 'discussions/:id/invite' => 'discussions#invite'
+	match 'discussions/:id/inviting' => 'discussions#inviting'
+	match ':id/discussion_email' => 'discussions#discussion_email'
 
 	# Match Technologies
 	match 'technologies/:id/comment' => 'technologies#comment'
