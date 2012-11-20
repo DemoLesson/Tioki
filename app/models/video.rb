@@ -217,6 +217,7 @@ class Video < ActiveRecord::Base
 
       # Get the API Response
       response = details(width, height, output_url)
+      self.destroy if response["error"] == "Not Found"
       
       # Return HTML Embed Code
       return response["html"].html_safe
