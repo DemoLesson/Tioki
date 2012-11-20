@@ -1,39 +1,51 @@
-<div id="wrapper">
-
-<h1>Demo Lesson School Sign Up</h1>
-
- Complete the fields below to sign up for your Demo Lesson account!</br></br>
-
- <%= form_tag  :controller => :users, :action => :create_admin do %>
-
-	<div class="field">
-          <%= text_field_tag :name, params[:name],:placeholder => "Your Name", :size => 44 %><br />
-	</div>
+<section id="main-content" class="inner-content signup-page" style="height:400px">
+	
+	<h2>
+		Start Recruiting Top Talent with Tioki
+	</h2>
+	<section class="one-column left-side" >
+		<%= form_tag  :controller => :users, :action => :create_admin do %>
+			<fieldset>
+				<small><em>Your Full Name:</em></small>
+          		<%= text_field_tag :name, params[:name],:placeholder => "John Smith" %>
+			</fieldset>
 		
-    <div class="field">
-		<%= text_field_tag :schoolname, params[:schoolname],:placeholder => "Organization/School Name", :size => 44 %><br />
-	</div>
+    		<fieldset>
+				<small><em>School/Company Name:</em></small>
+				<%= text_field_tag :schoolname, params[:schoolname],:placeholder => "Los Angeles School District" %>
+			</fieldset>
 
+			<fieldset>
+				<small><em>Your Email Address:</em></small>
+				<%= text_field_tag :email, params[:email], :placeholder => "john@lausd.org" %><br />
+			</fieldset>
+
+			<fieldset>
+				<small><em>Phone Number:</em></small>
+				<%= text_field_tag :phonenumber, params[:phonenumber], :placeholder => "(323) 555-5555" %><br />
+			</fieldset>
 		
-	<div class="field">
-		<%= text_field_tag :email, params[:email], :placeholder => "Email", :size => 44 %><br />
-	</div>
+			<fieldset>
+				<small><em>Password:</em></small>
+				<%= password_field_tag :password, params[:password], :placeholder => "********" %><br />
+			</fieldset>
 
-	<div class="field">
-		<%= text_field_tag :phonenumber, params[:phonenumber], :placeholder => "Phone Number", :size => 44 %><br />
-	</div>
-		
-	<div class="field">
-		<%= password_field_tag :password, params[:password], :placeholder => "Password", :size => 44 %><br />
-	</div>
-
-	<div class="field">
-		<%= password_field_tag :password_confirmation, params[:password_confirmation],:placeholder => "Password Confirmation", :size => 44 %><br />
-	</div>
-
-
-	<p><%= submit_tag "Sign Up!", :class => "btn btn-success" %></p>
-	  
-<% end %>
-
-</div>
+			<fieldset>
+				<small><em>Confirm Password:</em></small>
+				<%= password_field_tag :password_confirmation, params[:password_confirmation],:placeholder => "********" %>	
+			</fieldset>
+			
+			<p>
+				<%= submit_tag "Start Posting", :class => "button" %>
+			</p>
+		<% end %>	
+	</section>
+	
+	<section class="two-column right-side" style="margin-top:-10px">
+		<h3 style="margin-left: 150px;color:#2AA99B">
+			Start recruiting amazing educators today.
+		</h3>
+			<%= image_tag 'tioki/connected_map.png', :style => "width:500px;margin-left:100px" %>
+	</section>
+	
+</section>

@@ -146,6 +146,9 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
   def school_thankyou
   end
   
+  def school_pricing
+  end
+  
   def dmca
   end
   

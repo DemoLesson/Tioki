@@ -586,6 +586,17 @@ span.connection_degree {
 			border-top: 1px solid $ltgray;
 		}
 	}
+	a.refer-button {
+		display: block;
+		margin: 0 0 10px 0;
+		width: 150px;
+		padding: 5px 0;
+		background: $green;
+		color: #fff;
+		font: 16px/1.2 $oswald;
+		text-align: center;
+		text-shadow: none;
+	}
 	& > ul {
 		& > li {
 			padding: 12px 50px 12px 15px !important;
