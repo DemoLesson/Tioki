@@ -152,7 +152,7 @@ jQuery.fn.introOverlay = function(options){
         if (options.introCloseBtn){
             if(options.introTemplate == 'module'){
                 
-                $('#introContent').append('<div id="introClose">Start Connecting</div>'); 
+                $('#introContent').append('<div id="introClose">Test</div>'); 
                 
             }else{
                 
