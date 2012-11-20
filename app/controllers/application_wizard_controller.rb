@@ -95,4 +95,8 @@ class ApplicationWizardController < ApplicationController
 		end
 	end
 
+	def step6
+		
+	end
+
 end

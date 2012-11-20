@@ -30,3 +30,11 @@ $ ->
 
 			today = "#{m}/#{d}/#{y}"
 			$dp2.val today
+
+	$accordian = $('div.accordian')
+	$accordian.children('h2.bdata').click (e) ->
+		$child = $(@).next('div.data')
+
+		for child in $accordian.children('div.data')
+			$(child).slideUp 500 if child != $child[0]
+			$(child).slideDown 500 unless child != $child[0]

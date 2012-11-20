@@ -1,0 +1,55 @@
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, would you like to upload or use a demo lesson video with this application?</h1>
+	</div>
+	<div class="clear"></div>
+
+	<div class="seven columns accordian">
+
+		<h2 class="button bdata">A. Select a video from you library</h2>
+		<div class="data">
+			<ul class="videolist">
+				<% User.current.videos.each do |v| %>
+					<li>
+						<fieldset>
+							<legend><%= v.name %></legend>
+							<%= v.embed_code(200) %>
+						</fieldset>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+
+		<h2 class="button bdata">B. Attach a new video from YouTube or Vimeo</h2>
+		<div class="data">
+			Option B
+		</div>
+
+		<h2 class="button bdata">C. Upload a new video</h2>
+		<div class="data">
+			Option C
+		</div>
+
+		<h2 class="button bdata">D. Skip... We recommend you attach a video.</h2>
+		<div class="data">
+			<a href="step7" class="secondary large button" style="padding:9px 50px;width:auto;">Skip</a>
+		</div>
+		<div style="clear:both;height:40px;"></div>
+	</div>
+	<div class="four columns">
+		<div class="fyi">
+			<h3><span class="green bold">A Tioki profile helps you</span></h3>
+			<ul>
+				<li>Showcase your talents using video, pictures, & skills tags</li>
+				<li>Establish your online presence as an educator</li>
+				<li>Promote your skills & increase your opportunities</li>
+			</ul>
+		</div>
+	</div>
+</div>

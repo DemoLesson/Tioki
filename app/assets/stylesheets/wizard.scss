@@ -179,47 +179,66 @@ body.wizard {
 }
 
 section.skill-groups div.badge {
-		float: right;
-		height: 45px;
-		width: 45px;
-		border-radius: 45px;
-		background: #3b3b3b url(image_path('card_badges/teacher-leadership.png')) no-repeat center center;
-		margin: 10px;
-		position: relative;
-		&:hover {
-			background-color: #0084af;
-		}
-		&.assessment {
-			background-image: url(image_path('card_badges/assessment.png'));
-		}
-		&.career-development {
-			background-image: url(image_path('card_badges/career-development.png'));
-		}
-		&.culture-building {
-			background-image: url(image_path('card_badges/culture-building.png'));
-		}
-		&.lesson-materials {
-			background-image: url(image_path('card_badges/lesson-materials.png'));
-		}
-		&.lesson-plans {
-			background-image: url(image_path('card_badges/lesson-plans.png'));
-		}
-		&.life-skills {
-			background-image: url(image_path('card_badges/life-skills.png'));
-		}
-		&.pedagogy-themes {
-			background-image: url(image_path('card_badges/pedagogy-themes.png'));
-		}
-		&.specialized-training {
-			background-image: url(image_path('card_badges/specialized-training.png'));
-		}
-		&.teacher-leadership {
-			background-image: url(image_path('card_badges/teacher-leadership.png'));
-		}
-		&.technology {
-			background-image: url(image_path('card_badges/technology.png'));
-		}
-		&.long {
-			float: none;
-		}
+	float: right;
+	height: 45px;
+	width: 45px;
+	border-radius: 45px;
+	background: #3b3b3b url(image_path('card_badges/teacher-leadership.png')) no-repeat center center;
+	margin: 10px;
+	position: relative;
+	&:hover {
+		background-color: #0084af;
 	}
+	&.assessment {
+		background-image: url(image_path('card_badges/assessment.png'));
+	}
+	&.career-development {
+		background-image: url(image_path('card_badges/career-development.png'));
+	}
+	&.culture-building {
+		background-image: url(image_path('card_badges/culture-building.png'));
+	}
+	&.lesson-materials {
+		background-image: url(image_path('card_badges/lesson-materials.png'));
+	}
+	&.lesson-plans {
+		background-image: url(image_path('card_badges/lesson-plans.png'));
+	}
+	&.life-skills {
+		background-image: url(image_path('card_badges/life-skills.png'));
+	}
+	&.pedagogy-themes {
+		background-image: url(image_path('card_badges/pedagogy-themes.png'));
+	}
+	&.specialized-training {
+		background-image: url(image_path('card_badges/specialized-training.png'));
+	}
+	&.teacher-leadership {
+		background-image: url(image_path('card_badges/teacher-leadership.png'));
+	}
+	&.technology {
+		background-image: url(image_path('card_badges/technology.png'));
+	}
+	&.long {
+		float: none;
+	}
+}
+
+ul.videolist {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.accordian {
+
+	h2.bdata {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+
+	div.data {
+		display: none;
+	}
+
+}
