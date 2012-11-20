@@ -1,3 +1,28 @@
+v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
+=============================================================
+* 1e6d9a3: Aleks Stanisic - fix to tech page
+
+v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
+=============================================================
+* f9661c7: Aleks Stanisic - changes to connection action in tech page
+
+v2.0.31 - Nov 19, 2012  2:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 37d58c2: Aleks Stanisic - changes to dashboard and presentations
+
+v2.0.30 - Nov 19, 2012  1:04PM PST deployed by Aleks Stanisic
+=============================================================
+* a5e6b71: Aleks Stanisic - changes to awards are presentations time input/output
+
+v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
+=============================================================
+* 46159e5: Aleks Stanisic - style change to schedule button
+
+v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
+=============================================================
+* d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page
+* 189e2ac: Elijah Green - Add user_id as a getActivity condition
+
 v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
 =============================================================
 * 6197244: Aleks Stanisic - changes to events
