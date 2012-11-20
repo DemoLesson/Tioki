@@ -127,11 +127,20 @@
 
 				<!-- What is and how does tioki work -->
 				<% if self.current_user.nil? %>
-					<h4 style="float:right;margin:20px 100px 0px 0px;">
-					<a href="/static/whatistioki" style="color:#4D4D4D;margin-right:15px">What is "Tioki?"</a>
-					<a href="/static/howitworks" style="color:#4D4D4D;margin-right:15px">How Tioki Works?</a>
-					<a href="/static/ourteam" style="color:#4D4D4D">Who are We?</a>
-					</h4>
+					<% if request.fullpath == "/forschools" || request.fullpath == "/school_signup" || request.fullpath == "/howitworks/schools" || request.fullpath == "/schoolpricing" %>
+						<h4 style="float:right;margin:20px 100px 0px 0px;">
+							<a href="/howitworks/schools" style="color:#4D4D4D;margin-right:7px">How it Works</a>
+							<span style="margin-right:7px">|</span>
+							<a href="/schoolpricing" style="color:#4D4D4D">Pricing</a>
+						</h4>
+					<% else %>
+						<h4 style="float:right;margin:20px 100px 0px 0px;">
+							<a href="/static/whatistioki" style="color:#4D4D4D;margin-right:15px">What is "Tioki?"</a>
+							<a href="/static/howitworks" style="color:#4D4D4D;margin-right:15px">How Tioki Works?</a>
+							<a href="/static/ourteam" style="color:#4D4D4D">Who are We?</a>
+						</h4>
+					<% end %>
+				
 					<a href="#" id="drawer-handle" class="button">
 					Login
 					</a>

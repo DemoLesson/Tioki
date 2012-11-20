@@ -321,6 +321,7 @@ Preview::Application.routes.draw do
 	match 'create_admin' => 'users#create_admin'
 	match 'my_jobs' => 'jobs#my_jobs'
 	match 'forschools' => 'home#school_splash'
+	match 'schoolpricing' => 'home#school_pricing'
 	match 'my_jobs/:school_id' => 'jobs#my_jobs'
 	match 'my_schools' => 'schools#my_schools'
 	match 'add_school' => 'schools#add_school'
