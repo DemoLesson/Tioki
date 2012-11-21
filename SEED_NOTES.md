@@ -1,3 +1,46 @@
+v2.0.38 - Nov 20, 2012  2:40PM PST deployed by Aleks Stanisic
+=============================================================
+* af570ec: Brian Martinez - changes to profile edits and prompts
+
+v2.0.37 - Nov 20, 2012  2:23PM PST deployed by Aleks Stanisic
+=============================================================
+* 60ce7a3: Aleks Stanisic - adding email sharing to discussions, fixed address in all emails
+* 3c0ab31: Brian Martinez - adding pronounciation to what is tioki page
+
+v2.0.36 - Nov 20, 2012 10:22AM PST deployed by Kelly Becker
+===========================================================
+* a407ca0: Kelly Becker - destory video exceptions
+
+v2.0.35 - Nov 20, 2012 10:11AM PST deployed by Kelly Becker
+===========================================================
+* cb634c6: Kelly Becker - if a youtube video has been deleted then remove the video locally
+
+v2.0.34 - Nov 19, 2012  5:55PM PST deployed by Aleks Stanisic
+=============================================================
+* c869492: Aleks Stanisic - adding school sign up
+* 661488a: Elijah Green - Don't automatically create a teacher for each user created
+* 70259e5: Brian Martinez - Revamp of the school side
+
+v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
+=============================================================
+* 1e6d9a3: Aleks Stanisic - fix to tech page
+
+v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
+=============================================================
+* f9661c7: Aleks Stanisic - changes to connection action in tech page
+
+v2.0.31 - Nov 19, 2012  2:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 37d58c2: Aleks Stanisic - changes to dashboard and presentations
+
+v2.0.30 - Nov 19, 2012  1:04PM PST deployed by Aleks Stanisic
+=============================================================
+* a5e6b71: Aleks Stanisic - changes to awards are presentations time input/output
+
+v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
+=============================================================
+* 46159e5: Aleks Stanisic - style change to schedule button
+
 v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
 =============================================================
 * d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page

@@ -150,13 +150,14 @@
 					<% end %><br />
 					<%= user.teacher.location %><br /><br />
 					<div>
-						<% if self.current_user %>
-							<% if user.teacher.id == self.current_user.id  %>
-							<% elsif Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
-								<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
-							<% else %>
-								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button" %>
-							<% end%>
+						<% if !self.current_user.nil? && self.current_user.teacher %>
+							<% unless self.current_user.teacher == user.teacher%>
+								<% if Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
+									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
+								<% else %>
+									<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button" %>
+								<% end%>
+							<% end %>
 						<% end %>
 					</div>
 				</div>

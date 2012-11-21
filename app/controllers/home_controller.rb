@@ -135,6 +135,31 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
   end
   
   def school_signup
+    # Creating Free School Account
+    if request.post?
+			user = User.new(:first_name => params[:contact_first],
+											:last_name => params[:contact_last],
+											:email => params[:email],
+											:password => params[:pass],
+											:password_confirmation => params[:confirm_pass])
+			if user.save
+				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
+				if school.save
+					o=Organization.create
+					o.update_attribute(:owned_by, user.id)
+
+					flash[:notice] = "The account was successfully created"
+  				# Authenticate the user
+  				session[:user] = User.authenticate(user.email, user.password)
+  				redirect_to :root
+				else
+					user.destroy
+					flash[:notice] = "The account school could not be created"
+				end
+			else
+				flash[:notice] = "The account could not be created."
+			end
+		end
   end
   
   def customers
@@ -146,10 +171,15 @@ connect and the profile is super easy to make. Check it out!\n\n-#{name}"
   def school_thankyou
   end
   
+  def school_pricing
+  end
+  
   def dmca
   end
   
   def school_signup_email
+    
+    #Emailing Us About The New School Account
      @signup = params[:signup]
      @name = @signup[:name]
      @schoolname = @signup[:schoolname]

@@ -40,7 +40,9 @@
 						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
 						<% if self.current_user %>
 							<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
+							<a href="<%= discussion_path(@discussion) + '/inviting'%>"><%= image_tag('tioki/icons/email.png') %></a>
 						<% end %>
+						
 					</div>
 			</section>
 
