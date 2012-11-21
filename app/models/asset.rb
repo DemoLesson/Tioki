@@ -1,7 +1,7 @@
 class Asset < ActiveRecord::Base
 	belongs_to :teacher
-	belongs_to :job
 	belongs_to :application
+	belongs_to :job
 
 	validates_presence_of :name, :file, :alert => 'You need to select a file to upload and enter the document name.'
 
@@ -17,13 +17,18 @@ class Asset < ActiveRecord::Base
 		:fog_directory => 'tioki',
 		:path => 'assets/:basename.:extension'
 
+	before_create :randomize_file_name
+	before_destroy :delete_file
 
-		before_create :randomize_file_name
-
-		private
+	private
 
 		def randomize_file_name
 			extension = File.extname(file_file_name).downcase
 			self.file.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(16)}_#{file_file_name}")
+		end
+
+		# Delete file off S3
+		def delete_file
+			self.file.destroy
 		end
 end

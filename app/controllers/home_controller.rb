@@ -30,7 +30,8 @@ class HomeController < ApplicationController
         @applicants = @jobs.inject(0) do |total, job|
           total += job.new_applicants.count
         end         
-      elsif not self.current_user.teacher.nil?
+
+       elsif not self.current_user.teacher.nil?
 
         # Get whiteboard activity
         @whiteboard = Array.new

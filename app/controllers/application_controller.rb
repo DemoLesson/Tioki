@@ -14,6 +14,17 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
 	before_filter :sweep_session
+	
+	helper_method :currentHost
+	helper_method :currentURL
+
+	def currentHost
+		"#{request.protocol}#{request.host_with_port}"
+	end
+
+	def currentURL
+		"#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+	end
 
 	def sweep_session
 		Session.sweep("1 hour")
