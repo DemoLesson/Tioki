@@ -5,17 +5,44 @@ class ApplicationWizardController < ApplicationController
 
 	def url; currentHost + '/wizards/application'; end
 	def step2_url; url + '/step2'; end
+	def step3_url; url + '/step3'; end
+
+	def index
+		redirect_to :root if params[:job].nil?
+
+		# Create a new application
+		@app = Application.new
+		@app.job_id = params[:job]
+
+		# Let the user know if we have an issue creation the application record
+		flash[:error] = "There was an error creating your application" unless @app.save
+
+		# Add the application id to the session
+		session[:application] = @app.id
+
+		if User.current.nil?
+			redirect_to :step1
+		else
+			@app.update_attribute(:teacher_id, User.current.teacher.id)
+			redirect_to :step2
+		end
+	end
 
 	def step1
+		_loadSession
+
 		if request.post?
 			user = User.create(params[:user])
 			session[:user] = User.authenticate(user.email, user.password)
+			@app.update_attribute(:teacher_id, User.current.teacher.id)
 
 			return redirect_to :step2
 		end
 	end
 
 	def step2
+		_loadSession
+
 		if request.post?
 			user = User.current
 
@@ -37,6 +64,8 @@ class ApplicationWizardController < ApplicationController
 	end
 
 	def step3
+		_loadSession
+
 		if request.post?
 			user = User.current
 
@@ -52,6 +81,8 @@ class ApplicationWizardController < ApplicationController
 	end
 
 	def step4
+		_loadSession
+
 		if request.post?
 			user = User.current
 
@@ -61,23 +92,7 @@ class ApplicationWizardController < ApplicationController
 	end
 
 	def step5
-		if session[:application].nil?
-
-			# Create a new application
-			@app = Application.new
-			@app.teacher_id = User.current.teacher.id
-			@app.job_id = session[:job] || 1
-
-			# Let the user know if we have an issue creation the application record
-			flash[:error] = "There was an error creating your application" unless @app.save
-
-			# Add the application id to the session
-			session[:application] = @app.id
-		else
-
-			# Load the application from session
-			@app = Application.find(session[:application])
-		end
+		_loadSession
 
 		if request.post?
 
@@ -98,8 +113,45 @@ class ApplicationWizardController < ApplicationController
 	end
 
 	def step6
+		_loadSession
+
 		@uploader = Video.new.video
-		@uploader.success_action_redirect = new_video_url + '?redirect=' + url + '/step7'
+		@uploader.success_action_redirect = new_video_url + '?redirect=' + url + '/step7&session=true'
+	end
+
+	def step7
+		_loadSession
+
+		unless session[:video].nil?
+			@app.video_id = session[:video]
+			@app.save
+		end
+	end
+
+	def complete
+		_loadSession
+
+		if @app.update_attributes({:submitted => true, :status => 1, :viewed => 0})
+			flash[:success] = "Your application has been submitted"
+		else
+			flash[:error] = "There was an issue submitting your application"
+		end
+		redirect_to :root
+	end
+
+	def _loadSession
+		if session[:application].nil?
+
+			# Let the user know if we have an issue creation the application record
+			flash[:error] = "Unable to load the application in question."
+
+			# Add the application id to the session
+			redirect_to :root
+		else
+
+			# Load the application from session
+			@app = Application.find(session[:application])
+		end
 	end
 
 end

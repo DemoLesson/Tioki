@@ -1,7 +1,7 @@
 class AddVideoIdToApplications < ActiveRecord::Migration
   def up
   	add_column :applications, :video_id, :integer
-  	add_column :applications, :submitted, :integer
+  	add_column :applications, :submitted, :integer, :default => 0
   end
 
   def down

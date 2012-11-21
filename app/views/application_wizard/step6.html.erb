@@ -15,6 +15,7 @@ tr.seeking, tr.student {
 		<h2>Attach a new video from YouTube or Vimeo</h2>
 		<form action="/add_embed" method="POST">
 			<input type="hidden" name="redirect" value="<%= url + '/step7' %>" />
+			<input type="hidden" name="session" value="true" />
 			<label>
 				<span>Video URL</span>
 				<input type="text" name="video_embed_url" />
@@ -35,7 +36,6 @@ tr.seeking, tr.student {
 				<span></span>
 				<input type="submit" class="button large" value="Upload / Attach Video &amp; Continue" />
 			</label>
-			</div> 
 		<% end %>
 
 		<h2>or skip</h2>
