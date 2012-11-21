@@ -147,6 +147,10 @@ class TeachersController < ApplicationController
 	def remove_education
 		@education = Education.find_by_id(params[:id], :limit => 1)
 		@education.destroy
+
+		unless params[:redirect].nil?
+			return redirect_to params[:redirect]
+		end
 		
 		respond_to do |format|
 			format.html { redirect_to :education }
@@ -194,6 +198,10 @@ class TeachersController < ApplicationController
 	def remove_experience
 		@experience = Experience.find_by_id(params[:id], :limit => 1)
 		@experience.destroy
+
+		unless params[:redirect].nil?
+			return redirect_to params[:redirect]
+		end
 		
 		respond_to do |format|
 			format.html { redirect_to :experience }
@@ -374,8 +382,12 @@ class TeachersController < ApplicationController
 	def purge
 		@teacher = Teacher.find_by_id(self.current_user.teacher.id)
 		@asset = Asset.find_by_id(params[:id])
-		if @asset.teacher_id == self.current_user.teacher.id
+		if @asset.teacher_id == User.current.teacher.id
 			@asset.destroy
+
+			unless params[:redirect].nil?
+				return redirect_to params[:redirect]
+			end
 		
 			respond_to do |format|
 			 format.html { redirect_to(:back, :notice => 'Attachment removed.') }
@@ -684,6 +696,10 @@ class TeachersController < ApplicationController
 				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
 				session[:rtoken] = request_token.token
 				session[:rsecret] = request_token.secret
+
+				# Save a redirect url for the return
+				session[:linkedin_redirect] = params[:redirect] unless params[:redirect].nil?
+				
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
 				redirect_to '/profile/'+self.current_user.teacher.url

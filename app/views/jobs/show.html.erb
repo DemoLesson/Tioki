@@ -19,7 +19,7 @@
 		<% end %>
 		<% else %>
 		<% if self.current_user.teacher.tfa == 1 %> <% else %>
-		<%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "action-button bg-salmon"} %><% end %>
+		<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %><% end %>
 		<% end %>
 		<% else %>
 		<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "button"} %>

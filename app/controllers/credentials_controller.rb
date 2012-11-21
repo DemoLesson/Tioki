@@ -76,6 +76,10 @@ class CredentialsController < ApplicationController
     @credential = Credential.find(params[:id])
     @credential.destroy
 
+    unless params[:redirect].nil?
+      return redirect_to params[:redirect]
+    end
+
     respond_to do |format|
       format.html { redirect_to(credentials_url) }
       format.xml  { head :ok }

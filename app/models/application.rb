@@ -2,6 +2,8 @@ class Application < ActiveRecord::Base
   has_many :assets, :dependent => :destroy
   belongs_to :job
 
+  has_one :video
+
   scope :is_active, where(:status => 1)
 
   def self.mine(args = {})
