@@ -21,6 +21,7 @@ set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic
 set :branch, "master" if Rubber.env == 'production'
 set :branch, `git symbolic-ref --short -q HEAD`.strip if Rubber.env != 'production'
 set :git_shallow_clone, 1
+set :deploy_via, :export
 
 # Run system level server configuration as root (no pass rqd)
 set :user, 'root'
