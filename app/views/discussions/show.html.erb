@@ -90,7 +90,7 @@
 				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
 					<a name="c<%= comment.id %>"></a>
 
-					<div <% if comment.child? %>style="margin-left:65px"<% end %>>
+					<div <% if comment.child? %>style="margin-left:65px"<% end %> class="comments">
 						<div class="profile-thumb-small">
 							<% if comment.user %>
 							<% if comment.user.avatar? %>
@@ -131,6 +131,18 @@
 					<p style="float:left;margin-left:65px">
 						<%= link_to 'Reply', "/welcome_wizard?x=step1&discussion_reply" %>
 					</p>
+					<% end %>
+
+					<% if self.current_user %>
+						<div class="bar">
+							<span class="icons">
+								<% if self.current_user %>
+									<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
+										<span class="iconic star"><%= favorites(comment) %></span>
+									</a>
+								<% end %>
+							</span>
+						</div>
 					<% end %>
 						
 				</li>
