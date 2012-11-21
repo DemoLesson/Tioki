@@ -1,3 +1,8 @@
+v2.1.1 - Nov 20, 2012  5:08PM PST deployed by Kelly Becker
+==========================================================
+* 7f8636b: Kelly Becker - adding more workers
+* 520910c: Kelly Becker - new window
+
 v2.1.0 - Nov 20, 2012  4:33PM PST deployed by Kelly Becker
 ==========================================================
 * bcd7e18: Kelly Becker - dun dun dun.... job application walkthrouhg
