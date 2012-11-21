@@ -1,3 +1,16 @@
+v2.1.0 - Nov 20, 2012  4:33PM PST deployed by Kelly Becker
+==========================================================
+* bcd7e18: Kelly Becker - dun dun dun.... job application walkthrouhg
+* be2a717: Kelly Becker - almost done
+* 74656a3: Kelly Becker - added step6 to the source needs a bit more work though *yawn*
+* a87a049: Kelly Becker - attachments for applications
+* ad8afcb: Kelly Becker - credentials in the wizard
+* 2497302: Kelly Becker - step4 application process (education)
+* 1a113c6: Kelly Becker - updated js
+* b479ee6: Kelly Becker - progress;
+* c591f77: Kelly Becker - progress
+* 406cb5c: Kelly Becker - got import from linkedin working for the application wizard
+
 v2.0.38 - Nov 20, 2012  2:40PM PST deployed by Aleks Stanisic
 =============================================================
 * af570ec: Brian Martinez - changes to profile edits and prompts
