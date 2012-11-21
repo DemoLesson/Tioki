@@ -271,8 +271,7 @@ class ConnectionsController < ApplicationController
 			end
 		end
 
-		# Take us home
-		redirect_to :root, :notice => notice.join(' ')
+		redirect_to "/inviteconnections", :notice => notice.join(' ')
 	end
 
 	def linkinvite
