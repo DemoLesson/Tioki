@@ -455,6 +455,37 @@ class WelcomeWizardController < ApplicationController
 		return render :json => {}
 	end
 
+	def get_twitter_contacts
+		client = Twitter::Client.new(
+			:oauth_token => self.current_user.twitter_oauth_token,
+			:oauth_token_secret => self.current_user.twitter_oauth_secret
+		)
+		pcontacts = []
+
+		followers = client.follower_ids
+
+		#user lookup
+		users = client.users(followers.ids)
+
+		contacts = { "type" => 'success', "data" => pcontacts}
+
+		return render :json => contacts
+	end
+
+	def direct_messages_twitter_contacts
+		client = Twitter::Client.new(
+			:oauth_token => self.current_user.twitter_oauth_token,
+			:oauth_token_secret => self.current_user.twitter_oauth_secret
+		)
+
+		params[:twitter_friend].each do |contact|
+			#contact is screenname
+			client.direct_message_create(contact, "Connect with me at tioki.com via @tioki")
+		end
+		#Send message back that we are successful
+	end
+
+
 	# Catch rails args
 	def create(*args)
 		self.send('index', *args)

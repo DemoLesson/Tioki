@@ -43,6 +43,15 @@ class AuthenticationsController < ApplicationController
 			session[:twitter_action] = nil
 
 			return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
+		elsif session[:twitter_action] == "get_contacts"
+			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
+			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
+
+			if session[:wizard_url]
+				return redirect_to "#{session[:wizard_url]}&twitter=true"
+			else
+				return redirect_to "/welcome_wizard?x=step4&twitter=true"
+			end
 		end
 
 		#no longer need these session variables
