@@ -305,6 +305,37 @@ class UserMailer < ActionMailer::Base
 
 		return mail
 	end
+	
+	def discussion_invite_email(teachername, emails, message, discussion, user = nil)
+
+		# Set variables for use inside the email itself
+		@teachername = teachername
+		@message = message
+
+		# Source the discussion itself
+		@discussion = discussion
+
+		# Get the refering ID
+		@referer = user.id unless user.nil?
+
+		# Set the subject for the email
+		subject =  @teachername+' wants you to check out this Discussion on Tioki!'
+
+		# Which template to use
+		ab = Abtests.use("email:discussion_invite", 1).to_s
+		template = "discussion_invite_" + ab
+
+		# Send out the email
+		mail = mail(:to => emails, :subject => subject) do |f|
+			f.html { render template }
+		end
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('discussion_invite_email:ab-' + ab)
+		end
+
+		return mail
+	end
 
 	# @Aleks don't think these are being sent
 	def school_signup_email(name, schoolname, email, phonenumber, school)

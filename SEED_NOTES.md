@@ -1,3 +1,12 @@
+v2.0.38 - Nov 20, 2012  2:40PM PST deployed by Aleks Stanisic
+=============================================================
+* af570ec: Brian Martinez - changes to profile edits and prompts
+
+v2.0.37 - Nov 20, 2012  2:23PM PST deployed by Aleks Stanisic
+=============================================================
+* 60ce7a3: Aleks Stanisic - adding email sharing to discussions, fixed address in all emails
+* 3c0ab31: Brian Martinez - adding pronounciation to what is tioki page
+
 v2.0.36 - Nov 20, 2012 10:22AM PST deployed by Kelly Becker
 ===========================================================
 * a407ca0: Kelly Becker - destory video exceptions
