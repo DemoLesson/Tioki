@@ -95,31 +95,44 @@
 		</ul>
 	</nav>
 	<section class="panels">
-		<section class="two-column left-side" style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0px 0px 10px 0px">
-			<section style="margin: 10px 0px 0px 10px">
+		<!-- Populating the Group Member list -->
+		<section class="two-column left-side" style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0 0 0 0">
+			<section style="margin: 10px 10px 0px 10px">
 				<% @group.users.avatar?.each do |user| %>
 					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.teacher.url %>
-						<section style="width:575px;margin:-80px 0px 0px 80px">
-							<p style="width:auto">	<%= link_to user.name, '#', :style => "color:#F66C4C;font-weight:bold" %>
+						<section style="width:600px;margin:-80px 0px 0px 80px">
+							<p style="width:auto">	<%= link_to user.name, '/profile/' + user.teacher.url, :style => "color:#F66C4C;font-weight:bold" %>
+								
+								<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
 								<span style="float:right;">
 									<% if !self.current_user.nil? && self.current_user.teacher %>	
-										<% unless self.current_user == user.teacher.user %>
-											<% if @my_connections.include? user.teacher.user_id %>
-												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+										<% unless self.current_user.teacher == user.teacher%>
+											<% if Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
+												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s } %>
 											<% else %>
-												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
-												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id } %>
 											<% end %>
 										<% end %>
-
-									<% else %>
-										<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
 									<% end %>
 								</span>
 								<br/>
+								<!-- Pulling the teachers Position -->
 								<% if user.teacher.position.present?  && user.teacher.school.present? %>
 									<%= user.teacher.position %> at <%= user.teacher.school %>
-								<% end %><br />
+								<% end %>
+								<!--
+								 Allowing an admin to create other admins 
+								<span style="float:right">
+									<% if self.current_user %>
+										<% if @admin %>
+											<% unless self.current_user.teacher == user.teacher%>
+												<%= link_to "(Make Admin)", '#' %>
+											<% end %>
+										<% end %>
+									<% end %>
+								</span>	
+								<br /> -->
+								<!-- Pulling the Teacher's Location -->
 								<% if user.teacher.location.present? %>
 									<%= user.teacher.location %>
 								<% end %><br /><br />
@@ -128,6 +141,22 @@
 				<% end %>
 			</section>
 		</section>
+		<!--<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
+			<section style="margin-left:20px">
+				<h3 class="bottom-line">
+					Group Administrators
+				</h3>
+				<% @group.users.avatar?.each do |user| %>
+					<% if user.teacher == @admin %>
+						<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.teacher.url %>
+							<p style="margin:-40px 0 5px 50px">
+								<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
+								<%= user.teacher.location %>
+							</p>
+					<% end %>
+				<% end %>
+			</section>
+		</section>-->
 	</section>
 </section>
 
