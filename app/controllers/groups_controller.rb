@@ -272,10 +272,10 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 		if @group.user_permissions.to_hash['administrator'] || User.current.is_admin
 			@group = Group.find(params[:id])
+			message = "To all members of <a href='http://#{request.host_with_port}/groups/#{@group.id}'>#{@group.name}</a>: " + params[:message][:body]
+
 			@group.users.each do |user|
-				if user != self.current_user
-					Message.send!(user, :subject => params[:message][:body], :body => params[:message][:body])
-				end
+				Message.send!(user, :subject => params[:message][:body], :body => message)
 			end
 			redirect_to @group, :notice => "Messages successfully sent."
 		else
