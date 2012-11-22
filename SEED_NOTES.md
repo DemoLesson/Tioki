@@ -1,3 +1,7 @@
+v2.1.3 - Nov 21, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 1cc766c: Elijah Green - Groups message has link to the group
+
 v2.1.2 - Nov 21, 2012  4:35PM PST deployed by Aleks Stanisic
 ============================================================
 * bca2c12: Aleks Stanisic - commenting out Brian's group changes
