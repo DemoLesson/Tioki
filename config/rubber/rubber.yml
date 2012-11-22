@@ -3,7 +3,7 @@ app_name: tioki
 
 # REQUIRED: The system user to run your app servers as
 app_user: app
-s
+
 # REQUIRED: Notification emails (e.g. monit) get sent to this address
 #
 admin_email: "kelly@tioki.com"
