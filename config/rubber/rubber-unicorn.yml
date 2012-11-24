@@ -1,6 +1,6 @@
 role_dependencies:
   unicorn: [nginx]
-  web: [unicorn, nginx]
+  web: [unicorn, nginx, haproxy]
 roles:
   unicorn:
     gems: [unicorn]
