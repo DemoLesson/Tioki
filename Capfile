@@ -1,3 +1,6 @@
+# Load Tracing Agent
+require File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'proc_trace'))
+
 gemfile = File.expand_path(File.join(__FILE__, '..', 'Gemfile'))
 if File.exist?(gemfile) && ENV['BUNDLE_GEMFILE'].nil?
   puts "Respawning with 'bundle exec'"
