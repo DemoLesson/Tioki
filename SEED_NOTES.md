@@ -1,3 +1,14 @@
+v2.1.3 - Nov 21, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 1cc766c: Elijah Green - Groups message has link to the group
+
+v2.1.2 - Nov 21, 2012  4:35PM PST deployed by Aleks Stanisic
+============================================================
+* bca2c12: Aleks Stanisic - commenting out Brian's group changes
+* 2bf7c67: Elijah Green - Add favorite to discussion comments
+* 68aab8e: Elijah Green - redirect_to back to inviteconnections when inviting people
+* 324da84: Brian Martinez - changes to group members, dashboard, customers, and support
+
 v2.1.1 - Nov 20, 2012  5:08PM PST deployed by Kelly Becker
 ==========================================================
 * 7f8636b: Kelly Becker - adding more workers
