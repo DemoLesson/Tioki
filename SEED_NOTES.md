@@ -1,3 +1,8 @@
+v2.1.7 - Nov 26, 2012  3:25PM PST deployed by Aleks Stanisic
+============================================================
+* 0020053: Elijah Green - Call create_teacher in application controller now that there is no callback
+* bd37db5: Elijah Green - Only show submitted applications on school admin page
+
 v2.1.6 - Nov 26, 2012  2:53PM PST deployed by Kelly Becker
 ==========================================================
 * 1f3314b: Kelly Becker - application wizard url steps
