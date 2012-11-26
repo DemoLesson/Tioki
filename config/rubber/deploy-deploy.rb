@@ -1,6 +1,5 @@
 # Deploy scripting
 namespace :deploy do
-  rubber.allow_optional_tasks(self)
   
   # Do a full deploy (start -> finish)
   task :full do
@@ -30,7 +29,6 @@ namespace :deploy do
 
   # Rake assets
   namespace :assets do
-    rubber.allow_optional_tasks(self)
 
     # Rake the configured directory
     task :default do
@@ -55,9 +53,6 @@ namespace :deploy do
       default
       set :migrate_target, migrate_target
     end
-
-    # Allow items to silently fail if necessary
-    rubber.allow_optional_tasks(self)
   end
 
   # Roll back code to a previous revision
