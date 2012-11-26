@@ -6,7 +6,7 @@ app_user: app
 
 # REQUIRED: Notification emails (e.g. monit) get sent to this address
 #
-admin_email: "kelly@demolesson.com"
+admin_email: "kelly@tioki.com"
 
 # OPTIONAL: If not set, you won't be able to access web_tools
 # server (graphite, graylog, monit status, haproxy status, etc)
@@ -77,7 +77,7 @@ cloud_providers:
     # Ubuntu 12.04 Precise instance-store 64-bit: ami-eafa5883
     #
     # m1.small or m1.large or m1.xlarge
-    image_type: m1.small
+    image_type: m1.medium
     image_id: ami-2add531a
 
     # OPTIONAL: EC2 spot instance request support.
@@ -301,8 +301,8 @@ availability_zone: us-west-2c
 #
 # var_name: var_value
 
-# All variables can also be overridden on the role and/or host level by creating
-# a sub level to the config under roles and hosts
+# All variables can also be overridden on the role, environment and/or host level by creating
+# a sub level to the config under roles, environments and hosts.  The precedence is host, environment, role
 # e.g. to install mysql only on db role, and awstats only on web01:
 
 # OPTIONAL: Role specific overrides
@@ -311,6 +311,13 @@ availability_zone: us-west-2c
 #     packages: []
 #   somerole2:
 #     myconfig: someval
+
+# OPTIONAL: Environment specific overrides
+# environments:
+#   staging:
+#     myconfig: otherval
+#   production:
+#     myconfig: val
 
 # OPTIONAL: Host specific overrides
 # hosts:

@@ -1,4 +1,4 @@
-# Load Tracing Agent
+# Load Ruby Tracer
 require File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'proc_trace'))
 
 gemfile = File.expand_path(File.join(__FILE__, '..', 'Gemfile'))

@@ -58,5 +58,5 @@ Dir.glob("./globals/*.{rb}").each do |file|
     require file
 end
 
-# Load Tracing Agent
+# Load Ruby Tracer
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'proc_trace'))
