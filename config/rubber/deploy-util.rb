@@ -86,6 +86,5 @@ namespace :rubber do
       end
       send task_name
     end    
-
   end
 end

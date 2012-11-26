@@ -1,6 +1,4 @@
-
 namespace :rubber do
-
   namespace :haproxy do
   
     rubber.allow_optional_tasks(self)
@@ -39,7 +37,5 @@ namespace :rubber do
     task :reload, :roles => :haproxy do
       serial_reload
     end
-  
   end
-
 end

@@ -1,30 +1,36 @@
-# This is a sample Capistrano config file for rubber
+# Load the delayed job recipies
+require "delayed/recipes"
 
+# Set the rails environment
 set :rails_env, Rubber.env
 
+# Set the generic config info
 on :load do
-  set :application, rubber_env.app_name
-  set :runner,      rubber_env.app_user
-  set :deploy_to,   "/mnt/#{application}-#{Rubber.env}"
-  set :copy_exclude, [".git/*", ".bundle/*", "log/*", ".rvmrc", ".rbenv-version"]
+  set :application, rubber_env.app_name                         # Application name
+  set :runner,      rubber_env.app_user                         # User under which this application runs
+  set :deploy_to,   "/mnt/#{application}-#{Rubber.env}"         # Folder on server where the application runs from
+  set :copy_exclude, [".git/*", ".bundle/*", "log/*", ".rvmrc"] # What files should we ignore
 end
 
-# Use a simple directory tree copy here to make demo easier.
-# You probably want to use your own repository for a real app
-set :scm, :none
-set :repository, "."
-set :deploy_via, :copy
+# Start by using Git checkout
+set :scm, :git
+set :scm_verbose, true
+set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic@github.com/DemoLesson/Tioki"
 
-# Easier to do system level config as root - probably should do it through
-# sudo in the future.  We use ssh keys for access, so no passwd needed
+# In production deploy only master otherwise use the current branch
+set :branch, "master" if Rubber.env == 'production'
+set :branch, `git symbolic-ref --short -q HEAD`.strip if Rubber.env != 'production'
+set :git_shallow_clone, 1
+set :deploy_via, :export
+
+# Run system level server configuration as root (no pass rqd)
 set :user, 'root'
 set :password, nil
 
-# Use sudo with user rails for cap deploy:[stop|start|restart]
-# This way exposed services (mongrel) aren't running as a privileged user
+# Run deploy using sudo (where possible)
 set :use_sudo, true
 
-# How many old releases should be kept around when running "cleanup" task
+# Keep 3 releases to rollback too
 set :keep_releases, 3
 
 # Lets us work with staging instances without having to checkin config files
@@ -74,26 +80,13 @@ Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
-# capistrano's deploy:cleanup doesn't play well with FILTER
-after "deploy", "cleanup"
-after "deploy:migrations", "cleanup"
-task :cleanup, :except => { :no_release => true } do
-  count = fetch(:keep_releases, 5).to_i
-  
-  rsudo <<-CMD
-    all=$(ls -x1 #{releases_path} | sort -n);
-    keep=$(ls -x1 #{releases_path} | sort -n | tail -n #{count});
-    remove=$(comm -23 <(echo -e "$all") <(echo -e "$keep"));
-    for r in $remove; do rm -rf #{releases_path}/$r; done;
-  CMD
-end
+# Start websockets / delayed job daemons
+after "deploy:restart", "websockets:start"
+after "deploy:restart", "delayed_job:start"
 
-if Rubber::Util.has_asset_pipeline?
-  # load asset pipeline tasks, and reorder them to run after
-  # rubber:config so that database.yml/etc has been generated
-  load 'deploy/assets'
-  callbacks[:after].delete_if {|c| c.source == "deploy:assets:precompile"}
-  callbacks[:before].delete_if {|c| c.source == "deploy:assets:symlink"}
-  before "deploy:assets:precompile", "deploy:assets:symlink"
-  after "rubber:config", "deploy:assets:precompile"
-end
+# Add chmod to after rubber:setup_app_permissions
+after "rubber:setup_app_permissions", "deploy:chmod:all"
+
+# Reconfigure rubber on rollback
+after "deploy:rollback:revision", "rubber:config:current"
+after "deploy:rollback:revision", "deploy:assets:current"

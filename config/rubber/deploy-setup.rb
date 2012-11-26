@@ -1,4 +1,43 @@
 namespace :rubber do
+
+  # Delete the already existing config task
+  tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
+  if all_methods.include?(:config)
+    metaclass = class << self; self; end
+    metaclass.send(:remove_method, :config)
+  end
+
+  # Rebuild the config option
+  namespace :config do
+    rubber.allow_optional_tasks(self)
+
+    # Config based on the latest code
+    task :default do
+      opts = {}
+      opts[:no_post] = true if ENV['NO_POST']
+      opts[:force] = true if ENV['FORCE']
+      opts[:file] = ENV['FILE'] if ENV['FILE']
+      migrate_target = fetch(:migrate_target, :latest)
+
+      # Config off the specifed directory
+      opts[:deploy_path] = case migrate_target.to_sym
+        when :current then current_path
+        when :latest then latest_release
+        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+        end
+
+      run_config(opts)
+    end
+
+    # Config on the currently deployed code
+    task :current, { :on_error => :continue } do
+      migrate_target = fetch(:migrate_target, :latest)
+      set :migrate_target, :current
+      default
+      set :migrate_target, migrate_target
+    end
+  end
+
   namespace :base do
 
     rubber.allow_optional_tasks(self)
@@ -91,6 +130,5 @@ namespace :rubber do
         fi
       ENDSCRIPT
     end
-
-  end
+  end  
 end
