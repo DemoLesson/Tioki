@@ -1,3 +1,35 @@
+v2.1.4 - Nov 26, 2012 12:08PM PST deployed by Kelly Becker
+==========================================================
+* 122da92: Kelly Becker - firewall rules
+* 731d1ef: Kelly Becker - rearranging some files
+* 35caabc: Kelly Becker - www2,3??
+* 012ef6c: Kelly Becker - some updates to the deploy scripting
+* ce12e66: Kelly Becker - haproxy restart
+* c95e48c: Kelly Becker - rvm in deploy setup
+* 8f6eeb9: Kelly Becker - rvm instead of ruby-build (for now)
+* 40ecc80: Kelly Becker - rvm instead of ruby-build (for now)
+* bd37cdf: Kelly Becker - whoops made a mistake in the deploy functionality
+* 046f6ce: Kelly Becker - new instance
+* 8be852f: Kelly Becker - new instance
+* dea7c3a: Kelly Becker - trying to free up the stack
+* 219991c: Kelly Becker - new deploy config
+* 1f7c6c4: Kelly Becker - instance
+* c4239f1: Kelly Becker - haproxy
+* 459c4ca: Kelly Becker - tracer and refresh
+* 92bb5b1: Kelly Becker - proc trace
+* d9e47ca: Kelly Becker - ruby active trace
+* 20705bf: Kelly Becker - red
+* e97f1ca: Kelly Becker - red
+* 108e614: Kelly Becker - proc trace
+* d180432: Kelly Becker - new instance
+* 102f3ab: Kelly Becker - medium instance
+* fd2c203: Kelly Becker - updated config
+* 75c527f: Kelly Becker - hmmm lets try this
+* 63a44f3: Kelly Becker - readded base rubber config
+* 73060b5: Kelly Becker - forgot the script
+* bdd9b14: Kelly Becker - rebuilding rubber (by deleting)
+* 00b04c9: Kelly Becker - added new server
+
 v2.1.3 - Nov 21, 2012  4:55PM PST deployed by Aleks Stanisic
 ============================================================
 * 1cc766c: Elijah Green - Groups message has link to the group
