@@ -1,3 +1,7 @@
+v2.1.6 - Nov 26, 2012  2:53PM PST deployed by Kelly Becker
+==========================================================
+* 1f3314b: Kelly Becker - application wizard url steps
+
 v2.1.5 - Nov 26, 2012 12:57PM PST deployed by Kelly Becker
 ==========================================================
 * 5780cbb: Kelly Becker - sweep session
