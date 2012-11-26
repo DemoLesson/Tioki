@@ -56,7 +56,7 @@ Type:<%= select(:school, :school_type, { "District" => "1", "Charter" => "2", "P
   </tr>
 <%- @schools.each do |school| %>
   <% user = User.find(school.owned_by); applicants = 0 %>
-  <% school.jobs.each do |job| applicants = applicants + job.applications.count; end %>
+  <% school.jobs.each do |job| applicants = applicants + job.applications.where("applications.submitted = 1").count; end %>
   <tr>
     <td><%= link_to school.name, school %></td>
     <td><%= user.name %></td>
