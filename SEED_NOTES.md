@@ -1,3 +1,7 @@
+v2.1.8 - Nov 26, 2012  3:38PM PST deployed by Aleks Stanisic
+============================================================
+
+
 v2.1.7 - Nov 26, 2012  3:25PM PST deployed by Aleks Stanisic
 ============================================================
 * 0020053: Elijah Green - Call create_teacher in application controller now that there is no callback
