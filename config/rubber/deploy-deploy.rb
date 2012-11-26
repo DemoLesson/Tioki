@@ -56,6 +56,8 @@ namespace :deploy do
     rubber.allow_optional_tasks(self)
 
     task :default do
+      websockets.stop
+      delayed_job.stop
       revision
       restart
       cleanup
