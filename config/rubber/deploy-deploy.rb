@@ -13,18 +13,14 @@ namespace :deploy do
     cleanup
   end
 
-  # Do a full deploy (start -> finish)
+  # Do a new deploy (Doesn't stop the websocket / delayed_job daemon)
   task :new do
     update_code
     migrate
     assets.default
-    websockets.stop
-    delayed_job.stop
     create_symlink
     restart
     cleanup
-
-
   end
 
   # Rake assets
