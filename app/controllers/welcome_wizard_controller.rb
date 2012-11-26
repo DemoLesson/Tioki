@@ -469,6 +469,17 @@ class WelcomeWizardController < ApplicationController
 		#user lookup
 		users = client.users(followers.ids)
 
+		users.each do |twitter_contact|
+			contact = Hash.new
+			
+			contact.name = twitter_contact.name
+			contact.id = twitter_contact.id
+			contact.picture = twitter_contact.profile_image_url
+			contact.screen_name = twitter_contact.screen_name
+
+			pcontacts << contact
+		end
+
 		contacts = { "type" => 'success', "data" => pcontacts}
 
 		return render :json => contacts
@@ -486,7 +497,6 @@ class WelcomeWizardController < ApplicationController
 		end
 		#Send message back that we are successful
 	end
-
 
 	# Catch rails args
 	def create(*args)

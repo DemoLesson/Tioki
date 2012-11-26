@@ -26,7 +26,7 @@
 				<% if self.current_user.twitter_auth? %>
 					<a id="twitter" class="medium button">Twitter</a>
 				<% else %>
-					<a id="twitter_auth" class="medium button">Twitter</a>
+					<a href="/twitter_auth?twitter_action=invite" id="twitter_auth" class="medium button">Twitter</a>
 				<% end %>
 			</div>
 
@@ -122,6 +122,53 @@
 				description: "Tioki gives educators access to the most valuable resource out there - other educators!",
 				link: 'http://tioki.com/ww/<%= self.current_user.invite_code %>'
 			});
+		});
+
+		//twitter
+		$("#twitter").click(function () {
+			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
+				for(var i in data.data) {
+					var contact = data.data[i];
+					var name = contact.name;
+					var id = contact.id;
+					var picture = contact.picture;
+					link = $('<a href="#twitter_contact" data-contact-id=' + id + ' class="button secondary" style="background:#ccc" />');
+					link.html('<img src=' + picture + '>' + name);
+					$('div.person_cloud').append(link);
+				}
+			});
+		});
+
+		$('a[href="#twitter_contact"]').live('click', function() {
+			id = $(this).attr('data-contact-id');
+			e.preventDefault();
+
+			// If the button is not selected
+			if($(this).hasClass('secondary')) {
+
+				// Create contact array
+				if(selectedContacts === undefined)
+				selectedContacts = new Array;
+
+				// Remove secondary class
+				$(this).removeClass('secondary').css({'background': '#F66C4C'});
+
+				// Add the email to the invite array
+				selectedContacts.push($(this).attr('x-data-email'));
+			}
+
+			// If the button was selected
+			else {
+
+				// Add the secondary class
+				$(this).addClass('secondary').css({'background': '#CCC'});
+
+				// Remove the email from the invite array
+				var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
+				if(key !== -1) selectedContacts.splice(key, 1);
+			}
+
+			return false;
 		});
 
 		//detect emails
