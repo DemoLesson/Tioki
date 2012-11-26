@@ -120,8 +120,8 @@
 								<% if user.teacher.position.present?  && user.teacher.school.present? %>
 									<%= user.teacher.position %> at <%= user.teacher.school %>
 								<% end %>
-								
-								<!-- Allowing an admin to create other admins -->
+								<!--
+								 Allowing an admin to create other admins 
 								<span style="float:right">
 									<% if self.current_user %>
 										<% if @admin %>
@@ -131,7 +131,7 @@
 										<% end %>
 									<% end %>
 								</span>	
-								<br />
+								<br /> -->
 								<!-- Pulling the Teacher's Location -->
 								<% if user.teacher.location.present? %>
 									<%= user.teacher.location %>
@@ -141,7 +141,7 @@
 				<% end %>
 			</section>
 		</section>
-		<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
+		<!--<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
 			<section style="margin-left:20px">
 				<h3 class="bottom-line">
 					Group Administrators
@@ -156,7 +156,7 @@
 					<% end %>
 				<% end %>
 			</section>
-		</section>
+		</section>-->
 	</section>
 </section>
 

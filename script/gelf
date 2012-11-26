@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require 'gelf'
+
+notify = GELF::Notifier.new('graylog.tioki.com',
+	12201,
+	'LAN',
+	'facility' => 'rails',
+	'host' => `hostname`
+)
+
+notify.notify!(:short_message => ARGV.shift, :full_message => ARGV.shift)
