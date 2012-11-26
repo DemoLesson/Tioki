@@ -38,6 +38,8 @@ class ApplicationWizardController < ApplicationController
 
 		if request.post?
 			user = User.create(params[:user])
+			user.create_teacher
+
 			session[:user] = User.authenticate(user.email, user.password)
 			@app.update_attribute(:teacher_id, User.current.teacher.id)
 
