@@ -92,6 +92,7 @@
 					{
 						for(var i = 0; i < response.data.length; i++)
 						{
+							$('div.person_cloud').empty();
 							var name = response.data[i].name;
 							link = $('<a href="#facebook_contact" data-contact-id=' + response.data[i].id + ' class="button secondary" style="background:#ccc" />');
 							link.html('<img src='+response.data[i].picture.data.url+'>'+name);
@@ -126,14 +127,16 @@
 
 		//twitter
 		$("#twitter").click(function () {
+			$('div.person_cloud').empty();
 			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
 				for(var i in data.data) {
 					var contact = data.data[i];
 					var name = contact.name;
 					var id = contact.id;
 					var picture = contact.picture;
+					var screen_name = contact.screen_name;
 					link = $('<a href="#twitter_contact" data-contact-id=' + id + ' class="button secondary" style="background:#ccc" />');
-					link.html('<img src=' + picture + '>' + name);
+						link.html('<img src=' + picture + ' style="float:left">' + '@' + screen_name + '<br />' + name);
 					$('div.person_cloud').append(link);
 				}
 			});
