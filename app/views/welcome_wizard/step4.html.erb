@@ -50,6 +50,25 @@
 				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
 			</div>
 
+			<div id="twitter_done" class="detected" style="display:none;">
+				<% if params[:user_connection] %>
+					<%= hidden_field_tag :user_connection, params[:user_connection] %>
+				<% elsif params[:invitestring] %>
+					<%= hidden_field_tag :invitestring, params[:invitestring] %>
+				<% elsif params[:vouchstring] %>
+					<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+				<% elsif params[:invitecode] %>
+					<%= hidden_field_tag :invitecode, params[:invitecode] %>
+				<% elsif params[:welcomecode] %>
+					<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+				<% end %>
+
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
+				<p class="no-pre">Select some contacts that you would like to connect with.</p>
+				<a href="#select" class="button">Select All</a>
+				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
+			</div>
+
 			<div class="person_cloud">
 				<div class="clear"></div>
 			</div>
@@ -85,14 +104,16 @@
 		$("#facebook").click(function() {
 
 			$('div.person_cloud').empty();
+			$('div.done').hide();
+			$('#twitter_done').hide();
 
 			FB.login(function(response) {
 				if(response.authResponse) {
 					FB.api('/me/friends?fields=id,name,picture', function(response)
 					{
+						$('div.person_cloud').empty();
 						for(var i = 0; i < response.data.length; i++)
 						{
-							$('div.person_cloud').empty();
 							var name = response.data[i].name;
 							link = $('<a href="#facebook_contact" data-contact-id=' + response.data[i].id + ' class="button secondary" style="background:#ccc" />');
 							link.html('<img src='+response.data[i].picture.data.url+'>'+name);
@@ -125,24 +146,27 @@
 			});
 		});
 
-		//twitter
+		//TWITTER
+
+		var twitterContacts = new Array;
+
 		$("#twitter").click(function () {
 			$('div.person_cloud').empty();
+			$('div.done').empty();
+
 			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
 				for(var i in data.data) {
 					var contact = data.data[i];
-					var name = contact.name;
-					var id = contact.id;
-					var picture = contact.picture;
-					var screen_name = contact.screen_name;
-					link = $('<a href="#twitter_contact" data-contact-id=' + id + ' class="button secondary" style="background:#ccc" />');
-						link.html('<img src=' + picture + ' style="float:left">' + '@' + screen_name + '<br />' + name);
+					link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
 					$('div.person_cloud').append(link);
 				}
+				$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
+				$("#twitter_done").show();
 			});
 		});
 
-		$('a[href="#twitter_contact"]').live('click', function() {
+		$('a[href="#twitter_contact"]').live('click', function(e) {
 			id = $(this).attr('data-contact-id');
 			e.preventDefault();
 
@@ -150,14 +174,14 @@
 			if($(this).hasClass('secondary')) {
 
 				// Create contact array
-				if(selectedContacts === undefined)
-				selectedContacts = new Array;
+				if(twitterContacts === undefined)
+				twitterContacts = new Array;
 
 				// Remove secondary class
 				$(this).removeClass('secondary').css({'background': '#F66C4C'});
 
 				// Add the email to the invite array
-				selectedContacts.push($(this).attr('x-data-email'));
+				twitterContacts.push($(this).attr('data-contact-id'));
 			}
 
 			// If the button was selected
@@ -167,9 +191,36 @@
 				$(this).addClass('secondary').css({'background': '#CCC'});
 
 				// Remove the email from the invite array
-				var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
-				if(key !== -1) selectedContacts.splice(key, 1);
+				var key = $.inArray($(this).attr('data-contact-id'), twitterContacts);
+				if(key !== -1) twitterContacts.splice(key, 1);
 			}
+
+			return false;
+		});
+
+		$('a[href="#twitter_deselect"]').live('click', function(e) {
+			e.preventDefault();
+
+			var int1 = setInterval(function() {
+				if(twitterContacts.length == 0)
+				clearTimeout(int1);
+
+				var tmp = twitterContacts;
+				for(var i in tmp) $('a[data-contact-id="' + tmp[i] + '"]').each(function() {
+					$(this).click();
+				});
+			}, 20);
+
+			return false;
+		});
+
+		$('a[href="#twitter_select"]').live('click', function(e) {
+			e.preventDefault();
+
+			$('a[href="#twitter_contact"]').each(function() {
+				if($(this).hasClass('secondary'))
+				$(this).click();
+			});
 
 			return false;
 		});
@@ -232,6 +283,7 @@
 		$('#detected_email').click(function(e) {
 			e.preventDefault();
 			$('div.person_cloud').empty();
+			$('div.done').hide();
 
 			// Prepare the data
 			var data = new Object;
@@ -297,6 +349,18 @@
 				var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
 				if(key !== -1) selectedContacts.splice(key, 1);
 			}
+
+			return false;
+		});
+
+		$('form.person_form').submit(function(e) {
+			e.preventDefault();
+
+			// Set the people to the form
+			$('input[name="people"]').val(selectedContacts.join(','));
+
+			// Submit the form
+			$(this).get(0).submit();
 
 			return false;
 		});

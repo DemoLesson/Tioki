@@ -275,44 +275,46 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		# Detect post variables
-		if request.post? && !params[:people].nil?
+		if request.post? && (!params[:people].nil? || params[:twitter])
 
-			# Split people to invite and loop
-			params.people.split(',').each do |email|
+			if params[:twitter]
+			else
+				# Split people to invite and loop
+				params.people.split(',').each do |email|
 
-				# Parse the email to make sure its valid
-				email = Mail::Address.new(email.strip)
+					# Parse the email to make sure its valid
+					email = Mail::Address.new(email.strip)
 
-				# Get the user
-				user = User.where({"email" => email.address}).first
+					# Get the user
+					user = User.where({"email" => email.address}).first
 
-				# If the user exists
-				unless user.nil?
+					# If the user exists
+					unless user.nil?
 
-					# If the email is tied to a school skip
-					next if user.teacher.nil?
+						# If the email is tied to a school skip
+						next if user.teacher.nil?
 
-					# Try and add a connection
-					if Connection.add_connect(self.current_user.id, user.id)
-						# We don't really neeed to notify the user about this
-						# notice << "Your connection request to " + email.address + " has been sent."
+						# Try and add a connection
+						if Connection.add_connect(self.current_user.id, user.id)
+							# We don't really neeed to notify the user about this
+							# notice << "Your connection request to " + email.address + " has been sent."
+						end
+
+						# If the user does not exist
+					else
+						# Generate the invitation url to be added to the email
+						url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
+
+						# Send out the email
+						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+
+						# Don't bother notifying the user
+						# notice << "Your invite to " + demail + " has been sent."
+
+						# Log an analytic
+						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
 					end
-
-				# If the user does not exist
-				else
-					# Generate the invitation url to be added to the email
-					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
-
-					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-					# Don't bother notifying the user
-					# notice << "Your invite to " + demail + " has been sent."
-
-					# Log an analytic
-					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
 				end
-
 			end
 			
 			# Wizard Key
