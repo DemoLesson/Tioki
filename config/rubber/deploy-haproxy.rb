@@ -7,10 +7,10 @@ namespace :rubber do
     # rubber auto-roles don't get defined till after all tasks are defined
     on :load do
       rubber.serial_task self, :serial_restart, :roles => :haproxy do
-        rsudo "service haproxy stop; service haproxy start"
+        rsudo "service haproxy restart"
       end
       rubber.serial_task self, :serial_reload, :roles => :haproxy do
-        rsudo "if ! ps ax | grep -v grep | grep -c haproxy &> /dev/null; then service haproxy start; else service haproxy reload; fi"
+        rsudo "service haproxy restart"
       end
     end
     

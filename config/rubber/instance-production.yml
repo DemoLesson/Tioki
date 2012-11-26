@@ -19,6 +19,9 @@
     name: db
     options:
       primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
   instance_id: i-9c789fae
   image_type: m1.medium
   image_id: ami-2add531a
