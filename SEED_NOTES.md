@@ -1,3 +1,7 @@
+v2.1.10 - Nov 27, 2012  3:35PM PST deployed by Kelly Becker
+===========================================================
+* 68efa4c: Kelly Becker - git repo for bitswitch
+
 v2.1.9 - Nov 27, 2012  2:01PM PST deployed by Kelly Becker
 ==========================================================
 * d697be1: Kelly Becker - group permissions
