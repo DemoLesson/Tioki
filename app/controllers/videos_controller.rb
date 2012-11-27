@@ -70,6 +70,15 @@ class VideosController < ApplicationController
 				# Encode the video
 				@video.encode
 
+				if params[:session]
+					session[:video] = @video.id
+				end
+
+				# Redirect to another location is requested
+				if params[:redirect]
+					return redirect_to params[:redirect]
+				end
+
 				# Video status
 				flash[:success] = "Your video was succesfully uploaded and is processing."
 				return redirect_to video_path(@video) + '/edit'
@@ -189,6 +198,14 @@ class VideosController < ApplicationController
 
 				# Let users know about the new video that was uploaded
 				Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})
+
+				if params[:session]
+					session[:video] = video.id
+				end
+
+				if params[:redirect]
+					return redirect_to params[:redirect]
+				end
 
 				# Flash success and return
 				flash[:success] = 'Video was successfully embeded.'

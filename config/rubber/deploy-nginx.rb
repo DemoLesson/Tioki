@@ -1,6 +1,4 @@
-
 namespace :rubber do
-
   namespace :nginx do
     
     rubber.allow_optional_tasks(self)
@@ -51,8 +49,6 @@ namespace :rubber do
     desc "Reloads the nginx web server"
     task :reload, :roles => :nginx do
       serial_reload
-    end
-  
+    end 
   end
-
 end

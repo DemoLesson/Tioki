@@ -4,141 +4,90 @@ tr.seeking, tr.student {
 }
 </style>
 
-<!-- Facebook send box -->
-<div id="fb-root"></div>
-<script type="text/javascript">(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=440391786011809";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-<div class="row kRap" style="position:relative;">
+<div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller"><span>Congratulations!</span> You've just created your Tioki profile.</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, do you have any documents (e.g. Cover Letter, Resume, Lesson Plans, etc...) you would like to attach to your application?</h1>
 	</div>
 	<div class="clear"></div>
 
-	<div class="one columns" style="width: 35px">
-		&nbsp;
-	</div>
-
-	<div class="ten columns">
-		<div class="card">
-			<div class="skills">
-				<% @user.skill_groups.each do |skill_group| %>
-					<div class="badge <%= skill_group.badge_name %>" data-skillgroup="<%= skill_group.badge_name %>">
-						<% if @user.vouched_skill_groups.collect(&:id).include? skill_group.id %>
-							<img src="/card-assets/images/greencheck.png" style="position:absolute;top:15px;left:15px" />
-						<% end %>
-					</div>
+	<div class="seven columns">
+		<% unless @app.assets.empty? %>
+			<h2>These are the files you have attached as of yet.</h2>
+			<table style="width:100%;">
+				<% @app.assets.each do |a| %>
+					<tr>
+						<td>
+							<a href="/purge/<%= a.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;">Delete File</a>
+							<h3>
+							<a href="<%= a.file.url %>">
+								<span class="iconic paperclip"></span>
+								<%= a.name.capitalize %> &mdash; <%= a.file_content_type %> (<%= number_to_human_size(a.file_file_size) %>)
+							</a>
+							</h3>
+						</td>
+					</tr>
 				<% end %>
-			</div>
-			<h1 class="name"><%= @user.name %></h1>
-			<h2 class="job">
-				<%= @user.teacher.position + ' at ' + @user.teacher.school unless @user.teacher.position.empty? || @user.teacher.school.empty? %>
-			</h2>
-			<h2 class="job"><%= @user.teacher.educations.first.school unless @user.teacher.educations.empty? %></h2>
-			<h3 class="location"><%= @user.teacher.location %> <span style="float:right; margin-right: 15p0">My Skills</span></h3>
-			<div class="about">
-				<table>
-					<td><span class="label">About me</span></td>
-					<td><div class="textarea">
-						<textarea class="css3-border-box" id="about-me" placeholder="(Tell us a little about yourself)"></textarea>
-					</div></td>
-				</table>
-			</div>
-		</div>
-
-<%
-=begin
-%>
-		<% if self.current_user.id.even? %>
-			<a href="/profile/<%= @user.teacher.url %>?--@=<%= e64("log_analytic:step5_profile|ab") %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
-		<% else %>
-			<a href="/teacherskills/711?--@=<%= e64("log_analytic:step5_show_skills|ab") %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+			</table>
 		<% end %>
-<%
-=end 
-%>
-			<a href="/get_started" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
-
-		<div class="share">
-			<h1 class="smaller" style="font-size:20px;">Share to your other networks</h1>
-			<a href="#facebook"><%= image_tag "tioki/icons/facebook.png" %></a>
-			<a href="#twitter"><%= image_tag "tioki/icons/twitter.png" %></a>
-		</div>
-
-		<div class="button_wrap"></div>
+		<form method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="upload_asset" value="1" />
+			<% unless @app.assets.empty? %>
+				<h2>Upload another file</h2>
+			<% else %>
+				<h2>Upload a file</h2>
+			<% end %>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span>Name</span>
+							<input type="text" name="asset[name]" />
+						</label>
+						<p class="note">What do you want to call your file (e.g. Cover Letter, My Resume, The Pythagorean Theorem in 20 minutes, etc...)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Description (optional)</span>
+							<input type="text" name="asset[description]" />
+						</label>
+						<p class="note">Small description about your uploaded file.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>File</span>
+							<input type="file" name="asset[file]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="checkbox">
+							<input type="checkbox" name="asset[profile]" />
+							<span>Also include this item on my profile</span>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Add this attachment to my application" />
+						</label>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<% if @app.assets.count < 1 %>
+			<p>We really think it would be in your best interest to upload at least a resume.</p>
+		<% end %>
+		<h2>I'm done adding attachments...</h2>
+		<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+		<div style="clear:both;height:40px;"></div>
 	</div>
-
-	<div class="one columns">
-		&nbsp;
+	<div class="four columns">
 	</div>
-	<div class="clear"></div>
-	
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('textarea#about-me').keyup(function() {
-		clearTimeout(window.timer);
-		tarea = $(this);
-
-		window.timer = setTimeout(function() {
-			var about_me = tarea.val();
-			$.post('/welcome_wizard?x=update_aboutme', {"aboutme": about_me}, function(data) {
-				if(data.type == 'success') tarea.animate({"background-color": "green"}, 200, function() {
-					$(this).animate({"background-color": "#FFF"}, 200);
-				});
-			});
-		}, 900);
-	});
-	$('a[href="#facebook"]').click(function(e) {
-
-		// Block the link
-		e.preventDefault();
-
-		// Trigger the facebook method
-		FB.ui({
-			method: 'feed',
-			name: '<%= @user.name %> just joined Tioki',
-			link: 'http://www.tioki.com/?_micro_referer=<%= @user.id %>',
-			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
-			caption: 'Connect with <%= @user.name %> on Tioki',
-			description: '<%= @user.first_name %> just joined Tioki; a professional development site for educators. You should connect with them!'
-		}
-		/*function(response) {
-			if (response && response.post_id) {
-				alert('Post was published.');
-			} else {
-				alert('Post was not published.');
-			}
-		}*/);
-
-		return false;
-	});
-	$('a[href="#twitter"]').click(function(e) {
-
-		// URL to go to
-		url = 'https://twitter.com/share';
-
-		// Paramaters to build
-		var params = {
-			via: 'tioki',
-			url: 'http://www.tioki.com/ww/<%= @user.invite_code %>',
-			text: 'I just joined Tioki; a professional development site for educators. You should connect with me!'
-		}
-
-		// URL plus params
-		url += '?' + $.param(params);
-		
-		// Apply to the link
-		$(this).attr('href', url).attr('target', '_blank');
-
-		// GO!
-		return true;
-	});
-});
-</script>

@@ -344,6 +344,12 @@ class DeployCLI
 
 		# Publish update
 		if confirm("Would you like to publish the update?", nil, 5, 'y')
+
+			# Stop the delayed job and websockets daemon
+			system("cap delayed_job:stop#{filters}")
+			system("cap websockets:stop#{filters}")
+
+			# Create the symlink and restart
 			system("cap deploy:create_symlink#{filters}")
 			system("cap deploy:restart#{filters}")
 			system("cap deploy:cleanup#{filters}")
@@ -375,6 +381,12 @@ class DeployCLI
 
 		# Publish update
 		if confirm("Would you like to publish the update?", nil, 5, 'y')
+			
+			# Stop the delayed job and websockets daemon
+			system("cap delayed_job:stop#{filters}")
+			system("cap websockets:stop#{filters}")
+
+			# Create the symlink and restart
 			system("cap deploy:create_symlink#{filters}")
 			system("cap deploy:restart#{filters}")
 			system("cap deploy:cleanup#{filters}")

@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 	<section id="info" class="one-column right-side">
 		<% if self.current_user == nil %>
-		<%= link_to "Apply Now", '/welcome_wizard?x=step1&job_application', :class => "action-button bg-salmon", :target => "_blank" %>
+		<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, :class => "action-button bg-salmon", :target => "_blank" %>
 		<% else %>
 		<% if self.current_user.teacher != nil %>
 		<% if @application == nil %>
@@ -19,7 +19,7 @@
 		<% end %>
 		<% else %>
 		<% if self.current_user.teacher.tfa == 1 %> <% else %>
-		<%= link_to "Apply Now", {:controller => :jobs, :action => :apply_confirmation, :id => @job.id}, {:class => "action-button bg-salmon"} %><% end %>
+		<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %><% end %>
 		<% end %>
 		<% else %>
 		<%= link_to "Remove Application", {:controller => :jobs, :action => :apply, :id => @job.id}, {:class => "button"} %>

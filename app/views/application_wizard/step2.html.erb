@@ -6,146 +6,105 @@ tr.seeking, tr.student {
 
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's get your professional profile started.</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's start with your prior experience.</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="seven columns">
+		<% if User.current.teacher.linkedin.nil? %>
+			<form action="/linkedinprofile" method="POST">
+				<h2>Import from linkedin</h2>
+				<input type="hidden" name="response" value="yes" />
+				<input type="hidden" name="redirect" value="<%= currentURL %>" />
+				<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
+			</form>
+		<% end %>
+		<% if User.current.teacher.linkedin.nil? %>
+			<h2>or fill out the information below</h2>
+		<% else %>
+			<h2>Verify the imported information below</h2>
+		<% end %>
+		<table style="width:100%;">
+			<% User.current.teacher.experiences.each do |exp| %>
+				<tr>
+					<td>
+						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;" />Remove</a>
+						<h3><%= exp.position %> at <%= exp.company %></h3>
+						<span><%= exp.startMonth %>/<%= exp.startYear %></span>
+						<span> &mdash; </span>
+						<% if exp.current %>
+							<span>Present</span>
+						<% else %>
+							<span><%= exp.endMonth %>/<%= exp.endYear %></span>
+						<% end %><br /><br />
+					</td>
+				</tr>
+			<% end %>
+		</table>
 		<form method="POST">
+			<input type="hidden" name="add_position" value="1" />
+			<h2>Add another Position</h2>
 			<table>
 				<tr>
 					<td>
 						<label>
-							<span>I live in</span>
-							<input type="text" name="teacher[location]" placeholder="(Los Angeles, CA)" />
+							<span>Company, District or School</span>
+							<input type="text" name="experience[company]" />
 						</label>
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: solid 1px #DADADA;padding:3px inherit;">
-						<label>
-							<span>I am currently a</span>
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="teacher" checked="checked" /> Teacher
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="job_seeker" /> Job Seeker
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="student" /> Student
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="administrator" /> Other
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,job_seeker">
-					<td>
-						<label>
-							<span>Subjects</span>
-							<input type="text" name="teacher[subjects]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,job_seeker">
-					<td>
-						<label>
-							<span>Grade Levels</span>
-							<input type="text" name="teacher[grades]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="administrator" style="display:none;">
-					<td>
-						<label>
-							<span>Current Position</span>
-							<input type="text" name="teacher[position]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,administrator">
-					<td>
-						<label>
-							<span>Place of Employment</span>
-							<input type="text" name="teacher[school]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>College / University</span>
-							<input type="text" name="edu[school]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Degree</span>
-							<input type="text" name="edu[degree]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Major</span>
-							<input type="text" name="edu[concentrations]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
 					<td>
 						<label>
 							<span>Start Date</span>
+							<input type="text" placeholder="Click to select..." class="datepicker" name="date[start_date]" />
 						</label>
-						<%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+						<p class="note">If you dont remember the exact date just enter the first of the month.</p>
 					</td>
 				</tr>
-				<tr data-who="student" style="display:none;">
+				<tr>
 					<td>
 						<label>
 							<span>End Date</span>
-							<%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+							<input type="text" placeholder="Click to select..." class="datepicker" name="date[end_date]" />
+						</label>
+						<p class="note">If you dont remember the exact date just enter the first of the month.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="checkbox">
+							<input type="checkbox" name="experience[current]" value="yes" />
+							I currently work here
 						</label>
 					</td>
 				</tr>
-				<tr data-who="student" style="display:none;">
+				<tr>
 					<td>
-						<label class="checkbox">
-							<%= check_box_tag "edu[current]" %>
-							<span>Currently Attending</span>
+						<label>
+							<span>Title/Position</span>
+							<input type="text" name="experience[position]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Add position to my application" />
 						</label>
 					</td>
 				</tr>
 			</table>
-			<% if params[:user_connection] %>
-				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
-			<% elsif params[:vouchstring] %>
-				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-			<% elsif params[:invitecode] %>
-				<%= hidden_field_tag :invitecode, params[:invitecode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-			<% end %>
-
-			<div class="button_wrap">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
-			</div>
 		</form>
+		<% unless User.current.teacher.experiences.empty? %>
+			<h2>I'm done adding positions...</h2>
+			<a href="step3" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+		<% else %>
+			<p>Please provide some kind of work experience...</p>
+		<% end %>
+		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">
-		<div class="fyi">
-			<h3><span class="green bold">A Tioki profile helps you</span></h3>
-			<ul>
-				<li>Showcase your talents using video, pictures, & skills tags</li>
-				<li>Establish your online presence as an educator</li>
-				<li>Promote your skills & increase your opportunities</li>
-			</ul>
-		</div>
 	</div>
 </div>

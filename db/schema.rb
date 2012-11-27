@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121116010940) do
+ActiveRecord::Schema.define(:version => 20121120234931) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -55,13 +55,15 @@ ActiveRecord::Schema.define(:version => 20121116010940) do
   end
 
   create_table "applications", :force => true do |t|
-    t.integer  "teacher_id",       :null => false
-    t.integer  "job_id",           :null => false
+    t.integer  "teacher_id"
+    t.integer  "job_id",                          :null => false
     t.text     "additional_notes"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "viewed"
+    t.integer  "video_id"
+    t.integer  "submitted",        :default => 0
   end
 
   add_index "applications", ["job_id"], :name => "index_applications_on_job_id"

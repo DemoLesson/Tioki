@@ -1,3 +1,134 @@
+v2.1.8 - Nov 26, 2012  3:38PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v2.1.7 - Nov 26, 2012  3:25PM PST deployed by Aleks Stanisic
+============================================================
+* 0020053: Elijah Green - Call create_teacher in application controller now that there is no callback
+* bd37db5: Elijah Green - Only show submitted applications on school admin page
+
+v2.1.6 - Nov 26, 2012  2:53PM PST deployed by Kelly Becker
+==========================================================
+* 1f3314b: Kelly Becker - application wizard url steps
+
+v2.1.5 - Nov 26, 2012 12:57PM PST deployed by Kelly Becker
+==========================================================
+* 5780cbb: Kelly Becker - sweep session
+* 620e215: Kelly Becker - lowered worker processes
+
+v2.1.4 - Nov 26, 2012 12:08PM PST deployed by Kelly Becker
+==========================================================
+* 122da92: Kelly Becker - firewall rules
+* 731d1ef: Kelly Becker - rearranging some files
+* 35caabc: Kelly Becker - www2,3??
+* 012ef6c: Kelly Becker - some updates to the deploy scripting
+* ce12e66: Kelly Becker - haproxy restart
+* c95e48c: Kelly Becker - rvm in deploy setup
+* 8f6eeb9: Kelly Becker - rvm instead of ruby-build (for now)
+* 40ecc80: Kelly Becker - rvm instead of ruby-build (for now)
+* bd37cdf: Kelly Becker - whoops made a mistake in the deploy functionality
+* 046f6ce: Kelly Becker - new instance
+* 8be852f: Kelly Becker - new instance
+* dea7c3a: Kelly Becker - trying to free up the stack
+* 219991c: Kelly Becker - new deploy config
+* 1f7c6c4: Kelly Becker - instance
+* c4239f1: Kelly Becker - haproxy
+* 459c4ca: Kelly Becker - tracer and refresh
+* 92bb5b1: Kelly Becker - proc trace
+* d9e47ca: Kelly Becker - ruby active trace
+* 20705bf: Kelly Becker - red
+* e97f1ca: Kelly Becker - red
+* 108e614: Kelly Becker - proc trace
+* d180432: Kelly Becker - new instance
+* 102f3ab: Kelly Becker - medium instance
+* fd2c203: Kelly Becker - updated config
+* 75c527f: Kelly Becker - hmmm lets try this
+* 63a44f3: Kelly Becker - readded base rubber config
+* 73060b5: Kelly Becker - forgot the script
+* bdd9b14: Kelly Becker - rebuilding rubber (by deleting)
+* 00b04c9: Kelly Becker - added new server
+
+v2.1.3 - Nov 21, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 1cc766c: Elijah Green - Groups message has link to the group
+
+v2.1.2 - Nov 21, 2012  4:35PM PST deployed by Aleks Stanisic
+============================================================
+* bca2c12: Aleks Stanisic - commenting out Brian's group changes
+* 2bf7c67: Elijah Green - Add favorite to discussion comments
+* 68aab8e: Elijah Green - redirect_to back to inviteconnections when inviting people
+* 324da84: Brian Martinez - changes to group members, dashboard, customers, and support
+
+v2.1.1 - Nov 20, 2012  5:08PM PST deployed by Kelly Becker
+==========================================================
+* 7f8636b: Kelly Becker - adding more workers
+* 520910c: Kelly Becker - new window
+
+v2.1.0 - Nov 20, 2012  4:33PM PST deployed by Kelly Becker
+==========================================================
+* bcd7e18: Kelly Becker - dun dun dun.... job application walkthrouhg
+* be2a717: Kelly Becker - almost done
+* 74656a3: Kelly Becker - added step6 to the source needs a bit more work though *yawn*
+* a87a049: Kelly Becker - attachments for applications
+* ad8afcb: Kelly Becker - credentials in the wizard
+* 2497302: Kelly Becker - step4 application process (education)
+* 1a113c6: Kelly Becker - updated js
+* b479ee6: Kelly Becker - progress;
+* c591f77: Kelly Becker - progress
+* 406cb5c: Kelly Becker - got import from linkedin working for the application wizard
+
+v2.0.38 - Nov 20, 2012  2:40PM PST deployed by Aleks Stanisic
+=============================================================
+* af570ec: Brian Martinez - changes to profile edits and prompts
+
+v2.0.37 - Nov 20, 2012  2:23PM PST deployed by Aleks Stanisic
+=============================================================
+* 60ce7a3: Aleks Stanisic - adding email sharing to discussions, fixed address in all emails
+* 3c0ab31: Brian Martinez - adding pronounciation to what is tioki page
+
+v2.0.36 - Nov 20, 2012 10:22AM PST deployed by Kelly Becker
+===========================================================
+* a407ca0: Kelly Becker - destory video exceptions
+
+v2.0.35 - Nov 20, 2012 10:11AM PST deployed by Kelly Becker
+===========================================================
+* cb634c6: Kelly Becker - if a youtube video has been deleted then remove the video locally
+
+v2.0.34 - Nov 19, 2012  5:55PM PST deployed by Aleks Stanisic
+=============================================================
+* c869492: Aleks Stanisic - adding school sign up
+* 661488a: Elijah Green - Don't automatically create a teacher for each user created
+* 70259e5: Brian Martinez - Revamp of the school side
+
+v2.0.33 - Nov 19, 2012  3:41PM PST deployed by Aleks Stanisic
+=============================================================
+* 1e6d9a3: Aleks Stanisic - fix to tech page
+
+v2.0.32 - Nov 19, 2012  3:00PM PST deployed by Aleks Stanisic
+=============================================================
+* f9661c7: Aleks Stanisic - changes to connection action in tech page
+
+v2.0.31 - Nov 19, 2012  2:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 37d58c2: Aleks Stanisic - changes to dashboard and presentations
+
+v2.0.30 - Nov 19, 2012  1:04PM PST deployed by Aleks Stanisic
+=============================================================
+* a5e6b71: Aleks Stanisic - changes to awards are presentations time input/output
+
+v2.0.29 - Nov 19, 2012 10:54AM PST deployed by Aleks Stanisic
+=============================================================
+* 46159e5: Aleks Stanisic - style change to schedule button
+
+v2.0.28 - Nov 19, 2012 10:34AM PST deployed by Aleks Stanisic
+=============================================================
+* d2a1a3f: Aleks Stanisic - adding link the schedule of events to teacher home page
+* 189e2ac: Elijah Green - Add user_id as a getActivity condition
+
+v2.0.27 - Nov 17, 2012  6:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 6197244: Aleks Stanisic - changes to events
+
 v2.0.26 - Nov 17, 2012  2:30PM PST deployed by Aleks Stanisic
 =============================================================
 * 81e0a30: Aleks Stanisic - fix to message emails

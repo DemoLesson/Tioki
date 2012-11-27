@@ -4,6 +4,7 @@ class Video < ActiveRecord::Base
 
   # Video Skills
   has_and_belongs_to_many :skills, :join_table => 'videos_skills'
+  belongs_to :application
   
   mount_uploader :video, VideoUploader
   
@@ -207,7 +208,11 @@ class Video < ActiveRecord::Base
   end
 
   # Get the embed code for the video
-  def embed_code(width = 640, height = 480, output_url = nil)
+  def embed_code(width = nil, height = nil, output_url = nil)
+
+    # Default scale
+    width = 640 if width.nil?
+    height = 480 if height.nil?
 
     # Make sure we got a URL
     output_url = self.output_url if output_url.nil?
@@ -218,8 +223,13 @@ class Video < ActiveRecord::Base
       # Get the API Response
       response = details(width, height, output_url)
       
-      # Return HTML Embed Code
-      return response["html"].html_safe
+      begin
+        # Return HTML Embed Code
+        return response["html"].html_safe
+      rescue
+        self.destroy
+        return nil
+      end
     end
 
     if job_status == 'finished'

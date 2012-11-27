@@ -83,7 +83,6 @@ class User < ActiveRecord::Base
 
 	# Callbacks in order or processing
 	before_create :set_full_name
-	after_create :create_profile_record
 	#after_save :add_ab_test_data
 
 	def all_jobs_for_schools
@@ -242,8 +241,14 @@ class User < ActiveRecord::Base
 			# Downcase the URL
 			t.url = url.downcase
 
+			# Add the tioki technology :D
+			TechnologyUser.create(:user => self, :technology_id => 15)
+
 			# Save it
 			t.save!
+
+			# Send welcome email
+			UserMailer.teacher_welcome_email(self.id).deliver
 		end
 
 		# Return
@@ -628,18 +633,6 @@ class User < ActiveRecord::Base
 			# If the user id is even then apple the B ab test
 			update_attribute(:ab, 'B') if id.even?
 			update_attribute(:ab, 'A') unless id.even?
-		end
-
-		def create_profile_record
-
-			# Create a new teacher record
-			create_teacher
-
-			# Add the tioki technology :D
-			TechnologyUser.create(:user => self, :technology_id => 15)
-
-			# Send welcome email
-			UserMailer.teacher_welcome_email(self.id).deliver
 		end
 end
  
