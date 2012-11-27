@@ -278,6 +278,14 @@ class WelcomeWizardController < ApplicationController
 		if request.post? && (!params[:people].nil? || params[:twitter])
 
 			if params[:twitter]
+				client = Twitter::Client.new(
+					:oauth_token => self.current_user.twitter_oauth_token,
+					:oauth_token_secret => self.current_user.twitter_oauth_secret
+				)
+
+				params.twitter_contacts.split(',').each do |twitter_contact|
+					client.direct_message_create(contact, "Connect with me at tioki.com via @tioki")
+				end
 			else
 				# Split people to invite and loop
 				params.people.split(',').each do |email|
@@ -497,7 +505,6 @@ class WelcomeWizardController < ApplicationController
 			#contact is screenname
 			client.direct_message_create(contact, "Connect with me at tioki.com via @tioki")
 		end
-		#Send message back that we are successful
 	end
 
 	# Catch rails args

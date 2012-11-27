@@ -65,8 +65,8 @@
 
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
 				<p class="no-pre">Select some contacts that you would like to connect with.</p>
-				<a href="#select" class="button">Select All</a>
-				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
+				<a href="#twitter_select" class="button">Select All</a>
+				<a href="#twitter_deselect" class="button" style="background:#ccc;">Deselect All</a>
 			</div>
 
 			<div class="person_cloud">
@@ -94,7 +94,6 @@
 <script>
 	$(document).ready(function() {
 		//Start facebook
-		var friendArray = new Array();
 		window.fbAsyncInit = function() {
 			FB.init({
 				appId		: "440391786011809"
@@ -118,7 +117,6 @@
 							link = $('<a href="#facebook_contact" data-contact-id=' + response.data[i].id + ' class="button secondary" style="background:#ccc" />');
 							link.html('<img src='+response.data[i].picture.data.url+'>'+name);
 							$('div.person_cloud').append(link);
-							friendArray.push(response.data[i].id);
 						}
 					});
 				}
@@ -135,15 +133,28 @@
 		}(document, /*debug*/ false));
 
 		$('a[href="#facebook_contact"]').live('click', function() {
-			id = $(this).attr('data-contact-id');
+			var twitter_id  = $(this).attr('data-contact-id');
+			var element = $(this)
+
 			FB.ui({
 				method: 'send',
-				to:  id,
+				to:  twitter_id,
 				name: "Tioki - Professional Network for Educators",
 				picture: "http://www.tioki.com/assets/tioki/tioki-ok.png", 
 				description: "Tioki gives educators access to the most valuable resource out there - other educators!",
 				link: 'http://tioki.com/ww/<%= self.current_user.invite_code %>'
-			});
+			},
+			function(response) {
+				if(response) {
+					//sent
+					element.addClass('secondary').css({'background': '#CCC'});
+				}
+				else {
+					//canceled
+					//nothing to do here
+				}
+			}
+			);
 		});
 
 		//TWITTER
@@ -151,14 +162,13 @@
 		var twitterContacts = new Array;
 
 		$("#twitter").click(function () {
-			$('div.person_cloud').empty();
-			$('div.done').empty();
-
 			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
+				$('div.person_cloud').empty();
+				$('div.done').empty();
 				for(var i in data.data) {
 					var contact = data.data[i];
 					link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
-						link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
+					link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
 					$('div.person_cloud').append(link);
 				}
 				$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
@@ -284,6 +294,7 @@
 			e.preventDefault();
 			$('div.person_cloud').empty();
 			$('div.done').hide();
+			$('#twitter_done').hide();
 
 			// Prepare the data
 			var data = new Object;
