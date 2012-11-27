@@ -41,7 +41,7 @@
 				</h4>
 			<% end %>
 			
-			<p style="margin-left:10px; margin-top:-10px;width:auto">
+			<p style="margin-left:10px; margin-top:-15px;width:auto">
 			  	<% if @teacher.position.present? && @teacher.school.present?%>
 					<strong style="color:#2AA99B">
 						Currently:
@@ -54,7 +54,7 @@
 			<section id="updates" style="margin: 0px 0px 0px 10px;">
 				<!-- SOCIAL LINKS -->
 					<a href="my_connections.html" style= "margin-right:10px;">
-					<div class="count connections" style= "margin-bottom:-10px;">
+					<div class="count connections" style= "margin-bottom:-15px;">
 					<%= User.current.pending_connections(false).count %>
 					</div>
 					<%= ablang('connection.plural') %>
@@ -116,7 +116,7 @@
 <!-- CONTENT SECTION -->
 <section class="profile-content" style="width:1000px;">
 	<section class="panels">
-		<section class="one-column right-side" style="border: 1px solid #ccc; border-radius: 0;">
+		<section class="one-column right-side" style="border: 1px solid #ccc; border-radius: 0;margin: 0px 36px 0px 0px;">
 			<h3>Most recent videos</h3>
 			<ul>
 				<% @videodb.limit(6).each do |vid| %>
