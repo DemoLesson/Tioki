@@ -1,8 +1,17 @@
 class User_Group < ActiveRecord::Base
 	set_table_name "users_groups"
 
-	has_one :group
-	has_one :user
+	belongs_to :group
+	belongs_to :user
+
+	scope :permissions, lambda { |type| 
+		dump type
+		unless type.nil?
+			# Get the bit based on the configuration and return matching the bit
+			bit = APP_CONFIG['bitswitches']['group_permissions'].invert[type]
+			return "POW(2, #{bit}) & `users_groups`.`permissions` > 0"
+		end
+	}
 
 	def self.permissions(conds = {})
 
