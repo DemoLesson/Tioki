@@ -1,3 +1,11 @@
+v2.1.9 - Nov 27, 2012  2:01PM PST deployed by Kelly Becker
+==========================================================
+* d697be1: Kelly Becker - group permissions
+* 647691e: Kelly Becker - make group admin
+* e776c38: Kelly Becker - group make admin
+* 1320bde: Aleks Stanisic - gem file
+* 2ffa193: Brian Martinez - school side design changes
+
 v2.1.8 - Nov 26, 2012  3:38PM PST deployed by Aleks Stanisic
 ============================================================
 
