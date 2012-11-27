@@ -1,4 +1,8 @@
 class Group < ActiveRecord::Base
+
+	# Instantiate BitSwitch
+	bitswitch :permissions, APP_CONFIG['bitswitches']['group_permissions']
+	
 	acts_as_commentable
 
 	has_and_belongs_to_many :users, :join_table => 'users_groups'
@@ -32,29 +36,6 @@ class Group < ActiveRecord::Base
 		Comment.build_from(self, User.current.id, body)
 	end
 
-	def self.permissions(conds = {})
-
-		# Get available bits and list of conditions
-		bits = APP_CONFIG['bitswitches']['group_permissions'].invert
-		conditions = Array.new
-
-		# Run bitwise conditions
-		conds[:slugs].each do |slug, tf|
-			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
-			conditions << "POW(2, #{bits[slug]}) & `groups`.`permissions`" + (tf ? ' > 0' : ' <= 0')
-		end
-
-		# Add conditions
-		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
-	end
-
-	def permissions!
-		perms = self.permissions unless self.permissions.nil?
-		perms = 0 if self.permissions.nil?
-
-		perms.to_switch(APP_CONFIG['bitswitches']['group_permissions'])
-	end
-
 	def user_permissions(conds = {})
 		user = User.find(conds[:user]) unless conds[:user].nil?
 		user = User.current if conds[:user].nil? && !User.current.nil?
@@ -65,11 +46,13 @@ class Group < ActiveRecord::Base
 		user_group = User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first
 
 		# Unless we want to update the permissions
-		return user_group.permissions! unless conds[:update].is_a?(Hash)
+		return user_group.permissions unless conds[:update].is_a?(Hash)
 		
 		# Merge permissions
-		permissions = BitSwitch.new(user_group.permissions!.to_hash.merge(conds[:update]))
-		user_group.update_attribute(:permissions, permissions)
+		user_group.permissions = conds[:update]
+
+		# Return permissions
+		return user_group.permissions
 	end
 
 	def users(type = nil)

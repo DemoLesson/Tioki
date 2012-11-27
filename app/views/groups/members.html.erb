@@ -53,7 +53,7 @@
 					<% elsif @in_group %>
 						<%= link_to "Explore More Groups", "/groups", :class => "button" %>
 					<% else %>
-						<% if @group.permissions!['public'] %>
+						<% if @group.permissions['public'] %>
 							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
 						<% end %>
 					<% end %>
