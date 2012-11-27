@@ -1,3 +1,7 @@
+v2.1.11 - Nov 27, 2012  3:37PM PST deployed by Kelly Becker
+===========================================================
+* 383a656: Kelly Becker - gemlock
+
 v2.1.10 - Nov 27, 2012  3:35PM PST deployed by Kelly Becker
 ===========================================================
 * 68efa4c: Kelly Becker - git repo for bitswitch
