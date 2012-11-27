@@ -282,4 +282,24 @@ class GroupsController < ApplicationController
 			redirect_to :back, "Unauthorized"
 		end
 	end
+
+	def add_admin
+		group = Group.find(params[:id])
+
+		# Check for permissions
+		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+
+		group.user_permissions(:update => {'administrator' => true}, :user => params[:user])
+		redirect_to :back
+	end
+
+	def rmv_admin
+		group = Group.find(params[:id])
+
+		# Check for permissions
+		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+		
+		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
+		redirect_to :back
+	end
 end

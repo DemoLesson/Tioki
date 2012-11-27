@@ -61,7 +61,15 @@ class Group < ActiveRecord::Base
 
 		return false if user.nil?
 
-		return User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first.permissions!
+		# Get UserGroup record
+		user_group = User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first
+
+		# Unless we want to update the permissions
+		return user_group.permissions! unless conds[:update].is_a?(Hash)
+		
+		# Merge permissions
+		permissions = BitSwitch.new(user_group.permissions!.to_hash.merge(conds[:update]))
+		user_group.update_attribute(:permissions, permissions)
 	end
 
 	def users(type = nil)

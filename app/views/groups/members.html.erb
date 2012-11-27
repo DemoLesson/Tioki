@@ -122,11 +122,10 @@
 								<% end %>
 								<!-- Allowing an admin to create other admins -->
 								<span style="float:right">
-									<% if self.current_user %>
-										<% if @group.user_permissions['administrator'] || User.current.is_admin %>
-											<% unless self.current_user.teacher == user.teacher%>
-												<%= link_to "(Make Admin)", '#' %>
-											<% end %>
+									<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
+										<% unless self.current_user.teacher == user.teacher %>
+											<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
+											<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
 										<% end %>
 									<% end %>
 								</span>	
