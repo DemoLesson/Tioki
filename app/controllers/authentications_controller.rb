@@ -8,6 +8,11 @@ class AuthenticationsController < ApplicationController
 		session[:rsecret] = request_token.secret
 		session[:twitter_action] = params[:twitter_action]
 
+		if params[:twitter_action] == "tweet"
+			#go back to welcome_wizard step4
+			session[:wizard_url] = request.path
+		end
+
 		redirect_to request_token.authorize_url
 	end
 
@@ -20,18 +25,34 @@ class AuthenticationsController < ApplicationController
 			:oauth_token_secret => access_token.secret
 		)
 
-		if session[:twitter_action] == "follow"
-			client.follow("Tioki")
-			self.current_user.teacher.update_attribute(:twitter_connect, true)
-			notice = "You are now following tioki"
-		elsif session[:twitter_action] == "tweet"
+		#if session[:twitter_action] == "follow"
+		#	client.follow("Tioki")
+		#	self.current_user.teacher.update_attribute(:twitter_connect, true)
+		#	notice = "You are now following tioki"
+		if session[:twitter_action] == "tweet"
+			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
+			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 			self.current_user.teacher.update_attribute(:tweet_about, true)
 			notice = "Success"
+
+			if session[:wizard_url]
+				return redirect_to session[:wizard_url]
+				session[:wizard_url] = nil
+			else
+				return redirect_to "/welcome_wizard?x=step4"
+			end
 		elsif session[:twitter_action] == "auth"
 			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 			notice = "Success"
+
+			#no longer need these session variables
+			session[:rsecret] = nil
+			session[:rtoken] = nil
+			session[:twitter_action] = nil
+
+			return redirect_to "/me/settings", :notice => notice
 		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
 			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
@@ -48,23 +69,12 @@ class AuthenticationsController < ApplicationController
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 
 			if session[:wizard_url]
-				return redirect_to "#{session[:wizard_url]}&twitter=true"
+				return redirect_to session[:wizard_url]
 			else
-				return redirect_to "/welcome_wizard?x=step4&twitter=true"
+				return redirect_to "/welcome_wizard?x=step4"
 			end
 		end
-
-		#no longer need these session variables
-		session[:rsecret] = nil
-		session[:rtoken] = nil
-
-		if session[:twitter_action] == "auth"
-			redirect_to "/me/settings", :notice => notice
-			session[:twitter_action] = nil
-		else
-			redirect_to "/tioki_bucks", :notice => notice
-			session[:twitter_action] = nil
-		end
+		redirect_to :root
 	end
 
 	def revoke_twitter
@@ -97,6 +107,7 @@ class AuthenticationsController < ApplicationController
 			return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
 
 		elsif session[:facebook_action] == "wall_post"
+			self.current_user.update_attribute(:facebook_access_token, access_token)
 			@graph = Koala::Facebook::API.new(access_token)
 			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
 			self.current_user.teacher.update_attribute(:facebook_connect, true)

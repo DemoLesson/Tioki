@@ -57,13 +57,13 @@
 				Invite Twitter Followers
 				<div style="float:right">
 					<%= submit_tag "Invite" %> 
-					Or <%= link_to "tweet about us", "/twitter_auth" %>
+					Or <%= link_to "tweet about us", "/twitter_auth?twitter_action=tweet" %>
 				</div>
 			</div>
 			<div id="facebook_header" style="display:none">
 				Invite Facebook Friends
 				<div style="float:right">
-					<%= link_to "Post to your wall", "/facebook_auth" %>
+					<%= link_to "Post to your wall", "/facebook_auth?facebook_action=wall_post" %>
 				</div>
 			</div>
 			<div id="search_div" style="float:left;display:none">
