@@ -408,7 +408,12 @@
 			e.preventDefault();
 
 			// Set the people to the form
-			$('input[name="people"]').val(selectedContacts.join(','));
+			if (inviteType == "emails") {
+				$('input[name="people"]').val(selectedContacts.join(','));
+			}
+			else {
+				$('input[name="people"]').val(twitterContacts.join(','));
+			}
 
 			// Submit the form
 			$(this).get(0).submit();
@@ -453,5 +458,17 @@
 				}
 			}
 		});
+
+		function reset() {
+			//reinitializes a bunch of array and hides things
+			//called everytime a new invite method is selected
+			$('div.person_cloud').empty();
+
+			duplicatePrevention.length = 0;
+
+			selectedContacts.length = 0;
+
+			emailSearch.length = 0;
+		}
 	});
 </script>

@@ -275,7 +275,7 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		# Detect post variables
-		if request.post? && (!params[:people].nil? || params[:twitter])
+		if request.post? && !params[:people].nil?
 
 			if params[:twitter]
 				client = Twitter::Client.new(
@@ -283,8 +283,8 @@ class WelcomeWizardController < ApplicationController
 					:oauth_token_secret => self.current_user.twitter_oauth_secret
 				)
 
-				params.twitter_contacts.split(',').each do |twitter_contact|
-					client.direct_message_create(contact, "Connect with me at tioki.com via @tioki")
+				params.people.split(',').each do |twitter_contact|
+					client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 				end
 			else
 				# Split people to invite and loop
@@ -511,5 +511,4 @@ class WelcomeWizardController < ApplicationController
 	def create(*args)
 		self.send('index', *args)
 	end
-
 end
