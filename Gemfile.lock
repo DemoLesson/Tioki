@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/KellyLSB/Bitswitch.git
-  revision: 32ada6f5ed156f14e37f3689593f48798b33adf1
+  revision: 748f58a2c86e0b3ab40726edf5ca638b0af2ca77
   specs:
     bitswitch (1.0.2)
 
