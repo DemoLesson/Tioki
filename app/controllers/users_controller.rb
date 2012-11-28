@@ -530,7 +530,7 @@ class UsersController < ApplicationController
 			user = User.find(school.owned_by) 
 			@jobcount+=school.jobs.count
 			school.jobs.each do |job| 
-				@applicants = @applicants + job.applications.count 
+				@applicants = @applicants + job.applications.where("applications.submitted = 1").count 
 			end
 		end
 

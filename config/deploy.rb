@@ -21,6 +21,7 @@ set :repository, "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic
 set :branch, "master" if Rubber.env == 'production'
 set :branch, `git symbolic-ref --short -q HEAD`.strip if Rubber.env != 'production'
 set :git_shallow_clone, 1
+set :deploy_via, :export
 
 # Run system level server configuration as root (no pass rqd)
 set :user, 'root'
@@ -51,155 +52,37 @@ default_run_options[:max_hosts] = max_hosts if max_hosts > 0
 # Comment out or use "required_task" for default cap behavior of a hard failure
 rubber.allow_optional_tasks(self)
 
-# Load in the deploy scripts installed by vulcanize for each rubber module
+# Wrap tasks in the deploy namespace that have roles so that we can use FILTER
+# with something like a deploy:cold which tries to run deploy:migrate but can't
+# because we filtered out the :db role
+namespace :deploy do
+  rubber.allow_optional_tasks(self)
+  tasks.values.each do |t|
+    if t.options[:roles]
+      task t.name, t.options, &t.body
+    end
+  end
+end
+
+namespace :deploy do
+  namespace :assets do
+    rubber.allow_optional_tasks(self)
+    tasks.values.each do |t|
+      if t.options[:roles]
+        task t.name, t.options, &t.body
+      end
+    end
+  end
+end
+
+# load in the deploy scripts installed by vulcanize for each rubber module
 Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
-# Deploy scripting
-namespace :deploy do
-  rubber.allow_optional_tasks(self)
-  
-  # Re-taskify
-  tasks.values.each do |t|
-    task t.name, t.options, &t.body if t.options[:roles]
-  end
-
-  # Do a full deploy (start -> finish)
-  task :full do
-    update_code
-    migrate
-    assets.default
-    create_symlink
-    restart
-    cleanup
-  end
-
-  # Rake assets
-  namespace :assets do
-    rubber.allow_optional_tasks(self)
-
-    # Rake the configured directory
-    task :default do
-      rake = fetch(:rake, "rake")
-      rails_env = fetch(:rails_env, "production")
-      migrate_target = fetch(:migrate_target, :latest)
-
-      # Deploy assets off specified directory
-      directory = case migrate_target.to_sym
-        when :current then current_path
-        when :latest  then latest_release
-        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
-        end
-
-      run "cd #{directory} && #{rake} RAILS_ENV=#{rails_env} assets:precompile"
-    end
-
-    # Rake the currently live directory
-    task :current do
-      migrate_target = fetch(:migrate_target, :latest)
-      set :migrate_target, :current
-      default
-      set :migrate_target, migrate_target
-    end
-
-    # Allow items to silently fail if necessary
-    rubber.allow_optional_tasks(self)
-  end
-
-  # Roll back code to a previous revision
-  namespace :rollback do
-    rubber.allow_optional_tasks(self)
-
-    task :default do
-      revision
-      restart
-      cleanup
-    end
-  end
-
-  # Handle chmodding of certain directories
-  namespace :chmod do
-    rubber.allow_optional_tasks(self)
-
-    task :uploads do
-      run "cd #{current_path};RAILS_ENV=#{rails_env} chmod -Rf 0777 public/uploads"
-    end
-
-    task :all do
-      uploads
-    end
-  end
-end
-
-# Rubber config hacks
-namespace :rubber do
-  rubber.allow_optional_tasks(self)
-
-  # Delete the already existing config task
-  tasks.replace(tasks.delete_if{|k,v| k.to_sym == :config})
-  if all_methods.include?(:config)
-    metaclass = class << self; self; end
-    metaclass.send(:remove_method, :config)
-  end
-
-  # Store the two config options
-  namespace :config do
-    rubber.allow_optional_tasks(self)
-
-    # Config based on the latest code
-    task :default do
-      opts = {}
-      opts[:no_post] = true if ENV['NO_POST']
-      opts[:force] = true if ENV['FORCE']
-      opts[:file] = ENV['FILE'] if ENV['FILE']
-      migrate_target = fetch(:migrate_target, :latest)
-
-      # Config off the specifed directory
-      opts[:deploy_path] = case migrate_target.to_sym
-        when :current then current_path
-        when :latest then latest_release
-        else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
-        end
-
-      run_config(opts)
-    end
-
-    # Config on the currently deployed code
-    task :current, { :on_error => :continue } do
-      migrate_target = fetch(:migrate_target, :latest)
-      set :migrate_target, :current
-      default
-      set :migrate_target, migrate_target
-    end
-  end
-end
-
-# Handle websockets daemon
-namespace :websockets do
-  rubber.allow_optional_tasks(self)
-
-  task :start do
-    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets start"
-  end
-
-  task :stop do
-    run "cd #{current_path};RAILS_ENV=#{rails_env} script/websockets stop"
-  end
-
-  task :reload do
-    stop
-    start
-  end
-end
-
-# Reload delayed job
-before "deploy:create_symlink", "delayed_job:stop"
-after "deploy:restart", "delayed_job:start"
-
-# Reload websockets daemon
-before "deploy:create_symlink", "websockets:stop"
+# Start websockets / delayed job daemons
 after "deploy:restart", "websockets:start"
+after "deploy:restart", "delayed_job:start"
 
 # Add chmod to after rubber:setup_app_permissions
 after "rubber:setup_app_permissions", "deploy:chmod:all"

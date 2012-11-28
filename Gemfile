@@ -137,11 +137,6 @@ gem 'em-websocket'
 gem 'linkedin'
 gem 'country_select'
 gem 'rmagick', :require => 'RMagick'
-gem 'rubber'
-gem 'open4'
-gem 'gelf'
-gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
-gem 'graylog2-resque'
 gem 'delayed_job_active_record'
 gem 'acts_as_commentable_with_threading'
 
@@ -150,3 +145,12 @@ gem 'koala'
 
 # This gem doesnot do anything
 gem 'terminal-notifier'
+
+# Rubber files
+gem 'rubber'
+gem 'open4'
+
+# Graylog 2
+gem 'gelf'
+gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
+gem 'graylog2-resque'

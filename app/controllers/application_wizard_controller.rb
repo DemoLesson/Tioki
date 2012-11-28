@@ -4,8 +4,13 @@ class ApplicationWizardController < ApplicationController
 	helper_method :url
 
 	def url; currentHost + '/wizards/application'; end
+	def step1_url; url + '/step1'; end
 	def step2_url; url + '/step2'; end
 	def step3_url; url + '/step3'; end
+	def step4_url; url + '/step4'; end
+	def step5_url; url + '/step5'; end
+	def step6_url; url + '/step6'; end
+	def step7_url; url + '/step7'; end
 
 	def index
 		redirect_to :root if params[:job].nil?
@@ -33,6 +38,8 @@ class ApplicationWizardController < ApplicationController
 
 		if request.post?
 			user = User.create(params[:user])
+			user.create_teacher
+
 			session[:user] = User.authenticate(user.email, user.password)
 			@app.update_attribute(:teacher_id, User.current.teacher.id)
 

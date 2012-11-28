@@ -53,7 +53,7 @@
 					<% elsif @in_group %>
 						<%= link_to "Explore More Groups", "/groups", :class => "button" %>
 					<% else %>
-						<% if @group.permissions!['public'] %>
+						<% if @group.permissions['public'] %>
 							<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
 						<% end %>
 					<% end %>
@@ -120,18 +120,16 @@
 								<% if user.teacher.position.present?  && user.teacher.school.present? %>
 									<%= user.teacher.position %> at <%= user.teacher.school %>
 								<% end %>
-								<!--
-								 Allowing an admin to create other admins 
+								<!-- Allowing an admin to create other admins -->
 								<span style="float:right">
-									<% if self.current_user %>
-										<% if @admin %>
-											<% unless self.current_user.teacher == user.teacher%>
-												<%= link_to "(Make Admin)", '#' %>
-											<% end %>
+									<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
+										<% unless self.current_user.teacher == user.teacher %>
+											<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
+											<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
 										<% end %>
 									<% end %>
 								</span>	
-								<br /> -->
+								<br />
 								<!-- Pulling the Teacher's Location -->
 								<% if user.teacher.location.present? %>
 									<%= user.teacher.location %>
@@ -141,22 +139,20 @@
 				<% end %>
 			</section>
 		</section>
-		<!--<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
+		<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
 			<section style="margin-left:20px">
 				<h3 class="bottom-line">
 					Group Administrators
 				</h3>
-				<% @group.users.avatar?.each do |user| %>
-					<% if user.teacher == @admin %>
-						<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.teacher.url %>
-							<p style="margin:-40px 0 5px 50px">
-								<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
-								<%= user.teacher.location %>
-							</p>
-					<% end %>
+				<% @group.users('administrator').avatar?.each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.teacher.url %>
+					<p style="margin:-40px 0 5px 50px">
+						<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
+						<%= user.teacher.location %>
+					</p>
 				<% end %>
 			</section>
-		</section>-->
+		</section>
 	</section>
 </section>
 
