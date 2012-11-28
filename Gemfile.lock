@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/KellyLSB/Bitswitch.git
-  revision: 125ec4963fdc28b1e800bbd528500fb54d249922
+  revision: c0e24ec71737d9ad2dbdfe325ecc19398ba7f0e8
   specs:
-    bitswitch (1.0.2)
+    bitswitch (1.0.3)
 
 GIT
   remote: git://github.com/KellyLSB/chronic.git

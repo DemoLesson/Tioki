@@ -1,3 +1,30 @@
+v2.1.15 - Nov 28, 2012  1:15PM PST deployed by Kelly Becker
+===========================================================
+* 262840c: Kelly Becker - whoops commenting out not a good plan
+
+v2.1.14 - Nov 28, 2012  1:03PM PST deployed by Kelly Becker
+===========================================================
+* ee72216: Kelly Becker - commented out connection degree
+
+v2.1.13 - Nov 28, 2012 12:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 63533c2: Aleks Stanisic - profile changes
+
+v2.1.12 - Nov 27, 2012  8:40PM PST deployed by Kelly Becker
+===========================================================
+* 633fd11: Kelly Becker - remove www2
+* d5164a9: Kelly Becker - group fix
+* 5f1b583: Kelly Becker - fix to a group permis thing
+* af25a49: Brian Martinez - profile changes
+* 86ab852: Kelly Becker - fix to a minor bug
+* 3c1fc56: Kelly Becker - gemlock
+* 0546aea: Brian Martinez - blog and website for teachers
+* 776df2f: Aleks Stanisic - new profile addition
+* cd8ed2e: Brian Martinez - changes to make Brian's Mac work
+* 2298ecc: Kelly Becker - config overrides
+* e735707: Kelly Becker - instances
+* 9260b47: Kelly Becker - instances
+
 v2.1.11 - Nov 27, 2012  3:37PM PST deployed by Kelly Becker
 ===========================================================
 * 383a656: Kelly Becker - gemlock
