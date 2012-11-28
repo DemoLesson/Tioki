@@ -118,9 +118,7 @@
 		};
 
 		$("#facebook").click(function() {
-			$('div.person_cloud').empty();
-			$("#twitter_header").hide();
-			$("#invite_footer").hide();
+			reset();
 
 			FB.login(function(response) {
 				if(response.authResponse) {
@@ -205,7 +203,7 @@
 		var twitterSearch = new Array;
 
 		$("#twitter").click(function () {
-			$("#facebook_header").hide();
+			reset();
 
 			inviteType = "twitter";
 
@@ -333,7 +331,7 @@
 		// Go ahead and process the connection
 		$('#detected_email').click(function(e) {
 			e.preventDefault();
-			$('div.person_cloud').empty();
+			reset();
 
 			// Prepare the data
 			var data = new Object;
@@ -463,12 +461,21 @@
 			//reinitializes a bunch of array and hides things
 			//called everytime a new invite method is selected
 			$('div.person_cloud').empty();
+			$("#twitter_header").hide();
+			$("#invite_footer").hide();
+			$("#facebook_header").hide();
 
 			duplicatePrevention.length = 0;
 
 			selectedContacts.length = 0;
 
 			emailSearch.length = 0;
+
+			facebookSearch.length = 0;
+
+			twitterContacts.length = 0;
+
+			twitterSearch.length = 0;
 		}
 	});
 </script>
