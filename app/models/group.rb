@@ -41,13 +41,14 @@ class Group < ActiveRecord::Base
 		user = User.current if conds[:user].nil? && !User.current.nil?
 
 		# Empty switch
-		return User_Group.new.permissions if user.nil?
+		switchConf = APP_CONFIG['bitswitches']['user_group_permissions']
+		return BitSwitch.new(0, switchConf) if user.nil?
 
 		# Get UserGroup record
 		user_group = User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first
 
 		# Return false if not a member
-		return User_Group.new.permissions if user_group.nil?
+		return BitSwitch.new(0, switchConf) if user_group.nil?
 
 		# Unless we want to update the permissions
 		return user_group.permissions unless conds[:update].is_a?(Hash)
