@@ -1,3 +1,7 @@
+v2.1.14 - Nov 28, 2012  1:03PM PST deployed by Kelly Becker
+===========================================================
+* ee72216: Kelly Becker - commented out connection degree
+
 v2.1.13 - Nov 28, 2012 12:15PM PST deployed by Aleks Stanisic
 =============================================================
 * 63533c2: Aleks Stanisic - profile changes
