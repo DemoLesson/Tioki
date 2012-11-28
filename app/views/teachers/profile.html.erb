@@ -32,7 +32,7 @@
 				<h2 style="margin: 10px 0px -5px 10px">
 				<%= @teacher.user.name %>
 				</h2>
-				<section style= "height: 75px;">
+				<section style= "height: 70px;">
 				<% if @teacher.headline? %>
 					<h4 style="margin-left:10px;margin-top:10px;width:auto">
 						"<%= @teacher.headline %>"
@@ -69,41 +69,59 @@
 						<% end %>
 						<% if @teacher.twitter.present? %>
 							<% if @teacher.twitter.include? '//' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), @teacher.twitter %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), @teacher.twitter, :target => "_blank" %>
+							<% elsif @teacher.twitter.include? 'twitter' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//'+@teacher.twitter, :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//'+@teacher.twitter %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
 							<% end %>
 						<% end %>
 
 						<% if @teacher.linkedin.present? %>
 							<% if @teacher.linkedin.include? '//' %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), @teacher.linkedin %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), @teacher.linkedin, :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + @teacher.linkedin %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + @teacher.linkedin, :target => "_blank" %>
 							<% end %>
 						<% end %>
 
 						<% if @teacher.edmodo.present? %>
 							<% if @teacher.edmodo.include? '//' %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.edmodo %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.edmodo, :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.edmodo %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.edmodo, :target => "_blank" %>
 							<% end %>
 						<% end %>
 
 						<% if @teacher.betterlesson.present? %>
 							<% if @teacher.betterlesson.include? '//' %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.betterlesson %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.betterlesson, :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.betterlesson %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.betterlesson, :target => "_blank" %>
 							<% end %>
 						<% end %>
 
 						<% if @teacher.teachingchannel.present? %>
 							<% if @teacher.teachingchannel.include? '//' %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.teachingchannel %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.teachingchannel, :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.teachingchannel %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.teachingchannel, :target => "_blank" %>
+							<% end %>
+						<% end %>
+						
+						<% if @teacher.blog.present? %>
+							<% if @teacher.blog.include? '//' %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.blog, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.blog, :target => "_blank" %>
+							<% end %>
+						<% end %>
+						
+						<% if @teacher.website.present? %>
+							<% if @teacher.website.include? '//' %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.website, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.website, :target => "_blank" %>
 							<% end %>
 						<% end %>
 				</section>
