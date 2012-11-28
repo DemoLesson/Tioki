@@ -45,6 +45,9 @@ class Group < ActiveRecord::Base
 		# Get UserGroup record
 		user_group = User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', user.id, self.id).first
 
+		# Return false if not a member
+		return false if user_group.nil?
+
 		# Unless we want to update the permissions
 		return user_group.permissions unless conds[:update].is_a?(Hash)
 		
