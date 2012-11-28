@@ -63,13 +63,29 @@
 			<div id="facebook_header" style="display:none">
 				Invite Facebook Friends
 				<div style="float:right">
-					<%= link_to "Post to your wall", "/facebook_auth?facebook_action=wall_post" %>
+					<a href="#wall_post" id="wall_post">Post to your wall</a>
 				</div>
 			</div>
 			<div id="search_div" style="float:left;display:none">
 				<%= text_field_tag "contact_search", nil, :placeholder => "Type a friend's name", :id => "contact_search" %>
 			</div>
 			<div class="person_cloud" style="padding-top:80px">
+			</div>
+			<div id="invite_footer" style="float:right;display:none">
+				<%= submit_tag "Invite" %> 
+				<% if params[:user_connection] %>
+					<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+				<% elsif params[:invitestring] %>
+					<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
+				<% elsif params[:vouchstring] %>
+					<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
+				<% elsif params[:invitecode] %>
+					<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
+				<% elsif params[:welcomecode] %>
+					<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+				<% else %>
+					<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
+				<% end %>
 			</div>
 
 			<% if params[:user_connection] %>
@@ -102,15 +118,15 @@
 		};
 
 		$("#facebook").click(function() {
-
+			$('div.person_cloud').empty();
 			$("#twitter_header").hide();
+			$("#invite_footer").hide();
 
 			FB.login(function(response) {
 				if(response.authResponse) {
 					FB.api('/me/friends?fields=id,name,picture', function(response)
 					{
 						inviteType = "facebook";
-						$('div.person_cloud').empty();
 						for(var i = 0; i < response.data.length; i++)
 						{
 							contact = response.data[i];
@@ -158,9 +174,26 @@
 				else {
 					//canceled
 					//nothing to do here
+
 				}
 			}
 			);
+		});
+
+		$("#wall_post").click(function(e) {
+			e.preventDefault();
+
+			FB.api('/me/feed', 'post', { 
+				message: "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/<%= self.current_user.invite_code %>",
+			},
+			function(response) {
+				if(!response || response.error) {
+					alert('An error occured');
+				} 
+				else {
+					alert('Success');
+				}
+			});
 		});
 
 		//TWITTER
@@ -194,6 +227,7 @@
 			});
 			$("#search_div").show();
 			$("#twitter_header").show();
+			$("#invite_footer").show();
 		});
 
 		$('a[href="#twitter_contact"]').live('click', function(e) {
@@ -227,34 +261,6 @@
 
 			return false;
 		});
-
-		$('a[href="#twitter_deselect"]').live('click', function(e) {
-			e.preventDefault();
-
-			var int1 = setInterval(function() {
-				if(twitterContacts.length == 0)
-				clearTimeout(int1);
-
-				var tmp = twitterContacts;
-				for(var i in tmp) $('a[data-contact-id="' + tmp[i] + '"]').each(function() {
-					$(this).click();
-				});
-			}, 20);
-
-			return false;
-		});
-
-		$('a[href="#twitter_select"]').live('click', function(e) {
-			e.preventDefault();
-
-			$('a[href="#twitter_contact"]').each(function() {
-				if($(this).hasClass('secondary'))
-				$(this).click();
-			});
-
-			return false;
-		});
-
 
 
 		//DETECTED EMAILS
@@ -357,6 +363,7 @@
 
 								// Get the users contacts
 								contacts = grabContacts(data.import_id);
+								$("#invite_footer").show();
 							}
 						} catch(e) {}
 					}, 200);
