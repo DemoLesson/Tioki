@@ -29,7 +29,19 @@
 					<a href="/twitter_auth?twitter_action=invite" id="twitter_auth" class="medium button">Twitter</a>
 				<% end %><br />
 
-				<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+				<% if params[:user_connection] %>
+					<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+				<% elsif params[:invitestring] %>
+					<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
+				<% elsif params[:vouchstring] %>
+					<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
+				<% elsif params[:invitecode] %>
+					<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
+				<% elsif params[:welcomecode] %>
+					<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+				<% else %>
+					<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
+				<% end %>
 			</div>
 
 			<div class="done" style="display:none;">
@@ -41,14 +53,23 @@
 				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
 			</div>
 
-
-			<div id="_search" style="display:none">
-				<div style="float:left">Invite Twitter Followers
-					<%= text_field_tag "contact_search", nil, :placeholder => "Type a friend's name", :id => "contact_search"%>
+			<div id="twitter_header" style="display:none">
+				Invite Twitter Followers
+				<div style="float:right">
+					<%= submit_tag "Invite" %> 
+					Or <%= link_to "tweet about us", "/twitter_auth" %>
 				</div>
-				<%= submit_tag "Invite", :style => "float:right;width:20%" %>
 			</div>
-			<div class="person_cloud" style="padding-top:100px">
+			<div id="facebook_header" style="display:none">
+				Invite Facebook Friends
+				<div style="float:right">
+					<%= link_to "Post to your wall", "/facebook_auth" %>
+				</div>
+			</div>
+			<div id="search_div" style="float:left;display:none">
+				<%= text_field_tag "contact_search", nil, :placeholder => "Type a friend's name", :id => "contact_search" %>
+			</div>
+			<div class="person_cloud" style="padding-top:80px">
 			</div>
 
 			<% if params[:user_connection] %>
@@ -65,19 +86,6 @@
 		</form>
 	</div>
 
-	<!--<% if params[:user_connection] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitestring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
-	<% elsif params[:vouchstring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
-	<% elsif params[:welcomecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
-	<% else %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5">Skip Step &raquo;</a>
-	<% end %>-->
 </div>
 <div id="fb-root"></div>
 <script>
@@ -95,6 +103,8 @@
 
 		$("#facebook").click(function() {
 
+			$("#twitter_header").hide();
+
 			FB.login(function(response) {
 				if(response.authResponse) {
 					FB.api('/me/friends?fields=id,name,picture', function(response)
@@ -111,6 +121,9 @@
 							link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
 							$('div.person_cloud').append(link);
 						}
+						$("#facebook_header").show();
+						$("#search_div").show();
+
 					});
 				}
 			});
@@ -127,7 +140,7 @@
 
 		$('a[href="#facebook_contact"]').live('click', function() {
 			var facebook_id  = $(this).attr('data-contact-id');
-			var element = $(this);
+			var facebook_contact = $(this);
 
 			FB.ui({
 				method: 'send',
@@ -140,7 +153,7 @@
 			function(response) {
 				if(response) {
 					//sent
-					element.addClass('secondary').css({'background': '#CCC'});
+					facebook_contact.removeClass('secondary').css({'background': '#F66C4C'});
 				}
 				else {
 					//canceled
@@ -159,7 +172,10 @@
 		var twitterSearch = new Array;
 
 		$("#twitter").click(function () {
+			$("#facebook_header").hide();
+
 			inviteType = "twitter";
+
 			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
 				$('div.person_cloud').empty();
 
@@ -176,12 +192,13 @@
 				//and create submit button
 				$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
 			});
-			$("#twitter_search").show();
+			$("#search_div").show();
+			$("#twitter_header").show();
 		});
 
 		$('a[href="#twitter_contact"]').live('click', function(e) {
-			id = $(this).attr('data-contact-id');
 			e.preventDefault();
+			id = $(this).attr('data-contact-id');
 
 			// If the button is not selected
 			if($(this).hasClass('secondary')) {
