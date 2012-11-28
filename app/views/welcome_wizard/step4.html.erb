@@ -10,7 +10,7 @@
 
 			<div class="detected">
 				<% if is_gmail(self.current_user.email) %>
-					<a id="detected_email" data-email-provider="GMAIL" class="medium button">Gmail</a>
+					<br /><input type="button" id="detected_email" data-email-provider="GMAIL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Gmail" />
 
 				<% elsif /yahoo.com$/.match(params["email"]).present? %>
 					<a id="detected_email" data-email-provider="YAHOO" class="medium button">Yahoo</a>
@@ -22,26 +22,17 @@
 					<a id="email" class="medium button">Email</a>
 				<% end %>
 
-				<a id="facebook" class="medium button">Facebook</a>
+				<br /><input type="button" id="facebook" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Facebook" />
 				<% if self.current_user.twitter_auth? %>
-					<a id="twitter" class="medium button">Twitter</a>
+					<br /><input type="button" id="twitter" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Twitter" />
 				<% else %>
 					<a href="/twitter_auth?twitter_action=invite" id="twitter_auth" class="medium button">Twitter</a>
-				<% end %>
+				<% end %><br />
+
+				<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
 			</div>
 
 			<div class="done" style="display:none;">
-				<% if params[:user_connection] %>
-					<%= hidden_field_tag :user_connection, params[:user_connection] %>
-				<% elsif params[:invitestring] %>
-					<%= hidden_field_tag :invitestring, params[:invitestring] %>
-				<% elsif params[:vouchstring] %>
-					<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-				<% elsif params[:invitecode] %>
-					<%= hidden_field_tag :invitecode, params[:invitecode] %>
-				<% elsif params[:welcomecode] %>
-					<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-				<% end %>
 
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
 				<p class="preselected" style="display:none;">Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.</p>
@@ -50,33 +41,31 @@
 				<a href="#deselect" class="button" style="background:#ccc;">Deselect All</a>
 			</div>
 
-			<div id="twitter_done" class="detected" style="display:none;">
-				<% if params[:user_connection] %>
-					<%= hidden_field_tag :user_connection, params[:user_connection] %>
-				<% elsif params[:invitestring] %>
-					<%= hidden_field_tag :invitestring, params[:invitestring] %>
-				<% elsif params[:vouchstring] %>
-					<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-				<% elsif params[:invitecode] %>
-					<%= hidden_field_tag :invitecode, params[:invitecode] %>
-				<% elsif params[:welcomecode] %>
-					<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-				<% end %>
 
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;float:right;margin-top:20px" value="Next Step" />
-				<p class="no-pre">Select some contacts that you would like to connect with.</p>
-				<a href="#twitter_select" class="button">Select All</a>
-				<a href="#twitter_deselect" class="button" style="background:#ccc;">Deselect All</a>
+			<div id="_search" style="display:none">
+				<div style="float:left">Invite Twitter Followers
+					<%= text_field_tag "contact_search", nil, :placeholder => "Type a friend's name", :id => "contact_search"%>
+				</div>
+				<%= submit_tag "Invite", :style => "float:right;width:20%" %>
+			</div>
+			<div class="person_cloud" style="padding-top:100px">
 			</div>
 
-			<div class="person_cloud">
-				<div class="clear"></div>
-			</div>
-
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:invitestring] %>
+				<%= hidden_field_tag :invitestring, params[:invitestring] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% end %>
 		</form>
 	</div>
 
-	<% if params[:user_connection] %>
+	<!--<% if params[:user_connection] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
 	<% elsif params[:invitestring] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
@@ -88,12 +77,16 @@
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
 	<% else %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step5">Skip Step &raquo;</a>
-	<% end %>
+	<% end %>-->
 </div>
 <div id="fb-root"></div>
 <script>
 	$(document).ready(function() {
+		var inviteType;
+
 		//Start facebook
+		var facebookSearch = new Array();
+
 		window.fbAsyncInit = function() {
 			FB.init({
 				appId		: "440391786011809"
@@ -102,20 +95,20 @@
 
 		$("#facebook").click(function() {
 
-			$('div.person_cloud').empty();
-			$('div.done').hide();
-			$('#twitter_done').hide();
-
 			FB.login(function(response) {
 				if(response.authResponse) {
 					FB.api('/me/friends?fields=id,name,picture', function(response)
 					{
+						inviteType = "facebook";
 						$('div.person_cloud').empty();
 						for(var i = 0; i < response.data.length; i++)
 						{
-							var name = response.data[i].name;
-							link = $('<a href="#facebook_contact" data-contact-id=' + response.data[i].id + ' class="button secondary" style="background:#ccc" />');
-							link.html('<img src='+response.data[i].picture.data.url+'>'+name);
+							contact = response.data[i];
+
+							facebookSearch[i] = contact;
+
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+							link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
 							$('div.person_cloud').append(link);
 						}
 					});
@@ -133,12 +126,12 @@
 		}(document, /*debug*/ false));
 
 		$('a[href="#facebook_contact"]').live('click', function() {
-			var twitter_id  = $(this).attr('data-contact-id');
-			var element = $(this)
+			var facebook_id  = $(this).attr('data-contact-id');
+			var element = $(this);
 
 			FB.ui({
 				method: 'send',
-				to:  twitter_id,
+				to:  facebook_id,
 				name: "Tioki - Professional Network for Educators",
 				picture: "http://www.tioki.com/assets/tioki/tioki-ok.png", 
 				description: "Tioki gives educators access to the most valuable resource out there - other educators!",
@@ -159,21 +152,31 @@
 
 		//TWITTER
 
+		//Array for selected contacts
 		var twitterContacts = new Array;
 
+		//array for all contacts
+		var twitterSearch = new Array;
+
 		$("#twitter").click(function () {
+			inviteType = "twitter";
 			$.post('/welcome_wizard?x=get_twitter_contacts', function(data) {
 				$('div.person_cloud').empty();
-				$('div.done').empty();
+
 				for(var i in data.data) {
 					var contact = data.data[i];
+					twitterSearch[i] = contact;
+
 					link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
 					link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
 					$('div.person_cloud').append(link);
 				}
+
+				//post that this is a twitter invite
+				//and create submit button
 				$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
-				$("#twitter_done").show();
 			});
+			$("#twitter_search").show();
 		});
 
 		$('a[href="#twitter_contact"]').live('click', function(e) {
@@ -235,16 +238,27 @@
 			return false;
 		});
 
-		//detect emails
+
+
+		//DETECTED EMAILS
 		// Create a duplication prevention array
 		var duplicatePrevention = new Array;
 
 		var selectedContacts = new Array;
 
+		var emailSearch = new Array;
+
 		var grabContacts = function(import_id) {
 			// Get a list of all the users contacts
 			$.post('/welcome_wizard?x=get_contacts&STEP3=true', {"import_id": import_id}, function(data) {
+
+				//reset the array in case this is called again
+
+				duplicatePrevention.length = 0;
+
 				if(data.type == 'error') return;
+
+				inviteType = "emails";
 
 				for(var i in data.data) {
 					// Get the contact data
@@ -258,6 +272,11 @@
 						if($.inArray(contact.emails[e], duplicatePrevention) !== -1) continue;
 						duplicatePrevention.push(contact.emails[e]);
 
+						emailSearch.push({
+							name: contact.name,
+							email: contact.emails[e]
+						});
+
 						// Generate link and add it to the flow
 						link = $('<a href="#contact" x-data-email="'+contact.emails[e]+'" class="button secondary" style="background:#ccc" />');
 							link.html('<span class="name">'+name+'</span><span class="email">'+contact.emails[e]+'</span>');
@@ -270,7 +289,6 @@
 
 						// Reenable the submit button
 						$('input[type="submit"]').prop('disabled', false).removeClass('secondary');
-						$('div.done').fadeIn(500);
 
 						// Create a variable
 						var preselected = false;
@@ -293,8 +311,6 @@
 		$('#detected_email').click(function(e) {
 			e.preventDefault();
 			$('div.person_cloud').empty();
-			$('div.done').hide();
-			$('#twitter_done').hide();
 
 			// Prepare the data
 			var data = new Object;
@@ -376,209 +392,42 @@
 			return false;
 		});
 
-		$('a[href="#deselect"]').live('click', function(e) {
-			e.preventDefault();
+		$("#contact_search").keyup(function() {
+			$('div.person_cloud').empty();
 
-			var int1 = setInterval(function() {
-				if(selectedContacts.length == 0)
-				clearTimeout(int1);
+			var str = $(this).attr('value').toLowerCase();
 
-				var tmp = selectedContacts;
-				for(var i in tmp) $('a[x-data-email="' + tmp[i] + '"]').each(function() {
-					$(this).click();
-				});
-			}, 20);
+			if(inviteType == "twitter") {
+				for(var i = 0; i < twitterSearch.length; i++) {
+					var contact = twitterSearch[i];
+					if(contact.name.toLowerCase().indexOf(str) > -1) {
+						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
+						$('div.person_cloud').append(link);
+					}
+				}
+			}
+			else if(inviteType == "facebook") {
+				for(var i = 0; i < facebookSearch.length; i++) {
+					var contact = facebookSearch[i];
+					if(contact.name.toLowerCase().indexOf(str) > -1) {
+						link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
+						$('div.person_cloud').append(link);
+					}
+				}
+			}
+			else if(inviteType == "emails") {
+				for(var i = 0; i < emailSearch.length; i++) {
+					var contact = emailSearch[i];
 
-			return false;
-		});
-
-		$('a[href="#select"]').live('click', function(e) {
-			e.preventDefault();
-
-			$('a[href="#contact"]').each(function() {
-				if($(this).hasClass('secondary'))
-				$(this).click();
-			});
-
-			return false;
+					if(contact.email.toLowerCase().indexOf(str) > -1) {
+						link = $('<a href="#contact" x-data-email="' + contact.email + '" class="button secondary" style="background:#ccc" />');
+						link.html('<span class="name">' + contact.name + '</span><span class="email">' + contact.email + '</span>');
+						$('div.person_cloud').prepend(link);
+					}
+				}
+			}
 		});
 	});
 </script>
-<!--<script type="text/javascript">
-$(document).ready(function() {
-	var serviceIcons = {
-		"YAHOO": "/assets/cs_icons/yahoo.png",
-		"WINDOWSLIVE": "/assets/cs_icons/msn.png",
-		"GMAIL": "/assets/cs_icons/google.png",
-		"AOL": "/assets/cs_icons/aol.png",
-		"PLAXO": "/assets/cs_icons/plaxo.png",
-		"ADDRESSBOOK": "/assets/cs_icons/apple.png",
-		"OUTLOOK": "/assets/cs_icons/microsoft.png"
-	};
-
-	// Create a duplication prevention array
-	var duplicatePrevention = new Array;
-	var selectedContacts = new Array;
-
-	var grabContacts = function(import_id) {
-		// Get a list of all the users contacts
-		$.post('/welcome_wizard?x=get_contacts&STEP3=true', {"import_id": import_id}, function(data) {
-			if(data.type == 'error') return;
-
-			for(var i in data.data) {
-				// Get the contact data
-				var contact = data.data[i];
-				var name = contact.name
-
-				// Create a box for every email
-				for(var e in contact.emails) {
-
-					// Prevent Duplicate Emails
-					if($.inArray(contact.emails[e], duplicatePrevention) !== -1) continue;
-					duplicatePrevention.push(contact.emails[e]);
-
-					// Generate link and add it to the flow
-					link = $('<a href="#contact" x-data-email="'+contact.emails[e]+'" class="button secondary" style="background:#ccc" />');
-					link.html('<span class="name">'+name+'</span><span class="email">'+contact.emails[e]+'</span>');
-					$('div.person_cloud').prepend(link);
-				}
-			}
-
-			// Select the members in our database automatically
-			setTimeout(function() {
-
-				// Reenable the submit button
-				$('input[type="submit"]').prop('disabled', false).removeClass('secondary');
-				$('div.detected').fadeOut(500);
-				$('div.done').fadeIn(500);
-
-				// Create a variable
-				var preselected = false;
-
-				// Go through and select all the people in our system
-				for(var e in data.selected) {
-					preselected = true;
-					$('p.preselected').fadeIn(500);
-					$('a[x-data-email="'+data.selected[e]+'"]').click();
-				}
-
-				if(!preselected)
-					$('p.not-pre').fadeIn(500);
-			}, 100);
-		});
-	};
-
-	// Once the user has entered in their contact information lets
-	// Go ahead and process the connection
-	$('a#submit').click(function(e) {
-		e.preventDefault();
-
-		// Prepare the data
-		var data = new Object;
-		data.email = $('input#email').val();
-		data.password = $('input#password').val();
-		data.service = window.emailService;
-
-		// Go ahead and go ahead and generate the import id
-		$.post('/welcome_wizard?x=get_contacts&STEP2=true', data, function(data) {
-
-			// We are only supporting popup style right nwo with OAUTH
-			if(data.consent_url !== null) {
-
-				// Load the consent popup
-				var consentPopup = window.open(data.consent_url, 'consentPop', 'width=500, height=350, left=24, top=24, scrollbars, resizable');
-
-				// If the popup was blocked inform the user otherwise focus it
-				if(consentPopup == null)
-					return alert('Please disable your pop-up blocker and click the "Continue" button again.'); 
-				else consentPopup.focus();
-				
-				// Watch for the popup to close
-				var watchClose = setInterval(function() {
-					try {
-						// Once the popup closed stop the interval
-						if (consentPopup.closed) {
-							clearTimeout(watchClose);
-
-							// Get the users contacts
-							contacts = grabContacts(data.import_id);
-						}
-					} catch(e) {}
-				}, 200);
-			}
-		});
-		return false;
-	});
-
-	// One someone click on a contact add it to the array to invite
-	$('a[href="#contact"]').live('click', function(e) {
-		e.preventDefault();
-
-		// If the button is not selected
-		if($(this).hasClass('secondary')) {
-
-			// Create contact array
-			if(selectedContacts === undefined)
-				selectedContacts = new Array;
-
-			// Remove secondary class
-			$(this).removeClass('secondary').css({'background': '#F66C4C'});
-
-			// Add the email to the invite array
-			selectedContacts.push($(this).attr('x-data-email'));
-		}
-
-		// If the button was selected
-		else {
-
-			// Add the secondary class
-			$(this).addClass('secondary').css({'background': '#CCC'});
-
-			// Remove the email from the invite array
-			var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
-			if(key !== -1) selectedContacts.splice(key, 1);
-		}
-
-		return false;
-	});
-
-	$('form.person_form').submit(function(e) {
-		e.preventDefault();
-
-		// Set the people to the form
-		$('input[name="people"]').val(selectedContacts.join(','));
-
-		// Submit the form
-		$(this).get(0).submit();
-
-		return false;
-	});
-
-	$('a[href="#deselect"]').live('click', function(e) {
-		e.preventDefault();
-
-		var int1 = setInterval(function() {
-			if(selectedContacts.length == 0)
-				clearTimeout(int1);
-
-			var tmp = selectedContacts;
-			for(var i in tmp) $('a[x-data-email="' + tmp[i] + '"]').each(function() {
-				$(this).click();
-			});
-		}, 20);
-
-		return false;
-	});
-
-	$('a[href="#select"]').live('click', function(e) {
-		e.preventDefault();
-
-		$('a[href="#contact"]').each(function() {
-			if($(this).hasClass('secondary'))
-				$(this).click();
-		});
-
-		return false;
-	});
-});
-</script>-->
