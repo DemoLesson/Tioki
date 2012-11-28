@@ -1,3 +1,38 @@
+v2.1.13 - Nov 28, 2012 12:15PM PST deployed by Aleks Stanisic
+=============================================================
+* 63533c2: Aleks Stanisic - profile changes
+
+v2.1.12 - Nov 27, 2012  8:40PM PST deployed by Kelly Becker
+===========================================================
+* 633fd11: Kelly Becker - remove www2
+* d5164a9: Kelly Becker - group fix
+* 5f1b583: Kelly Becker - fix to a group permis thing
+* af25a49: Brian Martinez - profile changes
+* 86ab852: Kelly Becker - fix to a minor bug
+* 3c1fc56: Kelly Becker - gemlock
+* 0546aea: Brian Martinez - blog and website for teachers
+* 776df2f: Aleks Stanisic - new profile addition
+* cd8ed2e: Brian Martinez - changes to make Brian's Mac work
+* 2298ecc: Kelly Becker - config overrides
+* e735707: Kelly Becker - instances
+* 9260b47: Kelly Becker - instances
+
+v2.1.11 - Nov 27, 2012  3:37PM PST deployed by Kelly Becker
+===========================================================
+* 383a656: Kelly Becker - gemlock
+
+v2.1.10 - Nov 27, 2012  3:35PM PST deployed by Kelly Becker
+===========================================================
+* 68efa4c: Kelly Becker - git repo for bitswitch
+
+v2.1.9 - Nov 27, 2012  2:01PM PST deployed by Kelly Becker
+==========================================================
+* d697be1: Kelly Becker - group permissions
+* 647691e: Kelly Becker - make group admin
+* e776c38: Kelly Becker - group make admin
+* 1320bde: Aleks Stanisic - gem file
+* 2ffa193: Brian Martinez - school side design changes
+
 v2.1.8 - Nov 26, 2012  3:38PM PST deployed by Aleks Stanisic
 ============================================================
 

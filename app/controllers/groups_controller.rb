@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
 	before_filter :teacher_required, :except => [:index, :show, :members, :about]
 
 	def index
-		@groups = Group.permissions(:slugs => {:public => 1, :private => 1}, :type => 'OR')
+		@groups = Group.permissions('OR', :public => true, :private => true)
 		if params[:group_search]
 			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
 		end
@@ -20,29 +20,21 @@ class GroupsController < ApplicationController
 
 	def create
 		group = Group.new(params[:group])
-		
-		# Make the groups public by default
-		perms = group.permissions!
-		perms["public"] = 1
-		group.permissions = perms
 
 		respond_to do |format|
 			if group.save
+
+				# Set permissions
+				group.permissions = {:public => true}
 
 				# Create join row for users -> groups
 				user_group = User_Group.new
 				user_group.user_id = self.current_user.id
 				user_group.group_id = group.id
-				
-				# Create the permissions
-				perms = user_group.permissions!
-				perms["member"] = 1
-				perms["moderator"] = 1
-				perms["administrator"] = 1
-				user_group.permissions = perms
-
-				# Save the join row
 				user_group.save
+				
+				# Add the first administrator
+				user_group.permissions = {:member => true, :moderator => true, :administrator => true}
 
 				# Return HTML or JSON
 				format.html { redirect_to group, notice: 'Group was successfully created.' }
@@ -281,5 +273,25 @@ class GroupsController < ApplicationController
 		else
 			redirect_to :back, "Unauthorized"
 		end
+	end
+
+	def add_admin
+		group = Group.find(params[:id])
+
+		# Check for permissions
+		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+
+		group.user_permissions(:update => {'administrator' => true}, :user => params[:user])
+		redirect_to :back
+	end
+
+	def rmv_admin
+		group = Group.find(params[:id])
+
+		# Check for permissions
+		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+		
+		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
+		redirect_to :back
 	end
 end

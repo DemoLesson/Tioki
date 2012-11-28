@@ -1,5 +1,5 @@
 <section id="main-content" class="inner-content">
-<% if self.current_user.id.odd? %>
+<% if self.current_user.id.even? %>
 
 <section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 		<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
@@ -359,126 +359,16 @@
 </section>
 
 <% else %>
-	<section class="profile group">
-		<nav class="subpage">
-			<ul>
-				<li class="current">
-					Tioki Profile
-				</li>
-				<!--li>
-					<a href="terms.html">
-					Card Profile
-					</a>
-				</li-->
-				<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-					<li>
-						<a href="/me/profile/stats">
-						Profile Stats
-						</a>
-					</li>
-				<% end %>
-			</ul>
-		</nav>	
-		<section class="sidebar">
-			<section class="panel" style="padding:10px 0px 5px 0px">
-
-			<!-- Avatar -->
-			<div class="profile-thumb-large" style="margin: 0px 0px -10px 10px;">
-				<% if @teacher.me? %>
-					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
-				<% end %>
-				<% if (@connected || @guest || !@teacher.user.privacy["avatar"]) && @teacher.user.avatar? %>
-					<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") %>
-				<% else %>
-					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
-				<% end %>
-			</div>
-
-			<!-- Name / Headline -->
-			<h3 style="margin: 0px 0px -10px -5px"><%= @teacher.user.name %></h3>
-			<p style="margin: 0px 5px 0px 10px"><%= @teacher.headline %></p>
-
-			<!-- Contact Info -->
-				<section class="info" style="margin-left:10px;margin-right:5px">
-					<% if @connected || @guest || !@teacher.user.privacy["social_networks"] %>
-						<p>
-						<% if @teacher.twitter.present? %>
-							<% if @teacher.twitter.include? '//' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png'), @teacher.twitter, :target => "_blank" %>
-							<% elsif @teacher.twitter.include? '@' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if @teacher.linkedin.present? %>
-							<% if @teacher.linkedin.include? '//' %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.linkedin, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//linkedin.com/' + @teacher.linkedin, :target => "_blank" %>
-							<% end %>
-						<% end %>
-						
-						<% if @teacher.pinterest.present? %>
-							<% if @teacher.pinterest.include? '//' %>
-								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), @teacher.pinterest, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-0.5px;"), '//pinterest.com/' + @teacher.pinterest, :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if @teacher.edmodo.present? %>
-							<% if @teacher.edmodo.include? '//' %>
-								<%= link_to image_tag('tioki/icons/edmodo.png'), @teacher.edmodo, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/edmodo.png'), '//edmodo.com/'+@teacher.edmodo, :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if @teacher.betterlesson.present? %>
-							<% if @teacher.betterlesson.include? '//' %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png'), @teacher.betterlesson, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png'), '//betterlesson.com'+@teacher.betterlesson, :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if @teacher.teachingchannel.present? %>
-							<% if @teacher.teachingchannel.include? '//' %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png'), @teacher.teachingchannel, :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png'), '//teachingchannel.org'+@teacher.teachingchannel, :target => "_blank" %>
-							<% end %>
-						<% end %>
-						</p>
-					<% end %>
-					
-					<!-- Current Job / Location -->
-					<% if @connected || @guest || !@teacher.user.privacy["current_job"] %>
-						<p>
-						<% if @teacher.position.present? && @teacher.school.present?%>
-							<span class="bold">Currently:</span>
-							<%= @teacher.position %> at <%= @teacher.school %>,
-						<% end %>
-						<%= @teacher.location %>
-						</p>
-					<% end %>
-
-					<!-- Public profile link -->
-					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
-						<p>
-						<%= link_to "My Public Profile", "/profile/"+@teacher.url %>
-						</p>
-					<% end %>
-				</section>
-	
-				<section style="margin-left:25px">
+	<section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
+				<!-- EDIT AND FOLLOW BUTTONS -->
+				<% if self.current_user != nil %>
+					<div style="float:right;margin-top:0px">
 					<!-- Connection Options -->
 					<% # IF this is my profile allow me to edit %>
 					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
 						<a href="/me/profile/edit" class="action-button bg-salmon">
-							Improve My Profile
+							Edit My Profile
 						</a>
 					<% # IF im not a user then let me register %>
 					<% elsif !self.current_user %>
@@ -492,8 +382,125 @@
 					<% elsif self.current_user.teacher != nil %>
 						<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
 					<% end %>
+					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+						<a href="/profile/<%= @teacher.url %>" style="float:right;" class="button bg-green">My Public Profile</a>
+					<% end %>
+					</div>
+				<% end %>
+
+				<!-- START Teacher INFO -->
+				<h2 style="margin: 10px 0px 10px 10px">
+				<%= @teacher.user.name %>
+				</h2>
+				<section style= "height: 68px;">
+				<% if @teacher.headline? %>
+					<h4 style="margin-left:10px;margin-top:10px;width:auto">
+						"<%= @teacher.headline %>"
+					</h4>
+				<% end %>
+
+				<p style="margin-left:10px; margin-top:-15px;width:auto">
+				  	<% if @teacher.position.present? && @teacher.school.present?%>
+						<strong style="color:#2AA99B">
+							Currently:
+						</strong> 
+						<%= @teacher.position %> at <%= @teacher.school %> in  
+					<% end %>
+					<%= @teacher.location %>
+				</p>
 				</section>
+				<p>
+				<section id="updates" style="margin: 0px 0px 0px 10px;">
+					<!-- SOCIAL LINKS -->
+						<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+							<a href="/my_connections" style= "margin-right:10px;">
+							<div class="count connections" style= "margin-bottom:0px;">
+							<%= User.current.pending_connections(false).count %>
+							</div>
+							<%= ablang('connection.plural') %>
+							</a>
+						<% else %>
+							<a href="/userconnections/<%= @teacher.user_id %>" style= "margin-right:10px;">
+							<div class="count connections" style= "margin-bottom:0px;">
+							<%= @teacher.user.pending_connections(false).count %>
+							</div>
+							<%= ablang('connection.plural') %>
+							</a>
+						<% end %>
+						<% if @teacher.twitter.present? %>
+							<% if @teacher.twitter.include? '//' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), @teacher.twitter, :target => "_blank" %>
+							<% elsif @teacher.twitter.include? 'twitter' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//'+@teacher.twitter, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+							<% end %>
+						<% end %>
+
+						<% if @teacher.linkedin.present? %>
+							<% if @teacher.linkedin.include? '//' %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), @teacher.linkedin, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + @teacher.linkedin, :target => "_blank" %>
+							<% end %>
+						<% end %>
+
+						<% if @teacher.edmodo.present? %>
+							<% if @teacher.edmodo.include? '//' %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.edmodo, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.edmodo, :target => "_blank" %>
+							<% end %>
+						<% end %>
+
+						<% if @teacher.betterlesson.present? %>
+							<% if @teacher.betterlesson.include? '//' %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.betterlesson, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.betterlesson, :target => "_blank" %>
+							<% end %>
+						<% end %>
+
+						<% if @teacher.teachingchannel.present? %>
+							<% if @teacher.teachingchannel.include? '//' %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.teachingchannel, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.teachingchannel, :target => "_blank" %>
+							<% end %>
+						<% end %>
+						
+						<% if @teacher.blog.present? %>
+							<% if @teacher.blog.include? '//' %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.blog, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.blog, :target => "_blank" %>
+							<% end %>
+						<% end %>
+						
+						<% if @teacher.website.present? %>
+							<% if @teacher.website.include? '//' %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.website, :target => "_blank" %>
+							<% else %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.website, :target => "_blank" %>
+							<% end %>
+						<% end %>
+				</section>
+				</p>
 			</section>
+			<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
+				<% if @teacher.me? %>
+					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
+				<% end %>
+				<% if (@connected || @guest || !@teacher.user.privacy["avatar"]) && @teacher.user.avatar? %>
+					<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") %>
+				<% else %>
+					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
+				<% end %>
+			</section>
+	</section>
+	
+	<section class="profile group">
+		<section class="sidebar">
 			<!-- Connection Information -->
 			<section class="info">
 				<p class="heading">

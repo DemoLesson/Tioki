@@ -26,6 +26,8 @@ Preview::Application.routes.draw do
 	match 'groups/:id/comment' => 'groups#comment'
 	match 'my_groups' => 'groups#my_groups'
 	match 'groups/:id/members' => 'groups#members'
+	match 'groups/:id/add_admin/:user' => 'groups#add_admin'
+	match 'groups/:id/rmv_admin/:user' => 'groups#rmv_admin'
 	match 'groups/:id/about' => 'groups#about'
 	match 'groups/:id/inviting' => 'groups#inviting'
 	match ':id/invite_email' => 'groups#invite_email'

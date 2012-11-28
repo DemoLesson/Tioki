@@ -1,19 +1,5 @@
 ---
-development:
-  cloudsponge:
-    domainKey: "8C7MFY8C7PDGQPDBNY3Y"
-    domainPassword: "qBllL4lCeVqJoEGl"
-  twitter:
-    consumer_key: "D7KBupvJjm6Ltc2RqDiiA"
-    consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
-    oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
-    oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
-  facebook:
-    api_key: "440391786011809"
-    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
-  linkedin:
-    api_key: "mgb6uz10qf31"
-    app_secret: "9WXAkgt6TyPdfJGI"
+default:
   bitswitches:
     user_privacy:
       0: "contact_info"
@@ -35,6 +21,21 @@ development:
       0: "followed_discussion"
       1: "participated_discussion"
       2: "whiteboard_post"
+development:
+  cloudsponge:
+    domainKey: "8C7MFY8C7PDGQPDBNY3Y"
+    domainPassword: "qBllL4lCeVqJoEGl"
+  twitter:
+    consumer_key: "D7KBupvJjm6Ltc2RqDiiA"
+    consumer_secret: "93iPx8cxS6AtUUuYP5w5kKerFlBIPmaCc6WFuktPrU"
+    oauth_token: "743622439-F6g8kMiDqytWAfPq3fqlrGbmTiWihwVzDIAQrdzH"
+    oauth_token_secret: "Oplf4lpEeNhIxZnNSePwf6pCb20tDEHgzv33aKONxE"
+  facebook:
+    api_key: "440391786011809"
+    app_secret: "c5a3ecfb769bccb5f802870356feb0ef"
+  linkedin:
+    api_key: "mgb6uz10qf31"
+    app_secret: "9WXAkgt6TyPdfJGI"
 staging:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -50,27 +51,6 @@ staging:
   linkedin:
     api_key: "mgb6uz10qf31"
     app_secret: "9WXAkgt6TyPdfJGI"
-  bitswitches:
-    user_privacy:
-      0: "contact_info"
-      1: "attachments"
-      2: "avatar"
-      3: "video"
-      4: "current_job"
-      5: "social"
-    group_permissions:
-      0: "public"
-      1: "private"
-      2: "hidden"
-      3: "organization"
-    user_group_permissions:
-      0: "member"
-      1: "moderator"
-      2: "administrator"
-    email_permissions:
-      0: "followed_discussion"
-      1: "participated_discussion"
-      2: "whiteboard_post"
 production:
   cloudsponge:
     domainKey: "HKY55PWXKBCMNTYWSAV7"
@@ -86,24 +66,3 @@ production:
   linkedin:
     api_key: "mgb6uz10qf31"
     app_secret: "9WXAkgt6TyPdfJGI"
-  bitswitches:
-    user_privacy:
-      0: "contact_info"
-      1: "attachments"
-      2: "avatar"
-      3: "video"
-      4: "current_job"
-      5: "social"
-    group_permissions:
-      0: "public"
-      1: "private"
-      2: "hidden"
-      3: "organization"
-    user_group_permissions:
-      0: "member"
-      1: "moderator"
-      2: "administrator"
-    email_permissions:
-      0: "followed_discussion"
-      1: "participated_discussion"
-      2: "whiteboard_post"
