@@ -60,6 +60,12 @@
 					Or <%= link_to "tweet about us", "/twitter_auth?twitter_action=tweet" %>
 				</div>
 			</div>
+			<div id="email_header" style="display:none">
+				Invite Email Contacts
+				<div style="float:right">
+					<%= submit_tag "Invite" %> 
+				</div>
+			</div>
 			<div id="facebook_header" style="display:none">
 				Invite Facebook Friends
 				<div style="float:right">
@@ -110,6 +116,9 @@
 
 		//Start facebook
 		var facebookSearch = new Array();
+
+		//facebook
+		var facebookContacts = new Array();
 
 		window.fbAsyncInit = function() {
 			FB.init({
@@ -168,6 +177,7 @@
 				if(response) {
 					//sent
 					facebook_contact.removeClass('secondary').css({'background': '#F66C4C'});
+					facebookContacts.push(facebook_id);
 				}
 				else {
 					//canceled
@@ -223,6 +233,7 @@
 				//and create submit button
 				$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
 			});
+
 			$("#search_div").show();
 			$("#twitter_header").show();
 			$("#invite_footer").show();
@@ -294,7 +305,7 @@
 						duplicatePrevention.push(contact.emails[e]);
 
 						emailSearch.push({
-							name: contact.name,
+							name: contact.name.join(" "),
 							email: contact.emails[e]
 						});
 
@@ -332,6 +343,7 @@
 		$('#detected_email').click(function(e) {
 			e.preventDefault();
 			reset();
+			$("#email_header").show();
 
 			// Prepare the data
 			var data = new Object;
@@ -362,6 +374,7 @@
 								// Get the users contacts
 								contacts = grabContacts(data.import_id);
 								$("#invite_footer").show();
+								$("#search_div").show();
 							}
 						} catch(e) {}
 					}, 200);
@@ -428,7 +441,12 @@
 				for(var i = 0; i < twitterSearch.length; i++) {
 					var contact = twitterSearch[i];
 					if(contact.name.toLowerCase().indexOf(str) > -1) {
-						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						if(twitterContacts.indexOf(contact.id.toString()) > -1) {
+							link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button" style="background:#F66C4C" />');
+						}
+						else {
+							link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						}
 						link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
 						$('div.person_cloud').append(link);
 					}
@@ -438,7 +456,14 @@
 				for(var i = 0; i < facebookSearch.length; i++) {
 					var contact = facebookSearch[i];
 					if(contact.name.toLowerCase().indexOf(str) > -1) {
-						link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						//check rether this has already been selected
+						if(facebookContacts.indexOf(contact.id) > -1) {
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button" style="background:#F66C4C" />');
+						}
+						else {
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
+						}
+
 						link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
 						$('div.person_cloud').append(link);
 					}
@@ -448,8 +473,13 @@
 				for(var i = 0; i < emailSearch.length; i++) {
 					var contact = emailSearch[i];
 
-					if(contact.email.toLowerCase().indexOf(str) > -1) {
-						link = $('<a href="#contact" x-data-email="' + contact.email + '" class="button secondary" style="background:#ccc" />');
+					if((contact.email.toLowerCase().indexOf(str) > -1) || (contact.name.toLowerCase().indexOf(str) > -1)) {
+						if(selectedContacts.indexOf(contact.email) > -1) {
+							link = $('<a href="#contact" x-data-email="' + contact.email + '" class="button" style="background:#F66C4C" />');
+						}
+						else {
+							link = $('<a href="#contact" x-data-email="' + contact.email + '" class="button secondary" style="background:#ccc" />');
+						}
 						link.html('<span class="name">' + contact.name + '</span><span class="email">' + contact.email + '</span>');
 						$('div.person_cloud').prepend(link);
 					}
@@ -464,6 +494,7 @@
 			$("#twitter_header").hide();
 			$("#invite_footer").hide();
 			$("#facebook_header").hide();
+			$("#email_header").hide();
 
 			duplicatePrevention.length = 0;
 
@@ -476,6 +507,8 @@
 			twitterContacts.length = 0;
 
 			twitterSearch.length = 0;
+
+			facebookContacts.length = 0;
 		}
 	});
 </script>
