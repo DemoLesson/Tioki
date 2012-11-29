@@ -64,6 +64,11 @@ h3 {
 
 h4 {
 	font-size: 18px;
+	&.bottom-line{
+		border-bottom: 1px solid $ltgray !important;
+		padding-bottom: 5px;
+		border-top: none;
+	}
 }
 
 h5 {
