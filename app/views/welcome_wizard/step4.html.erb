@@ -12,10 +12,10 @@
 				<% if is_gmail(self.current_user.email) %>
 					<br /><input type="button" id="detected_email" data-email-provider="GMAIL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Gmail" />
 
-				<% elsif /yahoo.com$/.match(params["email"]).present? %>
+				<% elsif /yahoo.com$/.match(self.current_user.email).present? %>
 					<br /><input type="button" id="detected_email" data-email-provider="YAHOO" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Yahoo!" />
 
-				<% elsif /aol.com$/.match(params["email"]).present? %>
+				<% elsif /aol.com$/.match(self.current_user.email).present? %>
 					<br /><input type="button" id="detected_email" data-email-provider="AOL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="AOL" />
 				<% end %>
 
