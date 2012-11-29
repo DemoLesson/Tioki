@@ -23,7 +23,8 @@
 				<% if self.current_user.twitter_auth? %>
 					<br /><input type="button" id="twitter" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Twitter" />
 				<% else %>
-					<a href="/twitter_auth?twitter_action=invite" id="twitter_auth" class="medium button">Twitter</a>
+					<br /><input type="button" id="twitter_auth" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Twitter" />
+
 				<% end %><br />
 
 				<% if params[:user_connection] %>
@@ -55,12 +56,6 @@
 				<div style="float:right">
 					<%= submit_tag "Invite" %> 
 					Or <%= link_to "tweet about us", "/twitter_auth?twitter_action=tweet" %>
-				</div>
-			</div>
-			<div id="email_header" style="display:none">
-				Invite Email Contacts
-				<div style="float:right">
-					<%= submit_tag "Invite" %> 
 				</div>
 			</div>
 			<div id="facebook_header" style="display:none">
@@ -236,6 +231,14 @@
 			$("#invite_footer").show();
 		});
 
+		function contacts_after_reload() {
+			if(window.location.href.indexOf("twitter_contacts") > -1) {
+				$("#twitter").click();
+			}
+		}
+
+		onload = contacts_after_reload;
+
 		$('a[href="#twitter_contact"]').live('click', function(e) {
 			e.preventDefault();
 			id = $(this).attr('data-contact-id');
@@ -268,6 +271,19 @@
 			return false;
 		});
 
+		$("#twitter_auth").click(function () {
+			//currently using a button for link
+			//firefox doesn't seem to get
+			//the http referer using window.location.href='url'
+			var a =document.createElement("a");
+
+			a.setAttribute("href", "/twitter_auth?twitter_action=get_contacts");
+
+			a.style.display = "none";
+
+			document.body.appendChild(a);
+			a.click();
+		});
 
 		//DETECTED EMAILS
 		// Create a duplication prevention array

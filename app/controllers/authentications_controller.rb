@@ -8,9 +8,8 @@ class AuthenticationsController < ApplicationController
 		session[:rsecret] = request_token.secret
 		session[:twitter_action] = params[:twitter_action]
 
-		if params[:twitter_action] == "tweet"
-			#go back to welcome_wizard step4
-			session[:wizard_url] = request.path
+		if params[:twitter_action] == "tweet" || params[:twitter_action] == "get_contacts"
+			session[:wizard_url] = request.referer
 		end
 
 		redirect_to request_token.authorize_url
@@ -69,9 +68,10 @@ class AuthenticationsController < ApplicationController
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
 
 			if session[:wizard_url]
-				return redirect_to session[:wizard_url]
+				return redirect_to "#{session[:wizard_url]}&twitter_contacts=true"
+				session[:wizard_url] = nil
 			else
-				return redirect_to "/welcome_wizard?x=step4"
+				return redirect_to "/welcome_wizard?x=step4&twitter_contacts=true"
 			end
 		end
 		redirect_to :root
