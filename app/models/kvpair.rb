@@ -1,2 +1,2 @@
-class KVPair < ActiveRecord::Base
+class Kvpair < ActiveRecord::Base
 end
