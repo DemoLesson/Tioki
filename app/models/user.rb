@@ -2,24 +2,43 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 
+	# Key Value Pairs
+	kvpair :social
+	kvpair :contact
+	kvpair :seeking
+	kvpair :authorizations
+
 	# Default scope of a user
 	default_scope where(:deleted_at => nil)
 
 	# Attribute Access
-	attr_protected :id, :salt, :is_admin, :verified
+	attr_protected :id, :salt, :is_admin
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :emaileventreminder, :emailsubscription, :email_permissions
+	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions
 
 	# Has One Connections
 	has_one :login_token
 	has_one :teacher
 
+	# Migrated from teacher.rb
+	has_many :applications
+	has_many :videos, :dependent => :destroy
+	has_many :interviews
+	has_many :awards, :dependent => :destroy
+	has_many :presentations, :dependent => :destroy
+	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
+  	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
+  	has_many :assets, :dependent => :destroy
+  	has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'
+  	has_and_belongs_to_many :grades, :join_table => 'grades_teachers'
+  	validates_associated :assets
+  	validates_uniqueness_of :slug, :message => "The name you selected is not available."
+
 	# Has Many Connections
 	has_many :activities, :order => 'created_at DESC'
 	has_many :administered_schools, :through => :school_administrators, :source => :school
 	has_many :analytics
-	has_many :applications, :through => :teacher
 	has_many :connection_invites
 	has_many :connection_invites, :dependent => :destroy
 	has_many :connections, :foreign_key => 'owned_by', :dependent => :destroy
@@ -43,7 +62,6 @@ class User < ActiveRecord::Base
 	has_many :skills, :through => :skill_claims
 	has_many :technologies, :through => :technology_users
 	has_many :technology_users, :dependent => :destroy
-	has_many :videos, :through => :teacher
 	has_many :vouched_skilled_groups
 	has_many :vouched_skills, :dependent => :destroy
 	has_many :whiteboards
@@ -130,9 +148,10 @@ class User < ActiveRecord::Base
 		end
 		@schools.map(&:destroy)
 
+		# Migration
 		# Delete Teachers
-		@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
-		@teachers.map(&:destroy)
+		#@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
+		#@teachers.map(&:destroy)
 
 		# Delete Shared Users
 		@sharedusers = SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
@@ -142,20 +161,13 @@ class User < ActiveRecord::Base
 		@sharedschools = SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
 		@sharedschools.map(&:destroy)
 
-		# Delete all Applications
-		@applications = Application.find(:all, :conditions => ['teacher_id = ?', self.id])
-		@applications.each do |application|
-			@activities = Activity.find(:all, :conditions => ['application_id = ?', application.id])
-			@activities.map(&:destroy)
-		end
-		@applications.map(&:destroy)
-
 		# Delete all Connections
 		@connections = Connection.mine(:user => self.id)
 		@connections.map(&:destroy)
 	end
 
 	def completion
+		return 0
 
 		# Only update progress if the model is over a day old or empty
 		if self.updated_at < Time.new.yesterday || super.nil? || super == 0
@@ -213,6 +225,8 @@ class User < ActiveRecord::Base
 	end
 
 	def create_teacher
+		return nil
+
 		# Set the teacher to a shorter variable
 		t = self.teacher
 
@@ -484,16 +498,6 @@ class User < ActiveRecord::Base
 		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
-	def self.verify!(user_id, verification_code)
-		u=find(user_id)
-		if (u.present? && u.verification_code == verification_code)
-			u.is_verified = true
-			u.save!(false)
-		else
-			raise "verification code does not match email or unregistered email"
-		end
-	end
-
 	def send_new_password
 		new_pass = User.random_string(10)
 		self.update_attribute(:password, new_pass)
@@ -526,9 +530,9 @@ class User < ActiveRecord::Base
 		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL and donors_choose = true and created_at < ?', self.id, "2012-10-22 20:00:00")
 	end
 
-	def teacher
-		return(Teacher.find(:first, :conditions => {:user_id => id}))
-	end
+	#def teacher
+	#	return(Teacher.find(:first, :conditions => {:user_id => id}))
+	#end
 
 	def tioki_bucks
 		tioki_bucks = 0

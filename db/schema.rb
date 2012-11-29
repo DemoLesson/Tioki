@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128000713) do
+ActiveRecord::Schema.define(:version => 20121128212646) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "viewed"
     t.integer  "video_id"
     t.integer  "submitted",        :default => 0
+    t.integer  "user_id"
   end
 
   add_index "applications", ["job_id"], :name => "index_applications_on_job_id"
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "application_id"
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
+    t.integer  "user_id"
   end
 
   create_table "awards", :force => true do |t|
@@ -92,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "banners", :force => true do |t|
@@ -167,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
   create_table "credentials_teachers", :id => false, :force => true do |t|
     t.integer "teacher_id",    :null => false
     t.integer "credential_id", :null => false
+    t.integer "user_id"
   end
 
   add_index "credentials_teachers", ["credential_id", "teacher_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
@@ -219,6 +223,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "teacher_id"
     t.integer  "start_year"
     t.boolean  "current"
+    t.integer  "user_id"
   end
 
   create_table "eventformats", :force => true do |t|
@@ -299,6 +304,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+    t.integer  "user_id"
   end
 
   create_table "favorites", :force => true do |t|
@@ -338,6 +344,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "grade_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -372,6 +379,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "school_location"
     t.string   "location"
     t.text     "message"
+    t.integer  "user_id"
   end
 
   create_table "jobs", :force => true do |t|
@@ -413,6 +421,17 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
 
   add_index "jobs_subjects", ["job_id"], :name => "index_jobs_subjects_on_job_id"
   add_index "jobs_subjects", ["subject_id", "job_id"], :name => "index_jobs_subjects_on_subject_id_and_job_id"
+
+  create_table "kvpairs", :force => true do |t|
+    t.string "owner"
+    t.string "namespace"
+    t.string "key"
+    t.string "value"
+  end
+
+  add_index "kvpairs", ["key"], :name => "index_kvpairs_on_key"
+  add_index "kvpairs", ["namespace"], :name => "index_kvpairs_on_namespace"
+  add_index "kvpairs", ["owner"], :name => "index_kvpairs_on_owner"
 
   create_table "login_tokens", :force => true do |t|
     t.integer  "user_id"
@@ -480,6 +499,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "pricing_models", :force => true do |t|
@@ -647,6 +667,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "subject_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
@@ -695,6 +716,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "tweet_about",                             :default => false
     t.string   "website"
     t.string   "blog"
+    t.boolean  "migrated"
   end
 
   add_index "teachers", ["url"], :name => "index_teachers_on_url"
@@ -750,10 +772,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "hashed_password",                          :null => false
     t.string   "salt",                                     :null => false
     t.string   "name"
-    t.boolean  "is_verified",           :default => false, :null => false
     t.boolean  "is_admin",              :default => false, :null => false
-    t.string   "default_home"
-    t.string   "verification_code"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar_file_name"
@@ -765,12 +784,8 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "deleted_at"
     t.boolean  "is_shared",             :default => false, :null => false
     t.boolean  "is_limited",            :default => false, :null => false
-    t.boolean  "emailsubscription",     :default => true
-    t.string   "time_zone",             :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "emaileventreminder"
-    t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
     t.integer  "privacy",               :default => 0,     :null => false
@@ -781,9 +796,15 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "twitter_oauth_token"
     t.string   "twitter_oauth_secret"
     t.string   "facebook_access_token"
+    t.string   "slug"
+    t.string   "guest_code"
+    t.string   "location"
+    t.string   "dashboard"
+    t.string   "headline"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
 
   create_table "users_groups", :force => true do |t|
     t.integer  "user_id"
@@ -825,6 +846,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "duration_in_ms"
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
+    t.integer  "user_id"
   end
 
   add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"

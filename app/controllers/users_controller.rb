@@ -88,11 +88,6 @@ class UsersController < ApplicationController
 			redirect_to "/"
 		end
 	end
-	
-	def verify
-		User.verify!(params[:user_id], params[:verification_code])
-		redirect_to_stored
-	end
 
 	def login
 		return redirect_to :root unless self.current_user.nil?

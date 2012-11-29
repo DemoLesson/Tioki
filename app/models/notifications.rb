@@ -8,16 +8,5 @@ class Notifications < ActionMailer::Base
     @sent_on    = sent_at
     @headers    = {}
   end
-
-  def verification(email, name, verification_code, sent_at = Time.now)
-    @subject    = "Please validate your demolesson.com registration"
-    @body['email']=email
-    @body['name']=name
-    @body['verification_code']=verification_code
-    @recipients = email
-    @from       = 'demolesson@demolesson.com'
-    @sent_on    = sent_at
-    @headers    = {}
-  end
 end
 
