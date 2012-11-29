@@ -2,7 +2,7 @@ class AwardsController < ApplicationController
   # GET /awards
   # GET /awards.json
   def index
-    @awards = self.current_user.teacher.awards
+    @awards = self.current_user.awards
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,7 +41,7 @@ class AwardsController < ApplicationController
   # POST /awards.json
   def create
     @award = Award.new(params[:award])
-    @award.teacher_id = self.current_user.teacher.id
+    @award.user_id = self.current_user.id
 
     respond_to do |format|
       if @award.save

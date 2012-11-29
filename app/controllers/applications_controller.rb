@@ -31,9 +31,10 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  # Revise
   def attachments
     @application= Application.find(params[:id])
-    @profileassets= Asset.find(:all, :conditions => ['teacher_id = ? AND assetType = ?', @application.teacher_id, 0])
+    @profileassets= Asset.find(:all, :conditions => ['user_id = ? AND assetType = ?', @application.user_id, 0])
     respond_to do |format|
       format.html # attachments.html.erb
     end
@@ -41,12 +42,12 @@ class ApplicationsController < ApplicationController
   
   def reject
     @application = Application.find(params[:id])
-    @teacher_id = @application.teacher_id
+    @user_id = @application.user_id
     @job_id = @application.job_id
     @application.reject
     
     respond_to do |format|
-      UserMailer.rejection_notification(@teacher_id, @job_id, self.current_user.name).deliver
+      UserMailer.rejection_notification(@user_id, @job_id, self.current_user.name).deliver
       format.html { redirect_to :my_jobs }
     end
   end  

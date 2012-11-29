@@ -41,13 +41,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def teacher_required
-		if self.current_user.teacher
-			return true
-		else
-			flash[:notice] = 'Must be using a teacher account to access'
-			redirect_to :root
-			return false
-		end
+		return true
 	end
 
 	def check_login_token
@@ -101,6 +95,7 @@ class ApplicationController < ActionController::Base
 	def belongs_to_me
 	end
 
+	# Deprecate ?
 	def redirect_to_stored
 		if session[:return_to] != nil
 			return_to = session[:return_to]
@@ -108,15 +103,8 @@ class ApplicationController < ActionController::Base
 			redirect_to(return_to)
 		elsif self.current_user.nil?
 			redirect_to :controller => "users", :action => "login"
-		#elsif self.current_user.default_home.present?
-		#  redirect_to(current_user.default_home)
-		elsif self.current_user.teacher != nil
+		else self.current_user != nil
 			redirect_to :root
-		elsif self.current_user.school != nil || self.current_user.is_shared == true
-			redirect_to :root
-		else
-			#dont_choose_stored
-			#redirect_to :controller=>'users', :action=>'choose_stored'
 		end
 	end
 

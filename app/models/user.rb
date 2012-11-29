@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 	kvpair :contact
 	kvpair :seeking
 	kvpair :authorizations
+	kvpair :social_actions
+
+	# BitSwitches
 
 	# Default scope of a user
 	default_scope where(:deleted_at => nil)
