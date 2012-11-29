@@ -18,3 +18,7 @@ public/uploads/*
 solr
 *~
 /tags
+
+# Ignore C9
+.c9revisions
+installs

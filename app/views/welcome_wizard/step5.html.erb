@@ -37,10 +37,10 @@ tr.seeking, tr.student {
 			</div>
 			<h1 class="name"><%= @user.name %></h1>
 			<h2 class="job">
-				<%= @user.teacher.position + ' at ' + @user.teacher.school unless @user.teacher.position.empty? || @user.teacher.school.empty? %>
+				<%= @user.experiences.where(:current => true).first.position + ' at ' + @user.school unless @user.experiences.where(:current => true).position.nil? || @user.experiences.where(:current => true).first.school.nil? %>
 			</h2>
-			<h2 class="job"><%= @user.teacher.educations.first.school unless @user.teacher.educations.empty? %></h2>
-			<h3 class="location"><%= @user.teacher.location %> <span style="float:right; margin-right: 15p0">My Skills</span></h3>
+			<h2 class="job"><%= @user.educations.first.school unless @user.educations.empty? %></h2>
+			<h3 class="location"><%= @user.location %> <span style="float:right; margin-right: 15p0">My Skills</span></h3>
 			<div class="about">
 				<table>
 					<td><span class="label">About me</span></td>
@@ -52,7 +52,7 @@ tr.seeking, tr.student {
 		</div>
 
 		<% if @invite %>
-			<a href="/profile/<%= @invite.user.teacher.url %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+			<a href="/profile/<%= @invite.user.url %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% else %>
 			<a href="/get_started" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% end %>

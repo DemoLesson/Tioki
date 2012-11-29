@@ -5,13 +5,13 @@
 			<li class="current">
 				All Groups
 			</li>
-			<% if self.current_user && self.current_user.teacher %>
+			<% if self.current_user %>
 				<li>
 					<a href="/my_groups">
 						My Groups
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
+				<% if self.current_user %>
 					<div style="float:right;margin-top:0px;">
 						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
 					</div>
@@ -49,7 +49,7 @@
 							<% else %><%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
 							<% end %>
 						</p>
-						<% if self.current_user && self.current_user.teacher %>
+						<% if self.current_user %>
 							<% unless self.current_user.groups.include? group %>
 								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
 							<% end %>

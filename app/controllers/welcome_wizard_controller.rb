@@ -144,9 +144,9 @@ class WelcomeWizardController < ApplicationController
 
 	def step2
 
-		# Make sure the user has a teacher if not error
-		if self.current_user.nil? || self.current_user.teacher.nil?
-			flash[:notice] = "You must be logged in to continue in the wizard and if you are then you need a teacher record. If you believe you received this message in error please contact support."
+		# Make sure the user is logged in
+		if self.current_user.nil?
+			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
 
@@ -154,16 +154,16 @@ class WelcomeWizardController < ApplicationController
 		if request.post?
 
 			# Load the teach and update
-			@teacher = self.current_user.teacher
-
+			@user = self.current_user
+            
 			# Handle Subjects and Grades
-			params[:teacher].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subjects','grades'].include?(k)}
-			@teacher.subjects = params[:teacher][:subjects].collect{|x| Subject.find(x)}
-			@teacher.grades = params[:teacher][:grades].collect{|x| Grade.find(x)}
-			params[:teacher] = params[:teacher].delete_if{|k,v| v.empty? || v.is_a?(Array)}
+			params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subjects','grades'].include?(k)}
+			@user.subjects = params[:user][:subjects].collect{|x| Subject.find(x)}
+			@user.grades = params[:user][:grades].collect{|x| Grade.find(x)}
+			params[:user] = params[:user].delete_if{|k,v| v.empty? || v.is_a?(Array)}
 
 			# Save the updates attributes
-			@teacher.update_attributes(params[:teacher])
+			@user.update_attributes(params[:user])
 
 			# Clean empty results from the hash
 			params.clean!
@@ -171,7 +171,7 @@ class WelcomeWizardController < ApplicationController
 			unless params[:edu].nil? || params[:edu].empty?
 
 				# Build the education data
-				@teacher.educations.build(params[:edu])
+				@user.educations.build(params[:edu])
 			end
 
 			unless params[:experience].nil? || params[:experience].empty?
@@ -189,11 +189,11 @@ class WelcomeWizardController < ApplicationController
 				params[:experience][:endYear] = end_date.strftime("%Y")
 
 				# Build the experience data
-				@teacher.experiences.build(params[:experience])
+				@user.experiences.build(params[:experience])
 			end
 			
 			# Attempt to save the user
-			if @teacher.save
+			if @user.save
 
 				# Wizard Key
 				wKey = "welcome_wizard_step2" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
@@ -207,7 +207,7 @@ class WelcomeWizardController < ApplicationController
 			else
 
 				# If the user save failed then notice and redirect
-				dump flash[:notice] = @teacher.errors.full_messages.to_sentence
+				dump flash[:notice] = @user.errors.full_messages.to_sentence
 				return redirect_to "#{@buri}?x=step2#{@url}"
 			end
 		end
@@ -217,9 +217,9 @@ class WelcomeWizardController < ApplicationController
 
 	def step3
 
-		# Make sure the user has a teacher if not error
-		if self.current_user.nil? || self.current_user.teacher.nil?
-			flash[:notice] = "You must be logged in to continue in the wizard and if you are then you need a teacher record. If you believe you received this message in error please contact support."
+		# Make sure the user is logged in
+		if self.current_user.nil?
+			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
 
@@ -227,20 +227,20 @@ class WelcomeWizardController < ApplicationController
 		if request.post?
 
 			# Load the teach and update
-			@teacher = self.current_user.teacher
-			@teacher.user.skills.delete_all
+			@user = self.current_user
+			@user.skills.delete_all
 			
 			# Install the skills
 			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
-				SkillClaim.create(:user_id => @teacher.user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
+				SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
 			end
 
 			#dump skills
-			@teacher.skills = skills
+			@user.skills = skills
 			
 			# Attempt to save the user
-			if @teacher.save
+			if @user.save
 
 				# Wizard Key
 				wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
@@ -255,22 +255,22 @@ class WelcomeWizardController < ApplicationController
 			else
 
 				# If the user save failed then notice and redirect
-				flash[:notice] = @teacher.errors.full_messages.to_sentence
+				flash[:notice] = @user.errors.full_messages.to_sentence
 				return redirect_to "#{@buri}?x=step3#{@url}"
 			end
 		end
 
 		# Get a list of existing skills
-		@existing_skills = teacher_path(self.current_user.teacher) + '/skills'
+		@existing_skills = user_path(self.current_user) + '/skills'
 
 		render :step3
 	end
 
 	def step4
 
-		# Make sure the user has a teacher if not error
-		if self.current_user.nil? || self.current_user.teacher.nil?
-			flash[:notice] = "You must be logged in to continue in the wizard and if you are then you need a teacher record. If you believe you received this message in error please contact support."
+		# Make sure the user is logged in
+		if self.current_user.nil
+			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
 
@@ -288,10 +288,6 @@ class WelcomeWizardController < ApplicationController
 
 				# If the user exists
 				unless user.nil?
-
-					# If the email is tied to a school skip
-					next if user.teacher.nil?
-
 					# Try and add a connection
 					if Connection.add_connect(self.current_user.id, user.id)
 						# We don't really neeed to notify the user about this
@@ -334,9 +330,8 @@ class WelcomeWizardController < ApplicationController
 
 	def step5
 
-		# Make sure the user has a teacher if not error
-		if self.current_user.nil? || self.current_user.teacher.nil?
-			flash[:notice] = "You must be logged in to continue in the wizard and if you are then you need a teacher record. If you believe you received this message in error please contact support."
+		if self.current_user.nil? 
+			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
 
@@ -352,8 +347,10 @@ class WelcomeWizardController < ApplicationController
 
 	def update_aboutme
 		if params.has_key?("aboutme")
-			@teacher = self.current_user.teacher
-			if @teacher.update_attribute(:headline, params["aboutme"])
+        
+			@user= self.current_user
+            
+			if @user.update_attribute(:headline, params["aboutme"])
 				data = {"type" => 'success', "message" => 'Saved successfuly'}
 			else
 				data = {"type" => 'error', "message" => 'There was a problem saving'}

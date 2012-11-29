@@ -16,9 +16,9 @@
 		<h3><%= data.count %> people have new connections.</h3>
 		<div class="facepile">
 			<% uniq.each do |user| %>
-				<%= link_to(image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.teacher.url, :title => user.name, :class => 'has-tip', :data_id => user.id) if user.avatar? %>
+				<%= link_to(image_tag(user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + user.slug, :title => user.name, :class => 'has-tip', :data_id => user.id) if user.avatar? %>
 
-				<%= link_to(image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + user.teacher.url, :title => user.name, :class => 'has-tip', :data_id => user.id) unless user.avatar? %>
+				<%= link_to(image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + user.slug, :title => user.name, :class => 'has-tip', :data_id => user.id) unless user.avatar? %>
 			<% end %>
 		</div>
 		<p class="message">Hover over a face to see who they connected to.</p>
@@ -60,8 +60,8 @@
 	</li>
 <% when 'article' %>
 	<li class="new-style article">
-		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.teacher.url if @post.user.avatar? %>
-		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.teacher.url unless @post.user.avatar? %>
+		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.slugif @post.user.avatar? %>
+		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.url unless @post.user.avatar? %>
 		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen' %>
 
 		<h3><span class="salmon"><%= @post.user.name %></span> shared an article.</h3>
@@ -110,8 +110,8 @@
 			<% next if i>0; i+=1; %>
 			<% next unless x.is_a?(User) %>
 			<div class="profile-thumb-small" style="float:left;margin-right:15px;">
-				<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{x.teacher.url}" if x.avatar? %>
-				<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.teacher.url}" unless x.avatar? %>
+				<%= link_to image_tag(x.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{x.slug}" if x.avatar? %>
+				<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.slug}" unless x.avatar? %>
 			</div>
 		<% end %>
 		<p><strong><%= time_ago_in_words(@post.created_at) %> ago:</strong> <%= raw @post.getMessage %></p>

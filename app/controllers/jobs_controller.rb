@@ -74,9 +74,9 @@ class JobsController < ApplicationController
   
   def apply
     @job = Job.find(params[:id])
-    @job.apply(self.current_user.teacher.id)
-    @application = Application.find(:first, :conditions => ['job_id = ? AND teacher_id = ?', @job.id, self.current_user.teacher.id])
-    @assets=Asset.find(:all, :conditions => ['job_id = ? AND teacher_id =?', @job.id, self.current_user.teacher.id])
+    @job.apply(self.current_user.id)
+    @application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', @job.id, self.current_user.id])
+    @assets=Asset.find(:all, :conditions => ['job_id = ? AND user_id =?', @job.id, self.current_user.id])
     @assets.each do |asset|
       asset.update_attribute(:application_id, @application.id)
     end
@@ -92,40 +92,14 @@ class JobsController < ApplicationController
   
   def apply_confirmation
     @job = Job.find(params[:id])
-    @teacher = Teacher.find(self.current_user.teacher.id)
-  end
-
-  def tfa_apply
-    @job = Job.find(params[:id])
-    if (params.has_key?(:job))
-      @passcode = params[:job][:passcode]
-    else
-      @passcode = ''
-    end
-    
-    respond_to do |format|
-      if @passcode != nil
-        if @passcode == @job.passcode
-          @job.apply(self.current_user.teacher.id)
-          @teacher = Teacher.find(self.current_user.teacher.id)
-          @teacher.tfa = 1
-          @teacher.save
-          format.html { redirect_to @job, :notice => 'Application successful.' }
-        else
-          format.html
-        end
-      else
-        format.html
-      end
-    end
-
+    @user = User.find(self.current_user.id)
   end
 
   def job_referral
     @job = Job.find(params[:id])
     
     if self.current_user != nil 
-       @teacher_user = self.current_user.teacher.id
+       @teacher_user = self.current_user.id
     end
     
   end
@@ -137,8 +111,8 @@ class JobsController < ApplicationController
    if self.current_user == nil
      @teachername = @referral[:teachername]
    else
-     @teacher_user = self.current_user.teacher.id
-     @teacher = Teacher.find(@teacher_user)
+     @teacher_user = self.current_user.id
+     @teacher = User.find(@teacher_user)
      @teacher_user = User.find(@teacher.user_id)  
      @teachername = @teacher_user.name 
    end 
@@ -166,7 +140,7 @@ class JobsController < ApplicationController
     respond_to do |format|
       if @passcode != nil
         if @passcode == @job.passcode
-          @job.apply(self.current_user.teacher.id)
+          @job.apply(self.current_user.id)
           format.html { redirect_to @job, :notice => 'Application successful.' }
         else
           format.html
@@ -203,8 +177,8 @@ class JobsController < ApplicationController
     if self.current_user == nil
       # do nothing
     else
-      if self.current_user.teacher != nil
-        @application = Application.find(:first, :conditions => ['job_id = ? AND teacher_id = ?', @job.id, self.current_user.teacher.id])
+      if self.current_user != nil
+        @application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', @job.id, self.current_user.id])
       end
     end
     
@@ -304,10 +278,10 @@ class JobsController < ApplicationController
 
   def attach
     params[:asset][:assetType]=1
-    @teacher = Teacher.find_by_id(self.current_user.teacher.id)
-    @teacher.new_asset_attributes=params[:asset]
+    @user = User.find_by_id(self.current_user.id)
+    @user.new_asset_attributes=params[:asset]
 
-    if @teacher.save_assets
+    if @user.save_assets
       redirect_to :back, :notice => 'Attachment was successfully uploaded.'
     else
       redirect_to :back, :notice => 'Attachment could not be uploaded'

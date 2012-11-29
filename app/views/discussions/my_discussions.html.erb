@@ -44,9 +44,9 @@
 						<% discussion.participants.each do |user| %>
 							<% if user %>
 								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}" %>
+									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}" %>
 								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.teacher.url}"  %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}"  %>
 								<% end %>	
 							<% end %>
 						<% end %>

@@ -40,7 +40,7 @@ class ApplicationWizardController < ApplicationController
 			user = User.create(params[:user])
 
 			session[:user] = User.authenticate(user.email, user.password)
-			@app.update_attribute(:teacher_id, User.current.id)
+			@app.update_attribute(:user_id, User.current.id)
 
 			return redirect_to :step2
 		end

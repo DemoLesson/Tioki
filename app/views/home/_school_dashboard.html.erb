@@ -77,8 +77,8 @@
 				<% if activity.activityType == 3 %>
                   	<% if activity.application_job.active && activity.application.status == 1 %>
 							<p style="float:right;margin:-5px 0px 0px 0px">
-							<% if activity.teacher != nil %>
-								<%= link_to activity.creator.name, "/profile/#{activity.teacher.url}?application=#{activity.application.id}", :style => "color:#F66C4C" %>
+							<% if activity.user != nil %>
+								<%= link_to activity.creator.name, "/profile/#{activity.user.slug}?application=#{activity.application.id}", :style => "color:#F66C4C" %>
 							<% end %> 
 							applied to your 
 								<%= link_to activity.application_job.title, activity.application_job, :style => "color:#F66C4C" %> 
@@ -94,10 +94,10 @@
         			<% if activity.interview.date != Time.at(0) && activity.application_job.title != 'Not found' && activity.application_job.active && activity.application.status == 1 %>
             			<p style="float:right;margin:-5px 0px 0px 0px">
 							<% if activity.interview.date == Time.at(0) %>
-								<%= link_to activity.creator.name, "/profile/#{activity.teacher.url}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
+								<%= link_to activity.creator.name, "/profile/#{activity.user.slug}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
 								 scheduled an interview with you, but it doesn't look like they selected a time. You may want to message them.
 								<% else %>
-									<%= link_to activity.creator.name, "/profile/#{activity.teacher.url}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
+									<%= link_to activity.creator.name, "/profile/#{activity.user.slug}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
 								scheduled an interview with you for your 
 									<%= link_to activity.application_job.title, activity.application_job, :style => "color:#F66C4C" %> 
 								position on
@@ -121,8 +121,8 @@
 				<% elsif activity.activityType == 1 %>
 					<p style="float:right;margin:-5px 0px 0px 0px">
 						You have a new message from
-						<% if activity.teacher != nil %>
-							<%= link_to activity.creator.name, "/profile/#{activity.teacher.url}", :style => "color:#F66C4C" %>
+						<% if activity.user != nil %>
+							<%= link_to activity.creator.name, "/profile/#{activity.user.slug}", :style => "color:#F66C4C" %>
 						<% end %>
 						<br/>
 						Subject: <%= link_to activity.message.subject, activity.message, :style => "color:#F66C4C" %>.

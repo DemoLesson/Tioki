@@ -272,7 +272,7 @@
                                                         <td valign="top" style="border-collapse: collapse;">
                                                             <div style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;">
 <h2 class="tpl-content-highlight" style="color: #202020;display: block;font-family: Arial;font-size: 30px;font-weight: bold;line-height: 100%;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;">
-	<span style="color:#5c5c5c;font: normal italic 18px Georgia, Times, serif;text-shadow: 0 1px 0 white;">Hi <%= @teacher.user.name %>,</span></h2>
+	<span style="color:#5c5c5c;font: normal italic 18px Georgia, Times, serif;text-shadow: 0 1px 0 white;">Hi <%= @user.name %>,</span></h2>
       <span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">New jobs have been posted at tioki:<br><br>
 
   <% @jobs.each do |job| %>
@@ -283,7 +283,7 @@
 <span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"> From,<br>
 Your friends at Tioki.<br>
 <br>
-<span style="font-size:11px;">If you do not want any emails of this type you can login to tioki and unsubscribe at </span><span style="color:#056ba7;font: lighter Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;font-size:11px;"><a href="http://www.tioki.com/account/<%= @teacher.user.id %>" style="color: #056ba7;font-weight: normal;text-decoration: underline;">http://tioki.com/account/<%= @teacher.user.id %></a></span><br>
+<span style="font-size:11px;">If you do not want any emails of this type you can login to tioki and unsubscribe at </span><span style="color:#056ba7;font: lighter Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;font-size:11px;"><a href="http://www.tioki.com/account/<%= @user.id %>" style="color: #056ba7;font-weight: normal;text-decoration: underline;">http://tioki.com/account/<%= @user.id %></a></span><br>
 
 <span style="font-size:11px;">If you did not register, and believe you are receiving this message in error, please contact </span></span><span style="color:#056ba7;font: lighter Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;font-size:11px;"><a href="mailto:support@tioki.com" style="color: #056ba7;font-weight: normal;text-decoration: underline;">support@tioki.com</a></span> </div>
 														</td>

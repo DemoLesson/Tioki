@@ -1,28 +1,28 @@
 <li>
 	<div class="profile-thumb-big">
-		<% if @teacher.user.avatar? %>
-			<%= link_to image_tag(@teacher.user.avatar.url(:thumb)), "profile/#{@teacher.url}" %>
+		<% if @user.avatar? %>
+			<%= link_to image_tag(@user.avatar.url(:thumb)), "profile/#{@user.url}" %>
 		<% else %>
-			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@teacher.url}" %>
+			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@user.url}" %>
 		<% end %>
 	</div>
 	<p>
-	<a href="/profile/<%= @teacher.url %>"><%= @teacher.user.name %></a>
+	<a href="/profile/<%= @user.url %>"><%= @user.name %></a>
 	<br />
-	<%= @teacher.position %>
-	<% if @teacher.position.present? && @teacher.position.present? %>at<% end %> 
-	<%= @teacher.school %><br />
-	<%= @teacher.location %>
+	<%= @user.experiences.where(current => true).first.position %>
+	<% if @user.experiences.where(current => true).first.position.present? %>at<% end %> 
+	<%= @user.experiences.where(current => true).first.school %><br />
+	<%= @user.experiences(current => true).first.location %>
 	</p>
 	<div>
-		<a href="/userconnections/<%= @teacher.user_id %>" class="count connections">
-			<%= @teacher.user.connections.not_pending.count.to_s %>
+		<a href="/userconnections/<%= @user.id %>" class="count connections">
+			<%= @user.connections.not_pending.count.to_s %>
 		</a>
-		<% if @teacher.user_id == self.current_user.id %>
-		<% elsif @my_connections.include? @teacher.user_id %>
-			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id.to_s }, {:class => "sendmessage"} %>
+		<% if @user == self.current_user %>
+		<% elsif @my_connections.include? @user.id %>
+			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.to_s }, {:class => "sendmessage"} %>
 		<% else %>
-			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "addconnection" %>
+			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @user.user }, :class => "addconnection" %>
 		<% end %>
 	</div>
 </li>

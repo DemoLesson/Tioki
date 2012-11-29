@@ -60,11 +60,11 @@ class Job < ActiveRecord::Base
     return self.school.map_zip
   end
   
-  def apply(teacher_id)
-    @application = Application.find(:first, :conditions => ['job_id = ? AND teacher_id = ?', self.id, teacher_id])
+  def apply(user_id)
+    @application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', self.id, user_id])
     if @application == nil
-      @application = Application.create!(:job_id => self.id, :teacher_id => teacher_id, :status => 1, :viewed => 0)
-      UserMailer.teacher_applied(self.school_id, self.id, teacher_id).deliver
+      @application = Application.create!(:job_id => self.id, :user_id => user_id, :status => 1, :viewed => 0)
+      UserMailer.teacher_applied(self.school_id, self.id, user_id).deliver
       @application.activify
     else
       @application.deactivify

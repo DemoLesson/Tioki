@@ -132,20 +132,20 @@
 			<div class="suggested-connections">
 				<h3>Suggested Connections</h3>
 				<ul>
-						<% @suggested_connections.each do |user| %>
-						<li style="width:275px;padding:12px 15px 12px 15px !important">
+					<% @suggested_connections.each do |user| %>
+				    	<li style="width:275px;padding:12px 15px 12px 15px !important">
 							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
-								<%= link_to image_tag(user.teacher.user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.teacher.url}" if user.teacher.user.avatar? %>
-								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.teacher.url}" unless user.teacher.user.avatar? %>
+								<%= link_to image_tag(user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.slug}" if user.avatar? %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 							</div>
 							<strong>
-								<%= link_to "#{user.name}", "/profile/#{user.teacher.url}", :class => "byline" %>
+								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline" %>
 							</strong>
 							<p style="width:195px;float:left;">
-								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button", :style => 'color:#FFF !important;' %>
 							</p>
 						</li>
-						<% end %>
+					<% end %>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -155,7 +155,7 @@
 			<ul>
 				<% @discussions.each do |discussion| %>
 					<li style="padding:12px 50px 12px 0px !important">
-					<%  if self.current_user && self.current_user.teacher %>
+					<%  if self.current_user %>
 						<div style="float:right">
 							<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }%>
 						</div>
@@ -168,9 +168,9 @@
 						<p>
 							<% discussion.participants.each do |user| %>
 								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.teacher.url}" %>
+									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
 								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;")  %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
 								<% end %>
 							<% end %>
 						</p>
@@ -188,7 +188,7 @@
 			<ul>
 				<% @latest_dl.each do |vid| %>
 					<li>
-						<a href="/profile/<%= vid.user.teacher.url %>">
+						<a href="/profile/<%= vid.user.slug %>">
 							<div class="profile-thumb-small">
 								<img alt="Play-icon" height="45" src="/assets/tioki/icons/play-icon.png" width="45">
 							</div>
@@ -212,15 +212,14 @@
 				</a>
 			</h3>
 			<ul>
-						<li style="padding:12px 15px 12px 15px !important;width:280px">
-							<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
-								<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
-							</div>
-							<p style="width:230px;margin-top:5px">
-							
-							<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
-							</p>
-						<li>
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
+						<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
+					</div>
+					<p style="width:230px;margin-top:5px">
+						<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
+					</p>
+				<li>
 			</ul>
 		</section> <!-- END WHO'S VIEWED YOUR PROFILE -->
 		<section id="list" class="panel one-column right-side">

@@ -16,7 +16,7 @@ class InterviewsController < ApplicationController
   # GET /my_interviews.json
   
   def my_interviews
-    @interviews = Interview.find(:all, :conditions => ['teacher_id = ?', self.current_user.teacher.id])
+    @interviews = Interview.find(:all, :conditions => ['user_id = ?', self.current_user.id])
     
     respond_to do |format|
       format.html # my_interviews.html.erb
@@ -32,7 +32,7 @@ class InterviewsController < ApplicationController
     @job = Job.find(@interview.job_id)
 
     respond_to do |format|
-      if self.current_user.teacher == nil || @interview.teacher_id != self.current_user.teacher.id
+      if self.current_user == nil || @interview.user_id != self.current_user.id
         render :nothing => true, :status => "Forbidden" 
       else
         UserMailer.interview_scheduled(self.current_user.id, @job.id).deliver
@@ -48,8 +48,8 @@ class InterviewsController < ApplicationController
     @interview = Interview.find(params[:id])
 
     respond_to do |format|
-      if self.current_user.teacher != nil
-        if @interview.teacher_id != self.current_user.teacher.id
+      if self.current_user != nil
+        if @interview.user_id != self.current_user.id
           render :nothing => true, :status => "Forbidden"
         else
           format.html # show.html.erb
@@ -72,9 +72,9 @@ class InterviewsController < ApplicationController
     session[:return_to] ||= request.referer
     @interview = Interview.new
     
-    @teacher = Teacher.find_by_id(params[:teacher_id])
+    @teacher = User.find_by_id(params[:user_id])
     @job = Job.find_by_id(params[:job_id])
-    @user = User.find(@teacher.user_id)
+    @user = User.find(@user_id)
     @school = School.find(@job.school_id)
     
     respond_to do |format|
@@ -120,12 +120,12 @@ class InterviewsController < ApplicationController
     @interview.date = date
     @interview.date_alternate = date_alternate
     @interview.date_alternate_second = date_alternate_second
-    @interview.teacher_id = params[:interview][:teacher_id]
+    @interview.user_id = params[:interview][:user_id]
     @interview.job_id = params[:interview][:job_id]
     
     respond_to do |format|
       if @interview.save
-        UserMailer.interview_notification(@interview.teacher_id, @interview.job_id).deliver
+        UserMailer.interview_notification(@interview.user_id, @interview.job_id).deliver
         
         format.html { redirect_to session[:return_to], notice: 'Interview request has been sent.' }
         format.json { render json: @interview, status: :created, location: @interview }
