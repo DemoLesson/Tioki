@@ -2,8 +2,12 @@ desc "Merge teachers into users."
 task :merge_teachers => :environment do
 	Teacher.where("`migrated` IS NULL").each do |teacher|
 		user = teacher.user
-		user.slug = teacher.url
-		user.location = teacher.location
+
+		if user.nil?
+			teacher.destroy
+			next
+		end
+
 		user.social = {
 			:linkedin => teacher.linkedin,
 			:edmodo => teacher.edmodo,
@@ -55,10 +59,14 @@ task :merge_teachers => :environment do
 	  		:current => true
 	  	})
 
+	  	# Save!
+	  	user.slug = "#{user.id}#{user.first_name}#{user.last_name}"
+		user.location = teacher.location
+		user.guest_code = teacher.guest_code
+		user.headline = teacher.headline
+		user.save(:validate => false)
+
 	  	# Update Migration
 	  	teacher.update_attribute(:migrated, true)
-
-	  	# Save!
-	  	user.save
 	end
 end
