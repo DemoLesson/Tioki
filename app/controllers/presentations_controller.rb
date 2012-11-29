@@ -2,8 +2,8 @@ class PresentationsController < ApplicationController
   # GET /presentations
   # GET /presentations.json
   def index
-    @presentations = self.current_user.teacher.presentations
-    @teacher = Teacher.find(self.current_user.teacher.id)
+    @presentations = self.current_user.presentations
+    @teacher = User.find(self.current_user.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,7 +31,7 @@ class PresentationsController < ApplicationController
   # POST /presentations.json
   def create
     @presentation = Presentation.new(params[:presentation])
-    @presentation.teacher_id = self.current_user.teacher.id
+    @presentation.user_id = self.current_user.id
 
     respond_to do |format|
       if @presentation.save
