@@ -13,13 +13,10 @@
 					<br /><input type="button" id="detected_email" data-email-provider="GMAIL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Gmail" />
 
 				<% elsif /yahoo.com$/.match(params["email"]).present? %>
-					<a id="detected_email" data-email-provider="YAHOO" class="medium button">Yahoo</a>
+					<br /><input type="button" id="detected_email" data-email-provider="YAHOO" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Yahoo!" />
 
 				<% elsif /aol.com$/.match(params["email"]).present? %>
-					<a id="aol" data-email-provider="AOL" class="medium button">Aol</a>
-
-				<% else %>
-					<a id="email" class="medium button">Email</a>
+					<br /><input type="button" id="detected_email" data-email-provider="AOL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="AOL" />
 				<% end %>
 
 				<br /><input type="button" id="facebook" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Facebook" />
