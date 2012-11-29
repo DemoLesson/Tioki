@@ -155,4 +155,4 @@ gem 'gelf'
 gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
 gem 'graylog2-resque'
 
-gem "kvpair", :path => "/Users/kbecker/Development/ruby/kvpair/"
+gem "kvpair", :git => "git://github.com/KellyLSB/KVPair.git"
