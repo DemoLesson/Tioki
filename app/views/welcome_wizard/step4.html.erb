@@ -7,39 +7,46 @@
 	<div class="eleven columns" style="margin-left:25px">
 		<form class="person_form" method="POST">
 			<input type="hidden" name="people" />
-
-			<div class="detected">
-				<% if is_gmail(self.current_user.email) %>
-					<br /><input type="button" id="detected_email" data-email-provider="GMAIL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Gmail" />
-
-				<% elsif /yahoo.com$/.match(self.current_user.email).present? %>
-					<br /><input type="button" id="detected_email" data-email-provider="YAHOO" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Yahoo!" />
-
-				<% elsif /aol.com$/.match(self.current_user.email).present? %>
-					<br /><input type="button" id="detected_email" data-email-provider="AOL" class="large button" style="width:80%;margin:0px auto 0px auto;" value="AOL" />
-				<% end %>
-
-				<br /><input type="button" id="facebook" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Facebook" />
-				<% if self.current_user.twitter_auth? %>
-					<br /><input type="button" id="twitter" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Twitter" />
-				<% else %>
-					<br /><input type="button" id="twitter_auth" class="large button" style="width:80%;margin:0px auto 0px auto;" value="Twitter" />
-
-				<% end %><br />
-
-				<% if params[:user_connection] %>
-					<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-				<% elsif params[:invitestring] %>
-					<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
-				<% elsif params[:vouchstring] %>
-					<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
-				<% elsif params[:invitecode] %>
-					<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
-				<% elsif params[:welcomecode] %>
-					<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
-				<% else %>
-					<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
-				<% end %>
+			<div class="detected" style="height:300px">
+				<section class="panels">
+					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+						<% if is_gmail(self.current_user.email) %>
+							<%= link_to image_tag("/assets/Tioki/icons/logo-gmail.png", :style => "width:225px;margin:3px auto 0px 245px;"), '#gmail', :id => "detected_email", "data-email-provider" => "GMAIL" %>
+						<% elsif /yahoo.com$/.match(self.current_user.email).present? %>
+							<%= link_to image_tag("/assets/Tioki/icons/yahoo-logo.png", :style => "width:250px;margin:8px auto 0px 225px;"), '#gmail', :id => "detected_email", "data-email-provider" => "YAHOO" %>
+						<% elsif /aol.com$/.match(self.current_user.email).present? %>
+							<%= link_to image_tag("/assets/Tioki/icons/aol-logo.png", :style => "width:215px;margin:8px auto 0px 255px;"), '#gmail', :id => "detected_email", "data-email-provider" => "AOL" %>
+						<% end %>
+					</section>
+				
+					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+						<%= link_to image_tag("/assets/Tioki/icons/facebook-logo.png", :style => "width:250px;margin:8px auto 0px 235px;"), '#facebook', :id => "facebook" %>
+					</section>
+				
+					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+						<% if self.current_user.twitter_auth? %>
+							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter" %>
+						<% else %>
+							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter_auth" %>
+						<% end %>
+					</section>
+					
+					<section class="one-column right-side" style ="height:25px;">
+						<% if params[:user_connection] %>
+							<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
+						<% elsif params[:invitestring] %>
+							<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
+						<% elsif params[:vouchstring] %>
+							<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
+						<% elsif params[:invitecode] %>
+							<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
+						<% elsif params[:welcomecode] %>
+							<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+						<% else %>
+							<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
+						<% end %>
+					</section>
+				</section>
 			</div>
 
 			<div id="twitter_header" style="display:none">
