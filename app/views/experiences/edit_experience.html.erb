@@ -5,7 +5,7 @@
 	</h1>
 
 	<div id="attach_form">
-		<%= form_for @experience, :as => :experience, :url => '/update_existing_experience/'+@experience.id.to_s do |f| %>
+		<%= form_for @experience do |f| %>
 
 			<fieldset>
 				<p>

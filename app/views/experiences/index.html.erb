@@ -1,12 +1,12 @@
 <section id="main-content" class="inner-content">
-	<h1>Experience</h1>
+    <h1>Experience</h1>
 
 	<div class="attached">
-		<% for experience in @teacher.experiences %>
+		<% for experience in @experiences %>
 			<p>
 				<span class="purge" style="float:right">
-					<%= link_to 'Edit', '/edit_experience/'+experience.id.to_s %><br />
-					<%= link_to 'Remove?', '/remove_experience/'+experience.id.to_s, :confirm => 'Are you sure you want to remove '+experience.company+' from your profile?' %>
+					<%= link_to 'Edit', experience_edit_path, experience %><br />
+					<%= link_to 'Remove?', experiences,:method => :delete, :confirm => 'Are you sure you want to remove '+experience.company+' from your profile?' %>
 				</span>	
 				<strong>
 				<%= experience.position %><br />
@@ -34,7 +34,7 @@
 	</div>
 
 	<div id="attach_form" style="display: none">
-		<%= form_for @experience, :as => :experience, :url => '/update_experience' do |f| %>
+		<%= form_for @experience do |f| %>
 			<fieldset>
 				<p>
 				Company, District or School

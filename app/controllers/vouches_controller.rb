@@ -1,5 +1,10 @@
 class VouchesController < ApplicationController
 	before_filter :login_required, :only => [:addvouch]
+    
+    def request_vouch
+    	@teacher = User.current.teacher
+    	@vouch = Vouch.new
+	end
 
 	def vouchrequest
 		if params[:skills] == nil || params[:skills].size == '0'

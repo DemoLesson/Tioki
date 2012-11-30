@@ -190,10 +190,10 @@ class UsersController < ApplicationController
 		@user.update_attribute(:avatar, tmp_img)
 
 		# Log to the whiteboard that a user updated their profile picture
-		Whiteboard.createActivity(:avatar_update, "{user.teacher.profile_link} updated their profile picture.")
+		Whiteboard.createActivity(:avatar_update, "{user.profile_link} updated their profile picture.")
 
 		tmp_img.close
-		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
+		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
@@ -251,7 +251,7 @@ class UsersController < ApplicationController
 		respond_to do |format|
 			format.html { redirect_to :root, :notice => action }
 		end
-	end
+	eslugd
 
 	def email_settings
 		@user = User.find(self.current_user.id)
@@ -345,8 +345,8 @@ class UsersController < ApplicationController
 		@users=@users.reject { |user| user.deleted_at == nil }
 		
 		@usercount = @users.count
-		@teachercount = @users.reject { |user| user.teacher.nil? }.count
-		@admincount = @users.reject { |user| user.teacher }.count
+		@teachercount = @users.reject { |user| user.nil? }.count
+		@admincount = @users.reject { |user| user }.count
 
 		@stats = []
 		@stats.push({:name => 'Deactivated Users', :value => @users.count})
@@ -433,7 +433,7 @@ class UsersController < ApplicationController
 		end
 		@stats = []
 		@stats.push({:name => 'Organizations', :value => Organization.count})
-		@stats.push({:name => 'Administrators', :value => User.find(:all).reject { |user| user.teacher }.count})
+		@stats.push({:name => 'Administrators', :value => User.find(:all).reject { |user| user }.count})
 	end
 
 	def manage
@@ -482,7 +482,7 @@ class UsersController < ApplicationController
 	end
 
 	def new_member
-		@schools = self.current_user.schools 
+		@ssocial_actionshool = se>l, f.:curr>e,n_:us>e).where(.sc"`id`hools 
 		if request.post?
 			if params[:is_limited] == nil
 				redirect_to :back, :notice => 'You must select a type'
@@ -649,8 +649,193 @@ class UsersController < ApplicationController
 
 		redirect_to :back
 	end
+    
+    def tioki_bucks
+    	@start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			@connected = true
+			@start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@followed = true
+			@start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, 
+				:conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@groups = true
+			@start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, 
+				:conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+			@vouched_skills = true
+			@start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, 
+				:conditions => ["whiteboards.slug = ?", 'share'])
+			@whiteboard_post = true
+			@start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+			@commented = true
+			@start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.current_user.avatar?
+			@avatar = true
+			@start_count += 1
+		end
+
+		#referrals
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if @invite_count*2 > 42
+			@tioki_bucks += 42
+		else
+			@tioki_bucks += @invite_count*2
+		end
+
+		if @start_count >= 5
+			@tioki_bucks += 5
+		end
+
+		if self.current_user.teacher.facebook_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.twitter_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.tweet_about
+			@tioki_bucks += 1
+		end
+	end
+
+	def linkedinprofile
+		if request.post?
+			if params[:response] == 'yes'
+				client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
+				#oauth_Callback=where linkedin will redirect back to
+				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
+				session[:rtoken] = request_token.token
+				session[:rsecret] = request_token.secret
+
+				# Save a redirect url for the return
+				session[:linkedin_redirect] = params[:redirect] unless params[:redirect].nil?
+				
+				redirect_to client.request_token.authorize_url
+			elsif params[:response] == 'no'
+				redirect_to '/profile/'+self.current_user.teacher.url
+			end
+		end
+	end
+
+	def get_started
+		@tioki_bucks = 0
+
+		#3 connections
+		@connections = Connection.mine(:pending => false).count
+
+		#follow three discussions
+		@following = Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Join three groups
+		@groups = User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Vouch 5 skills
+		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
+
+		#post to whiteboard
+		@whiteboard_post =  Whiteboard.find(:first, :conditions => ["user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share'])
+
+		#Post a reply to discussion
+		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+	end
 
 	private
+    
+    # Migrated from teacher_controller.rb
+    def profile
+
+    	# Figure out whether to load a profile by slug or the current user.
+		if !params[:slug].nil? && !params[:slug].empty?
+			@user = User.find_by_slug(params[:slug])
+		elsif !self.current_user.nil?
+			@user = self.current_user
+		end
+
+		# Check if user is a guest
+		@guest = false; if !params[:guest_pass].nil? && !params[:guest_pass].empty?
+			@guest = params[:guest_pass].strip == @user.guest_code
+		end
+
+		# Check if user is connected to teacher or is self
+		@self = false
+        @connected = false
+		if @user.me?
+			@connected = true
+			@self = true
+		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@teacher.user_id)
+			@connected = true
+		end
+
+		# If the teacher could not be found then raise an exception
+		raise ActiveRecord::RecordNotFound, "User profile could not found." if @user.nil?
+
+		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
+		if !self.current_user.nil? && !@user.me?
+			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
+		end
+
+        # Review
+        # Why is this here?
+		# Load up an application
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			@application = nil unless @application.belongs_to_me(self.current_user)
+		end
+		
+		# If the there is currently a user logged in
+		if !self.current_user.nil?
+			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
+			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
+		end
+
+		# Filter Upcoming Events
+		@events = @user.rsvp.select do |x|
+			(x.end_time.future? || x.end_time.today?) && x.published
+		end
+
+		# Vouch referring teacher 
+		if params[:invite_id]
+			@invite = ConnectionInvite.find(params[:invite_id])
+		end
+
+		if @user == nil
+			redirect_to :root
+			flash[:alert]  = "User was not found"
+		else 
+			respond_to do |format|
+				format.html # profile.html.erb
+				format.json  { render :json => @teacher } # profile.json
+			end
+		end
+	end
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin
 

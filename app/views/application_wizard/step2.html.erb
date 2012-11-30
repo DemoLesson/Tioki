@@ -11,7 +11,7 @@ tr.seeking, tr.student {
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<% if User.current.teacher.linkedin.nil? %>
+		<% if User.current.social[:linkedin].nil? %>
 			<form action="/linkedinprofile" method="POST">
 				<h2>Import from linkedin</h2>
 				<input type="hidden" name="response" value="yes" />
@@ -19,13 +19,13 @@ tr.seeking, tr.student {
 				<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
 			</form>
 		<% end %>
-		<% if User.current.teacher.linkedin.nil? %>
+		<% if User.current.linkedin.nil? %>
 			<h2>or fill out the information below</h2>
 		<% else %>
 			<h2>Verify the imported information below</h2>
 		<% end %>
 		<table style="width:100%;">
-			<% User.current.teacher.experiences.each do |exp| %>
+			<% User.current.experiences.each do |exp| %>
 				<tr>
 					<td>
 						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;" />Remove</a>
@@ -97,7 +97,7 @@ tr.seeking, tr.student {
 				</tr>
 			</table>
 		</form>
-		<% unless User.current.teacher.experiences.empty? %>
+		<% unless User.current.experiences.empty? %>
 			<h2>I'm done adding positions...</h2>
 			<a href="step3" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
 		<% else %>

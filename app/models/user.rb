@@ -565,6 +565,49 @@ class User < ActiveRecord::Base
 	def vouched_skill_groups
 		SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
 	end
+    
+    # Migrated from teacher.rb
+    def profile_link(attrs = {})
+        # Parse attrs
+        _attrs = []; attrs.each do |k,v|
+            # Make sure not a symbol
+            k = k.to_s if k.is_a?(Symbol)
+            next if k == 'href'
+            # Add to attrs array
+            _attrs << "#{k}=\"#{v}\""
+        end; attrs = _attrs.join(' ')
+        
+        # Return the link to the profile
+        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{self.name}</a>".html_safe
+    end
+    
+    # Migrated from teacher.rb
+    def has_social?
+        !self.social.empty?
+    end
+    
+    # Migrated from teacher.rb
+    def me?
+        !User.current.nil? && User.current == self
+    end
+    
+    # Migrated from teacher.rb
+    def create_guest_pass
+        guest_code = rand(36**8).to_s(36)
+    end
+    
+    # Migrated from teacher.rb
+    def video
+        # Review
+        #v = videos.where(`featured` = ?, true).first
+        v = videos.order('`created_at` DESC').first if v.nil?
+        return v
+    end
+    
+    # Get my current job
+    def currentJob
+        experiences.where(:current => true).first
+    end
 
 	protected
 

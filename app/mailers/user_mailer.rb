@@ -1,19 +1,19 @@
 class UserMailer < ActionMailer::Base
 	default :from => "Tioki <tioki@tioki.com>"
 
-	def teacher_welcome_email(user_id)
+	def user_welcome_email(user_id)
 		@user = User.find(user_id)
 
 		# Get ab test number
-		ab = Abtests.use("email:teacher_welcome", 1).to_s
-		template "teacher_welcome_email_" + ab
+		ab = Abtests.use("email:user_welcome", 1).to_s
+		template "user_welcome_email_" + ab
 
 		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
 			f.html { render template }
 		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('teacher_welcome_email:ab-' + ab)
+			mail.delivery_method.tag('user_welcome_email:ab-' + ab)
 		end
 
 		return mail

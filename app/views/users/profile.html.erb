@@ -4,55 +4,58 @@
 				<!-- EDIT AND FOLLOW BUTTONS -->
 				<% if self.current_user != nil %>
 					<div style="float:right;margin-top:0px">
+                    
 					<!-- Connection Options -->
 					<% # IF this is my profile allow me to edit %>
-					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+					<% if @self %>
 						<a href="/me/profile/edit" class="action-button bg-salmon">
 							Edit My Profile
 						</a>
 					<% # IF im not a user then let me register %>
 					<% elsif !self.current_user %>
-						<a href="/welcome_wizard?x=step1&user_connection=<%= @teacher.user.id %>" class="action-button bg-salmon">
+						<a href="/welcome_wizard?x=step1&user_connection=<%= @user.id %>" class="action-button bg-salmon">
 							<%= ablang('connection.connect') %>
 						</a>
 					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @teacher.user.id || !self.current_user.school.nil? %>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @teacher.user_id }, {:class => "action-button bg-salmon"} %>
+					<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @user.id %>
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
 					<% # IF we are not connected then display "connect" button %>
-					<% elsif self.current_user.teacher != nil %>
-						<%= link_to  ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @teacher.user_id }, :class => "action-button bg-salmon" %>
+					<% else %>
+						<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
 					<% end %>
-					<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
-						<a href="/profile/<%= @teacher.url %>" style="float:right;" class="button bg-green">My Public Profile</a>
+                    
+                    <!-- If this is my profile provide a link to my public profile for me to share -->
+					<% if @self %>
+						<a href="/profile/<%= @user.slug %>" style="float:right;" class="button bg-green">My Public Profile</a>
 					<% end %>
 					</div>
 				<% end %>
 
 				<!-- START Teacher INFO -->
 				<h2 style="margin: 10px 0px 10px 10px">
-				<%= @teacher.user.name %>
+				<%= @user.name %>
 				</h2>
 				<section style= "height: 68px;">
-				<% if @teacher.headline? %>
+				<% if @user.headline? %>
 					<h4 style="margin-left:10px;margin-top:10px;width:auto">
-						"<%= @teacher.headline %>"
+						"<%= @user.headline %>"
 					</h4>
 				<% end %>
 
 				<p style="margin-left:10px; margin-top:-15px;width:auto">
-				  	<% if @teacher.position.present? && @teacher.school.present?%>
+				  	<% if !(currentJob = @user.currentJob).nil? %>
 						<strong style="color:#2AA99B">
 							Currently:
 						</strong> 
-						<%= @teacher.position %> at <%= @teacher.school %> in  
+						<%= currentJob.position %> at <%= currentJob.company %> in  
 					<% end %>
-					<%= @teacher.location %>
+					<%= @user.location %>
 				</p>
 				</section>
 				<p>
 				<section id="updates" style="margin: 0px 0px 0px 10px;">
 					<!-- SOCIAL LINKS -->
-						<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+						<% if @self %>
 							<a href="/my_connections" style= "margin-right:10px;">
 							<div class="count connections" style= "margin-bottom:0px;">
 							<%= User.current.pending_connections(false).count %>
@@ -60,79 +63,81 @@
 							<%= ablang('connection.plural') %>
 							</a>
 						<% else %>
-							<a href="/userconnections/<%= @teacher.user_id %>" style= "margin-right:10px;">
+							<a href="/userconnections/<%= @user.id %>" style= "margin-right:10px;">
 							<div class="count connections" style= "margin-bottom:0px;">
-							<%= @teacher.user.pending_connections(false).count %>
+							<%= @user.pending_connections(false).count %>
 							</div>
 							<%= ablang('connection.plural') %>
 							</a>
 						<% end %>
-						<% if @teacher.twitter.present? %>
-							<% if @teacher.twitter.include? '//' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), @teacher.twitter, :target => "_blank" %>
-							<% elsif @teacher.twitter.include? 'twitter' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//'+@teacher.twitter, :target => "_blank" %>
+                        
+                        <% social = @user.social %>
+						<% if !social['twitter'].nil? %>
+							<% if social['twitter'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), social['twitter'], :target => "_blank" %>
+							<% elsif social['twitter'].include? 'twitter' %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//' + social['twitter'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/'+@teacher.twitter, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/' + social['twitter'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 
-						<% if @teacher.linkedin.present? %>
-							<% if @teacher.linkedin.include? '//' %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), @teacher.linkedin, :target => "_blank" %>
+						<% if !social['linkedin'].nil? %>
+							<% if social['linkedin'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), social['linkedin'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + @teacher.linkedin, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + social['linkedin'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 
-						<% if @teacher.edmodo.present? %>
-							<% if @teacher.edmodo.include? '//' %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.edmodo, :target => "_blank" %>
+						<% if !social['edmodo'].nil? %>
+							<% if social['edmodo'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), social['edmodo'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.edmodo, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['edmodo'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 
-						<% if @teacher.betterlesson.present? %>
-							<% if @teacher.betterlesson.include? '//' %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.betterlesson, :target => "_blank" %>
+						<% if !social['betterlesson'].nil? %>
+							<% if social['betterlesson'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), social['betterlesson'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.betterlesson, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['betterlesson'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 
-						<% if @teacher.teachingchannel.present? %>
-							<% if @teacher.teachingchannel.include? '//' %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.teachingchannel, :target => "_blank" %>
+						<% if !social['teachingchannel'].nil? %>
+							<% if social['teachingchannel'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), social['teachingchannel'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.teachingchannel, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['teachingchannel'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 						
-						<% if @teacher.blog.present? %>
-							<% if @teacher.blog.include? '//' %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.blog, :target => "_blank" %>
+						<% if !social['blog'].nil? %>
+							<% if social['blog'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), social['blog'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.blog, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['blog'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 						
-						<% if @teacher.website.present? %>
-							<% if @teacher.website.include? '//' %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), @teacher.website, :target => "_blank" %>
+						<% if !social['website'].nil? %>
+							<% if social['website'].include? '//' %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), social['website'], :target => "_blank" %>
 							<% else %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), '//'+@teacher.website, :target => "_blank" %>
+								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['website'], :target => "_blank" %>
 							<% end %>
 						<% end %>
 				</section>
 				</p>
 			</section>
 			<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
-				<% if @teacher.me? %>
+				<% if @self %>
 					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
 				<% end %>
-				<% if (@connected || @guest || !@teacher.user.privacy["avatar"]) && @teacher.user.avatar? %>
-					<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") %>
+				<% if (@connected || @guest || !@user.privacy["avatar"]) && @user.avatar? %>
+					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
 				<% else %>
 					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
 				<% end %>
@@ -147,34 +152,35 @@
 				<%= ablang('connection.plural') %>
 				</p>
 				<div style="padding:0px 20px;">
-					<% @teacher.user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@teacher.user.id).avatar?}[0..7].each do |c| %>
+					<% @user.connections.where("`pending` = ?", false).all.shuffle.select{|x|x.not_me(@user.id).avatar?}[0..7].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
-							<%= link_to image_tag(c.not_me(@teacher.user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.not_me(@teacher.user.id).teacher.url}" unless c.not_me(@teacher.user.id).teacher.nil? %>
+							<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.not_me(@user.id).slug}" %>
 						</div>
 					<% end %>
 					<div style="clear:both;"></div>
 					<br />
-					<a href="/userconnections/<%= @teacher.user.id %>" style="display:block;text-align:center;width:150px;margin-left:10px" class="button bg-green">See All</a>
+					<a href="/userconnections/<%= @user.id %>" style="display:block;text-align:center;width:150px;margin-left:10px" class="button bg-green">See All</a>
 				</div>
 			</section>
 
 			<% if self.current_user %>
-				<% if @connected || @guest || !@teacher.user.privacy["contact_info"] %>
+				<% if @connected || @guest || !@user.privacy["contact_info"] %>
 					<!-- Contact Information-->
 					<section class="info">
 					<p class="heading">
 					Contact Information
 					</p>
-					<% unless @teacher.user.email.empty? %>
+                    <% contact = @user.contact %>
+					<% if !@user.email.empty? %>
 						<p>
 						<span class="bold black">Email:</span>
-						<%= @teacher.user.email %><br/>
+						<%= @user.email %><br/>
 						</p>
 					<% end %>
-					<% unless @teacher.phone == nil %>
+					<% if !contact['phone'].nil? %>
 						<p>
 						<span class="bold black">Phone:</span>
-						<%= @teacher.phone %>
+						<%= contact['phone'] %>
 						</p>
 					<% end %>
 					</section>
@@ -187,7 +193,7 @@
 				<%= link_to "Technologies", "/technologies", :style => "color:#000" %>
 				</p>
 				<div style="padding:0px 5px;">
-					<% @teacher.user.technologies.each do |technology| %>
+					<% @user.technologies.each do |technology| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px 5px 0px 0px;overflow:hidden;">
 							<%= link_to image_tag(technology.picture(:medium), :style => 'min-height:45px;min-width:45px;'), technology %>
 						</div>
@@ -197,7 +203,7 @@
 			</section>
 			
 			<!-- Request Vouch -->
-			<% if User.current && User.current.teacher == @teacher && User.current.teacher.skills.size > 0  %>
+			<% if @self && @user.skills.size > 0  %>
 				<section class="info">
 					<%= link_to "Verify Skills", '/requestvouch', :class => "action-button bg-green" %>
 				</section>
@@ -208,7 +214,7 @@
 		<!-- START Checklist Content -->
 		<section class="profile-content">
 		
-			<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+			<% if @self %>
 				<% if !self.current_user.got_started %>
 					<section class="info panel" style="height:45px;background-color:#FBEFD5; border: 1px solid #ccc; border-radius: 0; margin-bottom: 10px">
 						<a href="/get_started" style="display:block">
@@ -223,31 +229,30 @@
 			<% end %>
 
 			<!-- Video -->
-			<% if @connected || @guest || !@teacher.user.privacy["video"] %>
-				<% unless @video.nil? %>
+			<% if @connected || @guest || !@user.privacy["video"] %>
+				<% unless @user.video.nil? %>
 					<div class="profile-video panel">
-						<%= @video.embed_code %>
+						<%= @user.video.embed_code %>
 					</div>
 				<% end %>
 				<section class="video-actions group">
-					<% if self.current_user && self.current_user.teacher == @teacher %>
-						<% unless @video == nil%>
+					<% if @self %>
+						<% unless @user.video.nil? %>
 							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
-							Edit Video
+							Upload another Video
 							</a>
 						<% else %>
-							<a href="/me/prof
-							ile/edit/upload-video" class="action-button edit-video bg-green">
+							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
 							Add a Video
 							</a>
 						<% end %>
 					<% end %>
-					<% if @teacher.videos.count > 1 %>
-						<a href="/profile/<%= @teacher.url %>/videos" class="action-button edit-video bg-green" style="margin-right:10px;white-space:nowrap;width:auto;padding-left:10px;padding-right:10px;">
-							<%= possesify(@teacher.user.first_name) %> Video Library
+					<% if @user.videos.count > 0 %>
+						<a href="/profile/<%= @user.slug %>/videos" class="action-button edit-video bg-green" style="margin-right:10px;white-space:nowrap;width:auto;padding-left:10px;padding-right:10px;">
+							<%= possesify(@user.first_name) %> Video Library
 						</a>
 					<% end %>
-					<% unless @video == nil%>
+					<% unless @user.video.nil?%>
 						<!--ul class="stats">
 							<li>
 								<div class="count favorites">
@@ -261,34 +266,33 @@
 
 			<!-- START Education Section-->
 			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.educations.empty? && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.educations.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					<%= link_to "Education", "/me/profile/edit/education", :style => "color:#4D4D4D" %>
-						<span style="font-size:16px; margin-left:5px">
-							<a href="/me/profile/edit/education">  >> Where did you get that awesome brain of Yours?</a>
-						</span>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit/education">  >> Where did you get that awesome brain of Yours?</a>
+					</span>
 					</h3>
 				</section>
 				
 			<!-- If Education is blank and you do not own the profile, you will see nothing. --> 
-			<% elsif @teacher.educations.empty? %>
+			<% elsif @user.educations.empty? %>
 			
 			<!-- If Educations aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if !self.current_user.nil? && @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Education", "/me/profile/edit/education", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/education" %>
-						
 						</h3>
 					<% else %>
 						<h3 class="bottom-line">
 							Education	
 						</h3>
 					<% end %>
-					<% @teacher.educations.each do |edu| %>
+					<% @user.educations.each do |edu| %>
 						<p class="bold">
 							<%= edu.school %>
 						</p>
@@ -327,7 +331,7 @@
 			
 			<!-- START Experience Section-->
 			<!-- If Experiences are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.experiences.empty? && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.experiences.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Work Experience", "/me/profile/edit/experience", :style => "color:#4D4D4D" %>
@@ -338,12 +342,12 @@
 				</section><br />
 				
 			<!-- If Experiences are blank and you do not own the profile, you will see nothing. --> 
-			<% elsif @teacher.experiences.empty? || self.current_user == @teacher %>
+			<% elsif @user.experiences.empty? %>
 			
 			<!-- If Experiences aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Experience", "/me/profile/edit/experience", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/experience" %>
@@ -353,7 +357,7 @@
 							Experience
 						</h3>
 					<% end %>
-					<% @teacher.experiences.each do |experience| %>
+					<% @user.experiences.each do |experience| %>
 						<p class="bold">
 						<%= experience.position %><br />
 						<%= experience.company %>	
@@ -379,26 +383,24 @@
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
-			<% if @teacher.user.skill_groups.empty? && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.skill_groups.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Skills", "/me/profile/edit/skills", :style => "color:#4D4D4D" %>
 						<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
-						<% if self.current_user != nil && @teacher == self.current_user.teacher %>
-							<span style="font-size:16px">
-								<a href="/me/profile/edit/skills"> >> Tell us what you're great at.</a>
-							</span>
-						<% end %>
+						<span style="font-size:16px">
+							<a href="/me/profile/edit/skills"> >> Tell us what you're great at.</a>
+						</span>
 					</h3>
 				</section><br />
 			
 			<!-- If Skills are blank and you do not own the profile, you will see nothing. -->
-			<% elsif @teacher.user.skill_groups.empty? %>
+			<% elsif @user.skill_groups.empty? %>
 			
 			<!-- If Skills aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Skills", "/me/profile/edit/skills", :style => "color:#4D4D4D" %>	
 							<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
@@ -414,30 +416,30 @@
 							Skills
 							<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
 							<span style="float:right;color:#F66C4C;font-size:18px" >
-								Vouch for <%= @teacher.user.first_name %> 
+								Vouch for <%= @user.first_name %> 
 							</span>
 						</h3> 
 					<% end %>
 					
 					
 
-					<% @teacher.user.skill_groups.each do |skill_group| %>
-						<% @teacher.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
+					<% @user.skill_groups.each do |skill_group| %>
+						<% @user.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
 							<div style="border-bottom: 1px dashed #CFD4D5;padding-top:5px">
 								<%= link_to skill.name, skill, :style => "font-size:15px" %>
-								<% if @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
-									<%= @teacher.user.vouched_skills.collect(&:skill_id).count(skill.id) %>
+								<% if @user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
+									<%= @user.vouched_skills.collect(&:skill_id).count(skill.id) %>
 								<% end %>
 								<div style="float:right">
-									<% @teacher.user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
+									<% @user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
 										<% if vouched_skill.voucher.avatar? %>
-											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "#{vouched_skill.voucher.teacher.url}" %>
+											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "#{vouched_skill.voucher.slug}" %>
 										<% else %>
-											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "#{vouched_skill.voucher.teacher.url}" %>
+											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "#{vouched_skill.voucher.slug}" %>
 										<% end %>
 									<% end %>
-									<% if User.current && @teacher.user != User.current %>
-										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @teacher.user_id, :skill_id => skill.id } %>
+									<% if @self %>
+										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @user.id, :skill_id => skill.id } %>
 									<% end %>
 								</div>
 								<br />
@@ -450,7 +452,7 @@
 			
 			<!-- START Credential Section-->
 			<!-- If Credentials are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.credentials.empty? && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.credentials.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Credentials", "/me/profile/edit/credentials", :style => "color:#4D4D4D" %>
@@ -461,12 +463,12 @@
 				</section><br />
 				
 			<!-- If Credentials are blank and you do not own the profile, you will see nothing. --> 	
-			<% elsif @teacher.credentials.empty? %>
+			<% elsif @user.credentials.empty? %>
 
 			<!-- If Credentials aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Credentials", "/me/profile/edit/credentials", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/credentials" %>
@@ -476,7 +478,7 @@
 							Credentials
 						</h3>
 					<% end %>
-					<% @teacher.credentials.each do |credential| %>
+					<% @user.credentials.each do |credential| %>
 						<p class="bold">  
 						<%= credential.credentialType %>
 						</p>
@@ -498,7 +500,7 @@
 			
 			<!-- START Presentation & Publications Section-->
 			<!-- If Presentations are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.presentations.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.presentations.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Presentation & Publications", "/me/profile/edit/presentations", :style => "color:#4D4D4D" %>
@@ -509,12 +511,12 @@
 				</section><br />
 				
 			<!-- If Presentations are blank and you do not own the profile, you will see nothing. --> 		
-			<% elsif @teacher.presentations.empty? %>
+			<% elsif @user.presentations.empty? %>
 				
 			<!-- If Presentations aren't nil, no matter who you are, you will see them suckers. -->	
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Presentation & Publications", "/me/profile/edit/presentations", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/presentations" %> 
@@ -525,7 +527,7 @@
 						</h3>
 					<% end %>
 					
-					<% @teacher.presentations.each do |presentation| %>
+					<% @user.presentations.each do |presentation| %>
 						<p class="bold">
 						<% unless presentation.url == nil || presentation.url == '' %>
 							<%= link_to presentation.title, presentation.url %>
@@ -553,7 +555,7 @@
 			
 			<!-- START Awards & Honors Section-->
 			<!-- If Awards are blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @teacher.awards.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+			<% if @user.awards.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Honors & Awards", "/me/profile/edit/awards", :style => "color:#4D4D4D" %>
@@ -564,12 +566,12 @@
 				</section><br />
 			
 			<!-- If Awards are blank and you do not own the profile, you will see nothing. -->
-			<% elsif @teacher.awards.empty? %>
+			<% elsif @user.awards.empty? %>
 			
 			<!-- If Awards aren't nil, no matter who you are, you will see them suckers. -->	
 			<% else %>
 				<section class="profile-info group">
-					<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+					<% if @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Honors & Awards", "/me/profile/edit/awards", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/awards" %>
@@ -580,7 +582,7 @@
 						</h3>
 					<% end %>
 					
-					<% @teacher.awards.each do |award| %>
+					<% @user.awards.each do |award| %>
 					<p class="bold">
 						<%= award.title %>
 					</p>
@@ -598,10 +600,10 @@
 			<% end %>
 			
 			<!-- START Attachments Section -->
-			<% if @connected || @guest || !@teacher.user.privacy["attachments"] %>
+			<% if @connected || @guest || !@user.privacy["attachments"] %>
 			
 				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @teacher.assets.empty?  && self.current_user && self.current_user.teacher == @teacher %>
+				<% if @user.assets.empty? && @self %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
 						<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>
@@ -612,12 +614,12 @@
 					</section>
 					
 				<!-- If Attachments are blank and you do not own the profile, you will see nothing. -->
-				<% elsif @teacher.assets.empty? %>
+				<% elsif @user.assets.empty? %>
 				
 				<!-- If Attachments aren't nil, and they are not private, you will see them suckers. -->
 				<% else %>
 					<section class="profile-info group">
-						<% if self.current_user != nil && @teacher == self.current_user.teacher %>
+						<% if @self %>
 							<h3 class="bottom-line">
 								<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>	
 								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/profileattachments" %>
@@ -631,7 +633,7 @@
 						<% if User.current.nil? %>
 							<p>Please <%= link_to "login", '/login' %> to view profile attachments.</p>
 						<% else %>
-							<% @teacher.assets.each do |asset| %>
+							<% @user.assets.each do |asset| %>
 								<% if asset.assetType != 1 %>
 									<p>
 									<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
@@ -650,7 +652,7 @@
 <% if @invite %>
 	<div id="vouch">
 		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
-			Vouch for <%= @teacher.user.first_name %>'s skills
+			Vouch for <%= @user.first_name %>'s skills
 		</h2>
 		<%= form_tag '/vouch_connection_skills', :class => "skills_form" do %>
 			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
@@ -658,7 +660,7 @@
 
 			<div class="skill_cloud">
 				<div class="clear">
-					<% @teacher.skills.each do |skill| %>
+					<% @user.skills.each do |skill| %>
 						<a href="#" class="skill" id="<%= skill.id %>" name="<%= skill.name %>" ><%= skill.name %></a>
 					<% end %>
 				</div>

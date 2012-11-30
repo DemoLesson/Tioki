@@ -14,19 +14,16 @@
 <% @applications.each do |application| %>
 <div class="item_jobs">
 	<div class="item_picture">
-		<% if application.teacher.user.avatar? %><%= link_to image_tag(application.teacher.user.avatar.url(:thumb)), '/'+application.teacher.url.to_s+'?application='+application.id.to_s()  %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{application.teacher.url}?application=#{application.id}" %><% end %>
+		<% if application.user.avatar? %><%= link_to image_tag(application.user.avatar.url(:thumb)), '/profile/'+application.user.slug.to_s+'?application='+application.id.to_s()  %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{application.user.slug}?application=#{application.id}" %><% end %>
 	</div>
 
-		<strong><%= link_to application.teacher.user.name, "/profile/#{application.teacher.url}?application=#{application.id}" %></strong><br />
-	<%= application.teacher.position %> at <%= application.teacher.school %><br />
-	<% if @owner.id == 100111 %>
-	<a href="/guest/<%= application.teacher.guest_code %>">http://tioki.com/guest/<%= application.teacher.guest_code %></a>
-	<% end %>
+		<strong><%= link_to application.user.name, "/profile/#{application.user.slug}?application=#{application.id}" %></strong><br />
+	<%= application.user.experiences.where(:current => true).first.position %> at <%= application.user.experiences.where(:current => true).first.company %><br />
 	<br />
 	
 	<div>
 		<% if application.booked == nil %>
-		<%= link_to 'Arrange Interview', {:controller => :interviews, :action => :new, :teacher_id => application.teacher_id, :job_id => application.job_id}, {:class => "button"} %> 
+		<%= link_to 'Arrange Interview', {:controller => :interviews, :action => :new, :user_id => application.user_id, :job_id => application.job_id}, {:class => "button"} %> 
 		
 		<% else %>
 			<% if application.interview.selected == 0 %>
@@ -42,7 +39,7 @@
 		<% if application.assets.size > 0 %>
 		  <%= link_to 'Attachments', "/applications/attachments/#{application.id}", {:class => "btn"} %>
 		<% end %>
-		<%= application.teacher.snippet_watchvideo_button.html_safe %>
+		<%= application.user.snippet_watchvideo_button.html_safe %>
 		<%= link_to 'Remove', {:controller => :applications, :action => :reject, :id => application.id}, {:class => "btn"} %>          
 	</div>
 </div>

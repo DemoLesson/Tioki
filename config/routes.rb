@@ -158,6 +158,7 @@ Preview::Application.routes.draw do
 				resources :awards
 				resources :presentations
 				resources :awards
+                resources :experiences
 			end
 
 			# Misc
@@ -290,19 +291,13 @@ Preview::Application.routes.draw do
 	match 'update_existing_education/:id' => 'teachers#update_existing_education'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
-  match 'profileattachments' => 'teachers#profileattachments'
+    match 'profileattachments' => 'teachers#profileattachments'
 	match 'dc/:url' => 'connections#linkinvite'
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
 	match 'tioki_bucks' => 'teachers#tioki_bucks'
 	match 'get_started' => 'teachers#get_started'
-	
-	match 'experience', :to => 'teachers#experience'
-	match 'update_experience' => 'teachers#update_experience'
-	match 'remove_experience/:id' => 'teachers#remove_experience'
-	match 'edit_experience/:id' => 'teachers#edit_experience'
-	match 'update_existing_experience/:id' => 'teachers#update_existing_experience'
   
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'

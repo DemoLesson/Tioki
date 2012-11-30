@@ -72,4 +72,52 @@ class SkillsController < ApplicationController
 		@skill = Skill.find(params[:topic])
     redirect_to @skill
   end
+  
+    def skills
+		@teacher = User.find(params[:id])
+		@skills = @teacher.skills
+
+		@skills.collect! do |v|
+			data = v.serializable_hash
+			data["skill_group"] = v.skill_group.name.to_sym
+			v = data
+		end
+
+		render :json => @skills
+	end
+	
+	def edit_skills
+		
+		# Detect post variables
+		if request.post?
+
+			# Load the teach and update
+			@teacher = self.current_user
+			@teacher.user.skills.delete_all
+			
+			# Install the skills
+			skills = Skill.where(:id => params[:skills].split(','))
+			skills.each do |skill|
+				SkillClaim.create(:user_id => @teacher.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
+			end
+
+			#dump skills
+			@teacher.skills = skills
+			
+			# Attempt to save the user
+			if @teacher.save
+
+				# Notice and redirect
+				session[:wizard] = true
+				flash[:notice] = "Skills Updated"
+			else
+
+				# If the user save failed then notice and redirect
+				flash[:notice] = @teacher.errors.full_messages.to_sentence
+			end
+		end
+
+		# Get a list of existing skills
+		@existing_skills = user_path(self.current_user) + '/skills'
+	end
 end
