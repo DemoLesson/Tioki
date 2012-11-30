@@ -51,7 +51,7 @@
 					</p>
 					<div>
 						<ul>
-							<% @teacher_skills.each do |skill| %>
+							<% @user_skills.each do |skill| %>
 								<li>
 									<%= check_box_tag "skills[]", skill.id %>
 									<%= skill.name %>

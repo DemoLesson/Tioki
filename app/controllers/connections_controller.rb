@@ -26,11 +26,10 @@ class ConnectionsController < ApplicationController
 			users = []
 		end
 
-		# Get skills
+		#Populate search options
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
-			# Deprecate ?
-			#@schools = users.collect(&:school).uniq
-			#@schools.reject!(&:empty?)
+			@schools = users.collect(&:school).uniq
+			@schools.reject!(&:empty?)
 			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
 		end
 		

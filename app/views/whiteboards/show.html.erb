@@ -60,8 +60,8 @@
 	</li>
 <% when 'article' %>
 	<li class="new-style article">
-		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.slugif @post.user.avatar? %>
-		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.url unless @post.user.avatar? %>
+		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.slug if @post.user.avatar? %>
+		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.slug unless @post.user.avatar? %>
 		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen' %>
 
 		<h3><span class="salmon"><%= @post.user.name %></span> shared an article.</h3>

@@ -1,18 +1,18 @@
 <li>
 	<div class="profile-thumb-big">
 		<% if @connection.not_me.avatar? %>
-			<%= link_to image_tag(@connection.not_me.avatar.url(:thumb)), "profile/#{@connection.not_me.slug" %>
+			<%= link_to image_tag(@connection.not_me.avatar.url(:thumb)), "profile/#{@connection.not_me.slug}" %>
 		<% else %>
 			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@connection.not_me.slug}" %>
 		<% end %>
 	</div>
 	<p>
-		<a href="/profile/<%= @connection.not_me.url %>"><%= @connection.not_me.name %></a>
+		<a href="/profile/<%= @connection.not_me.slug %>"><%= @connection.not_me.name %></a>
 		<br />
 		<%= @connection.not_me.experiences.where(:current => true).first.position %>
 		<% if @connection.not_me.experiences(:current => true).first.position.present? %>at<% end %> 
-		<%= @connection.not_me.experiences(:current => true).first.school %><br />
-		<%= @connection.not_me.experiences(:current => true).first.location %>
+		<%= @connection.not_me.experiences(:current => true).first.company %><br />
+		<%= @connection.not_me.location %>
 	</p>
 	<div>
 		<a href="/userconnections/<%= @connection.not_me.id %>" class="count connections">
