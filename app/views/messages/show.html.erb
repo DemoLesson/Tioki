@@ -4,7 +4,7 @@
 	<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px">
 		<!-- Pulling the Teachers Picture or the No Avatar-->
 		<% if @message.sender.avatar? %>
-			<%= link_to image_tag(@message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + @message.sender.user.slug, :style => "margin:0px 0px 0px 5px" %>
+			<%= link_to image_tag(@message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + @message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
 		<% else %>
 			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+ @message.sender.user.slug, :style => "margin:0px 0px 0px 5px" %>
 		<% end %>
@@ -16,11 +16,7 @@
 			
 			<strong>
 				<% if @message.sender %>
-					<% if @message.sender.user %>		
-						<%= link_to @message.sender.name, '/profile/' + @message.sender.user.slug %>
-					<% else %>
-						<%= link_to @message.sender.name, @message.sender %>
-					<% end %>
+					<%= link_to @message.sender.name, '/profile/' + @message.sender.slug %>
 				<% else %>
 					User no longer exists
 				<% end %>
