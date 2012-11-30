@@ -11,23 +11,23 @@
 				<section class="panels">
 					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
 						<% if is_gmail(self.current_user.email) %>
-							<%= link_to image_tag("/assets/Tioki/icons/logo-gmail.png", :style => "width:225px;margin:3px auto 0px 245px;"), '#gmail', :id => "detected_email", "data-email-provider" => "GMAIL" %>
+							<%= link_to image_tag("/assets/tioki/icons/logo-gmail.png", :style => "width:225px;margin:3px auto 0px 245px;"), '#gmail', :id => "detected_email", "data-email-provider" => "GMAIL" %>
 						<% elsif /yahoo.com$/.match(self.current_user.email).present? %>
-							<%= link_to image_tag("/assets/Tioki/icons/yahoo-logo.png", :style => "width:250px;margin:8px auto 0px 225px;"), '#gmail', :id => "detected_email", "data-email-provider" => "YAHOO" %>
+							<%= link_to image_tag("/assets/tioki/icons/yahoo-logo.png", :style => "width:250px;margin:8px auto 0px 225px;"), '#gmail', :id => "detected_email", "data-email-provider" => "YAHOO" %>
 						<% elsif /aol.com$/.match(self.current_user.email).present? %>
-							<%= link_to image_tag("/assets/Tioki/icons/aol-logo.png", :style => "width:215px;margin:8px auto 0px 255px;"), '#gmail', :id => "detected_email", "data-email-provider" => "AOL" %>
+							<%= link_to image_tag("/assets/tioki/icons/aol-logo.png", :style => "width:215px;margin:8px auto 0px 255px;"), '#gmail', :id => "detected_email", "data-email-provider" => "AOL" %>
 						<% end %>
 					</section>
 				
 					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
-						<%= link_to image_tag("/assets/Tioki/icons/facebook-logo.png", :style => "width:250px;margin:8px auto 0px 235px;"), '#facebook', :id => "facebook" %>
+						<%= link_to image_tag("/assets/tioki/icons/facebook-logo.png", :style => "width:250px;margin:8px auto 0px 235px;"), '#facebook', :id => "facebook" %>
 					</section>
 				
 					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
 						<% if self.current_user.twitter_auth? %>
-							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter" %>
+							<%= link_to image_tag("/assets/tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter" %>
 						<% else %>
-							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '/twitter_auth?twitter_action=get_contacts', :id => "twitter_auth" %>
+							<%= link_to image_tag("/assets/tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '/twitter_auth?twitter_action=get_contacts', :id => "twitter_auth" %>
 						<% end %>
 					</section>
 					
