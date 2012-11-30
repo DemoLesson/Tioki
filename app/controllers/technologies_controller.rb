@@ -24,8 +24,7 @@ class TechnologiesController < ApplicationController
 	def show
 		@technology = Technology.find(params[:id])
 		@comments = @technology.getComments
-		@users = @technology.users.joins("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`")
-		@users = @users.where("`teachers`.`id` IS NOT NULL && `teachers`.`url` IS NOT NULL").paginate(:page => params[:page], :per_page => 5)
+		@users = @technology.users.paginate(:page => params[:page], :per_page => 5)
 
 		respond_to do |format|
 			format.html # show.html.erb
@@ -124,7 +123,6 @@ class TechnologiesController < ApplicationController
 		if request.post?
 
 			# Load the teach and update
-			@teacher = self.current_user.teacher
 			@technology.skills.delete_all
 
 			# Install the skills

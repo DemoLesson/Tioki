@@ -5,7 +5,6 @@ class SkillsController < ApplicationController
     @skill = Skill.find(params[:id])
 
     # Load teachers that have claimed the above skill
-    #@teachers = @skill.skill_claims.select('`teachers`.*').joins(:user => :teacher).where("users.deleted_at" => nil).paginate(:page => params[:page], :per_page => 25)
 		@users = User.joins(:skill_claims).where("skill_claims.skill_id = ?", @skill.id).paginate(:page => params[:page], :per_page => 25)
 
     # Videos that claim the skill
