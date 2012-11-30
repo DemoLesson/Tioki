@@ -1,12 +1,14 @@
 class EducationsController < ApplicationController
   before_filter :login_required
   
-    def education
-		@teacher = User.find(self.current_user.id)
-		raise ActiveRecord::RecordNotFound, "Teacher not found." if @user.nil?
+    def index
+		@educations = self.current_user.educations
+
+		@education = Education.new
+		raise ActiveRecord::RecordNotFound, "User not found." if self.current_user.nil?
 	end
 	
-	def remove_education
+	def destroy
 		@education = Education.find_by_id(params[:id], :limit => 1)
 		@education.destroy
 
@@ -19,7 +21,7 @@ class EducationsController < ApplicationController
 		end
 	end
 	
-	def edit_education
+	def edit
 		@education = Education.find(params[:id])
 		
 		respond_to do |format|
@@ -27,12 +29,12 @@ class EducationsController < ApplicationController
 		end
 	end
 	
-	def update_education
-		@teacher = User.find(self.current_user.id)
-		@teacher.educations.build(params[:education])
+	def create
+		@user = self.current_user
+		education = @user.educations.build(params[:education])
 		
 		respond_to do |format|
-			if @teacher.save
+			if education.save
 				format.html { redirect_to :education, :notice => "Education details updated." }
 			else
 				format.html { redirect_to :education, :notice => "An error occurred."}
@@ -40,16 +42,13 @@ class EducationsController < ApplicationController
 		end
 	end
 	
-	def update_existing_education
+	def update
 		@education = Education.find(params[:id])
 		
-		respond_to do |format|
-			if @education.update_attributes(params[:education])
-				format.html { redirect_to :education, :notice => "Education details updated." }
-			else
-				format.html { redirect_to :education, :notice => "An error occurred."}
-			end 
-		end
+		if @education.update_attributes(params[:education])
+			redirect_to :education, :notice => "Education details updated." 
+		else
+			redirect_to :education, :notice => "An error occurred."
+		end 
 	end
-    
 end

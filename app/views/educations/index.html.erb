@@ -1,0 +1,90 @@
+<section id="main-content" class="inner-content">
+	<h1>Education</h1>
+
+	<div class="attached">
+		<% for education in @educations %>
+			<p>
+			<span class="purge" style="float:right"><%= link_to 'Edit', edit_education_path(education) %><br /><%= link_to 'Remove?', '/remove_education/'+education.id.to_s, :confirm => 'Are you sure you want to remove '+education.school+' from your profile?' %></span>	
+			<strong>
+			<%= education.school %>
+			</strong><br />
+			<%= education.degree %>,
+			<%= education.concentrations %><br />
+			
+			<% if education.current == true %>
+				<% if education.start_year.present? %>
+					<%= education.start_year %> -
+				<% end %>
+				<% if education.year.present? %>
+					<%= education.year %> (expected)<br />
+				<% end %>
+			<% else %>
+				<% if !education.year.present? %>
+				<% else %>
+					<% if !education.start_year.present? %>
+						<%= education.year %><br />
+					<% else %>
+						<%= education.start_year %> - <%= education.year %><br />
+					<% end %>
+				<% end %>
+			<% end %>
+			
+			</p>
+		<% end %>
+	</div>
+
+	<div id="attach_new_btn">
+		<input name="attach" type="submit" value="Add Education Details" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+			<%= link_to 'View Profile', '/me/profile' %>
+	</div>
+
+	<div id="attach_form" style="display: none">
+		<%= form_for @education do |f| %>
+			<fieldset>
+				<p>
+				School/University
+				</p>
+				<%= f.text_field :school %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Degree
+				</p>
+				<%= f.text_field :degree, :placeholder => "(e.g. B.A, Masters, etc.)" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Major
+				</p>
+				<%= f.text_field :concentrations, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Year: 
+				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+				</p>	
+			</fielset>
+			<fieldset>
+				<p>
+				Graduation Year: 
+				<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+				</p>
+			</fieldset>	
+			<fieldset>
+				<label>
+					<%= f.check_box :current %> 
+					I am currently attending here
+				</label>
+			</fieldset>
+			<fieldset>
+				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Cancel', '/me/profile' %>
+			</fieldset>
+
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
+
+		<% end %>
+	</div>
+</section>

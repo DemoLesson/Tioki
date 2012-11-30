@@ -1,0 +1,120 @@
+<section id="main-content" class="inner-content">
+	<h1></h1>
+	
+	<%= form_tag self.currentURL do %>
+		<section class="profile group">
+			<section class="left-sidebar">
+				<h1>
+				Edit Profile
+				</h1>
+				<p>
+				View a <a href="/profile/Mandela">sample profile</a> to see what your completed one will look like.
+				</p>
+	
+				<section class="profile-info group">
+					<h3 class="top-line" style="text-transform:uppercase;">
+					<%= @user.name %>
+					</h3>
+					<p>
+					My Public Profile:
+					<% if @user.guest_code != nil %>
+						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@user.slug, :class => :guest_pass_field %>
+						<% end %>
+					</p>
+				
+					<p>
+					My Headline (limited to 140 characters):
+					</p>
+					<%= text_area_tag :headline, @user.headline, :maxlength => 140, :style => "width: 400px" %>
+				</section>	
+				<section class="profile-info group">
+					<h3 class="top-line">
+					CONNECT WITH ME
+					</h3>
+					<a name="connect" />	
+					<p>
+					<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= text_field_tag 'social[linkedin]', @user.social[:linkedin] ,:placeholder => "http://www.linkedin.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= text_field_tag 'social[twitter]', @user.social[:twitter] ,:placeholder => "http://twitter.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= text_field_tag 'social[pinterest]', @user.social[:pinterest], :placeholder => "http://www.pinterest.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= text_field_tag 'social[edmodo]', @user.social[:edmodo], :placeholder => "http://www.edmodo.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+					<%= text_field_tag 'social[betterlesson]', @user.social[:betterlesson],:placeholder => "http://betterlesson.com/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= text_field_tag 'social[teachingchannel]', @user.social[:teachingchannel], :placeholder => "http://www.teachingchannel.org/" %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/phone.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= text_field_tag 'contact[phone]', @user.contact[:phone] %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/blog_icon.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= text_field_tag 'social[blog]', @user.social[:blog], :placeholder => "http://www.myblog.com"  %>
+					</p>
+					<p>
+					<%= image_tag('tioki/icons/globe.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+					<%= text_field_tag 'social[website]', @user.social[:website], :placeholder => "http://mywebsite.com"  %>
+					</p>
+					
+				</section>
+			</section> <!-- End Sidebar -->
+			<section class="right-sidebar">
+				<div class="profile-thumb-medium">
+					<%= image_tag(@user.avatar(:medium)) if @user.avatar? %>
+					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @user.avatar? %>
+				</div>
+				</br>
+				<%= link_to 'Change Profile Picture', '/me/profile/edit/upload-avatar', :class => "button2 bg-ltgray big-button" %>	
+					<span style="margin-left:15px">
+						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'  Upload Video', '/me/profile/edit/upload-video', :class => "button2 bg-ltgray med-button" %>
+					</span>
+
+				<section>
+					<h3 class="top-line">
+					MY PROFESSIONAL DETAILS
+					</h3>	
+					
+					<%= link_to ' Education ', '/me/profile/edit/education', :class => "button2 bg-ltgray big-button" %>
+						<span style="margin-left:15px">
+							<%= link_to ' Experience ', '/me/profile/edit/experience', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Credentials', '/me/profile/edit/credentials', :class => "button2 bg-ltgray big-button" %>
+						</span><br /> <br / >
+						<span>
+							<%= link_to 'Presentations', '/me/profile/edit/presentations', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Awards & Honors', '/me/profile/edit/awards', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Skills', '/me/profile/edit/skills', :class => "button2 bg-ltgray big-button" %>
+						</span></br></br>
+							<%= link_to 'Technologies', technologies_path, :class => "button2 bg-ltgray big-button" %>
+						<span style="margin-left:15px">
+							<%= link_to 'Attachments', '/profileattachments', :class => "button2 bg-ltgray big-button" %>
+						</span>
+						<span style="margin-left:15px">
+							<%= link_to 'Verify Skills', '/requestvouch', :class => "button2 bg-ltgray big-button" %>
+						</span></br></br>
+			
+					<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;")+'   Import from LinkedIn', '/linkedinprofile', :class => "button2 bg-ltgray med-button"%>
+				</section>
+			</section>
+		</section> <!-- End Profile -->
+		<input type="submit" class="huge-button" value="Save Changes">
+	<% end %>
+</section> <!-- End Main Content -->

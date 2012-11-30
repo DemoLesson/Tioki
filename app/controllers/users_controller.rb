@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 			# Create a new user with the paramaters provided
 			@user = User.new(params[:user])
 			@success = ""
-		
+
 			# Attempt to save the user
 			if @user.save
 
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 				# Redirect to the wizard
 				return redirect_to '/welcome_wizard?x=step2'
 
-			# If there were any errors flash them and send :root
+				# If there were any errors flash them and send :root
 			else
 				flash[:error] = error = @user.errors.full_messages.to_sentence
 				Rails.logger.debug "User failed to register: " + error
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 		redirect_to :root
 	end
 
-    # Deprecate
+	# Deprecate
 	def create_admin
 		@user = User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
 		@success = ""
@@ -53,8 +53,8 @@ class UsersController < ApplicationController
 				self.log_analytic(:organization_signup, "New organization signed up.", @user)
 				redirect_to :school_thankyou, :notice => "Signup successful!"
 			else
-                @user.destroy
-                flash[:notice] = "Signup unsuccessful."
+				@user.destroy
+				flash[:notice] = "Signup unsuccessful."
 			end
 		else
 			flash[:notice] = "Signup unsuccessful."
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
 	def login
 		return redirect_to :root unless self.current_user.nil?
-		
+
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 				self.log_analytic(:user_logged_in, "User logged in.")
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
 				end
-                
+
 				return redirect_to :root
 			else
 				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
@@ -89,14 +89,14 @@ class UsersController < ApplicationController
 	def logout
 		reset_session
 		flash[:notice] = "You've been logged out."
-        
-        # Delete login token
+
+		# Delete login token
 		if (login_token = LoginToken.find_by_user_id(cookies[:login_token_user]))
 			cookies[:login_token_user] = { :value => nil, :expires => Time.new - 1.day }
 			cookies[:login_token_value] = { :value => nil, :expires => Time.new - 1.day }
 			login_token.destroy
 		end
-        
+
 		redirect_to :root
 	end
 
@@ -114,62 +114,35 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def change_password
-		@user=session[:user]
-		@message = ""
-		if request.post?
-			@user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
-			if @user.save
-				self.log_analytic(:user_changed_password, "A user changed their password.")
-				@message = "Password Changed"
-			end
-		end
-	end
-	
 	def edit
 		@user = User.find(self.current_user.id)
 	end
-    
-        # GET /teachers/1/edit
-	def edit_profile
-		if User.current.nil? || User.current.teacher.nil?
+
+	def profile_edit
+		if User.current.nil?
 			return render :json => {"message" => "Nothing"}
 		end
 
 		# Get the current teacher
-		@teacher = User.current.teacher
+		@user = User.current
 
-		# Get the teachers skills
-		@skills = @teacher.skills
-		# Get the teachers last video
-		@video = @teacher.videos.last
-	end
+		if request.post?
+			@user.social = params[:social]
+			@user.contact = params[:contact]
 
-	# PUT /teachers/1
-	# PUT /teachers/1.json
-	def update_profile
-		# Get the teacher
-		@teacher = Teacher.find(params[:id])
-
-		# Flash an error if the user if not autorized
-		unless @teacher.id == self.current_user.teacher.id
-			flash[:error] = "Not authorized"
-			redirect_to :root
-		end
-
-		respond_to do |format|
-			if @teacher.update_attributes(params[:teacher])
-
-				# Make a Whiteboard Post
-				Whiteboard.createActivity(:profile_update, "{user.teacher.profile_link} updated their profile.")
-
-				format.html { redirect_to(@teacher, :notice => 'Teacher was successfully updated.') }
-				format.json  { head :ok }
+			if @user.update_attribute(:headline, params[:headline])
+				flash[:success] = "Successfully updated"
+				redirect_to :back
 			else
-				format.html { render :action => "edit" }
-				format.json  { render :json => @teacher.errors, :status => :unprocessable_entity }
+				flash[:error] = "There was an error updating"
+				redirect_to :back
 			end
 		end
+
+		# Get the teachers skills
+		@skills = @user.skills
+		# Get the teachers last video
+		@video = @user.videos.last
 	end
 
 	def accounts
@@ -180,6 +153,7 @@ class UsersController < ApplicationController
 		else
 			@user=self.current_user
 		end
+
 		if self.current_user.is_shared
 			sharedschool = SharedUsers.find(:first, :conditions => {:user_id => self.current_user.id})
 			@members = SharedUsers.find(:all, :conditions => { :owned_by => sharedschool.owned_by})
@@ -187,7 +161,7 @@ class UsersController < ApplicationController
 			@members = SharedUsers.find(:all, :conditions => { :owned_by => self.current_user.id})
 		end
 	end
-	
+
 	def update
 		@user=self.current_user
 		if !(params[:user][:avatar].content_type.include? "image")
@@ -274,7 +248,7 @@ class UsersController < ApplicationController
 	def change_picture
 		@user = User.find(self.current_user.id)
 	end
-	
+
 	def update_settings
 		@user = User.find(self.current_user.id)
 		action = @user.update_settings(params[:user])
@@ -284,7 +258,7 @@ class UsersController < ApplicationController
 			format.html { redirect_to :root, :notice => action }
 		end
 	end
-	
+
 	def change_password
 		@user = User.find(self.current_user.id)
 		action = @user.change_password(params[:confirm])
@@ -293,7 +267,7 @@ class UsersController < ApplicationController
 		respond_to do |format|
 			format.html { redirect_to :root, :notice => action }
 		end
-	eslugd
+	end
 
 	def email_settings
 		@user = User.find(self.current_user.id)
@@ -330,7 +304,7 @@ class UsersController < ApplicationController
 		self.log_analytic(:organization_info_changed, "A organization changed their information.")
 		redirect_to :root
 	end
-	
+
 	def user_list
 		@users = User.find(:all, :order => 'created_at DESC')
 		@teachercounter = 0
@@ -340,7 +314,7 @@ class UsersController < ApplicationController
 			format.html { render :user_list }
 		end
 	end
-	
+
 	def teacher_user_list
 
 		# Search for a specific user via name or id
@@ -354,26 +328,26 @@ class UsersController < ApplicationController
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
-        
+
 		# Limit to those that have at least 1 video
 		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
-		
+
 		# Limit to teachers that have job applications
 		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
-		
+
 		@usercount = @users.count
 
 		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
-		
+
 		# Prepare the stats for the admin page
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
 		@stats.push({:name => 'Number of Educators', :value => @usercount})
-		
+
 		# Render the page
 		render :teacher_user_list
 	end
@@ -385,7 +359,7 @@ class UsersController < ApplicationController
 		end
 		@users = User.unscoped.find(:all)
 		@users=@users.reject { |user| user.deleted_at == nil }
-		
+
 		@usercount = @users.count
 		@teachercount = @users.reject { |user| user.nil? }.count
 		@admincount = @users.reject { |user| user }.count
@@ -401,9 +375,9 @@ class UsersController < ApplicationController
 	def school_user_list
 		if request.post?
 			user = User.new(:first_name => params[:contact_first],
-											:last_name => params[:contact_last],
-											:email => params[:email],
-											:password => params[:pass])
+							:last_name => params[:contact_last],
+							:email => params[:email],
+							:password => params[:pass])
 			if user.save
 				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
 				if school.save
@@ -424,7 +398,7 @@ class UsersController < ApplicationController
 			#so I can select rows from the users table
 			@schools = School.find :all,
 				:conditions => ['schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%"],
-				:order => "created_at DESC"
+			:order => "created_at DESC"
 		else
 			@schools = School.find :all,
 				:order => "created_at DESC"
@@ -453,15 +427,15 @@ class UsersController < ApplicationController
 
 	def donors_choose_list
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+								  "2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def referral_user_list
 		#after ddonors choose before tioki bucks
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
+																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+								  "2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -524,7 +498,7 @@ class UsersController < ApplicationController
 	end
 
 	def new_member
-		@ssocial_actionshool = se>l, f.:curr>e,n_:us>e).where(.sc"`id`hools 
+		@schools = self.current_user.schools 
 		if request.post?
 			if params[:is_limited] == nil
 				redirect_to :back, :notice => 'You must select a type'
@@ -625,7 +599,7 @@ class UsersController < ApplicationController
 				if time.index("from").nil?
 					to = from = time.join(' ')
 
-				# If a from was specified assume they meant the remainder of the day
+					# If a from was specified assume they meant the remainder of the day
 				else
 					from = time.delete_if{|x| x == "from"}.join(' ')
 					time[-1] = 'midnight'
@@ -637,7 +611,7 @@ class UsersController < ApplicationController
 			if to == from
 				time = [Chronic.parse(to)]
 
-			# If we have two
+				# If we have two
 			else
 				time = Array.new
 				time << Chronic.parse(from)
@@ -685,15 +659,15 @@ class UsersController < ApplicationController
 
 	def dismiss_banner
 		cookies[:tioki_banner_dismissed] = {
-  			:value => true,
-  			:expires => 3.hours.from_now
+			:value => true,
+			:expires => 3.hours.from_now
 		}
 
 		redirect_to :back
 	end
-    
-    def tioki_bucks
-    	@start_count  = 0
+
+	def tioki_bucks
+		@start_count  = 0
 		@tioki_bucks = 0
 
 		#3 connections
@@ -710,23 +684,23 @@ class UsersController < ApplicationController
 
 		#Join three groups
 		if User_Group.find(:all, 
-				:conditions => ["user_id = ?", self.current_user.id]).count >= 3
-			@groups = true
-			@start_count += 1
+						   :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+		@groups = true
+		@start_count += 1
 		end
 
 		#Vouch 5 skills
 		if VouchedSkill.find(:all, 
-				:conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
-			@vouched_skills = true
-			@start_count += 1
+							 :conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+		@vouched_skills = true
+		@start_count += 1
 		end
 
 		#post to whiteboard
 		if Whiteboard.find(:first, 
-				:conditions => ["whiteboards.slug = ?", 'share'])
-			@whiteboard_post = true
-			@start_count += 1
+						   :conditions => ["whiteboards.slug = ?", 'share'])
+		@whiteboard_post = true
+		@start_count += 1
 		end
 
 		#Post a reply to discussion
@@ -778,7 +752,7 @@ class UsersController < ApplicationController
 
 				# Save a redirect url for the return
 				session[:linkedin_redirect] = params[:redirect] unless params[:redirect].nil?
-				
+
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
 				redirect_to '/profile/'+self.current_user.teacher.url
@@ -807,10 +781,10 @@ class UsersController < ApplicationController
 		#Post a reply to discussion
 		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
 	end
-    
-        # Profile stats
+
+	# Profile stats
 	def stats
-		
+
 		@pendingcount = self.current_user.pending_connections.count
 		# Get the teacher id of the currently logged in user
 		@teacher = Teacher.find(self.current_user.teacher.id)
@@ -890,12 +864,10 @@ class UsersController < ApplicationController
 		end
 	end
 
-	private
-    
-    # Migrated from teacher_controller.rb
-    def profile
 
-    	# Figure out whether to load a profile by slug or the current user.
+	# Migrated from teacher_controller.rb
+	def profile
+		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
 		elsif !self.current_user.nil?
@@ -904,12 +876,12 @@ class UsersController < ApplicationController
 
 		# Check if user is a guest
 		@guest = false; if !params[:guest_pass].nil? && !params[:guest_pass].empty?
-			@guest = params[:guest_pass].strip == @user.guest_code
+		@guest = params[:guest_pass].strip == @user.guest_code
 		end
 
 		# Check if user is connected to teacher or is self
 		@self = false
-        @connected = false
+		@connected = false
 		if @user.me?
 			@connected = true
 			@self = true
@@ -925,15 +897,15 @@ class UsersController < ApplicationController
 			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
 		end
 
-        # Review
-        # Why is this here?
+		# Review
+		# Why is this here?
 		# Load up an application
 		@application = nil
 		if params[:application] != nil
 			@application = Application.find(params[:application])
 			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
-		
+
 		# If the there is currently a user logged in
 		if !self.current_user.nil?
 			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
@@ -960,6 +932,9 @@ class UsersController < ApplicationController
 			end
 		end
 	end
+
+	private
+
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin
 
@@ -969,4 +944,3 @@ class UsersController < ApplicationController
 
 	end
 end
-

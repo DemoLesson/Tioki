@@ -3,78 +3,77 @@ class HomeController < ApplicationController
 	def index
 
 		# If logged in then load a dashboard
-		unless self.current_user.nil?
+		if !self.current_user.nil?
 
 			# TODO Add check to see if school...
 			params[:dashboard] = self.current_user.dashboard unless params[:dashboard]
-		end
+			if params[:dashboard] == 'school'
+				@schools = self.current_user.all_schools
 
-		if params[:dashboard] == 'school'
-			@schools = self.current_user.all_schools
+				@jobs = self.current_user.all_jobs_for_schools
 
-			@jobs = self.current_user.all_jobs_for_schools
+				@activities = self.current_user.activities
 
-			@activities = self.current_user.activities
+				@pins = self.current_user.pins.count
 
-			@pins = self.current_user.pins.count
+				@administrators = self.current_user.organization.admincount
 
-			@administrators = self.current_user.organization.admincount
+				@interviews = @jobs.inject(0) do |total, job|
+					total += job.interviews.count
+				end
 
-			@interviews = @jobs.inject(0) do |total, job|
-				total += job.interviews.count
+				if self.current_user.is_shared && !self.current_user.is_limited
+					#if shared and not limited user get the activities for the master admin
+					admin = SharedUsers.find(:first, :conditions => { :user_id => self.current_user.id})
+					@activities = @activities + Activity.find(:all, :conditions => ['user_id = ? OR user_id = 0', admin.owned_by], :order => 'created_at DESC')
+				end
+
+				@applicants = @jobs.inject(0) do |total, job|
+					total += job.new_applicants.count
+				end
+			else
+
+				# Get whiteboard activity
+				@whiteboard = Array.new
+				Whiteboard.getActivity(true, :exclude => :connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
+					@post = post
+					@whiteboard << render_to_string('whiteboards/show', :layout => false)
+				end
+
+				# Prepare the new connections bin
+				connections = Whiteboard.getActivity(true, :restrict => :connection).limit(6).all.recurse{|w| w.getModels}
+				@post = {:slug => 'connections', :data => connections}
+				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
+
+				# Get a list of all my skills and a list of all my connections
+				skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
+				skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
+				my_connections = Connection.mine.collect!{|x| x.not_me.id}
+
+				# Create / Run the Query
+				joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]
+				joins << 'LEFT JOIN `connections` ON `users`.`id` = `connections`.`user_id` OR `users`.`id` = `connections`.`owned_by`'
+				@suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
+				@suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
+				@suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
+				@suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
+
+				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
+
+				@pendingcount = self.current_user.pending_connections.count
+
+				@profile_views = self.get_analytics(:view_teacher_profile, self.current_user, nil, nil, true).count
+
+				@user = User.find(self.current_user)
+
+				@jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
+
+				@discussions = Discussion.find(:all, :limit => 3, :order => 'created_at DESC')
+
+				@featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
+
+				@interviews = self.current_user.interviews
 			end
-
-			if self.current_user.is_shared && !self.current_user.is_limited
-				#if shared and not limited user get the activities for the master admin
-				admin = SharedUsers.find(:first, :conditions => { :user_id => self.current_user.id})
-				@activities = @activities + Activity.find(:all, :conditions => ['user_id = ? OR user_id = 0', admin.owned_by], :order => 'created_at DESC')
-			end
-
-			@applicants = @jobs.inject(0) do |total, job|
-				total += job.new_applicants.count
-			end
-		else
-
-			# Get whiteboard activity
-			@whiteboard = Array.new
-			Whiteboard.getActivity(true, :exclude => :connection).paginate(:per_page => 15, :page => params[:page]).each do |post|
-				@post = post
-				@whiteboard << render_to_string('whiteboards/show', :layout => false)
-			end
-
-			# Prepare the new connections bin
-			connections = Whiteboard.getActivity(true, :restrict => :connection).limit(6).all.recurse{|w| w.getModels}
-			@post = {:slug => 'connections', :data => connections}
-			@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
-
-			# Get a list of all my skills and a list of all my connections
-			skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
-			skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
-			my_connections = Connection.mine.collect!{|x| x.not_me.id}
-
-			# Create / Run the Query
-			joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]
-			joins << 'LEFT JOIN `connections` ON `users`.`id` = `connections`.`user_id` OR `users`.`id` = `connections`.`owned_by`'
-			@suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
-			@suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
-			@suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
-			@suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
-
-			@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
-
-			@pendingcount = self.current_user.pending_connections.count
-
-			@profile_views = self.get_analytics(:view_teacher_profile, self.current_user, nil, nil, true).count
-
-			@user = User.find(self.current_user)
-
-			@jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
-
-			@discussions = Discussion.find(:all, :limit => 3, :order => 'created_at DESC')
-
-			@featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
-
-			@interviews = self.current_user.interviews
 		end
 
 		respond_to do |format|

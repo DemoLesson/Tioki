@@ -1,0 +1,46 @@
+<section id="main-content" class="inner-content">
+
+	<h1> Edit Education </h1>
+
+	<%= form_for :education, :url => { :controller => :educations, :action => :update } do |f| %>
+
+		<div class="field">
+			<label>School/University</label><br />
+			<%= f.text_field :school %>
+		</div>
+
+		<div class="field">
+			<%= f.label :degree %><br />
+			<%= f.text_field :degree %>
+		</div>
+
+		<div class="field">
+			<label>Major</label><br />
+			<%= f.text_field :concentrations %>
+		</div>
+
+		<div class="field">
+			<%= f.label "Start Year" %><br />
+			<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+		</div>
+
+		<div class="field">
+			<%= f.label "Graduation Year" %><br />
+			<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+		</div>	
+
+		<div class="field">
+			<%= f.check_box :current %> <label>I am currently attending here</label>
+		</div>
+
+		<div>
+			<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="btn btn-success" />
+			<%= link_to 'Cancel', :back %>
+		</div>
+
+		<div id="loader" style="display: none">
+			<img src="<%= asset_path 'loader.gif' %>" />
+		</div>
+
+	<% end %>
+</section>
