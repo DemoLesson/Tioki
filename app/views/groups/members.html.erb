@@ -118,7 +118,7 @@
 								<br/>
 								<!-- Pulling the Users Position -->
 								<% unless (currentJob = user.experiences.where(:current=>true).first).nil? %>
-									<%= currentJob.position %> at <%= currentJob.school %>
+									<%= currentJob.position %> at <%= currentJob.company %>
 								<% end %>
 								<!-- Allowing an admin to create other admins -->
 								<span style="float:right">

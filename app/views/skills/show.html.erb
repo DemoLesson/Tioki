@@ -105,42 +105,42 @@
 		<section class="panel one-column left-side">
 			<h3>Educators</h3>
 			<ul>
-				<% unless @teachers.empty? %>
-					<% @teachers.each do |teacher| %>
+				<% unless @users.empty? %>
+					<% @users.each do |user| %>
 						<li style="width:275px;padding:12px 15px 12px 15px !important">
 							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
-								<%= link_to image_tag(teacher.user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{teacher.url}" if teacher.user.avatar? %>
-								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{teacher.url}" unless teacher.user.avatar? %>
+								<%= link_to image_tag(user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.slug}" if user.avatar? %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 							</div>
 							<strong>
-								<%= link_to "#{teacher.user.name}", "/profile/#{teacher.url}", :class => "byline" %>
+								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline" %>
 							</strong><br />
 							<p style="width:195px;float:left;">
-								<% if teacher.position.present?  && teacher.school.present? %>
-									<%= teacher.position %> at <%= teacher.school %><br />
+							<% if user.experiences.where(:current => true).first.position.present?  && user.experiences.where(:current => true).first.company.present? %>
+								<%= user.experiences.where(:current => true).first.position %> at <%= user.experiences.where(:current => true).first.company %><br />
 								<% end %>
-								<% if teacher.location.present? %>
-									<%= teacher.location %><br />
+								<% if user.location.present? %>
+									<%= user.location %><br />
 								<% end %><br />
-								<% if !self.current_user.nil? && self.current_user.teacher %>	
-									<% unless self.current_user == teacher.user %>
-										<% if @my_connections.include? teacher.user_id %>
-											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+								<% if self.current_user %>	
+									<% unless self.current_user == user %>
+										<% if @my_connections.include? user.id %>
+											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
 										<% else %>
-											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
-											<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => teacher.user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+											<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button", :style => 'color:#FFF !important;' %>
 										<% end %>
 									<% end %>
 
 								<% else %>
-									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => teacher.user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
 								<% end %>
 							</p>
 							<!--div class="quick-action star-empty">
 							</div-->
 						</li>
 					<% end %>
-					<li><%= will_paginate @teachers %></li>
+					<li><%= will_paginate @users %></li>
 				<% else %>
 					<li>No educators showing off skills in <%= @skill.name %>.</li>
 				<% end %>
