@@ -20,12 +20,6 @@ GIT
       curb
 
 GIT
-  remote: git://github.com/brianmario/mysql2.git
-  revision: 0a968bd889d268e0a8fd6dc3f71307eb7ace1ba9
-  specs:
-    mysql2 (0.3.12b4)
-
-GIT
   remote: git://github.com/wr0ngway/graylog2_exceptions.git
   revision: 797924acd1aa89852605230812d8cfd27da90969
   specs:
@@ -224,6 +218,7 @@ GEM
     multi_xml (0.5.1)
     multimap (1.1.2)
     multipart-post (1.1.5)
+    mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -413,7 +408,7 @@ DEPENDENCIES
   linkedin
   mailgun-rails!
   multimap
-  mysql2!
+  mysql2
   nifty-generators
   nokogiri
   oauth

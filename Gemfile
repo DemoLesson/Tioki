@@ -63,7 +63,7 @@ gem 'daemons'
 
 # MySQL Database Access
 # Using Bleeding Edge (might be bad idea but lets see)
-gem 'mysql2', :git => 'git://github.com/brianmario/mysql2.git'
+gem 'mysql2'#, :git => 'git://github.com/brianmario/mysql2.git'
 
 group :development do
   gem 'brakeman'
