@@ -1,3 +1,8 @@
+v2.1.18 - Nov 30, 2012  9:35AM PST deployed by Aleks Stanisic
+=============================================================
+* c3653df: Kelly Becker - gitignore and gemlock
+* 1d2095e: Elijah Green - Fix adding groups
+
 v2.1.17 - Nov 28, 2012  8:54PM PST deployed by Aleks Stanisic
 =============================================================
 
