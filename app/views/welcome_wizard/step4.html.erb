@@ -27,11 +27,13 @@
 						<% if self.current_user.twitter_auth? %>
 							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter" %>
 						<% else %>
-							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '#twitter', :id => "twitter_auth" %>
+							<%= link_to image_tag("/assets/Tioki/icons/twitter_logo.png", :style => "width:250px;margin:8px auto 0px 240px;"), '/twitter_auth?twitter_action=get_contacts', :id => "twitter_auth" %>
 						<% end %>
 					</section>
 					
-					<section class="one-column right-side" style ="height:25px;">
+					<section class="two-column right-side" style ="height:25px;width:875px">
+	
+						Please enable pop-ups. It will help us help you find your friends.
 						<% if params[:user_connection] %>
 							<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
 						<% elsif params[:invitestring] %>
@@ -48,16 +50,38 @@
 					</section>
 				</section>
 			</div>
-
+			
+			<!-- Display this paragraph is this person has friends on the site -->
+			<p class="preselected" style="display:none;">
+				Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.
+				<br />
+				<a href="#select" class="button" style="color:#fff">Select All</a>
+				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+			</p>
+			
+			<!-- Display this paragraph otherwise -->
+			<p class="no-pre" style="display:none;">
+				Select some contacts that you would like to connect with.
+				<br />
+				<a href="#select" class="button" style="color:#fff">Select All</a>
+				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+			</p>
+			
 			<div id="twitter_header" style="display:none">
-				Invite Twitter Followers
+				<p>
+					Invite Twitter Followers 
+					<span style="font-size:12px">(Via Direct Message)</span>
+				</p>
 				<div style="float:right">
 					<%= submit_tag "Invite" %> 
 					Or <%= link_to "tweet about us", "/twitter_auth?twitter_action=tweet" %>
 				</div>
 			</div>
 			<div id="facebook_header" style="display:none">
-				Invite Facebook Friends
+				<p>
+					Invite Facebook Friends
+					<span style="font-size:12px">(Via Message)</span>
+				</p>
 				<div style="float:right">
 					<a href="#wall_post" id="wall_post">Post to your wall</a>
 				</div>
@@ -131,7 +155,7 @@
 							facebookSearch[i] = contact;
 
 							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
-							link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
+							link.html('<img src=' + contact.picture.data.url + ' style="float:left;height:30px;margin-right:5px">' + contact.name);
 							$('div.person_cloud').append(link);
 						}
 						$("#facebook_header").show();
@@ -182,7 +206,7 @@
 			e.preventDefault();
 
 			FB.api('/me/feed', 'post', { 
-				message: "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/<%= self.current_user.invite_code %>",
+				message: "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://tioki.com/dc/<%= self.current_user.invite_code %>",
 			},
 			function(response) {
 				if(!response || response.error) {
@@ -215,7 +239,7 @@
 					twitterSearch[i] = contact;
 
 					link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
-					link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
+					link.html('<img src=' + contact.picture + ' style="float:left;margin-right:5px">' + '@' + contact.screen_name + '<br />' + contact.name);
 					$('div.person_cloud').append(link);
 				}
 
@@ -269,19 +293,7 @@
 			return false;
 		});
 
-		$("#twitter_auth").click(function () {
-			//currently using a button for link
-			//firefox doesn't seem to get
-			//the http referer using window.location.href='url'
-			var a =document.createElement("a");
-
-			a.setAttribute("href", "/twitter_auth?twitter_action=get_contacts");
-
-			a.style.display = "none";
-
-			document.body.appendChild(a);
-			a.click();
-		});
+		
 
 		//DETECTED EMAILS
 		// Create a duplication prevention array
@@ -442,6 +454,33 @@
 
 			return false;
 		});
+		
+		$('a[href="#deselect"]').live('click', function(e) {
+			e.preventDefault();
+
+			var int1 = setInterval(function() {
+				if(selectedContacts.length == 0)
+					clearTimeout(int1);
+
+				var tmp = selectedContacts;
+				for(var i in tmp) $('a[x-data-email="' + tmp[i] + '"]').each(function() {
+					$(this).click();
+				});
+			}, 20);
+
+			return false;
+		});
+
+		$('a[href="#select"]').live('click', function(e) {
+			e.preventDefault();
+
+			$('a[href="#contact"]').each(function() {
+				if($(this).hasClass('secondary'))
+					$(this).click();
+			});
+
+			return false;
+		});
 
 		$("#contact_search").keyup(function() {
 			$('div.person_cloud').empty();
@@ -458,7 +497,7 @@
 						else {
 							link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
 						}
-						link.html('<img src=' + contact.picture + ' style="float:left">' + '@' + contact.screen_name + '<br />' + contact.name);
+						link.html('<img src=' + contact.picture + ' style="float:left;margin-right:5px">' + '@' + contact.screen_name + '<br />' + contact.name);
 						$('div.person_cloud').append(link);
 					}
 				}
@@ -475,7 +514,7 @@
 							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' class="button secondary" style="background:#ccc" />');
 						}
 
-						link.html('<img src=' + contact.picture.data.url + '>' + contact.name);
+						link.html('<img src=' + contact.picture.data.url + ' style="float:left;height:30px;margin-right:5px">' + contact.name);
 						$('div.person_cloud').append(link);
 					}
 				}

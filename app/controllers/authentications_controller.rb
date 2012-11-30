@@ -31,7 +31,7 @@ class AuthenticationsController < ApplicationController
 		if session[:twitter_action] == "tweet"
 			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
 			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
-			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 			self.current_user.teacher.update_attribute(:tweet_about, true)
 			notice = "Success"
 
