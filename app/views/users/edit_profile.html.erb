@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 	<h1></h1>
 	
-	<%= form_for @teacher, :html => { :multipart => true } do |f| %>
+	<%= form_for @user, :html => { :multipart => true } do |f| %>
 		<section class="profile group">
 			<section class="left-sidebar">
 				<h1>
@@ -13,12 +13,12 @@
 	
 				<section class="profile-info group">
 					<h3 class="top-line" style="text-transform:uppercase;">
-					<%= @teacher.user.name %>
+					<%= @user.name %>
 					</h3>
 					<p>
 					My Public Profile:
-					<% if @teacher.guest_code != nil %>
-						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@teacher.url, :class => :guest_pass_field %>
+					<% if @user.guest_code != nil %>
+						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@user.slug, :class => :guest_pass_field %>
 						<% end %>
 					</p>
 				

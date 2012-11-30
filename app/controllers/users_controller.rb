@@ -129,6 +129,48 @@ class UsersController < ApplicationController
 	def edit
 		@user = User.find(self.current_user.id)
 	end
+    
+        # GET /teachers/1/edit
+	def edit_profile
+		if User.current.nil? || User.current.teacher.nil?
+			return render :json => {"message" => "Nothing"}
+		end
+
+		# Get the current teacher
+		@teacher = User.current.teacher
+
+		# Get the teachers skills
+		@skills = @teacher.skills
+		# Get the teachers last video
+		@video = @teacher.videos.last
+	end
+
+	# PUT /teachers/1
+	# PUT /teachers/1.json
+	def update_profile
+		# Get the teacher
+		@teacher = Teacher.find(params[:id])
+
+		# Flash an error if the user if not autorized
+		unless @teacher.id == self.current_user.teacher.id
+			flash[:error] = "Not authorized"
+			redirect_to :root
+		end
+
+		respond_to do |format|
+			if @teacher.update_attributes(params[:teacher])
+
+				# Make a Whiteboard Post
+				Whiteboard.createActivity(:profile_update, "{user.teacher.profile_link} updated their profile.")
+
+				format.html { redirect_to(@teacher, :notice => 'Teacher was successfully updated.') }
+				format.json  { head :ok }
+			else
+				format.html { render :action => "edit" }
+				format.json  { render :json => @teacher.errors, :status => :unprocessable_entity }
+			end
+		end
+	end
 
 	def accounts
 		@organization = self.current_user.organization
@@ -764,6 +806,88 @@ class UsersController < ApplicationController
 
 		#Post a reply to discussion
 		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+	end
+    
+        # Profile stats
+	def stats
+		
+		@pendingcount = self.current_user.pending_connections.count
+		# Get the teacher id of the currently logged in user
+		@teacher = Teacher.find(self.current_user.teacher.id)
+
+		# Get a listing of who has viewed this teacher (IN ALL TIME)
+		@viewed = self.get_analytics(:view_teacher_profile, @teacher, nil, nil, true)
+
+		# Get the dates to run the query by
+		tomorrow = Time.now.tomorrow
+		lastweek = Time.now.last_week
+
+		# Create an empty private hash
+		data = Hash.new
+
+		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
+		data['profile_last_week'] = self.get_analytics(:view_teacher_profile, @teacher, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
+			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
+			a = a.group('date(`created_at`)')
+		end
+
+		# Get a listing of who has viewed this teachers card use a block to further contrain the query
+		data['card_last_week'] = self.get_analytics(:view_teacher_card, @teacher, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
+			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
+			a = a.group('date(`created_at`)')
+		end
+
+		# Create an empty public hash
+		@data = Hash.new
+
+		# Loop through the data to graph by
+		data.each do |k,s|
+
+			# Parse all the dates
+			save_time = nil
+			dates = Array.new
+
+			# Loop through the actual query results
+			s.each do |x|
+				time = Time.at(x.view_on_day)
+
+				# If save time is nil ignore
+				unless save_time.nil?
+					i = 1
+
+					# Set the last time we had for adjusting
+					adjust_time = save_time
+
+					# Create empty days of zero if no days are logged
+					while i < (time.to_date - save_time.to_date)
+
+						# Adjust the time forward to the next day
+						adjust_time = adjust_time.tomorrow
+
+						# Get the right time in seconds (with the utc offset for the timezone)
+						tmp = (adjust_time.to_time.localtime.to_i + adjust_time.to_time.localtime.utc_offset) * 1000
+
+						# Add the date to the array of dates
+						dates << "[#{tmp}, 0]"
+
+						# Increase the pointer for the while llop
+						i += 1
+					end
+				end
+
+				# Set save time for any more upcoming loops
+				save_time = time
+
+				# Get the right time in seconds of a hit (witht the utc offset for the timezone)
+				view_on_day = (time.localtime.to_i + time.localtime.utc_offset) * 1000
+
+				# Add the date to the array of dates
+				dates << "[#{view_on_day}, #{x.views_per_day}]"
+			end
+
+			# Join the data indo an output array
+			@data[k] = dates.join(',')
+		end
 	end
 
 	private
