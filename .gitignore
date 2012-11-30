@@ -18,3 +18,4 @@ public/uploads/*
 solr
 *~
 /tags
+.c9revisions
