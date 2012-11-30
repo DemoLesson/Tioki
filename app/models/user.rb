@@ -104,7 +104,22 @@ class User < ActiveRecord::Base
 
 	# Callbacks in order or processing
 	before_create :set_full_name
+    after_create :after_create
 	#after_save :add_ab_test_data
+    
+    def after_create
+        # Create invite code
+        create_invite_code
+        
+        # Add the slug
+        slug = (id.to_s + name).downcase
+        
+        # Add to the Tioki technology
+        TechnologyUser.create(:user => self, :technology_id => 15)
+        
+        # Send out welcome email
+        UserMailer.user_welcome_email(self).deliver
+    end
 
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
@@ -224,61 +239,6 @@ class User < ActiveRecord::Base
 		@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
 		@message.read = false
 		@message.activify
-		@message.save
-	end
-
-	def create_teacher
-		return nil
-
-		# Set the teacher to a shorter variable
-		t = self.teacher
-
-		# If there is already a teacher model connected
-		# then don't create a new teacher
-		if t.nil?
-
-			# Crate a new teacher
-			t = Teacher.new(:user => self)
-
-			# Link up the current user
-			t.user_id = self.id
-
-			# Generate a guest pass
-			t.create_guest_pass
-
-			#generate an invite code
-			self.create_invite_code
-
-			# Generate a profile url
-			url = Random.rand(10..99).to_s + self.id.to_s + self.name
-
-			# Remove bad url characters
-			url = url.parameterize('')
-
-			# Downcase the URL
-			t.url = url.downcase
-
-			# Add the tioki technology :D
-			TechnologyUser.create(:user => self, :technology_id => 15)
-
-			# Save it
-			t.save!
-
-			# Send welcome email
-			UserMailer.teacher_welcome_email(self.id).deliver
-		end
-
-		# Return
-		return t
-
-		# Nothing from here to "end" is being run
-		@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer.yml'))).result)[Rails.env]
-		@message = Message.new
-		@message.user_id_from = @mailer["from"].to_i
-		@message.user_id_to = self.id
-		@message.subject = @mailer["subject"]
-		@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
-		@message.read = false
 		@message.save
 	end
 

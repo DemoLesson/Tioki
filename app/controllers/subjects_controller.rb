@@ -4,7 +4,7 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
-    @teacher = Teacher.find(self.current_user.id)
+    @user = User.find(self.current_user.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -47,7 +47,7 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       if @subject.save
         @subjectsTeachers = SubjectsTeachers.new
-        @subjectsTeachers.teacher_id = self.current_user.teacher.id
+        @subjectsTeachers.user_id = self.current_user.id
         @subjectsTeachers.subject_id = @subject.id
         @subjectsTeachers.save
         format.html { redirect_to(@subject, :notice => 'Subject was successfully created.') }

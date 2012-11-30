@@ -11,17 +11,11 @@ class UsersController < ApplicationController
 			# Attempt to save the user
 			if @user.save
 
-				# Set the AB is the id is divisible by 2
-				@user.update_attribute(:ab, 'follow') if @user.id % 2 == 0
-
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
 				# Log the signup
 				self.log_analytic(:user_signup, "New user signed up.", @user)
-
-				# Create the teacher record on the user
-				self.create_teacher_and_redirect false
 
 				# Notice the signup was successful
 				flash[:success] = "Signup successful"
@@ -43,28 +37,7 @@ class UsersController < ApplicationController
 		redirect_to :root
 	end
 
-	# Json register
-	def create_json
-		@user = User.new(params[:user])
-		@success = ""
-
-		if request.post?
-			if @user.save
-				session[:user] = User.authenticate(@user.email, @user.password)
-				session[:user] = @user.id
-				self.log_analytic(:user_signup, "New user signed up.", @user)
-
-				data = {"type" => "success", "message" => "Signup successful"}
-				self.create_teacher_and_redirect(false)
-				return render :json => data
-			else
-
-				data = {"type" => "error", "message" => @user.errors.full_messages.to_sentence}
-				return render :json => data
-			end
-		end
-	end
-
+    # Deprecate
 	def create_admin
 		@user = User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
 		@success = ""
@@ -80,12 +53,12 @@ class UsersController < ApplicationController
 				self.log_analytic(:organization_signup, "New organization signed up.", @user)
 				redirect_to :school_thankyou, :notice => "Signup successful!"
 			else
-				@user.destroy
-					flash[:notice] = "Signup unsuccessful."
+                @user.destroy
+                flash[:notice] = "Signup unsuccessful."
 			end
 		else
 			flash[:notice] = "Signup unsuccessful."
-			redirect_to "/"
+			redirect_to :root
 		end
 	end
 
@@ -104,7 +77,8 @@ class UsersController < ApplicationController
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
 				end
-				return redirect_to_stored
+                
+				return redirect_to :root
 			else
 				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
 				flash[:error] = "Your username or password was incorrect."
@@ -112,95 +86,17 @@ class UsersController < ApplicationController
 		end
 	end
 
-	# Login and use JSON for all results
-	def login_json
-		if request.post?
-			if session[:user] = User.authenticate(params[:email], params[:password])
-				self.log_analytic(:user_logged_in, "User logged in.")
-				self.current_user.update_login_count
-				logger.info "Login successful"
-
-				if params[:remember_me]
-					login_token = LoginToken.generate_token_for!(session[:user])
-					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
-					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
-				end
-
-				data = {"type" => "success", "message" => "Login successful"}
-				return render :json => data
-			else
-				data = {"type" => "error", "message" => "Login unsuccessful"}
-				return render :json => data
-			end
-		end
-	end
-	
-	def choose_stored
-		if request.post?
-			if params[:role] == 'teacher'
-				self.current_user.create_teacher
-				self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-				
-				redirect_to current_user.default_home
-			elsif params[:role] == 'school'
-				self.current_user.create_school
-				self.current_user.default_home = school_path(self.current_user.school.id)
-				redirect_to :root
-				#redirect_to :root, :notice => 'Thank you for signing up. Please contact our support team at support@demolesson.com to start posting jobs.'
-			end
-		end
-	end
-
-	def create_teacher_and_redirect(redir = true)
-
-		# Get the user to build the teacher on
-		user = self.current_user if params[:user_id].nil? || !self.current_user.is_admin
-		user = User.find(params[:user_id]) if !params[:user_id].nil? && self.current_user.is_admin
-
-		# Create the teacher
-		user.create_teacher
-		
-		# Logged in user is an admin redirect wherever
-		return redirect_to params[:redir] if self.current_user.is_admin && params[:redir] = '/admin'
-
-		# If we have a referer in the creation process
-		# then auto connect the other teacher to the new one
-		if session.has_key?(:_referer)
-
-			# Redirect to the connections controller and add the referer
-			return redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
-		else
-
-			# Redirect to the teacher path since we did not have a referer
-			return redirect_to teacher_path(self.current_user.teacher.id) if redir
-		end
-	end
-
-	#  def choose_stored
-	#    if request.post?
-	#      if params[:role] == 'teacher'
-	#        self.current_user.create_teacher
-	#        self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-	#        
-	#        redirect_to current_user.default_home
-	#      elsif params[:role] == 'school'
-	#	      #self.current_user.create_school
-	#        #self.current_user.default_home = school_path(self.current_user.school.id)
-	#        redirect_to :root, :notice => 'Thank you for signing up. Please contact our support team at support@demolesson.com to start posting jobs.'
-	#      end
-	#    end
-	#  end
-
 	def logout
 		reset_session
-		session[:user] = nil
-		flash[:notice] = 'You\'ve been logged out.'
-		login_token = LoginToken.find_by_user_id(cookies[:login_token_user])
-		if login_token
+		flash[:notice] = "You've been logged out."
+        
+        # Delete login token
+		if (login_token = LoginToken.find_by_user_id(cookies[:login_token_user]))
 			cookies[:login_token_user] = { :value => nil, :expires => Time.new - 1.day }
 			cookies[:login_token_value] = { :value => nil, :expires => Time.new - 1.day }
-			LoginToken.delete(login_token.id)
+			login_token.destroy
 		end
+        
 		redirect_to :root
 	end
 
@@ -228,25 +124,6 @@ class UsersController < ApplicationController
 				@message = "Password Changed"
 			end
 		end
-	end
-
-	def show
-		if self.current_user.nil?
-			redirect_to :action=>'login'
-		else
-			@user = User.find(params[:id])
-			@school = School.find_by_owned_by(@user.id, :limit => 1)
-			@teacher = Teacher.find_by_user_id(@user.id, :limit => 1)
-			
-			respond_to do |format|
-				format.html
-			end
-		end
-	end
-
-	def select_type
-		@user = current_user
-		# render a selection page
 	end
 	
 	def edit
@@ -428,24 +305,21 @@ class UsersController < ApplicationController
 		if params[:tname]
 			#is it a valid integer?
 			if params[:tname].numeric?
-				@users = User.find :all, :include => :teacher,:conditions => ["teachers.id = ?", params[:tname]], :order => "users.created_at DESC"
+				@users = User.find :all, :conditions => ["id = ?", params[:tname]], :order => "users.created_at DESC"
 			else
 				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
 			end
 		else
 			@users = User.find :all, :order => "created_at DESC"
 		end
-
-		# Get rid of all users that have nil teachers
-		@users = User.find(:all, :joins => :teacher, :conditions => ['users.id IN (?)', @users.collect(&:id)])  if params[:teacher]
-
-		# Limit to those that have at leasy 1 video
+        
+		# Limit to those that have at least 1 video
 		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
 		
 		# Limit to teachers that have job applications
 		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
 		
-		@usercount = User.find(:all, :joins => :teacher,:conditions => ['users.id IN (?)', @users.collect(&:id)]).count
+		@usercount = @users.count
 
 		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
 
@@ -456,7 +330,7 @@ class UsersController < ApplicationController
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
-		@stats.push({:name => 'Number of Teachers', :value => @usercount})
+		@stats.push({:name => 'Number of Educators', :value => @usercount})
 		
 		# Render the page
 		render :teacher_user_list

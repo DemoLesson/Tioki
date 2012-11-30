@@ -13,13 +13,13 @@ class VideosController < ApplicationController
 		# Url to video list
 		@videolist = request.url
 		
-		@teacher = false; unless params[:url].nil?
+		@user = false; unless params[:url].nil?
 
 			# Get the teacher by url
-			@teacher = Teacher.where('`url` = ?',params[:url]).first
+			@user = User.where('`slug` = ?',params[:url]).first
 
 			# Narrow the videos to only those attached to this teacher
-			@videodb = @videodb.where('`teacher_id` = ?', @teacher.id)
+			@videodb = @videodb.where('`user_id` = ?', @u.id)
 		end
 
 		# Get first video
@@ -272,10 +272,9 @@ class VideosController < ApplicationController
 			@videos = @videos.where("`videos`.`name` LIKE '%#{params[:name]}%'")
 		end
 
-		unless params[:teacher].empty?
-			@videos = @videos.joins("LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`")
-			@videos = @videos.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
-			@videos = @videos.where("`users`.`name` LIKE '%#{params[:teacher]}%'")
+		unless params[:user].empty?
+			@videos = @videos.joins("LEFT JOIN `users` ON `videos`.`user_id` = `users`.`id`")
+			@videos = @videos.where("`users`.`name` LIKE '%#{params[:user]}%'")
 		end
 
 		unless params[:local].empty?

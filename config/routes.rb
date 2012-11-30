@@ -233,8 +233,6 @@ Preview::Application.routes.draw do
 	#Actions
 	match 'create', :to => 'users#create'
 	match 'login', :to => 'users#login', :as => 'login'
-	match 'jlogin' => 'users#login_json'
-	match 'jregister' => 'users#create_json'
 	match 'logout', :to => 'users#logout', :as => 'logout'
 	match 'verify', :to => 'users#verify', :as => 'verify'
 	match 'forgot_password', :to => 'users#forgot_password', :as => 'forgot_password'
