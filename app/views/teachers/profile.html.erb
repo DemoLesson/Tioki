@@ -32,14 +32,14 @@
 				<h2 style="margin: 10px 0px 10px 10px">
 				<%= @teacher.user.name %>
 				</h2>
-				<section style= "height: 68px;">
+				<section style= "height: 75px;">
 				<% if @teacher.headline? %>
-					<h4 style="margin-left:10px;margin-top:10px;width:auto">
+					<h4 style="margin-left:10px;margin-top:-10px;width:auto">
 						"<%= @teacher.headline %>"
 					</h4>
 				<% end %>
 
-				<p style="margin-left:10px; margin-top:-15px;width:auto">
+				<p style="margin-left:10px; margin-top:-15px; margin-bottom: 5px; width:auto">
 				  	<% if @teacher.position.present? && @teacher.school.present?%>
 						<strong style="color:#2AA99B">
 							Currently:
