@@ -292,7 +292,7 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.facebook_oauth_token.present?
+		self.authorizations[:facebook_oauth_token].present?
 	end
 
 	def got_started
@@ -532,7 +532,7 @@ class User < ActiveRecord::Base
 	end
 
 	def twitter_auth?
-		self.twitter_oauth_token && self.twitter_oauth_secret
+		self.authorizations[:twitter_oauth_token].present? && self.authorizations[:twitter_oauth_secret].present?
 	end
 
 	def update_login_count
