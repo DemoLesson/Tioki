@@ -101,9 +101,9 @@ class Notification < ActiveRecord::Base
 		ret = String.new
 		case _class
 		when 'Comment'
-			ret = "#{triggered.user.profile_link} replied to a discussion."
+			ret = "#{triggered.profile_link} replied to a discussion."
 		when 'Favorite'
-			ret = "#{triggered.user.profile_link} favorited a post of yours."
+			ret = "#{triggered.profile_link} favorited a post of yours."
 		end	
 
 		ret.html_safe
