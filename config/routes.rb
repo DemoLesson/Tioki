@@ -284,7 +284,6 @@ Preview::Application.routes.draw do
 	match 'myvideo' => 'videos#myvideo'
 	match 'inviteconnections' => 'connections#inviteconnections' 
 	match 'inviteconnection' => 'connections#inviteconnection'
-	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
 	match 'profileattachments' => 'attachments#profileattachments'
 	match 'dc/:url' => 'connections#linkinvite'
