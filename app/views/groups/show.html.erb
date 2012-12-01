@@ -105,12 +105,18 @@
 	<section class="profile-content panel" style="margin:30px 0px;">
 		<% unless User.current.nil? %>
 			<section style="margin:15px 0px 0px 15px">
-				<h4>Start a Discussion</h4>
 				<% if @in_group %>
+					<h4>
+					Start a Discussion
+					</h4>
 					<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
 						<textarea name="comment" style="height:50px;width:84%;padding:10px 3%;" placeholder="Start a Discussion or Share Something with the Group"></textarea>
 						<input type="submit" value="Post" style="margin:20px 20px 0px 0px;float:right" />
 					</form>
+				<% else %>
+					<h4>
+					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :style => "color:#F66C4C" %> to Start a Discussion.
+					</h4>
 				<% end %>
 			</section>
 			<div class="comments inline">
@@ -195,8 +201,13 @@
 					});
 				});
 				</script>
-			<% end %>
 			</div>
+		<% else %>
+			<section style="margin:15px 0px 15px 15px;">
+				<h3><%= link_to "Join Tioki", '/welcome_wizard?x=step1&group_join_link', :target => "_blank", :style => "color:#F66C4C" %> to Participate in this group's Discussions.
+				</h3>
+			</section>
+		<% end %>
 	</section>
 </section>
 

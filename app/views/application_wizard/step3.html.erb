@@ -20,23 +20,23 @@ tr.seeking, tr.student {
 			<% User.current.educations.each do |edu| %>
 				<tr>
 					<td>
-						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" class="button" style="float:right;margin-top:20px;" />Remove</a>
-						<h3><%= edu.school %></h3>
-						<span><%= edu.degree.empty? ? '' : edu.degree + ', ' %><%= edu.concentrations %></span><br />
-						<span><%= edu.start_year %></span>
-						<span> &mdash; </span>
+						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
+						<h4 class="bottom-line" style="margin-bottom:5px"><%= edu.school %><br />
+						<span style="font-size:15px"><%= edu.degree.empty? ? '' : edu.degree + ', ' %><%= edu.concentrations %></span><br />
+						<span style="font-size:15px"><%= edu.start_year %></span>
+						<span style="font-size:15px"> &mdash; </span>
 						<% if edu.current %>
-							<span>Present</span>
+							<span style="font-size:15px">Present</span>
 						<% else %>
-							<span><%= edu.year %></span>
-						<% end %><br /><br />
+							<span style="font-size:15px"><%= edu.year %></span>
+						<% end %></h4>
 					</td>
 				</tr>
 			<% end %>
 		</table>
 		<form method="POST">
 			<input type="hidden" name="add_education" value="1" />
-			<h2>Add another Education</h2>
+			<h3 class="bottom-line" style="margin-bottom:0px">Add Education</h3>
 			<table>
 				<tr>
 					<td>
@@ -49,7 +49,7 @@ tr.seeking, tr.student {
 				<tr>
 					<td>
 						<label>
-							<span>Degree</span>
+							<span>Degree Type</span>
 							<input type="text" name="education[degree]" placeholder="(e.g. B.A, Masters, etc.)" />
 						</label>
 					</td>
@@ -57,7 +57,7 @@ tr.seeking, tr.student {
 				<tr>
 					<td>
 						<label>
-							<span>Degree</span>
+							<span>Subject/Major</span>
 							<input type="text" name="education[concentrations]" placeholder="(e.g. Sociology, Chemistry, etc.)" />
 						</label>
 					</td>
@@ -82,7 +82,7 @@ tr.seeking, tr.student {
 					<td>
 						<label class="checkbox">
 							<input type="checkbox" name="education[current]" value="yes" />
-							I currently go to school here here
+							I currently go to school here
 						</label>
 					</td>
 				</tr>
@@ -90,17 +90,18 @@ tr.seeking, tr.student {
 					<td>
 						<label>
 							<span></span>
-							<input type="submit" class="large button" value="Add this school to my application" />
+							<input type="submit" class="large button" value="Add this school to my application" style="width:350px" />
 						</label>
 					</td>
 				</tr>
 			</table>
 		</form>
+	</div>
+	<div class="eleven columns">
 		<% unless User.current.educations.empty? %>
-			<h2>I'm done adding my education...</h2>
-			<a href="step4" class="secondary large button" style="padding:9px 50px;width:auto;">Next Step</a>
+			<a href="step4" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step →</a>
 		<% else %>
-			<p>Please provide some kind of education background...</p>
+			<p style="float:right">Please provide some kind of education background...</p>
 		<% end %>
 		<div style="clear:both;height:40px;"></div>
 	</div>

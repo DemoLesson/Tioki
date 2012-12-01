@@ -1,3 +1,18 @@
+v2.1.18 - Nov 30, 2012  9:35AM PST deployed by Aleks Stanisic
+=============================================================
+* c3653df: Kelly Becker - gitignore and gemlock
+* 1d2095e: Elijah Green - Fix adding groups
+
+v2.1.17 - Nov 28, 2012  8:54PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v2.1.16 - Nov 28, 2012  8:51PM PST deployed by Aleks Stanisic
+=============================================================
+* f08757c: Brian Martinez - suggested groups on groups pages
+* 30dc978: Brian Martinez - adding prompts to join group to disucss
+* f3765b4: Brian Martinez - changes to application flow
+
 v2.1.15 - Nov 28, 2012  1:15PM PST deployed by Kelly Becker
 ===========================================================
 * 262840c: Kelly Becker - whoops commenting out not a good plan

@@ -19,6 +19,6 @@ solr
 *~
 /tags
 
-# Ignore C9
+# Cloud 9
 .c9revisions
-installs
+
