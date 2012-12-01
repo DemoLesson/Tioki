@@ -769,7 +769,7 @@ class UsersController < ApplicationController
 
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
-				redirect_to '/profile/'+self.current_user.teacher.url
+				redirect_to '/profile/'+self.current_user.slug
 			end
 		end
 	end

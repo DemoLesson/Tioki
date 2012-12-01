@@ -28,9 +28,9 @@
 				<% @discussion.following.each do |user| %>
 					<% if user %>
 						<% if user.avatar? %>
-							<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+							<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.slug}" %>
 						<% else %>
-							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.teacher.url}" %>
+							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.slug}" %>
 						<% end %>
 					<% end %>
 				<% end %>
@@ -51,14 +51,14 @@
 				<div class="profile-thumb-small">
 					<% if @discussion.user %>
 					<% if @discussion.user.avatar? %>
-					<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.teacher.url}" %>
+					<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.slug}" %>
 					<% else %>
-					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.teacher.url}" %>
+					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.slug}" %>
 					<% end %>
 					<% end %>
 				</div>
 				<% if @discussion.user %>
-				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.teacher.url}", :style => "color:#F66C4C" %></strong><br />
+				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.slug}", :style => "color:#F66C4C" %></strong><br />
 				<% else %>
 				[Deleted]
 				<% end %>
@@ -94,14 +94,14 @@
 						<div class="profile-thumb-small">
 							<% if comment.user %>
 							<% if comment.user.avatar? %>
-							<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.teacher.url}" %>
+							<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.slug}" %>
 							<% else %>
-							<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.teacher.url}" %>
+							<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.slug}" %>
 							<% end %>
 							<% end %>
 						</div>
 						<% if comment.user %>
-						<%= link_to comment.user.name, "/profile/#{comment.user.teacher.url}" %>
+						<%= link_to comment.user.name, "/profile/#{comment.user.slug}" %>
 						<% else %>
 						[deleted]
 						<% end %><br />
@@ -232,10 +232,10 @@ $(document).ready(function() {
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
 				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
 				<div class="profile-thumb-small" style="float:left;">
-					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.teacher.url}" if user.avatar? %>
-					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.teacher.url}" unless user.avatar? %>
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 				</div>
-				<p style="margin-top:0px;"><strong><%= user.teacher.profile_link %></strong><br /><%= user.teacher.location %>
+				<p style="margin-top:0px;"><strong><%= user.profile_link %></strong><br /><%= user.location %>
 			</div>
 			<% end %>
 			<div style="clear:both;"></div>
