@@ -1,0 +1,396 @@
+./views/jobs/job_referral.html.erb:		    <%= f.text_field :teachername,:placeholder => "Your Name", :size => 60 %><br />
+./views/static/resources/faq.html.erb:					<a href="/static/resources/teacherresourcehub">
+./views/static/resources/faq.html.erb:			That will not be a problem at all. Some teachers on Tioki do not have their own classrooms, yet they are all able to still create awesome videos that show off their teaching abilities. Visit the <a href="/static/resources/videosupport">Video Resources</a> page, which tells you exactly what to do in this situation.
+./views/static/resources/faq.html.erb:			What types of resources do you have for teachers to use?
+./views/static/resources/faq.html.erb:			We have scoured the internet to find the best resources you can use for teaching. From lesson plans to awesome field trip locations, we have it all listed for you. Check out our <a href="/static/resources/teacherresourcehub">Teacher Resource Hub</a> today. 
+./views/static/resources/games-and-activities.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/games-and-activities.html.erb:				<a href="http://teacher.scholastic.com/whiteboards/learninggames.htm" target="_blank">
+./views/static/resources/guest-presenters.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/guest-presenters.html.erb:				<a href="http://busyteacher.org/7083-top-10-ways-get-most-from-guest-speaker.html" target="_blank">
+./views/static/resources/video-resources.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/video-resources.html.erb:				<a href="http://www.teachersdomain.org/" target="_blank">
+./views/static/resources/video-resources.html.erb:                        Video lessons to help professional development of teachers. Watch and critique other teacher's lessons to benefit.
+./views/static/resources/video-resources.html.erb:				<a href="http://www.pbs.org/teachers/" target="_blank">
+./views/static/resources/video-resources.html.erb:				<a href="http://www.teachertube.com/" target="_blank">
+./views/static/resources/video-resources.html.erb:				<a href="http://www.teachersdomain.org/" target="_blank">
+./views/static/resources/example-resource-page.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/example-resource-page.html.erb:			The easiest way to manage and analyze k-12 apps for teachers.
+./views/static/resources/faq-schools.html.erb:					<a href="/static/resources/teacherresourcehub">
+./views/static/resources/faq-schools.html.erb:			Teachers are given the option to select a 30-second snippet of their full length video on their profile that you can review before deciding to visit their profile. Not all teachers create this 30-second snippet, so if it is not listed under their name on the applicant page, they opted not to do this.  
+./views/static/resources/faq-schools.html.erb:			On the “My Jobs” page, click on “Applicants,” and you will be directed to the “My Applicants” page. From there you can remove applicants. You can also remove applicants by clicking the “Remove” button on the teacher profile. 
+./views/static/resources/apps.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/apps.html.erb:                        Syncs iPads in the classroom and allows for monitoring by the teacher.
+./views/static/resources/contactandsupport.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/resources/new-education-technology.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/new-education-technology.html.erb:			The easiest way to manage and analyze k-12 apps for teachers.
+./views/static/resources/dmca.html.erb:				<a href="/static/resources/teacherresourcehub.html">
+./views/static/resources/grade-book.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/grade-book.html.erb:				<a href="http://www.superteacherworksheets.com/excel-gradebook.html" target="_blank">
+./views/static/resources/grade-book.html.erb:                        Online Grading book.  You must make an account but it's free for teachers.
+./views/static/resources/grade-book.html.erb:                        Popular gradebook used by teachers and school districts.
+./views/static/resources/ell.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/raising-funds.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/raising-funds.html.erb:                        Makes it easy to fund raise for schools, teachers and students.  It's a crowd-funding site for education activities and schools in need.
+./views/static/resources/classroom-management.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/classroom-management.html.erb:                        6 classroom mangement Ttps for every teacher.
+./views/static/resources/classroom-management.html.erb:				<a href="http://www.teachervision.fen.com/" target="_blank">
+./views/static/resources/classroom-management.html.erb:				<a href="http://www.theteachersguide.com/ClassManagement.htm" target="_blank">
+./views/static/resources/classroom-management.html.erb:                        Good advice as to the options teachers have with disicpline.
+./views/static/resources/terms.html.erb:					<a href="/static/resources/teacherresourcehub.html">
+./views/static/resources/terms.html.erb:				These Terms of Service (the "Terms") govern your use of the online functionality made available at http://tioki.com by Demo Lesson, Inc. ("TIOKI," "we" and "us"), which enables you to upload information about yourself, including a video of you teaching a lesson, for access by potentially interested schools, school districts and other teacher-hiring organizations (the "Service"). To agree to these Terms, click "I agree" below.
+./views/static/resources/terms.html.erb:				The Service is intended solely for teachers and aspiring teachers who are at least 18 years of age or older. Any registration by, use of or access to the Service by anyone under 18 is unauthorized, and in violation of these Terms. By using the Service, you represent and warrant that you are 18 or older.
+./views/static/resources/terms.html.erb:				The Service is provided to teachers free of charge, although you are responsible for any third-party fees that you may incur when accessing the Service, including Internet connection fees. We may, in the future, charge teachers to use of the Service, in which case you will be notified in advance of such change.
+./views/static/resources/worksheets.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/worksheets.html.erb:				<a href="http://www.busyteacher.org/" target="_blank">
+./views/static/resources/worksheets.html.erb:				<a href="http://www.superteacherworksheets.com/" target="_blank">
+./views/static/resources/worksheets.html.erb:				<a href="http://www.worksheets4teachers.com/?__utma=1.1970672272.1335483689.1335483689.1335483689.1&__utmb=1.10.10.1335483689&__utmc=1&__utmx=-&__utmz=1.1335483689.1.1.utmcsr=google|utmccn=%28organic%29|utmcmd=organic|utmctr=%28not%20provided%29&__utmv=-&__utmk=41440162" target="_blank">
+./views/static/resources/worksheets.html.erb:				<a href="http://www.teachervision.fen.com/" target="_blank">
+./views/static/resources/videosupport.html.erb:					<a href="/static/resources/teacherresourcehub.html">
+./views/static/resources/videosupport.html.erb:                        Read up on the most common mistakes teachers make when creating their videos, so that you can be sure to avoid them.
+./views/static/resources/special-needs.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/special-needs.html.erb:				<a href="http://www.senteacher.org/" target="_blank">
+./views/static/resources/special-needs.html.erb:				<a href="http://www.teachervision.fen.com/special-education/teacher-resources/6640.html" target="_blank">
+./views/static/resources/lesson-plans.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/lesson-plans.html.erb:                        Find lesson plans, classroom materials and instructional resources from high-performing teachers. Browse a wide array of documents, presentations, full lessons -- even complete units and courses. Share your curriculum and connect with fellow educators around the world.
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.epa.gov/students/teachers.html#execosystems" target="_blank">
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.scholastic.com/teachers/" target="_blank">
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.lessonplans4teachers.com/?__utma=1.1970672272.1335483689.1335483689.1335483689.1&__utmb=1.7.10.1335483689&__utmc=1&__utmx=-&__utmz=1.1335483689.1.1.utmcsr=google|utmccn=%28organic%29|utmcmd=organic|utmctr=%28not%20provided%29&__utmv=-&__utmk=36910112" target="_blank">
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.teachervision.fen.com/" target="_blank">
+./views/static/resources/lesson-plans.html.erb:                        Teacher Vision has a number of Classroom Management tips along with great lesson plans and printiable worksheets.  A good go-to teacher resource!
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.teachersdomain.org/" target="_blank">
+./views/static/resources/lesson-plans.html.erb:				<a href="http://www.education.gov.uk/schools/toolsandinitiatives/teacherstv/" target="_blank">
+./views/static/resources/lesson-plans.html.erb:                        Number of links to UK teacher video sites.  Lots of good material to add to lessons
+./views/static/resources/field-trips.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/field-trips.html.erb:				<a href="http://www.naturenet.com/teachers.html#Ideas%20for%20Affordable%20Trips" target="_blank">
+./views/static/resources/field-trips.html.erb:				<a href="http://www.theteachersguide.com/virtualtours.html" target="_blank">
+./views/static/resources/privacy.html.erb:				<a href="/static/resources/teacherresourcehub.html">
+./views/static/resources/assessments.html.erb:			<a href="/static/resources/teacherresourcehub" class="back">
+./views/static/resources/assessments.html.erb:				<a href="http://www2.ed.gov/teachers/assess/resources/edpicks.jhtml" target="_blank">
+./views/static/resources/assessments.html.erb:				<a href="http://www.rubrics4teachers.com/?__utma=1.1970672272.1335483689.1335483689.1335483689.1&__utmb=1.6.10.1335483689&__utmc=1&__utmx=-&__utmz=1.1335483689.1.1.utmcsr=google|utmccn=%28organic%29|utmcmd=organic|utmctr=%28not%20provided%29&__utmv=-&__utmk=107573378" target="_blank">
+./views/static/resources/assessments.html.erb:				<a href="http://www.teachervision.fen.com/rubrics/assessment/26773.html" target="_blank">
+./views/static/whatistioki.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/whatistioki.html.erb:		Are you a Tioki teacher?
+./views/static/press.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/press.html.erb:				Do you think that our current social and professional networks do enough for teachers? Are you an educator who just hasn’t found the right “space” online- (maybe you don’t blog, or aren’t really into that “Twitter” thing)? Today I got a chance to speak with Pete Walton, the Growth Director for tioki.com.<a href="http://edreach.us/podcast/educelerate-profiles-tioki-com/" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				Mandela Schumacher-Hodge, a former public school teacher and Ph.D. candidate in urban schooling, stood on the stage in a small auditorium in the America Online offices here one recent afternoon as three Silicon Valley investors told her how to best communicate with teachers.<a href="http://www.edweek.org/ew/articles/2012/09/17/04incubator_ep.h32.html?tkn=OQWF9qrZHnpoPGF3DkbUCOPGzEOyN5140P66&cmp=clp-edweek" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				Empower teachers and streamline the hiring process with DemoLesson
+./views/static/press.html.erb:				DemoLesson...has a twofold mission: to disrupt the hiring cycle in education, and to allow teachers to be proactive in their job search, showcasing their talents in a digital profile that goes above and beyond a traditional r&eacute;sum&eacute;. <a href="http://www.edukwest.com/empower-teachers-and-streamline-the-hiring-process-with-demolesson/" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				All the tech in the world won't make a dent in student outcomes if teachers aren't involved. And nothing that these tools bring to the table diminishes the fact that great teachers are the number one factor in affecting student outcomes. <a href="https://www.edsurge.com/n/all-about-the-teacher" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				From teacher accountability and superintendent turnover to funding and standards ? all areas across both K-12 and Higher Ed education are experiencing transformational changes in the culture of education. <a href="http://www.siia.net/blog/index.php/2012/05/ed-tech-industry-summit-guest-blog-seismic-changes-in-education/" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				Given all the changes to the teacher credentialing process, it will only be a matter of time before the bar is raised for all aspiring and current teachers to videorecord their lessons and demonstrate their talents in a classroom setting. <a href="http://teach.com/education-technology/filming-lessons-for-certification" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				Online hiring platform helps teachers get a job
+./views/static/press.html.erb:				Imagine you're a school looking to hire the best and brightest teacher you can. You look at two resumes side-by-side and the question is, who brings the most to the table as the best teacher of young children? <a href="http://nbclatino.tumblr.com/post/22841358821/linkedin-meets-youtube-online-hiring-platform-helps" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				Websites like Craigslist or Monster post a wide spectrum of available jobs...However, many niche databases lists jobs specifically in education and can be a wonderful resource for your job search. <a href="http://teach.com/how-to-become-a-teacher/get-your-teaching-job" target="_blank" class="profilelink">Read More</a>
+./views/static/press.html.erb:				The first place winner of Startup Weekend Edu was Demo Lesson, a site where teachers can upload videos of themselves teaching in order to not just enhance their r&eacute;sum&eacute;, but also to give schools a better idea of how applicants function in the classroom. <a href="http://blogs.kqed.org/mindshift/2011/06/you-have-54-hours-quick-build-an-ed-tech-startup/#more-12304" target="_blank" class="profilelink">Read More</a>
+./views/static/ourteam.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/ourteam.html.erb:				As COO and product evangelist, Mandela is responsible for driving strategic partnerships, sales, and overall marketing strategy. Prior to Tioki, Mandela was a Ph.D. candidate at the UCLA Graduate School of Education. She was also a Teach for America corps member and has three years of in-classroom experience, teaching Humanities at Los Angeles Unified School District (LAUSD), Partnerships for Uplifting Communities (PUC), and Youth Policy Institute (YPI) middle schools. Mandela has had the unique experience of seeing the education industry from a variety of vantage points - as a teacher in the school system, as an education researcher in a doctoral program, and as a co-founder of an education company. She has a B.A. in Intercultural Communication from Pepperdine University, and a Masters Degree in Education Administration & Policy for Loyola Marymount University.  
+./views/static/howitworks.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/ourcustomers.html.erb:				<a href="/static/resources/teacherresourcehub">
+./views/static/ourcustomers.html.erb:				The UCLA Graduate School of Education & Information Studies is internationally known as a leader in the study of student testing and assessment, teacher and continuing education and development - particularly in urban, multi-ethnic environments, early childhood development, and issues of access, equity and quality facing higher education.<a href="http://gseis.ucla.edu/" target="_blank" class="profilelink">Visit their site</a>
+./views/static/ourcustomers.html.erb:				Equitas Academy Charter School is a free public elementary school for parents who believe their child deserves a high-quality education and challenging school experience. Our school model offers: credentialed, passionate and dedicated teachers and staff who are experts in their field. <a href="http://demolesson.com/schools/103461" target="_blank" class="profilelink">View Profile</a>
+./views/attachments/_attachments.html.erb:<% if @teacher.guest_code != nil %>
+./views/attachments/_attachments.html.erb:<%= text_field :a, :b, :value => "http://demolesson.com/u/"+@teacher.guest_code.to_s, :class => :guest_pass_field %>
+./views/attachments/_attachments.html.erb:<% for asset in @teacher.assets %>
+./views/attachments/_asset.html.erb:  <% prefix = "teacher[#{new_or_existing}_asset_attributes][]" %>
+./views/connections/inviteconnections.html.erb:Donors Choose is a non-profit organization that helps teachers get the materials they need to improve their students' education.
+./views/users/referral_user_list.html.erb:<%- @teachers.each do |teacher| %>
+./views/users/referral_user_list.html.erb:      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
+./views/users/referral_user_list.html.erb:      <%= teacher.user.name if teacher.nil? %>
+./views/users/referral_user_list.html.erb:    <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>
+./views/users/referral_user_list.html.erb:    <td><%= teacher.user.created_at.to_formatted_s(:long) %></td>
+./views/users/referral_user_list.html.erb:      <% if teacher.user.last_login? %>
+./views/users/referral_user_list.html.erb:        <%= teacher.user.last_login.to_formatted_s(:long) %>
+./views/users/referral_user_list.html.erb:      <% if teacher.user.login_count? %>
+./views/users/referral_user_list.html.erb:        <%= teacher.user.login_count.to_s %>
+./views/users/referral_user_list.html.erb:			<%= teacher.user.referrals.size %>
+./views/users/referral_user_list.html.erb:      <% teacher.user.successful_referrals.each do |referral| %>
+./views/users/referral_user_list.html.erb:<%= will_paginate @teachers %>
+./views/users/select_type.html.erb:<p>I am a <a href="/teachers/new/#{@user_id}">Teacher</a> looking for jobs</p>
+./views/users/_password_form.html.erb:<% if self.current_user.teacher != nil %>
+./views/users/donors_choose_list.html.erb:<%- @teachers.each do |teacher| %>
+./views/users/donors_choose_list.html.erb:      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
+./views/users/donors_choose_list.html.erb:      <%= teacher.user.name if teacher.nil? %>
+./views/users/donors_choose_list.html.erb:    <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>
+./views/users/donors_choose_list.html.erb:    <td><%= teacher.user.created_at.to_formatted_s(:long) %></td>
+./views/users/donors_choose_list.html.erb:      <% if teacher.user.last_login? %>
+./views/users/donors_choose_list.html.erb:        <%= teacher.user.last_login.to_formatted_s(:long) %>
+./views/users/donors_choose_list.html.erb:      <% if teacher.user.login_count? %>
+./views/users/donors_choose_list.html.erb:        <%= teacher.user.login_count.to_s %>
+./views/users/donors_choose_list.html.erb:      <%= teacher.user.successful_referrals.size %>
+./views/users/donors_choose_list.html.erb:      <% teacher.user.successful_referrals.each do |referral| %>
+./views/users/donors_choose_list.html.erb:<%= will_paginate @teachers %>
+./views/users/teacher_user_list.html.erb:  <strong>Teacher?</strong><%= check_box_tag :teacher, params[:teacher] %>
+./views/users/user_list.html.erb:<% if user.teacher != nil; @teachercounter = @teachercounter +1 %> 
+./views/users/user_list.html.erb:<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', "/profile/#{user.slug}" %></strong><br /><% end %>
+./views/users/user_list.html.erb:<p style = "font-size: 20px"><strong> Registered Teacher Accounts:</strong> <%= @teachercounter%></p>
+./views/users/user_list.html.erb:<p><h4><%= user.name %></h4> <% if user.teacher != nil %><strong><%= link_to 'Teacher Profile', "/profile/#{user.slug}" %></strong><br /><% end %>
+./views/users/choose_stored.html.erb:  <%= hidden_field_tag :role, :teacher %><br/>
+./views/users/choose_stored.html.erb:<%= submit_tag "I'm a teacher seeking a job" %>
+./views/users/tioki_coins_list.html.erb:				<%- @teachers.each do |teacher| %>
+./views/users/tioki_coins_list.html.erb:							<%= link_to teacher.user.name, "/profile/#{teacher.user.teacher.url}" %>
+./views/users/tioki_coins_list.html.erb:						<td><%= link_to teacher.user.email, 'mailto:' +teacher.user.email %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= teacher.user.tioki_bucks %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= teacher.user.got_started %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= teacher.facebook_connect %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= teacher.facebook_connect %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= teacher.tweet_about %></td>
+./views/users/tioki_coins_list.html.erb:						<td><%= ConnectionInvite.find(:all, :conditions => ["connection_invites.user_id = ? && connection_invites.created_at > ?", teacher.user_id, 1.hour.ago]).count %></td>
+./views/users/tioki_bucks.html.erb:							<% if self.current_user.teacher.facebook_connect %>
+./views/users/tioki_bucks.html.erb:							<% if self.current_user.teacher.twitter_connect %>
+./views/users/tioki_bucks.html.erb:							<% if self.current_user.teacher.tweet_about %>
+./views/groups/inviting.html.erb:								<%= f.label :teachername, "Your Name" %>
+./views/groups/inviting.html.erb:								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+./views/applications/teacher_applications.html.erb:		<%= link_to 'My Applications', :teacher_applications %></br>
+./views/applications/appattachments.erb:	 <%= link_to 'Back', :teacher_applications, :class => "btn" %>
+./views/applications/show.html.erb:  <%= @application.teacher_id %>
+./views/welcome_wizard/step2.html.erb:							<input type="radio" name="current" value="teacher" checked="checked" /> Teacher
+./views/welcome_wizard/step2.html.erb:				<tr data-who="teacher,job_seeker">
+./views/welcome_wizard/step2.html.erb:				<tr data-who="teacher,job_seeker">
+./views/welcome_wizard/step2.html.erb:				<tr data-who="teacher,administrator">
+./views/technologies/show.html.erb:					<% if user.teacher.position.present? && user.teacher.school.present?%>
+./views/technologies/show.html.erb:						<%= user.teacher.position %> at <%= user.teacher.school %>
+./views/technologies/show.html.erb:					<%= user.teacher.location %><br /><br />
+./views/technologies/show.html.erb:						<% if !self.current_user.nil? && self.current_user.teacher %>
+./views/technologies/show.html.erb:							<% unless self.current_user.teacher == user.teacher%>
+./views/technologies/index.html.erb:					<% if self.current_user && self.current_user.teacher %>
+./views/layouts/wizard.html.erb:		<meta name="description" content="DemoLesson is an online hiring platform for teachers.  Teaching jobs and education jobs are posted by schools coast to coast.  Teachers can make digital profiles with video and uploads." />
+./views/layouts/application.html.erb:								<a href="/static/resources/teacherresourcehub">
+./views/awards/_form.html.erb:    <%= f.label :teacher_id %><br />
+./views/awards/_form.html.erb:    <%= f.number_field :teacher_id %>
+./views/home/customers.html.erb:			<span style="font: lighter 16px/20px Helvetica">Equitas Academy Charter School is a free public elementary school for parents who believe their child deserves a high-quality education and challenging school experience. Our school model offers: credentialed, passionate and dedicated teachers and staff who are experts in their field. </span>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">July 10, 2012 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> DemoLesson...has a twofold mission: to disrupt the hiring cycle in education, and to allow teachers to be proactive in their job search, showcasing their talents in a digital profile that goes above and beyond a traditional resume.</span>
+./views/home/press.html.erb:			<a target="_blank" href="http://www.edukwest.com/empower-teachers-and-streamline-the-hiring-process-with-demolesson/" style="float:right" rel="nofollow">Read More →</a><br>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">May 30, 2012 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> All the tech in the world won't make a dent in student outcomes if teachers aren't involved. And nothing that these tools bring to the table diminishes the fact that great teachers are the number one factor in affecting student outcomes.</span>
+./views/home/press.html.erb:			<a target="_blank" href="https://www.edsurge.com/n/all-about-the-teacher" style="float:right" rel="nofollow">Read More →</a><br>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">May 23, 2012 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> From teacher accountability and superintendent turnover to funding and standards — all areas across both K-12 and Higher Ed education are experiencing transformational changes in the culture of education.</span>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">May 17, 2012 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> Given all the changes to the teacher credentialing process, it will only be a matter of time before the bar is raised for all aspiring and current teachers to videorecord their lessons and demonstrate their talents in a classroom setting.</span>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">May 11, 2012 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> Imagine you’re a school looking to hire the best and brightest teacher you can. You look at two resumes side-by-side and the question is, who brings the most to the table as the best teacher of young children?</span>
+./views/home/press.html.erb:			<a target="_blank" href="http://teach.com/how-to-become-a-teacher/get-your-teaching-job" style="float:right" rel="nofollow">Read More →</a><br>
+./views/home/press.html.erb:			<span style="font-size:14px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px; float:left;">June 6, 2011 &nbsp;- &nbsp;</span><span style="font: lighter 14px/18px Helvetica"> The first place winner of Startup Weekend Edu was Demo Lesson, a site where teachers can upload videos of themselves teaching in order to not just enhance their resume, but also to give schools a better idea of how applicants function in the classroom.</span>
+./views/home/teachers_faq.html.erb:	A: That will not be a problem at all. Most teachers on DemoLesson do not have their own classrooms, yet they are all able to still create awesome videos that show off their teaching abilities. Visit the <%= link_to 'Video Resources', "http://blog.demolesson.com/video-support/" %> page, which tells you exactly what to do in this situation.  
+./views/home/teachers_faq.html.erb:	<b>Q: What types of resources do you have for teachers to use?</b><br/>
+./views/home/teachers_faq.html.erb:	A: We have scoured the internet to find the best resources you can use for teaching. From lesson plans to awesome field trip locations, we have it all listed for you. Check out our <%= link_to 'Teacher Resources Hub', "http://blog.demolesson.com/teacher-resource-hub//" %> section here. 
+./views/home/how_it_works_teachers.html.erb:			<span style="font: lighter 14px/18px Helvetica">The DemoLesson Card is the best way to showcase your talents &amp; experiences as an educator. Tutors can send it to parents, teachers can share it with schools and parents, and professors can give universities and students access to theirs. The choice of how you use your Card is up to you!</span>
+./views/home/site_referral.html.erb:				<%= f.label :teachername, "Your Name" %><br />
+./views/home/site_referral.html.erb:				<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+./views/home/index.html.erb:	<%= render :partial => 'teacher_dashboard' %>
+./views/home/about.html.erb:<p style="font-size:16px">DemoLesson is the premiere online professional network exclusively for educators. As former educators ourselves, we know that you’re not “just a teacher.” There’s so much more to you and your profession than is normally publicized, and we’ve made it our mission to put you in control of creating your professional image as an educator. We’ve built our website specifically for the use of educators, and through such features as video and specialized skills tags, we’ve made it easier than ever for educators to create their online identity and make meaningful connections with others in the field. Whether you want to showoff your incredible talents, broaden your network, connect with those you already know, or meet new educators in the field, DemoLesson is the professional network for you!</p><br />
+./views/home/about.html.erb:		<span style="margin: 6px 0px 10px 0px">Mandela graduated from Pepperdine University with a Bachelor of Arts in Intercultural Communication and a minor in Spanish. Mandela was a Teach for America corps member and spent her first year teaching 6th grade Humanities at Bret Harte Middle School (Los Angeles Unified School District) in South Central Los Angeles, and then went on to teach another two years at Bert Corona Charter School in Pacoima, CA. While at Bert Corona, Mandela was voted 6th Grade Lead Teacher, adding various new administrative duties to her teaching role, one of which was the hiring of new teachers. During this period, Mandela also obtained a multiple-subject teaching credential and Masters Degree in Education Administration and Policy from Loyola Marymount University. Most recently, Mandela was a Ph.D. candidate at the prestigious UCLA Graduate School of Education, where she focused her research on the teacher hiring process.<br><a target="_blank" href="https://twitter.com/Mandelash" >Twitter </a> &middot; <a target="_blank" href="http://www.linkedin.com/in/schumacherhodge" >LinkedIn </a> &middot; <a target="_blank" href="http://angel.co/mandelash" >AngelList </a>  </span>
+./views/home/_teacher_dashboard.html.erb:						<a href="teacher_applications">
+./views/home/_teacher_dashboard.html.erb:<% if !cookies[:teacherdashboard_viewed] %>
+./views/home/_teacher_dashboard.html.erb:	<% cookies[:teacherdashboard_viewed] = { :value => true, :expires => 1.month.from_now } %>
+./views/home/terms_of_service.html.erb:<p>These Terms of Service (the “Terms”) govern your use of the online functionality made available at http://tioki.com by Demo Lesson, Inc. ("TIOKI," “DLI,” “we” and “us”), which enables you to upload information about yourself, including a video of you teaching a lesson, for access by potentially interested schools, school districts and other teacher-hiring organizations (the “Service”).  To agree to these Terms, click “I agree” below.</p>
+./views/home/terms_of_service.html.erb:	<p>The Service is intended solely for teachers and aspiring teachers who are at least 18 years of age or older.  Any registration by, use of or access to the Service by anyone under 18 is unauthorized, and in violation of these Terms.  By using the Service, you represent and warrant that you are 18 or older.</p> 
+./views/home/terms_of_service.html.erb:	<p>The Service is provided to teachers free of charge, although you are responsible for any third-party fees that you may incur when accessing the Service, including Internet connection fees.  We may, in the future, charge teachers to use of the Service, in which case you will be notified in advance of such change. </p>
+./views/home/schools_faq.html.erb:	<%= link_to "Teachers FAQ Page", teachers_faq_path %>
+./views/home/schools_faq.html.erb:	A: Teachers are given the option to select a 30-second snippet of their full length video on their profile that you can review before deciding to visit their profile. Not all teachers create this 30-second snippet, so if it is not listed under their name on the applicant page, they opted not to do this.  
+./views/home/schools_faq.html.erb:	A: On the “My Jobs” page, click on “Applicants,” and you will be directed to the “My Applicants” page. From there you can remove applicants. You can also remove applicants by clicking the “Remove” button on the teacher profile. 
+./views/home/how_it_works_schools.html.erb:			Recruiting the best teachers is one of your most important, yet most difficult tasks. Tioki makes finding the right educators easier than ever before!
+./views/home/how_it_works_schools.html.erb:			Tioki gives you access to thousands of teachers around the country actively seeking new opportunities with organizations like yours.						
+./views/home/how_it_works_schools.html.erb:				<%= link_to 'See an example teacher profile >>', 'http://tioki.com/profile/juliafranco', :style => "color:#F66C4C", :target => "_blank" %>
+./views/vouches/_voucherrequest.html.erb:		Is this person an educator? <%= radio_button_tag "is_educator", '1', true, :id => "teacher_true" %>Yes <%= radio_button_tag "is_educator", '0', false, :id => "teacher_false" %>No<br />
+./views/vouches/_voucherrequest.html.erb:		$("#teacher_false").click(function() {
+./views/vouches/_voucherrequest.html.erb:		$("#teacher_true").click(function() {
+./views/discussions/inviting.html.erb:								<%= f.label :teachername, "Your Name" %>
+./views/discussions/inviting.html.erb:								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+./views/user_mailer/event_invite_0.html.erb:		<title>Event invitation from "<%= @teachername %>"</title>
+./views/user_mailer/event_invite_0.html.erb:													<span style="color:#ffffff;">Event invitation from "<%= @teachername %>"</span>
+./views/user_mailer/event_invite_0.html.erb:																<em>From <%= @teachername %>,</em>
+./views/user_mailer/event_invite_0.html.erb:																					<p style="text-indent:333px">-<%= @teachername %></p>
+./views/user_mailer/refer_site_generic_1.html.erb:        <meta property="fb:page_id" content="43929265776" /><title>New message from "<%= @teachername %>"</title>
+./views/user_mailer/refer_site_generic_1.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+./views/user_mailer/refer_site_generic_1.html.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br />
+./views/user_mailer/group_invite_0.html.erb:		<title>Group invitation from "<%= @teachername %>"</title>
+./views/user_mailer/group_invite_0.html.erb:													<span style="color:#ffffff;">Group invitation from "<%= @teachername %>"</span>
+./views/user_mailer/group_invite_0.html.erb:																<em>From <%= @teachername %>,</em>
+./views/user_mailer/event_invite_email.erb:        <meta property="fb:page_id" content="43929265776" /><title>Event invitation from "<%= @teachername %>"</title>
+./views/user_mailer/event_invite_email.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">Event invitation from "<%= @teachername %>"</span></div>
+./views/user_mailer/event_invite_email.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From "<%= @teachername %>",</em></span><br />
+./views/user_mailer/vouch_request.html.erb:	<meta property="fb:page_id" content="43929265776"><title> "<%= @teachername %>" would like you to vouch</title>
+./views/user_mailer/vouch_request.html.erb:										<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+./views/user_mailer/vouch_request.html.erb:														<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br>
+./views/user_mailer/vouch_request.html.erb:																				<span style="color: #6d6d6d; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @teachername %> needs your help to finish their Tioki profile by vouching for some of their amazing teaching skills. It’s quick and easy - you’re just 47 seconds and one click away from making their day! </span>
+./views/user_mailer/vouch_request.html.erb:																									<a style="text-decoration:none; color:#FFFFFF" href="<%= @url %>" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">Verify <%= @teachername %>'s Skills</strong></span></a></td>
+./views/user_mailer/group_invite_1.html.erb:		<meta property="fb:page_id" content="43929265776" /><title>Group invitation from "<%= @teachername %>"</title>
+./views/user_mailer/group_invite_1.html.erb:													<span style="color:#ffffff;">Group invitation from "<%= @teachername %>"</span>
+./views/user_mailer/group_invite_1.html.erb:																<em>From <%= @teachername %>,</em>
+./views/user_mailer/user_welcome_email.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">Welcome to Tioki, where great teachers find great jobs!</span></div>
+./views/user_mailer/user_welcome_email.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Thanks for signing up to Tioki, where great teachers find great jobs!<br>
+./views/user_mailer/user_welcome_email.html.erb:		<a href="http://blog.tioki.com/teacher-resource-hub/" target="_blank" style="color: #056ba7;font-weight: normal;text-decoration: underline;"><span style="color:#056ba7;font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Resources for teachers</span></a></li>
+./views/user_mailer/user_welcome_email.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Spread the word to other teachers and administrators! Use your personal Tioki guest link to share your profile with anyone in the world:<br>
+./views/user_mailer/vouch_request_0.html.erb:        <meta property="fb:page_id" content="43929265776" /><title>New message from "<%= @teachername %>"</title>
+./views/user_mailer/vouch_request_0.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+./views/user_mailer/vouch_request_0.html.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br />
+./views/user_mailer/vouch_request_0.html.erb:<span style="color: #6d6d6d; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @teachername %> needs your help to finish their Tioki profile by vouching for some of their amazing teaching skills. It’s quick and easy - you’re just 47 seconds and one click away from making their day! </span>
+./views/user_mailer/vouch_request_0.html.erb:  <a style="text-decoration:none" href="<%= @url %>" target="_blank"><strong style="color:#FFFFFF;text-decoration:none !important;padding-right:30px;padding-left:30px;">Verify <%= @teachername %>'s Skills</strong></a></span></td>
+./views/user_mailer/refer_site_email.html.erb:        <meta property="fb:page_id" content="43929265776" /><title>New message from "<%= @teachername %>"</title>
+./views/user_mailer/refer_site_email.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from "<%= @teachername %>"</span></div>
+./views/user_mailer/refer_site_email.html.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From "<%= @teachername %>",</em></span><br />
+./views/user_mailer/rejection_notification.html.erb:<br><span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"> The selection committee appreciates the time you invested in creating your Tioki teacher profile. We encourage you to apply for posted and advertised positions at our school, for which you qualify, in the future.</span><br><br>
+./views/user_mailer/refer_job_0.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Great news! <%= @teachername %> saw a job posting on Tioki that you might like. <%= @job.school.name %> is looking for a <%= @job.title %> and <%= @teachername %> thought you'd be a great fit. Here you can learn more about the <span style="color:#056ba7; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://www.tioki.com/jobs/<%= @job.id %>/?referredtojob" target="_blank" style="color: #056ba7;font-weight: normal;text-decoration: underline;">position.</a></span>
+./views/user_mailer/five_referrals.html.erb:																			Thank you for your efforts in spreading Tioki and helping students with their classsroom projects.  Within the next 10 days you'll recieve a $5 gift card via email for <a href="http://www.donorschoose.org" style="color:#2aa99b;text-decoration:none; font-weight:bold;" target="_blank"><strong style="color:#2aa99b;text-decoration:none;">Donors Choose</strong></a>, where you'll be able to fund your own classroom project or help other teachers' projects.  Remember that for every 5 educators you invite that sign up is another $5 you can put towards classroom projects.  So don't be shy!
+./views/user_mailer/vouch_request_1.html.erb:        <meta property="fb:page_id" content="43929265776" /><title>New message from "<%= @teachername %>"</title>
+./views/user_mailer/vouch_request_1.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+./views/user_mailer/vouch_request_1.html.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br />
+./views/user_mailer/vouch_request_1.html.erb:<span style="color: #6d6d6d; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @teachername %> needs your help to finish their Tioki profile by vouching for some of their amazing teaching skills. It’s quick and easy - you’re just 47 seconds and one click away from making their day! </span>
+./views/user_mailer/vouch_request_1.html.erb:  <a style="text-decoration:none" href="<%= @url %>" target="_blank"><strong style="color:#FFFFFF;text-decoration:none !important;padding-right:30px;padding-left:30px;">Verify <%= @teachername %>'s Skills</strong></a></span></td>
+./views/user_mailer/refer_site_generic_0.html.erb:        <meta property="fb:page_id" content="43929265776" /><title>New message from "<%= @teachername %>"</title>
+./views/user_mailer/refer_site_generic_0.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">New Message from <%= @teachername %></span></div>
+./views/user_mailer/refer_site_generic_0.html.erb:	<span style="color: #505050;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left;"><em>From <%= @teachername %>,</em></span><br />
+./views/user_mailer/teacher_applied.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">Welcome to Tioki, where great teachers find great jobs!</span></div>
+./views/user_mailer/event_invite_1.html.erb:		<meta property="fb:page_id" content="43929265776" /><title>Event invitation from "<%= @teachername %>"</title>
+./views/user_mailer/event_invite_1.html.erb:													<span style="color:#ffffff;">Event invitation from "<%= @teachername %>"</span>
+./views/user_mailer/event_invite_1.html.erb:																<em>From <%= @teachername %>,</em>
+./views/user_mailer/event_invite_1.html.erb:																					<p style="text-indent:333px">-<%= @teachername %></p>
+./views/user_mailer/refer_job_email.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Great news! <%= @teachername %> saw a job posting on DemoLesson that you might like. <%= @job.school.name %> is looking for a <%= @job.title %> and <%= @teachername %> thought you'd be a great fit. You can learn more about the position <span style="color:#056ba7; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://www.tioki.com/jobs/<%= @job.id %>/?referredtojob" target="_blank" style="color: #056ba7;font-weight: normal;text-decoration: underline;">here.</a></span>
+./views/user_mailer/teacher_welcome_email_temppassword.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">Welcome to Tioki, where great teachers find great jobs!</span></div>
+./views/user_mailer/teacher_welcome_email_temppassword.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Thanks for signing up to Tioki, where great teachers find great jobs!<br>
+./views/user_mailer/teacher_welcome_email_temppassword.html.erb:		<a href="http://blog.demolesson.com/teacher-resource-hub/" target="_blank" style="color: #056ba7;font-weight: normal;text-decoration: underline;"><span style="color:#056ba7;font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Resources for teachers</span></a></li>
+./views/user_mailer/teacher_welcome_email_temppassword.html.erb:<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">Spread the word to other teachers and administrators! Use your personal Tioki guest link to share your profile with anyone in the world:<br>
+./views/user_mailer/weeklyemail.html.erb:                                            	<div style="color: #505050;font-family: Arial;font-size: 9px;line-height: 100%;text-align: left;"><span style="color:#ffffff;">Welcome to Tioki, where great teachers find great jobs!</span></div>
+./views/videos/_form.html.erb:		<li>• Exceptions are made for: Independent school administrators, professors, and teachers assistants, who want to promote the work they have created.</li>
+./views/videos/_create_snippet_form.html.erb:			<%= self.current_user.teacher.snippet_watchvideo_test.html_safe %>
+./views/interviews/respond.html.erb:<%= button_to 'Back', '/teacher_applications' %>	
+./views/events/invite.html.erb:								<%= f.label :teachername, "Your Name" %>
+./views/events/invite.html.erb:								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+./mailers/user_mailer.rb:	def teacher_welcome_email_temppassword(user_id, password)
+./mailers/user_mailer.rb:			mail.delivery_method.tag('teacher_welcome_email_temppassword')
+./mailers/user_mailer.rb:	def teacher_applied(school_id, job_id, user_id)
+./mailers/user_mailer.rb:	def refer_job_email(teachername, job_id, name, emails)
+./mailers/user_mailer.rb:		@teachername = teachername
+./mailers/user_mailer.rb:		subject =  @teachername+' has referred you to a job, '+@job.title+' on Tioki!!'
+./mailers/user_mailer.rb:		#:body => "Hi #{name}! "+@teachername+" wants you too check out the job, "+@job.title+", posted by "+@job.school.name+" on Demo Lesson! Click on the following link to view the job posting: http://www.demolesson.com/jobs/#{@job.id}\n\nIf you have any questions or need additional support please contact us at support@tioki.com.")
+./mailers/user_mailer.rb:	def refer_site_email(teachername, emails, message, user = nil)
+./mailers/user_mailer.rb:		@teachername = teachername
+./mailers/user_mailer.rb:		subject =  @teachername+' wants you to check out Tioki!'
+./mailers/user_mailer.rb:	def event_invite_email(teachername, emails, message, event, user = nil)
+./mailers/user_mailer.rb:		@teachername = teachername
+./mailers/user_mailer.rb:		subject =  @teachername+' wants you to check out an upcoming event on Tioki!'
+./mailers/user_mailer.rb:	def group_invite_email(teachername, emails, message, group, user = nil)
+./mailers/user_mailer.rb:		@teachername = teachername
+./mailers/user_mailer.rb:		subject =  @teachername+' wants you to check out this Group on Tioki!'
+./mailers/user_mailer.rb:	def discussion_invite_email(teachername, emails, message, discussion, user = nil)
+./mailers/user_mailer.rb:		@teachername = teachername
+./mailers/user_mailer.rb:		subject =  @teachername+' wants you to check out this Discussion on Tioki!'
+./mailers/user_mailer.rb:		#must have emails enabled, be currently teacher
+./mailers/user_mailer.rb:			#if no schools go to next teacher
+./mailers/user_mailer.rb:		@teachername = voucheename
+./mailers/user_mailer.rb:		mail = mail(:to => emails, :subject => @teachername + " has requested to verify their skills on Tioki") do |f|
+./mailers/user_mailer.rb:		@teachername=user.name
+./mailers/user_mailer.rb:			mail = mail(:to => emails, :subject => @teachername + " wants you to checkout Tioki!") do |f|
+./mailers/user_mailer.rb:			mail = mail(:to => emails, :subject => @teachername + " wants to connect on Tioki!") do |f|
+./models/user.rb:	has_one :teacher
+./models/user.rb:	# Migrated from teacher.rb
+./models/user.rb:  	has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'
+./models/user.rb:  	has_and_belongs_to_many :grades, :join_table => 'grades_teachers'
+./models/user.rb:		#@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
+./models/user.rb:		#@teachers.map(&:destroy)
+./models/user.rb:			if !self.teacher.nil?
+./models/user.rb:				percent += 5 if self.teacher.headline.present?
+./models/user.rb:				percent += 5 if self.teacher.has_social?
+./models/user.rb:				percent += 10 if !self.teacher.educations.empty?
+./models/user.rb:				percent += 10 if !self.teacher.experiences.empty?
+./models/user.rb:				percent += 5 if !self.teacher.credentials.empty?
+./models/user.rb:				percent += 10 if self.teacher.videos.count > 0
+./models/user.rb:	#def teacher
+./models/user.rb:		if self.teacher.facebook_connect
+./models/user.rb:		if self.teacher.twitter_connect
+./models/user.rb:		if self.teacher.tweet_about
+./models/user.rb:    # Migrated from teacher.rb
+./models/user.rb:    # Migrated from teacher.rb
+./models/user.rb:    # Migrated from teacher.rb
+./models/user.rb:    # Migrated from teacher.rb
+./models/user.rb:    # Migrated from teacher.rb
+./models/user.rb:		@video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+./models/presentation.rb:  belongs_to :teacher # Migration 
+./models/wink.rb:  belongs_to :teacher
+./models/education.rb:  belongs_to :teacher # Migration
+./models/job.rb:      UserMailer.teacher_applied(self.school_id, self.id, user_id).deliver
+./models/pin.rb:  belongs_to :teacher
+./models/award.rb:  belongs_to :teacher # Migration
+./models/credential.rb:  belongs_to :teacher # Migration
+./models/star.rb:  belongs_to :teacher
+./models/grade.rb:  has_and_belongs_to_many :users, :join_table => 'grades_teachers'
+./models/asset.rb:	belongs_to :teacher # Migration
+./models/subject.rb:  has_and_belongs_to_many :users, :join_table => 'subjects_teachers'
+./models/experience.rb:  belongs_to :teacher # Migration
+./models/interview.rb:  belongs_to :teacher # Migration
+./models/activity.rb:  def teacher
+./models/activity.rb:    @teacher = Teacher.find_by_user_id(self.creator_id)
+./models/activity.rb:    return @teacher
+./models/teacher_link.rb:  belongs_to :teacher
+./models/video.rb:  belongs_to :teacher # Migration
+./assets/javascripts/welcome_wizard.js.coffee:		classes = ['teacher', 'administrator', 'job_seeker', 'student']
+./assets/stylesheets/adminpages/admin.css:.users-teacher_user_list #wrapper {
+./assets/stylesheets/temp/jobs.css:/* teacher applications */
+./assets/stylesheets/temp/jobs.css:/* END teacher applications */
+./assets/stylesheets/wizard.scss:		background: #3b3b3b url(image_path('card_badges/teacher-leadership.png')) no-repeat center center;
+./assets/stylesheets/wizard.scss:		&.teacher-leadership {
+./assets/stylesheets/wizard.scss:			background-image: url(image_path('card_badges/teacher-leadership.png'));
+./assets/stylesheets/wizard.scss:	background: #3b3b3b url(image_path('card_badges/teacher-leadership.png')) no-repeat center center;
+./assets/stylesheets/wizard.scss:	&.teacher-leadership {
+./assets/stylesheets/wizard.scss:		background-image: url(image_path('card_badges/teacher-leadership.png'));
+Binary file ./assets/images/tioki/features-slide/feature-two.jpg matches
+Binary file ./assets/images/tioki/features-slide/feature-four.jpg matches
+./controllers/metrics_controller.rb:			stats["teacher_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '0'").to_a.first.first
+./controllers/jobs_controller.rb:       @teacher_user = self.current_user.id
+./controllers/jobs_controller.rb:     @teachername = @referral[:teachername]
+./controllers/jobs_controller.rb:     @teacher_user = self.current_user.id
+./controllers/jobs_controller.rb:     @teacher = User.find(@teacher_user)
+./controllers/jobs_controller.rb:     @teacher_user = User.find(@teacher.user_id)  
+./controllers/jobs_controller.rb:     @teachername = @teacher_user.name 
+./controllers/jobs_controller.rb:    UserMailer.refer_job_email(@teachername, @job, @name, @email).deliver
+./controllers/welcome_wizard_controller.rb:				@user.create_teacher
+./controllers/authentications_controller.rb:		#set teacher.linkedin
+./controllers/users_controller.rb:	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list]
+./controllers/users_controller.rb:		# Get the current teacher
+./controllers/users_controller.rb:		# Get the teachers skills
+./controllers/users_controller.rb:		# Get the teachers last video
+./controllers/users_controller.rb:		@teachercounter = 0
+./controllers/users_controller.rb:	def teacher_user_list
+./controllers/users_controller.rb:		# Limit to teachers that have job applications
+./controllers/users_controller.rb:		render :teacher_user_list
+./controllers/users_controller.rb:		@teachercount = @users.reject { |user| user.nil? }.count
+./controllers/users_controller.rb:		@stats.push({:name => 'Deactivated Teachers', :value => @teachercount})
+./controllers/users_controller.rb:		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
+./controllers/users_controller.rb:																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+./controllers/users_controller.rb:		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
+./controllers/users_controller.rb:																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+./controllers/users_controller.rb:		@teachers = Teacher.find(:all, :conditions => ["teachers.facebook_connect = true || teachers.twitter_connect = true || teachers.tweet_about = true || teachers.user_id IN (?)", connection_invites])
+./controllers/users_controller.rb:		if self.current_user.teacher.facebook_connect
+./controllers/users_controller.rb:		if self.current_user.teacher.twitter_connect
+./controllers/users_controller.rb:		if self.current_user.teacher.tweet_about
+./controllers/users_controller.rb:		# Get the teacher id of the currently logged in user
+./controllers/users_controller.rb:		# Get a listing of who has viewed this teacher (IN ALL TIME)
+./controllers/users_controller.rb:		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
+./controllers/users_controller.rb:	# Migrated from teacher_controller.rb
+./controllers/users_controller.rb:		# Check if user is connected to teacher or is self
+./controllers/users_controller.rb:		# If the teacher could not be found then raise an exception
+./controllers/users_controller.rb:		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
+./controllers/users_controller.rb:		# Vouch referring teacher 
+./controllers/users_controller.rb:				format.json  { render :json => @teacher } # profile.json
+./controllers/home_controller.rb:		if params[:referral][:teachername].nil? || params[:referral][:teachername].empty?
+./controllers/home_controller.rb:		@teachername = @referral[:teachername]
+./controllers/home_controller.rb:		@message = @message.gsub("[name]", @teachername);
+./controllers/home_controller.rb:		UserMailer.refer_site_email(@teachername, @emails, @message, user).deliver
+./controllers/skills_controller.rb:	    # Load teachers that have claimed the above skill
+./controllers/events_controller.rb:		@teachername = @referral[:teachername]
+./controllers/events_controller.rb:		@message = @message.gsub("[name]", @teachername);
+./controllers/events_controller.rb:		UserMailer.event_invite_email(@teachername, @emails, @message, @event, user).deliver
+./controllers/discussions_controller.rb:		@name = @referral[:teachername]
+./controllers/applications_controller.rb:	def teacher_applications
+./controllers/application_controller.rb:	def teacher_required
+./controllers/groups_controller.rb:		@teachername = @referral[:teachername]
+./controllers/groups_controller.rb:		@message = @message.gsub("[name]", @teachername);
+./controllers/groups_controller.rb:		UserMailer.group_invite_email(@teachername, @emails, @message, @group, user).deliver
+./controllers/interviews_controller.rb:    @teacher = User.find_by_id(params[:user_id])
+./controllers/interviews_controller.rb:        format.html { redirect_to '/teacher_applications', notice: 'Interview details have been updated.' }
+./controllers/analytics_controller.rb:				#joins.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
+./controllers/analytics_controller.rb:					#if !joined_tables[key].include?('teachers') && key == :videos
+./controllers/analytics_controller.rb:					#	joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
+./controllers/analytics_controller.rb:					#	joined_tables[key] = 'teachers'
+./controllers/analytics_controller.rb:					#if type == 'educator' && !joined_tables[key].include?('teachers')
+./controllers/analytics_controller.rb:					#	joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
+./controllers/analytics_controller.rb:					#	joined_tables[key] = 'teachers'
+./controllers/analytics_controller.rb:					#condi << "`teachers`.`id` IS NOT NULL" if type == 'educator'
+./controllers/analytics_controller.rb:				#slugs_joined.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
