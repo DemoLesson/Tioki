@@ -70,7 +70,7 @@
 				</p>
 				<% end %>
 				<section style="margin-left:65px">
-					<% if self.current_user && self.current_user.teacher %>
+					<% if self.current_user %>
 						<%= link_to 'Reply to discussion', "#discussion_reply" , :class => "action-button bg-green" %>
 						<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
 							<% if !@discussion.deleted_at %>
@@ -115,7 +115,7 @@
 						<% end %>
 					</div><br/><br/>
 
-					<% if self.current_user && self.current_user.teacher %>
+					<% if self.current_user %>
 					<p style="float:left;margin-left:65px">
 						<div class ="reply_to_comment">
 							<a>Reply</a>
@@ -149,7 +149,7 @@
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
 				<a id="discussion_reply">
-					<% if self.current_user && self.current_user.teacher %>
+					<% if self.current_user %>
 						<%= render "reply_to_discussion" %>
 					<% elsif !self.current_user %>
 						<%= render "reply_nologin" %>
