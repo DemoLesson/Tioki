@@ -1,3 +1,7 @@
+v2.1.19 - Nov 30, 2012  7:12PM PST deployed by Aleks Stanisic
+=============================================================
+* 6d639b9: Aleks Stanisic - profile design fix
+
 v2.1.18 - Nov 30, 2012  9:35AM PST deployed by Aleks Stanisic
 =============================================================
 * c3653df: Kelly Becker - gitignore and gemlock
