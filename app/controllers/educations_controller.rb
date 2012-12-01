@@ -1,5 +1,8 @@
 class EducationsController < ApplicationController
   before_filter :login_required
+
+  	# Educations URL
+  	def educations_url; '/me/profile/edit/educations'; end
   
     def index
 		@educations = self.current_user.educations
@@ -17,7 +20,7 @@ class EducationsController < ApplicationController
 		end
 		
 		respond_to do |format|
-			format.html { redirect_to :education }
+			format.html { redirect_to :educations }
 		end
 	end
 	
@@ -35,9 +38,9 @@ class EducationsController < ApplicationController
 		
 		respond_to do |format|
 			if education.save
-				format.html { redirect_to :education, :notice => "Education details updated." }
+				format.html { redirect_to :educations, :notice => "Education details updated." }
 			else
-				format.html { redirect_to :education, :notice => "An error occurred."}
+				format.html { redirect_to :educations, :notice => "An error occurred."}
 			end 
 		end
 	end
@@ -46,9 +49,9 @@ class EducationsController < ApplicationController
 		@education = Education.find(params[:id])
 		
 		if @education.update_attributes(params[:education])
-			redirect_to :education, :notice => "Education details updated." 
+			redirect_to :educations, :notice => "Education details updated." 
 		else
-			redirect_to :education, :notice => "An error occurred."
+			redirect_to :educations, :notice => "An error occurred."
 		end 
 	end
 end

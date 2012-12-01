@@ -146,19 +146,20 @@ Preview::Application.routes.draw do
 
 			# Anything involving editing my profile
 			scope 'edit' do
-				match 'skills' => 'skills#edit_skills'
-				match 'experience' => 'experiences#experience'
-				match 'education' => 'educations#index'
-				match 'upload-avatar' => 'users#change_picture'
-				match 'upload-video' => 'videos#new'
-				match 'create-video-snippet/:id' => 'videos#myvideo'
-				resources :credentials
-				root :to => 'users#profile_edit'
 				resources :educations
+				resources :experiences
+				resources :credentials
 				resources :awards
 				resources :presentations
 				resources :awards
-                resources :experiences
+				
+
+				match 'skills' => 'skills#edit_skills'
+				match 'upload-avatar' => 'users#change_picture'
+				match 'upload-video' => 'videos#new'
+				match 'create-video-snippet/:id' => 'videos#myvideo'
+				
+				root :to => 'users#profile_edit'
 			end
 
 			# Misc
@@ -187,7 +188,7 @@ Preview::Application.routes.draw do
 
 		# Guest Access
 		match ':slug/:guest_pass' => 'users#profile'
-        
+		
 		# Normal Access
 		match ':slug' => 'users#profile'
 	end
@@ -269,7 +270,7 @@ Preview::Application.routes.draw do
 	match 'inviteconnection' => 'connections#inviteconnection'
 	match 'teacherskills/:id' => 'skills#teacherskills'
 	match 'add_embed' => 'videos#add_embed'
-    match 'profileattachments' => 'attachments#profileattachments'
+	match 'profileattachments' => 'attachments#profileattachments'
 	match 'dc/:url' => 'connections#linkinvite'
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
@@ -365,7 +366,7 @@ Preview::Application.routes.draw do
 	resources :videos
 	resources :users
 	resources :organizations
-    resources :attachments
+	resources :attachments
 	resources :subjects
 	resources :messages
 	resources :vouches
@@ -376,12 +377,12 @@ Preview::Application.routes.draw do
 	end
 
 	resources :skills
-    
-    # # # # # # #
-    # Site Home #
-    # # # # # # #
-    root :to => 'home#index'
-    match '/index', :to => 'home#index'
+	
+	# # # # # # #
+	# Site Home #
+	# # # # # # #
+	root :to => 'home#index'
+	match '/index', :to => 'home#index'
 
 	# # # # # # # 
 	# Error 404 #

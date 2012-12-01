@@ -2,33 +2,34 @@
 	<h1>Education</h1>
 
 	<div class="attached">
-		<% for education in @educations %>
+		<% @educations.each do |education| %>
 			<p>
-			<span class="purge" style="float:right"><%= link_to 'Edit', edit_education_path(education) %><br /><%= link_to 'Remove?', '/remove_education/'+education.id.to_s, :confirm => 'Are you sure you want to remove '+education.school+' from your profile?' %></span>	
-			<strong>
-			<%= education.school %>
-			</strong><br />
-			<%= education.degree %>,
-			<%= education.concentrations %><br />
+				<span class="purge" style="float:right">
+					<%= link_to 'Edit', edit_education_path(education) %><br />
+					<%= link_to 'Remove?', education, method: :delete, :data => { :confirm => 'Are you sure you want to remove ' + education.school + ' from your profile?' } %>
+				</span>	
+				<strong>
+					<%= education.school %>
+				</strong><br />
+				<%= education.degree %>,
+				<%= education.concentrations %><br />
 			
-			<% if education.current == true %>
-				<% if education.start_year.present? %>
-					<%= education.start_year %> -
-				<% end %>
-				<% if education.year.present? %>
-					<%= education.year %> (expected)<br />
-				<% end %>
-			<% else %>
-				<% if !education.year.present? %>
+				<% if education.current == true %>
+					<% if education.start_year.present? %>
+						<%= education.start_year %> -
+					<% end %>
+					<% if education.year.present? %>
+						<%= education.year %> (expected)<br />
+					<% end %>
 				<% else %>
-					<% if !education.start_year.present? %>
-						<%= education.year %><br />
-					<% else %>
-						<%= education.start_year %> - <%= education.year %><br />
+					<% if education.year.present? %>
+						<% if !education.start_year.present? %>
+							<%= education.year %><br />
+						<% else %>
+							<%= education.start_year %> - <%= education.year %><br />
+						<% end %>
 					<% end %>
 				<% end %>
-			<% end %>
-			
 			</p>
 		<% end %>
 	</div>

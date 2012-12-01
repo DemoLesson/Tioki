@@ -2,11 +2,11 @@
     <h1>Experience</h1>
 
 	<div class="attached">
-		<% for experience in @experiences %>
+		<% @experiences.each do |experience| %>
 			<p>
 				<span class="purge" style="float:right">
-					<%= link_to 'Edit', experience_edit_path, experience %><br />
-					<%= link_to 'Remove?', experiences,:method => :delete, :confirm => 'Are you sure you want to remove '+experience.company+' from your profile?' %>
+					<%= link_to 'Edit', edit_experience_path(experience) %><br />
+					<%= link_to 'Remove?', experience,:method => :delete, :confirm => 'Are you sure you want to remove ' + experience.company + ' from your profile?' %>
 				</span>	
 				<strong>
 				<%= experience.position %><br />
@@ -23,7 +23,6 @@
 					<% end %>
 				<% end %><br />
 				<%= experience.description %>
-	
 			</p>
 		<% end %>
 	</div>
