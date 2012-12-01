@@ -1,7 +1,4 @@
 <section id="main-content" class="inner-content">
-<link type="text/css" href="/assets/jquery-ui-1.8.20.custom/css/blitzer/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />	
-<script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
 
 <span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">Application Dashboard</span><br />
 
@@ -62,7 +59,7 @@
             <% else %>
               Not Reviewed
             <% end %><br />
-            <%= link_to "Remove", {:controller => :jobs, :action => :apply, :id => application.job.id}, {:class => "button" } %> <%= link_to "Attachments", {:controller => :teachers, :action => :appattachments, :id => application.id}, {:class => "button"} %>
+            <%= link_to "Remove", {:controller => :jobs, :action => :apply, :id => application.job.id}, {:class => "button" } %> <%= link_to "Attachments", {:controller => :applications, :action => :appattachments, :id => application.id}, {:class => "button"} %>
           </div>
         </div>
       <% end %>

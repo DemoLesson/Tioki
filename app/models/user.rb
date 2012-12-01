@@ -610,6 +610,18 @@ class User < ActiveRecord::Base
         experiences.where(:current => true).first
     end
 
+	def new_asset_attributes=(asset_attributes) 
+		assets.build(asset_attributes)
+	end
+
+	def save_assets 
+		assets.each do |asset| 
+			asset.save
+		end
+	end
+
+
+
 	protected
 
 		def create_invite_code
