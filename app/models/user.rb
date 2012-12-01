@@ -610,6 +610,49 @@ class User < ActiveRecord::Base
         experiences.where(:current => true).first
     end
 
+	def self.search(args = {})
+		
+		if args[:email]
+			# Only one person can have this email
+			return where(:email => args[:email])
+		end
+
+		tup = SmartTuple.new(" AND ")
+
+		if args[:skill]
+			tup << ["skills.id = ?", args[:skill]]
+		end
+
+		if args[:skills]
+			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
+		end
+
+		if args[:name]
+			args[:name].split.each do |token|
+				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
+			end
+		end
+
+		if args[:school]
+			args[:school].split.each do |token|
+				tup << ["experiences.company LIKE ? OR experiences.company LIKE ?", "#{token}%", "% #{token}%"]
+			end
+		end
+
+		if args[:schools]
+			# Will be eact messages
+			subtup = SmartTuple.new(" OR ")
+
+			params[:schools].each do |school|
+				subtup << ["experiences.company = ?", school]
+			end
+
+			tup << subtup
+		end
+
+		find(:all, :include => [:skills, :experiences], :conditions => tup.compile)
+	end
+
 	protected
 
 		def create_invite_code

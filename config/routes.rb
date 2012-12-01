@@ -221,12 +221,15 @@ Preview::Application.routes.draw do
 	end
 
 	# Connections
-	scope 'connections' do
-		match 'user/:id' => 'connection#profile_connections'
+	resources :connections do
+		collection do
+			get 'add_and_redir'
+		end
 	end
+	match '/connections/user/:id' => 'connections#profile_connections'
 
 	# Videos Routing
-	match 'videos/:id/skills' => 'videos#skills'
+	match '/videos/:id/skills' => 'videos#skills'
 
 	# Skills information page
 	match '/skill/:id' => 'skills#show'
@@ -380,11 +383,7 @@ Preview::Application.routes.draw do
 	resources :subjects
 	resources :messages
 	resources :vouches
-	resources :connections do
-		collection do
-			get 'add_and_redir'
-		end
-	end
+	
 
 	resources :skills
 	

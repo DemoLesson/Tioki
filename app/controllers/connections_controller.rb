@@ -28,14 +28,13 @@ class ConnectionsController < ApplicationController
 
 		#Populate search options
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
-			@schools = users.collect(&:school).uniq
-			@schools.reject!(&:empty?)
+			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
 			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
 		end
 		
 		# Paginate to 25 per
 		users.paginate(:per_page => 25, :page => params[:page]).each do |user|
-			@users = user
+			@user = user
 			@users << render_to_string("connections/new_connections", :layout => false)
 		end
 
@@ -305,18 +304,21 @@ class ConnectionsController < ApplicationController
 
 	def new_connections
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
-		if params[:skill]
-			users = User.search(:skill => params[:skill])
-		elsif params[:connectsearch].empty?
-			users = []
-		elsif params[:topic].empty? || params[:topic] == 'name'
-			users = User.search(:name => params[:connectsearch], :skills => params[:skills])
-		elsif params[:topic] == 'email'
-			users = User.search(:email => params[:connectsearch], :skills => params[:skills])
-		elsif params[:topic] == 'school'
-			users = User.search(:school => params[:connectsearch], :skills => params[:skills])
+
+		# Build Hash
+		search = Hash.new
+		search[:skill] = params[:skill] if !params[:skill].nil?
+		search[:skills] = params[:skills] if !params[:skills].nil?
+		search[:school] = params[:school] if !params[:school].nil?
+		search[:schools] = params[:schools] if !params[:schools].nil?
+		search[:email] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'email'
+		search[:school] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'school'
+		search[:name] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic].nil?
+
+		unless search.empty?
+			users = User.search(:name => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
 		else
-			users = []
+			users = Array.new
 		end
 
 		# Review

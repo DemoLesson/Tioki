@@ -1,18 +1,18 @@
 <li>
 	<div class="profile-thumb-big">
 		<% if @user.avatar? %>
-			<%= link_to image_tag(@user.avatar.url(:thumb)), "profile/#{@user.url}" %>
+			<%= link_to image_tag(@user.avatar.url(:thumb)), "profile/#{@user.slug}" %>
 		<% else %>
-			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@user.url}" %>
+			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@user.slug}" %>
 		<% end %>
 	</div>
 	<p>
-	<a href="/profile/<%= @user.url %>"><%= @user.name %></a>
+	<a href="/profile/<%= @user.slug %>"><%= @user.name %></a>
 	<br />
-	<%= @user.experiences.where(current => true).first.position %>
-	<% if @user.experiences.where(current => true).first.position.present? %>at<% end %> 
-	<%= @user.experiences.where(current => true).first.school %><br />
-	<%= @user.experiences(current => true).first.location %>
+	<% unless @user.currentJob.nil? %>
+		<%= [@user.currentJob.position, @user.currentJob.company].delete_if{|x|x.empty?}.join(' at ') %><br />
+	<% end %> 
+	<%= @user.location %>
 	</p>
 	<div>
 		<a href="/profile/<%= @user.slug %>/connections" class="count connections">
@@ -20,9 +20,9 @@
 		</a>
 		<% if @user == self.current_user %>
 		<% elsif @my_connections.include? @user.id %>
-			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.to_s }, {:class => "sendmessage"} %>
+			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id.to_s }, {:class => "sendmessage"} %>
 		<% else %>
-			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @user.user }, :class => "addconnection" %>
+			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id.to_s }, :class => "addconnection" %>
 		<% end %>
 	</div>
 </li>
