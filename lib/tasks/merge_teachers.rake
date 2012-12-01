@@ -64,7 +64,7 @@ task :merge_teachers => :environment do
 	  	})
 
 	  	# Save!
-	  	user.slug = "#{user.id}#{user.first_name}#{user.last_name}"
+	  	user.slug = "#{user.id}#{user.first_name}#{user.last_name}".parameterize('')
 		user.location = teacher.location
 		user.guest_code = teacher.guest_code
 		user.headline = teacher.headline
