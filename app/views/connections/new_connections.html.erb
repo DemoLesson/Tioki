@@ -15,7 +15,7 @@
 	<%= @user.experiences(current => true).first.location %>
 	</p>
 	<div>
-		<a href="/userconnections/<%= @user.id %>" class="count connections">
+		<a href="/profile/<%= @user.slug %>/connections" class="count connections">
 			<%= @user.connections.not_pending.count.to_s %>
 		</a>
 		<% if @user == self.current_user %>
