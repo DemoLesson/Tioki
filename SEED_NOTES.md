@@ -1,3 +1,8 @@
+v3.0.4 - Dec 1, 2012  3:02PM PST deployed by Aleks Stanisic
+===========================================================
+* 191e424: Elijah Green - Fix admin page
+* 2cfe5e0: Elijah Green - Fix non-discussion comments
+
 v3.0.3 - Dec 1, 2012  2:09PM PST deployed by Kelly Becker
 =========================================================
 * 5644a10: Kelly Becker - profile stats update
