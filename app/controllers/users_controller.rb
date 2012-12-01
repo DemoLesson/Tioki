@@ -790,7 +790,7 @@ class UsersController < ApplicationController
 		@user = User.current
 
 		# Get a listing of who has viewed this teacher (IN ALL TIME)
-		@viewed = self.get_analytics(:view_teacher_profile, @user, nil, nil, true)
+		@viewed = self.get_analytics(:view_user_profile, @user, nil, nil, true)
 
 		# Get the dates to run the query by
 		tomorrow = Time.now.tomorrow
@@ -800,7 +800,7 @@ class UsersController < ApplicationController
 		data = Hash.new
 
 		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
-		data['profile_last_week'] = self.get_analytics(:view_teacher_profile, @user, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
+		data['profile_last_week'] = self.get_analytics(:view_user_profile, @user, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
 			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
 			a = a.group('date(`created_at`)')
 		end
