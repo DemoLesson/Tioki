@@ -56,15 +56,16 @@ class MergeTeachersUsers < ActiveRecord::Migration
     change_column :credentials_teachers, :teacher_id, :integer,  :null => true
     change_column :subjects_teachers, :teacher_id, :integer,  :null => true
     change_column :grades_teachers, :teacher_id, :integer,  :null => true
-    change_column :experiences, :teacher_id, :integer,  :null => true
-    change_column :educations, :teacher_id, :integer,  :null => true
-    change_column :interviews, :teacher_id, :integer,  :null => true
-    change_column :grades_teachers, :teacher_id, :integer,  :null => true
-    change_column :credentials_teachers, :teacher_id, :integer,  :null => true
-    change_column :awards, :teacher_id, :integer,  :null => true
-    change_column :assets, :teacher_id, :integer,  :null => true
-    change_column :applications, :teacher_id, :integer,  :null => true
-    change_column :presentations, :teacher_id, :integer,  :null => true
+
+    # Changin columns to allow nil
+    change_column :experiences, :teacher_id, :integer, :null => true
+    change_column :educations, :teacher_id, :integer, :null => true
+    change_column :interviews, :teacher_id, :integer, :null => true
+    change_column :awards, :teacher_id, :integer, :null => true
+    change_column :assets, :teacher_id, :integer, :null => true
+    change_column :applications, :teacher_id, :integer, :null => true
+    change_column :presentations, :teacher_id, :integer, :null => true
+    change_column :videos, :teacher_id, :integer, :null => true
 
   	# Indexes
   	add_index :kvpairs, :key
