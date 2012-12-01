@@ -1,3 +1,7 @@
+v3.0.1 - Nov 30, 2012 11:51PM PST deployed by Kelly Becker
+==========================================================
+* 51eb703: Kelly Becker - aleks broke something
+
 v3.0.0 - Nov 30, 2012 11:26PM PST deployed by Kelly Becker
 ==========================================================
 * a213962: Kelly Becker - staging instance
