@@ -6,15 +6,12 @@ class HomeController < ApplicationController
 		if !self.current_user.nil?
 
 			# TODO Add check to see if school...
-			params[:dashboard] = self.current_user.dashboard unless params[:dashboard]
-			if params[:dashboard] == 'school'
+			if User.current.dashboard == 'recruiter'
 				@schools = self.current_user.all_schools
 
 				@jobs = self.current_user.all_jobs_for_schools
 
 				@activities = self.current_user.activities
-
-				@pins = self.current_user.pins.count
 
 				@administrators = self.current_user.organization.admincount
 

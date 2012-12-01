@@ -169,6 +169,7 @@ Preview::Application.routes.draw do
 		end
 
 		scope 'settings' do
+			match 'dashboard/:switch' => 'users#swap_dashboard'
 			match 'privacy' => 'users#privacy'
 			root :to => 'users#edit'
 		end

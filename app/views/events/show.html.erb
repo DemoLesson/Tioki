@@ -72,7 +72,7 @@
 				<div style="padding:0px 20px;">
 					<% @event.rsvp.all.shuffle.select{|x|x.avatar?}[0..17].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
-							<%= link_to image_tag(c.avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.user.slug}" unless c.user.nil? %>
+							<%= link_to image_tag(c.avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.slug}" unless c.nil? %>
 						</div>
 					<% end %>
 					<div style="clear:both;"></div>
@@ -87,7 +87,7 @@
 			<% unless @event.skills.empty? %>
 				<div class="panel-actions" style="display:block;">
 					<strong>Skills Emphasized</strong><br />
-					<%= @event.skills.collect!{|x| link_to x.name, "/teacherskills/#{x.id}", :class => 'salmon'}.join(', ').html_safe %>
+					<%= @event.skills.collect!{|x| link_to x.name, "/skill/#{x.id}", :class => 'salmon'}.join(', ').html_safe %>
 				</div>
 			<% end %>
 			<div class="panel-actions" style="display:block;">

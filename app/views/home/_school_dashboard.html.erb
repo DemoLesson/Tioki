@@ -49,19 +49,6 @@
 				</a>
 				<br/>
 			<% end %>
-			<% if @pins > 0 %>
-				<a href="/favorites">
-					<span class="iconic star" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
-					<div class="count_recruit">
-					<%= @pins.to_s %>
-					</div>
-					<% if @pins == 1 %>
-						Favorite Teacher
-					<% else %>
-						Favorite Teachers
-					<% end %>
-				</a><br />
-			<% end %>
 		</section>
 		<section id="list" class="panel two-column right-side">
 		<h3>
