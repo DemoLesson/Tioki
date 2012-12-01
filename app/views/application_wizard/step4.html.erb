@@ -12,7 +12,7 @@ tr.seeking, tr.student {
 
 	<div class="seven columns">
 		<table style="width:100%;">
-			<% User.current.teacher.credentials.each do |cred| %>
+			<% User.current.credentials.each do |cred| %>
 				<tr>
 					<td>
 						<%= link_to 'Remove', credential_path(cred) + '?redirect=' + currentURL, method: :delete, :class => 'button', :style => 'float:right;margin-top:20px;' %>
