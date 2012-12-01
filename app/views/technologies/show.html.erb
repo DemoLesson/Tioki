@@ -144,7 +144,7 @@
 				</div>
 
 				<div id ="connection_desc">
-					<strong><%= link_to user.name, '/profile/' + user.teacher.url.to_s, :style => "color:#F66C4C" %></strong><br />
+					<strong><%= link_to user.name, '/profile/' + user.slug.to_s, :style => "color:#F66C4C" %></strong><br />
 					<% if user.teacher.position.present? && user.teacher.school.present?%>
 						<%= user.teacher.position %> at <%= user.teacher.school %>
 					<% end %><br />

@@ -6,7 +6,7 @@
   		<%= hidden_field_tag :response, :yes %>
 		<%= submit_tag "Import Now", :class => "btn btn-success" %>
 
-		<%= link_to "No Thanks", "/profile/#{self.current_user.teacher.url}", :class => "button" %>
+		<%= link_to "No Thanks", "/profile/#{self.current_user.slug}", :class => "button" %>
 	
 <% end %>
 </div>
