@@ -63,7 +63,7 @@
 							<%= ablang('connection.plural') %>
 							</a>
 						<% else %>
-							<a href="/userconnections/<%= @user.id %>" style= "margin-right:10px;">
+							<a href="/profile/<%= @user.slug %>/connections" style= "margin-right:10px;">
 							<div class="count connections" style= "margin-bottom:0px;">
 							<%= @user.pending_connections(false).count %>
 							</div>
@@ -159,7 +159,7 @@
 					<% end %>
 					<div style="clear:both;"></div>
 					<br />
-					<a href="/userconnections/<%= @user.id %>" style="display:block;text-align:center;width:150px;margin-left:10px" class="button bg-green">See All</a>
+					<a href="/profile/<%= @user.slug %>/connections" style="display:block;text-align:center;width:150px;margin-left:10px" class="button bg-green">See All</a>
 				</div>
 			</section>
 

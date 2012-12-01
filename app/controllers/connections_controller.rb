@@ -45,6 +45,16 @@ class ConnectionsController < ApplicationController
 		end
 	end
 
+	# Connections of a specific user
+	def profile_connections
+		findby = params[:slug] || params[:id]
+		@user = User.find_by_slug(findby) if findby.is_a?(String)
+		@user = User.find(findby) if findby.is_a?(Fixnum)
+
+		@connections = Connection.user(@user.id).paginate(:per_page => 20, :page => params[:page])
+		@my_connections = Connection.mine
+	end
+
 	def add_connection(respond = true)
 		# Check and see if we are already connected (or are pending)
 		a = self.current_user.id
@@ -171,12 +181,6 @@ class ConnectionsController < ApplicationController
 	#FOR old user connect emails
 	def pending_connections
 		redirect_to '/my_connections'
-	end
-
-	def userconnections
-		@user = User.find(params[:id])
-		@connections = Connection.user(params[:id]).paginate(:per_page => 20, :page => params[:page])
-		@my_connections = Connection.mine
 	end
 
 	def add_and_redir

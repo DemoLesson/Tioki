@@ -187,6 +187,9 @@ Preview::Application.routes.draw do
 		match ':slug/videos' => 'videos#index'
 		match ':slug/videos/:id' => 'videos#show'
 
+		# Connections
+		match ':slug/connections' => 'connections#profile_connections'
+
 		# Guest Access
 		match ':slug/:guest_pass' => 'users#profile'
 		
@@ -215,6 +218,11 @@ Preview::Application.routes.draw do
 		match 'banners' => 'users#banners'
 		match 'banners/delete/:id' => 'users#delete_banner'
 		match 'videos' => 'videos#admin'
+	end
+
+	# Connections
+	scope 'connections' do
+		match 'user/:id' => 'connection#profile_connections'
 	end
 
 	# Videos Routing
@@ -267,7 +275,6 @@ Preview::Application.routes.draw do
 	match 'appattachments/:id' =>  'teachers#appattachments'
 	match 'my_connections' => 'connections#my_connections'
 	match 'pending_connections' => 'connections#pending_connections'
-	match 'userconnections/:id' => 'connections#userconnections'
 	match 'myvideo' => 'videos#myvideo'
 	match 'inviteconnections' => 'connections#inviteconnections' 
 	match 'inviteconnection' => 'connections#inviteconnection'

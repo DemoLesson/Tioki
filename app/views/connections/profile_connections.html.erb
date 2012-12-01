@@ -1,0 +1,37 @@
+<section id="main-content" class="inner-content">
+	<span style="font-size:20px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#000; text-shadow:#ccc 1px 1px 2px;">
+		<%= @user.name%>'s <%= ablang('connection.plural') %>
+	</span><br />
+
+	<div id="content">
+	<% @connections.each do |connection| %>
+		<br />
+		<div class="item_jobs">
+			<div class="item_picture">
+				<% if connection.not_me(params[:id]).avatar? %>
+					<%= link_to image_tag(connection.not_me(params[:id]).avatar.url(:thumb)), '/profile/' + connection.not_me(params[:id]).slug %>
+				<% else %>
+					<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/' + connection.not_me(params[:id]).slug %>
+				<% end %>
+			</div>
+
+			<div id ="connection_desc">
+				<strong><%= link_to connection.not_me(params[:id]).name, '/profile/' + connection.not_me(params[:id]).slug %></strong><br />
+				<% if !connection.not_me(params[:id]).currentJob.nil? %>
+					<%= connection.not_me(params[:id]).currentJob.position %> at <%= connection.not_me(params[:id]).currentJob.company %>
+				<% end %><br />
+				<%= connection.not_me(params[:id]).location %><br /><br />
+				<div>
+					<% if connection.not_me(params[:id]).id == self.current_user.id  %>
+					<% elsif @my_connections.collect{|x| x.not_me.id}.include? connection.not_me(params[:id]).id %>
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => connection.not_me(params[:id]).id.to_s }, {:class => "button bg-green"} %>
+					<% else %>
+						<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => connection.not_me(params[:id]).id }, :class => "button" %>
+					<% end%>
+				</div>
+			</div>
+		</div>
+	<% end %>
+	<%= will_paginate @connections %>
+	</div>
+</section>
