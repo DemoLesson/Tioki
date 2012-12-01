@@ -38,14 +38,18 @@ task :merge_teachers => :environment do
 		Experience.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Education.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Video.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
-		SubjectsTeachers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Interview.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		GradesTeachers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
-		CredentialsTeachers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Award.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Asset.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Application.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 		Presentation.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
+
+		# M2M Migrations
+		SubjectsTeachers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
+		SubjectsUsers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
+		CredentialsTeachers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
+		CredentialsUsers.update_all("`user_id` = #{user.id}", "`teacher_id` = #{teacher.id}")
 	  	
 	  	# Migrate tagged objects
 	  	Analytic.update_all("`tag` = 'User:#{user.id}'", "`tag` = 'Teacher:#{teacher.id}'")

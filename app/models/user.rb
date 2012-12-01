@@ -31,8 +31,7 @@ class User < ActiveRecord::Base
 	has_many :awards, :dependent => :destroy
 	has_many :presentations, :dependent => :destroy
 	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
-	has_many :credentials, :dependent => :destroy
-  	has_and_belongs_to_many :credentials, :join_table => 'credentials_teachers'
+  	has_and_belongs_to_many :credentials
   	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
   	has_many :assets, :dependent => :destroy
   	has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'

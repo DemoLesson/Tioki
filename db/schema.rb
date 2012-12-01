@@ -176,6 +176,15 @@ ActiveRecord::Schema.define(:version => 20121130192413) do
   add_index "credentials_teachers", ["credential_id", "teacher_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
   add_index "credentials_teachers", ["teacher_id"], :name => "index_credentials_teachers_on_teacher_id"
 
+  create_table "credentials_users", :id => false, :force => true do |t|
+    t.integer "teacher_id",    :null => false
+    t.integer "credential_id", :null => false
+    t.integer "user_id"
+  end
+
+  add_index "credentials_users", ["credential_id", "teacher_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
+  add_index "credentials_users", ["teacher_id"], :name => "index_credentials_teachers_on_teacher_id"
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -209,7 +218,6 @@ ActiveRecord::Schema.define(:version => 20121130192413) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
   end
 
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
@@ -482,14 +490,6 @@ ActiveRecord::Schema.define(:version => 20121130192413) do
     t.string   "sent_to"
   end
 
-  create_table "pins", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "teacher_id"
-    t.integer  "job_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "presentations", :force => true do |t|
     t.string   "title"
     t.string   "url"
@@ -669,6 +669,17 @@ ActiveRecord::Schema.define(:version => 20121130192413) do
   add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
   add_index "subjects_teachers", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
 
+  create_table "subjects_users", :id => false, :force => true do |t|
+    t.integer  "teacher_id", :null => false
+    t.integer  "subject_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "subjects_users", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
+  add_index "subjects_users", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
+
   create_table "teacher_links", :force => true do |t|
     t.integer  "teacher_id"
     t.string   "url"
@@ -710,8 +721,6 @@ ActiveRecord::Schema.define(:version => 20121130192413) do
     t.boolean  "facebook_connect",                        :default => false
     t.boolean  "twitter_connect",                         :default => false
     t.boolean  "tweet_about",                             :default => false
-    t.float    "latitude"
-    t.float    "longitude"
     t.string   "website"
     t.string   "blog"
     t.boolean  "migrated"
