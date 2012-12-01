@@ -71,6 +71,9 @@ class MergeTeachersUsers < ActiveRecord::Migration
   	add_index :kvpairs, :owner
   	add_index :kvpairs, :namespace
   	add_index :users, :slug, :unique => true
+
+    # Run rake task
+    Rake::Task['merge_teachers'].invoke
   end
 
   def down
