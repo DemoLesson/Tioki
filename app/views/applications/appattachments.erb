@@ -1,5 +1,5 @@
 <section id="main-content" class="inner-content">
-<% for asset in @teacher.assets %>
+<% for asset in @user.assets %>
   <% if asset.application_id == @application.id %>
     <p class="attached">
     <img src="<%= asset_path 'file.png' %>" />

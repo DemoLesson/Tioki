@@ -657,6 +657,43 @@ class User < ActiveRecord::Base
 		find(:all, :include => [:skills, :experiences], :conditions => tup.compile)
 	end
 
+	def new_asset_attributes=(asset_attributes) 
+		assets.build(asset_attributes)
+	end
+
+	def save_assets 
+		assets.each do |asset| 
+			asset.save
+		end
+	end
+	
+	def snippet_watchvideo_button
+		@video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+		if @video != nil
+			embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
+
+			begin
+				if @video.encoded_state == 'queued'
+					Zencoder.api_key = 'ebbcf62dc3d33b40a9ac99e623328583'
+					@status = Zencoder::Job.progress(@video.job_id)
+					if @status.body['outputs'][0]['state'] == 'finished'
+						@video.encoded_state = 'finished'
+						@video.save
+						return embedstring
+					else
+						return ""
+					end
+				else 
+					return embedstring
+				end
+			rescue
+				return ""
+			end
+		else
+			return ""
+		end
+	end
+
 	protected
 
 		def create_invite_code

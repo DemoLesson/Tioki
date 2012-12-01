@@ -279,7 +279,7 @@ class JobsController < ApplicationController
   def attach
     params[:asset][:assetType]=1
     @user = User.find_by_id(self.current_user.id)
-    @user.new_asset_attributes=params[:asset]
+    @user.new_asset_attributes = params[:asset]
 
     if @user.save_assets
       redirect_to :back, :notice => 'Attachment was successfully uploaded.'

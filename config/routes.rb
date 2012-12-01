@@ -278,7 +278,7 @@ Preview::Application.routes.draw do
 	match 'videos/record' => 'videos#record'
 	match 'videos/create_snippet' => 'videos#create_snippet'
 	match 'teacher_applications' =>'applications#teacher_applications'
-	match 'appattachments/:id' =>  'teachers#appattachments'
+	match 'appattachments/:id' =>  'applications#appattachments'
 	match 'my_connections' => 'connections#my_connections'
 	match 'pending_connections' => 'connections#pending_connections'
 	match 'myvideo' => 'videos#myvideo'
