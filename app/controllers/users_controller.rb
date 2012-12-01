@@ -446,10 +446,10 @@ class UsersController < ApplicationController
 	end
 
 	def referral_user_list
-		#after ddonors choose before tioki bucks
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
-								  "2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
+		#after donors choose before tioki bucks
+		@users = User.joins(:connection_invites).find(:all, 
+			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
