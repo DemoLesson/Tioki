@@ -151,7 +151,7 @@ Preview::Application.routes.draw do
 				resources :credentials
 				resources :awards
 				resources :presentations
-				
+				resources :attachments
 
 				match 'skills/my_skills', :to => 'skills#my_skills'
 				resources :skills
