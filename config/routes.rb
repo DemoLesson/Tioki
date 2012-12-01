@@ -220,6 +220,9 @@ Preview::Application.routes.draw do
 	# Videos Routing
 	match 'videos/:id/skills' => 'videos#skills'
 
+	# Skills information page
+	match '/skill/:id' => 'skills#show'
+
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #

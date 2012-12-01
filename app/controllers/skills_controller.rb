@@ -2,7 +2,6 @@ class SkillsController < ApplicationController
 
 	def skills_url; '/me/profile/edit/skills'; end
 
-	# Review
 	def show
 	    # Get the requests skill
 	    @skill = Skill.find(params[:id])
