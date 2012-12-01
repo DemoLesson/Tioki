@@ -40,18 +40,14 @@
     <th>Applied?</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 <%- @users.each do |user| %>
   <tr>
 		<td>
-			<% if user.teacher %>
-				<%= user.teacher.id %>
-			<% end %>
+			<%= user.id %>
 		</td>
     <td>
-      <%= link_to user.name, "/profile/#{user.teacher.url}" unless user.teacher.nil? %>
-      <%= user.name if user.teacher.nil? %>
+      <%= link_to user.name, "/profile/#{user.slug}" %>
     </td>
     <td><%= link_to user.email, 'mailto:' + user.email %></td>
     <td><%= user.created_at.to_formatted_s(:long) %></td>
@@ -70,29 +66,21 @@
       <% end %>
     </td>
     <td>
-      <% unless user.teacher.nil? %>
-        <% if user.teacher.videos.count > 0 %>
-          Yes
-        <% else %>
-          No
-        <% end %>
-      <% end %>
+		<% if user.videos.count > 0 %>
+			Yes
+		<% else %>
+			No
+		<% end %>
     </td>
     <td>
-      <% unless user.teacher.nil? %>
-        <% if user.teacher.applications.count > 0 %>
+        <% if user.applications.count > 0 %>
           Yes
         <% else %>
           No
         <% end %>
-      <% end %>
     </td>
     <td><%= link_to 'Deactivate', user_path(user, :deactivate => true), :confirm => 'Are you sure?', :method => :delete %></td>
     <td><%= link_to 'Delete', user, :confirm => 'Are you sure?', :method => :delete %></td>
-    <td>
-      <%= link_to 'Create Teacher', "/admin/users/create_teacher?user_id=#{user.id}&redir=/admin" if user.teacher.nil? && user.school.nil? %>
-      <%= "School" unless user.school.nil? %>
-    </td>
   </tr>
 <% end -%>
 </table>
