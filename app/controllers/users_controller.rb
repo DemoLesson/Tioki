@@ -879,7 +879,7 @@ class UsersController < ApplicationController
 		if @user.me?
 			@connected = true
 			@self = true
-		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@teacher.user_id)
+		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
 			@connected = true
 		end
 

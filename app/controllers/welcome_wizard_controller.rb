@@ -102,7 +102,6 @@ class WelcomeWizardController < ApplicationController
 				elsif params[:vouchstring]
 					# Find a vouch matching urlstring
 					@vouch=Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
-					@vouch.update_attribute(:voucher_id, @user.id)
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|

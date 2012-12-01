@@ -438,7 +438,7 @@
 											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "#{vouched_skill.voucher.slug}" %>
 										<% end %>
 									<% end %>
-									<% if @self %>
+									<% if self.current_user && !@self %>
 										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @user.id, :skill_id => skill.id } %>
 									<% end %>
 								</div>

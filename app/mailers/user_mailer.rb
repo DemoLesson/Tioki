@@ -397,19 +397,19 @@ class UserMailer < ActionMailer::Base
 			end
 
 			#Middle grades, 6-8 
-			if gradestring[6..8].any? { |str| user.seeking['grade'].include? str } || user.seeking.['grade'].downcase.include?("middle")
+			if gradestring[6..8].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("middle")
 				#3=middle,8=K-8,9=6-12, 10=K-12
 				jobarray+=@jobs.select { |job| job.school.grades == 3 || job.school.grades == 8 || job.school.grades == 9 || job.school.grades == 10 }
 			end
 
 			#High school grades, K-12
-			if gradestring[9..12].any? { |str| user.seeking.['grade'].include? str } || user.seeking.['grade'].downcase.include?("high")
+			if gradestring[9..12].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("high")
 				#10=K-12, 9=6-12, 4 = high school
 				jobarray+=@jobs.select { |job| job.school.grades == 9 || job.school.grades == 10 || job.school.grades == 4 }
 			end
 
 			#Pre-school
-			if user.seeking.['grade'].downcase.include?("pre")
+			if user.seeking['grade'].downcase.include?("pre")
 				#1=pre-K
 				jobarray+=@jobs.select { |job| job.school.grades == 1 }
 			end
