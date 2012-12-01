@@ -52,10 +52,11 @@ class ApplicationsController < ApplicationController
     end
   end  
   
-    def teacher_applications
-        @featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
-        @interviews = Interview.paginate :conditions => ['teacher_id = ?', self.current_user.teacher.id], :order => 'created_at DESC', :page => params[:interview_page], :per_page => 5
-        @applications = Application.paginate :conditions => ['teacher_id = ?', self.current_user.teacher.id], :order => 'created_at DESC', :page => params[:application_page], :per_page => 5
-        @pendingcount = Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.current_user.id]).count  
-    end
+  # Deprecate
+  def teacher_applications
+      @featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
+      @interviews = Interview.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:interview_page], :per_page => 5
+      @applications = Application.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:application_page], :per_page => 5
+      @pendingcount = Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.current_user.id]).count  
+  end
 end
