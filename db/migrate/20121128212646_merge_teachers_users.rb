@@ -50,21 +50,21 @@ class MergeTeachersUsers < ActiveRecord::Migration
     execute "INSERT INTO `grades_users` SELECT * FROM `grades_teachers`;"
 
     # Make teacher id nullable
-    change_column :credentials_users, :teacher_id, :integer,  :null => false
-    change_column :subjects_users, :teacher_id, :integer,  :null => false
-    change_column :grades_users, :teacher_id, :integer,  :null => false
-    change_column :credentials_teachers, :teacher_id, :integer,  :null => false
-    change_column :subjects_teachers, :teacher_id, :integer,  :null => false
-    change_column :grades_teachers, :teacher_id, :integer,  :null => false
-    change_column :experiences, :teacher_id, :integer,  :null => false
-    change_column :educations, :teacher_id, :integer,  :null => false
-    change_column :interviews, :teacher_id, :integer,  :null => false
-    change_column :grades_teachers, :teacher_id, :integer,  :null => false
-    change_column :credentials_teachers, :teacher_id, :integer,  :null => false
-    change_column :awards, :teacher_id, :integer,  :null => false
-    change_column :assets, :teacher_id, :integer,  :null => false
-    change_column :applications, :teacher_id, :integer,  :null => false
-    change_column :presentations, :teacher_id, :integer,  :null => false
+    change_column :credentials_users, :teacher_id, :integer,  :null => true
+    change_column :subjects_users, :teacher_id, :integer,  :null => true
+    change_column :grades_users, :teacher_id, :integer,  :null => true
+    change_column :credentials_teachers, :teacher_id, :integer,  :null => true
+    change_column :subjects_teachers, :teacher_id, :integer,  :null => true
+    change_column :grades_teachers, :teacher_id, :integer,  :null => true
+    change_column :experiences, :teacher_id, :integer,  :null => true
+    change_column :educations, :teacher_id, :integer,  :null => true
+    change_column :interviews, :teacher_id, :integer,  :null => true
+    change_column :grades_teachers, :teacher_id, :integer,  :null => true
+    change_column :credentials_teachers, :teacher_id, :integer,  :null => true
+    change_column :awards, :teacher_id, :integer,  :null => true
+    change_column :assets, :teacher_id, :integer,  :null => true
+    change_column :applications, :teacher_id, :integer,  :null => true
+    change_column :presentations, :teacher_id, :integer,  :null => true
 
   	# Indexes
   	add_index :kvpairs, :key
