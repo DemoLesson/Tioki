@@ -37,7 +37,7 @@
 				<li>
 					<a href="/facebook_auth" style="display:block">
 						<h2>Write about us on your facebook wall
-							<% if self.current_user.teacher.facebook_connect %>
+							<% if !self.current_user.social_actions['facebook_connect'].nil? %>
 								<%= image_tag('/card-assets/images/greencheck.png')%>
 							<% end %>
 							<div style="float:right">
@@ -51,7 +51,7 @@
 					<h2>
 						<a href="/twitter_auth?twitter_action=follow">
 							Follow us on twitter
-							<% if self.current_user.teacher.twitter_connect %>
+							<% if !self.current_user.social_actions['twitter_connect'].nil? %>
 								<%= image_tag('/card-assets/images/greencheck.png')%>
 							<% end %>
 							<div style="float:right">
@@ -64,7 +64,7 @@
 					<a href="/twitter_auth?twitter_action=tweet" style="display:block">
 						<h2>
 							Tweet about us
-							<% if self.current_user.teacher.tweet_about %>
+							<% if !self.current_user.social_actions['tweet_about'].nil? %>
 								<%= image_tag('/card-assets/images/greencheck.png')%>
 							<% end %>
 							<div style="float:right">

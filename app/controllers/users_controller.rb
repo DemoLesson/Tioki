@@ -744,13 +744,13 @@ class UsersController < ApplicationController
 			@tioki_bucks += 5
 		end
 
-		if self.current_user.teacher.facebook_connect
+		if !self.current_user.social_actions['facebook_connect'].nil?
 			@tioki_bucks += 1
 		end
-		if self.current_user.teacher.twitter_connect
+		if !self.current_user.social_actions['twitter_connect'].nil?
 			@tioki_bucks += 1
 		end
-		if self.current_user.teacher.tweet_about
+		if !self.current_user.social_actions['tweet_about'].nil?
 			@tioki_bucks += 1
 		end
 	end
