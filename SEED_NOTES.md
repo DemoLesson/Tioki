@@ -1,3 +1,11 @@
+v3.0.6 - Dec 1, 2012  3:33PM PST deployed by Kelly Becker
+=========================================================
+* 51e4d54: Kelly Becker - more discussions issues
+* 04accdd: Elijah Green - Fix referral user list
+* c2891a9: Elijah Green - remove reference to teacher in presentations
+* e0b5faf: Elijah Green - Fix discussions/show (was checkin for teacher)
+* 2086b6a: Elijah Green - Fix linkedin import
+
 v3.0.5 - Dec 1, 2012  3:15PM PST deployed by Kelly Becker
 =========================================================
 * 2ce23ec: Kelly Becker - merge
