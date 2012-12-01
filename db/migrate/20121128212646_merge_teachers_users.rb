@@ -48,10 +48,10 @@ class MergeTeachersUsers < ActiveRecord::Migration
     execute "INSERT INTO `subjects_users` SELECT * FROM `subjects_teachers`;"
 
     # Make teacher id nullable
-    alter_column :credentials_users, :teacher_id, :integer,  :null => false
-    alter_column :subjects_users, :teacher_id, :integer,  :null => false
-    alter_column :credentials_teachers, :teacher_id, :integer,  :null => false
-    alter_column :subjects_teachers, :teacher_id, :integer,  :null => false
+    change_column :credentials_users, :teacher_id, :integer,  :null => false
+    change_column :subjects_users, :teacher_id, :integer,  :null => false
+    change_column :credentials_teachers, :teacher_id, :integer,  :null => false
+    change_column :subjects_teachers, :teacher_id, :integer,  :null => false
 
   	# Indexes
   	add_index :kvpairs, :key
