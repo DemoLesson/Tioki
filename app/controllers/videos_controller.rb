@@ -15,10 +15,10 @@ class VideosController < ApplicationController
 		
 		@user = false; unless params[:url].nil?
 
-			# Get the teacher by url
+			# Get the user by url
 			@user = User.where('`slug` = ?',params[:url]).first
 
-			# Narrow the videos to only those attached to this teacher
+			# Narrow the videos to only those attached to this user
 			@videodb = @videodb.where('`user_id` = ?', @u.id)
 		end
 
@@ -29,7 +29,7 @@ class VideosController < ApplicationController
 	# GET /videos/1
 	# GET /videos/1.xml
 	def show
-		# Get the teacher and teachers videos
+		# Get the user and users videos
 		index
 
 		# Url to video list
@@ -43,11 +43,11 @@ class VideosController < ApplicationController
 	end
 	
 	def myvideo
-		@teacher = self.current_user.teacher
+		@user = self.current_user
 		@video = Video.find(params[:id])
 
 		# Check to make sure the user is trying to edit their own video
-		raise HTTPStatus::Unauthorized unless @video.teacher == @teacher || self.current_user.is_admin
+		raise HTTPStatus::Unauthorized unless @video.user == @user || self.current_user.is_admin
 	end
 
 	# GET /videos/new
@@ -56,12 +56,9 @@ class VideosController < ApplicationController
 
 		if request.post? || !params[:key].nil?
 
-			# Get the currently logged in teacher #!
-			@teacher = self.current_user.teacher
-
 			# Create a new video
 			@video = Video.new
-			@video.teacher = @teacher
+			@video.user = User.current
 			@video.secret_url = params[:key]
       		@video.video_id = params[:etag]
 
@@ -94,7 +91,7 @@ class VideosController < ApplicationController
 	def edit
 		@video = Video.find(params[:id])
 		@existing_skills = video_path(@video) + '/skills'
-		raise HTTPStatus::Unauthorized unless @video.teacher == self.current_user.teacher || self.current_user.is_admin
+		raise HTTPStatus::Unauthorized unless @video.user == self.current_user || self.current_user.is_admin
 	end
 
 	# Get Video Skills
@@ -133,14 +130,9 @@ class VideosController < ApplicationController
 				@video.encode
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} uploaded a new video.", @video, {"video" => "zencoder"})
+				Whiteboard.createActivity(:video_upload, "{user.profile_link} uploaded a new video.", @video, {"video" => "zencoder"})
 
-				if request.request_uri == "/card/"+self.current_user.teacher.url
-					format.html { redirect_to "/card/"+self.current_user.teacher.url }
-				else
-					format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
-					format.xml  { render :xml => @video, :status => :created }
-				end
+				format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
 			else
 				format.html { render :action => "new" }
 				format.xml  { render :xml => :root, :status => :unprocessable_entity }
@@ -185,9 +177,9 @@ class VideosController < ApplicationController
 
 		# Mark the video as externel and upload
 		video = Video.new
-		video.teacher = self.current_user.teacher
 		video.output_url = 'ext|' + embed
 		video.video_id = embed
+		video.user = User.current
 
 		begin
 			# See if embed_code is valid
@@ -197,7 +189,7 @@ class VideosController < ApplicationController
 			if video.save
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.teacher.profile_link} linked a new video.", @teacher, {"video" => video.output_url})
+				Whiteboard.createActivity(:video_upload, "{user.profile_link} linked a new video.", nil, {"video" => video.output_url})
 
 				if params[:session]
 					session[:video] = video.id
@@ -224,9 +216,9 @@ class VideosController < ApplicationController
 	def create_snippet
 		@timestring = params[:date][:hour].to_s+":"+params[:date][:minute].to_s+":"+params[:date][:second].to_s+".0"
 		@video = Video.new
-		@video.teacher_id = self.current_user.teacher.id
-		@teacher = self.current_user.teacher
-		@sourcevideo = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', @teacher.id, false], :order => 'created_at DESC')
+		@video.user = self.current_user
+		@user = self.current_user
+		@sourcevideo = Video.find(:first, :conditions => ['user_id = ? AND is_snippet=?', @user.id, false], :order => 'created_at DESC')
 		@video.secret_url = @sourcevideo.secret_url
 		@video.video_id = @sourcevideo.video_id
 		@video.is_snippet = true
