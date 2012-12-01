@@ -1,3 +1,9 @@
+v3.0.5 - Dec 1, 2012  3:15PM PST deployed by Kelly Becker
+=========================================================
+* 2ce23ec: Kelly Becker - merge
+* 521bc71: Kelly Becker - updated links
+* 654d2a3: Elijah Green - fix some bad links on the profile
+
 v3.0.4 - Dec 1, 2012  3:02PM PST deployed by Aleks Stanisic
 ===========================================================
 * 191e424: Elijah Green - Fix admin page
