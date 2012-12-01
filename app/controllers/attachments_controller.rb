@@ -1,8 +1,20 @@
 class AttachmentsController < ApplicationController
 
+	def attachments_path; '/me/profile/edit/attachments'; end
+
 	def index
         @user = User.current
         @asset = Asset.new
+	end
+
+	def destroy
+		if Asset.find(params[:id]).destroy
+			flash[:success] = 'Attachment was successfully deleted.'
+		else
+			flash[:error] = 'Attachment could not be deleted.'
+		end
+
+		redirect_to :attachments
 	end
 
 	def create
@@ -11,10 +23,10 @@ class AttachmentsController < ApplicationController
 		if @user.assets.create(params[:asset])
 			flash[:success] = 'Attachment was successfully uploaded.'
 		else
-			flash[:success] = 'Attachement could not be uploaded.'
+			flash[:error] = 'Attachment could not be uploaded.'
 		end
 
-		redirect_to :assets
+		redirect_to :attachments
 	end
 
 end
