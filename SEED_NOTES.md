@@ -1,3 +1,12 @@
+v3.0.3 - Dec 1, 2012  2:09PM PST deployed by Kelly Becker
+=========================================================
+* 5644a10: Kelly Becker - profile stats update
+* 88bb90f: Kelly Becker - merge cleanup
+* e7e2538: Kelly Becker - merge teachers
+* e7c40fe: Kelly Becker - skip creating a notification if user.nil?
+* bff0635: Elijah Green - Fix credentials on step4 of application wizard
+* 78e105c: Elijah Green - Check if user is deleted when notifing for disucssions
+
 v3.0.2 - Dec 1, 2012  1:26PM PST deployed by Kelly Becker
 =========================================================
 * 15380c1: Kelly Becker - newrelic config
