@@ -1,3 +1,9 @@
+v3.0.2 - Dec 1, 2012  1:26PM PST deployed by Kelly Becker
+=========================================================
+* 15380c1: Kelly Becker - newrelic config
+* dfc9ee2: Kelly Becker - newrelic
+* b78eb56: Elijah Green - Fix checking for authorizations
+
 v3.0.1 - Nov 30, 2012 11:51PM PST deployed by Kelly Becker
 ==========================================================
 * 51eb703: Kelly Becker - aleks broke something
