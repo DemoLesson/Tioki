@@ -111,9 +111,12 @@ class User < ActiveRecord::Base
     def after_create
         # Create invite code
         create_invite_code
-        
-        # Add the slug
-        slug = (id.to_s + name).downcase
+
+        # Create guest code
+        create_guest_code
+
+        # Create slug for the url
+        self.update_attribute(:slug, "#{id}#{first_name}#{last_name}".downcase.parameterize)
         
         # Add to the Tioki technology
         TechnologyUser.create(:user => self, :technology_id => 15)
@@ -593,8 +596,9 @@ class User < ActiveRecord::Base
     end
     
     # Migrated from teacher.rb
-    def create_guest_pass
+    def create_guest_code
         guest_code = rand(36**8).to_s(36)
+        self.update_attribute(:guest_code, guest_code)
     end
     
     # Migrated from teacher.rb
@@ -611,7 +615,7 @@ class User < ActiveRecord::Base
     end
 
 	def self.search(args = {})
-		
+
 		if args[:email]
 			# Only one person can have this email
 			return where(:email => args[:email])

@@ -190,6 +190,9 @@ Preview::Application.routes.draw do
 		# Connections
 		match ':slug/connections' => 'connections#profile_connections'
 
+		# Skills
+		match ':slug/skills' => 'skills#my_skills'
+
 		# Guest Access
 		match ':slug/:guest_pass' => 'users#profile'
 		
@@ -269,7 +272,6 @@ Preview::Application.routes.draw do
 	match 'purge/:id' => 'attachments#purge'
 	match 'users' => 'users#update'
 	match 'attach' => 'attachments#attach'
-	match 'users/:id/skills' => 'skills#skills'
 	match 'skillpage' => 'skills#skillpage'
 	match 'jobattach' => 'jobs#attach'
 	match 'videos/record' => 'videos#record'

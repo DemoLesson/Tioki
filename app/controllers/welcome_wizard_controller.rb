@@ -175,24 +175,18 @@ class WelcomeWizardController < ApplicationController
 
 			unless params[:experience].nil? || params[:experience].empty?
 
-				# Get full date objects for start and end dates
-				start_date = params[:date][:exp_start_month] + '/' + params[:date][:exp_start_year]
-				start_date = Time.strptime(start_date, "%m/%Y")
-				end_date = params[:date][:exp_end_month] + '/' + params[:date][:exp_end_year]
-				end_date = Time.strptime(end_date, "%m/%Y")
+				# Current job is true
+				params[:experience][:current] = true
 
-				# Go ahead and make that months and years again because the db structure is lame
-				params[:experience][:startMonth] = start_date.strftime("%m")
-				params[:experience][:startYear] = start_date.strftime("%Y")
-				params[:experience][:endMonth] = end_date.strftime("%m")
-				params[:experience][:endYear] = end_date.strftime("%Y")
+				# Set position to a empty string if none was passed
+				params[:experience][:position] = params[:experience][:position] || String.new
 
 				# Build the experience data
 				@user.experiences.build(params[:experience])
 			end
 			
 			# Attempt to save the user
-			if @user.save
+			if @user.save(:validate => false)
 
 				# Wizard Key
 				wKey = "welcome_wizard_step2" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
@@ -225,42 +219,32 @@ class WelcomeWizardController < ApplicationController
 		# Detect post variables
 		if request.post?
 
-			# Load the teach and update
-			@user = self.current_user
+			# Load the current user
+			@user = User.current
+
+			# Delete any preassociated skills
 			@user.skills.delete_all
 			
-			# Install the skills
+			# Add the new skills
 			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
 				SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
 			end
-
-			#dump skills
-			@user.skills = skills
 			
-			# Attempt to save the user
-			if @user.save
+			# Wizard Key
+			wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
 
-				# Wizard Key
-				wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+			# And create an analytic
+			self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
 
-				# And create an analytic
-				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
-
-				# Notice and redirect
-				session[:wizard] = true
-				flash[:notice] = "Step 3 Completed"
-				return redirect_to "#{@buri}?x=step4#{@url}"
-			else
-
-				# If the user save failed then notice and redirect
-				flash[:notice] = @user.errors.full_messages.to_sentence
-				return redirect_to "#{@buri}?x=step3#{@url}"
-			end
+			# Notice and redirect
+			session[:wizard] = true
+			flash[:notice] = "Step 3 Completed"
+			return redirect_to "#{@buri}?x=step4#{@url}"
 		end
 
 		# Get a list of existing skills
-		@existing_skills = user_path(self.current_user) + '/skills'
+		@existing_skills = '/profile/' + User.current.slug + '/skills'
 
 		render :step3
 	end
@@ -268,7 +252,7 @@ class WelcomeWizardController < ApplicationController
 	def step4
 
 		# Make sure the user is logged in
-		if self.current_user.nil
+		if User.current.nil?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end

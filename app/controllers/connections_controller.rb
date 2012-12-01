@@ -316,7 +316,7 @@ class ConnectionsController < ApplicationController
 		search[:name] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic].nil?
 
 		unless search.empty?
-			users = User.search(:name => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
+			users = User.search(search)
 		else
 			users = Array.new
 		end

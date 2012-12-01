@@ -51,7 +51,7 @@ class SkillsController < ApplicationController
   	end
   
     def my_skills
-		@user = User.current
+		@user = User.find_by_slug(params[:slug]) || User.current
 		@skills = @user.skills
 
 		@skills.collect! do |v|
