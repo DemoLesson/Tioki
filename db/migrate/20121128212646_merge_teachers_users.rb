@@ -44,14 +44,27 @@ class MergeTeachersUsers < ActiveRecord::Migration
     # Clone and rename tables
     execute "CREATE TABLE `credentials_users` LIKE `credentials_teachers`;"
     execute "CREATE TABLE `subjects_users` LIKE `subjects_teachers`;"
+    execute "CREATE TABLE `grades_users` LIKE `grades_teachers`;"
     execute "INSERT INTO `credentials_users` SELECT * FROM `credentials_teachers`;"
     execute "INSERT INTO `subjects_users` SELECT * FROM `subjects_teachers`;"
+    execute "INSERT INTO `grades_users` SELECT * FROM `grades_teachers`;"
 
     # Make teacher id nullable
     change_column :credentials_users, :teacher_id, :integer,  :null => false
     change_column :subjects_users, :teacher_id, :integer,  :null => false
+    change_column :grades_users, :teacher_id, :integer,  :null => false
     change_column :credentials_teachers, :teacher_id, :integer,  :null => false
     change_column :subjects_teachers, :teacher_id, :integer,  :null => false
+    change_column :grades_teachers, :teacher_id, :integer,  :null => false
+    change_column :experiences, :teacher_id, :integer,  :null => false
+    change_column :educations, :teacher_id, :integer,  :null => false
+    change_column :interviews, :teacher_id, :integer,  :null => false
+    change_column :grades_teachers, :teacher_id, :integer,  :null => false
+    change_column :credentials_teachers, :teacher_id, :integer,  :null => false
+    change_column :awards, :teacher_id, :integer,  :null => false
+    change_column :assets, :teacher_id, :integer,  :null => false
+    change_column :applications, :teacher_id, :integer,  :null => false
+    change_column :presentations, :teacher_id, :integer,  :null => false
 
   	# Indexes
   	add_index :kvpairs, :key

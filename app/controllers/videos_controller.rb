@@ -13,13 +13,13 @@ class VideosController < ApplicationController
 		# Url to video list
 		@videolist = request.url
 		
-		@user = false; unless params[:url].nil?
+		@user = false; unless params[:slug].nil?
 
 			# Get the user by url
-			@user = User.where('`slug` = ?',params[:url]).first
+			@user = User.where('`slug` = ?', params[:slug]).first
 
 			# Narrow the videos to only those attached to this user
-			@videodb = @videodb.where('`user_id` = ?', @u.id)
+			@videodb = @videodb.where('`user_id` = ?', @user.id)
 		end
 
 		# Get first video
