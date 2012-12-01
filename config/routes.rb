@@ -151,10 +151,11 @@ Preview::Application.routes.draw do
 				resources :credentials
 				resources :awards
 				resources :presentations
-				resources :awards
 				
 
-				match 'skills' => 'skills#edit_skills'
+				match 'skills/my_skills', :to => 'skills#my_skills'
+				resources :skills
+				
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
@@ -238,7 +239,6 @@ Preview::Application.routes.draw do
 	match 'change_picture', :to => 'users#change_picture'
 	
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
-	match 'skills', :to => 'skills#get'
 	match 'crop', :to => 'users#crop'
 	match 'crop_image', :to => 'users#crop_image'
 	match 'crop_image_temp', :to => 'users#crop_image_temp'
