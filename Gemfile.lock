@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/KellyLSB/KVPair.git
-  revision: 5088a90fce2dbbee1a246b6730215dc118832d08
+  revision: a0593911441c7c45edca1e6dfe669e9f949c35be
   specs:
     kvpair (0.0.1)
 
@@ -220,7 +220,7 @@ GEM
       map (>= 5.1.0)
     map (6.2.0)
     mime-types (1.19)
-    multi_json (1.3.7)
+    multi_json (1.4.0)
     multi_xml (0.5.1)
     multimap (1.1.2)
     multipart-post (1.1.5)
@@ -348,7 +348,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter (4.3.0)
+    twitter (4.4.0)
       faraday (~> 0.8)
       multi_json (~> 1.3)
       simple_oauth (~> 0.1.6)
