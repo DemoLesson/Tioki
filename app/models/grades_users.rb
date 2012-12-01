@@ -1,2 +1,2 @@
-class GradesTeachers < ActiveRecord::Base
+class GradesUsers < ActiveRecord::Base
 end

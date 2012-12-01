@@ -783,14 +783,14 @@ class UsersController < ApplicationController
 	end
 
 	# Profile stats
-	def stats
+	def profile_stats
 
 		@pendingcount = self.current_user.pending_connections.count
 		# Get the teacher id of the currently logged in user
-		@teacher = Teacher.find(self.current_user.teacher.id)
+		@user = User.current
 
 		# Get a listing of who has viewed this teacher (IN ALL TIME)
-		@viewed = self.get_analytics(:view_teacher_profile, @teacher, nil, nil, true)
+		@viewed = self.get_analytics(:view_teacher_profile, @user, nil, nil, true)
 
 		# Get the dates to run the query by
 		tomorrow = Time.now.tomorrow
@@ -800,13 +800,7 @@ class UsersController < ApplicationController
 		data = Hash.new
 
 		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
-		data['profile_last_week'] = self.get_analytics(:view_teacher_profile, @teacher, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
-			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
-			a = a.group('date(`created_at`)')
-		end
-
-		# Get a listing of who has viewed this teachers card use a block to further contrain the query
-		data['card_last_week'] = self.get_analytics(:view_teacher_card, @teacher, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
+		data['profile_last_week'] = self.get_analytics(:view_teacher_profile, @user, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
 			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
 			a = a.group('date(`created_at`)')
 		end

@@ -16,21 +16,19 @@
 					Card Profile
 					</a>
 				</li-->
-				<% if @teacher == self.current_user.teacher %>
-					<li class="current">
-						Profile Stats
-					</li>
-				<% end %>
+				<li class="current">
+					Profile Stats
+				</li>
 			</ul>
 		</nav>
 
 		<section class="sidebar">
 			<div class="profile-thumb-large">
-				<%= image_tag(@teacher.user.avatar.url(:medium), :width => "160") if @teacher.user.avatar? %>
-				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @teacher.user.avatar? %>
+				<%= image_tag(@user.avatar.url(:medium), :width => "160") if @user.avatar? %>
+				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @user.avatar? %>
 			</div>
-			<h3><%= @teacher.user.name %></h3>
-			<p><%= @teacher.headline %></p>
+			<h3><%= @user.name %></h3>
+			<p><%= @user.headline %></p>
 		</section>
 
 		<section class="profile-content">	
@@ -73,15 +71,13 @@
 				<ul>
 					<% @viewed.each do |view| %>
 						<li style="display:block;">
-							<div class="profile-thumb-small">
-								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.teacher.url}" if view.user.avatar? && !view.user.teacher.nil? %>
-								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{view.user.teacher.url}" unless view.user.avatar? || view.user.teacher.nil? %>
-								<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless view.user.avatar? && !view.user.teacher.nil? %>
+							<div class="profile-thumb-small" style="float:left;">
+								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.slug}" if view.user.avatar? && !view.user.nil? %>
+								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{view.user.slug}" unless view.user.avatar? || view.user.nil? %>
 							</div>
 							<p style="float:none;">
-								<%= link_to view.user.name, "/profile/#{view.user.teacher.url}" unless view.user.teacher.nil? %>
-								<%= "#{view.user.name} (#{view.user.school.name})" if view.user.teacher.nil? && !view.user.school.nil? %>
-								<%= view.user.name if view.user.teacher.nil? %>
+								<%= link_to view.user.name, "/profile/#{view.user.slug}" unless view.user.nil? %><br />
+								<%= view.user.location unless view.user.location.nil? || view.user.location.empty? %>
 							</p>
 						</li>
 					<% end %>

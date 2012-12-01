@@ -46,6 +46,11 @@ class ApplicationController < ActionController::Base
 
 	def check_login_token
 
+		# Bump updated_timestamp every page load
+		session = Session.where(:session_id => request.session_options[:id]).first
+		session.updated_at = Time.now.to_s(:db)
+		session.save
+
 		# HACK: Make this run on every page load.
 		# If there is a referer set in the page url then
 		# Save it to the session for use during registration

@@ -73,4 +73,9 @@ task :merge_teachers => :environment do
 	  	# Update Migration
 	  	teacher.update_attribute(:migrated, true)
 	end
+
+	Analytic.update_all("`slug` = 'view_user_profile'", "`slug` = 'view_teacher_profile'")
+	Whiteboard.all do |wb|
+		wb.update_attribute(:message, wb.message.gsub('.teacher.profile_link', '.profile_link'))
+	end
 end
