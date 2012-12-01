@@ -5,6 +5,12 @@ GIT
     bitswitch (1.0.3)
 
 GIT
+  remote: git://github.com/KellyLSB/KVPair.git
+  revision: 5088a90fce2dbbee1a246b6730215dc118832d08
+  specs:
+    kvpair (0.0.1)
+
+GIT
   remote: git://github.com/KellyLSB/chronic.git
   revision: 26a96abc7e93afdc8104bec7a9ffc3f4129c0cc5
   specs:
@@ -18,12 +24,6 @@ GIT
       actionmailer
       activesupport
       curb
-
-GIT
-  remote: git://github.com/brianmario/mysql2.git
-  revision: e5992664a7bc753523114bd939132da09cdd8424
-  specs:
-    mysql2 (0.3.12b4)
 
 GIT
   remote: git://github.com/wr0ngway/graylog2_exceptions.git
@@ -224,6 +224,7 @@ GEM
     multi_xml (0.5.1)
     multimap (1.1.2)
     multipart-post (1.1.5)
+    mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -409,11 +410,12 @@ DEPENDENCIES
   httpclient
   jquery-rails
   koala
+  kvpair!
   less-rails
   linkedin
   mailgun-rails!
   multimap
-  mysql2!
+  mysql2
   nifty-generators
   nokogiri
   oauth

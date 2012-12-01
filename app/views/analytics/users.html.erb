@@ -110,8 +110,8 @@
 					 (<%= user.skill_claims.count %>)
 				</td>
 				<td class="nowrap">
-					<strong><%= user.teacher.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 %></strong>
-					 (<%= user.teacher.videos.count rescue 0 %>)
+					<strong><%= user.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 %></strong>
+					 (<%= user.videos.count %>)
 				</td>
 				<td class="nowrap">
 					<strong><%= user.connections.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
@@ -121,7 +121,7 @@
 				<td><%= user.rsvp.count %></td>
 				<td><%= user.vouched_skills.count %></td>
 				<td><%= user.skills.count %></td>
-				<td><%= user.teacher.videos.count rescue 0 %></td>
+				<td><%= user.videos.count rescue 0 %></td>
 				<td><%= user.connections.count %></td>
 			<% end %>
 			<td><%= user.completion %>%</td>

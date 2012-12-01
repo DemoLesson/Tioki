@@ -18,3 +18,7 @@ public/uploads/*
 solr
 *~
 /tags
+
+# Cloud 9
+.c9revisions
+

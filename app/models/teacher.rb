@@ -219,6 +219,7 @@ class Teacher < ActiveRecord::Base
     return "<div id=\"video_placeholder\">This teacher doesn\'t have a video yet.</div>"
   end
   
+  # Migrated to user.rb
   def create_guest_pass
       self.guest_code = rand(36**8).to_s(36)
   end
@@ -249,6 +250,7 @@ class Teacher < ActiveRecord::Base
     end
   end
 
+  # Moved to user.rb
   def profile_link(attrs = {})
 
     # Parse attrs
@@ -264,6 +266,7 @@ class Teacher < ActiveRecord::Base
     return "<a href=\"/profile/#{self.url}\" #{attrs}>#{self.user.name}</a>".html_safe
   end
   
+  # Moved to user.rb
   def has_social?
     count = 0
     count += 1 if linkedin.present? && linkedin != 'http://linkedin.com/'
@@ -276,6 +279,7 @@ class Teacher < ActiveRecord::Base
     return count > 0
   end
 
+  # Moved to user.rb
   def me?
     (!User.current.nil? && self == User.current.teacher) ? true : false
   end

@@ -1,0 +1,88 @@
+<section id="main-content" class="inner-content">
+	<h1>Profile View History</h1>
+
+	<section class="profile group">
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.js"></script>
+
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/me/profile">
+						Tioki Profile
+					</a>
+				</li>
+				<!--li>
+					<a href="terms.html">
+					Card Profile
+					</a>
+				</li-->
+				<li class="current">
+					Profile Stats
+				</li>
+			</ul>
+		</nav>
+
+		<section class="sidebar">
+			<div class="profile-thumb-large">
+				<%= image_tag(@user.avatar.url(:medium), :width => "160") if @user.avatar? %>
+				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @user.avatar? %>
+			</div>
+			<h3><%= @user.name %></h3>
+			<p><%= @user.headline %></p>
+		</section>
+
+		<section class="profile-content">	
+			<section class="info panel">
+				<h3>Profile views in the past week</h3>
+
+				<section class="panel-actions">
+
+					<div id="profile_last_week" style="width:600px;height:250px;margin:10px 10px;"></div>
+
+					<!-- Load Plot Points -->
+					<script type="text/javascript">
+					$(function () {
+						var d = [<%= @data['profile_last_week'] %>];
+						
+						var options = {
+							xaxis: { 
+								mode: "time",
+								tickLength: 5,
+								timeformat: "%b %0d",
+								autoscaleMargin: 1,
+							},
+							yaxis: {
+								autoscaleMargin: 2,
+								tickFormatter: function(val, axis) {
+									return val + ' Visitors';
+								}
+							},
+							selection: { mode: "x" },
+						};
+						
+						var plot = $.plot($("#profile_last_week"), [d], options);
+					});
+					</script>
+
+				</section>
+			</section>
+			<section class="info panel">
+				<h3>Who has viewed your profile</h3>
+				<ul>
+					<% @viewed.each do |view| %>
+						<li style="display:block;">
+							<div class="profile-thumb-small" style="float:left;">
+								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.slug}" if view.user.avatar? && !view.user.nil? %>
+								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{view.user.slug}" unless view.user.avatar? || view.user.nil? %>
+							</div>
+							<p style="float:none;">
+								<%= link_to view.user.name, "/profile/#{view.user.slug}" unless view.user.nil? %><br />
+								<%= view.user.location unless view.user.location.nil? || view.user.location.empty? %>
+							</p>
+						</li>
+					<% end %>
+				</ul>
+			</section>
+		</section>
+	</section>
+</section>

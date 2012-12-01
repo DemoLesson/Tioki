@@ -31,15 +31,15 @@
 					</h4>
 					<p class="bold caps head closed-arrow">
 					<a href="#">
-						School
+						Company
 					</a>
 					</p>
 					<div>
 						<ul>
-							<% @schools.each do |school| %>
+							<% @companies.each do |company| %>
 								<li>
-									<%= check_box_tag "schools[]", school %>
-									<%= school %>
+									<%= check_box_tag "schools[]", company %>
+									<%= company %>
 								</li>
 							<% end %>
 						</ul>
@@ -51,7 +51,7 @@
 					</p>
 					<div>
 						<ul>
-							<% @teacher_skills.each do |skill| %>
+							<% @user_skills.each do |skill| %>
 								<li>
 									<%= check_box_tag "skills[]", skill.id %>
 									<%= skill.name %>
@@ -78,8 +78,8 @@
 				<% end %>
 			</div>
 			<ul id="connection_list">
-				<% @teachers.each do |teacher| %>
-					<%= raw teacher %>
+				<% @users.each do |user| %>
+					<%= raw user %>
 				<% end %>
 				<li class="viewmorelist">
 					<a href="#" class="viewmore">
@@ -114,7 +114,7 @@
 				window.connectionPage = 1;
 				window.connectionMax = false;
 
-				 schoolstring= '';
+				schoolstring= '';
 				$("input[name='schools[]']:checked").each(function(){schoolstring += "&schools[]=" + $(this).val();});
 
 				skillstring = '';

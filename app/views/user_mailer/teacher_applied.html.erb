@@ -273,10 +273,10 @@
                                                             <div style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;">
 <h2 class="tpl-content-highlight" style="color: #202020;display: block;font-family: Arial;font-size: 30px;font-weight: bold;line-height: 100%;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;">
 	<span style="color:#5c5c5c;font: normal italic 18px Georgia, Times, serif;text-shadow: 0 1px 0 white;">Hi <%= @admin_user.name %>,</span></h2>
-<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @teacher_user.name %> has applied to your position "<%= @job.title %>" on Tioki. You can access <%= @teacher_user.name %>'s resume, teaching video, and teaching documents here:<br>
-	http://tioki.com/u/<%= @teacher_user.teacher.guest_code %><br>
+<span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @user.name %> has applied to your position "<%= @job.title %>" on Tioki. You can access <%= @user.name %>'s resume, teaching video, and teaching documents here:<br>
+	http://tioki.com/profile/<%= @user.slug %><br>
 <br>
-After completing your review, feel free to contact <%= @teacher_user.name %> directly for employment consideration. To review any additional applicantions that you may have received, visit <a href="http://tioki.com">Tioki</a> today.
+After completing your review, feel free to contact <%= @user.name %> directly for employment consideration. To review any additional applicantions that you may have received, visit <a href="http://tioki.com">Tioki</a> today.
 <br>
 </span><br>
 <span style="color: #6d6d6d; font: lighter 15px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"> From,<br>

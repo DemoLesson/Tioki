@@ -116,7 +116,7 @@ class EventsController < ApplicationController
 		respond_to do |format|
 			if @event.save
 				self.log_analytic(:event_creation, "A user created a new event.", @event)
-				Whiteboard.createActivity(:event_create, "{user.teacher.profile_link} just created an event: {tag.event_link}.", @event)
+				Whiteboard.createActivity(:event_create, "{user.profile_link} just created an event: {tag.event_link}.", @event)
 				format.html { redirect_to @event, notice: 'Event was successfully created.' }
 				format.json { render json: @event, status: :created, location: @event }
 			else
@@ -270,7 +270,7 @@ class EventsController < ApplicationController
 			self.log_analytic(:event_rsvp, "A user put in an rsvp to an event.", @event)
 
 			# Show on whiteboard
-			Whiteboard.createActivity(:event_rsvp, "{user.teacher.profile_link} is now planning on going to {tag.event_link}.", @event)
+			Whiteboard.createActivity(:event_rsvp, "{user.profile_link} is now planning on going to {tag.event_link}.", @event)
 
 			# Redirect back
 			return redirect_to event_path(@event), :notice => 'You have submitted your RSVP for ' + @event.name

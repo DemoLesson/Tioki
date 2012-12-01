@@ -1,27 +1,21 @@
 class UsersController < ApplicationController
-	before_filter :login_required, :only=>['welcome', 'change_password', 'choose_stored', 'edit']
-	before_filter :authenticate, :only => [ :fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list ]
+	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats]
+	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list]
 
 	def create(*args)
 		if request.post?
 			# Create a new user with the paramaters provided
 			@user = User.new(params[:user])
 			@success = ""
-		
+
 			# Attempt to save the user
 			if @user.save
-
-				# Set the AB is the id is divisible by 2
-				@user.update_attribute(:ab, 'follow') if @user.id % 2 == 0
 
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
 				# Log the signup
 				self.log_analytic(:user_signup, "New user signed up.", @user)
-
-				# Create the teacher record on the user
-				self.create_teacher_and_redirect false
 
 				# Notice the signup was successful
 				flash[:success] = "Signup successful"
@@ -32,7 +26,7 @@ class UsersController < ApplicationController
 				# Redirect to the wizard
 				return redirect_to '/welcome_wizard?x=step2'
 
-			# If there were any errors flash them and send :root
+				# If there were any errors flash them and send :root
 			else
 				flash[:error] = error = @user.errors.full_messages.to_sentence
 				Rails.logger.debug "User failed to register: " + error
@@ -43,28 +37,7 @@ class UsersController < ApplicationController
 		redirect_to :root
 	end
 
-	# Json register
-	def create_json
-		@user = User.new(params[:user])
-		@success = ""
-
-		if request.post?
-			if @user.save
-				session[:user] = User.authenticate(@user.email, @user.password)
-				session[:user] = @user.id
-				self.log_analytic(:user_signup, "New user signed up.", @user)
-
-				data = {"type" => "success", "message" => "Signup successful"}
-				self.create_teacher_and_redirect(false)
-				return render :json => data
-			else
-
-				data = {"type" => "error", "message" => @user.errors.full_messages.to_sentence}
-				return render :json => data
-			end
-		end
-	end
-
+	# Deprecate
 	def create_admin
 		@user = User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
 		@success = ""
@@ -81,22 +54,31 @@ class UsersController < ApplicationController
 				redirect_to :school_thankyou, :notice => "Signup successful!"
 			else
 				@user.destroy
-					flash[:notice] = "Signup unsuccessful."
+				flash[:notice] = "Signup unsuccessful."
 			end
 		else
 			flash[:notice] = "Signup unsuccessful."
-			redirect_to "/"
+			redirect_to :root
 		end
 	end
-	
-	def verify
-		User.verify!(params[:user_id], params[:verification_code])
-		redirect_to_stored
+
+	def swap_dashboard
+		dashboard = params[:switch]
+
+		if !User.current.school.nil? && params[:switch] == 'recruiter'
+			User.current.update_attribute(:dashboard, params[:switch])
+		end
+
+		if params[:switch] == 'educator'
+			User.current.update_attribute(:dashboard, params[:switch])
+		end
+
+		redirect_to :root
 	end
 
 	def login
 		return redirect_to :root unless self.current_user.nil?
-		
+
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 				self.log_analytic(:user_logged_in, "User logged in.")
@@ -109,7 +91,8 @@ class UsersController < ApplicationController
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
 				end
-				return redirect_to_stored
+
+				return redirect_to :root
 			else
 				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
 				flash[:error] = "Your username or password was incorrect."
@@ -117,95 +100,17 @@ class UsersController < ApplicationController
 		end
 	end
 
-	# Login and use JSON for all results
-	def login_json
-		if request.post?
-			if session[:user] = User.authenticate(params[:email], params[:password])
-				self.log_analytic(:user_logged_in, "User logged in.")
-				self.current_user.update_login_count
-				logger.info "Login successful"
-
-				if params[:remember_me]
-					login_token = LoginToken.generate_token_for!(session[:user])
-					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
-					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
-				end
-
-				data = {"type" => "success", "message" => "Login successful"}
-				return render :json => data
-			else
-				data = {"type" => "error", "message" => "Login unsuccessful"}
-				return render :json => data
-			end
-		end
-	end
-	
-	def choose_stored
-		if request.post?
-			if params[:role] == 'teacher'
-				self.current_user.create_teacher
-				self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-				
-				redirect_to current_user.default_home
-			elsif params[:role] == 'school'
-				self.current_user.create_school
-				self.current_user.default_home = school_path(self.current_user.school.id)
-				redirect_to :root
-				#redirect_to :root, :notice => 'Thank you for signing up. Please contact our support team at support@demolesson.com to start posting jobs.'
-			end
-		end
-	end
-
-	def create_teacher_and_redirect(redir = true)
-
-		# Get the user to build the teacher on
-		user = self.current_user if params[:user_id].nil? || !self.current_user.is_admin
-		user = User.find(params[:user_id]) if !params[:user_id].nil? && self.current_user.is_admin
-
-		# Create the teacher
-		user.create_teacher
-		
-		# Logged in user is an admin redirect wherever
-		return redirect_to params[:redir] if self.current_user.is_admin && params[:redir] = '/admin'
-
-		# If we have a referer in the creation process
-		# then auto connect the other teacher to the new one
-		if session.has_key?(:_referer)
-
-			# Redirect to the connections controller and add the referer
-			return redirect_to '/connections/add_and_redir?user_id=' + session[:_referer].to_s + '&redir=' + teacher_path(self.current_user.teacher.id) if redir
-		else
-
-			# Redirect to the teacher path since we did not have a referer
-			return redirect_to teacher_path(self.current_user.teacher.id) if redir
-		end
-	end
-
-	#  def choose_stored
-	#    if request.post?
-	#      if params[:role] == 'teacher'
-	#        self.current_user.create_teacher
-	#        self.current_user.default_home = teacher_path(self.current_user.teacher.id)
-	#        
-	#        redirect_to current_user.default_home
-	#      elsif params[:role] == 'school'
-	#	      #self.current_user.create_school
-	#        #self.current_user.default_home = school_path(self.current_user.school.id)
-	#        redirect_to :root, :notice => 'Thank you for signing up. Please contact our support team at support@demolesson.com to start posting jobs.'
-	#      end
-	#    end
-	#  end
-
 	def logout
 		reset_session
-		session[:user] = nil
-		flash[:notice] = 'You\'ve been logged out.'
-		login_token = LoginToken.find_by_user_id(cookies[:login_token_user])
-		if login_token
+		flash[:notice] = "You've been logged out."
+
+		# Delete login token
+		if (login_token = LoginToken.find_by_user_id(cookies[:login_token_user]))
 			cookies[:login_token_user] = { :value => nil, :expires => Time.new - 1.day }
 			cookies[:login_token_value] = { :value => nil, :expires => Time.new - 1.day }
-			LoginToken.delete(login_token.id)
+			login_token.destroy
 		end
+
 		redirect_to :root
 	end
 
@@ -223,39 +128,35 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def change_password
-		@user=session[:user]
-		@message = ""
-		if request.post?
-			@user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
-			if @user.save
-				self.log_analytic(:user_changed_password, "A user changed their password.")
-				@message = "Password Changed"
-			end
-		end
-	end
-
-	def show
-		if self.current_user.nil?
-			redirect_to :action=>'login'
-		else
-			@user = User.find(params[:id])
-			@school = School.find_by_owned_by(@user.id, :limit => 1)
-			@teacher = Teacher.find_by_user_id(@user.id, :limit => 1)
-			
-			respond_to do |format|
-				format.html
-			end
-		end
-	end
-
-	def select_type
-		@user = current_user
-		# render a selection page
-	end
-	
 	def edit
 		@user = User.find(self.current_user.id)
+	end
+
+	def profile_edit
+		if User.current.nil?
+			return render :json => {"message" => "Nothing"}
+		end
+
+		# Get the current teacher
+		@user = User.current
+
+		if request.post?
+			@user.social = params[:social]
+			@user.contact = params[:contact]
+
+			if @user.update_attribute(:headline, params[:headline])
+				flash[:success] = "Successfully updated"
+				redirect_to :back
+			else
+				flash[:error] = "There was an error updating"
+				redirect_to :back
+			end
+		end
+
+		# Get the teachers skills
+		@skills = @user.skills
+		# Get the teachers last video
+		@video = @user.videos.last
 	end
 
 	def accounts
@@ -266,6 +167,7 @@ class UsersController < ApplicationController
 		else
 			@user=self.current_user
 		end
+
 		if self.current_user.is_shared
 			sharedschool = SharedUsers.find(:first, :conditions => {:user_id => self.current_user.id})
 			@members = SharedUsers.find(:all, :conditions => { :owned_by => sharedschool.owned_by})
@@ -273,7 +175,7 @@ class UsersController < ApplicationController
 			@members = SharedUsers.find(:all, :conditions => { :owned_by => self.current_user.id})
 		end
 	end
-	
+
 	def update
 		@user=self.current_user
 		if !(params[:user][:avatar].content_type.include? "image")
@@ -318,10 +220,10 @@ class UsersController < ApplicationController
 		@user.update_attribute(:avatar, tmp_img)
 
 		# Log to the whiteboard that a user updated their profile picture
-		Whiteboard.createActivity(:avatar_update, "{user.teacher.profile_link} updated their profile picture.")
+		Whiteboard.createActivity(:avatar_update, "{user.profile_link} updated their profile picture.")
 
 		tmp_img.close
-		redirect_to(!self.current_user.teacher.nil? ? "/profile/#{self.current_user.teacher.url}" : :root, :notice => "Image changed successfully.")
+		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
@@ -360,7 +262,7 @@ class UsersController < ApplicationController
 	def change_picture
 		@user = User.find(self.current_user.id)
 	end
-	
+
 	def update_settings
 		@user = User.find(self.current_user.id)
 		action = @user.update_settings(params[:user])
@@ -370,7 +272,7 @@ class UsersController < ApplicationController
 			format.html { redirect_to :root, :notice => action }
 		end
 	end
-	
+
 	def change_password
 		@user = User.find(self.current_user.id)
 		action = @user.change_password(params[:confirm])
@@ -416,7 +318,7 @@ class UsersController < ApplicationController
 		self.log_analytic(:organization_info_changed, "A organization changed their information.")
 		redirect_to :root
 	end
-	
+
 	def user_list
 		@users = User.find(:all, :order => 'created_at DESC')
 		@teachercounter = 0
@@ -426,14 +328,14 @@ class UsersController < ApplicationController
 			format.html { render :user_list }
 		end
 	end
-	
+
 	def teacher_user_list
 
 		# Search for a specific user via name or id
 		if params[:tname]
 			#is it a valid integer?
 			if params[:tname].numeric?
-				@users = User.find :all, :include => :teacher,:conditions => ["teachers.id = ?", params[:tname]], :order => "users.created_at DESC"
+				@users = User.find :all, :conditions => ["id = ?", params[:tname]], :order => "users.created_at DESC"
 			else
 				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
 			end
@@ -441,28 +343,25 @@ class UsersController < ApplicationController
 			@users = User.find :all, :order => "created_at DESC"
 		end
 
-		# Get rid of all users that have nil teachers
-		@users = User.find(:all, :joins => :teacher, :conditions => ['users.id IN (?)', @users.collect(&:id)])  if params[:teacher]
-
-		# Limit to those that have at leasy 1 video
+		# Limit to those that have at least 1 video
 		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
-		
+
 		# Limit to teachers that have job applications
 		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
-		
-		@usercount = User.find(:all, :joins => :teacher,:conditions => ['users.id IN (?)', @users.collect(&:id)]).count
+
+		@usercount = @users.count
 
 		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
-		
+
 		# Prepare the stats for the admin page
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
-		@stats.push({:name => 'Number of Teachers', :value => @usercount})
-		
+		@stats.push({:name => 'Number of Educators', :value => @usercount})
+
 		# Render the page
 		render :teacher_user_list
 	end
@@ -474,10 +373,10 @@ class UsersController < ApplicationController
 		end
 		@users = User.unscoped.find(:all)
 		@users=@users.reject { |user| user.deleted_at == nil }
-		
+
 		@usercount = @users.count
-		@teachercount = @users.reject { |user| user.teacher.nil? }.count
-		@admincount = @users.reject { |user| user.teacher }.count
+		@teachercount = @users.reject { |user| user.nil? }.count
+		@admincount = @users.reject { |user| user }.count
 
 		@stats = []
 		@stats.push({:name => 'Deactivated Users', :value => @users.count})
@@ -490,9 +389,9 @@ class UsersController < ApplicationController
 	def school_user_list
 		if request.post?
 			user = User.new(:first_name => params[:contact_first],
-											:last_name => params[:contact_last],
-											:email => params[:email],
-											:password => params[:pass])
+							:last_name => params[:contact_last],
+							:email => params[:email],
+							:password => params[:pass])
 			if user.save
 				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
 				if school.save
@@ -513,7 +412,7 @@ class UsersController < ApplicationController
 			#so I can select rows from the users table
 			@schools = School.find :all,
 				:conditions => ['schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%"],
-				:order => "created_at DESC"
+			:order => "created_at DESC"
 		else
 			@schools = School.find :all,
 				:order => "created_at DESC"
@@ -542,15 +441,15 @@ class UsersController < ApplicationController
 
 	def donors_choose_list
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+								  "2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def referral_user_list
 		#after ddonors choose before tioki bucks
 		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-			:conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
+																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+								  "2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -564,7 +463,7 @@ class UsersController < ApplicationController
 		end
 		@stats = []
 		@stats.push({:name => 'Organizations', :value => Organization.count})
-		@stats.push({:name => 'Administrators', :value => User.find(:all).reject { |user| user.teacher }.count})
+		@stats.push({:name => 'Administrators', :value => User.find(:all).reject { |user| user }.count})
 	end
 
 	def manage
@@ -714,7 +613,7 @@ class UsersController < ApplicationController
 				if time.index("from").nil?
 					to = from = time.join(' ')
 
-				# If a from was specified assume they meant the remainder of the day
+					# If a from was specified assume they meant the remainder of the day
 				else
 					from = time.delete_if{|x| x == "from"}.join(' ')
 					time[-1] = 'midnight'
@@ -726,7 +625,7 @@ class UsersController < ApplicationController
 			if to == from
 				time = [Chronic.parse(to)]
 
-			# If we have two
+				# If we have two
 			else
 				time = Array.new
 				time << Chronic.parse(from)
@@ -774,14 +673,276 @@ class UsersController < ApplicationController
 
 	def dismiss_banner
 		cookies[:tioki_banner_dismissed] = {
-  			:value => true,
-  			:expires => 3.hours.from_now
+			:value => true,
+			:expires => 3.hours.from_now
 		}
 
 		redirect_to :back
 	end
 
+	def tioki_bucks
+		@start_count  = 0
+		@tioki_bucks = 0
+
+		#3 connections
+		if Connection.mine(:pending => false).count >= 5
+			@connected = true
+			@start_count += 1
+		end
+
+		#follow three discussions
+		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+			@followed = true
+			@start_count += 1
+		end
+
+		#Join three groups
+		if User_Group.find(:all, 
+						   :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+		@groups = true
+		@start_count += 1
+		end
+
+		#Vouch 5 skills
+		if VouchedSkill.find(:all, 
+							 :conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+		@vouched_skills = true
+		@start_count += 1
+		end
+
+		#post to whiteboard
+		if Whiteboard.find(:first, 
+						   :conditions => ["whiteboards.slug = ?", 'share'])
+		@whiteboard_post = true
+		@start_count += 1
+		end
+
+		#Post a reply to discussion
+		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+			@commented = true
+			@start_count += 1
+		end
+
+		#require a date fot his one, ccureently there is not avatar_created_at
+		#we could create one, but it would be just one more thing to update on avatar creation
+		if self.current_user.avatar?
+			@avatar = true
+			@start_count += 1
+		end
+
+		#referrals
+		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
+
+		#two dollars per invite maxed at 42 dollars
+		if @invite_count*2 > 42
+			@tioki_bucks += 42
+		else
+			@tioki_bucks += @invite_count*2
+		end
+
+		if @start_count >= 5
+			@tioki_bucks += 5
+		end
+
+		if self.current_user.teacher.facebook_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.twitter_connect
+			@tioki_bucks += 1
+		end
+		if self.current_user.teacher.tweet_about
+			@tioki_bucks += 1
+		end
+	end
+
+	def linkedinprofile
+		if request.post?
+			if params[:response] == 'yes'
+				client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
+				#oauth_Callback=where linkedin will redirect back to
+				request_token = client.request_token(:oauth_callback => "http://#{request.host_with_port}/linkedin_callback")
+				session[:rtoken] = request_token.token
+				session[:rsecret] = request_token.secret
+
+				# Save a redirect url for the return
+				session[:linkedin_redirect] = params[:redirect] unless params[:redirect].nil?
+
+				redirect_to client.request_token.authorize_url
+			elsif params[:response] == 'no'
+				redirect_to '/profile/'+self.current_user.teacher.url
+			end
+		end
+	end
+
+	def get_started
+		@tioki_bucks = 0
+
+		#3 connections
+		@connections = Connection.mine(:pending => false).count
+
+		#follow three discussions
+		@following = Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Join three groups
+		@groups = User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+
+		#Vouch 5 skills
+		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
+
+		#post to whiteboard
+		@whiteboard_post =  Whiteboard.find(:first, :conditions => ["user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share'])
+
+		#Post a reply to discussion
+		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+	end
+
+	# Profile stats
+	def profile_stats
+
+		@pendingcount = self.current_user.pending_connections.count
+		# Get the teacher id of the currently logged in user
+		@user = User.current
+
+		# Get a listing of who has viewed this teacher (IN ALL TIME)
+		@viewed = self.get_analytics(:view_user_profile, @user, nil, nil, true)
+
+		# Get the dates to run the query by
+		tomorrow = Time.now.tomorrow
+		lastweek = Time.now.last_week
+
+		# Create an empty private hash
+		data = Hash.new
+
+		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
+		data['profile_last_week'] = self.get_analytics(:view_user_profile, @user, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
+			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
+			a = a.group('date(`created_at`)')
+		end
+
+		# Create an empty public hash
+		@data = Hash.new
+
+		# Loop through the data to graph by
+		data.each do |k,s|
+
+			# Parse all the dates
+			save_time = nil
+			dates = Array.new
+
+			# Loop through the actual query results
+			s.each do |x|
+				time = Time.at(x.view_on_day)
+
+				# If save time is nil ignore
+				unless save_time.nil?
+					i = 1
+
+					# Set the last time we had for adjusting
+					adjust_time = save_time
+
+					# Create empty days of zero if no days are logged
+					while i < (time.to_date - save_time.to_date)
+
+						# Adjust the time forward to the next day
+						adjust_time = adjust_time.tomorrow
+
+						# Get the right time in seconds (with the utc offset for the timezone)
+						tmp = (adjust_time.to_time.localtime.to_i + adjust_time.to_time.localtime.utc_offset) * 1000
+
+						# Add the date to the array of dates
+						dates << "[#{tmp}, 0]"
+
+						# Increase the pointer for the while llop
+						i += 1
+					end
+				end
+
+				# Set save time for any more upcoming loops
+				save_time = time
+
+				# Get the right time in seconds of a hit (witht the utc offset for the timezone)
+				view_on_day = (time.localtime.to_i + time.localtime.utc_offset) * 1000
+
+				# Add the date to the array of dates
+				dates << "[#{view_on_day}, #{x.views_per_day}]"
+			end
+
+			# Join the data indo an output array
+			@data[k] = dates.join(',')
+		end
+	end
+
+
+	# Migrated from teacher_controller.rb
+	def profile
+		# Figure out whether to load a profile by slug or the current user.
+		if !params[:slug].nil? && !params[:slug].empty?
+			@user = User.find_by_slug(params[:slug])
+		elsif !self.current_user.nil?
+			@user = self.current_user
+		end
+
+		# Check if user is a guest
+		@guest = false; if !params[:guest_pass].nil? && !params[:guest_pass].empty?
+		@guest = params[:guest_pass].strip == @user.guest_code
+		end
+
+		# Check if user is connected to teacher or is self
+		@self = false
+		@connected = false
+		if @user.me?
+			@connected = true
+			@self = true
+		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+			@connected = true
+		end
+
+		# If the teacher could not be found then raise an exception
+		raise ActiveRecord::RecordNotFound, "User profile could not found." if @user.nil?
+
+		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
+		if !self.current_user.nil? && !@user.me?
+			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
+		end
+
+		# Review
+		# Why is this here?
+		# Load up an application
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			@application = nil unless @application.belongs_to_me(self.current_user)
+		end
+
+		# If the there is currently a user logged in
+		if !self.current_user.nil?
+			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
+			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
+		end
+
+		# Filter Upcoming Events
+		@events = @user.rsvp.select do |x|
+			(x.end_time.future? || x.end_time.today?) && x.published
+		end
+
+		# Vouch referring teacher 
+		if params[:invite_id]
+			@invite = ConnectionInvite.find(params[:invite_id])
+		end
+
+		if @user == nil
+			redirect_to :root
+			flash[:alert]  = "User was not found"
+		else 
+			respond_to do |format|
+				format.html # profile.html.erb
+				format.json  { render :json => @teacher } # profile.json
+			end
+		end
+	end
+
 	private
+
 	def authenticate
 		return true if !self.current_user.nil? && self.current_user.is_admin
 
@@ -791,4 +952,3 @@ class UsersController < ApplicationController
 
 	end
 end
-

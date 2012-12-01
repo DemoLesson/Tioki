@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :members, :about]
-	before_filter :teacher_required, :except => [:index, :show, :members, :about]
+	
 
 	def index
 		@groups = Group.permissions('OR', :public => true, :private => true)
@@ -118,9 +118,13 @@ class GroupsController < ApplicationController
 			redirect_to :back, :notice => "You have already added this group."
 		else
 			#add as member
-			group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id], :permissions => 1)
+			user_group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id])
+
+			#set as member
+			user_group.permissions = {:member => true}
+
 			#self.log_analytic(:user_added_group, "A user added a group", group)
-			redirect_to :back, :notice => "Group was successfully added."
+			redirect_to user_group.group, :notice => "Group was successfully added."
 		end
 	end
 

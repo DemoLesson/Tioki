@@ -11,7 +11,7 @@ tr.seeking, tr.student {
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<% if User.current.teacher.linkedin.nil? %>
+		<% if User.current.social[:linkedin].nil? %>
 			<form action="/linkedinprofile" method="POST">
 				<h2>
 				<%= image_tag "/assets/Tioki/icons/LinkedIn_IN_Icon_25px.png", :style => "width:30px;margin-bottom:-6px" %> Import from Linkedin
@@ -21,11 +21,13 @@ tr.seeking, tr.student {
 				</h2>
 			</form>
 		<% end %>
-		<% if User.current.teacher.linkedin.nil? %>
+		<% if User.current.social[:linkedin].nil? %>
 			<h3>- or -</h3>
+		<% else %>
+			<h2>Verify the imported information below</h2>
 		<% end %>
 		<table style="width:100%;">
-			<% User.current.teacher.experiences.each do |exp| %>
+			<% User.current.experiences.each do |exp| %>
 				<tr>
 					<td>
 						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
@@ -98,7 +100,7 @@ tr.seeking, tr.student {
 		</form>
 	</div>
 	<div class="eleven columns">
-		<% unless User.current.teacher.experiences.empty? %>
+		<% unless User.current.experiences.empty? %>
 			<a href="step3" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step →</a>
 		<% else %>
 			<p style="float:right">Please provide some kind of work experience...</p>

@@ -1,6 +1,6 @@
 <section id="main-content" class="inner-content">
 	<h1>
-		<%= possesify(@teacher.user.first_name) + ' ' if @teacher %>
+		<%= possesify(@user.first_name) + ' ' if @user%>
 		Video Library
 	</h1>
 	<section id="panels">
@@ -21,12 +21,12 @@
 			</ul>
 		</section>
 		<section class="panel two-column right-side">
-			<h3 id="video"><%= @video.name %> by <%= @video.teacher.profile_link :class => 'salmon' %></h3>
+			<h3 id="video"><%= @video.name %> by <%= @video.user.profile_link :class => 'salmon' %></h3>
 			<section class="panel-actions" id="video">
 				<%= @video.embed_code(605, 350) %>
 				<hr />
-				<% if @video.teacher == self.current_user.teacher || self.current_user.is_admin %>
-					<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}", :class => 'button' if @video.teacher == self.current_user.teacher && @video != self.current_user.teacher.video %>
+				<% if @video.user == self.current_user || self.current_user.is_admin %>
+					<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}", :class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
 					<%= link_to 'Edit Video', edit_video_path(@video), :class => "button" %>
 					<%= link_to 'Delete Video', @video, method: :delete, data: { confirm: 'Are you sure?' }, :class => "button bg-green" %>
 					<hr />
@@ -35,7 +35,7 @@
 					<div class="skills">
 						<h4>Skills shown in this video</h4>
 						<% @video.skills.each do |skill| %>
-							<a href="/teacherskills/<%= skill.id %>" class="button2 bg-ltgray gray"><%= skill.name %></a>
+							<a href="/skill/<%= skill.id %>" class="button2 bg-ltgray gray"><%= skill.name %></a>
 						<% end %>
 					</div>
 				<% end %>

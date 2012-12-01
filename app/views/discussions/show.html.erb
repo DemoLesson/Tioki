@@ -7,7 +7,7 @@
 	<section style="width: 650px">
 		<p style="margin-top:-10px">Topics:
 			<% @discussion.skills.each do |skill| %>
-			<%= link_to skill.name, "/teacherskills/#{skill.id}" %> |
+			<%= link_to skill.name, "/skill/#{skill.id}" %> |
 			<% end %>
 		</p>
 	</section>
@@ -16,7 +16,7 @@
 
 			<!-- Followers Section -->
 			<section style="float:right;margin:0px 15px 0px 0px;overflow:hidden;width: 175px;">
-				<% if self.current_user && self.current_user.teacher %>
+				<% if self.current_user %>
 					<% if @follower %>
 						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
 					<% else %>

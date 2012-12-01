@@ -162,7 +162,6 @@ class MetricsController < ApplicationController
 			stats["pending_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '1'").to_a.first.first
 			stats["teacher_connections"] = db.execute("SELECT COUNT(*) as 'count' FROM `connections` WHERE `pending` = '0'").to_a.first.first
 			stats["registered_users"] = db.execute("SELECT COUNT(*) as 'count' FROM `users`").to_a.first.first
-			stats["users_with_email_subscriptions"] = db.execute("SELECT COUNT(*) as 'count' FROM `users` WHERE `emailsubscription` = '1'").to_a.first.first
 			stats["videos"] = db.execute("SELECT COUNT(*) as 'count' FROM `videos`").to_a.first.first
 			stats["total_vouches"] = db.execute("SELECT COUNT(*) as 'count' FROM `vouches`").to_a.first.first
 			stats["published_events"] = db.execute("SELECT COUNT(*) as 'count' FROM `events` WHERE `published` = '1'").to_a.first.first

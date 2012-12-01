@@ -3,7 +3,7 @@
 
 Add additional attachments that <%= link_to @job.school.name, @job.school %> will only be able to view. For example, a cover letter relating specifically to this job posting. 	
 
-<% for asset in @teacher.assets %>
+<% for asset in @user.assets %>
   <% if asset.job_id == @job.id %>
     <p class="attached">
     <img src="<%= asset_path 'file.png' %>" />

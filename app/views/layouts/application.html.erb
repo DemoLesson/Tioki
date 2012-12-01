@@ -151,6 +151,15 @@
 					<div id="user-actions">
 						<ul>
 							<li style="float:left">
+								<% if !User.current.school.nil? %>
+									<% if User.current.dashboard == 'recruiter' %>
+										<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
+									<% elsif !User.current.school.nil? %>
+										<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
+									<% end %>
+								<% end %>
+							</li>
+							<li style="float:left">
 								<a href="/get_started" style="color:#F66C4C;bold">GET STARTED</a>
 							</li>
 							<li class="user-name" style="float:left">
@@ -162,6 +171,7 @@
 								
 								<ul>
 									<!-- Admin Methods -->
+                                    <% # Review %>
 									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
 										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
 									<% elsif self.current_user.is_admin? %>
@@ -171,7 +181,7 @@
 									<!-- Schools -->
 									
 									<!-- Teacher Methods -->
-									<% unless self.current_user.teacher.nil? %>
+									<% unless self.current_user.nil? %>
 										<li>
 											<a href="/inviteconnections">
 												Invite Friends
@@ -234,7 +244,19 @@
 						Home
 						</a>
 					</li>
-					<% if self.current_user.teacher %>
+					<% if User.current.dashboard == 'recruiter' %>
+						<li>
+                            <%= link_to "My Schools", "/my_schools" %>
+                        </li>
+                        <li>
+                            <a href="/events">
+                            Events
+                            </a>
+                        </li>
+                        <li>
+                            <%= link_to "My Jobs", :my_jobs %>
+                        </li>
+					<% else %>
 						<li>
 							<a href="/me/profile">
 							Profile
@@ -272,7 +294,7 @@
 							</ul>
 						</li>
 						<li>
-							<a href="/teacherskills/671">
+							<a href="/skill/671">
 							Discover
 							</a>
 							<ul>
@@ -282,36 +304,16 @@
 								<li><a href="/jobs">Teaching Jobs</a></li>
 							</ul>
 						</li>
-						<li>
-							<a href="/messages">
-							<%= "Inbox (" + unread_messages.to_s + ")" %>
-							</a>
-						</li>
-					<% elsif self.current_user.is_admin? %>
-						<li>
-							<%= link_to "My Schools", "/my_schools" %>
-						</li>
-						<li>
-							<%= link_to "My Favorites", "/favorites" %>
-						</li>
-						<li>
-							<a href="/events">
-							Events
-							</a>
-						</li>
-						<li>
-							<%= link_to "My Jobs", :my_jobs %>
-						</li>
-						<li>
-							<a href="/messages">
-							Inbox
-							</a>
-						</li>
 					<% end %>
-				</ul>
-			</nav><!-- End Nav -->
-		<% end %>
-
+					<li>
+						<a href="/messages">
+						<%= "Inbox (" + unread_messages.to_s + ")" %>
+						</a>
+					</li>
+                </ul>
+            </nav><!-- End Nav -->
+        <% end %>
+        
 		<!-- Featured Banner -->
 		<% if (banner = Banner.current) && !User.current.nil? %>
 			<section class="notice tioki_message">

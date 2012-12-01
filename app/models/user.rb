@@ -2,24 +2,47 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 
+	# Key Value Pairs
+	kvpair :social
+	kvpair :contact
+	kvpair :seeking
+	kvpair :authorizations
+	kvpair :social_actions
+
+	# BitSwitches
+
 	# Default scope of a user
 	default_scope where(:deleted_at => nil)
 
 	# Attribute Access
-	attr_protected :id, :salt, :is_admin, :verified
+	attr_protected :id, :salt, :is_admin
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :emaileventreminder, :emailsubscription, :email_permissions
+	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions
 
 	# Has One Connections
 	has_one :login_token
 	has_one :teacher
 
+	# Migrated from teacher.rb
+	has_many :applications
+	has_many :videos, :dependent => :destroy
+	has_many :interviews
+	has_many :awards, :dependent => :destroy
+	has_many :presentations, :dependent => :destroy
+	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
+  	has_and_belongs_to_many :credentials
+  	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
+  	has_many :assets, :dependent => :destroy
+  	has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'
+  	has_and_belongs_to_many :grades, :join_table => 'grades_teachers'
+  	validates_associated :assets
+  	validates_uniqueness_of :slug, :message => "The name you selected is not available."
+
 	# Has Many Connections
 	has_many :activities, :order => 'created_at DESC'
 	has_many :administered_schools, :through => :school_administrators, :source => :school
 	has_many :analytics
-	has_many :applications, :through => :teacher
 	has_many :connection_invites
 	has_many :connection_invites, :dependent => :destroy
 	has_many :connections, :foreign_key => 'owned_by', :dependent => :destroy
@@ -43,7 +66,6 @@ class User < ActiveRecord::Base
 	has_many :skills, :through => :skill_claims
 	has_many :technologies, :through => :technology_users
 	has_many :technology_users, :dependent => :destroy
-	has_many :videos, :through => :teacher
 	has_many :vouched_skilled_groups
 	has_many :vouched_skills, :dependent => :destroy
 	has_many :whiteboards
@@ -83,7 +105,25 @@ class User < ActiveRecord::Base
 
 	# Callbacks in order or processing
 	before_create :set_full_name
+    after_create :after_create
 	#after_save :add_ab_test_data
+    
+    def after_create
+        # Create invite code
+        create_invite_code
+
+        # Create guest code
+        create_guest_code
+
+        # Create slug for the url
+        self.update_attribute(:slug, "#{id}#{first_name}#{last_name}".downcase.parameterize)
+        
+        # Add to the Tioki technology
+        TechnologyUser.create(:user => self, :technology_id => 15)
+        
+        # Send out welcome email
+        UserMailer.user_welcome_email(self).deliver
+    end
 
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
@@ -130,9 +170,10 @@ class User < ActiveRecord::Base
 		end
 		@schools.map(&:destroy)
 
+		# Migration
 		# Delete Teachers
-		@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
-		@teachers.map(&:destroy)
+		#@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
+		#@teachers.map(&:destroy)
 
 		# Delete Shared Users
 		@sharedusers = SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
@@ -142,20 +183,13 @@ class User < ActiveRecord::Base
 		@sharedschools = SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
 		@sharedschools.map(&:destroy)
 
-		# Delete all Applications
-		@applications = Application.find(:all, :conditions => ['teacher_id = ?', self.id])
-		@applications.each do |application|
-			@activities = Activity.find(:all, :conditions => ['application_id = ?', application.id])
-			@activities.map(&:destroy)
-		end
-		@applications.map(&:destroy)
-
 		# Delete all Connections
 		@connections = Connection.mine(:user => self.id)
 		@connections.map(&:destroy)
 	end
 
 	def completion
+		return 0
 
 		# Only update progress if the model is over a day old or empty
 		if self.updated_at < Time.new.yesterday || super.nil? || super == 0
@@ -212,59 +246,6 @@ class User < ActiveRecord::Base
 		@message.save
 	end
 
-	def create_teacher
-		# Set the teacher to a shorter variable
-		t = self.teacher
-
-		# If there is already a teacher model connected
-		# then don't create a new teacher
-		if t.nil?
-
-			# Crate a new teacher
-			t = Teacher.new(:user => self)
-
-			# Link up the current user
-			t.user_id = self.id
-
-			# Generate a guest pass
-			t.create_guest_pass
-
-			#generate an invite code
-			self.create_invite_code
-
-			# Generate a profile url
-			url = Random.rand(10..99).to_s + self.id.to_s + self.name
-
-			# Remove bad url characters
-			url = url.parameterize('')
-
-			# Downcase the URL
-			t.url = url.downcase
-
-			# Add the tioki technology :D
-			TechnologyUser.create(:user => self, :technology_id => 15)
-
-			# Save it
-			t.save!
-
-			# Send welcome email
-			UserMailer.teacher_welcome_email(self.id).deliver
-		end
-
-		# Return
-		return t
-
-		# Nothing from here to "end" is being run
-		@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer.yml'))).result)[Rails.env]
-		@message = Message.new
-		@message.user_id_from = @mailer["from"].to_i
-		@message.user_id_to = self.id
-		@message.subject = @mailer["subject"]
-		@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
-		@message.read = false
-		@message.save
-	end
-
 	def distance(find, level = 1, delve = false, scanned = [])
 
 		# Dont go to deep
@@ -311,7 +292,7 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.facebook_oauth_token.present?
+		self.authorizations[:facebook_oauth_token].present?
 	end
 
 	def got_started
@@ -484,16 +465,6 @@ class User < ActiveRecord::Base
 		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
-	def self.verify!(user_id, verification_code)
-		u=find(user_id)
-		if (u.present? && u.verification_code == verification_code)
-			u.is_verified = true
-			u.save!(false)
-		else
-			raise "verification code does not match email or unregistered email"
-		end
-	end
-
 	def send_new_password
 		new_pass = User.random_string(10)
 		self.update_attribute(:password, new_pass)
@@ -526,9 +497,9 @@ class User < ActiveRecord::Base
 		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL and donors_choose = true and created_at < ?', self.id, "2012-10-22 20:00:00")
 	end
 
-	def teacher
-		return(Teacher.find(:first, :conditions => {:user_id => id}))
-	end
+	#def teacher
+	#	return(Teacher.find(:first, :conditions => {:user_id => id}))
+	#end
 
 	def tioki_bucks
 		tioki_bucks = 0
@@ -561,7 +532,7 @@ class User < ActiveRecord::Base
 	end
 
 	def twitter_auth?
-		self.twitter_oauth_token && self.twitter_oauth_secret
+		self.authorizations[:twitter_oauth_token].present? && self.authorizations[:twitter_oauth_secret].present?
 	end
 
 	def update_login_count
@@ -597,6 +568,130 @@ class User < ActiveRecord::Base
 
 	def vouched_skill_groups
 		SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
+	end
+    
+    # Migrated from teacher.rb
+    def profile_link(attrs = {})
+        # Parse attrs
+        _attrs = []; attrs.each do |k,v|
+            # Make sure not a symbol
+            k = k.to_s if k.is_a?(Symbol)
+            next if k == 'href'
+            # Add to attrs array
+            _attrs << "#{k}=\"#{v}\""
+        end; attrs = _attrs.join(' ')
+        
+        # Return the link to the profile
+        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{self.name}</a>".html_safe
+    end
+    
+    # Migrated from teacher.rb
+    def has_social?
+        !self.social.empty?
+    end
+    
+    # Migrated from teacher.rb
+    def me?
+        !User.current.nil? && User.current == self
+    end
+    
+    # Migrated from teacher.rb
+    def create_guest_code
+        guest_code = rand(36**8).to_s(36)
+        self.update_attribute(:guest_code, guest_code)
+    end
+    
+    # Migrated from teacher.rb
+    def video
+        # Review
+        #v = videos.where(`featured` = ?, true).first
+        v = videos.order('`created_at` DESC').first if v.nil?
+        return v
+    end
+    
+    # Get my current job
+    def currentJob
+        experiences.where(:current => true).first
+    end
+
+	def self.search(args = {})
+
+		if args[:email]
+			# Only one person can have this email
+			return where(:email => args[:email])
+		end
+
+		tup = SmartTuple.new(" AND ")
+
+		if args[:skill]
+			tup << ["skills.id = ?", args[:skill]]
+		end
+
+		if args[:skills]
+			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
+		end
+
+		if args[:name]
+			args[:name].split.each do |token|
+				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
+			end
+		end
+
+		if args[:school]
+			args[:school].split.each do |token|
+				tup << ["experiences.company LIKE ? OR experiences.company LIKE ?", "#{token}%", "% #{token}%"]
+			end
+		end
+
+		if args[:schools]
+			# Will be eact messages
+			subtup = SmartTuple.new(" OR ")
+
+			params[:schools].each do |school|
+				subtup << ["experiences.company = ?", school]
+			end
+
+			tup << subtup
+		end
+
+		find(:all, :include => [:skills, :experiences], :conditions => tup.compile)
+	end
+
+	def new_asset_attributes=(asset_attributes) 
+		assets.build(asset_attributes)
+	end
+
+	def save_assets 
+		assets.each do |asset| 
+			asset.save
+		end
+	end
+	
+	def snippet_watchvideo_button
+		@video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+		if @video != nil
+			embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
+
+			begin
+				if @video.encoded_state == 'queued'
+					Zencoder.api_key = 'ebbcf62dc3d33b40a9ac99e623328583'
+					@status = Zencoder::Job.progress(@video.job_id)
+					if @status.body['outputs'][0]['state'] == 'finished'
+						@video.encoded_state = 'finished'
+						@video.save
+						return embedstring
+					else
+						return ""
+					end
+				else 
+					return embedstring
+				end
+			rescue
+				return ""
+			end
+		else
+			return ""
+		end
 	end
 
 	protected

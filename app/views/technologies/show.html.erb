@@ -137,9 +137,9 @@
 			<div class="item_jobs">
 				<div class="item_picture">
 					<% if user.avatar? %>
-						<%= link_to image_tag(user.avatar.url(:thumb)), '/profile/' + user.teacher.url %>
+						<%= link_to image_tag(user.avatar.url(:thumb)), '/profile/' + user.slug %>
 					<% else %>
-						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/' + user.teacher.url %>
+						<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), '/profile/' + user.slug %>
 					<% end %>
 				</div>
 

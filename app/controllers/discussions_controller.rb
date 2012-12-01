@@ -1,6 +1,5 @@
 class DiscussionsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :reply_nologin]
-	before_filter :teacher_required, :except => [:index, :show, :reply_nologin]
 
   # GET /discussions
   # GET /discussions.json
@@ -84,7 +83,7 @@ class DiscussionsController < ApplicationController
 				end
 
 				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.teacher.profile_link} created a new discussion {tag.link}.", @discussion)
+				Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
 				
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
 				format.json { render json: @discussion, status: :created, location: @discussion }
@@ -270,12 +269,12 @@ class DiscussionsController < ApplicationController
 		@referral = params[:referral]
 
 		# Interpret the post data from the form
-		@teachername = @referral[:teachername]
+		@name = @referral[:teachername]
 		@emails = @referral[:emails]
 		@message = @referral[:message]
 
 		# Swap out any instances of [name] with the name of the sender
-		@message = @message.gsub("[name]", @teachername);
+		@message = @message.gsub("[name]", @name);
 
 		# Swap out all new lines with line breaks
 		@message = @message.gsub("\n", '<br />');
@@ -284,7 +283,7 @@ class DiscussionsController < ApplicationController
 		user = self.current_user unless self.current_user.nil?
 
 		# Send out the email to the list of emails
-		UserMailer.discussion_invite_email(@teachername, @emails, @message, @discussion, user).deliver
+		UserMailer.discussion_invite_email(@name, @emails, @message, @discussion, user).deliver
 
 		# Return user back to the home page 
 		redirect_to discussion_path(@discussion), :notice => 'Email Sent Successfully'
