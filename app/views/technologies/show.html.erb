@@ -145,10 +145,10 @@
 
 				<div id ="connection_desc">
 					<strong><%= link_to user.name, '/profile/' + user.slug.to_s, :style => "color:#F66C4C" %></strong><br />
-					<% if user.teacher.position.present? && user.teacher.school.present?%>
-						<%= user.teacher.position %> at <%= user.teacher.school %>
+					<% if user.currentJob.position.present? && user.currentJob.company.present?%>
+						<%= user.currentJob.position %> at <%= user.currentJob.company %>
 					<% end %><br />
-					<%= user.teacher.location %><br /><br />
+					<%= user.location %><br /><br />
 					<div>
 						<% if !self.current_user.nil? %>
 							<% unless self.current_user == user %>
