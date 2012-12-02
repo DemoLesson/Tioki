@@ -440,9 +440,9 @@ class UsersController < ApplicationController
 	end
 
 	def donors_choose_list
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
-								  "2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+		@users = User.joins(:connection_invites).find(:all, 
+			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def referral_user_list
