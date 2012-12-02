@@ -511,7 +511,7 @@ class UserMailer < ActionMailer::Base
 		vouchee = User.find(vouchee_id)
 		voucher = User.find(voucher_id)
 		email = vouchee.email
-		@profile_name = vouchee.teacher.url
+		@profile_name = vouchee.slug
 		@vouched_skills = VouchedSkill.find(:all, :conditions => ["user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, start_time], :limit => 6)
 		@sender_name = voucher.name
 		@receiver_name = vouchee.name

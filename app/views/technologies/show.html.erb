@@ -144,14 +144,14 @@
 				</div>
 
 				<div id ="connection_desc">
-					<strong><%= link_to user.name, '/profile/' + user.teacher.url.to_s, :style => "color:#F66C4C" %></strong><br />
-					<% if user.teacher.position.present? && user.teacher.school.present?%>
-						<%= user.teacher.position %> at <%= user.teacher.school %>
+					<strong><%= link_to user.name, '/profile/' + user.slug.to_s, :style => "color:#F66C4C" %></strong><br />
+					<% if user.currentJob.position.present? && user.currentJob.company.present?%>
+						<%= user.currentJob.position %> at <%= user.currentJob.company %>
 					<% end %><br />
-					<%= user.teacher.location %><br /><br />
+					<%= user.location %><br /><br />
 					<div>
-						<% if !self.current_user.nil? && self.current_user.teacher %>
-							<% unless self.current_user.teacher == user.teacher%>
+						<% if !self.current_user.nil? %>
+							<% unless self.current_user == user %>
 								<% if Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
 									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green"} %>
 								<% else %>

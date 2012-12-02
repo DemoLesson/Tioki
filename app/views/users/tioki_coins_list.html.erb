@@ -29,6 +29,7 @@
 				<%- @teachers.each do |teacher| %>
 					<tr>
 						<td>
+							<% # WTF %>
 							<%= link_to teacher.user.name, "/profile/#{teacher.user.teacher.url}" %>
 						</td>
 						<td><%= link_to teacher.user.email, 'mailto:' +teacher.user.email %></td>

@@ -58,6 +58,7 @@ class Notification < ActiveRecord::Base
 
 			if comments.size != 0
 				discussion.following_and_participants.each do |user|
+					next if user.nil?
 
 					#remove comments created by this user
 					comments.reject! { |comment| comment.user_id == user.id }

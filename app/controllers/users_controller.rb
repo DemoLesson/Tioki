@@ -440,16 +440,16 @@ class UsersController < ApplicationController
 	end
 
 	def donors_choose_list
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
-								  "2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+		@users = User.joins(:connection_invites).find(:all, 
+			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def referral_user_list
-		#after ddonors choose before tioki bucks
-		@teachers = Teacher.joins(:user => :connection_invites).find(:all, 
-																	 :conditions => ['teachers.user_id = users.id && connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
-								  "2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
+		#after donors choose before tioki bucks
+		@users = User.joins(:connection_invites).find(:all, 
+			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
+			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -744,13 +744,13 @@ class UsersController < ApplicationController
 			@tioki_bucks += 5
 		end
 
-		if self.current_user.teacher.facebook_connect
+		if !self.current_user.social_actions['facebook_connect'].nil?
 			@tioki_bucks += 1
 		end
-		if self.current_user.teacher.twitter_connect
+		if !self.current_user.social_actions['twitter_connect'].nil?
 			@tioki_bucks += 1
 		end
-		if self.current_user.teacher.tweet_about
+		if !self.current_user.social_actions['tweet_about'].nil?
 			@tioki_bucks += 1
 		end
 	end
@@ -769,7 +769,7 @@ class UsersController < ApplicationController
 
 				redirect_to client.request_token.authorize_url
 			elsif params[:response] == 'no'
-				redirect_to '/profile/'+self.current_user.teacher.url
+				redirect_to '/profile/'+self.current_user.slug
 			end
 		end
 	end

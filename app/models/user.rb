@@ -34,8 +34,8 @@ class User < ActiveRecord::Base
   	has_and_belongs_to_many :credentials
   	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
   	has_many :assets, :dependent => :destroy
-  	has_and_belongs_to_many :subjects, :join_table => 'subjects_teachers'
-  	has_and_belongs_to_many :grades, :join_table => 'grades_teachers'
+  	has_and_belongs_to_many :subjects
+  	has_and_belongs_to_many :grades
   	validates_associated :assets
   	validates_uniqueness_of :slug, :message => "The name you selected is not available."
 

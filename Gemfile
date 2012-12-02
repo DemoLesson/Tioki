@@ -156,3 +156,6 @@ gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exception
 gem 'graylog2-resque'
 
 gem "kvpair", :git => "git://github.com/KellyLSB/KVPair.git"
+
+# New Relic
+gem 'newrelic_rpm'
