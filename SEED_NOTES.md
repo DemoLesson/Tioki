@@ -1,3 +1,9 @@
+v3.0.7 - Dec 1, 2012  4:33PM PST deployed by Aleks Stanisic
+===========================================================
+* 5d3897e: Elijah Green - Fix donors_choose_list
+* a20da6a: Elijah Green - Fix technologies/show
+* 53b5ed2: Elijah Green - Remove accidently commited file
+
 v3.0.6 - Dec 1, 2012  3:33PM PST deployed by Kelly Becker
 =========================================================
 * 51e4d54: Kelly Becker - more discussions issues
