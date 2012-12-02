@@ -1,3 +1,8 @@
+v3.0.9 - Dec 1, 2012  7:14PM PST deployed by Aleks Stanisic
+===========================================================
+* 2da27c1: Aleks Stanisic - added analytics to groups
+* 8de0212: Elijah Green - Differentiate educators and recruiters on admin page
+
 v3.0.8 - Dec 1, 2012  5:27PM PST deployed by Aleks Stanisic
 ===========================================================
 * e5114b7: Aleks Stanisic - table fix for grades
