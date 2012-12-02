@@ -84,7 +84,8 @@ class DiscussionsController < ApplicationController
 
 				# Tell the whiteboard about this new discussion
 				Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
-				
+				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
+
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
 				format.json { render json: @discussion, status: :created, location: @discussion }
 			else
@@ -139,6 +140,7 @@ class DiscussionsController < ApplicationController
 						end
 					end
 				end
+				self.log_analytic(:discussion_comment, "User posted comment in discussion.", @discussion, [], :discussions)
 				redirect_to  @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
@@ -161,6 +163,7 @@ class DiscussionsController < ApplicationController
 						end
 					end
 				end
+				self.log_analytic(:discussion_comment_reply, "User posted reply to comment in discussion.", @discussion, [], :discussions)
 				redirect_to @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
@@ -192,6 +195,7 @@ class DiscussionsController < ApplicationController
 		@follower = Follower.new(:discussion => @discussion, :user => self.current_user)
 		if @follower.save
 			redirect_to :back, :notice => "You are now following this discussion."
+			self.log_analytic(:discussion_follow, "User has followed discussion.", @discussion, [], :discussions)
 		else
 			redirect_to :back, :notice => "Unable to follow."
 		end
@@ -289,6 +293,9 @@ class DiscussionsController < ApplicationController
 		# Send out the email to the list of emails
 		UserMailer.discussion_invite_email(@name, @emails, @message, @discussion, user).deliver
 
+		#Log in analytics
+		self.log_analytic(:discussion_email_invite, "User email invite to discussion.", @discussion, [], :discussions)
+
 		# Return user back to the home page 
 		redirect_to discussion_path(@discussion), :notice => 'Email Sent Successfully'
 	end
@@ -311,7 +318,9 @@ BODY
 			Message.send!(user, :subject => subject, :body => body.html_safe)
 		end
 
-		flash[:success] = "Share successfully."
+		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
+
+		flash[:success] = "Share successfull."
 		return redirect_to :back
 	end
 
