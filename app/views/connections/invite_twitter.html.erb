@@ -1,0 +1,82 @@
+<section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
+<!-- Include these scripts to import address books with CloudSponge -->
+<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
+<script type="text/javascript" charset="utf-8">
+	var csPageOptions = {
+domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
+		   textarea_id:"emails"
+	};
+</script>
+	<section class="sidebar">
+		<ul>
+			<li>
+				<a href="/inviteconnections">
+					Email
+				</a>
+			</li>
+			<li class="current">
+					Twitter
+			</li>
+			<li>
+				<a href="/inviteconnections/facebook">
+				Facebook
+				</a>
+			</li>
+			<li>
+				<a href="/inviteconnections/gmail">
+					Gmail
+				</a>
+			</li>
+			<li>
+				<a href="/inviteconnections/yahoo">
+					Yahoo
+				</a>
+			</li>
+		</ul>
+	</section>
+
+	<section id="panels">
+		<section id="whiteboard" class="two-column right-side" style="">
+			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
+			<h2 style="margin-top:0px;color:black">
+				TWITTER
+			</h2>
+			<p>
+				We couldn't find any of your Twitter followers because you haven't connected Twitter and Tioki. Click the button below to connect.
+			</p>
+			<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
+				<h4 style="margin:10px 0 0 25px">
+					Find Friends from Twitter
+					<%= image_tag '/assets/Tioki/icons/twitter4.png', :style => "width:30px;margin-bottom:-7px;margin-left:5px" %>
+				</h4>
+			</section>
+		</section>
+	</section>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: 'http://www.tioki.com/dc/<%= self.current_user.invite_code %>',
+			text: 'I just joined Tioki; a professional networking site for educators. You should connect with me!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
+</section>
