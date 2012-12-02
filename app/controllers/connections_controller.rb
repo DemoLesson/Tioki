@@ -78,6 +78,7 @@ class ConnectionsController < ApplicationController
 				end
 
 				# Notify the other user of my connection request
+				self.log_analytic(:connection_request, "New connection request.", @connection, [], :connections)
 				UserMailer.userconnect(a, b).deliver
 
 				# If respond is set to true then lets redirect
