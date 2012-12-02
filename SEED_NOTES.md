@@ -1,3 +1,7 @@
+v3.0.8 - Dec 1, 2012  5:27PM PST deployed by Aleks Stanisic
+===========================================================
+* e5114b7: Aleks Stanisic - table fix for grades
+
 v3.0.7 - Dec 1, 2012  4:33PM PST deployed by Aleks Stanisic
 ===========================================================
 * 5d3897e: Elijah Green - Fix donors_choose_list
