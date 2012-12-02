@@ -1,3 +1,46 @@
+v3.0.9 - Dec 1, 2012  7:14PM PST deployed by Aleks Stanisic
+===========================================================
+* 2da27c1: Aleks Stanisic - added analytics to groups
+* 8de0212: Elijah Green - Differentiate educators and recruiters on admin page
+
+v3.0.8 - Dec 1, 2012  5:27PM PST deployed by Aleks Stanisic
+===========================================================
+* e5114b7: Aleks Stanisic - table fix for grades
+
+v3.0.7 - Dec 1, 2012  4:33PM PST deployed by Aleks Stanisic
+===========================================================
+* 5d3897e: Elijah Green - Fix donors_choose_list
+* a20da6a: Elijah Green - Fix technologies/show
+* 53b5ed2: Elijah Green - Remove accidently commited file
+
+v3.0.6 - Dec 1, 2012  3:33PM PST deployed by Kelly Becker
+=========================================================
+* 51e4d54: Kelly Becker - more discussions issues
+* 04accdd: Elijah Green - Fix referral user list
+* c2891a9: Elijah Green - remove reference to teacher in presentations
+* e0b5faf: Elijah Green - Fix discussions/show (was checkin for teacher)
+* 2086b6a: Elijah Green - Fix linkedin import
+
+v3.0.5 - Dec 1, 2012  3:15PM PST deployed by Kelly Becker
+=========================================================
+* 2ce23ec: Kelly Becker - merge
+* 521bc71: Kelly Becker - updated links
+* 654d2a3: Elijah Green - fix some bad links on the profile
+
+v3.0.4 - Dec 1, 2012  3:02PM PST deployed by Aleks Stanisic
+===========================================================
+* 191e424: Elijah Green - Fix admin page
+* 2cfe5e0: Elijah Green - Fix non-discussion comments
+
+v3.0.3 - Dec 1, 2012  2:09PM PST deployed by Kelly Becker
+=========================================================
+* 5644a10: Kelly Becker - profile stats update
+* 88bb90f: Kelly Becker - merge cleanup
+* e7e2538: Kelly Becker - merge teachers
+* e7c40fe: Kelly Becker - skip creating a notification if user.nil?
+* bff0635: Elijah Green - Fix credentials on step4 of application wizard
+* 78e105c: Elijah Green - Check if user is deleted when notifing for disucssions
+
 v3.0.2 - Dec 1, 2012  1:26PM PST deployed by Kelly Becker
 =========================================================
 * 15380c1: Kelly Becker - newrelic config

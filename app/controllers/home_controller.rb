@@ -59,7 +59,7 @@ class HomeController < ApplicationController
 
 				@pendingcount = self.current_user.pending_connections.count
 
-				@profile_views = self.get_analytics(:view_teacher_profile, self.current_user, nil, nil, true).count
+				@profile_views = self.get_analytics(:view_user_profile, self.current_user, nil, nil, true).count
 
 				@user = User.find(self.current_user)
 

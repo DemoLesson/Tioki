@@ -2114,7 +2114,7 @@
 <pre class="code ruby"><code>  if request.post?
     if params[:role] == 'teacher'
       self.current_user.create_teacher
-      self.current_user.default_home = teacher_path(self.current_user.teacher.id)
+      self.current_user.default_home = teacher_path(self.current_user.id)
       UserMailer.teacher_welcome_email(self.current_user).deliver
 
       redirect_to current_user.default_home

@@ -125,8 +125,8 @@ class AuthenticationsController < ApplicationController
 				if education.end_date
 					year = education.end_date.year
 				end
-				@user.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
-				@user.save
+				education = @user.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
+				education.save
 			end
 		end
 
@@ -155,8 +155,8 @@ class AuthenticationsController < ApplicationController
 					endYear = position.end_date.year
 					current = false
 				end
-				@user.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
-				@user.save
+				experience = @user.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
+				experience.save
 			end
 		end
 
@@ -174,26 +174,6 @@ class AuthenticationsController < ApplicationController
 		if phone != nil
 			@user.contact << {:phone => phone}
 		end
-
-		#Addtional Information:
-		addinfo = ""
-		#Interests
-		user =client.profile(:fields => %w(interests))
-		if user.interests != nil
-			addinfo = "Interests: " + user.interests
-		end
-		#groups and associations
-		user =client.profile(:fields => %w(associations))
-		if user.associations != nil
-			addinfo = addinfo + "\nGroups and Associations: " + user.associations
-		end
-		#honors
-		user =client.profile(:fields => %w(honors))
-		if user.honors != nil
-			addinfo = addinfo + "\nHonors: " + user.honors
-		end
-		# Deprecate ?
-		#@teacher.update_attribute(:additional_information, addinfo)
 
 		#Linkedin integration is currently a one time thing so deleting session keys
 		#and redirecting to profile like create_profile does

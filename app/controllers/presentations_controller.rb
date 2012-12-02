@@ -3,7 +3,6 @@ class PresentationsController < ApplicationController
   # GET /presentations.json
   def index
     @presentations = self.current_user.presentations
-    @teacher = User.find(self.current_user.id)
 
     respond_to do |format|
       format.html # index.html.erb

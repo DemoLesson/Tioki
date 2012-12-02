@@ -269,9 +269,9 @@
 			<% if @user.educations.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
-					<%= link_to "Education", "/me/profile/edit/education", :style => "color:#4D4D4D" %>
+					<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>
 					<span style="font-size:16px; margin-left:5px">
-						<a href="/me/profile/edit/education">  >> Where did you get that awesome brain of Yours?</a>
+						<a href="/me/profile/edit/educations">  >> Where did you get that awesome brain of Yours?</a>
 					</span>
 					</h3>
 				</section>
@@ -284,8 +284,8 @@
 				<section class="profile-info group">
 					<% if !self.current_user.nil? && @self %>
 						<h3 class="bottom-line">
-							<%= link_to "Education", "/me/profile/edit/education", :style => "color:#4D4D4D" %>	
-							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/education" %>
+							<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/educations" %>
 						</h3>
 					<% else %>
 						<h3 class="bottom-line">
@@ -334,9 +334,9 @@
 			<% if @user.experiences.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
-						<%= link_to "Work Experience", "/me/profile/edit/experience", :style => "color:#4D4D4D" %>
+						<%= link_to "Work Experience", "/me/profile/edit/experiences", :style => "color:#4D4D4D" %>
 						<span style="font-size:16px; margin-left:5px">
-							<a href="/me/profile/edit/experience"> >> How did you get so good at this?</a>
+							<a href="/me/profile/edit/experiences"> >> How did you get so good at this?</a>
 						</span>
 					</h3>
 				</section><br />
@@ -349,8 +349,8 @@
 				<section class="profile-info group">
 					<% if @self %>
 						<h3 class="bottom-line">
-							<%= link_to "Experience", "/me/profile/edit/experience", :style => "color:#4D4D4D" %>	
-							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/experience" %>
+							<%= link_to "Experience", "/me/profile/edit/experiences", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/experiences" %>
 						</h3>
 					<% else %>
 						<h3 class="bottom-line">

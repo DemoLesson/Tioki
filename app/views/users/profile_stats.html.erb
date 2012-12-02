@@ -70,6 +70,7 @@
 				<h3>Who has viewed your profile</h3>
 				<ul>
 					<% @viewed.each do |view| %>
+						<% if view.user.nil?; view.destroy; next; end; %>
 						<li style="display:block;">
 							<div class="profile-thumb-small" style="float:left;">
 								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.slug}" if view.user.avatar? && !view.user.nil? %>

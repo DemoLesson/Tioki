@@ -18,7 +18,7 @@
 <p style= "font-size: 20px; margin: 0; padding: 0;"><strong>Website Users</strong></p>
 <table border="1" cellpadding="10">
   <tr>
-    <th>Teacher Name</th>
+    <th>User Name</th>
     <th>Email</th>
     <th>Registered</th>
     <th>Last Login</th>
@@ -26,34 +26,33 @@
     <th>Referrals-since-start</th>
     <th>People Reffered<th>
   </tr>
-<%- @teachers.each do |teacher| %>
+<%- @users.each do |user| %>
   <tr>
     <td>
-      <%= link_to teacher.user.name, "/profile/#{teacher.url}" %>
-      <%= teacher.user.name if teacher.nil? %>
+      <%= link_to user.name, "/profile/#{user.slug}" %>
     </td>
-    <td><%= link_to teacher.user.email, 'mailto:' + teacher.user.email %></td>
-    <td><%= teacher.user.created_at.to_formatted_s(:long) %></td>
+    <td><%= link_to user.email, 'mailto:' + user.email %></td>
+    <td><%= user.created_at.to_formatted_s(:long) %></td>
     <td>
-      <% if teacher.user.last_login? %>
-        <%= teacher.user.last_login.to_formatted_s(:long) %>
+      <% if user.last_login? %>
+        <%= user.last_login.to_formatted_s(:long) %>
       <% else %>
         Unknown
       <% end %>
     </td>
     <td>
-      <% if teacher.user.login_count? %>
-        <%= teacher.user.login_count.to_s %>
+      <% if user.login_count? %>
+        <%= user.login_count.to_s %>
       <% else %>
         Unknown
       <% end %>
     </td>
     <td>
-      <%= teacher.user.successful_referrals.size %>
+      <%= user.successful_referrals.size %>
     </td>
     <td>
       <% numOfReferrals = 1 %>
-      <% teacher.user.successful_referrals.each do |referral| %>
+      <% user.successful_referrals.each do |referral| %>
 				<% if referral.created_user && referral.created_user.created_at < "2012-10-22 20:00:00" %>
 					<%= numOfReferrals %>. <% if referral.created_user %><%= referral.created_user.name %>- <%= referral.created_user.email %><% end %><br />
 					<% numOfReferrals +=1 %>
@@ -63,7 +62,7 @@
   </tr>
 <% end -%>
 </table>
-<%= will_paginate @teachers %>
+<%= will_paginate @users %>
 
 </div>
 
