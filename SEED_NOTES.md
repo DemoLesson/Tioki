@@ -1,3 +1,11 @@
+v3.0.10 - Dec 2, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 798b934: Elijah Green - fix video watch snippet
+* 6c56a0a: Aleks Stanisic - added analytics to messages
+* 56db5b9: Aleks Stanisic - added analytics to discussions
+* c9d0431: Aleks Stanisic - adding analytics for connection requests
+* 00cb825: Brian Martinez - changes to invite pages
+
 v3.0.9 - Dec 1, 2012  7:14PM PST deployed by Aleks Stanisic
 ===========================================================
 * 2da27c1: Aleks Stanisic - added analytics to groups
