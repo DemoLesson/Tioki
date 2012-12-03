@@ -51,21 +51,29 @@
 				</section>
 			</div>
 			
-			<!-- Display this paragraph is this person has friends on the site -->
-			<p class="preselected" style="display:none;">
-				Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.
-				<br />
-				<a href="#select" class="button" style="color:#fff">Select All</a>
-				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
-			</p>
 			
-			<!-- Display this paragraph otherwise -->
-			<p class="no-pre" style="display:none;">
-				Select some contacts that you would like to connect with.
-				<br />
-				<a href="#select" class="button" style="color:#fff">Select All</a>
-				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
-			</p>
+			<div id="email_header" style="display:none">
+
+				<!-- Display this paragraph is this person has friends on the site -->
+				<p class="preselected" style="display:none;">
+					Great news! Some of your contacts are already on Tioki. We have selected them for you below in orange. Select a few more that you would like to connect with.
+					<br />
+					<a href="#select" class="button" style="color:#fff">Select All</a>
+					<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+				</p>
+
+				<!-- Display this paragraph otherwise -->
+				<p class="no-pre" style="display:none;">
+					Select some contacts that you would like to connect with.
+					<br />
+					<a href="#select" class="button" style="color:#fff">Select All</a>
+					<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+				</p>
+
+				<div style="float:right">
+					<%= submit_tag "Invite" %> 
+				</div>
+			</div>
 			
 			<div id="twitter_header" style="display:none">
 				<p>
@@ -175,7 +183,7 @@
 			ref.parentNode.insertBefore(js, ref);
 		}(document, /*debug*/ false));
 
-		$('a[href="#facebook_contact"]').live('click', function() {
+		$('a[href="#facebook_contact"]').live('click', function(e) {
 			var facebook_id  = $(this).attr('data-contact-id');
 			var facebook_contact = $(this);
 

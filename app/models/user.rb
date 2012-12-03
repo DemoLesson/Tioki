@@ -293,7 +293,7 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.authorizations[:facebook_oauth_token].present?
+		self.authorizations[:facebook_access_token].present?
 	end
 
 	def got_started
