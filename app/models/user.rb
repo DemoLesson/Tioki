@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
 	has_many :vouched_skilled_groups
 	has_many :vouched_skills, :dependent => :destroy
 	has_many :whiteboards
+	has_many :schools, :foreign_key => :owned_by, :dependent => :destroy
 
 	# Many to Many Connections
 	has_and_belongs_to_many :groups, :join_table => 'users_groups'
@@ -668,7 +669,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def snippet_watchvideo_button
-		@video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+		@video = Video.find(:first, :conditions => ['user_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
 		if @video != nil
 			embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
 

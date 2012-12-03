@@ -1,3 +1,28 @@
+v3.0.12 - Dec 3, 2012  9:16AM PST deployed by Kelly Becker
+==========================================================
+* 9028244: Kelly Becker - user slugs
+
+v3.0.11 - Dec 2, 2012 11:22PM PST deployed by Aleks Stanisic
+============================================================
+* 922b7d8: Aleks Stanisic - message fix
+
+v3.0.10 - Dec 2, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 798b934: Elijah Green - fix video watch snippet
+* 6c56a0a: Aleks Stanisic - added analytics to messages
+* 56db5b9: Aleks Stanisic - added analytics to discussions
+* c9d0431: Aleks Stanisic - adding analytics for connection requests
+* 00cb825: Brian Martinez - changes to invite pages
+
+v3.0.9 - Dec 1, 2012  7:14PM PST deployed by Aleks Stanisic
+===========================================================
+* 2da27c1: Aleks Stanisic - added analytics to groups
+* 8de0212: Elijah Green - Differentiate educators and recruiters on admin page
+
+v3.0.8 - Dec 1, 2012  5:27PM PST deployed by Aleks Stanisic
+===========================================================
+* e5114b7: Aleks Stanisic - table fix for grades
+
 v3.0.7 - Dec 1, 2012  4:33PM PST deployed by Aleks Stanisic
 ===========================================================
 * 5d3897e: Elijah Green - Fix donors_choose_list
