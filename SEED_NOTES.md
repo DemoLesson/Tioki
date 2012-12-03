@@ -1,3 +1,7 @@
+v3.0.12 - Dec 3, 2012  9:16AM PST deployed by Kelly Becker
+==========================================================
+* 9028244: Kelly Becker - user slugs
+
 v3.0.11 - Dec 2, 2012 11:22PM PST deployed by Aleks Stanisic
 ============================================================
 * 922b7d8: Aleks Stanisic - message fix
