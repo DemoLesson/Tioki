@@ -6,7 +6,7 @@ task :normalize => :environment do
 		puts "Normalizing User:#{user.id} (#{user.name})"
 
 		# Get the name associated with the user
-		string = (("#{user.first_name} #{user.last_name}").strip || "#{user.name}").downcase
+		string = (("#{user.first_name} #{user.last_name}").strip || "#{user.name}").downcase.squeeze(' ')
 
 		# Split on
 		splits = ['mc','\'','-',' ']

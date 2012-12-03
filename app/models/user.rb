@@ -475,15 +475,15 @@ class User < ActiveRecord::Base
 	end
 
 	def before_save
+
+		# Name normalization
 		if !(self.changed & ['first_name', 'last_name', 'name']).empty?
 			# Get the name associated with the user
 			if !(self.changed & ['first_name', 'last_name']).empty?
-				string = "#{self.first_name} #{self.last_name}".strip.downcase
+				string = "#{self.first_name} #{self.last_name}".strip.downcase.squeeze(' ')
 			elsif self.changed.include?('name')
-				string = "#{self.name}".downcase
+				string = "#{self.name}".downcase.squeeze(' ')
 			end
-
-			puts string
 
 			# Split on
 			splits = ['mc','\'','-',' ']
@@ -497,9 +497,8 @@ class User < ActiveRecord::Base
 			self.first_name = (names = string.split(' ')).first
 			self.last_name = names.last
 			self.name = string
-
-			puts "Changed: " + self.changed.join(', ')
 		end
+
 	end
 
 	def sharedschool
