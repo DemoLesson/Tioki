@@ -910,6 +910,7 @@ class UsersController < ApplicationController
 
 		# Review
 		# Why is this here?
+		# Before Tioki, there were buttons that only the school user could see on the teacher profile. Those buttons included, requesting an interview or removing them from the application. We will have to add those acctions back at some point. -Aleks 
 		# Load up an application
 		@application = nil
 		if params[:application] != nil
@@ -921,6 +922,12 @@ class UsersController < ApplicationController
 		if !self.current_user.nil?
 			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
 			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
+			# Get whiteboard activity
+			@whiteboard = Array.new
+			Whiteboard.getActivity(:first, :conditions => { :user_id => self.current_user.id}).paginate(:per_page => 15, :page => params[:page]).each do |post|
+				@post = post
+				@whiteboard << render_to_string('whiteboards/show', :layout => false)
+			end
 		end
 
 		# Filter Upcoming Events

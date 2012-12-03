@@ -8,7 +8,7 @@
 				<div style="float:right;margin-top:0px">
 				<!-- Connection Options -->
 				<% # IF this is my profile allow me to edit %>
-				<% if !self.current_user.nil? && self.current_user.teacher == @teacher %>
+				<% if !self.current_user.nil? %>
 					<a href="/me/profile/edit" class="action-button bg-salmon">
 						Edit My Profile
 					</a>
@@ -573,6 +573,15 @@
 		
 		<!-- START Checklist Content -->
 		<section class="profile-content">
+
+			<section class="panel two-column left-side">
+				<ul class="whiteboard">
+					<% @whiteboard.each do |post| %>
+						<%= raw post %>
+					<% end %>
+					<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
+				</ul>
+			</section>
 		
 			<% if @self %>
 				<% if !self.current_user.got_started %>
