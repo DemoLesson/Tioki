@@ -1,3 +1,7 @@
+v3.0.11 - Dec 2, 2012 11:22PM PST deployed by Aleks Stanisic
+============================================================
+* 922b7d8: Aleks Stanisic - message fix
+
 v3.0.10 - Dec 2, 2012  4:55PM PST deployed by Aleks Stanisic
 ============================================================
 * 798b934: Elijah Green - fix video watch snippet
