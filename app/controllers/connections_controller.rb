@@ -171,7 +171,7 @@ class ConnectionsController < ApplicationController
 	def my_connections
 		# Get all not pending connections
 		@connections = Array.new
-		Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).each do |connection|
+		Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).each do |connection|
 			@connection = connection
 			@connections << render_to_string("connections/show_my_connections", :layout => false)
 		end
