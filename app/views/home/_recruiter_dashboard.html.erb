@@ -1,4 +1,43 @@
 <section id="main-content" class="inner-content">
+	<section id="updates" style="margin-top:30px;">
+		<div class="profile-thumb-medium">
+			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
+			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
+		</div>
+		<div>
+			<h3 class="greeting">
+			Welcome back, <%= @user.first_name %>
+			</h3>
+			<ul class="stats">
+				<% if unread_messages > 0 %>
+					<li>
+						<a href="/messages">
+							<div class="count">
+							<span class="iconic mail" style="font-size:1.8em;line-height:0px;">
+							</span>
+							<%= unread_messages %>
+							</div>
+							New Messages
+						</a>
+					</li>
+				<% end %>
+				<% if Application.mine(:status => true).count > 0 %>
+					<li>
+						<a href="teacher_applications">
+							<div class="count applications">
+								<%= Application.mine(:status => true).count %>
+							</div>
+							Job Applications
+						</a>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+		<!--<a target="_blank" href="http://blog.tioki.com/schedule-featured-events/" class="action-button bg-salmon" style="float:right; margin-right:-30px; padding:12px 15px 12px 15px !important">
+			Featured Events Schedule
+		</a>-->
+	</section>
+
 	<p>
 		<span style="float:right">
 		<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
@@ -7,6 +46,7 @@
 			Welcome Back, <%= self.current_user.first_name %>	
 		</h2>
 	</p>
+
 	<section id="panels">
 		<section id="list" class="panel one-column left-side">
 			<h3>
