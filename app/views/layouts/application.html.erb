@@ -243,6 +243,19 @@
 						<a href="/">
 						Home
 						</a>
+						<% if !User.current.school.nil? %>
+							<ul>
+								<% if User.current.dashboard == 'recruiter' %>
+									<li>
+										<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
+									</li>
+								<% elsif !User.current.school.nil? %>
+									<li>
+										<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
+									</li>
+								<% end %>
+							</ul>
+						<% end %>
 					</li>
 					<% if User.current.dashboard == 'recruiter' %>
 						<li>

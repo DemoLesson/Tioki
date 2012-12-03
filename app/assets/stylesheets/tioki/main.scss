@@ -507,6 +507,16 @@ span.connection_degree {
 		font: 24px/1.0 $oswald;
 		color: $salmon;
 		font-weight: 300;
+
+		&.iconic {
+			padding-left: 0px;
+
+			span.iconic {
+				font-size: 2em;
+				line-height: 24px;
+				//vertical-align: 6px;
+			}
+		}
 	}
 	.connections {
 		background: url(image_path('tioki/icons/connections.png')) no-repeat;
