@@ -4,7 +4,7 @@ class EventMailer < ActionMailer::Base
   def approved(user, event)
   	
   	# If the user has opted out of receiving these emails then don't send them
-  	return unless user.emaileventapproved
+  	return unless user.email_permissions["event_approved_notification"]
 
   	@event = event
 

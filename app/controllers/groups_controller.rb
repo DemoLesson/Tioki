@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :members, :about]
-	before_filter :teacher_required, :except => [:index, :show, :members, :about]
+	
 
 	def index
 		@groups = Group.permissions('OR', :public => true, :private => true)
@@ -32,6 +32,9 @@ class GroupsController < ApplicationController
 				user_group.user_id = self.current_user.id
 				user_group.group_id = group.id
 				user_group.save
+
+				#Log into Analytics 
+				self.log_analytic(:group_creation, "New group was created.", group, [], :groups)
 				
 				# Add the first administrator
 				user_group.permissions = {:member => true, :moderator => true, :administrator => true}
@@ -118,9 +121,13 @@ class GroupsController < ApplicationController
 			redirect_to :back, :notice => "You have already added this group."
 		else
 			#add as member
-			group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id], :permissions => 1)
-			#self.log_analytic(:user_added_group, "A user added a group", group)
-			redirect_to :back, :notice => "Group was successfully added."
+			user_group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id])
+
+			#set as member
+			user_group.permissions = {:member => true}
+
+			self.log_analytic(:user_joined_group, "A user joined a group", user_group.group, [], :groups)
+			redirect_to user_group.group, :notice => "Group was successfully added."
 		end
 	end
 
@@ -168,7 +175,8 @@ class GroupsController < ApplicationController
 
 		# save and get the proper message
 		if comment.save
-			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
+			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id} 
+			self.log_analytic(:user_comment_in_group, "User has commented in group.", comment, [], :groups)
 		else
 			message = {:type => :error, :message => "There was an error posting your comment."}
 		end

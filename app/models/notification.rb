@@ -58,6 +58,7 @@ class Notification < ActiveRecord::Base
 
 			if comments.size != 0
 				discussion.following_and_participants.each do |user|
+					next if user.nil?
 
 					#remove comments created by this user
 					comments.reject! { |comment| comment.user_id == user.id }
@@ -101,9 +102,9 @@ class Notification < ActiveRecord::Base
 		ret = String.new
 		case _class
 		when 'Comment'
-			ret = "#{triggered.teacher.profile_link} replied to a discussion."
+			ret = "#{triggered.profile_link} replied to a discussion."
 		when 'Favorite'
-			ret = "#{triggered.teacher.profile_link} favorited a post of yours."
+			ret = "#{triggered.profile_link} favorited a post of yours."
 		end	
 
 		ret.html_safe

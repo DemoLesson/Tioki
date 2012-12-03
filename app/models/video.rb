@@ -1,5 +1,6 @@
 class Video < ActiveRecord::Base
-  belongs_to :teacher
+  belongs_to :teacher # Migration
+  belongs_to :user
   has_many :video_views
 
   # Video Skills

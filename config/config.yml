@@ -21,6 +21,9 @@ default:
       0: "followed_discussion"
       1: "participated_discussion"
       2: "whiteboard_post"
+      3: "event_reminder"
+      4: "event_approved_notification"
+      5: "email_subscription"
 development:
   cloudsponge:
     domainKey: "8C7MFY8C7PDGQPDBNY3Y"

@@ -99,40 +99,40 @@
 		<section class="two-column left-side" style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0 0 0 0">
 			<section style="margin: 10px 10px 0px 10px">
 				<% @group.users.avatar?.each do |user| %>
-					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.teacher.url %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.slug %>
 						<section style="width:600px;margin:-80px 0px 0px 80px">
-							<p style="width:auto">	<%= link_to user.name, '/profile/' + user.teacher.url, :style => "color:#F66C4C;font-weight:bold" %>
+							<p style="width:auto">	<%= link_to user.name, '/profile/' + user.slug, :style => "color:#F66C4C;font-weight:bold" %>
 								
 								<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
 								<span style="float:right;">
-									<% if !self.current_user.nil? && self.current_user.teacher %>	
-										<% unless self.current_user.teacher == user.teacher%>
+									<% if !self.current_user.nil? %>	
+										<% unless self.current_user == user %>
 											<% if Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
-												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.teacher.user.id.to_s } %>
+												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>
 											<% else %>
-												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.teacher.user.id } %>
+												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id } %>
 											<% end %>
 										<% end %>
 									<% end %>
 								</span>
 								<br/>
-								<!-- Pulling the teachers Position -->
-								<% if user.teacher.position.present?  && user.teacher.school.present? %>
-									<%= user.teacher.position %> at <%= user.teacher.school %>
+								<!-- Pulling the Users Position -->
+								<% unless (currentJob = user.experiences.where(:current=>true).first).nil? %>
+									<%= currentJob.position %> at <%= currentJob.company %>
 								<% end %>
 								<!-- Allowing an admin to create other admins -->
 								<span style="float:right">
 									<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
-										<% unless self.current_user.teacher == user.teacher %>
+										<% unless self.current_user == user %>
 											<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
 											<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
 										<% end %>
 									<% end %>
 								</span>	
 								<br />
-								<!-- Pulling the Teacher's Location -->
-								<% if user.teacher.location.present? %>
-									<%= user.teacher.location %>
+								<!-- Pulling the User's Location -->
+								<% if user.location.present? %>
+									<%= user.location %>
 								<% end %><br /><br />
 							</p>
 						</section>
@@ -145,10 +145,10 @@
 					Group Administrators
 				</h3>
 				<% @group.users('administrator').avatar?.each do |user| %>
-					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.teacher.url %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.slug %>
 					<p style="margin:-40px 0 5px 50px">
 						<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
-						<%= user.teacher.location %>
+						<%= user.location %>
 					</p>
 				<% end %>
 			</section>
@@ -221,10 +221,10 @@ $(document).ready(function() {
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
 				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
 				<div class="profile-thumb-small" style="float:left;">
-					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.teacher.url}" if user.avatar? %>
-					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.teacher.url}" unless user.avatar? %>
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 				</div>
-				<p style="margin-top:0px;"><strong><%= user.teacher.profile_link %></strong><br /><%= user.teacher.location %>
+				<p style="margin-top:0px;"><strong><%= user.profile_link %></strong><br /><%= user.location %>
 			</div>
 			<% end %>
 			<div style="clear:both;"></div>

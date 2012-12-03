@@ -22,19 +22,19 @@ class AuthenticationsController < ApplicationController
 
 		if session[:twitter_action] == "follow"
 			client.follow("Tioki")
-			self.current_user.teacher.update_attribute(:twitter_connect, true)
+			self.current_user.social_actions << {:twitter_connect => true}
 			notice = "You are now following tioki"
 		elsif session[:twitter_action] == "tweet"
 			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
-			self.current_user.teacher.update_attribute(:tweet_about, true)
+			self.current_user.social_actions << {:tweet_about => true}
 			notice = "Success"
 		elsif session[:twitter_action] == "auth"
-			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
-			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
+			self.current_user.authorizations << {:twitter_oauth_token => access_token.token}
+			self.current_user.authorizations << {:twitter_oauth_secret => access_token.secret}
 			notice = "Success"
 		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-			self.current_user.update_attribute(:twitter_oauth_token, access_token.token)
-			self.current_user.update_attribute(:twitter_oauth_secret, access_token.secret)
+			self.current_user.authorizations << {:twitter_oauth_token => access_token.token}
+			self.current_user.authorizations << {:twitter_oauth_secret => access_token.secret}
 			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
 			session[:whiteboard_id] = nil
@@ -59,8 +59,8 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def revoke_twitter
-		self.current_user.update_attribute(:twitter_oauth_token, nil)
-		self.current_user.update_attribute(:twitter_oauth_secret, nil)
+		self.current_user.authorizations - :twitter_oauth_token
+		self.current_user.authorizations - :twitter_oauth_secret
 		redirect_to "/me/settings"
 	end
 
@@ -74,12 +74,12 @@ class AuthenticationsController < ApplicationController
 		access_token = facebook_oauth.get_access_token(params[:code])
 
 		if session[:facebook_action] == "auth"
-			self.current_user.update_attribute(:facebook_access_token, access_token)
+			self.current_user.authorizations << {:facebook_access_token => access_token}
 			session[:facebook_action] = nil
 			return redirect_to "/me/settings"
 
 		elsif session[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
-			self.current_user.update_attribute(:facebook_access_token, access_token)
+			self.current_user.authorizations << {:facebook_access_token => access_token}
 			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
 			session[:whiteboard_id] = nil
@@ -90,7 +90,7 @@ class AuthenticationsController < ApplicationController
 		elsif session[:facebook_action] == "wall_post"
 			@graph = Koala::Facebook::API.new(access_token)
 			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
-			self.current_user.teacher.update_attribute(:facebook_connect, true)
+			self.current_user.social_actions << {:facebook_connect => true}
 
 			session[:facebook_action] = nil
 			return redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
@@ -99,20 +99,21 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def revoke_facebook
-		self.current_user.update_attribute(:facebook_access_token, nil)
+		self.current_user.authorizations - :facebook_access_token
 		redirect_to "/me/settings"
 	end
 
 	def linkedin_callback
-		@teacher = Teacher.find(self.current_user.teacher.id)
+		@user = self.current_user
 		client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
 		pin = params[:oauth_verifier]
 		client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
 
+		# Deprecate
 		#begin populating profile
 		#set teacher.linkedin
 		user = client.profile(:fields => %w(public-profile-url))
-		@teacher.update_attribute(:linkedin, user.public_profile_url)
+		@user.social << {:linkedin => user.public_profile_url}
 
 		#educations
 		user = client.profile(:fields => %w(educations))
@@ -124,8 +125,8 @@ class AuthenticationsController < ApplicationController
 				if education.end_date
 					year = education.end_date.year
 				end
-				@teacher.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
-				@teacher.save
+				education = @user.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
+				education.save
 			end
 		end
 
@@ -154,13 +155,9 @@ class AuthenticationsController < ApplicationController
 					endYear = position.end_date.year
 					current = false
 				end
-				@teacher.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
-				@teacher.save
+				experience = @user.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
+				experience.save
 			end
-		end
-		if currentschool != nil && currentposition != nil
-			@teacher.update_attribute(:school, currentschool)
-			@teacher.update_attribute(:position, currentposition)
 		end
 
 		#phone number
@@ -175,27 +172,8 @@ class AuthenticationsController < ApplicationController
 			end
 		end
 		if phone != nil
-			@teacher.update_attribute(:phone, phone)
+			@user.contact << {:phone => phone}
 		end
-
-		#Addtional Information:
-		addinfo = ""
-		#Interests
-		user =client.profile(:fields => %w(interests))
-		if user.interests != nil
-			addinfo = "Interests: " + user.interests
-		end
-		#groups and associations
-		user =client.profile(:fields => %w(associations))
-		if user.associations != nil
-			addinfo = addinfo + "\nGroups and Associations: " + user.associations
-		end
-		#honors
-		user =client.profile(:fields => %w(honors))
-		if user.honors != nil
-			addinfo = addinfo + "\nHonors: " + user.honors
-		end
-		@teacher.update_attribute(:additional_information, addinfo)
 
 		#Linkedin integration is currently a one time thing so deleting session keys
 		#and redirecting to profile like create_profile does
@@ -210,13 +188,13 @@ class AuthenticationsController < ApplicationController
 		end
 
 		# Redirect back to the profile
-		redirect_to '/profile/' + self.current_user.teacher.url     
+		redirect_to '/profile/' + self.current_user.slug
 	end
 
 	def whiteboard_share_twitter
 		client = Twitter::Client.new(
-			:oauth_token => self.current_user.twitter_oauth_token,
-			:oauth_token_secret => self.current_user.twitter_oauth_secret
+			:oauth_token => self.current_user.authorizations['twitter_oauth_token'],
+			:oauth_token_secret => self.current_user.authorizations['twitter_oauth_secret']
 		)
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 		whiteboard_message = ActionController::Base.helpers.strip_links(whiteboard.message)
@@ -239,7 +217,7 @@ class AuthenticationsController < ApplicationController
 
 		if session[:share_on_facebook]
 				session[:share_on_facebook] = nil
-			if self.current_user.facebook_access_token
+			if self.current_user.authorizations['facebook_access_token']
 				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
 			else
 				session[:whiteboard_id] = whiteboard.id
@@ -251,7 +229,7 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def whiteboard_share_facebook
-		@graph = Koala::Facebook::API.new(self.current_user.facebook_access_token)
+		@graph = Koala::Facebook::API.new(self.current_user.authorizations['facebook_access_token'])
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 
 		message = ActionController::Base.helpers.strip_links(whiteboard.message)

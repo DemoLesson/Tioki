@@ -10,38 +10,48 @@ class ConnectionsController < ApplicationController
 	def index
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 		@skills = Skill.find(:all, :order => "name")
-		@teachers = Array.new
+		@users = Array.new
 
 		if params[:skill]
-			teachers = Teacher.active.search(:skill => params[:skill])
+			users = User.search(:skill => params[:skill])
 		elsif params[:connectsearch].empty?
-			teachers = []
+			users = []
 		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.active.search(:name => params[:connectsearch])
+			users = User.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
-			teachers = Teacher.active.search(:email => params[:connectsearch])
+			users = User.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
-			teachers = Teacher.active.search(:school => params[:connectsearch])
+			users = User.search(:school => params[:connectsearch])
 		else
-			teachers = []
+			users = []
 		end
 
+		#Populate search options
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
-			@schools = teachers.collect(&:school).uniq
-			@schools.reject!(&:empty?)
-			@teacher_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", teachers.collect(&:user_id)]).uniq
+			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
+			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
 		end
-		teachers = teachers.paginate(:per_page => 25, :page => params[:page])
-
-		teachers.each do |teacher|
-			@teacher = teacher
-			@teachers << render_to_string("connections/new_connections", :layout => false)
+		
+		# Paginate to 25 per
+		users.paginate(:per_page => 25, :page => params[:page]).each do |user|
+			@user = user
+			@users << render_to_string("connections/new_connections", :layout => false)
 		end
 
 		respond_to do |format|
 			format.html # index.html.erb
-			format.json { render json: @connections }
+			format.json { render json: users }
 		end
+	end
+
+	# Connections of a specific user
+	def profile_connections
+		findby = params[:slug] || params[:id]
+		@user = User.find_by_slug(findby) if findby.is_a?(String)
+		@user = User.find(findby) if findby.is_a?(Fixnum)
+
+		@connections = Connection.user(@user.id).paginate(:per_page => 20, :page => params[:page])
+		@my_connections = Connection.mine
 	end
 
 	def add_connection(respond = true)
@@ -68,6 +78,7 @@ class ConnectionsController < ApplicationController
 				end
 
 				# Notify the other user of my connection request
+				self.log_analytic(:connection_request, "New connection request.", @connection, [], :connections)
 				UserMailer.userconnect(a, b).deliver
 
 				# If respond is set to true then lets redirect
@@ -147,7 +158,7 @@ class ConnectionsController < ApplicationController
 		# If the connection saves
 		if @connect.save
 
-			Whiteboard.createActivity(:connection, "{user.teacher.profile_link} just connected with {tag.teacher.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
+			Whiteboard.createActivity(:connection, "{user.profile_link} just connected with {tag.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
 			self.log_analytic(:user_connection_accepted, "Two users connection", @connect)
 
 			# Redirect to My Connections page
@@ -170,12 +181,6 @@ class ConnectionsController < ApplicationController
 	#FOR old user connect emails
 	def pending_connections
 		redirect_to '/my_connections'
-	end
-
-	def userconnections
-		@user = User.find(params[:id])
-		@connections = Connection.user(params[:id]).paginate(:per_page => 20, :page => params[:page])
-		@my_connections = Connection.mine
 	end
 
 	def add_and_redir
@@ -222,21 +227,14 @@ class ConnectionsController < ApplicationController
 				# If the user exists run a add connection
 				if @user != nil
 
-					# Make sure the user has a teacher profile
-					if @user.teacher
-						# This connection is now like a normal connection request
-						if Connection.add_connect(self.current_user.id, @user.id)
-							notice << "Your connection request to " + demail + " has been sent."
-						else
-							notice << demail + " has already been connected to."
-						end
-
-						# Notify the current session user
-
-					# If the user is not a teacher then do notify that a connection cannot be made
+					# This connection is now like a normal connection request
+					if Connection.add_connect(self.current_user.id, @user.id)
+						notice << "Your connection request to " + demail + " has been sent."
 					else
-						notice << email + " cannot be connected with."
+						notice << demail + " has already been connected to."
 					end
+
+					# Notify the current session user
 
 				# If the email is not tied to a member then invite them
 				else
@@ -307,39 +305,45 @@ class ConnectionsController < ApplicationController
 
 	def new_connections
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
-		if params[:skill]
-			teachers = Teacher.active.search(:skill => params[:skill]).paginate(:per_page => 25, :page => params[:page])
-		elsif params[:connectsearch].empty?
-			teachers = []
-		elsif params[:topic].empty? || params[:topic] == 'name'
-			teachers = Teacher.active.search(:name => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
-		elsif params[:topic] == 'email'
-			teachers = Teacher.active.search(:email => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
-		elsif params[:topic] == 'school'
-			teachers = Teacher.active..search(:school => params[:connectsearch], :skills => params[:skills], :schools => params[:schools])
+
+		# Build Hash
+		search = Hash.new
+		search[:skill] = params[:skill] if !params[:skill].nil?
+		search[:skills] = params[:skills] if !params[:skills].nil?
+		search[:school] = params[:school] if !params[:school].nil?
+		search[:schools] = params[:schools] if !params[:schools].nil?
+		search[:email] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'email'
+		search[:school] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'school'
+		search[:name] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic].nil?
+
+		unless search.empty?
+			users = User.search(search)
 		else
-			teachers = []
+			users = Array.new
 		end
 
-		teachers = teachers.paginate(:per_page => 25, :page => params[:page])
-		return render :json => connections unless params[:raw].nil?
+		# Review
+		# Paginate rescue cause it will fail on empty arrays ^^
+		users = users.paginate(:per_page => 25, :page => params[:page]) rescue Array.new
 
+		# Return raw json
+		return render :json => users unless params[:raw].nil?
+		
 		divs = Array.new
-		teachers.each do |teacher|
-			@teacher = teacher
+		users.each do |user|
+			@user = user
 			divs << render_to_string
 		end
 
 		render :json => divs
 	end
 
+	# Review
 	def distance
 		result = User.find(117091).distance(params[:id])
 		render :text => (result.nil? ? 'nil' : result)
 	end
 
-	# DELETE /connections/1
-	# DELETE /connections/1.json
 	def destroy
 		@connection = Connection.find(params[:id])
 		@connection.destroy

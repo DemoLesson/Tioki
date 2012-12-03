@@ -1,17 +1,17 @@
 <section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
 	<section>
-		<nav class="subpage">
-		<ul>
+		<nav class="subpage" style="padding-left:0px">
+			<ul>
 			<li class="current">
 				All Groups
 			</li>
-			<% if self.current_user && self.current_user.teacher %>
+			<% if self.current_user %>
 				<li>
 					<a href="/my_groups">
 						My Groups
 					</a>
 				</li>
-				<% if self.current_user && self.current_user.teacher %>
+				<% if self.current_user %>
 					<div style="float:right;margin-top:0px;">
 						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
 					</div>
@@ -22,14 +22,14 @@
 				<% end %>
 			<% end %>
 			</ul>
-			</nav>
-			<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
-				<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 20px;width:500px" %>
-				<%= submit_tag "Search" %>
-			<% end %>
+		</nav>
+		<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
+			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 0px;width:500px" %>
+			<%= submit_tag "Search" %>
+		<% end %>
 	</section>
 	<section class="panels">
-		<section class="two-column left-side" style ="width:725px;margin-left:25px">
+		<section class="two-column left-side">
 		<% @groups.each do |group| %>
 			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
@@ -42,19 +42,25 @@
 				<div class ="item_desc">
 					<p>
 						<h3 style="padding-left:122px">
-						<%= link_to group.name, group, :style => "color:#4D4D4D" %>
+							<% if group.name.size > 65 %>
+								<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..69]+'...').html_safe, group, :style => "color:#4D4D4D" %>
+							<% else %>
+								<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#4D4D4D" %>
+							<% end %>
 						</h3>
-						<p style="margin-top:-15px;width:auto">
-							<% if group.description.size > 270 %><%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..274]+'...').html_safe %>
-							<% else %><%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+						<p style="margin-top:-15px;width:525px">
+							<% if group.description.size > 230 %>
+								<%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..234]+'...').html_safe %>
+							<% else %>
+								<%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
 							<% end %>
 						</p>
-						<% if self.current_user && self.current_user.teacher %>
+						<% if self.current_user %>
 							<% unless self.current_user.groups.include? group %>
-								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
+								<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "button bg-salmon", :style => "float:right; margin-right:115px" if group.permissions['public'] %>
 							<% end %>
 						<% else %>
-								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin:0px", :target => "_blank" %>
+								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin-right:115px", :target => "_blank" %>
 						<% end %>
 						
 						<div style="clear:both"></div>
@@ -63,5 +69,54 @@
 			</div>
 		<% end %>
 		</section>
+		<section class="panel one-column right-side" style ="width:276px;height:430px;border-radius:5px">
+			<section style="padding-left:10px;padding-right:10px">
+				<h4 class="bottom-line">
+					Featured Groups
+				</h4>
+				<!-- Featured Group 1-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:75px"), '/' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Education Bloggers	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					34 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 2 } %>
+				</p>
+				<br/>
+			
+				<!-- Featured Group 2-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:75px"), '/' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Beta Testing Teachers	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					28 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 50 } %>
+				</p>
+				<br />
+				
+				<!-- Featured Group 3-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:75px"), '/' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Educators on Twitter	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					13 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 101 } %>
+				</p><br/>
+				
+				<!-- Featured Group 4-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121111001202-20121111001200-20121111001159-entrepreneur.jpg?1352592718", :style => "width:75px"), '/' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					EdTech Entrepreneurs	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					30 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 51 } %>
+				</p><br/>
+			</section>
+		</section>
 	</section>
+	<div class="clearfloat"></div>
 </section>

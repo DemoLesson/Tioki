@@ -1,6 +1,5 @@
 class DiscussionsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :reply_nologin]
-	before_filter :teacher_required, :except => [:index, :show, :reply_nologin]
 
   # GET /discussions
   # GET /discussions.json
@@ -84,8 +83,9 @@ class DiscussionsController < ApplicationController
 				end
 
 				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.teacher.profile_link} created a new discussion {tag.link}.", @discussion)
-				
+				Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
+
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
 				format.json { render json: @discussion, status: :created, location: @discussion }
 			else
@@ -134,10 +134,13 @@ class DiscussionsController < ApplicationController
 
 			if @comment.save
 				@discussion.following_and_participants.each do |user|
-					if self.current_user.id != user.id
-						Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					if user
+						if self.current_user.id != user.id
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+						end
 					end
 				end
+				self.log_analytic(:discussion_comment, "User posted comment in discussion.", @discussion, [], :discussions)
 				redirect_to  @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
@@ -154,10 +157,13 @@ class DiscussionsController < ApplicationController
 			if comment.save
 				comment.move_to_child_of(@replied_to_comment)
 				@discussion.following_and_participants.each do |user|
-					if self.current_user.id != user.id
-						Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+					if user
+						if self.current_user.id != user.id
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+						end
 					end
 				end
+				self.log_analytic(:discussion_comment_reply, "User posted reply to comment in discussion.", @discussion, [], :discussions)
 				redirect_to @discussion
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
@@ -189,6 +195,7 @@ class DiscussionsController < ApplicationController
 		@follower = Follower.new(:discussion => @discussion, :user => self.current_user)
 		if @follower.save
 			redirect_to :back, :notice => "You are now following this discussion."
+			self.log_analytic(:discussion_follow, "User has followed discussion.", @discussion, [], :discussions)
 		else
 			redirect_to :back, :notice => "Unable to follow."
 		end
@@ -270,12 +277,12 @@ class DiscussionsController < ApplicationController
 		@referral = params[:referral]
 
 		# Interpret the post data from the form
-		@teachername = @referral[:teachername]
+		@name = @referral[:teachername]
 		@emails = @referral[:emails]
 		@message = @referral[:message]
 
 		# Swap out any instances of [name] with the name of the sender
-		@message = @message.gsub("[name]", @teachername);
+		@message = @message.gsub("[name]", @name);
 
 		# Swap out all new lines with line breaks
 		@message = @message.gsub("\n", '<br />');
@@ -284,7 +291,10 @@ class DiscussionsController < ApplicationController
 		user = self.current_user unless self.current_user.nil?
 
 		# Send out the email to the list of emails
-		UserMailer.discussion_invite_email(@teachername, @emails, @message, @discussion, user).deliver
+		UserMailer.discussion_invite_email(@name, @emails, @message, @discussion, user).deliver
+
+		#Log in analytics
+		self.log_analytic(:discussion_email_invite, "User email invite to discussion.", @discussion, [], :discussions)
 
 		# Return user back to the home page 
 		redirect_to discussion_path(@discussion), :notice => 'Email Sent Successfully'
@@ -308,7 +318,9 @@ BODY
 			Message.send!(user, :subject => subject, :body => body.html_safe)
 		end
 
-		flash[:success] = "Share successfully."
+		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
+
+		flash[:success] = "Share successfull."
 		return redirect_to :back
 	end
 

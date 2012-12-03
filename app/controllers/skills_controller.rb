@@ -1,27 +1,29 @@
 class SkillsController < ApplicationController
 
+	def skills_url; '/me/profile/edit/skills'; end
+
 	def show
-    # Get the requests skill
-    @skill = Skill.find(params[:id])
+	    # Get the requests skill
+	    @skill = Skill.find(params[:id])
 
-    # Load teachers that have claimed the above skill
-    @teachers = @skill.skill_claims.select('`teachers`.*').joins(:user => :teacher).where("users.deleted_at" => nil).paginate(:page => params[:page], :per_page => 25)
+	    # Load teachers that have claimed the above skill
+			@users = User.joins(:skill_claims).where("skill_claims.skill_id = ?", @skill.id).paginate(:page => params[:page], :per_page => 25)
 
-    # Videos that claim the skill
-    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
-    
-    #Technologies that claim the skill
-    @technologies = @skill.technologies
+	    # Videos that claim the skill
+	    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
+	    
+	    #Technologies that claim the skill
+	    @technologies = @skill.technologies
 
-    # Get a list of my connections
-    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
-    @my_connections = Array.new if self.current_user.nil?
+	    # Get a list of my connections
+	    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+	    @my_connections = Array.new if self.current_user.nil?
 
-    # Get a list of events
-    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).order('`events`.`start_time` ASC').joins(:skills).limit(5)
+	    # Get a list of events
+	    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).order('`events`.`start_time` ASC').joins(:skills).limit(5)
 
-    # Get the associated discussions
-    @discussions = Discussion.joins(:skills).where("`skills`.`id` = ?", @skill.id)
+	    # Get the associated discussions
+	    @discussions = Discussion.joins(:skills).where("`skills`.`id` = ?", @skill.id)
 
 		respond_to do |format|
 			format.html # show.html.erb
@@ -29,47 +31,75 @@ class SkillsController < ApplicationController
 		end
 	end
 
-  def get
-    if params[:tokenizer].nil?
-      if params[:q].nil?
-        @skills = Skill.all(:limit => 10)
-      else
-        @skills = Skill.where("name like ?", "%#{params[:q]}%").limit(10)
-      end
-    else
-      skills = Skill.all
+  	def create
 
-      @skills = Hash.new
-      skills.each do |v|
+  		# Current user
+  		@user = User.current
 
-        # Hashify
-        data = v.serializable_hash
-        skillgroup = v.skill_group.name.to_sym
-        data["skill_group"] = skillgroup
-        v = data
+		# Delete all skills attached to the user
+		@user.skills.delete_all
+		
+		# Parse the skill array
+		skills = Skill.where(:id => params[:skills].split(','))
 
-        # Put on the array
-        @skills[skillgroup] = Array.new if @skills[skillgroup].nil?
-        @skills[skillgroup] << v
-      end
-    end
+		# This adds the skills to the user so :D no need to do anything else
+		skills.each do |skill|
+			SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
+		end
 
-    respond_to do |format|
-      format.json { render :json => @skills }
-    end
-  end
-
-  def teacherskills
-		#Depreciated
-		#There are still links to the teacherskill page so just redirect to
-		#to the new show page
-		@skill = Skill.find(params[:id])
-		redirect_to @skill
-  end
+		redirect_to :skills
+  	end
   
-  def skillpage
-    #Redirecting users to skills pages
-		@skill = Skill.find(params[:topic])
-    redirect_to @skill
-  end
+    def my_skills
+		@user = User.find_by_slug(params[:slug]) unless params[:slug].nil?
+		@user = User.current if params[:slug].nil?
+		@skills = @user.skills
+
+		@skills.collect! do |v|
+			data = v.serializable_hash
+			data["skill_group"] = v.skill_group.name.to_sym
+			v = data
+		end
+
+		render :json => @skills
+	end
+	
+	def index
+
+		# Existing skills path
+		@existing_skills = skills_path + '/my_skills'
+		
+		respond_to do |format|
+			format.html { render :index }
+			format.json do
+
+				# If the tokenizer is asking
+				if params[:tokenizer].nil?
+					if params[:q].nil?
+						@skills = Skill.all(:limit => 10)
+					else
+						@skills = Skill.where("name like ?", "%#{params[:q]}%").limit(10)
+					end
+				else
+					skills = Skill.all
+
+					@skills = Hash.new
+					skills.each do |v|
+
+						# Hashify
+						data = v.serializable_hash
+						skillgroup = v.skill_group.name.to_sym
+						data["skill_group"] = skillgroup
+						v = data
+
+						# Put on the array
+						@skills[skillgroup] = Array.new if @skills[skillgroup].nil?
+						@skills[skillgroup] << v
+					end
+				end
+
+				render :json => @skills 
+			end
+		end
+	end
 end

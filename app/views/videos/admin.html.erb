@@ -14,7 +14,7 @@
 		<%= form_tag '/admin/videos', :method => 'get' do %>
 	  		<p>
 	  			<strong>Find Video:</strong> <%= text_field_tag :name, params[:name] %>
-	  			<strong>Teacher: </strong> <%= text_field_tag :teacher, params[:teacher] %>
+	  			<strong>User: </strong> <%= text_field_tag :user, params[:user] %>
 	  			<strong>Local?</strong><%= select_tag :local, options_for_select([['- ALL -', ''], ['Remote', 'remote'], ['Local', 'local']], params[:local]) %>
 	  			<%= submit_tag "Search", :name => nil %>
 	  		</p>
@@ -27,7 +27,7 @@
 			<table cellspacing = "7">
   				<tr>
 					<th>Video Name</th>
-					<th>Teacher</th>
+					<th>User</th>
 					<th>View Video</th>
 					<th>Edit Video</th>
 					<th>Local?</th>
@@ -36,7 +36,7 @@
 				<%- @videos.each do |video| %>
   					<tr>
 						<td><%= video.name %></td>
-						<td><%= video.teacher.profile_link unless video.teacher.nil? %></td>
+						<td><%= video.user.profile_link unless video.user.nil? %></td>
 						<td><%= link_to "View Video", video %></td>
 						<td><%= link_to("Edit Video", video_path(video) + '/edit') %></td>
 						<td><%= video.external? ? "Remote" : "Local" %></td>

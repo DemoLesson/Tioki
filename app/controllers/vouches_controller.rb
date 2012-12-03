@@ -1,5 +1,10 @@
 class VouchesController < ApplicationController
 	before_filter :login_required, :only => [:addvouch]
+    
+    def request_vouch
+    	@user = User.current
+    	@vouch = Vouch.new
+	end
 
 	def vouchrequest
 		if params[:skills] == nil || params[:skills].size == '0'
@@ -10,7 +15,7 @@ class VouchesController < ApplicationController
 		@vouch.vouchee_id= self.current_user.id
 		#using a random string + the user_id and vouch_id to create a unique address
 		vouchinfo=User.random_string(20)
-		if params[:is_teacher] == nil || params[:is_teacher] == '0' 
+		if params[:is_educator] == nil || params[:is_educator] == '0' 
 			#Just request email
 			if @vouch.save
 				params[:skills].each do |skill|
@@ -19,7 +24,7 @@ class VouchesController < ApplicationController
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s )
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-				redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
+				redirect_to '/profile/'+User.current.slug, :notice => "Success"
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
@@ -29,34 +34,34 @@ class VouchesController < ApplicationController
 				params[:skills].each do |skill|
 					SkillToVouch.create(:skill_id => skill, :vouch_id => @vouch.id)
 				end
-				if params[:skills_for_teacher]
-					params[:skills_for_teacher].each do |skill|
+				if params[:skills_for_educator]
+					params[:skills_for_educator].each do |skill|
 						VouchedSkill.create(:user_id => user.id, :skill_id => skill, :voucher_id => User.current.id)
 					end
 				end
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email],url).deliver
-				redirect_to '/profile/'+User.current.teacher.url
+				redirect_to '/profile/'+User.current.slug
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
 		else
-			#Person is teacher without an account with demolesson
+			#Person is educator without an account with demolesson
 			@vouch.for_new_educator = true
 			if @vouch.save
 				params[:skills].each do |skill|
 					SkillToVouch.create(:skill_id => skill, :vouch_id => @vouch.id)
 				end
-				if params[:skills_for_teacher]
-					params[:skills_for_teacher].each do |skill|
+				if params[:skills_for_educator]
+					params[:skills_for_educator].each do |skill|
 						ReturnedSkill.create(:vouch_id => @vouch.id, :skill_id => skill)
 					end
 				end
 				@vouch.update_attribute(:url, vouchinfo+@vouch.id.to_s)
 				url="http://#{request.host_with_port}/vouchresponse?u=" + @vouch.url
 				UserMailer.vouch_request(self.current_user.name, @vouch.first_name, params[:vouch][:email], url).deliver
-				redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
+				redirect_to '/profile/'+User.current.slug, :notice => "Success"
 			else
 				redirect_to :back, :notice => @vouch.errors.full_messages.to_sentence
 			end
@@ -102,7 +107,7 @@ class VouchesController < ApplicationController
 		user_delayed_job.save
 
 		# Log to whiteboard and analytics
-		Whiteboard.createActivity(:created_vouch, "{user.teacher.profile_link} vouched for {tag.teacher.profile_link} skills.", User.find(params[:user_id]))
+		Whiteboard.createActivity(:created_vouch, "{user.profile_link} vouched for {tag.profile_link} skills.", User.find(params[:user_id]))
 		self.log_analytic(:created_vouch, "A user vouched for somones skills.", vouch)
 
 		# Redirect to where you came from
@@ -123,7 +128,7 @@ class VouchesController < ApplicationController
 		if @vouch.for_new_educator == true
 			redirect_to "/welcome_wizard?x=step1&vouchstring=#{@vouch.url}", :notice => "Success"
 		else
-			redirect_to '/profile/'+User.current.teacher.url, :notice => "Success"
+			redirect_to '/profile/'+User.current.slug, :notice => "Success"
 		end
 	end
 

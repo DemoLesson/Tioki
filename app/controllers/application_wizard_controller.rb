@@ -28,7 +28,7 @@ class ApplicationWizardController < ApplicationController
 		if User.current.nil?
 			redirect_to :step1
 		else
-			@app.update_attribute(:teacher_id, User.current.teacher.id)
+			@app.update_attribute(:user_id, User.current.id)
 			redirect_to :step2
 		end
 	end
@@ -38,10 +38,9 @@ class ApplicationWizardController < ApplicationController
 
 		if request.post?
 			user = User.create(params[:user])
-			user.create_teacher
 
 			session[:user] = User.authenticate(user.email, user.password)
-			@app.update_attribute(:teacher_id, User.current.teacher.id)
+			@app.update_attribute(:user_id, User.current.id)
 
 			return redirect_to :step2
 		end
@@ -66,7 +65,7 @@ class ApplicationWizardController < ApplicationController
 			params[:experience][:endMonth] = end_date.strftime("%m")
 			params[:experience][:endYear] = end_date.strftime("%Y")
 			exp = Experience.create(params[:experience])
-			user.teacher.experiences << exp
+			user.experiences << exp
 		end
 	end
 
@@ -83,7 +82,7 @@ class ApplicationWizardController < ApplicationController
 			end
 
 			edu = Education.create(params[:education])
-			user.teacher.educations << edu
+			user.educations << edu
 		end
 	end
 
@@ -94,7 +93,7 @@ class ApplicationWizardController < ApplicationController
 			user = User.current
 
 			cred = Credential.create(params[:credential])
-			user.teacher.credentials << cred
+			user.credentials << cred
 		end
 	end
 
@@ -112,7 +111,7 @@ class ApplicationWizardController < ApplicationController
 
 			# Set the application id for the asset
 			params[:asset][:application_id] = @app.id
-			params[:asset][:teacher_id] = User.current.teacher.id
+			params[:asset][:user_id] = User.current.id
 
 			# Yes I am taking this opportunity to name this var "ass"
 			ass = Asset.create(params[:asset])

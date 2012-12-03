@@ -1,11 +1,7 @@
 <% if self.current_user.nil? %>
-  <%= render :partial => 'splash' %>
-<% elsif self.current_user.teacher != nil %>
-  <div id="wrapper_global">
-  <%= render :partial => 'teacher_dashboard' %>
-  </div>
-<% elsif self.current_user.school != nil || self.current_user.is_shared %>
-  <div id="wrapper_global">
-  <%= render :partial => 'admin_dashboard' %>
-  </div>
+	<%= render :partial => 'splash' %>
+<% elsif ['recruiter'].include?(User.current.dashboard) %>
+	<%= render :partial => 'school_dashboard' %>
+<% else %>
+	<%= render :partial => 'teacher_dashboard' %>
 <% end %>

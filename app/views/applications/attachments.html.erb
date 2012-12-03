@@ -1,25 +1,27 @@
-<h3>Attachments for <%= @application.teacher.user.name %></h3>
+<section id="main-content" class="inner-content">
+	<h3>Attachments for <%= @application.user.name %></h3>
 
-<strong>Application Attachments:</strong>
-<% @application.assets.each do |asset| %>
-  <div class="item">
-    <p>
-    <img src="<%= asset_path 'file.png' %>" />
-    <%= link_to asset.name, asset.file.url %><br />
-    <%= asset.description %>
-    </p>
-  </div>
-<% end %>
+	<strong>Application Attachments:</strong>
+	<% @application.assets.each do |asset| %>
+		<div class="item">
+			<p>
+			<img src="<%= asset_path 'file.png' %>" />
+			<%= link_to asset.name, asset.file.url %><br />
+			<%= asset.description %>
+			</p>
+		</div>
+	<% end %>
 
-<strong>Profile Attachments:</strong>
-<% @profileassets.each do |asset| %>
-  <div class="item">
-    <p>
-    <img src="<%= asset_path 'file.png' %>" />
-    <%= link_to asset.name, asset.file.url %><br />
-    <%= asset.description %>
-    </p>
-  </div>
-<% end %>
+	<strong>Profile Attachments:</strong>
+	<% @profileassets.each do |asset| %>
+		<div class="item">
+			<p>
+			<img src="<%= asset_path 'file.png' %>" />
+			<%= link_to asset.name, asset.file.url %><br />
+			<%= asset.description %>
+			</p>
+		</div>
+	<% end %>
 
-<%= link_to 'Back', :back, :class => "btn" %>
+	<%= link_to 'Back', :back, :class => "btn" %>
+</section>

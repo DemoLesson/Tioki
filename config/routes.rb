@@ -19,7 +19,7 @@ Preview::Application.routes.draw do
 	match 'facebook_callback', :to => 'authentications#facebook_callback'
 	match 'twitter_callback', :to => 'authentications#twitter_callback' 
 	match 'twitter_auth', :to => 'authentications#twitter_auth'
-	match 'linkedinprofile', :to => 'teachers#linkedinprofile'
+	match 'linkedinprofile', :to => 'users#linkedinprofile'
 	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
 
 	# Groups
@@ -146,27 +146,30 @@ Preview::Application.routes.draw do
 
 			# Anything involving editing my profile
 			scope 'edit' do
-				match 'skills' => 'teachers#edit_skills'
-				match 'experience' => 'teachers#experience'
-				match 'education' => 'teachers#education'
+				resources :educations
+				resources :experiences
+				resources :credentials
+				resources :awards
+				resources :presentations
+				resources :attachments
+
+				match 'skills/my_skills', :to => 'skills#my_skills'
+				resources :skills
+				
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
-				match 'feature-video/:id' => 'teachers#feature_video'
-				resources :credentials
-				root :to => 'teachers#edit'
-				resources :awards
-				resources :presentations
-				resources :awards
+				
+				root :to => 'users#profile_edit'
 			end
 
 			# Misc
-			match 'stats' => 'teachers#stats'
-			match 'card' => 'card#get'
-			root :to => 'teachers#profile'
+			match 'stats' => 'users#profile_stats'
+			root :to => 'users#profile'
 		end
 
 		scope 'settings' do
+			match 'dashboard/:switch' => 'users#swap_dashboard'
 			match 'privacy' => 'users#privacy'
 			root :to => 'users#edit'
 		end
@@ -182,20 +185,21 @@ Preview::Application.routes.draw do
 	scope 'profile' do
 
 		# Videos
-		match ':url/videos' => 'videos#index'
-		match ':url/videos/:id' => 'videos#show'
+		match ':slug/videos' => 'videos#index'
+		match ':slug/videos/:id' => 'videos#show'
 
-		# Card Profile
-		match ':url/card' => 'card#get'
+		# Connections
+		match ':slug/connections' => 'connections#profile_connections'
+
+		# Skills
+		match ':slug/skills' => 'skills#my_skills'
 
 		# Guest Access
-		match ':url/:guest_pass' => 'teachers#profile'
+		match ':slug/:guest_pass' => 'users#profile'
+		
 		# Normal Access
-		match ':url' => 'teachers#profile'
+		match ':slug' => 'users#profile'
 	end
-
-	# Handle guest passcodes
-	match 'guest/:guest_pass' => 'teachers#guest_entry'
 
 	# Static pages by default route the action
 	# Sub folders a bit trickier
@@ -214,15 +218,25 @@ Preview::Application.routes.draw do
 	# Admin Routing
 	scope 'admin' do
 		scope 'users' do
-			match 'create_teacher' => 'users#create_teacher_and_redirect'
 		end
 		match 'banners' => 'users#banners'
 		match 'banners/delete/:id' => 'users#delete_banner'
 		match 'videos' => 'videos#admin'
 	end
 
+	# Connections
+	resources :connections do
+		collection do
+			get 'add_and_redir'
+		end
+	end
+	match '/connections/user/:id' => 'connections#profile_connections'
+
 	# Videos Routing
-	match 'videos/:id/skills' => 'videos#skills'
+	match '/videos/:id/skills' => 'videos#skills'
+
+	# Skills information page
+	match '/skill/:id' => 'skills#show'
 
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
@@ -233,8 +247,6 @@ Preview::Application.routes.draw do
 	#Actions
 	match 'create', :to => 'users#create'
 	match 'login', :to => 'users#login', :as => 'login'
-	match 'jlogin' => 'users#login_json'
-	match 'jregister' => 'users#create_json'
 	match 'logout', :to => 'users#logout', :as => 'logout'
 	match 'verify', :to => 'users#verify', :as => 'verify'
 	match 'forgot_password', :to => 'users#forgot_password', :as => 'forgot_password'
@@ -243,68 +255,47 @@ Preview::Application.routes.draw do
 	match 'email_settings' => 'users#email_settings'
 	match 'change_org_info' => 'users#change_org_info'
 	match 'change_picture', :to => 'users#change_picture'
-	match 'create_profile', :to => 'teachers#create_profile'
+	
 	match 'change_school_picture/:id', :to => 'schools#change_school_picture'
-	match 'skills', :to => 'skills#get'
 	match 'crop', :to => 'users#crop'
 	match 'crop_image', :to => 'users#crop_image'
 	match 'crop_image_temp', :to => 'users#crop_image_temp'
 	match 'crop_temp', :to => 'users#crop_temp'
 	
-	# Beta
-	root :to => "home#index"
-	match 'beta_teacher' => "alphas#teacher"
-	match 'beta_admin' => "alphas#admin"
-	match 'beta_general' => "alphas#general"
-	
 	# Account/Teacher
 	match 'account/:id' => 'users#edit'
-	match 'add_pin' => 'teachers#add_pin'
-	match 'remove_pin' => 'teachers#remove_pin'
-	match 'add_star' => 'teachers#add_star'
-	match 'remove_star' => 'teachers#remove_star'
 	match 'add_connection' => 'connections#add_connection'
 	match 'remove_connection' => 'connections#remove_connection'
 	match 'accept_connection' => 'connections#accept_connection'
 	match 'remove_pending' => 'connections#remove_pending'
 	match 'show_my_connections' => 'connections#show_my_connections'
 	match 'newconnections' => 'connections#new_connections'
-	match 'purge/:id' => 'teachers#purge'
+	match 'purge/:id' => 'attachments#purge'
 	match 'users' => 'users#update'
-	match 'attach' => 'teachers#attach'
-	match 'teachers/:id/skills' => 'teachers#skills'
+	match 'attach' => 'attachments#attach'
 	match 'skillpage' => 'skills#skillpage'
 	match 'jobattach' => 'jobs#attach'
 	match 'videos/record' => 'videos#record'
 	match 'videos/create_snippet' => 'videos#create_snippet'
-	match 'teacher_applications' =>'teachers#teacher_applications'
-	match 'appattachments/:id' =>  'teachers#appattachments'
+	match 'teacher_applications' =>'applications#teacher_applications'
+	match 'appattachments/:id' =>  'applications#appattachments'
 	match 'my_connections' => 'connections#my_connections'
 	match 'pending_connections' => 'connections#pending_connections'
-	match 'userconnections/:id' => 'connections#userconnections'
 	match 'myvideo' => 'videos#myvideo'
 	match 'inviteconnections' => 'connections#inviteconnections' 
 	match 'inviteconnection' => 'connections#inviteconnection'
-	match 'education', :to => 'teachers#education'
-	match 'update_education' => 'teachers#update_education'
-	match 'remove_education/:id' => 'teachers#remove_education'
-	match 'edit_education/:id' => 'teachers#edit_education'
-	match 'update_existing_education/:id' => 'teachers#update_existing_education'
-	match 'teacherskills/:id' => 'skills#teacherskills'
+	match 'inviteconnections/facebook' => 'connections#invite_facebook'
+	match 'inviteconnections/twitter' => 'connections#invite_twitter'
+	match 'inviteconnections/gmail' => 'connections#invite_gmail'
+	match 'inviteconnections/yahoo' => 'connections#invite_yahoo'
 	match 'add_embed' => 'videos#add_embed'
-  match 'profileattachments' => 'teachers#profileattachments'
+	match 'profileattachments' => 'attachments#profileattachments'
 	match 'dc/:url' => 'connections#linkinvite'
 	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
-	match 'tioki_bucks' => 'teachers#tioki_bucks'
-	match 'get_started' => 'teachers#get_started'
-	
-	match 'experience', :to => 'teachers#experience'
-	match 'update_experience' => 'teachers#update_experience'
-	match 'remove_experience/:id' => 'teachers#remove_experience'
-	match 'edit_experience/:id' => 'teachers#edit_experience'
-	match 'update_existing_experience/:id' => 'teachers#update_existing_experience'
+	match 'tioki_bucks' => 'users#tioki_bucks'
+	match 'get_started' => 'users#get_started'
   
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'
@@ -371,7 +362,6 @@ Preview::Application.routes.draw do
 	match 'edit_member/:id' => 'users#edit_member'
 	match 'accounts/:id' => 'users#accounts'
 	match 'manage/:id' => 'users#manage'
-	match 'favorites' => 'teachers#favorites'
 	match 'jobs/:id/jobattachments' => 'jobs#jobattachpost'
 	match '/postattach' => 'jobs#jobattachpost'
 	
@@ -379,72 +369,35 @@ Preview::Application.routes.draw do
 	match 'schools_faq' => 'home#schools_faq'
 	match 'update_details' => 'video#update_details'
 
-
-	#Card
-	match 'card'      => 'card#get'
-	match 'card/:url' => 'card#get'
-	match 'cardeducation' => 'card#addEducation'
-	match 'cardexperience' => 'card#addExperience'
-	match 'cardcredential' => 'card#addCredential'
-	match 'cardskills' => 'card#addSkills'
-	match 'cardremoveskills' => 'card#removeSkills'
-	match 'cardheadline' => 'card#cardheadline'
-	match 'cardavatar' => 'card#cardavatar'
-	match 'change_location' => 'card#change_location'
-
 	#Vouches
 	match 'vouchrequest' => 'vouches#vouchrequest'
 	match 'vouchresponse' => 'vouches#vouchresponse'
 	match 'updatevouch' => 'vouches#updatevouch'
-	match 'requestvouch' => 'teachers#request_vouch'
+	match 'requestvouch' => 'vouches#request_vouch'
 	match 'addvouch' => 'vouches#addvouch'
 	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
-	#resources :jobs do 
-	#  get :auto_complete_search, :on => :collection
-	#end
-	
-	resources :alphas
-	resources :winks
 	resources :reviews
 	resources :jobs
 	resources :applications
 	resources :review_permissions
 	resources :schools
-	resources :teachers
 	resources :videos
 	resources :users
-	resources :blogentries
 	resources :organizations
-
-	resources :pins
+	resources :attachments
 	resources :subjects
-	resources :blog_entries
 	resources :messages
 	resources :vouches
-	resources :connections do
-		collection do
-			get 'add_and_redir'
-		end
-	end
+	
 
 	resources :skills
 	
-	# pitches
-	match '/techstars' => 'home#video1'
-	match '/techstarsteam' => 'home#video2'
-	match '/upstartla' => 'home#video3'
-	match '/harvardbiz' => 'home#video4'
-	match '/demolesson' => 'home#how_it_works_teachers'
-	match '/muckerlab' => 'home#muckerlab'
-
-	# # # # # # # # # # # # # # # # # # # # # #
-	# Guest pass                              #
-	# Removed by KellyLSB 10-03-2012 10:36am  #
-	# # # # # # # # # # # # # # # # # # # # # #
-	# match 'u/:guest_pass' => 'teachers#guest_entry'
-	# match '/:url/:guest_pass', :to => 'teachers#profile'
-	# match '/:url', :to => 'teachers#profile'
+	# # # # # # #
+	# Site Home #
+	# # # # # # #
+	root :to => 'home#index'
+	match '/index', :to => 'home#index'
 
 	# # # # # # # 
 	# Error 404 #

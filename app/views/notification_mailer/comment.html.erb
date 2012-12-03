@@ -88,7 +88,7 @@
 																			<td style="line-height: 18px;color: #555;font-size: 13px;padding-left: 5px;border-collapse: collapse;">
 																				<span style="color: #000;display: block;font-family:georgia,serif;font-size: 16px;font-weight: normal;line-height: 16px;text-align: left; padding-left:1px; "><strong><%= @action %></strong></span><br>
 														<!-- Message Sampler Starts -->
-														<span style="color: #000; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://tioki.com/profile/<%= @comment.user.teacher.url %>" text-decoration="none" style="color:#2aa99b;text-decoration:none;" target="_blank"><%= @comment.user.name %></a> said:</span><br>
+														<span style="color: #000; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><a href="http://tioki.com/profile/<%= @comment.user.slug %>" text-decoration="none" style="color:#2aa99b;text-decoration:none;" target="_blank"><%= @comment.user.name %></a> said:</span><br>
 
 														<span style="color: #6d6d6d; font: lighter 13px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"> <em><% if @comment.body.size > 80 %><%= @comment.body[0..77] %>...<% else %><%= @comment.body %><% end %></em><a href="http://www.tioki.com/<%= @url %>" target="_blank" text-decoration="none" style="color:#2aa99b; text-decoration:none; font-type:bold;">[Read More]</a></span>
 																				<br>

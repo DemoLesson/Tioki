@@ -116,7 +116,7 @@ $(document).ready(function() {
 		//console.log(existingSkills);
 
 		// Get a list of all the skills
-		$.getJSON("/skills.json?tokenizer=true", function(allSkills) {
+		$.getJSON("<%= skills_path %>.json?tokenizer=true", function(allSkills) {
 			var featuredSkills = ['Technology', 'Assessment', 'Lesson Plans & Materials','Culture Building'];
 
 			sub = new Array;

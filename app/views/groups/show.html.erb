@@ -105,12 +105,18 @@
 	<section class="profile-content panel" style="margin:30px 0px;">
 		<% unless User.current.nil? %>
 			<section style="margin:15px 0px 0px 15px">
-				<h4>Start a Discussion</h4>
 				<% if @in_group %>
+					<h4>
+					Start a Discussion
+					</h4>
 					<form id="post-comment" action="<%= "/groups/#{@group.id}/comment" %>" method="post">
 						<textarea name="comment" style="height:50px;width:84%;padding:10px 3%;" placeholder="Start a Discussion or Share Something with the Group"></textarea>
 						<input type="submit" value="Post" style="margin:20px 20px 0px 0px;float:right" />
 					</form>
+				<% else %>
+					<h4>
+					<%= link_to "Join Group", { :action => "add_group", :id => @group.id}, :style => "color:#F66C4C" %> to Start a Discussion.
+					</h4>
 				<% end %>
 			</section>
 			<div class="comments inline">
@@ -195,8 +201,13 @@
 					});
 				});
 				</script>
-			<% end %>
 			</div>
+		<% else %>
+			<section style="margin:15px 0px 15px 15px;">
+				<h3><%= link_to "Join Tioki", '/welcome_wizard?x=step1&group_join_link', :target => "_blank", :style => "color:#F66C4C" %> to Participate in this group's Discussions.
+				</h3>
+			</section>
+		<% end %>
 	</section>
 </section>
 
@@ -265,10 +276,10 @@ $(document).ready(function() {
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
 				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
 				<div class="profile-thumb-small" style="float:left;">
-					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.teacher.url}" if user.avatar? %>
-					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.teacher.url}" unless user.avatar? %>
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 				</div>
-				<p style="margin-top:0px;"><strong><%= user.teacher.profile_link %></strong><br /><%= user.teacher.location %>
+				<p style="margin-top:0px;"><strong><%= user.profile_link %></strong><br /><%= user.location %>
 			</div>
 			<% end %>
 			<div style="clear:both;"></div>

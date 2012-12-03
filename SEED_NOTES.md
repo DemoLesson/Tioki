@@ -1,3 +1,143 @@
+v3.0.12 - Dec 3, 2012  9:16AM PST deployed by Kelly Becker
+==========================================================
+* 9028244: Kelly Becker - user slugs
+
+v3.0.11 - Dec 2, 2012 11:22PM PST deployed by Aleks Stanisic
+============================================================
+* 922b7d8: Aleks Stanisic - message fix
+
+v3.0.10 - Dec 2, 2012  4:55PM PST deployed by Aleks Stanisic
+============================================================
+* 798b934: Elijah Green - fix video watch snippet
+* 6c56a0a: Aleks Stanisic - added analytics to messages
+* 56db5b9: Aleks Stanisic - added analytics to discussions
+* c9d0431: Aleks Stanisic - adding analytics for connection requests
+* 00cb825: Brian Martinez - changes to invite pages
+
+v3.0.9 - Dec 1, 2012  7:14PM PST deployed by Aleks Stanisic
+===========================================================
+* 2da27c1: Aleks Stanisic - added analytics to groups
+* 8de0212: Elijah Green - Differentiate educators and recruiters on admin page
+
+v3.0.8 - Dec 1, 2012  5:27PM PST deployed by Aleks Stanisic
+===========================================================
+* e5114b7: Aleks Stanisic - table fix for grades
+
+v3.0.7 - Dec 1, 2012  4:33PM PST deployed by Aleks Stanisic
+===========================================================
+* 5d3897e: Elijah Green - Fix donors_choose_list
+* a20da6a: Elijah Green - Fix technologies/show
+* 53b5ed2: Elijah Green - Remove accidently commited file
+
+v3.0.6 - Dec 1, 2012  3:33PM PST deployed by Kelly Becker
+=========================================================
+* 51e4d54: Kelly Becker - more discussions issues
+* 04accdd: Elijah Green - Fix referral user list
+* c2891a9: Elijah Green - remove reference to teacher in presentations
+* e0b5faf: Elijah Green - Fix discussions/show (was checkin for teacher)
+* 2086b6a: Elijah Green - Fix linkedin import
+
+v3.0.5 - Dec 1, 2012  3:15PM PST deployed by Kelly Becker
+=========================================================
+* 2ce23ec: Kelly Becker - merge
+* 521bc71: Kelly Becker - updated links
+* 654d2a3: Elijah Green - fix some bad links on the profile
+
+v3.0.4 - Dec 1, 2012  3:02PM PST deployed by Aleks Stanisic
+===========================================================
+* 191e424: Elijah Green - Fix admin page
+* 2cfe5e0: Elijah Green - Fix non-discussion comments
+
+v3.0.3 - Dec 1, 2012  2:09PM PST deployed by Kelly Becker
+=========================================================
+* 5644a10: Kelly Becker - profile stats update
+* 88bb90f: Kelly Becker - merge cleanup
+* e7e2538: Kelly Becker - merge teachers
+* e7c40fe: Kelly Becker - skip creating a notification if user.nil?
+* bff0635: Elijah Green - Fix credentials on step4 of application wizard
+* 78e105c: Elijah Green - Check if user is deleted when notifing for disucssions
+
+v3.0.2 - Dec 1, 2012  1:26PM PST deployed by Kelly Becker
+=========================================================
+* 15380c1: Kelly Becker - newrelic config
+* dfc9ee2: Kelly Becker - newrelic
+* b78eb56: Elijah Green - Fix checking for authorizations
+
+v3.0.1 - Nov 30, 2012 11:51PM PST deployed by Kelly Becker
+==========================================================
+* 51eb703: Kelly Becker - aleks broke something
+
+v3.0.0 - Nov 30, 2012 11:26PM PST deployed by Kelly Becker
+==========================================================
+* a213962: Kelly Becker - staging instance
+* 4db34ff: Kelly Becker - notme fix
+* 0e8f3b0: Kelly Becker - skills fix
+* 0370ab3: Kelly Becker - rake
+* bdba340: Kelly Becker - removed trash from the capfile
+* e0ce5bb: Kelly Becker - lets go for the staging server
+* 0b91e47: Kelly Becker - signup flow works :D
+* 8c5497c: Kelly Becker - connection search
+* 9611b92: Elijah Green - Add watch snippet and attachments to applications
+* a2fe4ce: Elijah Green - Add appattachments
+* 0d52487: Kelly Becker - userconnections now works with a new route.
+* c8dc700: Kelly Becker - userconnections now works with a new route.
+* 813fbd4: Kelly Becker - whiteboard migration works
+* 90f0372: Kelly Becker - profile stats now on migrated slug
+* eebf0ce: Kelly Becker - requre login for profiel stats
+* d87499d: Elijah Green - fix to jobs/show page
+* 1e70918: Kelly Becker - whoops made the db nulls go the wrong way
+* 854cf3e: Kelly Becker - profile stats and bump updated_at in sessions
+* 851091c: Elijah Green - Change application teacher references to users
+* 40dd58f: Elijah Green - parameterize user slugs and fix add vouches
+* e6033c3: Elijah Green - vouches
+* ab87dfe: Kelly Becker - teacherid nullable
+* 4e74dc4: Elijah Green - Change alter_column to change_column
+* 2667dd6: Kelly Becker - teacher -> user migration for videos
+* 51cc521: Kelly Becker - attachments now work
+* 472f39f: Kelly Becker - technologies and skills
+* 0f82dcb: Kelly Becker - skills information page all good :D
+* 0bac85d: Kelly Becker - editing skills now works. skills info pages i dont think do
+* 535a4b5: Kelly Becker - credentials work!
+* 020bd35: Kelly Becker - educations and experience are working
+* 25802f2: Elijah Green - Remove extra education files
+* 8e07cb2: Elijah Green - Homepage, profile, edit educations
+* fe34ca8: Kelly Becker - migrations are done lets get started on debugging
+* 7966dba: Kelly Becker - migrations are moving along were almost ready to test!
+* a903ee7: Kelly Becker - migration progress
+* 3a78f5f: Kelly Becker - removing c9revisions
+* db38130: Elijah Green - technologies
+* 6068a30: Elijah Green - messages
+* 8821b9a: Elijah Green - connections and whiteboards
+* 8c8c851: Elijah Green - Skills, groups, slight changes to home_controller
+* 0e80a88: Kelly Becker - committing so elijah can try on local
+* 93b7083: Kelly Becker - we are migrating on cloud9 like a team! save point
+* 90ba8cd: Aleks Stanisic - credentials teachers
+* d5934c6: Kelly Becker - updated gem file
+* 121bf79: Kelly Becker - migration so far
+* 0fb6449: Kelly Becker - migrations work
+* f26051f: Kelly Becker - case senativiy
+* 2acd8f6: Kelly Becker - kvpairs
+* 77f8d38: Kelly Becker - some amazing headway
+
+v2.1.19 - Nov 30, 2012  7:12PM PST deployed by Aleks Stanisic
+=============================================================
+* 6d639b9: Aleks Stanisic - profile design fix
+
+v2.1.18 - Nov 30, 2012  9:35AM PST deployed by Aleks Stanisic
+=============================================================
+* c3653df: Kelly Becker - gitignore and gemlock
+* 1d2095e: Elijah Green - Fix adding groups
+
+v2.1.17 - Nov 28, 2012  8:54PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v2.1.16 - Nov 28, 2012  8:51PM PST deployed by Aleks Stanisic
+=============================================================
+* f08757c: Brian Martinez - suggested groups on groups pages
+* 30dc978: Brian Martinez - adding prompts to join group to disucss
+* f3765b4: Brian Martinez - changes to application flow
+
 v2.1.15 - Nov 28, 2012  1:15PM PST deployed by Kelly Becker
 ===========================================================
 * 262840c: Kelly Becker - whoops commenting out not a good plan

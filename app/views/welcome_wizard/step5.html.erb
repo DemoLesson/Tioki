@@ -37,22 +37,35 @@ tr.seeking, tr.student {
 			</div>
 			<h1 class="name"><%= @user.name %></h1>
 			<h2 class="job">
-				<%= @user.teacher.position + ' at ' + @user.teacher.school unless @user.teacher.position.empty? || @user.teacher.school.empty? %>
+				<% if !(currentJob = @user.currentJob).nil? %>
+					<%= [currentJob.position, currentJob.company].delete_if{|x|x.empty?}.join(' at ') %>
+				<% else %>
+					&nbsp;
+				<% end %>
 			</h2>
-			<h2 class="job"><%= @user.teacher.educations.first.school unless @user.teacher.educations.empty? %></h2>
-			<h3 class="location"><%= @user.teacher.location %> <span style="float:right; margin-right: 15p0">My Skills</span></h3>
+			<h2 class="job">
+				<% if !(school = @user.educations.first).nil? %>
+					<%= school.school %>
+				<% else %>
+					&nbsp;
+				<% end %>
+			</h2>
+			<h3 class="location">
+				<%= @user.location || '&nbsp;'.html_safe %>
+				<span style="float:right; margin-right: 15p0">My Skills</span>
+			</h3>
 			<div class="about">
 				<table>
 					<td><span class="label">About me</span></td>
 					<td><div class="textarea">
-						<textarea class="css3-border-box" id="about-me" placeholder="(Tell us a little about yourself)"></textarea>
+						<textarea class="css3-border-box" id="about-me" maxlength="140" placeholder="(Tell us a little about yourself)"></textarea>
 					</div></td>
 				</table>
 			</div>
 		</div>
 
 		<% if @invite %>
-			<a href="/profile/<%= @invite.user.teacher.url %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+			<a href="/profile/<%= @invite.user.url %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% else %>
 			<a href="/get_started" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% end %>

@@ -1,20 +1,19 @@
 class UserMailer < ActionMailer::Base
 	default :from => "Tioki <tioki@tioki.com>"
 
-	def teacher_welcome_email(user_id)
+	def user_welcome_email(user_id)
 		@user = User.find(user_id)
-		@teacher = Teacher.find_by_user_id(user_id)
 
 		# Get ab test number
-		ab = Abtests.use("email:teacher_welcome", 1).to_s
-		template "teacher_welcome_email_" + ab
+		ab = Abtests.use("email:user_welcome", 1).to_s
+		template "user_welcome_email_" + ab
 
 		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
 			f.html { render template }
 		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('teacher_welcome_email:ab-' + ab)
+			mail.delivery_method.tag('user_welcome_email:ab-' + ab)
 		end
 
 		return mail
@@ -22,7 +21,6 @@ class UserMailer < ActionMailer::Base
 
 	def teacher_welcome_email_temppassword(user_id, password)
 		@user = User.find(user_id)
-		@teacher = Teacher.find_by_user_id(user_id)
 		@password = password
 
 		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!')
@@ -50,9 +48,8 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def interview_notification(teacher_id, job_id)  
-		@teacher = Teacher.find(teacher_id)
-		@user = User.find(@teacher.user_id)
+	def interview_notification(user_id, job_id)  
+		@user = User.find(user_id)
 		@job = Job.find(job_id)
 
 		mail = mail(:to => @user.email, :subject => 'You have a new interview request!')
@@ -90,16 +87,15 @@ class UserMailer < ActionMailer::Base
 	end
 
 	# @Aleks look at this. It doesn't appear to be sending anything out.
-	def teacher_applied(school_id, job_id, teacher_id)
+	def teacher_applied(school_id, job_id, user_id)
 		@school = School.find(school_id)
 		@admin_user = User.find(@school.owned_by)
 
 		@job = Job.find(job_id)
-		@teacher = Teacher.find(teacher_id)
-		@teacher_user = User.find(@teacher.user_id)
+		@user = User.find(user_id)
 
 		message_body = "Please login to tioki.com to respond to this request."
-		subject = @teacher_user.name+' applied to your job posting: '+@job.title
+		subject = @user.name + ' applied to your job posting: ' + @job.title
 
 		mail(:to => @admin_user.email, :subject => subject)
 
@@ -120,7 +116,7 @@ class UserMailer < ActionMailer::Base
 
 	# @Aleks look at this. It doesn't appear to be sending anything out.
 	def interview_scheduled(user_id, job_id)
-		@teacher_user = User.find(user_id)
+		@user = User.find(user_id)
 
 		@job = Job.find(job_id)
 		@school = School.find(@job.school_id)
@@ -128,20 +124,20 @@ class UserMailer < ActionMailer::Base
 
 		message_body = "Please login to tioki.com to view your interviewee's request."
 
-		mail(:to => @admin_user.email, :subject => @teacher_user.name+' has scheduled an interview', :body => message_body)
+		mail(:to => @admin_user.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
 
 		@admins = SharedUsers.find(:all, :conditions => { :owned_by => @admin_user.id })
 		@admins.each do |admin|
 			shared =User.find(admin.user_id)
 			if shared.is_limited ==false
-				mail(:to => shared.email, :subject => @teacher_user.name+' has scheduled an interview', :body => message_body)
+				mail(:to => shared.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
 			end
 		end
 
 		@limitedusers = SharedSchool.find(:all, :conditions => { :school_id => @school.id})
 		@limitedusers.each do |limiteduser|
 			shared = User.find(limiteduser.user_id)
-			mail(:to => shared.email, :subject => @teacher_user.name+' has scheduled an interview', :body => message_body)
+			mail(:to => shared.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
 		end
 	end
 
@@ -206,7 +202,7 @@ class UserMailer < ActionMailer::Base
 		mail = mail(:to => emails, :subject => subject) do |f|
 			f.html { render template }
 		end
-		#:body => "Hi #{name}! "+@teacher_user.name+" wants you too check out the job, "+@job.title+", posted by "+@job.school.name+" on Demo Lesson! Click on the following link to view the job posting: http://www.demolesson.com/jobs/#{@job.id}\n\nIf you have any questions or need additional support please contact us at support@tioki.com.")
+		#:body => "Hi #{name}! "+@teachername+" wants you too check out the job, "+@job.title+", posted by "+@job.school.name+" on Demo Lesson! Click on the following link to view the job posting: http://www.demolesson.com/jobs/#{@job.id}\n\nIf you have any questions or need additional support please contact us at support@tioki.com.")
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('refer_job_email:ab-' + ab)
@@ -351,10 +347,9 @@ class UserMailer < ActionMailer::Base
 		mail(:to => 'support@tioki.com', :subject => subject, :body => body)
 	end
 
-	def rejection_notification(teacher_id, job_id, name)  
-		@teacher = Teacher.find(teacher_id)
+	def rejection_notification(user_id, job_id, name)  
+		@user = User.find(user_id)
 		@job = Job.find(job_id)
-		@user = User.find(@teacher.user_id)
 		@school = School.find(@job.school_id)
 		@admin_user = User.find(@school.owned_by)
 
@@ -367,8 +362,8 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def weeklyemail(teacher)
-		@teacher=teacher
+	def weeklyemail(user)
+		@user=user
 		#keywords for finding grades
 		gradestring=["K","1","2","3","4","5","6","7","8","9","10","11","12", "elementary", "middle", "high","pre", "adult"]
 
@@ -377,10 +372,10 @@ class UserMailer < ActionMailer::Base
 		tup = SmartTuple.new(" AND ")
 		tup << ["jobs.created_at > ?", Date.today- 7.days]
 
-		if teacher.seeking_location.present?
+		if !user.seeking['location'].nil?
 			#A loaction is a specific point in that location so a radius is needed.
 			#Currently a 25 miles radius
-			schools = School.near( teacher.seeking_location, 25).collect(&:id)
+			schools = School.near( user.seeking['location'], 25).collect(&:id)
 
 			#if no schools go to next teacher
 			if schools.size == 0
@@ -392,44 +387,44 @@ class UserMailer < ActionMailer::Base
 			@jobs = Job.is_active.find(:all, :conditions => tup.compile)
 		end
 
-		if teacher.seeking_grade.present?
+		if !user.seeking['grade'].nil?
 			jobarray = []
 
 			#Elementary grades, K-6
-			if gradestring[0..6].any? { |str| teacher.seeking_grade.include? str } || teacher.seeking_grade.downcase.include?("elementary")
+			if gradestring[0..6].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("elementary")
 				#2=elementary,7=K-6,8=K-8,10=K-12
 				jobarray+=@jobs.select { |job| job.school.grades == 2 || job.school.grades == 8 || job.school.grades == 10 }
 			end
 
 			#Middle grades, 6-8 
-			if gradestring[6..8].any? { |str| teacher.seeking_grade.include? str } || teacher.seeking_grade.downcase.include?("middle")
+			if gradestring[6..8].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("middle")
 				#3=middle,8=K-8,9=6-12, 10=K-12
 				jobarray+=@jobs.select { |job| job.school.grades == 3 || job.school.grades == 8 || job.school.grades == 9 || job.school.grades == 10 }
 			end
 
 			#High school grades, K-12
-			if gradestring[9..12].any? { |str| teacher.seeking_grade.include? str } || teacher.seeking_grade.downcase.include?("high")
+			if gradestring[9..12].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("high")
 				#10=K-12, 9=6-12, 4 = high school
 				jobarray+=@jobs.select { |job| job.school.grades == 9 || job.school.grades == 10 || job.school.grades == 4 }
 			end
 
 			#Pre-school
-			if teacher.seeking_grade.downcase.include?("pre")
+			if user.seeking['grade'].downcase.include?("pre")
 				#1=pre-K
 				jobarray+=@jobs.select { |job| job.school.grades == 1 }
 			end
 
 			#Adult School
-			if teacher.seeking_grade.downcase.include?("adult")
+			if user.seeking['grade'].downcase.include?("adult")
 				jobarray+=@jobs.select { |job| job.school.grades == 5 }
 			end
 
 			@jobs=jobarray.uniq
 		end
 
-		if teacher.seeking_subject.present?
+		if user.seeking['subject'].present?
 			#select subjects whose names is in seeking_subject
-			@subjects=Subject.all.select { |subject| teacher.seeking_subject.include? subject.name }
+			@subjects=Subject.all.select { |subject| user.seeking['subject'].include? subject.name }
 
 			jobarray = []
 
@@ -442,7 +437,7 @@ class UserMailer < ActionMailer::Base
 		end
 
 		if @jobs.size > 0
-			mail = mail(:to => teacher.user.email, :subject => "New job postings at tioki.com")
+			mail = mail(:to => user.email, :subject => "New job postings at tioki.com")
 		end
 
 		if mail.delivery_method.respond_to?('tag')
@@ -516,7 +511,7 @@ class UserMailer < ActionMailer::Base
 		vouchee = User.find(vouchee_id)
 		voucher = User.find(voucher_id)
 		email = vouchee.email
-		@profile_name = vouchee.teacher.url
+		@profile_name = vouchee.slug
 		@vouched_skills = VouchedSkill.find(:all, :conditions => ["user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, start_time], :limit => 6)
 		@sender_name = voucher.name
 		@receiver_name = vouchee.name

@@ -27,7 +27,7 @@ class CronController < ApplicationController
 		@events.each do |e|
 
 			# Get a list of the members who want notifications
-			users = e.rsvp.select{|x| x.emaileventreminder}
+			users = e.rsvp.select{|x| x.email_permissions["event_reminder"]}
 
 			users.each do |u|
 				EventMailer.notification(u, e)

@@ -1,0 +1,13 @@
+<section id="main-content" class="inner-content">
+	<h3>Do you have a linkedin profile and wish to use information from it as part of your Tioki profile?</h3>
+
+	<div>
+		<%= form_tag :action=> "linkedinprofile" do %>
+			<%= hidden_field_tag :response, :yes %>
+			<%= submit_tag "Import Now", :class => "btn btn-success" %>
+
+			<%= link_to "No Thanks", "/profile/#{self.current_user.slug}", :class => "button" %>
+
+		<% end %>
+	</div>
+</section>

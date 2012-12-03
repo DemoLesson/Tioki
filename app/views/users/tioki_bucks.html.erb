@@ -1,0 +1,106 @@
+<section id="main-content" class="inner-content">
+	<h1>Tioki Coins</h1>
+	<section id="panels" class="group">
+		<section class="panel three-column right-side">
+			<p>
+			<strong>Tioki Coins</strong> is a reward system for all educators on Tioki.  By completing certain activities and getting friends to sign-up to Tioki, you can gain Tioki Coins.  Coming soon you will be able to redeem your Tioki coins for Donors Choose gift cards. 
+			</p>
+
+			<p>
+			Start earning Tioki Coins by completing the task below!
+			</p>
+			<h3>You have earned <%= @tioki_bucks %> Tioki Coins</h3>
+			<ul>
+				<li>
+					<a href="#" id="get_started">
+						<h2>Get started with Tioki
+							<% if @start_count >= 5 %>
+								<%= image_tag('/card-assets/images/greencheck.png')%>
+							<% end %>
+							<div style="float:right">
+								$5
+							</div>
+						</h2>
+					</a>
+				</li>
+				<li id="get_started_fields" style="display:none">
+					Complete 5 of 7<br />
+					<a href="/connections">Add 5 connections</a><%if @connected %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+								
+					<a href="/discussions">Follow 3 Discussions</a><%if @followed %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+					<a href="/groups">Join 3 Groups</a><%if @groups %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+					<a>Vouch 5 skills</a><%if @vouched_skills %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+					<a href="/">Post to Whiteboard</a><%if @whiteboard_post %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+					<a href="/discussions">Post a reply to discussion</a><%if @commented %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+					<a href="/me/profile/edit/upload-avatar">Upload a profile picture</a><%if @avatar %><%= image_tag('/card-assets/images/greencheck.png')%><% end %><br />
+				</li>
+				<li>
+					<a href="/facebook_auth" style="display:block">
+						<h2>Write about us on your facebook wall
+							<% if !self.current_user.social_actions['facebook_connect'].nil? %>
+								<%= image_tag('/card-assets/images/greencheck.png')%>
+							<% end %>
+							<div style="float:right">
+								$1
+							</div>
+						</h2>
+						Clicking this will post "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/<%= self.current_user.invite_code %>"
+					</a>
+				</li>
+				<li>
+					<h2>
+						<a href="/twitter_auth?twitter_action=follow">
+							Follow us on twitter
+							<% if !self.current_user.social_actions['twitter_connect'].nil? %>
+								<%= image_tag('/card-assets/images/greencheck.png')%>
+							<% end %>
+							<div style="float:right">
+								$1
+							</div>
+						</h2>
+					</a>
+				</li>
+				<li>
+					<a href="/twitter_auth?twitter_action=tweet" style="display:block">
+						<h2>
+							Tweet about us
+							<% if !self.current_user.social_actions['tweet_about'].nil? %>
+								<%= image_tag('/card-assets/images/greencheck.png')%>
+							<% end %>
+							<div style="float:right">
+								$1
+							</div>
+						</h2>
+						Clicking this will tweet "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/<%= self.current_user.invite_code %> via @tioki"
+					</a>
+				</li>
+				<li>
+					<a href="/inviteconnections" style="display:block">
+						<h2>
+							Refer Friends
+							<% if @invite_count >= 21 %>
+								<%= image_tag('/card-assets/images/greencheck.png')%>
+							<% end %>
+							<div style="float:right">
+								<% if @invite_count == 0 %>
+									Up to $42
+								<% else %>
+									$<%= @invite_count*2 %> out of $42
+								<% end %>
+							</div>
+						</h2>
+						$2 per friend
+					</a>
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+<script>
+	$(document).ready(function () {
+		$("#get_started").click(function(e) {
+			e.preventDefault();
+			$("#get_started_fields").toggle(700);
+		});
+	});
+</script>

@@ -63,7 +63,7 @@ gem 'daemons'
 
 # MySQL Database Access
 # Using Bleeding Edge (might be bad idea but lets see)
-gem 'mysql2', :git => 'git://github.com/brianmario/mysql2.git'
+gem 'mysql2'#, :git => 'git://github.com/brianmario/mysql2.git'
 
 group :development do
   gem 'brakeman'
@@ -154,3 +154,8 @@ gem 'open4'
 gem 'gelf'
 gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
 gem 'graylog2-resque'
+
+gem "kvpair", :git => "git://github.com/KellyLSB/KVPair.git"
+
+# New Relic
+gem 'newrelic_rpm'

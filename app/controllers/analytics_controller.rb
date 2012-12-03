@@ -54,11 +54,15 @@ class AnalyticsController < ApplicationController
 			unless params[:user_type].nil? || params[:user_type].empty?
 				type = params[:user_type]
 
-				joins = Hash.new
-				joins.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
-				joins.merge!("LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`" => "`schools`.`id` IS NOT NULL") if type == 'organization'
-				@users = @users.select('`users`.*').joins(joins.keys.join(' ')).where(joins.values.join(' && '))
-
+				#joins = Hash.new
+				#joins.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
+				#joins.merge!("LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`" => "`schools`.`id` IS NOT NULL") if type == 'organization'
+				#@users = @users.select('`users`.*').joins(joins.keys.join(' ')).where(joins.values.join(' && '))
+                
+                @users = User.all if type == 'educator'
+                
+                @users = User.joins(:schools).find(:all, :grouby_by => "users.id") if type == 'organization'
+                
 				# Filter the totals
 				@totals.collect! do |key, record|
 					next if key == :events_rsvps
@@ -68,30 +72,30 @@ class AnalyticsController < ApplicationController
 					joins = Array.new
 					condi = Array.new
 
-					if !joined_tables[key].include?('teachers') && key == :videos
-						joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
-						joined_tables[key] = 'teachers'
-					end
+					#if !joined_tables[key].include?('teachers') && key == :videos
+					#	joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
+					#	joined_tables[key] = 'teachers'
+					#end
 
 					if !joined_tables[key].include?('users') && key == :videos
-						joins << "LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`"
+						joins << "LEFT JOIN `users` ON `videos`.`user_id` = `users`.`id`"
 						joined_tables[key] = 'users'
 					elsif !joined_tables[key].include?('users') && key != :users
 						joins << "LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`"
 						joined_tables[key] = 'users'
 					end
 
-					if type == 'educator' && !joined_tables[key].include?('teachers')
-						joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
-						joined_tables[key] = 'teachers'
-					end
+					#if type == 'educator' && !joined_tables[key].include?('teachers')
+					#	joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
+					#	joined_tables[key] = 'teachers'
+					#end
 
 					if type == 'organization' && !joined_tables[key].include?('schools')
 						joins << "LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`"
 						joined_tables[key] = 'schools'
 					end
 
-					condi << "`teachers`.`id` IS NOT NULL" if type == 'educator'
+					#condi << "`teachers`.`id` IS NOT NULL" if type == 'educator'
 					condi << "`schools`.`id` IS NOT NULL" if type == 'organization'
 					
 					record.select("`#{key}`.*").joins(joins.join(' ')).where(condi.join(' && '))
@@ -110,12 +114,9 @@ class AnalyticsController < ApplicationController
 					key = :users if key == :completion
 
 					# Join in users
-					if !joined_tables[key].include?('teachers') && key == :videos
-						# Join Teachers
-						record = record.joins("LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`")
-						joined_tables[key] = 'teachers'
+					if !joined_tables[key].include?('users') && key == :videos
 						# Join Users
-						record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
+						record = record.joins("LEFT JOIN `users` ON `videos`.`user_id` = `users`.`id`")
 						joined_tables[key] = 'users'
 					elsif !joined_tables[key].include?('users') && key != :users
 						record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
@@ -144,12 +145,9 @@ class AnalyticsController < ApplicationController
 					key = :users if key == :completion
 
 					# Join in users
-					if !joined_tables[key].include?('teachers') && key == :videos
-						# Join Teachers
-						joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
-						joined_tables[key] = 'teachers'
+					if !joined_tables[key].include?('users') && key == :videos
 						# Join Users
-						record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
+						joins << "LEFT JOIN `users` ON `videos`.`user_id` = `users`.`id`"
 						joined_tables[key] = 'users'
 					elsif !joined_tables[key].include?('users') && key != :users
 						record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
@@ -220,8 +218,8 @@ class AnalyticsController < ApplicationController
 						row << user.vouched_skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
 						row << user.skills.count unless @show_raw
 						row << user.skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
-						row << user.teacher.videos.count rescue 0 unless @show_raw
-						row << user.teacher.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 if @show_raw
+						row << user.videos.count rescue 0 unless @show_raw
+						row << user.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 if @show_raw
 						row << user.connections.count unless @show_raw
 						row << user.connections.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count if @show_raw
 						row << user.completion
@@ -258,16 +256,6 @@ class AnalyticsController < ApplicationController
 		# Join in the data that matters to narrow down the actual queried query
 		slugs_joined.merge!("INNER JOIN (#{slugs2}) as `tmp` ON `analytics`.`created_at` = `tmp`.`max` && `analytics`.`slug` = `tmp`.`slug`" => "'1' = '1'")
 
-		#@totals = Hash.new
-		#@totals[:events_rsvps] = EventsRsvps.where("'1' = '1'")
-		#@totals[:vouched_skills] = VouchedSkill.where("'1' = '1'")
-		#@totals[:skill_claims] = SkillClaim.where("'1' = '1'")
-		#@totals[:videos] = Video.where("'1' = '1'")
-		#@totals[:connections] = Connection.where("`connections`.`pending` = ?", false)
-		#@totals[:completion] = User.select('CEIL(AVG(`users`.`completion`)) as `_completion`')
-		#@rawtotals = @totals.clone
-		#@show_raw = false
-
 		# Store the joined tables
 		#joined_tables = Multimap.new
 
@@ -277,15 +265,6 @@ class AnalyticsController < ApplicationController
 			unless params[:date_start].nil? || params[:date_end].nil? || params[:date_start].empty? || params[:date_end].empty?
 				@slugs = @slugs.where('date(`analytics`.`created_at`) BETWEEN ? AND ?', params[:date_start], params[:date_end])
 
-				# Filter the totals
-				#@totals.collect! do |key, record|
-				#	next if key == :events_rsvps
-				#	key = :users if key == :completion
-				#
-				#	record.where("date(`#{key}`.`created_at`) BETWEEN ? AND ?", params[:date_start], params[:date_end])
-				#end
-				#
-				#@show_raw = true
 			end
 
 			# Complicated Query
@@ -293,48 +272,9 @@ class AnalyticsController < ApplicationController
 				type = params[:user_type]
 
 				slugs_joined.merge!("LEFT JOIN `users` ON `analytics`.`user_id` = `users`.`id`" => "'1' = '1'")
-				slugs_joined.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
+				#slugs_joined.merge!("LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`" => "`teachers`.`id` IS NOT NULL") if type == 'educator'
 				slugs_joined.merge!("LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`" => "`schools`.`id` IS NOT NULL") if type == 'organization'
 
-				# Filter the totals
-				#@totals.collect! do |key, record|
-				#	next if key == :events_rsvps
-				#	key = :users if key == :completion
-				#
-				#	# Perform joins
-				#	joins = Array.new
-				#	condi = Array.new
-				#
-				#	if !joined_tables[key].include?('teachers') && key == :videos
-				#		joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
-				#		joined_tables[key] = 'teachers'
-				#	end
-				#
-				#	if !joined_tables[key].include?('users') && key == :videos
-				#		joins << "LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`"
-				#		joined_tables[key] = 'users'
-				#	elsif !joined_tables[key].include?('users') && key != :users
-				#		joins << "LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`"
-				#		joined_tables[key] = 'users'
-				#	end
-				#
-				#	if type == 'educator' && !joined_tables[key].include?('teachers')
-				#		joins << "LEFT JOIN `teachers` ON `users`.`id` = `teachers`.`user_id`"
-				#		joined_tables[key] = 'teachers'
-				#	end
-				#
-				#	if type == 'organization' && !joined_tables[key].include?('schools')
-				#		joins << "LEFT JOIN `schools` ON `users`.`id` = `schools`.`owned_by`"
-				#		joined_tables[key] = 'schools'
-				#	end
-				#
-				#	condi << "`teachers`.`id` IS NOT NULL" if type == 'educator'
-				#	condi << "`schools`.`id` IS NOT NULL" if type == 'organization'
-				#	
-				#	record.select("`#{key}`.*").joins(joins.join(' ')).where(condi.join(' && '))
-				#end
-				#
-				#@show_raw = true
 			end
 
 			# Filter by test types
@@ -343,29 +283,6 @@ class AnalyticsController < ApplicationController
 				@slugs = @slugs.where('`users`.`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
 				@slugs = @slugs.where('`users`.`ab` IS NULL') if params[:user_test] == 'default'
 
-				#@totals.collect! do |key, record|
-				#	next if key == :events_rsvps
-				#	key = :users if key == :completion
-				#
-				#	# Join in users
-				#	if !joined_tables[key].include?('teachers') && key == :videos
-				#		# Join Teachers
-				#		record = record.joins("LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`")
-				#		joined_tables[key] = 'teachers'
-				#		# Join Users
-				#		record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
-				#		joined_tables[key] = 'users'
-				#	elsif !joined_tables[key].include?('users') && key != :users
-				#		record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
-				#		joined_tables[key] = 'users'
-				#	end
-				#
-				#	# Set condition
-				#	record.where('`users`.`ab` IS NULL') if params[:user_test] == 'default'
-				#	record.where('`users`.`ab` = ?', params[:user_test]) unless params[:user_test] == 'default'
-				#end
-				#
-				#@show_raw = true
 			end
 
 			# Filter by User ID Range
@@ -378,28 +295,6 @@ class AnalyticsController < ApplicationController
 				slugs_joined.merge!("LEFT JOIN `users` ON `analytics`.`user_id` = `users`.`id`" => "'1' = '1'")
 				@slugs = @slugs.where('`users`.`id` BETWEEN ? AND ?', _start, _end) if _start < _end
 
-				#@totals.collect! do |key, record|
-				#	next if key == :events_rsvps
-				#	key = :users if key == :completion
-				#
-				#	# Join in users
-				#	if !joined_tables[key].include?('teachers') && key == :videos
-				#		# Join Teachers
-				#		joins << "LEFT JOIN `teachers` ON `videos`.`teacher_id` = `teachers`.`id`"
-				#		joined_tables[key] = 'teachers'
-				#		# Join Users
-				#		record = record.joins("LEFT JOIN `users` ON `teachers`.`user_id` = `users`.`id`")
-				#		joined_tables[key] = 'users'
-				#	elsif !joined_tables[key].include?('users') && key != :users
-				#		record = record.joins("LEFT JOIN `users` ON `#{key}`.`user_id` = `users`.`id`")
-				#		joined_tables[key] = 'users'
-				#	end
-				#	
-				#	# Set condition
-				#	record.where('`users`.`id` BETWEEN ? AND ?', _start, _end) if _start < _end
-				#end
-				#
-				#@show_raw = true
 			end
 
 			unless params[:complete].nil? || params[:complete].empty?

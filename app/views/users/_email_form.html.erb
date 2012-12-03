@@ -1,14 +1,6 @@
 <%= form_tag :action => "email_settings" do %>
 	<h2>Email settings</h2>
-	<div class="field">
-		<%= check_box "user", :emailsubscription %>
-		<%= "Have tioki give me emails that show what job postings fit my profile in the last week." %>
-	</div>
-	<div class="field">
-		<%= check_box "user", :emaileventreminder %>
-		<%= "Have tioki send me emails reminding me about my events." %>
-	</div><br />
-	Receive an email when there is a comment on a
+	Receive an email when the following event occur
 	<% APP_CONFIG['bitswitches']['email_permissions'].each do |bit, name| %>
 		<fieldset>
 			<input type="hidden" name="permissions[<%= name %>]" value="1" />

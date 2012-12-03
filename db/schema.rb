@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128000713) do
+ActiveRecord::Schema.define(:version => 20121201215024) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
   end
 
   create_table "applications", :force => true do |t|
-    t.integer  "teacher_id"
     t.integer  "job_id",                          :null => false
     t.text     "additional_notes"
     t.integer  "status"
@@ -64,10 +63,10 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "viewed"
     t.integer  "video_id"
     t.integer  "submitted",        :default => 0
+    t.integer  "user_id"
   end
 
   add_index "applications", ["job_id"], :name => "index_applications_on_job_id"
-  add_index "applications", ["teacher_id"], :name => "index_applications_on_teacher_id"
 
   create_table "assets", :force => true do |t|
     t.string   "name"
@@ -78,10 +77,10 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "file_content_type"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
-    t.integer  "teacher_id"
     t.integer  "application_id"
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
+    t.integer  "user_id"
   end
 
   create_table "awards", :force => true do |t|
@@ -89,9 +88,9 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "issuer"
     t.datetime "date"
     t.string   "description"
-    t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "banners", :force => true do |t|
@@ -164,13 +163,12 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
   add_index "credentials_jobs", ["credential_id", "job_id"], :name => "index_credentials_jobs_on_credential_id_and_job_id"
   add_index "credentials_jobs", ["job_id"], :name => "index_credentials_jobs_on_job_id"
 
-  create_table "credentials_teachers", :id => false, :force => true do |t|
-    t.integer "teacher_id",    :null => false
+  create_table "credentials_users", :id => false, :force => true do |t|
     t.integer "credential_id", :null => false
+    t.integer "user_id"
   end
 
-  add_index "credentials_teachers", ["credential_id", "teacher_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
-  add_index "credentials_teachers", ["teacher_id"], :name => "index_credentials_teachers_on_teacher_id"
+  add_index "credentials_users", ["credential_id"], :name => "index_credentials_teachers_on_credential_id_and_teacher_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -205,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "group_id"
   end
 
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
@@ -216,9 +215,9 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "year"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "teacher_id"
     t.integer  "start_year"
     t.boolean  "current"
+    t.integer  "user_id"
   end
 
   create_table "eventformats", :force => true do |t|
@@ -298,7 +297,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "current"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "teacher_id"
+    t.integer  "user_id"
   end
 
   create_table "favorites", :force => true do |t|
@@ -333,11 +332,11 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "updated_at"
   end
 
-  create_table "grades_teachers", :force => true do |t|
-    t.integer  "teacher_id"
+  create_table "grades_users", :force => true do |t|
     t.integer  "grade_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -355,14 +354,9 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "facebook"
   end
 
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
-  end
-
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "teacher_id"
     t.integer  "job_id"
     t.datetime "date"
     t.datetime "date_alternate"
@@ -372,6 +366,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.boolean  "school_location"
     t.string   "location"
     t.text     "message"
+    t.integer  "user_id"
   end
 
   create_table "jobs", :force => true do |t|
@@ -413,6 +408,17 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
 
   add_index "jobs_subjects", ["job_id"], :name => "index_jobs_subjects_on_job_id"
   add_index "jobs_subjects", ["subject_id", "job_id"], :name => "index_jobs_subjects_on_subject_id_and_job_id"
+
+  create_table "kvpairs", :force => true do |t|
+    t.string "owner"
+    t.string "namespace"
+    t.string "key"
+    t.string "value"
+  end
+
+  add_index "kvpairs", ["key"], :name => "index_kvpairs_on_key"
+  add_index "kvpairs", ["namespace"], :name => "index_kvpairs_on_namespace"
+  add_index "kvpairs", ["owner"], :name => "index_kvpairs_on_owner"
 
   create_table "login_tokens", :force => true do |t|
     t.integer  "user_id"
@@ -462,14 +468,6 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "sent_to"
   end
 
-  create_table "pins", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "teacher_id"
-    t.integer  "job_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "presentations", :force => true do |t|
     t.string   "title"
     t.string   "url"
@@ -477,9 +475,9 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "date"
     t.string   "author"
     t.text     "description"
-    t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "pricing_models", :force => true do |t|
@@ -631,26 +629,20 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "updated_at"
   end
 
-  create_table "stars", :force => true do |t|
-    t.integer "teacher_id"
-    t.integer "voter_id"
-  end
-
   create_table "subjects", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "subjects_teachers", :id => false, :force => true do |t|
-    t.integer  "teacher_id", :null => false
+  create_table "subjects_users", :id => false, :force => true do |t|
     t.integer  "subject_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
-  add_index "subjects_teachers", ["subject_id", "teacher_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
-  add_index "subjects_teachers", ["teacher_id"], :name => "index_subjects_teachers_on_teacher_id"
+  add_index "subjects_users", ["subject_id"], :name => "index_subjects_teachers_on_subject_id_and_teacher_id"
 
   create_table "teacher_links", :force => true do |t|
     t.integer  "teacher_id"
@@ -660,45 +652,6 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "teachers", :force => true do |t|
-    t.integer  "user_id",                                                    :null => false
-    t.boolean  "willing_to_move"
-    t.boolean  "currently_seeking",                       :default => true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "url",                                     :default => ""
-    t.string   "resume_file_name"
-    t.string   "resume_content_type"
-    t.integer  "resume_file_size"
-    t.datetime "resume_updated_at"
-    t.string   "phone"
-    t.string   "position"
-    t.string   "school"
-    t.string   "location"
-    t.string   "seeking_subject"
-    t.string   "seeking_grade"
-    t.string   "seeking_location"
-    t.string   "additional_information", :limit => 10000
-    t.string   "linkedin"
-    t.string   "guest_code"
-    t.boolean  "tfa"
-    t.string   "headline",               :limit => 140
-    t.string   "edmodo"
-    t.string   "twitter"
-    t.string   "betterlesson"
-    t.string   "teachingchannel"
-    t.integer  "video_id"
-    t.string   "pinterest"
-    t.boolean  "facebook_connect",                        :default => false
-    t.boolean  "twitter_connect",                         :default => false
-    t.boolean  "tweet_about",                             :default => false
-    t.string   "website"
-    t.string   "blog"
-  end
-
-  add_index "teachers", ["url"], :name => "index_teachers_on_url"
-  add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
 
   create_table "technologies", :force => true do |t|
     t.string   "name"
@@ -750,10 +703,7 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "hashed_password",                          :null => false
     t.string   "salt",                                     :null => false
     t.string   "name"
-    t.boolean  "is_verified",           :default => false, :null => false
     t.boolean  "is_admin",              :default => false, :null => false
-    t.string   "default_home"
-    t.string   "verification_code"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar_file_name"
@@ -765,12 +715,8 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.datetime "deleted_at"
     t.boolean  "is_shared",             :default => false, :null => false
     t.boolean  "is_limited",            :default => false, :null => false
-    t.boolean  "emailsubscription",     :default => true
-    t.string   "time_zone",             :default => "UTC"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "emaileventreminder"
-    t.boolean  "emaileventapproved"
     t.string   "original_name"
     t.string   "temp_img_name"
     t.integer  "privacy",               :default => 0,     :null => false
@@ -781,9 +727,15 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.string   "twitter_oauth_token"
     t.string   "twitter_oauth_secret"
     t.string   "facebook_access_token"
+    t.string   "slug"
+    t.string   "guest_code"
+    t.string   "location"
+    t.string   "dashboard"
+    t.string   "headline"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
 
   create_table "users_groups", :force => true do |t|
     t.integer  "user_id"
@@ -804,7 +756,6 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
   add_index "video_views", ["video_id"], :name => "index_video_views_on_video_id"
 
   create_table "videos", :force => true do |t|
-    t.integer  "teacher_id",                                      :null => false
     t.string   "video_id",                                        :null => false
     t.string   "description"
     t.string   "name"
@@ -825,9 +776,8 @@ ActiveRecord::Schema.define(:version => 20121128000713) do
     t.integer  "duration_in_ms"
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
+    t.integer  "user_id"
   end
-
-  add_index "videos", ["teacher_id"], :name => "index_videos_on_teacher_id"
 
   create_table "videos_skills", :id => false, :force => true do |t|
     t.integer "video_id"

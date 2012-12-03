@@ -11,8 +11,13 @@ tr.seeking, tr.student {
 	<div class="clear"></div>
 
 	<div class="seven columns">
+		<% if User.current.social[:linkedin].nil? %>
+			<h2>Fill out the information below</h2>
+		<% else %>
+			<h2>Verify the imported information below</h2>
+		<% end %>
 		<table style="width:100%;">
-			<% User.current.teacher.educations.each do |edu| %>
+			<% User.current.educations.each do |edu| %>
 				<tr>
 					<td>
 						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
@@ -93,7 +98,7 @@ tr.seeking, tr.student {
 		</form>
 	</div>
 	<div class="eleven columns">
-		<% unless User.current.teacher.educations.empty? %>
+		<% unless User.current.educations.empty? %>
 			<a href="step4" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step →</a>
 		<% else %>
 			<p style="float:right">Please provide some kind of education background...</p>
