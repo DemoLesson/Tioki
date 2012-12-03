@@ -56,16 +56,15 @@
   </div>
 <% end %>
 <script type="text/javascript">
-	tinyMCE.init({
-	mode : "textareas",
-	theme : "advanced",
-	theme_advanced_buttons1 : "bold,italic,underline,link,unlink",
-	theme_advanced_buttons2 : "",
-	theme_advanced_buttons3 : "",
-	plugins : "inlinepopups",
-	theme_advanced_link_targets : "",
-	dialog_type : "modal",
-	width : "275",
-	height : "275"
-});;
+	$(document).ready(function () {
+		tinyMCE.init({
+			mode : "textareas",
+			theme : "advanced",
+			plugins : "inlinepopups,paste",
+			theme_advanced_buttons1 : "bold,italic,underline,link,unlink,pastetext,pasteword,selectall",
+			dialog_type : "modal",
+			width : "275",
+			height : "275"
+		});
+	});
 </script>

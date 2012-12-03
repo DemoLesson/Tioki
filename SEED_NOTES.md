@@ -1,3 +1,9 @@
+v3.0.13 - Dec 3, 2012 12:57PM PST deployed by Kelly Becker
+==========================================================
+* 91c7042: Kelly Becker - name and slug normalizer
+* 73909aa: Elijah Green - Add pasteword button to presentations/_form and index
+* 8917399: Elijah Green - Add paste plugin to tinymce in presentations/_form
+
 v3.0.12 - Dec 3, 2012  9:16AM PST deployed by Kelly Becker
 ==========================================================
 * 9028244: Kelly Becker - user slugs
