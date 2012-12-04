@@ -142,6 +142,31 @@
 			});
 		});
 
+		$('a[href="#facebook_login"]').live('click', function(e) {
+			e.preventDefault();
+
+			$("#fb_nologin").hide();
+			$("#fb_login").show();
+			FB.login(function(response) {
+				if(response.authResponse) {
+					FB.api('/me/friends?fields=id,name,picture', function(response)
+					{
+						inviteType = "facebook";
+						for(var i = 0; i < response.data.length; i++)
+						{
+							contact = response.data[i];
+
+							facebookSearch[i] = contact;
+
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' " style="background:#CFD4D5" />');
+							link.html('<img src=' + contact.picture.data.url + ' style="width:30px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:8px">' + contact.name + '</span>');
+							$('div.person_cloud').append(link);
+						}
+					});
+				}
+			});
+		});
+
 		$("#contact_search").keyup(function() {
 			$('div.person_cloud').empty();
 			var str = $(this).attr('value').toLowerCase();
