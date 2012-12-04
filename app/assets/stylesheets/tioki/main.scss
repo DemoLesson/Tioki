@@ -524,6 +524,34 @@ span.connection_degree {
 		padding-left: 28px;
 		
 	}
+	form.person_form div {
+		&.done, &.detected, &.undetected {
+			background: #c1dce9;
+			margin-bottom: 6px;
+			padding: 20px;
+		}
+		&.done h3, &.detected h3, &.undetected h3 {
+			margin-top: 0px;
+		}
+		&.person_cloud a {
+			margin-bottom: 6px;
+			margin-left: 6px;
+			font-size: 16px;
+			width: 314px;
+			float: left;
+			color: #fff;
+			border-radius:5px;
+			&:nth-child(2n-1) {
+				margin-left: 0px;
+			}
+			span {
+				display: block;
+				&.email {
+					font-size: 12px;
+				}
+			}
+		}
+	}
 	
 }
 

@@ -1,4 +1,4 @@
-<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
+<section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
 <!-- Include these scripts to import address books with CloudSponge -->
 <script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -7,116 +7,134 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 		   textarea_id:"emails"
 	};
 </script>
-<section>
-	<nav class="subpage">
-		<ul>
-			<li>
-			<a href="/my_connections">
-				My <%= ablang('connection.plural', true) %>
-			</a>
-			</li>
-			<li>
-				<a href="/connections">
-					Find New <%= ablang('connection.plural', true) %>
-				</a>
-			</li>
-			<li>
-			<li class="current">
-				Invite <%= ablang('connection.plural', true) %>
-			</li>
-		</ul>
-	</nav>
-</section>
-
-<h1>Let's invite some of your friends to be <%= ablang('connection.plural', false) %></h1>
-
-<section id="panels">
-	<section id="whiteboard" class="two-column left-side" style="width:550px">
-	<h3>
-		Copy and paste your personal invite link: <%= text_field :a, :b, :value => 'http://tioki.com/dc/'+self.current_user.invite_code %>
-	</h3>
-	<h4>
-		OR
-	</h4>
-	<p>
-	<h3 class="bottom-line">
-		<a href="#twitter"><%= image_tag "tioki/icons/twitter3.png", :style => "margin-bottom:-7px" %> Tweet It!</a><br/><br />
-	</h3>
-	</p>
-
-	<section class="addressBooks">
-		<%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
-			<h3>
-				Email Friends
-			</h3>
-			<section style="margin:0px 5px 0px 10px">	
-				<p>
-					We’ll send your friends a friendly invite to join your Tioki network! 
-				</p>
-				<h4 style="font-size: 18px">
-					Recipient emails
-				</h4>
-				<p class="smalltext" style="margin-top:-12px">
-				Type the comma-separated emails below
-				<%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43, :style => "padding:3px;width:415px"  %>
-				</p>
-				<p>
-				If you want to customize your own message, go for it
-				<%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;width:415px" %>
-				</p>
-				<div class="button_wrap">
-					<%= f.submit "Invite " + ablang('connection.plural'), :class => "button", :style => "padding:9px 25px;display:inline;width:auto;" %>
-				</div>
-				<h4>
-					OR
-				</h4>
-				<p>	
-				Click on your email host to invite friends using your address book
-				</p>
-				<a href="#" onclick="return cloudsponge.launch('yahoo');">
-					<img src="/assets/cs_icons/yahoo.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('windowslive');">
-					<img src="/assets/cs_icons/msn.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('gmail');">
-					<img src="/assets/cs_icons/google.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('aol');">
-					<img src="/assets/cs_icons/aol.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('plaxo');">
-					<img src="/assets/cs_icons/plaxo.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('addressbook');">
-					<img src="/assets/cs_icons/apple.png" />
-				</a>
-				<a href="#" onclick="return cloudsponge.launch('outlook');">
-					<img src="/assets/cs_icons/microsoft.png" />
-				</a>
-				<br /><br />
-			</section>
-		<% end %>
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/my_connections">
+						My <%= ablang('connection.plural', true) %>
+					</a>
+				</li>
+				<li>
+					<a href="/connections">
+						Find New <%= ablang('connection.plural', true) %>
+					</a>
+				</li>
+				<li class="current">
+					Invite <%= ablang('connection.plural', true) %>
+				</li>
+			</ul>
+		</nav>
 	</section>
 
-</section>
+	<section class="sidebar">
+		<ul>
+			<li class="current">
+				Email
+			</li>
+			<li>
+				<a href="/inviteconnections/twitter">
+					Twitter
+				</a>
+			</li>
+			<li>
+				<a href="/inviteconnections/facebook">
+					Facebook
+				</a>
+			</li>
+			<li>
+				<a href="/inviteconnections/gmail">
+					Gmail
+				</a>
+			</li>
+			<li>
+				<a href="/inviteconnections/yahoo">
+					Yahoo
+				</a>
+			</li>
+		</ul>
+	</section>
 
-<!--<section class="panel right-side" style="width: 370px; border:solid 1px #2AA99B">
-<img border="0" style="width:95%;height:auto;margin:3px 0px 0px 5px" src="http://cdn.donorschoose.net/images/link/dc_banner_468_60_logo.jpg" alt="DonorsChoose.org - Teachers ask. You choose. Students learn." />
-<section style="margin:0px 5px 0px 10px">
-<p>
-Our Donors Choose campaign ran from 10/8/12 - 10/21/12. The number below represents how many users signed up, from your referrals, during that time period. Thank you for playing a crucial part in our Donors Choose campaign!
-</p>
-<p>
-Donors Choose is a non-profit organization that helps teachers get the materials they need to improve their students' education.
-</p>
-</section>
-<h3 class="top-line">
-	Your number of referred signups: <%= @referred %>
-</h3>
-</section>-->
-</section>
-</section>
+	<section id="panels">
+		<section id="whiteboard" class="two-column right-side" style="">
+			<h2 style="margin-top:0px;color:black">
+				Let's invite some of your friends to be <%= ablang('connection.plural', false) %>
+			</h2>
+			<section class="one-column left-side" style="height:100px">
+				<h4>
+				Copy and paste your personal invite link:
+				<br/> 
+				<%= text_field :a, :b, :value => 'http://tioki.com/dc/'+self.current_user.invite_code %>
+				</h4>
+			</section>
+			<section class="one-column right-side" style="height:100px">
+				<h4>
+				<span style="float:right;margin-right:25px">Share it with your networks:</span>
+				OR
+				<br/>
+				<!-- Tweet about us Function -->
+				<a href="#twitter"><%= image_tag "tioki/icons/twitter3.png", :style => "float:right;margin-right:85px" %></a>
+				<!-- Post to Facebook Wall Function -->
+				<a href="#twitter"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:4px;float:right;margin-right:10px;height:29px" %></a>
+				<!-- Pin us on Pinterest Function
+				<a href="#twitter"><%= image_tag "tioki/icons/pinterest.png", :style => "margin-top:3px;float:right;margin-right:10px;height:30px" %></a>
+				-->
+				</h4>
+			</section>
+			<hr><br />
+			<section class="addressBooks">
+				<%= form_for :connection_invite, :url => '/inviteconnection' do |f| %>
+					<h3>
+						Email Your Friends
+					</h3>
+					<section style="margin:0px 5px 0px 10px">	
+						<p>
+							We’ll send your friends a friendly invite to join your Tioki network! Type the comma-separated emails below 
+						</p>
+							<%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43, :style => "padding:3px;width:415px"  %>
+						<p>
+							If you want to customize your own message, go for it:
+							<%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;width:415px" %>
+						</p>
+						<div class="button_wrap">
+							<%= f.submit "Invite " + ablang('connection.plural'), :class => "button", :style => "padding:9px 25px;display:inline;width:auto;" %>
+						</div>
+						<!-- Not Sure if we Need this anymore
+						<h4>
+							OR
+						</h4>
+						<p>	
+							Click on your email host to invite friends using your address book
+						</p>
+						<a href="#" onclick="return cloudsponge.launch('yahoo');">
+							<img src="/assets/cs_icons/yahoo.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('windowslive');">
+							<img src="/assets/cs_icons/msn.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('gmail');">
+							<img src="/assets/cs_icons/google.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('aol');">
+							<img src="/assets/cs_icons/aol.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('plaxo');">
+							<img src="/assets/cs_icons/plaxo.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('addressbook');">
+							<img src="/assets/cs_icons/apple.png" />
+						</a>
+						<a href="#" onclick="return cloudsponge.launch('outlook');">
+							<img src="/assets/cs_icons/microsoft.png" />
+						</a>
+						<br /><br />
+						-->
+					</section>
+				<% end %>
+			</section>
+
+		</section>
+	</section>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('a[href="#twitter"]').click(function(e) {
@@ -142,4 +160,5 @@ $(document).ready(function() {
 	});
 });
 </script>
+<div class="clearfloat"></div>
 </section>
