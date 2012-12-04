@@ -68,6 +68,9 @@ class AuthenticationsController < ApplicationController
 			else
 				return redirect_to "/welcome_wizard?x=step4&twitter_contacts=true"
 			end
+		elsif session[:twitter_action] == "inviteconnections"
+			session[:twitter_action] = nil
+			return redirect_to "/inviteconnections/twitter"
 		end
 		redirect_to :root
 	end

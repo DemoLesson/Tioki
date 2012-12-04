@@ -449,8 +449,8 @@ class WelcomeWizardController < ApplicationController
 
 	def get_twitter_contacts
 		client = Twitter::Client.new(
-			:oauth_token => self.current_user.twitter_oauth_token,
-			:oauth_token_secret => self.current_user.twitter_oauth_secret
+			:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
+			:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
 		)
 		pcontacts = []
 
