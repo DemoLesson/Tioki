@@ -924,7 +924,7 @@ class UsersController < ApplicationController
 			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
 			# Get whiteboard activity
 			@whiteboard = Array.new
-			Whiteboard.getActivity(:first, :conditions => { :user_id => self.current_user.id}).paginate(:per_page => 15, :page => params[:page]).each do |post|
+			Whiteboard.getActivity(:first, :conditions => [ "user_id = ?", self.current_user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
 				@post = post
 				@whiteboard << render_to_string('whiteboards/show', :layout => false)
 			end
