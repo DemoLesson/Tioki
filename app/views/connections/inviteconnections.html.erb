@@ -37,8 +37,8 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					Twitter
 				</a>
 			</li>
-			<li>
-				<a href="/inviteconnections/facebook">
+			<!--<li>
+				üûCúCùCùCøCøCøCóMCç[MC­T
 					Facebook
 				</a>
 			</li>
@@ -51,7 +51,7 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 				<a href="/inviteconnections/yahoo">
 					Yahoo
 				</a>
-			</li>
+			</li>-->
 		</ul>
 	</section>
 
@@ -75,7 +75,7 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 				<!-- Tweet about us Function -->
 				<a href="#twitter"><%= image_tag "tioki/icons/twitter3.png", :style => "float:right;margin-right:85px" %></a>
 				<!-- Post to Facebook Wall Function -->
-				<a href="#twitter"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:4px;float:right;margin-right:10px;height:29px" %></a>
+				<a href="#facebook"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:4px;float:right;margin-right:10px;height:29px" %></a>
 				<!-- Pin us on Pinterest Function
 				<a href="#twitter"><%= image_tag "tioki/icons/pinterest.png", :style => "margin-top:3px;float:right;margin-right:10px;height:30px" %></a>
 				-->
@@ -137,6 +137,31 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 	</section>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%= self.current_user.name %> just joined Tioki',
+			link: 'http://www.tioki.com/?_micro_referer=<%= self.current_user.id %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Connect with <%= self.current_user.name %> on Tioki',
+			description: '<%= self.current_user.first_name %> just joined Tioki; a professional development site for educators. You should connect with them!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+
 	$('a[href="#twitter"]').click(function(e) {
 
 		// URL to go to
