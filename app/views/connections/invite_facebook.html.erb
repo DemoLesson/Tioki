@@ -38,10 +38,11 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 
 	<section id="panels">
 		<section id="whiteboard" class="two-column right-side" style="">
-			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
 			<h2 style="margin-top:0px;color:black">
 				FACEBOOK
 			</h2>
+			
+			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
 			<p>
 				We couldn't find any of your Facebook friends because you haven't connected Facebook and Tioki. Click the button below to connect.
 			</p>
@@ -51,6 +52,44 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					<%= image_tag '/assets/Tioki/icons/fb_button.png', :style => "margin-bottom:-3px;margin-left:5px" %>
 				</h4>
 			</section>
+			
+			<br/><br/><br/><!-- These won't need to be here once the script is working -->
+			<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
+			<h4 class="bottom-line" style="padding-bottom:10px">
+				Invite Facebook Friends
+				<span style="float:right">
+					<textarea rows="1" cols="50" placeholder="Type a friend's name"></textarea>
+				</span>
+			</h4>
+			
+			<form class="person_form" method="POST">
+					<div class="person_cloud" style="padding-top:10px;">
+					<a href="#" style="background:#2AA99B">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					<a href="#" style="background:#2AA99B">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					<a href="#" style="background:#ccc">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:8px">Brian Martinez</span>
+					</a>
+					</div>
+			</form>
 		</section>
 	</section>
 
@@ -79,4 +118,5 @@ $(document).ready(function() {
 	});
 });
 </script>
+<div class="clearfloat"></div>
 </section>

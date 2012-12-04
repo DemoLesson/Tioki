@@ -1,3 +1,50 @@
+v3.0.17 - Dec 3, 2012  5:05PM PST deployed by Aleks Stanisic
+============================================================
+* 3a33c84: Elijah Green - Append hidden twitter input on search
+
+v3.0.16 - Dec 3, 2012  4:51PM PST deployed by Aleks Stanisic
+============================================================
+* 37d8bef: Elijah Green - Move the twitter input attachments outside of ajax call
+
+v3.0.15 - Dec 3, 2012  4:27PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v3.0.14 - Dec 3, 2012  4:25PM PST deployed by Aleks Stanisic
+============================================================
+* 32ccd5b: Elijah Green - Use key value pairs for twitter
+* ed213b3: Elijah Green - Finish up invite search
+* a9a44e1: Aleks Stanisic - displaying 20 connections on my connections page
+* 1179e8d: Kelly Becker - educator and recruiter dashbaords
+* f10427b: Kelly Becker - squeeze names
+* d2e5bb0: Elijah Green - lowercase assets so it works on all browsers
+* 881fda2: Brian Martinez - images for welcome wizard 4
+* a5d8a57: Brian Martinez - changes to the wizard flow step 4
+* a5f8711: Brian Martinez - changes to wizard 4 buttons
+* fa6788c: Elijah Green - Remove some extra things
+* d8baf5c: Elijah Green - Correctly detect emails
+* b07d7bc: Elijah Green - Can authenticate with twitter on step4
+* 1bd5ff6: Elijah Green - Remove undetected email button
+* efc94b8: Elijah Green - Highlight already selected contacts
+* 86498db: Elijah Green - Reset arrays when changing invite methods
+* 712ec39: Elijah Green - Finish the twitter direct messages
+* c10b348: Elijah Green - Add extra invite and skip button
+* 04ca0e9: Elijah Green - Add tweet about us on step4
+* 19cc093: Elijah Green - Changes to the header when clicking twitter or facebook
+* 32772a9: Elijah Green - Add search for contacts
+* 0b3200e: Elijah Green - Finish up twitter function
+* ded51e1: Elijah Green - Fix some visual things with twitter invites
+* 9549c45: Elijah Green - Add twitter screen_name and empty div on invite type change
+* 9d861d8: Elijah Green - Can now display twitter followers
+* c0405f8: Elijah Green - Seperate email contacs out and add facebook
+* aca30f1: Elijah Green - Fix nil names cauing errors in step4
+
+v3.0.13 - Dec 3, 2012 12:57PM PST deployed by Kelly Becker
+==========================================================
+* 91c7042: Kelly Becker - name and slug normalizer
+* 73909aa: Elijah Green - Add pasteword button to presentations/_form and index
+* 8917399: Elijah Green - Add paste plugin to tinymce in presentations/_form
+
 v3.0.12 - Dec 3, 2012  9:16AM PST deployed by Kelly Becker
 ==========================================================
 * 9028244: Kelly Becker - user slugs

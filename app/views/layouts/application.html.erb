@@ -183,10 +183,16 @@
 									<!-- Teacher Methods -->
 									<% unless self.current_user.nil? %>
 										<li>
+											<a href="/inviteconnections/twitter">
+												Find Friends
+											</a>
+										</li>
+										<li>
 											<a href="/inviteconnections">
 												Invite Friends
 											</a>
 										</li>
+										
 										<hr>
 										<li>
 											<a href="/me/profile">
@@ -243,6 +249,19 @@
 						<a href="/">
 						Home
 						</a>
+						<% if !User.current.school.nil? %>
+							<ul>
+								<% if User.current.dashboard == 'recruiter' %>
+									<li>
+										<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
+									</li>
+								<% elsif !User.current.school.nil? %>
+									<li>
+										<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
+									</li>
+								<% end %>
+							</ul>
+						<% end %>
 					</li>
 					<% if User.current.dashboard == 'recruiter' %>
 						<li>
@@ -379,7 +398,12 @@
 						</p>
 						<ul>
 							<li>
-								<a href="http://blog.tioki.com">
+								<a href="http://blog.tioki.com/schedule-featured-events/" target="_blank">
+								Featured Events
+								</a>
+							</li>
+							<li>
+								<a href="http://blog.tioki.com" target="_blank">
 								Tioki Blog
 								</a>
 							</li>

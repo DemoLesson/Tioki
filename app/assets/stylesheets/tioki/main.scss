@@ -507,6 +507,16 @@ span.connection_degree {
 		font: 24px/1.0 $oswald;
 		color: $salmon;
 		font-weight: 300;
+
+		&.iconic {
+			padding-left: 0px;
+
+			span.iconic {
+				font-size: 2em;
+				line-height: 24px;
+				//vertical-align: 6px;
+			}
+		}
 	}
 	.connections {
 		background: url(image_path('tioki/icons/connections.png')) no-repeat;
@@ -523,6 +533,34 @@ span.connection_degree {
 		background: url(image_path('tioki/icons/star-gold.png')) 0 4px no-repeat;
 		padding-left: 28px;
 		
+	}
+	form.person_form div {
+		&.done, &.detected, &.undetected {
+			background: #c1dce9;
+			margin-bottom: 6px;
+			padding: 20px;
+		}
+		&.done h3, &.detected h3, &.undetected h3 {
+			margin-top: 0px;
+		}
+		&.person_cloud a {
+			margin-bottom: 6px;
+			margin-left: 6px;
+			font-size: 16px;
+			width: 314px;
+			float: left;
+			color: #fff;
+			border-radius:5px;
+			&:nth-child(2n-1) {
+				margin-left: 0px;
+			}
+			span {
+				display: block;
+				&.email {
+					font-size: 12px;
+				}
+			}
+		}
 	}
 	
 }

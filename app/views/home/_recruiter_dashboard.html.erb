@@ -1,28 +1,47 @@
 <section id="main-content" class="inner-content">
-	<p>
+	<section id="updates" style="margin-top:30px;">
 		<span style="float:right">
-		<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
+			<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
 		</span>
- 		<h2 class="greeting">
-			Welcome Back, <%= self.current_user.first_name %>	
-		</h2>
-	</p>
+		<div class="profile-thumb-medium">
+			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
+			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
+		</div>
+		<div>
+			<h3 class="greeting">
+			Welcome back, <%= @user.first_name %>
+			</h3>
+			<ul class="stats">
+				<% if unread_messages > 0 %>
+					<li>
+						<a href="/messages">
+							<div class="count iconic">
+								<span class="iconic mail"></span>
+								<%= unread_messages %>
+							</div>
+							New Messages
+						</a>
+					</li>
+				<% end %>
+				<% if @applicants > 0 %>
+					<li>
+						<a href="teacher_applications">
+							<div class="count iconic">
+								<span class="iconic book_alt" style="font-size:1.5em;"></span>
+								<%= @applicants %>
+							</div>
+							New <%= @applicants == 1 ? 'Applicant' : 'Applicants' %>
+						</a>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+	</section>
+
 	<section id="panels">
 		<section id="list" class="panel one-column left-side">
 			<h3>
 			Recruiting Updates
-			</h3>
-			<% if unread_messages > 0 %>
-				<a href="/messages">
-					<span class="iconic mail" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
-					<div class="count_recruit">
-					<%= unread_messages %>
-					</div>
-					Unread Messages
-				</a>
-				<br />
-			<% else %>
-			<% end %>
 			<a href="/my_jobs">
 				<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
 				<% if @jobs.count > 0 %>
