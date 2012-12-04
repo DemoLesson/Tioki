@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "group_id"
   end
 
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
@@ -351,6 +352,10 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.string   "site"
     t.string   "twitter"
     t.string   "facebook"
+  end
+
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|

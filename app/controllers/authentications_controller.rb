@@ -8,6 +8,10 @@ class AuthenticationsController < ApplicationController
 		session[:rsecret] = request_token.secret
 		session[:twitter_action] = params[:twitter_action]
 
+		if params[:twitter_action] == "tweet" || params[:twitter_action] == "get_contacts"
+			session[:wizard_url] = request.referer
+		end
+
 		redirect_to request_token.authorize_url
 	end
 
@@ -20,47 +24,59 @@ class AuthenticationsController < ApplicationController
 			:oauth_token_secret => access_token.secret
 		)
 
-		if session[:twitter_action] == "follow"
-			client.follow("Tioki")
-			self.current_user.social_actions << {:twitter_connect => true}
-			notice = "You are now following tioki"
-		elsif session[:twitter_action] == "tweet"
-			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
-			self.current_user.social_actions << {:tweet_about => true}
-			notice = "Success"
-		elsif session[:twitter_action] == "auth"
-			self.current_user.authorizations << {:twitter_oauth_token => access_token.token}
-			self.current_user.authorizations << {:twitter_oauth_secret => access_token.secret}
-			notice = "Success"
-		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-			self.current_user.authorizations << {:twitter_oauth_token => access_token.token}
-			self.current_user.authorizations << {:twitter_oauth_secret => access_token.secret}
-			whiteboard = Whiteboard.find(session[:whiteboard_id])
+		self.current_user.authorizations = self.current_user.authorizations.merge({
+			:twitter_oauth_token =>  access_token.token,
+			:twitter_oauth_secret => access_token.secret
+		})
 
-			session[:whiteboard_id] = nil
-			session[:rsecret] = nil
-			session[:rtoken] = nil
-			session[:twitter_action] = nil
-
-			return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
-		end
-
-		#no longer need these session variables
+		#don't need these anymore
 		session[:rsecret] = nil
 		session[:rtoken] = nil
 
-		if session[:twitter_action] == "auth"
-			redirect_to "/me/settings", :notice => notice
+		if session[:twitter_action] == "tweet"
+			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 			session[:twitter_action] = nil
-		else
-			redirect_to "/tioki_bucks", :notice => notice
+
+			notice = "Success"
+
+			if session[:wizard_url]
+				return redirect_to session[:wizard_url]
+				session[:wizard_url] = nil
+			else
+				return redirect_to "/welcome_wizard?x=step4"
+			end
+
+		elsif session[:twitter_action] == "auth"
 			session[:twitter_action] = nil
+			notice = "Success"
+
+			return redirect_to "/me/settings", :notice => notice
+		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
+			session[:twitter_action] = nil
+			session[:whiteboard_id] = nil
+
+			return redirect_to whiteboard_share_twitter_authentications_url(
+				:whiteboard_id => whiteboard.id
+			)
+
+		elsif session[:twitter_action] == "get_contacts"
+			session[:twitter_action] = nil
+
+			if session[:wizard_url]
+				return redirect_to "#{session[:wizard_url]}&twitter_contacts=true"
+				session[:wizard_url] = nil
+			else
+				return redirect_to "/welcome_wizard?x=step4&twitter_contacts=true"
+			end
 		end
+		redirect_to :root
 	end
 
 	def revoke_twitter
-		self.current_user.authorizations - :twitter_oauth_token
-		self.current_user.authorizations - :twitter_oauth_secret
+		self.current_user.authorizations = self.current_user.authorizations.delete_if{
+			|key, value| key  == "twitter_oauth_token" || key == "twitter_oauth_secret" 
+		}
+
 		redirect_to "/me/settings"
 	end
 
@@ -73,33 +89,39 @@ class AuthenticationsController < ApplicationController
 	def facebook_callback
 		access_token = facebook_oauth.get_access_token(params[:code])
 
+		self.current_user.authorizations = self.current_user.authorizations.merge({
+			:facebook_access_token => access_token
+		})
+
 		if session[:facebook_action] == "auth"
-			self.current_user.authorizations << {:facebook_access_token => access_token}
 			session[:facebook_action] = nil
+
 			return redirect_to "/me/settings"
 
 		elsif session[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
-			self.current_user.authorizations << {:facebook_access_token => access_token}
 			whiteboard = Whiteboard.find(session[:whiteboard_id])
 
 			session[:whiteboard_id] = nil
 			session[:facebook_action] = nil
 
-			return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+			return redirect_to whiteboard_share_facebook_authentications_url(
+				:whiteboard_id => whiteboard.id)
 
 		elsif session[:facebook_action] == "wall_post"
+			session[:facebook_action] = nil
 			@graph = Koala::Facebook::API.new(access_token)
 			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
-			self.current_user.social_actions << {:facebook_connect => true}
 
-			session[:facebook_action] = nil
 			return redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
 		end
 		redirect_to :root
 	end
 
 	def revoke_facebook
-		self.current_user.authorizations - :facebook_access_token
+		self.current_user.authorizations = self.current_user.authorizations.delete_if{
+			|key, value| key  == "facebook_access_token"
+		}
+
 		redirect_to "/me/settings"
 	end
 
@@ -125,7 +147,11 @@ class AuthenticationsController < ApplicationController
 				if education.end_date
 					year = education.end_date.year
 				end
-				education = @user.educations.build(:school => school, :degree => degree, :concentrations => concentrations, :year => year)
+				education = @user.educations.build(
+					:school => school, :degree => degree, 
+					:concentrations => concentrations, 
+					:year => year)
+
 				education.save
 			end
 		end
@@ -155,7 +181,15 @@ class AuthenticationsController < ApplicationController
 					endYear = position.end_date.year
 					current = false
 				end
-				experience = @user.experiences.build(:company => company, :position => positiontitle, :startMonth => startMonth, :startYear => startYear, :endMonth => endMonth, :endYear => endYear, :current => current)
+				experience = @user.experiences.build(
+					:company => company, 
+					:position => positiontitle, 
+					:startMonth => startMonth, 
+					:startYear => startYear, 
+					:endMonth => endMonth, 
+					:endYear => endYear, 
+					:current => current)
+
 				experience.save
 			end
 		end
@@ -196,6 +230,7 @@ class AuthenticationsController < ApplicationController
 			:oauth_token => self.current_user.authorizations['twitter_oauth_token'],
 			:oauth_token_secret => self.current_user.authorizations['twitter_oauth_secret']
 		)
+
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 		whiteboard_message = ActionController::Base.helpers.strip_links(whiteboard.message)
 

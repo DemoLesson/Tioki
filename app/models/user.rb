@@ -105,8 +105,8 @@ class User < ActiveRecord::Base
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."  
 
 	# Callbacks in order or processing
-	before_create :set_full_name
     after_create :after_create
+    before_save :before_save
 	#after_save :add_ab_test_data
     
     def after_create
@@ -293,7 +293,7 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.authorizations[:facebook_oauth_token].present?
+		self.authorizations[:facebook_access_token].present?
 	end
 
 	def got_started
@@ -474,9 +474,31 @@ class User < ActiveRecord::Base
 		#Notifications.deliver_forgot_password(self.email, self.name, new_pass)
 	end
 
-	def set_full_name
-		logger.debug "!!! SET FULL NAME !!!"
-		self.name = "#{first_name} #{last_name}"
+	def before_save
+
+		# Name normalization
+		if !(self.changed & ['first_name', 'last_name', 'name']).empty?
+			# Get the name associated with the user
+			if !(self.changed & ['first_name', 'last_name']).empty?
+				string = "#{self.first_name} #{self.last_name}".strip.downcase.squeeze(' ')
+			elsif self.changed.include?('name')
+				string = "#{self.name}".downcase.squeeze(' ')
+			end
+
+			# Split on
+			splits = ['mc','\'','-',' ']
+
+			# Properly Capitalize
+			splits = splits.collect{|x|(0..string.length-1).find_all{|i|string[i,x.length]==x}.collect{|i|i+x.length}}.flatten.uniq.<<(0).sort{|a,b|b<=>a}
+			fibers = splits.collect{|x|string.slice!(x..-1)}
+			string = fibers.collect{|x|x.capitalize}.reverse.join
+
+			# Set the user name
+			self.first_name = (names = string.split(' ')).first
+			self.last_name = names.last
+			self.name = string
+		end
+
 	end
 
 	def sharedschool
@@ -669,7 +691,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def snippet_watchvideo_button
-		@video = Video.find(:first, :conditions => ['teacher_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+		@video = Video.find(:first, :conditions => ['user_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
 		if @video != nil
 			embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
 
