@@ -1,3 +1,7 @@
+v3.0.19 - Dec 3, 2012  7:24PM PST deployed by Aleks Stanisic
+============================================================
+* b40b247: Aleks Stanisic - fixes to images in invite connections
+
 v3.0.18 - Dec 3, 2012  7:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 1c7f388: Elijah Green - Add twitter to inviteconnections
