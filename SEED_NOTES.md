@@ -1,3 +1,10 @@
+v3.0.18 - Dec 3, 2012  7:05PM PST deployed by Aleks Stanisic
+============================================================
+* 1c7f388: Elijah Green - Add twitter to inviteconnections
+* 51fc853: Brian Martinez - changes to invite pages and other connections pages
+* 09c2b51: Kelly Becker - recruiter dashboard updates
+* 8453038: Kelly Becker - user in home cotnroller gloablly
+
 v3.0.17 - Dec 3, 2012  5:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 3a33c84: Elijah Green - Append hidden twitter input on search
