@@ -7,7 +7,7 @@ Share whiteboard posts on twitter<br />
 <% end %><br /><br />
 
 Share whiteboard posts on facebook<br />
-<% if self.current_user.facebook_access_token %>
+<% if self.current_user.facebook_auth? %>
 	<%= link_to "Re-authorize with Facebook", facebook_auth_authentications_url(:facebook_action => "auth"), :class => "button" %><br /><br />
 	<%= link_to "Remove tioki access to Facebook", revoke_facebook_authentications_url, :class => "button" %>
 <% else %>

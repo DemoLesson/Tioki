@@ -260,38 +260,48 @@ class WelcomeWizardController < ApplicationController
 		# Detect post variables
 		if request.post? && !params[:people].nil?
 
-			# Split people to invite and loop
-			params.people.split(',').each do |email|
+			if params[:twitter]
+				client = Twitter::Client.new(
+					:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
+					:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
+				)
 
-				# Parse the email to make sure its valid
-				email = Mail::Address.new(email.strip)
-
-				# Get the user
-				user = User.where({"email" => email.address}).first
-
-				# If the user exists
-				unless user.nil?
-					# Try and add a connection
-					if Connection.add_connect(self.current_user.id, user.id)
-						# We don't really neeed to notify the user about this
-						# notice << "Your connection request to " + email.address + " has been sent."
-					end
-
-				# If the user does not exist
-				else
-					# Generate the invitation url to be added to the email
-					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
-
-					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-					# Don't bother notifying the user
-					# notice << "Your invite to " + demail + " has been sent."
-
-					# Log an analytic
-					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
+				params.people.split(',').each do |twitter_contact|
+					client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 				end
+			else
+				# Split people to invite and loop
+				params.people.split(',').each do |email|
 
+					# Parse the email to make sure its valid
+					email = Mail::Address.new(email.strip)
+
+					# Get the user
+					user = User.where({"email" => email.address}).first
+
+					# If the user exists
+					unless user.nil?
+						# Try and add a connection
+						if Connection.add_connect(self.current_user.id, user.id)
+							# We don't really neeed to notify the user about this
+							# notice << "Your connection request to " + email.address + " has been sent."
+						end
+
+						# If the user does not exist
+					else
+						# Generate the invitation url to be added to the email
+						url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
+
+						# Send out the email
+						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+
+						# Don't bother notifying the user
+						# notice << "Your invite to " + demail + " has been sent."
+
+						# Log an analytic
+						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
+					end
+				end
 			end
 			
 			# Wizard Key
@@ -413,7 +423,6 @@ class WelcomeWizardController < ApplicationController
 					name << c.first_name unless c.first_name.nil?
 					name << c.last_name unless c.last_name.nil?
 					name = name.join(' ').strip.split(' ')
-					name = name.first + ' ' + name.last
 					contact.name = name
 
 					# Get all emails
@@ -438,9 +447,48 @@ class WelcomeWizardController < ApplicationController
 		return render :json => {}
 	end
 
+	def get_twitter_contacts
+		client = Twitter::Client.new(
+			:oauth_token => self.current_user.twitter_oauth_token,
+			:oauth_token_secret => self.current_user.twitter_oauth_secret
+		)
+		pcontacts = []
+
+		followers = client.follower_ids
+
+		#user lookup
+		users = client.users(followers.ids)
+
+		users.each do |twitter_contact|
+			contact = Hash.new
+			
+			contact.name = twitter_contact.name
+			contact.id = twitter_contact.id
+			contact.picture = twitter_contact.profile_image_url
+			contact.screen_name = twitter_contact.screen_name
+
+			pcontacts << contact
+		end
+
+		contacts = { "type" => 'success', "data" => pcontacts}
+
+		return render :json => contacts
+	end
+
+	def direct_messages_twitter_contacts
+		client = Twitter::Client.new(
+			:oauth_token => self.current_user.twitter_oauth_token,
+			:oauth_token_secret => self.current_user.twitter_oauth_secret
+		)
+
+		params[:twitter_friend].each do |contact|
+			#contact is screenname
+			client.direct_message_create(contact, "Connect with me at tioki.com via @tioki")
+		end
+	end
+
 	# Catch rails args
 	def create(*args)
 		self.send('index', *args)
 	end
-
 end

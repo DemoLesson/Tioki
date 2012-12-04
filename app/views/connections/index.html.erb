@@ -8,7 +8,7 @@
 				</a>
 			</li>
 			<li class="current">
-				Find New <%= ablang("connection.plural", true) %>
+				Find <%= ablang("connection.plural", true) %>
 
 			</li>
 			<li>
@@ -22,11 +22,11 @@
 	<section id="panels" class="group">
 		<section class="panel one-column left-side">
 			<h3>
-				Find New <%= ablang('connection.plural', true) %>
+				Find <%= ablang('connection.plural', true) %>
 			</h3>
 			<% if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'  %>
 				<div class="accordion filterconnections">
-					<h4>
+					<h4 class="bottom-line" style="margin-top:0px">
 						Search Filters
 					</h4>
 					<p class="bold caps head closed-arrow">
@@ -61,21 +61,31 @@
 					</div>
 				</div>
 			<% end %>
-			<div style="padding:15px">
-				<%= form_tag "/connections", :method => "get" do %>
-					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:280px;"} %>
-					<%= submit_tag "Search By Skill" %>
-				<% end %>
-			</div>
+			<hr>
+			<section style="text-align:center;margin:0 0 -14px 0;padding-top:5px;background:#fff;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+				<strong>Find your Friends on Tioki</strong>
+				<p style="width:auto;margin-top:5px">
+					<%= link_to image_tag('/assets/Tioki/icons/twitter_transparent.png', :style => "width:70px"), '/inviteconnections/twitter' %>
+					<%= link_to image_tag('/assets/Tioki/icons/fb_transparent.png', :style => "width:70px"), '/inviteconnections/facebook' %>
+				</p>
+			</section>
 		</section> <!-- END FIND NEW CONNECTIONS -->
 		<section id="list" class="panel two-column right-side">
-			<div class="search-connections">	
+			<div class="search-connections" style="text-align:left">
+				<section>
 				<%= form_tag connections_url, {:method => :get, :id => "newconnections"} do %>
-					<fieldset>
-						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
-						<input type="submit" value="GO" class="button" />
-					</fieldset>
+					<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search", :style => "width:200px;margin-left:20px" } %>
+					<input type="submit" value="GO" class="button" />
 				<% end %>
+				</section>
+				
+				<section style="float:right;margin-top:-51px;margin-right:20px">
+				<%= form_tag "/connections", :method => "get" do %>
+					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:200px;", :prompt => "OR Browse By Skill"} %>
+					<%= submit_tag "Browse", :style => "margin-top:-4px" %>
+				<% end %>
+				</section>
+				
 			</div>
 			<ul id="connection_list">
 				<% @users.each do |user| %>

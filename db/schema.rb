@@ -354,6 +354,10 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.string   "facebook"
   end
 
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
+  end
+
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"

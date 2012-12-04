@@ -50,6 +50,61 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					<%= image_tag '/assets/Tioki/icons/yahoo_icon.png', :style => "width:26px;margin-bottom:-5px;margin-left:5px" %>
 				</h4>
 			</section>
+			<!-- These won't need to be here once the script is working since everything below "GMAIL" will be unecessary -->
+			<br/><br/><br/>
+			
+			<!-- ELIJAH: This is what should display as soon as Gmail is Linked-->
+			<h4 style="width:auto">
+				Great news! Some of your contacts are already on Tioki. We have selected them for you below in green. Select a few more that you would like to connect with. <!-- If there are no pre-selected contacts, it should read "elect some contacts that you would like to connect with."-->	
+			</h4>
+			<h4 class="bottom-line" style="padding-bottom:10px">
+				<a href="#select" class="button" style="background:#2AA99B;color:#fff">Select All</a>
+				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+					<%= link_to "Invite", '#', :class => "button", :style => "float:right;" %>
+					<textarea rows="1" placeholder="Type a friend's name" style="width:235px;float:right;margin-right:8px"></textarea>		
+			
+			</h4>
+			
+			<form class="person_form" method="POST">
+					<div class="person_cloud" style="padding-top:10px;">
+					<a href="#" style="background:#2AA99B">
+						<span style="margin:5px 0 5px 5px">
+							Brian Martinez<br/>
+							martinez.brian.c@gmail.com
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<span style="margin:5px 0 5px 5px">
+							Brian Martinez<br/>
+							martinez.brian.c@gmail.com
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<span style="margin:5px 0 5px 5px">
+							Mandela Schumacher-Hodge<br/>
+							mandela.schumacher.hodge@gmail.com
+						</span>
+					</a>
+					<a href="#" style="background:#2AA99B">
+						<span style="margin:5px 0 5px 5px">
+							Brian Martinez<br/>
+							martinez.brian.c@gmail.com
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<span style="margin:5px 0 5px 5px">
+							Brian Martinez<br/>
+							martinez.brian.c@gmail.com
+						</span>
+					</a>
+					<a href="#" style="background:#ccc">
+						<span style="margin:5px 0 5px 5px">
+							Brian Martinez<br/>
+							martinez.brian.c@gmail.com
+						</span>
+					</a>
+					</div>
+			</form>
 		</section>
 	</section>
 <script type="text/javascript">
@@ -77,4 +132,5 @@ $(document).ready(function() {
 	});
 });
 </script>
+<div class="clearfloat"></div>
 </section>

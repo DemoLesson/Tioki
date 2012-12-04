@@ -118,9 +118,9 @@
 				<% end %>
 			</ul>
 		</div>
-		<!--<a target="_blank" href="http://blog.tioki.com/schedule-featured-events/" class="action-button bg-salmon" style="float:right; margin-right:-30px; padding:12px 15px 12px 15px !important">
-			Featured Events Schedule
-		</a>-->
+		<a href="/inviteconnections/twitter" class="action-button bg-green" style="float:right; margin-right:-30px; padding:12px 15px 12px 15px !important">
+			Find Friends
+		</a>
 	</section>
 	<section id="panels">
 		<section class="panel two-column left-side">
@@ -147,7 +147,7 @@
 								<%= check_box_tag :share_on_twitter, 'yes', false %>
 							<% end %>
 							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
-							<% if self.current_user.facebook_access_token %>
+							<% if self.current_user.facebook_auth? %>
 								<%= check_box_tag :share_on_facebook, 'yes', true %>
 							<% else %>
 								<%= check_box_tag :share_on_facebook, 'yes', false %>

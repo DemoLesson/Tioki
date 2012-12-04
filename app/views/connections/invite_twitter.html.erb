@@ -50,6 +50,62 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					<%= image_tag '/assets/Tioki/icons/twitter4.png', :style => "width:30px;margin-bottom:-7px;margin-left:5px" %>
 				</h4>
 			</section>
+			<br/><br/><br/><!-- These won't need to be here once the script is working -->
+			<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
+			<h4 class="bottom-line" style="padding-bottom:10px">
+				Invite Twitter Followers
+					<%= link_to "Invite", '#', :class => "button", :style => "float:right;" %>
+					<textarea rows="1" placeholder="Type a friend's name" style="width:235px;float:right;margin-right:8px"></textarea>
+					
+			
+			</h4>
+			
+			<form class="person_form" method="POST">
+					<div class="person_cloud" style="padding-top:10px;">
+					<a href="#" style="background:#2AA99B">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					<a href="#" style="background:#2AA99B">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					<a href="#" style="background:#CFD4D5">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					<a href="#" style="background:#ccc">
+						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+						<span style="margin-top:3px">
+							@petescottwalton<br/>
+							Pete Walton
+						</span>
+					</a>
+					</div>
+			</form>
 		</section>
 	</section>
 
@@ -79,4 +135,5 @@ $(document).ready(function() {
 	});
 });
 </script>
+<div class="clearfloat"></div>
 </section>
