@@ -1,3 +1,7 @@
+v3.0.17 - Dec 3, 2012  5:05PM PST deployed by Aleks Stanisic
+============================================================
+* 3a33c84: Elijah Green - Append hidden twitter input on search
+
 v3.0.16 - Dec 3, 2012  4:51PM PST deployed by Aleks Stanisic
 ============================================================
 * 37d8bef: Elijah Green - Move the twitter input attachments outside of ajax call
