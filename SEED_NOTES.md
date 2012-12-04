@@ -1,3 +1,7 @@
+v3.0.16 - Dec 3, 2012  4:51PM PST deployed by Aleks Stanisic
+============================================================
+* 37d8bef: Elijah Green - Move the twitter input attachments outside of ajax call
+
 v3.0.15 - Dec 3, 2012  4:27PM PST deployed by Aleks Stanisic
 ============================================================
 
