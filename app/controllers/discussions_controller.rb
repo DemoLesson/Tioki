@@ -80,6 +80,7 @@ class DiscussionsController < ApplicationController
 	# POST /discussions
 	# POST /discussions.json
 	def create
+		params[:discussion].delete_if{|k,v| k == 'owner' && (v.nil? || v.empty?)}
 		@discussion = Discussion.new(params[:discussion])
 		@discussion.user = self.current_user
 
