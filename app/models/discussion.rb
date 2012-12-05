@@ -9,8 +9,13 @@ class Discussion < ActiveRecord::Base
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
-	# Cleanup everything
-	before_destroy :cleanup!
+	# Callbacks
+	before_destroy :before_destroy
+	before_save :before_save
+
+	def before_save
+		self.owner = nil if owner.nil? || owner.empty?
+	end
 
 	def to_param
 		"#{id}-#{title.parameterize}"
@@ -39,12 +44,7 @@ class Discussion < ActiveRecord::Base
 		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
 	end
 
-	def cleanup!
+	def before_destroy
 		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
-	end
-
-	def owner=(val)
-		val = nil if val.nil? || val.empty?
-		update_attribute(:owner, val)
 	end
 end
