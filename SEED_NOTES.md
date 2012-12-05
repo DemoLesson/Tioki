@@ -1,3 +1,10 @@
+v3.0.25 - Dec 5, 2012  3:16PM PST deployed by Kelly Becker
+==========================================================
+* 96faf95: Kelly Becker - discussions before save callback
+* 7437300: Elijah Green - Fix discussion.owner getting set to empty string
+* 3e7a607: Elijah Green - Lower the number of queries on the profile
+* 5f08651: Elijah Green - Fix XSS vulnerability on the whiteboard
+
 v3.0.24 - Dec 5, 2012  1:09PM PST deployed by Kelly Becker
 ==========================================================
 * c746a3a: Kelly Becker - try and solve the new discussions without groups not showing up with nil owner columns
