@@ -1130,13 +1130,24 @@ section.jobs-management {
 			ul {
 				list-style: none;
 
+				&.show_drop li.dropzone {
+					display: block;
+				}
+
 				li {
 					border: solid 1px #EFEFEF;
+					background: #FFFFFF;
 					margin: 20px 0px;
 					padding: 5px;
 
 					&:hover {
 						border-color: $salmon;
+					}
+
+					&.dropzone {
+						border-style: dashed;
+						display: none;
+						height: 100px;
 					}
 
 					h4 {
