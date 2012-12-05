@@ -1,23 +1,15 @@
 <section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
-<!-- Include these scripts to import address books with CloudSponge -->
-<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
-<script type="text/javascript" charset="utf-8">
-	var csPageOptions = {
-domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
-		   textarea_id:"emails"
-	};
-</script>
 	<section class="sidebar">
 		<ul>
 			<li>
-				<a href="/inviteconnections">
-					Email
-				</a>
+			<a href="/inviteconnections">
+				Email
+			</a>
 			</li>
 			<li class="current">
-					Twitter
+			Twitter
 			</li>
-			<!--<li>
+			<li>
 				<a href="/inviteconnections/facebook">
 				Facebook
 				</a>
@@ -27,7 +19,7 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					Gmail
 				</a>
 			</li>
-			<li>
+			<!--<li>
 				<a href="/inviteconnections/yahoo">
 					Yahoo
 				</a>
@@ -53,31 +45,29 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 				</section>
 				<br/><br/><br/><!-- These won't need to be here once the script is working -->
 			<% else %>
-			<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
-			<form class="person_form" method="POST">
-			<input type="hidden" name="people" />
-				<h4 class="bottom-line" style="padding-bottom:10px">
-					Invite Twitter Followers
-					<%= submit_tag "Invite", :class => "button", :style => "float:right;" %>
-					<!--<textarea rows="1" placeholder="Type a friend's name" style="width:235px;float:right;margin-right:8px"></textarea>-->
+					<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
+				<form class="person_form" method="POST">
+					<input type="hidden" name="people" />
+					<h4 class="bottom-line" style="padding-bottom:10px">
+						Invite Twitter Followers
+						<%= submit_tag "Invite", :class => "button", :style => "float:right;" %>
+						<%= text_field_tag :contact_search, nil, :placeholder => "Type a friend's name", :style => "width:235px;float:right;margin-right:8px", :id => "contact_search" %>
+					</h4>
 
-
-				</h4>
-			
-				<div class="person_cloud" style="padding-top:10px;">
-					<% if @contacts %>
-						<% @contacts.each do |contact| %>
-							<a href="#twitter_contact" data-contact-id="<%= contact.id %>" style="background:#CFD4D5">
-								<%= image_tag contact.picture, :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-								<span style="margin-top:3px">
-									@<%= contact.screen_name%><br/>
-									<%= contact.name %>
-								</span>
-							</a>
+					<div class="person_cloud" style="padding-top:10px;">
+						<% if @contacts %>
+							<% @contacts.each do |contact| %>
+								<a href="#twitter_contact" data-contact-id="<%= contact.id %>" style="background:#CFD4D5">
+									<%= image_tag contact.picture, :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+									<span style="margin-top:3px">
+										@<%= contact.screen_name%><br/>
+										<%= contact.name %>
+									</span>
+								</a>
+							<% end %>
 						<% end %>
-					<% end %>
-				</div>
-			</form>
+					</div>
+				</form>
 			<% end %>
 		</section>
 	</section>
@@ -85,54 +75,76 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-	var contactArrau;
-	var twitterContacts;
-	<% if @contacts %>
-		contactArrau = <%= @contacts.to_json.html_safe %>;
-	<% end %>
+	$(document).ready(function() {
+		var twitterSearch;
+		var twitterContacts = new Array();
+		<% if @contacts %>
+				twitterSearch = <%= @contacts.to_json.html_safe %>;
+		<% end %>
 
-	$('a[href="#twitter_contact"]').live('click', function(e) {
-		e.preventDefault();
-		id = $(this).attr('data-contact-id');
+		$('a[href="#twitter_contact"]').live('click', function(e) {
+			e.preventDefault();
+			id = $(this).attr('data-contact-id');
 
-		// If the button is not selected
-		if($(this).hasClass('selected_contact')) {
+			// If the button is not selected
+			if($(this).hasClass('selected_contact')) {
 
-			$(this).removeClass('selected_contact').css({'background': '#CFD4D5'});
+				$(this).removeClass('selected_contact').css({'background': '#CFD4D5'});
 
-			var key = $.inArray($(this).attr('data-contact-id'), twitterContacts);
-			if(key !== -1) twitterContacts.splice(key, 1);
-		}
+				var key = $.inArray($(this).attr('data-contact-id'), twitterContacts);
+				if(key !== -1) twitterContacts.splice(key, 1);
+			}
 
-		// If the button was selected
-		else {
-			// Create contact array
-			if(twitterContacts === undefined)
-			twitterContacts = new Array;
+			// If the button was selected
+			else {
+				// Create contact array
+				if(twitterContacts === undefined)
+					twitterContacts = new Array;
 
-			// Remove secondary class
-			$(this).addClass('selected_contact').css({'background': '#2AA99B'});
+				// Remove secondary class
+				$(this).addClass('selected_contact').css({'background': '#2AA99B'});
 
-			// Add the email to the invite array
-			twitterContacts.push($(this).attr('data-contact-id'));
+				// Add the email to the invite array
+				twitterContacts.push($(this).attr('data-contact-id'));
 
-		}
+			}
 
-		return false;
+			return false;
+		});
+
+		$('form.person_form').submit(function(e) {
+			e.preventDefault();
+
+			$('input[name="people"]').val(twitterContacts.join(','));
+
+			// Submit the form
+			$(this).get(0).submit();
+
+			return false;
+		});
+
+		$("#contact_search").keyup(function() {
+			$('div.person_cloud').empty();
+
+			var str = $(this).attr('value').toLowerCase();
+			var link;
+
+			for(var i = 0; i < twitterSearch.length; i++) {
+				var contact = twitterSearch[i];
+				if(contact.name.toLowerCase().indexOf(str) > -1) {
+					if(twitterContacts.indexOf(contact.id.toString()) > -1) {
+						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + 'class="selected_contact" style="background:#2AA99B" />');
+					}
+					else {
+						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' style="background:#CFD4D5" />');
+					}
+					link.html('<img src=' + contact.picture + ' style="width:40px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:3px">' + '@' + contact.screen_name + '<br />' + contact.name + '</span>');
+					$('div.person_cloud').append(link);
+				}
+			}
+			$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
+		});
+
 	});
-
-	$('form.person_form').submit(function(e) {
-		e.preventDefault();
-
-		$('input[name="people"]').val(twitterContacts.join(','));
-
-		// Submit the form
-		$(this).get(0).submit();
-
-		return false;
-	});
-	
-});
 </script>
 <div class="clearfloat"></div>
