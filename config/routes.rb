@@ -110,6 +110,11 @@ Preview::Application.routes.draw do
 	# Metrics Controller
 	resources :metrics
 
+	# Jobs
+		match 'jobs/manage/:id' => 'jobs#manage'
+		match 'jobs/manage/:id/job/:job' => 'jobs#manage'
+		resources :jobs
+
 	# Analytics Controller
 		match 'analytics/slugs' => 'analytics#slugs'
 		match 'analytics/users' => 'analytics#users'

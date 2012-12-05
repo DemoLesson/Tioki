@@ -326,4 +326,10 @@ class JobsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def manage
+    @organizations = User.current.groups.my_permissions('administrator').organization
+    raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:id]))
+    @jobs = @org.jobs
+  end
 end

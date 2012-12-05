@@ -1087,3 +1087,63 @@ ul.group-discussions, ul.group-jobs {
 		}
 	}
 }
+
+section.jobs-management {
+	table.drops {
+		// Math.floor(0.6 * 255).toString(16); 
+		background: rgb(255, 255, 255);
+		background: rgba(255, 255, 255, 0.8);
+		// IE 7-
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
+		// IE 8+
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+
+		border: solid 1px #EFEFEF;
+		margin: 0px;
+		width: 100%;
+
+		tr {
+			td {
+				border-bottom: solid 1px #EFEFEF;
+			}
+
+			&:last-child td {
+				border-bottom: none;
+			}
+		}
+
+		td {
+			border-right: solid 1px #EFEFEF;
+			vertical-align: top;
+			width: 33.333%;
+			padding: 10px;
+			
+			&:last-child {
+				border-right: none;
+			}
+
+			& > h4.title {
+				border-bottom: solid 2px #EFEFEF;
+				margin: -5px 0px 10px 0px;
+			}
+
+			ul {
+				list-style: none;
+
+				li {
+					border: solid 1px #EFEFEF;
+					margin: 20px 0px;
+					padding: 5px;
+
+					&:hover {
+						border-color: $salmon;
+					}
+
+					h4 {
+						margin: 0px;
+					}
+				}
+			}
+		}
+	}
+}

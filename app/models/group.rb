@@ -65,6 +65,11 @@ class Group < ActiveRecord::Base
 			return user_group.permissions
 		end
 
+		def self.my_permissions(type = nil)
+			bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type]
+			return where("POW(2, ?) & `users_groups`.`permissions` > 0", bit)
+		end
+
 		def users(type = nil)
 			_users = User.joins("INNER JOIN `users_groups` ON `users`.`id` = `users_groups`.`user_id`").where("`users_groups`.`group_id` = ?", self.id)
 

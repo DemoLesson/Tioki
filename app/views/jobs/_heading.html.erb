@@ -1,0 +1,42 @@
+<section class="group-heading">
+	<div class="background">
+		<%= image_tag @org.picture.url(:medium) if @org.picture? %>
+	</div>
+	<section class="title">
+		<h3 style="margin: 10px 0px -5px 10px;color:#000">
+			<%= @org.name %>
+		</h3>
+		<p style="margin-left:10px; width:auto">
+			Job posting management
+		</p>	
+	</section>
+</section>
+<nav class="subpage">
+	<ul>
+		<li class="<%= currentPath.split('/')[1..2] == ['jobs', 'manage'] ? 'current' : '' %>">
+			<a href="/jobs/manage/<%= @org.id %>">
+				Posting Management
+			</a>
+		</li>
+		<li style="float:right;">
+			<span>
+				Administration
+				<span class="iconic arrow_down"></span>
+			</span>
+			<ul>
+				<li>
+					<a href="/groups/<%= @org.id %>/edit">
+						<%= @org.type? %> Settings
+					</a>
+				</li>
+				<% if @org.organization? %>
+					<li>
+						<a href="/jobs/manage/<%= @org.id %>">
+							Manage Job Postings
+						</a>
+					</li>
+				<% end %>
+			</ul>
+		</li>
+	</ul>
+</nav>

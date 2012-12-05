@@ -1,0 +1,87 @@
+<section id="main-content" class="inner-content jobs-management">
+	<%= render 'heading' %>
+
+	<table class="drops">
+		<tr>
+			<td colspan="3">
+				Available Credits Remaining: <span class="creds">0</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h4 class="title">Unpublished</h4>
+				<ul id="unpublished">
+					<li class="dropme">
+					</li>
+					</li>
+					<% @jobs.each do |job| %>
+						<li class="job">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @org.name %></p>
+							<span>Drag to relocate</span>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+			<td>
+				<h4 class="title">Running</h4>
+				<ul id="running">
+					<li class="dropme">
+					</li>
+					<% @jobs.each do |job| %>
+						<li class="job">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @org.name %></p>
+							<span>Drag to relocate</span>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+			<td>
+				<h4 class="title">Completed</h4>
+				<ul id="completed">
+					<li class="dropme">
+					</li>
+					<% @jobs.each do |job| %>
+						<li class="job">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @org.name %></p>
+							<span>Drag to relocate</span>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</section>
+
+<script type="text/coffeescript">
+$ ->
+	$containers =
+		unpublished: $('ul#unpublished')
+		completed: $('ul#completed')
+		running: $('ul#running')
+
+	for id, obj of $containers
+
+		# Get rid of this container
+		excluding = for _id of $containers
+			continue if _id == id
+			'#' + _id + ' > li.job'
+
+		$('li', obj).draggable
+			distance: 50
+			cancel: 'a'
+			revert: 'invalid'
+			containment: 'table.drops'
+			helper: 'clone'
+			cursor: 'move'
+
+		console.log excluding
+
+		obj.droppable
+			accept: excluding.join(', ')
+			activeClass: "show_drop"
+			drop: (event, ui) ->
+				console.log([event, ui])
+</script>
