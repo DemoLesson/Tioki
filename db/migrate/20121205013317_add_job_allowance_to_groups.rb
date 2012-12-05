@@ -8,6 +8,7 @@ class AddJobAllowanceToGroups < ActiveRecord::Migration
 
   		# Add a time that the expiration ends
   		t.datetime :expiration
+  		t.datetime :inception
 
   		# Stripe data
   		t.string :charge_token

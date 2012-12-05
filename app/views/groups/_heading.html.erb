@@ -40,11 +40,13 @@
 </section>
 <nav class="subpage">
 	<ul>
-		<li class="<%= currentPath.split('/')[3].nil? ? 'current' : '' %>">
-			<a href="/groups/<%= @group.id %>">
-				About
-			</a>
-		</li>
+		<% unless @group.long_description.nil? %>
+			<li class="<%= currentPath.split('/')[3].nil? ? 'current' : '' %>">
+				<a href="/groups/<%= @group.id %>">
+					About
+				</a>
+			</li>
+		<% end %>
 		<li class="<%= currentPath.split('/')[3] == 'members' ? 'current' : '' %>">
 			<a href="/groups/<%= @group.id %>/members">
 				Members

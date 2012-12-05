@@ -50,10 +50,11 @@ class GroupsController < ApplicationController
 	end
  
 	def show
-
 		# Load group
 		@group = Group.find(params[:id])
-		
+
+		# Redirect to discussions if no long description
+		redirect_to group_path(@group) + '/discussions' if @group.long_description.nil?
 	end
 	
 	def members
