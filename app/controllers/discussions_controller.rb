@@ -18,7 +18,7 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.find(params[:id])
 
     # Unauthorized
-    if !@discussion.owner.nil?
+    if !@discussion.owner.nil? && !@discussion.owner.empty?
     	@owner = mapTag!(@discussion.owner)
     	if !@owner.member? && !@owner.permissions['public_discussions']
     		raise HTTPStatus::Unauthorized
