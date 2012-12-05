@@ -1,7 +1,6 @@
 <section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
-	<section>
-		<nav class="subpage" style="padding-left:0px">
-			<ul>
+	<nav class="subpage" style="padding-left:0px">
+		<ul>
 			<li class="current">
 				All Groups
 			</li>
@@ -12,24 +11,23 @@
 					</a>
 				</li>
 				<% if self.current_user %>
-					<div style="float:right;margin-top:0px;">
-						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
-					</div>
+					<li style="float:right;margin-top:0px;">
+						<%= link_to "Create A Group", new_group_path %>
+					</li>
 				<% else %>
-					<div style="float:right;margin-top:0px">
-						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&group_index', :class => "action-button bg-green" %>
-					</div>
+					<li style="float:right;margin-top:0px">
+						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&group_index' %>
+					</li>
 				<% end %>
 			<% end %>
-			</ul>
-		</nav>
+		</ul>
+	</nav>
+	<section class="panels">
+		<section class="two-column left-side">
 		<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
 			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 0px;width:500px" %>
 			<%= submit_tag "Search" %>
 		<% end %>
-	</section>
-	<section class="panels">
-		<section class="two-column left-side">
 		<% @groups.each do |group| %>
 			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
