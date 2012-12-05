@@ -41,7 +41,7 @@
 		</p>
 		<% if !@group.permissions['organization'] %>
 	    	<label>
-	    		<%= check_box_tag 'group[permissions][public]', 'true', @group.permissions['public'] %> 
+	    		<%= check_box_tag 'group[permissions][public]', 'true', @group.permissions['public'] || @group.id.nil? %> 
 	    		Public <%= @group.type? %> (Anyone can join and discuss)
 	    	</label>
     	<% end %>
@@ -56,7 +56,7 @@
 	    	</label>
 	    <% end %>
 	    <label>
-	    	<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] %> 
+	    	<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %> 
 	    	Does this <%= @group.type? %> have a publiclically readable discussion board?
 	    </label>
   	</fieldset><br />
