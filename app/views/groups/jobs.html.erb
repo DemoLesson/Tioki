@@ -1,0 +1,26 @@
+<section id="main-content" class="inner-content">
+	<%= render 'heading' %>
+
+	<h2>Job Board</h4>
+
+	<ul class="group-jobs">
+		<% if @jobs.count < 1 %>
+			<li>
+				There are currently no jobs available at <%= @group.name %>
+			</li>
+		<% else %>
+			<% @jobs.each do |job| %>
+				<li>
+					<h4>
+						<%= link_to job.title, job, :style => 'color:#F66C4C;' %>
+					</h4>
+					<p><%= job.description.more! %></p>
+				</li>
+			<% end %>
+			<% if @jobs.count > 15 %>
+				<li><%= will_paginate @jobs %></li>
+			<% end %>
+		<% end %>
+	</ul>
+
+</section>

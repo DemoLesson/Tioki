@@ -19,8 +19,8 @@ class DiscussionsController < ApplicationController
 
     # Unauthorized
     if !@discussion.owner.nil?
-    	owner = mapTag!(@discussion.owner)
-    	if !owner.member? && !owner.permissions['public_discussions']
+    	@owner = mapTag!(@discussion.owner)
+    	if !@owner.member? && !@owner.permissions['public_discussions']
     		raise HTTPStatus::Unauthorized
     	end
     end

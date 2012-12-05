@@ -89,6 +89,14 @@ class GroupsController < ApplicationController
 		@discussions = @group.discussions.order("created_at DESC").paginate(:per_page => 15, :page => params[:page])
 	end
 
+	def jobs
+		# Load organization
+		@group = Group.find(params[:id])
+
+		# Organization jobs
+		@jobs = @group.jobs.order("created_at DESC").limit(@group.job_allowance).paginate(:per_page => 15, :page => params[:page])
+	end
+
 	def add_group
 		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
 		if user_group

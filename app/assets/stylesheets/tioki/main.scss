@@ -1027,6 +1027,7 @@ nav.subpage {
 		}
 
 		& > ul {
+			@include css3-border-box;
 			border: 1px solid #EFEFEF;
 			background: #EFEFEF;
 			position: absolute;
@@ -1036,7 +1037,11 @@ nav.subpage {
 			top: 32px;
 
 			li {
+				@include css3-border-box;
 				padding: 5px 10px !important;
+				margin: 0px !important;
+				display: block;
+				width: 100%;
 
 				&:hover {
 					background: #FFF;
@@ -1054,7 +1059,7 @@ nav.subpage {
 	}
 }
 
-ul.group-discussions {
+ul.group-discussions, ul.group-jobs {
 	// Math.floor(0.6 * 255).toString(16); 
 	background: rgb(255, 255, 255);
 	background: rgba(255, 255, 255, 0.8);

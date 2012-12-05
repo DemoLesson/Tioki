@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205003310) do
+ActiveRecord::Schema.define(:version => 20121205013317) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -372,6 +372,17 @@ ActiveRecord::Schema.define(:version => 20121205003310) do
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
+  end
+
+  create_table "job_packs", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "jobs"
+    t.datetime "expiration"
+    t.string   "charge_token"
+    t.string   "card_token"
+    t.integer  "refunded"
+    t.integer  "amount"
+    t.text     "additional_data"
   end
 
   create_table "jobs", :force => true do |t|

@@ -40,9 +40,9 @@
 					</div>
 				</li>
 			<% end %>
-			<li>
-				<%= will_paginate @discussions %>
-			</li>
+			<% if @discussions.count > 15 %>
+				<li><%= will_paginate @discussions %></li>
+			<% end %>
 		<% end %>
 	</ul>
 

@@ -79,6 +79,7 @@ class Group < ActiveRecord::Base
 	# Adding in organization support
 
 		has_many :jobs
+		has_many :job_packs
 
 		def type?
 			organization? ? 'Organization' : 'Group'
@@ -90,6 +91,18 @@ class Group < ActiveRecord::Base
 
 		def self.organization
 			permissions('organization')
+		end
+
+		def job_allowance
+			allowance = 1
+
+			# Loop through the purchased jobs
+			job_packs.each do |jp|
+				allowance += jp.jobs
+			end
+
+			# Return the allowed amount of jobs
+			return allowance
 		end
 
 end
