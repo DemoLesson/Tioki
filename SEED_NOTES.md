@@ -1,3 +1,8 @@
+v3.0.20 - Dec 4, 2012  5:15PM PST deployed by Aleks Stanisic
+============================================================
+* d9aceb9: Elijah Green - Deal with non-authenticated users on invite_facebook
+* 7d341f2: Elijah Green - Add facebook invite
+
 v3.0.19 - Dec 3, 2012  7:24PM PST deployed by Aleks Stanisic
 ============================================================
 * b40b247: Aleks Stanisic - fixes to images in invite connections
