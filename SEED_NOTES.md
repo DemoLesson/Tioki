@@ -1,3 +1,11 @@
+v3.0.24 - Dec 5, 2012  1:09PM PST deployed by Kelly Becker
+==========================================================
+* c746a3a: Kelly Becker - try and solve the new discussions without groups not showing up with nil owner columns
+* be38650: Elijah Green - Set login email field value to nil
+* 33a1643: Elijah Green - Fix event.rb XSS vulnerability
+* fc07b8d: Elijah Green - Fix XSS vulnerability in discussion.rb
+* 125f48b: Elijah Green - Add yahoo invite and fix up twitter invite
+
 v3.0.23 - Dec 5, 2012 10:41AM PST deployed by Kelly Becker
 ==========================================================
 * ea8f5e7: Kelly Becker - fix discussions creation
