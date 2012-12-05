@@ -1,3 +1,7 @@
+v3.0.26 - Dec 5, 2012  3:26PM PST deployed by Kelly Becker
+==========================================================
+* 7086b7d: Kelly Becker - cleanup scripts
+
 v3.0.25 - Dec 5, 2012  3:16PM PST deployed by Kelly Becker
 ==========================================================
 * 96faf95: Kelly Becker - discussions before save callback
