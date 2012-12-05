@@ -42,4 +42,9 @@ class Discussion < ActiveRecord::Base
 	def cleanup!
 		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
+
+	def owner=(val)
+		val = nil if val.nil? || val.empty?
+		update_attribute(:owner, val)
+	end
 end
