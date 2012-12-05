@@ -37,7 +37,8 @@ class Whiteboard < ActiveRecord::Base
 		record["tag"] = self.map_tag
 
 		# Get the message unparsed
-		m = self.message
+		# and sanitize anything that isn't a link
+		m = ActionController::Base.helpers.sanitize(self.message, :tags => %w(a))
 
 		# Get all the variables
 		vars = m.scan(/{[\w.(),]+}/)
