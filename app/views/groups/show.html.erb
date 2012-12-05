@@ -12,11 +12,11 @@ $(document).ready(function() {
 		// Trigger the facebook method
 		FB.ui({
 			method: 'feed',
-			name: '<%= @group.name %>',
+			name: '<%=j @group.name %>',
 			link: '<%= url_for(:only_path => false) %>',
 			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
 			caption: 'Come join this Group on Tioki.',
-			description: 'Come join the "<%= @group.name %>" group on Tioki; a professional development site for educators!'
+			description: 'Come join the "<%=j @group.name %>" group on Tioki; a professional development site for educators!'
 		}
 		/*function(response) {
 			if (response && response.post_id) {
@@ -37,7 +37,7 @@ $(document).ready(function() {
 		var params = {
 			via: 'tioki',
 			url: '<%= url_for(:only_path => false) %>',
-			text: 'Come join the "<%= @group.name %>" Group on Tioki!'
+			text: 'Come join the "<%=j @group.name %>" Group on Tioki!'
 		}
 
 		// URL plus params
@@ -65,7 +65,7 @@ $(document).ready(function() {
 			<% Connection.mine(:pending => false).each do |connection| %>
 			<% user = connection.not_me %>
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
-				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
+				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
 				<div class="profile-thumb-small" style="float:left;">
 					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
 					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
@@ -87,12 +87,10 @@ $(document).ready(function() {
 		if(check.prop('checked')) {
 			$(this).css('border-color', '#DADADA');
 			check.prop('checked', false);
-			check.hide();
 		}
 		else {
 			$(this).css('border-color', '#F66C4C');
 			check.prop('checked', true);
-			check.show();
 		}
 
 		return false;

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204211459) do
+ActiveRecord::Schema.define(:version => 20121205003310) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -203,8 +203,10 @@ ActiveRecord::Schema.define(:version => 20121204211459) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "owner"
   end
 
+  add_index "discussions", ["owner"], :name => "index_discussions_on_owner"
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
 
   create_table "educations", :force => true do |t|

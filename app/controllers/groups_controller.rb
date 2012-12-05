@@ -85,21 +85,8 @@ class GroupsController < ApplicationController
 		# Load group
 		@group = Group.find(params[:id])
 
-		# Is the current user an administrator
-		if self.current_user && @group.users.include?(User.current)
-			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
-		else
-			@admin = false
-		end
-
-		@comments = @group.get_comments
-
-		# Is the current user in a group
-		unless self.current_user.nil?
-			@in_group = self.current_user.groups.include?(@group)
-		else
-			@in_group = false
-		end
+		# Group Discussions
+		@discussions = @group.discussions.order("created_at DESC").paginate(:per_page => 15, :page => params[:page])
 	end
 
 	def add_group
@@ -142,6 +129,18 @@ class GroupsController < ApplicationController
 		# Is the current user an administrator
 		admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
 		raise HTTPStatus::Unauthorized unless admin
+
+		# Update permissions
+		if !params[:group][:permissions].nil?
+			permissions = Hash.new
+			permissions[:public] = params[:group][:permissions][:public] == 'true'
+			permissions[:private] = params[:group][:permissions][:public] != 'true'
+			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
+			permissions[:organization] = params[:group][:permissions][:organization] == 'true'
+			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
+			params[:group].delete_if{|k,v|k.to_s == 'permissions'}
+			@group.permissions = permissions
+		end
 
 		@group.update_attributes(params[:group])
 

@@ -1000,13 +1000,12 @@ section.group-heading {
 
 nav.subpage {
 	@include css3-border-box;
-	background: rgb(255, 255, 255);
-	background: rgba(255, 255, 255, 0.8);
 	padding: 0px 15px !important;
 	border: 1px solid #EFEFEF;
 
 	// Math.floor(0.6 * 255).toString(16); 
-
+	background: rgb(255, 255, 255);
+	background: rgba(255, 255, 255, 0.8);
 	// IE 7-
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
 	// IE 8+
@@ -1051,6 +1050,34 @@ nav.subpage {
 
 		&:hover > ul {
 			display: block;
+		}
+	}
+}
+
+ul.group-discussions {
+	// Math.floor(0.6 * 255).toString(16); 
+	background: rgb(255, 255, 255);
+	background: rgba(255, 255, 255, 0.8);
+	// IE 7-
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
+	// IE 8+
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+
+	border: solid 1px #EFEFEF;
+	list-style: none;
+	margin: 0px;
+
+	li {
+		border-bottom: solid 1px #EFEFEF;
+		display: block;
+		padding: 15px;
+
+		h4 {
+			margin-top: 0px;
+		}
+
+		&:last-child {
+			border: none;
 		}
 	}
 }

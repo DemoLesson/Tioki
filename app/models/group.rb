@@ -10,17 +10,12 @@ class Group < ActiveRecord::Base
 	# Connected to users through users_groups
 	has_and_belongs_to_many :users, :join_table => 'users_groups'
 	
-	# Comments stuff
-	acts_as_commentable
+	# Discussions stuff
 
-		def get_comments
-			self.root_comments
+		def discussions
+			Discussion.where(:owner => "#{self.class}:#{self.id}")
 		end
-
-		def create_comment(body)
-			Comment.build_from(self, User.current.id, body)
-		end
-
+	
 	# Group picture
 	has_attached_file :picture,
 		:storage => :fog,
@@ -39,6 +34,12 @@ class Group < ActiveRecord::Base
 		:date_format => "%Y%m%d%H%M%S"
 
 	# User permissions
+
+		def member?
+			return false if User.current.nil?
+			return false if User_Group.where('`users_groups`.`user_id` = ? && `users_groups`.`group_id` = ?', User.current.id, self.id).first.nil?
+			return true
+		end
 
 		def user_permissions(conds = {})
 			user = User.find(conds[:user]) unless conds[:user].nil?
