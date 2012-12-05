@@ -281,9 +281,19 @@ class ConnectionsController < ApplicationController
 
 			if request.post? && !params[:people].nil?
 				params.people.split(',').each do |twitter_contact|
-					client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+					notice = "Success"
+					begin
+						client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+					rescue Twitter::Error::Forbidden => ex
+
+						if ex.message == "There was an error sending your message: Whoops! You already said that."
+						else
+							break
+							notice = "An error occured while attempting to message followers"
+						end
+					end
+					flash[:notice] = notice
 				end
-				flash[:notice] = "Success"
 			end
 
 			@contacts = []
@@ -308,6 +318,42 @@ class ConnectionsController < ApplicationController
 	end
 
 	def invite_gmail
+		if request.post? && !params[:people].nil?
+
+			# Split people to invite and loop
+			params.people.split(',').each do |email|
+
+				# Parse the email to make sure its valid
+				email = Mail::Address.new(email.strip)
+
+				# Get the user
+				user = User.where({"email" => email.address}).first
+
+				# If the user exists
+				unless user.nil?
+					# Try and add a connection
+					if Connection.add_connect(self.current_user.id, user.id)
+						# We don't really neeed to notify the user about this
+						# notice << "Your connection request to " + email.address + " has been sent."
+					end
+
+					# If the user does not exist
+				else
+					# Generate the invitation url to be added to the email
+					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
+
+					# Send out the email
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+
+					# Log an analytic
+					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", self.current_user)
+				end
+			end
+			flash[:notice] = "Success"
+		end
+	end
+
+	def invite_yahoo
 		if request.post? && !params[:people].nil?
 
 			# Split people to invite and loop
