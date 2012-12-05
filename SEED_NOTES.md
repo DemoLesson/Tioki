@@ -1,3 +1,8 @@
+v3.0.23 - Dec 5, 2012 10:41AM PST deployed by Kelly Becker
+==========================================================
+* ea8f5e7: Kelly Becker - fix discussions creation
+* feaad9d: Kelly Becker - fix discussions creation
+
 v3.0.22 - Dec 4, 2012  8:35PM PST deployed by Aleks Stanisic
 ============================================================
 * 2014420: Brian Martinez - changes to the new job form
