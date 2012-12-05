@@ -6,6 +6,12 @@ class Whiteboard < ActiveRecord::Base
 	# Comments integration
 	acts_as_commentable
 
+	# Delete favorites on destruction
+	before_destroy :before_destroy
+	def before_destroy
+		Favorite.where(:model => tag!).all.recurse{|n| n.destroy}
+	end
+
 	# Add support for getting comments
 	def getComments
 		self.root_comments

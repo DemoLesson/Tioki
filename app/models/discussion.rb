@@ -17,6 +17,11 @@ class Discussion < ActiveRecord::Base
 		self.owner = nil if owner.nil? || owner.empty?
 	end
 
+	def before_destroy
+		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
+		Whiteboard.where(:tag => tag!).all.recurse{|n| n.destroy}
+	end
+
 	def to_param
 		"#{id}-#{title.parameterize}"
 	end
@@ -42,9 +47,5 @@ class Discussion < ActiveRecord::Base
 
 		# Return the link to the profile
 		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
-	end
-
-	def before_destroy
-		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
 end
