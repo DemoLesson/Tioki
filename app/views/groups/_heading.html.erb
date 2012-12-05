@@ -80,16 +80,10 @@
 							<%= @group.type? %> Settings
 						</a>
 					</li>
-					<% if @group.organization? && @group.job_allowance - @group.jobs.count > 0 %>
+					<% if @group.organization? %>
 						<li>
 							<a href="#">
-								Add a job posting
-							</a>
-						</li>
-					<% elsif @group.organization? %>
-						<li>
-							<a href="#">
-								Buy more job postings
+								Manage Job Postings
 							</a>
 						</li>
 					<% end %>

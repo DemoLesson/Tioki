@@ -94,7 +94,7 @@ class Group < ActiveRecord::Base
 		end
 
 		def job_allowance
-			allowance = 1
+			allowance = 0
 
 			# Loop through the purchased jobs
 			job_packs.each do |jp|
