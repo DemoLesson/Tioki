@@ -1,11 +1,12 @@
 <section id="main-content" class="inner-content">
+	<%= render 'heading' %>
 
 	<h2>
-		Edit Your Group
+		Edit Your <%= @group.type? %>
 	</h2>
 	<section style ="float:right;margin-right:50px">
 		<h4>
-			Current Group Picture
+			Current <%= @group.type? %> Picture
 		</h4>
 		<div class="bordered_image">
 			<% if @group.picture? %>
@@ -15,7 +16,7 @@
 			<% end %>
 		</div>
 		<br/>
-		<%= link_to "Update Group Picture", {:action => "edit_picture", :id => @group.id }, :class => "button bg-salmon", :style => "margin-left:20px" %>
+		<%= link_to "Update #{@group.type?} Picture", {:action => "edit_picture", :id => @group.id }, :class => "button bg-salmon", :style => "margin-left:20px" %>
 	</section>
 
 	<%= render "form" %>

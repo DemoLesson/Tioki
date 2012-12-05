@@ -5,6 +5,9 @@ class HomeController < ApplicationController
 		# If logged in then load a dashboard
 		if !self.current_user.nil?
 
+			# Current user
+			@user = User.current
+
 			# TODO Add check to see if school...
 			if User.current.dashboard == 'recruiter'
 				@schools = self.current_user.all_schools
@@ -60,8 +63,6 @@ class HomeController < ApplicationController
 				@pendingcount = self.current_user.pending_connections.count
 
 				@profile_views = self.get_analytics(:view_user_profile, self.current_user, nil, nil, true).count
-
-				@user = User.find(self.current_user)
 
 				@jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
 

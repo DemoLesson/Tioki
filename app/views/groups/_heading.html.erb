@@ -1,0 +1,96 @@
+<section class="group-heading">
+	<div class="background">
+		<%= image_tag @group.picture.url(:medium) if @group.picture? %>
+	</div>
+	<section class="title">
+		<section style="float:right;margin:10px 10px 0px 0px">
+			<% unless @group.site == nil || @group.site == "" %>
+				<a href="<%= @group.site %>" target="_blank">
+					<%= image_tag('tioki/icons/globe.png') %>
+				</a>
+			<% end %>
+			<% if @group.twitter.present? %>
+				<% if @group.twitter.include? '//' %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), @group.twitter, :target => "_blank" %>
+				<% elsif @group.twitter.include? 'com' %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), 'http://'+@group.twitter, :target => "_blank" %>
+				<% else %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@group.twitter, :target => "_blank" %>
+				<% end %>
+			<% end %>
+			<% if @group.facebook.present? %>
+				<% if @group.facebook.include? '//' %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), @group.facebook, :target => "_blank" %>
+				<% elsif @group.facebook.include? 'com' %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), 'http://'+@group.facebook, :target => "_blank" %>
+				<% else %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), '//facebook.com/'+@group.facebook, :target => "_blank" %>
+				<% end %>
+			<% end %>
+		</section>
+		<h3 style="margin: 10px 0px -5px 10px;color:#000">
+			<%= @group.name %>
+		</h3>
+		<p style="margin-left:10px; width:auto">
+			<% if @group.description? %>
+				<%=raw auto_link(@group.description).more!(120) %>
+			<% end %>
+		</p>	
+	</section>
+</section>
+<nav class="subpage">
+	<ul>
+		<% unless @group.long_description.nil? %>
+			<li class="<%= currentPath.split('/')[3].nil? ? 'current' : '' %>">
+				<a href="/groups/<%= @group.id %>">
+					About
+				</a>
+			</li>
+		<% end %>
+		<li class="<%= currentPath.split('/')[3] == 'members' ? 'current' : '' %>">
+			<a href="/groups/<%= @group.id %>/members">
+				Members
+				<% if @group.users.count > 0 %>
+					(<%= @group.users.count %>)
+				<% end %>
+			</a>
+		</li>
+		<% if @group.organization? %>
+			<li class="<%= currentPath.split('/')[3] == 'jobs' ? 'current' : '' %>">
+				<a href="/groups/<%= @group.id %>/jobs">
+					Jobs
+					<% if @group.jobs.count > 0 %>
+						(<%= @group.jobs.count %>)
+					<% end %>
+				</a>
+			</li>
+		<% end %>
+		<li class="<%= currentPath.split('/')[3] == 'discussions' ? 'current' : '' %>">
+			<a href="/groups/<%= @group.id %>/discussions">
+				Discussions
+			</a>
+		</li>
+		<% if @group.user_permissions['administrator'] %>
+			<li style="float:right;">
+				<span>
+					Administration
+					<span class="iconic arrow_down"></span>
+				</span>
+				<ul>
+					<li>
+						<a href="/groups/<%= @group.id %>/edit">
+							<%= @group.type? %> Settings
+						</a>
+					</li>
+					<% if @group.organization? %>
+						<li>
+							<a href="#">
+								Manage Job Postings
+							</a>
+						</li>
+					<% end %>
+				</ul>
+			</li>
+		<% end %>
+	</ul>
+</nav>

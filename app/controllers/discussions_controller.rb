@@ -4,7 +4,7 @@ class DiscussionsController < ApplicationController
   # GET /discussions
   # GET /discussions.json
   def index
-    @discussions = Discussion.order("created_at DESC")
+    @discussions = Discussion.where(:owner => nil).order("created_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +16,15 @@ class DiscussionsController < ApplicationController
   # GET /discussions/1.json
   def show
     @discussion = Discussion.find(params[:id])
+
+    # Unauthorized
+    if !@discussion.owner.nil?
+    	@owner = mapTag!(@discussion.owner)
+    	if !@owner.member? && !@owner.permissions['public_discussions']
+    		raise HTTPStatus::Unauthorized
+    	end
+    end
+
     @comment =Comment.new
 		if self.current_user
 			@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])

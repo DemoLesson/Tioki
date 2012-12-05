@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201215024) do
+ActiveRecord::Schema.define(:version => 20121205030016) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -203,8 +203,10 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "owner"
   end
 
+  add_index "discussions", ["owner"], :name => "index_discussions_on_owner"
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
 
   create_table "educations", :force => true do |t|
@@ -351,6 +353,7 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.string   "site"
     t.string   "twitter"
     t.string   "facebook"
+    t.text     "long_description"
   end
 
   create_table "interviews", :force => true do |t|
@@ -366,6 +369,18 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
+  end
+
+  create_table "job_packs", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "jobs"
+    t.datetime "expiration"
+    t.datetime "inception"
+    t.string   "charge_token"
+    t.string   "card_token"
+    t.integer  "refunded"
+    t.integer  "amount"
+    t.text     "additional_data"
   end
 
   create_table "jobs", :force => true do |t|
@@ -394,6 +409,7 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.boolean  "immediate",           :default => false
     t.text     "instructions"
     t.string   "external_url"
+    t.integer  "group_id"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"

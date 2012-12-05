@@ -1,21 +1,13 @@
 <section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
-<!-- Include these scripts to import address books with CloudSponge -->
-<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
-<script type="text/javascript" charset="utf-8">
-	var csPageOptions = {
-domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
-		   textarea_id:"emails"
-	};
-</script>
 	<section class="sidebar">
 		<ul>
 			<li>
-				<a href="/inviteconnections">
-					Email
-				</a>
+			<a href="/inviteconnections">
+				Email
+			</a>
 			</li>
 			<li class="current">
-					Twitter
+			Twitter
 			</li>
 			<li>
 				<a href="/inviteconnections/facebook">
@@ -27,113 +19,132 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					Gmail
 				</a>
 			</li>
-			<li>
+			<!--<li>
 				<a href="/inviteconnections/yahoo">
 					Yahoo
 				</a>
-			</li>
+			</li>-->
 		</ul>
 	</section>
 
 	<section id="panels">
 		<section id="whiteboard" class="two-column right-side" style="">
 			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
-			<h2 style="margin-top:0px;color:black">
-				TWITTER
-			</h2>
-			<p>
+			<% if !self.current_user.twitter_auth? %>
+				<h2 style="margin-top:0px;color:black">
+					TWITTER
+				</h2>
+				<p>
 				We couldn't find any of your Twitter followers because you haven't connected Twitter and Tioki. Click the button below to connect.
-			</p>
-			<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
-				<h4 style="margin:10px 0 0 25px">
-					Find Friends from Twitter
-					<%= image_tag '/assets/Tioki/icons/twitter4.png', :style => "width:30px;margin-bottom:-7px;margin-left:5px" %>
-				</h4>
-			</section>
-			<br/><br/><br/><!-- These won't need to be here once the script is working -->
-			<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
-			<h4 class="bottom-line" style="padding-bottom:10px">
-				Invite Twitter Followers
-					<%= link_to "Invite", '#', :class => "button", :style => "float:right;" %>
-					<textarea rows="1" placeholder="Type a friend's name" style="width:235px;float:right;margin-right:8px"></textarea>
-					
-			
-			</h4>
-			
-			<form class="person_form" method="POST">
+				</p>
+				<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
+					<h4 style="margin:10px 0 0 25px">
+						Find Friends from Twitter
+						<%= link_to (image_tag '/assets/tioki/icons/twitter4.png', :style => "width:30px;margin-bottom:-7px;margin-left:5px"), "/twitter_auth?twitter_action=inviteconnections" %>
+					</h4>
+				</section>
+				<br/><br/><br/><!-- These won't need to be here once the script is working -->
+			<% else %>
+					<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
+				<form class="person_form" method="POST">
+					<input type="hidden" name="people" />
+					<h4 class="bottom-line" style="padding-bottom:10px">
+						Invite Twitter Followers
+						<%= submit_tag "Invite", :class => "button", :style => "float:right;" %>
+						<%= text_field_tag :contact_search, nil, :placeholder => "Type a friend's name", :style => "width:235px;float:right;margin-right:8px", :id => "contact_search" %>
+					</h4>
+
 					<div class="person_cloud" style="padding-top:10px;">
-					<a href="#" style="background:#2AA99B">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
-					<a href="#" style="background:#2AA99B">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
-					<a href="#" style="background:#ccc">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:3px">
-							@petescottwalton<br/>
-							Pete Walton
-						</span>
-					</a>
+						<% if @contacts %>
+							<% @contacts.each do |contact| %>
+								<a href="#twitter_contact" data-contact-id="<%= contact.id %>" style="background:#CFD4D5">
+									<%= image_tag contact.picture, :style => "width:40px;float:left;margin:5px 5px 5px 5px" %>
+									<span style="margin-top:3px">
+										@<%= contact.screen_name%><br/>
+										<%= contact.name %>
+									</span>
+								</a>
+							<% end %>
+						<% end %>
 					</div>
-			</form>
+				</form>
+			<% end %>
 		</section>
 	</section>
+</section>
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-	$('a[href="#twitter"]').click(function(e) {
+	$(document).ready(function() {
+		var twitterSearch;
+		var twitterContacts = new Array();
+		<% if @contacts %>
+				twitterSearch = <%= @contacts.to_json.html_safe %>;
+		<% end %>
 
-		// URL to go to
-		url = 'https://twitter.com/share';
+		$('a[href="#twitter_contact"]').live('click', function(e) {
+			e.preventDefault();
+			id = $(this).attr('data-contact-id');
 
-		// Paramaters to build
-		var params = {
-			via: 'tioki',
-			url: 'http://www.tioki.com/dc/<%= self.current_user.invite_code %>',
-			text: 'I just joined Tioki; a professional networking site for educators. You should connect with me!'
-		}
+			// If the button is not selected
+			if($(this).hasClass('selected_contact')) {
 
-		// URL plus params
-		url += '?' + $.param(params);
-		
-		// Apply to the link
-		$(this).attr('href', url).attr('target', '_blank');
+				$(this).removeClass('selected_contact').css({'background': '#CFD4D5'});
 
-		// GO!
-		return true;
+				var key = $.inArray($(this).attr('data-contact-id'), twitterContacts);
+				if(key !== -1) twitterContacts.splice(key, 1);
+			}
+
+			// If the button was selected
+			else {
+				// Create contact array
+				if(twitterContacts === undefined)
+					twitterContacts = new Array;
+
+				// Remove secondary class
+				$(this).addClass('selected_contact').css({'background': '#2AA99B'});
+
+				// Add the email to the invite array
+				twitterContacts.push($(this).attr('data-contact-id'));
+
+			}
+
+			return false;
+		});
+
+		$('form.person_form').submit(function(e) {
+			e.preventDefault();
+
+			$('input[name="people"]').val(twitterContacts.join(','));
+
+			// Submit the form
+			$(this).get(0).submit();
+
+			return false;
+		});
+
+		$("#contact_search").keyup(function() {
+			$('div.person_cloud').empty();
+
+			var str = $(this).attr('value').toLowerCase();
+			var link;
+
+			for(var i = 0; i < twitterSearch.length; i++) {
+				var contact = twitterSearch[i];
+				if(contact.name.toLowerCase().indexOf(str) > -1) {
+					if(twitterContacts.indexOf(contact.id.toString()) > -1) {
+						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + 'class="selected_contact" style="background:#2AA99B" />');
+					}
+					else {
+						link = $('<a href="#twitter_contact" data-contact-id=' + contact.id + ' style="background:#CFD4D5" />');
+					}
+					link.html('<img src=' + contact.picture + ' style="width:40px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:3px">' + '@' + contact.screen_name + '<br />' + contact.name + '</span>');
+					$('div.person_cloud').append(link);
+				}
+			}
+			$('div.person_cloud').append('<input type="hidden" name="twitter" value="true"/>');
+		});
+
 	});
-});
 </script>
 <div class="clearfloat"></div>
-</section>
