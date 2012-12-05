@@ -1,3 +1,7 @@
+v3.0.22 - Dec 4, 2012  8:35PM PST deployed by Aleks Stanisic
+============================================================
+* 2014420: Brian Martinez - changes to the new job form
+
 v3.0.21 - Dec 4, 2012  7:17PM PST deployed by Kelly Becker
 ==========================================================
 * 2c37e32: Kelly Becker - groups new style
