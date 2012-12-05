@@ -63,7 +63,7 @@ class Event < ActiveRecord::Base
 		end; attrs = _attrs.join(' ')
 
 		# Return the link to the profile
-		return "<a href=\"/events/#{self.id}\" #{attrs}>#{self.name}</a>".html_safe
+		return "<a href=\"/events/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
 	end
 
 	def cleanup!
