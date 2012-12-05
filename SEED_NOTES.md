@@ -1,3 +1,15 @@
+v3.0.21 - Dec 4, 2012  7:17PM PST deployed by Kelly Becker
+==========================================================
+* 2c37e32: Kelly Becker - groups new style
+* 4f57687: Kelly Becker - groups redesign
+* 970ca9c: Kelly Becker - added inception date
+* 9a13137: Kelly Becker - long about page
+* 55d7af9: Elijah Green - Add gmail invite page
+* 484c215: Kelly Becker - group members update
+* 27e598a: Kelly Becker - job infrastructure.
+* 71e0a04: Kelly Becker - group orgs redesign so far;
+* 6a052fc: Kelly Becker - making quite a bit of progress
+
 v3.0.20 - Dec 4, 2012  5:15PM PST deployed by Aleks Stanisic
 ============================================================
 * d9aceb9: Elijah Green - Deal with non-authenticated users on invite_facebook
