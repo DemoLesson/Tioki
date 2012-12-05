@@ -37,7 +37,7 @@ class GroupsController < ApplicationController
 				self.log_analytic(:group_creation, "New group was created.", group, [], :groups)
 				
 				# Add the first administrator
-				user_group.permissions = {:member => true, :moderator => true, :administrator => true}
+				user_group.permissions = {:member => true, :moderator => true, :administrator => true, :owner => true}
 
 				# Return HTML or JSON
 				format.html { redirect_to group, notice: 'Group was successfully created.' }
@@ -51,6 +51,37 @@ class GroupsController < ApplicationController
  
 	def show
 
+		# Load group
+		@group = Group.find(params[:id])
+		
+	end
+	
+	def members
+		# Load group
+		@group = Group.find(params[:id])
+
+		# Is the current user an administrator
+		if self.current_user && @group.users.include?(User.current)
+			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		else
+			@admin = false
+		end
+
+		@comments = @group.get_comments
+
+		# Is the current user in a group
+		unless self.current_user.nil?
+			@in_group = self.current_user.groups.include?(@group)
+		else
+			@in_group = false
+		end
+
+		# Get a list of my connections
+		@my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
+		@my_connections = Array.new if self.current_user.nil?
+	end
+
+	def discussions
 		# Load group
 		@group = Group.find(params[:id])
 
@@ -70,51 +101,7 @@ class GroupsController < ApplicationController
 			@in_group = false
 		end
 	end
-	
-  def members
-    # Load group
-		@group = Group.find(params[:id])
 
-		# Is the current user an administrator
-		if self.current_user && @group.users.include?(User.current)
-			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
-		else
-			@admin = false
-		end
-
-		@comments = @group.get_comments
-
-		# Is the current user in a group
-		unless self.current_user.nil?
-			@in_group = self.current_user.groups.include?(@group)
-		else
-			@in_group = false
-		end
-		
-		# Get a list of my connections
-    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
-    @my_connections = Array.new if self.current_user.nil?
-  end
-  
-  def about
-    # Load group
-		@group = Group.find(params[:id])
-
-		# Is the current user an administrator
-		if self.current_user && @group.users.include?(User.current)
-			@admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
-		else
-			@admin = false
-		end
-
-		# Is the current user in a group
-		unless self.current_user.nil?
-			@in_group = self.current_user.groups.include?(@group)
-		else
-			@in_group = false
-		end
-  end
-   
 	def add_group
 		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
 		if user_group

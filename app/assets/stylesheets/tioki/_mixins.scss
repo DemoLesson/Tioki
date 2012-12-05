@@ -10,3 +10,9 @@
       font-weight: $weight; }
     @if $style {
       font-style: $style; } } }
+
+@mixin css3-border-box {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}

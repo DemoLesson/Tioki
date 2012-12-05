@@ -944,6 +944,52 @@ class UsersController < ApplicationController
 		end
 	end
 
+	# Upgrade account
+
+		def upgrade
+			if request.post?
+				case params[:type]
+				when 'recruiter'
+					group = Group.new(params[:group])
+
+					respond_to do |format|
+						if group.save
+
+							# Set permissions
+							group.permissions = {
+								:hidden => true,
+								:private => true,
+								:organization => true
+							}
+
+							# Create join row for users -> groups
+							user_group = User_Group.new
+							user_group.user_id = self.current_user.id
+							user_group.group_id = group.id
+							user_group.save
+
+							#Log into Analytics 
+							self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
+							
+							# Add the first administrator
+							user_group.permissions = {
+								:member => true,
+								:moderator => true,
+								:administrator => true,
+								:owner => true
+							}
+
+							# Return HTML or JSON
+							format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
+						else
+							flash[:error] = "There was an error creating your organization"
+							redirect_to :back
+						end
+					end
+				end
+			end
+		end
+
 	private
 
 	def authenticate

@@ -179,6 +179,14 @@
 									<% end %>
 
 									<!-- Schools -->
+									<% if self.current_user.groups.organization.empty? %>
+										<li>
+											<a href="/me/settings/upgrade">
+												Upgrade Account
+											</a>
+										</li>
+										<hr>
+									<% end %>
 									
 									<!-- Teacher Methods -->
 									<% unless self.current_user.nil? %>

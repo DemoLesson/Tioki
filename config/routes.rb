@@ -1,86 +1,91 @@
 Preview::Application.routes.draw do
 
-	# Match API urls
-	scope '/api' do
-		match ':action/:id' => 'api#:action'
-		match ':action' => 'api#:action'
-	end
-
-	#Authentication for twitter, facebook, linkedin etc.
-	resources :authentications do
-		collection do
-			get 'facebook_auth'
-			get 'whiteboard_share_twitter'
-			get 'whiteboard_share_facebook'
-			get 'revoke_twitter'
-			get 'revoke_facebook'
+	# API
+		scope '/api' do
+			match ':action/:id' => 'api#:action'
+			match ':action' => 'api#:action'
 		end
-	end
-	match 'facebook_callback', :to => 'authentications#facebook_callback'
-	match 'twitter_callback', :to => 'authentications#twitter_callback' 
-	match 'twitter_auth', :to => 'authentications#twitter_auth'
-	match 'linkedinprofile', :to => 'users#linkedinprofile'
-	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+
+	# Authentication for twitter, facebook, linkedin etc.
+		resources :authentications do
+			collection do
+				get 'facebook_auth'
+				get 'whiteboard_share_twitter'
+				get 'whiteboard_share_facebook'
+				get 'revoke_twitter'
+				get 'revoke_facebook'
+			end
+		end
+		match 'facebook_callback', :to => 'authentications#facebook_callback'
+		match 'twitter_callback', :to => 'authentications#twitter_callback' 
+		match 'twitter_auth', :to => 'authentications#twitter_auth'
+		match 'linkedinprofile', :to => 'users#linkedinprofile'
+		match 'linkedin_callback', :to => 'authentications#linkedin_callback'
 
 	# Groups
-	match 'groups/:id/comment' => 'groups#comment'
-	match 'my_groups' => 'groups#my_groups'
-	match 'groups/:id/members' => 'groups#members'
-	match 'groups/:id/add_admin/:user' => 'groups#add_admin'
-	match 'groups/:id/rmv_admin/:user' => 'groups#rmv_admin'
-	match 'groups/:id/about' => 'groups#about'
-	match 'groups/:id/inviting' => 'groups#inviting'
-	match ':id/invite_email' => 'groups#invite_email'
-	match 'groups/:id/invite' => 'groups#invite'
-	resources :groups do
-		member do
-			get 'edit_picture'
-			get 'add_group'
-			get 'message_all_new'
-			post 'message_all_create'
+		
+		match 'my_groups' => 'groups#my_groups'
+
+		match 'groups/:id/comment' => 'groups#comment'
+		match 'groups/:id/add_admin/:user' => 'groups#add_admin'
+		match 'groups/:id/rmv_admin/:user' => 'groups#rmv_admin'
+		match 'groups/:id/inviting' => 'groups#inviting'
+		match ':id/invite_email' => 'groups#invite_email'
+		match 'groups/:id/invite' => 'groups#invite'
+
+		match 'groups/:id/members' => 'groups#members'
+		match 'groups/:id/jobs' => 'groups#jobs'
+		match 'groups/:id/discussions' => 'groups#discussions'
+
+		resources :groups do
+			member do
+				get 'edit_picture'
+				get 'add_group'
+				get 'message_all_new'
+				post 'message_all_create'
+			end
 		end
-	end
 
 	# Match Comment URLS
-	match 'comments/:id/favorite' => 'comments#favorite'
-	match 'comments/:id/delete' => 'comments#delete'
-	resources :comments
+		match 'comments/:id/favorite' => 'comments#favorite'
+		match 'comments/:id/delete' => 'comments#delete'
+		resources :comments
 
 	# Match Discussions
-	resources :discussions do
-		member do
-			get 'reply_to_discussion'
-			post 'reply_to_discussion'
-			get 'reply_to_comment'
-			post 'reply_to_comment'
-			get 'follow_discussion'
-			get 'unfollow_discussion'
-			get 'destroy_discussion'
-			get 'restore_discussion'
-			post 'reply_nologin'
+		resources :discussions do
+			member do
+				get 'reply_to_discussion'
+				post 'reply_to_discussion'
+				get 'reply_to_comment'
+				post 'reply_to_comment'
+				get 'follow_discussion'
+				get 'unfollow_discussion'
+				get 'destroy_discussion'
+				get 'restore_discussion'
+				post 'reply_nologin'
+			end
 		end
-	end
-	match 'followed_discussions' => 'discussions#followed_discussions'
-	match 'my_discussions' => 'discussions#my_discussions'
-	match 'destroy_comment/:id' => 'discussions#destroy_comment'
-	match 'edit_comment/:id' => 'discussions#edit_comment'
-	match 'update_comment/:id' => 'discussions#update_comment'
-	match 'discussions/:id/invite' => 'discussions#invite'
-	match 'discussions/:id/inviting' => 'discussions#inviting'
-	match ':id/discussion_email' => 'discussions#discussion_email'
+		match 'followed_discussions' => 'discussions#followed_discussions'
+		match 'my_discussions' => 'discussions#my_discussions'
+		match 'destroy_comment/:id' => 'discussions#destroy_comment'
+		match 'edit_comment/:id' => 'discussions#edit_comment'
+		match 'update_comment/:id' => 'discussions#update_comment'
+		match 'discussions/:id/invite' => 'discussions#invite'
+		match 'discussions/:id/inviting' => 'discussions#inviting'
+		match ':id/discussion_email' => 'discussions#discussion_email'
 
 	# Match Technologies
-	match 'technologies/:id/comment' => 'technologies#comment'
-	resources :technologies do
-		member do
-			get 'change_technology_picture'
-			get 'edit_technology_tags'
-			post 'edit_technology_tags'
-			get 'add_technology'
-			get 'remove_technology'
-			get 'skills'
+		match 'technologies/:id/comment' => 'technologies#comment'
+		resources :technologies do
+			member do
+				get 'change_technology_picture'
+				get 'edit_technology_tags'
+				post 'edit_technology_tags'
+				get 'add_technology'
+				get 'remove_technology'
+				get 'skills'
+			end
 		end
-	end
 
 	# Match S3 Uploads
 	resources :s3_uploads
@@ -88,16 +93,16 @@ Preview::Application.routes.draw do
 	# Get the connections distance
 	match 'distance/:id' => 'connections#distance'
 
-	#Warning: make sure user URL can't be set to any of these
+	# Warning: make sure user URL can't be set to any of these
 
 	# Events routing
-	match 'events/:id/comment' => 'events#comment'
-	resources :events do
-		collection do
-			get 'list'
-			get 'invite'
+		match 'events/:id/comment' => 'events#comment'
+		resources :events do
+			collection do
+				get 'list'
+				get 'invite'
+			end
 		end
-	end
 
 	# Cron Jobs
 	resources :cron
@@ -106,34 +111,35 @@ Preview::Application.routes.draw do
 	resources :metrics
 
 	# Analytics Controller
-	match 'analytics/slugs' => 'analytics#slugs'
-	match 'analytics/users' => 'analytics#users'
-	match 'analytics/user/:id' => 'analytics#user'
-	match 'analytics/slug/:slug' => 'analytics#slug'
-	resources :analytics
+		match 'analytics/slugs' => 'analytics#slugs'
+		match 'analytics/users' => 'analytics#users'
+		match 'analytics/user/:id' => 'analytics#user'
+		match 'analytics/slug/:slug' => 'analytics#slug'
+		resources :analytics
 
 	# Welcome Wizard Controller
 	# @todo Deprecate to new format
-	resources :welcome_wizard
+		resources :welcome_wizard
 
-	scope '/wizards' do
-		match 'welcome' => 'welcome_wizard#index'
-		match 'welcome/:action' => 'welcome_wizard#:action'
+		scope '/wizards' do
+			match 'welcome' => 'welcome_wizard#index'
+			match 'welcome/:action' => 'welcome_wizard#:action'
 
-		match 'application' => 'application_wizard#index'
-		match 'application/:action' => 'application_wizard#:action'
-	end
+			match 'application' => 'application_wizard#index'
+			match 'application/:action' => 'application_wizard#:action'
+		end
 
 	# Whiteboard JSON Access
-	resource :whiteboard
-	match 'whiteboard/hide/:post' => 'whiteboards#hide'
-	match 'whiteboard/delete/:post' => 'whiteboards#delete'
-	match 'whiteboard/:id/comment' => 'whiteboards#comment'
-	match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
+	# Move to API
+		resource :whiteboard
+		match 'whiteboard/hide/:post' => 'whiteboards#hide'
+		match 'whiteboard/delete/:post' => 'whiteboards#delete'
+		match 'whiteboard/:id/comment' => 'whiteboards#comment'
+		match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 
 	# Signup / Login
-	match 'signup' => 'users#signup'
-	match 'login' => 'users#login'
+		match 'signup' => 'users#signup'
+		match 'login' => 'users#login'
 
 	# Home page
 	match 'index' => "home#index"
@@ -168,7 +174,9 @@ Preview::Application.routes.draw do
 			root :to => 'users#profile'
 		end
 
+		# My settings
 		scope 'settings' do
+			match 'upgrade' => 'users#upgrade'
 			match 'dashboard/:switch' => 'users#swap_dashboard'
 			match 'privacy' => 'users#privacy'
 			root :to => 'users#edit'

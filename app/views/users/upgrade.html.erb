@@ -1,0 +1,31 @@
+<section id="main-content" class="inner-content">
+	<h1>Upgrade your account</h1>
+	<% if User.current.groups.organization.empty? %>
+	<form method="POST">
+		<h3>Recruiter Account</h3>
+		<p>
+			This account is optimal for organizations. We will create a organization (group) profile for you. This organization will be like our normal groups except you may have multiple recruiters, and employees associated with it as well as followers. All jobs you post will be tied to this organization. All organizations come with 1 free job posting.
+		</p>
+		<input type="hidden" name="type" value="recruiter" />
+		<div style="display:none;">
+			<label>
+				<span>Organization Name</span>
+				<input type="text" name="group[name]" />
+			</label>
+			<label>
+				<input type="submit" value="Create Organization" />
+			</label>
+		</div>
+		<a href="#upgrade" class="large button">Upgrade to Recruiter</a>
+	</form>
+	<% end %>
+</section>
+
+<script type="text/coffeescript">
+$ ->
+	$('a[href="#upgrade"]').click (e) ->
+		do e.preventDefault
+		$(@).fadeOut 500, ->
+			$(@).prev('div').slideDown 500
+		return false
+</script>

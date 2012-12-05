@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 	before_filter :sweep_session
 	
 	helper_method :currentHost
+	helper_method :currentPath
 	helper_method :currentURL
 
 	def currentHost
@@ -24,6 +25,10 @@ class ApplicationController < ActionController::Base
 
 	def currentURL
 		"#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+	end
+
+	def currentPath
+		request.fullpath
 	end
 
 	def sweep_session

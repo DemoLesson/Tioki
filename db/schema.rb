@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201215024) do
+ActiveRecord::Schema.define(:version => 20121204211459) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -203,7 +203,6 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
   end
 
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
@@ -399,6 +398,7 @@ ActiveRecord::Schema.define(:version => 20121201215024) do
     t.boolean  "immediate",           :default => false
     t.text     "instructions"
     t.string   "external_url"
+    t.integer  "group_id"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"

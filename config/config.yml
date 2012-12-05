@@ -13,10 +13,13 @@ default:
       1: "private"
       2: "hidden"
       3: "organization"
+      4: "public_discussions"
     user_group_permissions:
       0: "member"
       1: "moderator"
       2: "administrator"
+      3: "employee"
+      4: "owner"
     email_permissions:
       0: "followed_discussion"
       1: "participated_discussion"
