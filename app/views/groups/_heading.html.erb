@@ -33,7 +33,7 @@
 		</h3>
 		<p style="margin-left:10px; width:auto">
 			<% if @group.description? %>
-				<%=raw auto_link(@group.description).more!(120).gsub(/\n/, '<br />') %>
+				<%=raw auto_link(@group.description).more!(120) %>
 			<% end %>
 		</p>	
 	</section>

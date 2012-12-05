@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205013317) do
+ActiveRecord::Schema.define(:version => 20121205030016) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -353,6 +353,7 @@ ActiveRecord::Schema.define(:version => 20121205013317) do
     t.string   "site"
     t.string   "twitter"
     t.string   "facebook"
+    t.text     "long_description"
   end
 
   create_table "helpful_queries", :force => true do |t|

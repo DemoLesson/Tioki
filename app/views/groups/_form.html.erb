@@ -7,9 +7,15 @@
 	</fieldset><br/>
 	<fieldset>
 		<p>
-		<%= @group.type? %> Description (the key here is to be Short and Sweet)
+		Short <%= @group.type? %> Description (the key here is to be Short and Sweet)
 		</p>
-		<%= f.text_area :description, :style => "width:500px;height:150px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
+		<%= f.text_area :description, :style => "width:500px;height:100px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
+	</fieldset><br />
+	<fieldset>
+		<p>
+		Long <%= @group.type? %> Description
+		</p>
+		<%= f.text_area :long_description, :style => "width:500px;height:150px", :class => 'tinymce' %>
 	</fieldset><br />
   	<fieldset>
 		<p>
@@ -59,3 +65,4 @@
 	</div>
 <% end %>
 
+<%= tinymce :theme => "simple" %>
