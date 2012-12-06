@@ -1,3 +1,84 @@
+v3.0.30 - Dec 6, 2012  3:09PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v3.0.29 - Dec 6, 2012  1:49PM PST deployed by Kelly Becker
+==========================================================
+* 462e690: Kelly Becker - popdown new results
+
+v3.0.28 - Dec 6, 2012 12:47PM PST deployed by Aleks Stanisic
+============================================================
+* 8a632ee: Aleks Stanisic - changes to profile links in our team page
+* be586e4: Elijah Green - Remove create_teacher in welcome_Wizard step 1
+* eab2a33: Elijah Green - Fix link on splash page
+* 0ff7fc8: Elijah Green - Gemfile.lock
+* a525abb: Brian Martinez - update to the featured groups section
+
+v3.0.27 - Dec 5, 2012  7:05PM PST deployed by Aleks Stanisic
+============================================================
+* 41ff54d: Aleks Stanisic - adding ability for users to see ou liked their whitboard posts
+* 50bda1a: Elijah Green - Fix XSS vulnerabilty user.rb:profile_link
+* 7796525: Elijah Green - Fix XSS vulnerability in messages/show
+* eff463f: Elijah Green - Fix XSS vulnerability in events_helper.rb
+* 1e3f911: Elijah Green - Fix XSS vulnerability in video.rb
+* d84bda1: Kelly Becker - removed conflicting method
+
+v3.0.26 - Dec 5, 2012  3:26PM PST deployed by Kelly Becker
+==========================================================
+* 7086b7d: Kelly Becker - cleanup scripts
+
+v3.0.25 - Dec 5, 2012  3:16PM PST deployed by Kelly Becker
+==========================================================
+* 96faf95: Kelly Becker - discussions before save callback
+* 7437300: Elijah Green - Fix discussion.owner getting set to empty string
+* 3e7a607: Elijah Green - Lower the number of queries on the profile
+* 5f08651: Elijah Green - Fix XSS vulnerability on the whiteboard
+
+v3.0.24 - Dec 5, 2012  1:09PM PST deployed by Kelly Becker
+==========================================================
+* c746a3a: Kelly Becker - try and solve the new discussions without groups not showing up with nil owner columns
+* be38650: Elijah Green - Set login email field value to nil
+* 33a1643: Elijah Green - Fix event.rb XSS vulnerability
+* fc07b8d: Elijah Green - Fix XSS vulnerability in discussion.rb
+* 125f48b: Elijah Green - Add yahoo invite and fix up twitter invite
+
+v3.0.23 - Dec 5, 2012 10:41AM PST deployed by Kelly Becker
+==========================================================
+* ea8f5e7: Kelly Becker - fix discussions creation
+* feaad9d: Kelly Becker - fix discussions creation
+
+v3.0.22 - Dec 4, 2012  8:35PM PST deployed by Aleks Stanisic
+============================================================
+* 2014420: Brian Martinez - changes to the new job form
+
+v3.0.21 - Dec 4, 2012  7:17PM PST deployed by Kelly Becker
+==========================================================
+* 2c37e32: Kelly Becker - groups new style
+* 4f57687: Kelly Becker - groups redesign
+* 970ca9c: Kelly Becker - added inception date
+* 9a13137: Kelly Becker - long about page
+* 55d7af9: Elijah Green - Add gmail invite page
+* 484c215: Kelly Becker - group members update
+* 27e598a: Kelly Becker - job infrastructure.
+* 71e0a04: Kelly Becker - group orgs redesign so far;
+* 6a052fc: Kelly Becker - making quite a bit of progress
+
+v3.0.20 - Dec 4, 2012  5:15PM PST deployed by Aleks Stanisic
+============================================================
+* d9aceb9: Elijah Green - Deal with non-authenticated users on invite_facebook
+* 7d341f2: Elijah Green - Add facebook invite
+
+v3.0.19 - Dec 3, 2012  7:24PM PST deployed by Aleks Stanisic
+============================================================
+* b40b247: Aleks Stanisic - fixes to images in invite connections
+
+v3.0.18 - Dec 3, 2012  7:05PM PST deployed by Aleks Stanisic
+============================================================
+* 1c7f388: Elijah Green - Add twitter to inviteconnections
+* 51fc853: Brian Martinez - changes to invite pages and other connections pages
+* 09c2b51: Kelly Becker - recruiter dashboard updates
+* 8453038: Kelly Becker - user in home cotnroller gloablly
+
 v3.0.17 - Dec 3, 2012  5:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 3a33c84: Elijah Green - Append hidden twitter input on search

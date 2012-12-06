@@ -1,0 +1,29 @@
+<section class="one-column right-side" style="margin:35px 0px 30px 0px;height:120px;width:250px;">
+	<span style="padding:0px 0px 0px 20px" >
+		<% if self.current_user %>
+			<% if @admin %>
+				<%= link_to "Edit Group", edit_group_path, :class => "button" %>
+				<%= link_to "Message Members", {:action => "message_all_new", :id => @group.id }, :class => "button", :style => "margin-right: 10px" %>
+			<% elsif @in_group %>
+				<%= link_to "Explore More Groups", "/groups", :class => "button" %>
+			<% else %>
+				<% if @group.permissions['public'] %>
+					<%= link_to "+ Join Group", { :action => "add_group", :id => @group.id}, :class => "button" %>
+				<% end %>
+			<% end %>
+		<% else %>
+			<%= link_to "Join Group", '/welcome_wizard?x=step1&join_group_button', :class => "button", :target => "_blank" %>
+		<% end %>
+	</span>
+	<section style="margin:0px 0px 0px 20px">
+		<h4 class="bottom-line">
+			Invite Friends to Join: <br />
+		</h4>
+		<p>
+			<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
+			<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
+			<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "width:30px") %></a>
+			<a href="<%= group_path(@group) + '/inviting'%>"><%= image_tag('tioki/icons/email.png', :style => "width:30px") %></a>
+		</p>
+	</section>
+</section>

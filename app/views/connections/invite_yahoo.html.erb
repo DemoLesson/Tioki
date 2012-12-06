@@ -1,12 +1,4 @@
 <section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
-<!-- Include these scripts to import address books with CloudSponge -->
-<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
-<script type="text/javascript" charset="utf-8">
-	var csPageOptions = {
-domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
-		   textarea_id:"emails"
-	};
-</script>
 	<section class="sidebar">
 		<ul>
 			<li>
@@ -37,100 +29,225 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 
 	<section id="panels">
 		<section id="whiteboard" class="two-column right-side" style="margin-top:0px">
-			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
-			<h2 style="margin-top:0px;color:black">
-				YAHOO
-			</h2>
-			<p>
+			<div id="no_yahoo">
+				<h2 style="margin-top:0px;color:black">
+					YAHOO
+				</h2>
+				<p>
 				We couldn't find any of your friends from Yahoo! because you haven't connected Yahoo! and Tioki. Click the button below to connect.
-			</p>
-			<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
-				<h4 style="margin:10px 0 0 25px">
-					Find Friends from Yahoo!
-					<%= image_tag '/assets/Tioki/icons/yahoo_icon.png', :style => "width:26px;margin-bottom:-5px;margin-left:5px" %>
+				</p>
+				<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff" id="yahoo">
+					<h4 style="margin:10px 0 0 25px">
+						Find Friends from Yahoo!
+						<%= image_tag '/assets/tioki/icons/yahoo_icon.png', :style => "width:26px;margin-bottom:-5px;margin-left:5px" %>
+					</h4>
+				</section>
+				<br/><br/><br/>
+			</div>
+			
+			<div id="email_list" style="display:none">
+				<h4 style="width:auto">
+					Great news! Some of your contacts are already on Tioki. We have selected them for you below in green. Select a few more that you would like to connect with. <!-- If there are no pre-selected contacts, it should read "elect some contacts that you would like to connect with."-->	
 				</h4>
-			</section>
-			<!-- These won't need to be here once the script is working since everything below "GMAIL" will be unecessary -->
-			<br/><br/><br/>
-			
-			<!-- ELIJAH: This is what should display as soon as Gmail is Linked-->
-			<h4 style="width:auto">
-				Great news! Some of your contacts are already on Tioki. We have selected them for you below in green. Select a few more that you would like to connect with. <!-- If there are no pre-selected contacts, it should read "elect some contacts that you would like to connect with."-->	
-			</h4>
-			<h4 class="bottom-line" style="padding-bottom:10px">
-				<a href="#select" class="button" style="background:#2AA99B;color:#fff">Select All</a>
-				<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
-					<%= link_to "Invite", '#', :class => "button", :style => "float:right;" %>
-					<textarea rows="1" placeholder="Type a friend's name" style="width:235px;float:right;margin-right:8px"></textarea>		
-			
-			</h4>
-			
-			<form class="person_form" method="POST">
+				<form class="person_form" method="POST">
+					<input type="hidden" name="people" />
+					<h4 class="bottom-line" style="padding-bottom:10px">
+						<a href="#select" class="button" style="background:#2AA99B;color:#fff">Select All</a>
+						<a href="#deselect" class="button" style="background:#ccc;color:#fff">Deselect All</a>
+						<%= submit_tag "Invite", :class => "button", :style => "float:right;" %>
+						<%= text_field_tag :contact_search, nil, :placeholder => "Type a friend's name", :style => "width:235px;float:right;margin-right:8px", :id => "contact_search" %>
+
+					</h4>
+
 					<div class="person_cloud" style="padding-top:10px;">
-					<a href="#" style="background:#2AA99B">
-						<span style="margin:5px 0 5px 5px">
-							Brian Martinez<br/>
-							martinez.brian.c@gmail.com
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<span style="margin:5px 0 5px 5px">
-							Brian Martinez<br/>
-							martinez.brian.c@gmail.com
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<span style="margin:5px 0 5px 5px">
-							Mandela Schumacher-Hodge<br/>
-							mandela.schumacher.hodge@gmail.com
-						</span>
-					</a>
-					<a href="#" style="background:#2AA99B">
-						<span style="margin:5px 0 5px 5px">
-							Brian Martinez<br/>
-							martinez.brian.c@gmail.com
-						</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<span style="margin:5px 0 5px 5px">
-							Brian Martinez<br/>
-							martinez.brian.c@gmail.com
-						</span>
-					</a>
-					<a href="#" style="background:#ccc">
-						<span style="margin:5px 0 5px 5px">
-							Brian Martinez<br/>
-							martinez.brian.c@gmail.com
-						</span>
-					</a>
 					</div>
-			</form>
+				</form>
+			</div>
 		</section>
 	</section>
+</section>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('a[href="#twitter"]').click(function(e) {
+	$(document).ready(function() {
 
-		// URL to go to
-		url = 'https://twitter.com/share';
+		var emailSearch = new Array();
+		var duplicatePrevention = new Array();
+		var selectedContacts = new Array();
 
-		// Paramaters to build
-		var params = {
-			via: 'tioki',
-			url: 'http://www.tioki.com/dc/<%= self.current_user.invite_code %>',
-			text: 'I just joined Tioki; a professional networking site for educators. You should connect with me!'
-		}
+		$('#yahoo').click(function(e) {
+			e.preventDefault();
+			$("#no_yahoo").hide();
+			$("#email_list").show();
 
-		// URL plus params
-		url += '?' + $.param(params);
-		
-		// Apply to the link
-		$(this).attr('href', url).attr('target', '_blank');
+			// Prepare the data
+			var data = new Object;
+			data.service = "YAHOO";
 
-		// GO!
-		return true;
+			// Go ahead and go ahead and generate the import id
+			$.post('/welcome_wizard?x=get_contacts&STEP2=true', data, function(data) {
+
+				// We are only supporting popup style right nwo with OAUTH
+				if(data.consent_url !== null) {
+
+					// Load the consent popup
+					var consentPopup = window.open(data.consent_url, 'consentPop', 'width=500, height=350, left=24, top=24, scrollbars, resizable');
+
+					// If the popup was blocked inform the user otherwise focus it
+					if(consentPopup == null)
+					return alert('Please disable your pop-up blocker and click the "Continue" button again.'); 
+					else consentPopup.focus();
+
+					// Watch for the popup to close
+					var watchClose = setInterval(function() {
+						try {
+							// Once the popup closed stop the interval
+							if (consentPopup.closed) {
+								clearTimeout(watchClose);
+
+								// Get the users contacts
+								contacts = grabContacts(data.import_id);
+							}
+						} catch(e) {}
+					}, 200);
+				}
+			});
+			return false;
+		});
+
+		var grabContacts = function(import_id) {
+			// Get a list of all the users contacts
+			$.post('/welcome_wizard?x=get_contacts&STEP3=true', {"import_id": import_id}, function(data) {
+
+				//reset the array in case this is called again
+
+				duplicatePrevention.length = 0;
+
+				if(data.type == 'error') return;
+
+				for(var i in data.data) {
+					// Get the contact data
+					var contact = data.data[i];
+					var name = contact.name
+
+					// Create a box for every email
+					for(var e in contact.emails) {
+
+						// Prevent Duplicate Emails
+						if($.inArray(contact.emails[e], duplicatePrevention) !== -1) continue;
+						duplicatePrevention.push(contact.emails[e]);
+
+						emailSearch.push({
+							name: contact.name.join(" "),
+							email: contact.emails[e]
+						});
+
+						// Generate link and add it to the flow
+						link = $('<a href="#contact" x-data-email="'+contact.emails[e]+'" style="background:#CFD4D5" />');
+						link.html('<span style="margin:5px 0 5px 5px">'+ name + '<br/>' + contact.emails[e] +'</span>');
+						$('div.person_cloud').prepend(link);
+					}
+				}
+
+				// Select the members in our database automatically
+				setTimeout(function() {
+
+					// Create a variable
+					var preselected = false;
+
+					// Go through and select all the people in our system
+					for(var e in data.selected) {
+						preselected = true;
+						$('p.preselected').fadeIn(500);
+						$('a[x-data-email="'+data.selected[e]+'"]').click();
+					}
+
+					if(!preselected)
+						$('p.not-pre').fadeIn(500);
+				}, 100);
+			});
+		};
+
+		$("#contact_search").keyup(function() {
+			$('div.person_cloud').empty();
+
+			var str = $(this).attr('value').toLowerCase();
+
+			for(var i = 0; i < emailSearch.length; i++) {
+				var contact = emailSearch[i];
+
+				if((contact.email.toLowerCase().indexOf(str) > -1) || (contact.name.toLowerCase().indexOf(str) > -1)) {
+					if(selectedContacts.indexOf(contact.email) > -1) {
+						link = $('<a href="#contact" x-data-email="' + contact.email +'" style="background:#2AA99B" />');
+					}
+					else {
+						link = $('<a href="#contact" x-data-email="' + contact.email +'" style="background:#CFD4D5" />');
+					}
+
+					link.html('<span style="margin:5px 0 5px 5px">'+ contact.name + '<br/>' + contact.email +'</span>');
+					$('div.person_cloud').prepend(link);
+				}
+			}
+		});
+
+		$('a[href="#contact"]').live('click', function(e) {
+			e.preventDefault();
+
+			// If the button is not selected
+			if($(this).hasClass('selected_contact')) {
+
+				$(this).removeClass('selected_contact').css({'background': '#CFD4D5'});
+
+				var key = $.inArray($(this).attr('x-data-email'), selectedContacts);
+				if(key !== -1) selectedContacts.splice(key, 1);
+			}
+
+			// If the button was selected
+			else {
+				// Create contact array
+				if(selectedContacts === undefined)
+					selectedContacts = new Array;
+
+				$(this).addClass('selected_contact').css({'background': '#2AA99B'});
+
+				// Add the email to the invite array
+				selectedContacts.push($(this).attr('x-data-email'));
+
+			}
+
+			return false;
+		});
+
+		$('a[href="#deselect"]').live('click', function(e) {
+			e.preventDefault();
+
+			$('a[href="#contact"]').each(function() {
+				if($(this).hasClass('selected_contact'))
+					$(this).click();
+			});
+
+			return false;
+		});
+
+		$('a[href="#select"]').live('click', function(e) {
+			e.preventDefault();
+
+			$('a[href="#contact"]').each(function() {
+				if(!$(this).hasClass('selected_contact'))
+					$(this).click();
+			});
+
+			return false;
+		});
+
+		$('form.person_form').submit(function(e) {
+			e.preventDefault();
+
+			$('input[name="people"]').val(selectedContacts.join(','));
+
+			// Submit the form
+			$(this).get(0).submit();
+
+			return false;
+		});
 	});
-});
 </script>
 <div class="clearfloat"></div>
-</section>

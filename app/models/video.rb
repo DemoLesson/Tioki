@@ -177,7 +177,7 @@ class Video < ActiveRecord::Base
     name = super()
 
     # Return the name is it is not empty
-    name.nil? || name.empty? ? empty.html_safe : name.html_safe
+    name.nil? || name.empty? ? empty.html_safe : ERB::Util.html_escape(name).html_safe
   end
 
   # Get the name of the video
@@ -190,7 +190,7 @@ class Video < ActiveRecord::Base
     return "Description unavailable for external videos." if external? && (description.nil? || description.empty?)
 
     # Return the name is it is not empty
-    description.nil? || description.empty? ? empty.html_safe : description.html_safe
+    description.nil? || description.empty? ? empty.html_safe : ERB::Util.html_escape(description).html_safe
   end
 
   # Thumbnails

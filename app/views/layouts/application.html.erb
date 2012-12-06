@@ -97,7 +97,7 @@
 					Close
 					</a>
 					<%= form_tag :controller => 'users', :action=> "login" do %>
-						<%= email_field "user", "email", :placeholder => "Email" %>
+						<%= email_field "user", "email", :value => nil, :placeholder => "Email" %>
 						<%= password_field "user", "password", :placeholder => "Password" %>
 						<%= submit_tag "Login", :class => "button primary-button" %>
 						<%= check_box_tag :remember_me %>Stay Signed In?
@@ -179,6 +179,14 @@
 									<% end %>
 
 									<!-- Schools -->
+									<% if self.current_user.groups.organization.empty? %>
+										<!--li>
+											<a href="/me/settings/upgrade">
+												Upgrade Account
+											</a>
+										</li>
+										<hr-->
+									<% end %>
 									
 									<!-- Teacher Methods -->
 									<% unless self.current_user.nil? %>

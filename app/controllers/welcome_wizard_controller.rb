@@ -66,9 +66,6 @@ class WelcomeWizardController < ApplicationController
 			
 			# Attempt to save the user
 			if @user.save
-
-				@user.create_teacher
-
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
@@ -267,7 +264,14 @@ class WelcomeWizardController < ApplicationController
 				)
 
 				params.people.split(',').each do |twitter_contact|
-					client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+					begin
+						client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+					rescue Twitter::Error::Forbidden => ex
+						if ex.message == "There was an error sending your message: Whoops! You already said that."
+						else
+							break
+						end
+					end
 				end
 			else
 				# Split people to invite and loop

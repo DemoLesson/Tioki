@@ -9,8 +9,18 @@ class Discussion < ActiveRecord::Base
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
-	# Cleanup everything
-	before_destroy :cleanup!
+	# Callbacks
+	before_destroy :before_destroy
+	before_save :before_save
+
+	def before_save
+		self.owner = nil if owner.nil? || owner.empty?
+	end
+
+	def before_destroy
+		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
+		Whiteboard.where(:tag => tag!).all.recurse{|n| n.destroy}
+	end
 
 	def to_param
 		"#{id}-#{title.parameterize}"
@@ -36,10 +46,6 @@ class Discussion < ActiveRecord::Base
 		end; attrs = _attrs.join(' ')
 
 		# Return the link to the profile
-		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{self.title}</a>".html_safe
-	end
-
-	def cleanup!
-		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
+		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
 	end
 end

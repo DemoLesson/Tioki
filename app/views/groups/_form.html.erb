@@ -1,25 +1,31 @@
 <%= form_for(@group) do |f| %>
 	<fieldset>
 		<p>
-		Group Name (make it catchy)
+		<%= @group.type? %> Name (make it catchy)
 		</p>
 		<%= f.text_field :name, :placeholder => "Ex: EdTech Bloggers United", :style => "width:500px" %>
 	</fieldset><br/>
 	<fieldset>
 		<p>
-		Group Description (the key here is to be Short and Sweet)
+		Short <%= @group.type? %> Description (the key here is to be Short and Sweet)
 		</p>
-		<%= f.text_area :description, :style => "width:500px;height:150px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
+		<%= f.text_area :description, :style => "width:500px;height:100px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
+	</fieldset><br />
+	<fieldset>
+		<p>
+		Long <%= @group.type? %> Description
+		</p>
+		<%= f.text_area :long_description, :style => "width:500px;height:150px", :class => 'tinymce' %>
 	</fieldset><br />
   	<fieldset>
 		<p>
-		<%= image_tag('tioki/icons/globe.png', :style => "margin-bottom:-5px") %> Group Website (if ya got it, flaunt it)
+		<%= image_tag('tioki/icons/globe.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Website (if ya got it, flaunt it)
 		</p>
 		<%= f.text_field :site, :style => "width:500px" %>
 	</fieldset><br/>
 	<fieldset>
 		<p>
-		<%= image_tag('tioki/icons/twitter2.png', :style => "margin-bottom:-5px") %> Group Twitter (educators love the little blue bird)
+		<%= image_tag('tioki/icons/twitter2.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Twitter (educators love the little blue bird)
 		</p>
     	<%= f.text_field :twitter, :placeholder => "http://twitter.com/", :style => "width:500px" %>
   	</fieldset><br />
@@ -29,8 +35,34 @@
 		</p>
     	<%= f.text_field :facebook, :placeholder => "http://facebook.com/yourgroupname", :style => "width:500px" %>
   	</fieldset><br />
+  	<fieldset>
+		<p>
+		<%= @group.type? %> settings
+		</p>
+		<% if !@group.permissions['organization'] %>
+	    	<label>
+	    		<%= check_box_tag 'group[permissions][public]', 'true', @group.permissions['public'] || @group.id.nil? %> 
+	    		Public <%= @group.type? %> (Anyone can join and discuss)
+	    	</label>
+    	<% end %>
+    	<label>
+    		<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %> 
+    		Hidden <%= @group.type? %> (Must either be a member or have the link)
+    	</label>
+    	<% if @group.permissions['organization'] && User.current.is_admin %>
+	    	<label>
+	    		<%= check_box_tag 'group[permissions][organization]', 'true', true %> 
+	    		is an Organization? (If you uncheck this the Organization will lose it's job postings and be converted to a group!)
+	    	</label>
+	    <% end %>
+	    <label>
+	    	<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %> 
+	    	Does this <%= @group.type? %> have a publiclically readable discussion board?
+	    </label>
+  	</fieldset><br />
 	<div class="actions">
-		<%= f.submit %>
+		<%= f.submit "Update #{@group.type?}" %>
 	</div>
 <% end %>
 
+<%= tinymce :theme => "simple" %>

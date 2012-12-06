@@ -6,6 +6,12 @@ class Whiteboard < ActiveRecord::Base
 	# Comments integration
 	acts_as_commentable
 
+	# Delete favorites on destruction
+	before_destroy :before_destroy
+	def before_destroy
+		Favorite.where(:model => tag!).all.recurse{|n| n.destroy}
+	end
+
 	# Add support for getting comments
 	def getComments
 		self.root_comments
@@ -18,10 +24,6 @@ class Whiteboard < ActiveRecord::Base
 
 	def map_tag
 		mapTag!(self.tag)
-	end
-
-	def tag!
-		self.map_tag
 	end
 
 	def data!
@@ -37,7 +39,8 @@ class Whiteboard < ActiveRecord::Base
 		record["tag"] = self.map_tag
 
 		# Get the message unparsed
-		m = self.message
+		# and sanitize anything that isn't a link
+		m = ActionController::Base.helpers.sanitize(self.message, :tags => %w(a))
 
 		# Get all the variables
 		vars = m.scan(/{[\w.(),]+}/)

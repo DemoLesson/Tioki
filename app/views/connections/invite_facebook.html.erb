@@ -1,122 +1,195 @@
 <section id="main-content" class="static-page inner-content" style="margin-bottom: 60px;">
-<!-- Include these scripts to import address books with CloudSponge -->
-<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
-<script type="text/javascript" charset="utf-8">
-	var csPageOptions = {
-domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
-		   textarea_id:"emails"
-	};
-</script>
-	
 	<section class="sidebar">
 		<ul>
 			<li>
-				<a href="/inviteconnections">
-					Email
-				</a>
+			<a href="/inviteconnections">
+				Email
+			</a>
 			</li>
 			<li>
-				<a href="/inviteconnections/twitter">
-					Twitter
-				</a>
+			<a href="/inviteconnections/twitter">
+				Twitter
+			</a>
 			</li>
 			<li class="current">
-				Facebook
+			Facebook
 			</li>
 			<li>
-				<a href="/inviteconnections/gmail">
-					Gmail
-				</a>
+			<a href="/inviteconnections/gmail">
+				Gmail
+			</a>
 			</li>
 			<li>
-				<a href="/inviteconnections/yahoo">
-					Yahoo
-				</a>
+			<a href="/inviteconnections/yahoo">
+				Yahoo
+			</a>
 			</li>
 		</ul>
 	</section>
 
 	<section id="panels">
-		<section id="whiteboard" class="two-column right-side" style="">
-			<h2 style="margin-top:0px;color:black">
-				FACEBOOK
-			</h2>
-			
-			<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
-			<p>
+		<section id="whiteboard" class="two-column right-side">
+			<div id="fb_nologin" style="display:none">
+				<h2 style="margin-top:0px;color:black">
+					FACEBOOK
+				</h2>
+
+				<!-- ELIJAH: This is what should display is someone has not linked to Facebook already. Otherwise, it should import contacts on page load-->
+				<p>
 				We couldn't find any of your Facebook friends because you haven't connected Facebook and Tioki. Click the button below to connect.
-			</p>
-			<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
-				<h4 style="margin:10px 0 0 25px">
-					Find Friends from Facebook
-					<%= image_tag '/assets/Tioki/icons/fb_button.png', :style => "margin-bottom:-3px;margin-left:5px" %>
-				</h4>
-			</section>
-			
-			<br/><br/><br/><!-- These won't need to be here once the script is working -->
+				</p>
+				<section class="panel one-column left-side" style="height:45px;width:275px;border-radius:5px;background:#2AA99B;color:#fff">
+					<h4 style="margin:10px 0 0 25px">
+						Find Friends from Facebook
+						<%= link_to image_tag('/assets/tioki/icons/fb_button.png', :style => "margin-bottom:-3px;margin-left:5px"), "#facebook_login" %>
+					</h4>
+				</section>
+
+				<br/><br/><br/><!-- These won't need to be here once the script is working -->
+			</div>
 			<!-- ELIJAH: This is what should display as soon as Facebook is Linked-->
-			<h4 class="bottom-line" style="padding-bottom:10px">
-				Invite Facebook Friends
-				<span style="float:right">
-					<textarea rows="1" cols="50" placeholder="Type a friend's name"></textarea>
-				</span>
-			</h4>
-			
-			<form class="person_form" method="POST">
+			<div id="fb_login" style="display:none">
+				<h4 class="bottom-line" style="padding-bottom:10px">
+					Invite Facebook Friends
+					<span style="float:right">
+						<%= text_field_tag :contact_search, nil, :placeholder => "Type a friend's name", :style => "width:235px;float:right;margin-right:8px", :id => "contact_search" %>
+					</span>
+				</h4>
+
+				<form class="person_form" method="POST">
 					<div class="person_cloud" style="padding-top:10px;">
-					<a href="#" style="background:#2AA99B">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
-					<a href="#" style="background:#2AA99B">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
-					<a href="#" style="background:#CFD4D5">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
-					<a href="#" style="background:#ccc">
-						<%= image_tag "/assets/Tioki/aleksandar.jpg", :style => "width:30px;float:left;margin:5px 5px 5px 5px" %>
-						<span style="margin-top:8px">Brian Martinez</span>
-					</a>
 					</div>
-			</form>
+				</form>
+			</div>
 		</section>
 	</section>
+</section>
 
 <script type="text/javascript">
-$(document).ready(function() {
-	$('a[href="#twitter"]').click(function(e) {
+	$(document).ready(function() {
+		var facebookSearch = new Array();
+		var facebookContacts = new Array();
 
-		// URL to go to
-		url = 'https://twitter.com/share';
+		window.fbAsyncInit = function() {
+			//This has already been called in the layout
+			//but onload is a bit too slow to wait for startFacebook
 
-		// Paramaters to build
-		var params = {
-			via: 'tioki',
-			url: 'http://www.tioki.com/dc/<%= self.current_user.invite_code %>',
-			text: 'I just joined Tioki; a professional networking site for educators. You should connect with me!'
+			FB.init({
+				appId :'440391786011809'
+			});
+
+			startFacebook();
+
+		};
+
+		function startFacebook () {
+			FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+
+					$("#fb_login").show();
+
+					FB.api('/me/friends?fields=id,name,picture', function(response) {
+						for(var i = 0; i < response.data.length; i++)
+						{
+							contact = response.data[i];
+
+							facebookSearch[i] = contact;
+
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' " style="background:#CFD4D5" />');
+							link.html('<img src=' + contact.picture.data.url + ' style="width:30px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:8px">' + contact.name + '</span>');
+							$('div.person_cloud').append(link);
+						}
+					});
+				}
+				else {
+					$("#fb_nologin").show();
+				}
+			});
 		}
 
-		// URL plus params
-		url += '?' + $.param(params);
-		
-		// Apply to the link
-		$(this).attr('href', url).attr('target', '_blank');
+		// Load the SDK's source Asynchronously
+		(function(d, debug){
+			var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement('script'); js.id = id; js.async = true;
+			js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+			ref.parentNode.insertBefore(js, ref);
+		}(document, /*debug*/ false));
 
-		// GO!
-		return true;
+		$('a[href="#facebook_contact"]').live('click', function(e) {
+			var facebook_id  = $(this).attr('data-contact-id');
+			var facebook_contact = $(this);
+
+			FB.ui({
+				method: 'send',
+				to:  facebook_id,
+				name: "Tioki - Professional Network for Educators",
+				picture: "http://www.tioki.com/assets/tioki/tioki-ok.png", 
+				description: "Tioki gives educators access to the most valuable resource out there - other educators!",
+				link: 'http://tioki.com/ww/<%= self.current_user.invite_code %>'
+			},
+			function(response) {
+				if(response) {
+					//sent
+					facebook_contact.css({'background': '#2AA99B'});
+					facebookContacts.push(facebook_id);
+				}
+				else {
+					//canceled
+					//nothing to do here
+
+				}
+			});
+		});
+
+		$('a[href="#facebook_login"]').live('click', function(e) {
+			e.preventDefault();
+
+			$("#fb_nologin").hide();
+			$("#fb_login").show();
+			FB.login(function(response) {
+				if(response.authResponse) {
+					FB.api('/me/friends?fields=id,name,picture', function(response)
+					{
+						inviteType = "facebook";
+						for(var i = 0; i < response.data.length; i++)
+						{
+							contact = response.data[i];
+
+							facebookSearch[i] = contact;
+
+							link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' " style="background:#CFD4D5" />');
+							link.html('<img src=' + contact.picture.data.url + ' style="width:30px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:8px">' + contact.name + '</span>');
+							$('div.person_cloud').append(link);
+						}
+					});
+				}
+			});
+		});
+
+		$("#contact_search").keyup(function() {
+			$('div.person_cloud').empty();
+			var str = $(this).attr('value').toLowerCase();
+
+			for(var i = 0; i < facebookSearch.length; i++) {
+
+				var contact = facebookSearch[i];
+
+				if(contact.name.toLowerCase().indexOf(str) > -1) {
+
+					//check rether this has already been selected
+					if(facebookContacts.indexOf(contact.id) > -1) {
+						link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' " style="background:#2AA99B" />');
+					}
+					else {
+						link = $('<a href="#facebook_contact" data-contact-id=' + contact.id + ' " style="background:#CFD4D5" />');
+					}
+
+					link.html('<img src=' + contact.picture.data.url + ' style="width:30px;float:left;margin:5px 5px 5px 5px"><span style="margin-top:8px">' + contact.name + '</span>');
+					$('div.person_cloud').append(link);
+				}
+			}
+		});
 	});
-});
 </script>
 <div class="clearfloat"></div>
-</section>
