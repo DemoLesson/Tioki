@@ -1,3 +1,11 @@
+v3.0.28 - Dec 6, 2012 12:47PM PST deployed by Aleks Stanisic
+============================================================
+* 8a632ee: Aleks Stanisic - changes to profile links in our team page
+* be586e4: Elijah Green - Remove create_teacher in welcome_Wizard step 1
+* eab2a33: Elijah Green - Fix link on splash page
+* 0ff7fc8: Elijah Green - Gemfile.lock
+* a525abb: Brian Martinez - update to the featured groups section
+
 v3.0.27 - Dec 5, 2012  7:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 41ff54d: Aleks Stanisic - adding ability for users to see ou liked their whitboard posts

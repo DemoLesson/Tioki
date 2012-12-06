@@ -66,9 +66,6 @@ class WelcomeWizardController < ApplicationController
 			
 			# Attempt to save the user
 			if @user.save
-
-				@user.create_teacher
-
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
