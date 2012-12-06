@@ -118,8 +118,13 @@ $ ->
 						#console.log r
 						true
 
+	# Bind click trigger
+	$('li.job').live 'click', (e) ->
+		do e.preventDefault
+		window.location = '<%= currentURL %>' + '/edit/' + $(@).attr('data-job-id')
+		return false
+
 	# Initialize the elements
 	do setColumnHeights
 	do checkRunningLimit
-					
 </script>

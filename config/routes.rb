@@ -111,9 +111,10 @@ Preview::Application.routes.draw do
 	resources :metrics
 
 	# Jobs
-		match 'jobs/manage/:id' => 'jobs#manage'
-		match 'jobs/manage/:id/status' => 'jobs#status'
-		match 'jobs/manage/:id/job/:job' => 'jobs#manage'
+		match 'jobs/manage/:org' => 'jobs#manage'
+		match 'jobs/manage/:org/status' => 'jobs#manage_status'
+		match 'jobs/manage/:org/edit/:id' => 'jobs#manage_edit'
+		match 'jobs/manage/:org/new' => 'jobs#manage_new'
 		resources :jobs
 
 	# Analytics Controller
