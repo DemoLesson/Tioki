@@ -203,7 +203,6 @@ ActiveRecord::Schema.define(:version => 20121205030016) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
     t.string   "owner"
   end
 
@@ -355,10 +354,6 @@ ActiveRecord::Schema.define(:version => 20121205030016) do
     t.string   "twitter"
     t.string   "facebook"
     t.text     "long_description"
-  end
-
-  create_table "helpful_queries", :force => true do |t|
-    t.string "query"
   end
 
   create_table "interviews", :force => true do |t|
