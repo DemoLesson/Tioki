@@ -59,17 +59,16 @@
 $ ->
 	$containers =
 		unpublished: $('ul#unpublished')
-		completed: $('ul#completed')
 		running: $('ul#running')
+		completed: $('ul#completed')
 
 	for id, obj of $containers
 
-		# Get rid of this container
 		excluding = for _id of $containers
 			continue if _id == id
 			'#' + _id + ' > li.job'
 
-		$('li', obj).draggable
+		$('li.job', obj).liveDraggable
 			distance: 50
 			cancel: 'a'
 			revert: 'invalid'
@@ -77,11 +76,28 @@ $ ->
 			helper: 'clone'
 			cursor: 'move'
 
-		console.log excluding
-
 		obj.droppable
 			accept: excluding.join(', ')
 			activeClass: "show_drop"
 			drop: (event, ui) ->
-				console.log([event, ui])
+
+				# Fade out the old job
+				job = ui.draggable
+				job.fadeOut 500, =>
+
+					# Clone the object
+					$clone = job.clone()
+					$clone.appendTo($(@))
+					do job.remove
+
+					# Set the height of the containers to auto
+					obj.css height: 'auto' for id, obj of $containers
+
+					# Fade in the clonse
+					$clone.fadeIn 500, ->
+
+						# Set the height of the ul elements to the max
+						height = Math.max((do obj.height for id, obj of $containers)...)
+						obj.height height for id, obj of $containers
+					
 </script>
