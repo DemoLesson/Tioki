@@ -605,7 +605,7 @@ class User < ActiveRecord::Base
         end; attrs = _attrs.join(' ')
         
         # Return the link to the profile
-        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{self.name}</a>".html_safe
+        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
     end
     
     # Migrated from teacher.rb

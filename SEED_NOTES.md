@@ -1,3 +1,12 @@
+v3.0.27 - Dec 5, 2012  7:05PM PST deployed by Aleks Stanisic
+============================================================
+* 41ff54d: Aleks Stanisic - adding ability for users to see ou liked their whitboard posts
+* 50bda1a: Elijah Green - Fix XSS vulnerabilty user.rb:profile_link
+* 7796525: Elijah Green - Fix XSS vulnerability in messages/show
+* eff463f: Elijah Green - Fix XSS vulnerability in events_helper.rb
+* 1e3f911: Elijah Green - Fix XSS vulnerability in video.rb
+* d84bda1: Kelly Becker - removed conflicting method
+
 v3.0.26 - Dec 5, 2012  3:26PM PST deployed by Kelly Becker
 ==========================================================
 * 7086b7d: Kelly Becker - cleanup scripts
