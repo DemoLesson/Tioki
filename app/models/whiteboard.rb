@@ -26,10 +26,6 @@ class Whiteboard < ActiveRecord::Base
 		mapTag!(self.tag)
 	end
 
-	def tag!
-		self.map_tag
-	end
-
 	def data!
 		ActiveSupport::JSON.decode(self.data.nil? ? '{}' : self.data)
 	end
