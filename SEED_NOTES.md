@@ -1,3 +1,7 @@
+v3.0.29 - Dec 6, 2012  1:49PM PST deployed by Kelly Becker
+==========================================================
+* 462e690: Kelly Becker - popdown new results
+
 v3.0.28 - Dec 6, 2012 12:47PM PST deployed by Aleks Stanisic
 ============================================================
 * 8a632ee: Aleks Stanisic - changes to profile links in our team page
