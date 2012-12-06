@@ -332,4 +332,16 @@ class JobsController < ApplicationController
     raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:id]))
     @jobs = @org.jobs
   end
+
+  def status
+    @organizations = User.current.groups.my_permissions('administrator').organization
+    raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:id]))
+    @jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:job]))
+
+    if @job.update_attribute(:status, params[:status])
+      return render :json => {:status => 'success'}
+    else
+      return render :json => {:status => 'error'}
+    end
+  end
 end

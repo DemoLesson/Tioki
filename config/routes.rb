@@ -112,6 +112,7 @@ Preview::Application.routes.draw do
 
 	# Jobs
 		match 'jobs/manage/:id' => 'jobs#manage'
+		match 'jobs/manage/:id/status' => 'jobs#status'
 		match 'jobs/manage/:id/job/:job' => 'jobs#manage'
 		resources :jobs
 

@@ -4,7 +4,7 @@
 	<table class="drops">
 		<tr>
 			<td colspan="3">
-				Available Credits Remaining: <span class="creds">0</span>
+				Available Credits Remaining: <span id="runningLimit">0</span>
 			</td>
 		</tr>
 		<tr>
@@ -13,9 +13,8 @@
 				<ul id="unpublished">
 					<li class="dropzone">
 					</li>
-					</li>
-					<% @jobs.each do |job| %>
-						<li class="job">
+					<% @jobs.where(:status => ['unpublished', nil]).each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
@@ -28,8 +27,8 @@
 				<ul id="running">
 					<li class="dropzone">
 					</li>
-					<% @jobs.each do |job| %>
-						<li class="job">
+					<% @jobs.where(:status => 'running').each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
@@ -42,8 +41,8 @@
 				<ul id="completed">
 					<li class="dropzone">
 					</li>
-					<% @jobs.each do |job| %>
-						<li class="job">
+					<% @jobs.where(:status => 'completed').each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
@@ -57,11 +56,27 @@
 
 <script type="text/coffeescript">
 $ ->
+	# Columns
 	$containers =
 		unpublished: $('ul#unpublished')
 		running: $('ul#running')
 		completed: $('ul#completed')
 
+	# Running limit
+	runningLimit = <%= @org.job_allowance %>
+
+	# Make sure the running jobs does not exceed the running limit
+	checkRunningLimit = ->
+		running = $containers['running'].children('li.job').length
+		$containers['running'].droppable 'option', 'disabled', running >= runningLimit
+		$('span#runningLimit').text runningLimit - running
+
+	# Set the height of the ul elements to the max
+	setColumnHeights = ->
+		height = Math.max((do obj.height for id, obj of $containers)...)
+		obj.css 'min-height': height for id, obj of $containers
+
+	# Bind the drag and drop handlers
 	for id, obj of $containers
 
 		excluding = for _id of $containers
@@ -91,13 +106,20 @@ $ ->
 					do job.remove
 
 					# Set the height of the containers to auto
-					obj.css height: 'auto' for id, obj of $containers
+					obj.css 'min-height': 'auto' for id, obj of $containers
 
-					# Fade in the clonse
+					# Fade in the clone
 					$clone.fadeIn 500, ->
+						do setColumnHeights
+						do checkRunningLimit
 
-						# Set the height of the ul elements to the max
-						height = Math.max((do obj.height for id, obj of $containers)...)
-						obj.height height for id, obj of $containers
+					# Go ahead and update the status column
+					$.post '<%= currentURL %>/status.json', {status: $(@).attr('id'), job: $clone.attr('data-job-id')}, (r) ->
+						#console.log r
+						true
+
+	# Initialize the elements
+	do setColumnHeights
+	do checkRunningLimit
 					
 </script>

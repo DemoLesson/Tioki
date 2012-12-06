@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205030016) do
+ActiveRecord::Schema.define(:version => 20121206175726) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -356,6 +356,10 @@ ActiveRecord::Schema.define(:version => 20121205030016) do
     t.text     "long_description"
   end
 
+  create_table "helpful_queries", :force => true do |t|
+    t.string "query"
+  end
+
   create_table "interviews", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -375,7 +379,6 @@ ActiveRecord::Schema.define(:version => 20121205030016) do
     t.integer  "group_id"
     t.integer  "jobs"
     t.datetime "expiration"
-    t.datetime "inception"
     t.string   "charge_token"
     t.string   "card_token"
     t.integer  "refunded"
@@ -410,6 +413,7 @@ ActiveRecord::Schema.define(:version => 20121205030016) do
     t.text     "instructions"
     t.string   "external_url"
     t.integer  "group_id"
+    t.string   "status"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
