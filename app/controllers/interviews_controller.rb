@@ -71,11 +71,8 @@ class InterviewsController < ApplicationController
   def new
     session[:return_to] ||= request.referer
     @interview = Interview.new
-    
-    @teacher = User.find_by_id(params[:user_id])
     @job = Job.find_by_id(params[:job_id])
-    @user = User.find(@user_id)
-    @school = School.find(@job.school_id)
+    @user = User.find(params[:user_id])
     
     respond_to do |format|
       format.html # new.html.erb
