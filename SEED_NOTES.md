@@ -1,3 +1,8 @@
+v3.0.38 - Dec 7, 2012 12:24AM PST deployed by Kelly Becker
+==========================================================
+* b86dda6: Kelly Becker - parameterize
+* 5162625: Kelly Becker - allow changing of urls and added an availability notifier
+
 v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
 ============================================================
 * 6f68cf0: Aleks Stanisic - changes to profile activity
