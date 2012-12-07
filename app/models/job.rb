@@ -100,6 +100,10 @@ class Job < ActiveRecord::Base
   #for full admins compare the owned_by of the user to the owned_by of the school
   #for limited admins look up it's row in SharedSchools
   def shared_to_me(user)
+    if !group_id.nil?
+      return group.user_permissions['administrator']
+    end
+    
     @school= School.find(self.school)
     @shared= SharedUsers.find(:first, :conditions => { :user_id => user.id})
     if @school != nil && @shared != nil

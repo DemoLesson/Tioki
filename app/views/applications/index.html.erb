@@ -7,7 +7,7 @@
 <div id="sidebar" class="job_browser">
 <h1><%= link_to @job.title, @job %></h1>
 
-<h3><%= School.find(@job.school_id).name %></h3>
+<h3><%= @job.group_id.nil? ? School.find(@job.school_id).name : @job.group.name %></h3>
 </div>
 
 <div id="content">
