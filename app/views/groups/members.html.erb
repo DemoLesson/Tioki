@@ -16,7 +16,7 @@
 								<span style="float:right;">
 									<% if !self.current_user.nil? %>	
 										<% unless self.current_user == user %>
-											<% if Connection.mine.collect{|connection| connection.not_me.id}.include? user.id %>
+											<% if @my_connections.include? user.id %>
 												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>
 											<% else %>
 												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id } %>
