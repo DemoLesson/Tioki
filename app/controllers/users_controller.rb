@@ -144,10 +144,11 @@ class UsersController < ApplicationController
 			@user.social = params[:social]
 			@user.contact = params[:contact]
 
-			if @user.update_attributes!(
-				:headline => params[:headline],
-				:location => params[:location])
+			@user.slug = params[:slug]
+			@user.headline = params[:headline]
+			@user.location = params[:location]
 
+			if @user.save
 				flash[:success] = "Successfully updated"
 				redirect_to :back
 			else
@@ -952,6 +953,15 @@ class UsersController < ApplicationController
 				format.html # profile.html.erb
 				format.json  { render :json => @teacher } # profile.json
 			end
+		end
+	end
+
+	def slug_availability
+		slug = User.find_by_slug(params[:slug])
+		if !slug.nil? && slug != User.current
+			return render :json => false
+		else
+			render :json => true
 		end
 	end
 
