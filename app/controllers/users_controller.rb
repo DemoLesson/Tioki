@@ -144,7 +144,10 @@ class UsersController < ApplicationController
 			@user.social = params[:social]
 			@user.contact = params[:contact]
 
-			if @user.update_attribute(:headline, params[:headline])
+			if @user.update_attributes!(
+				:headline => params[:headline],
+				:location => params[:location])
+
 				flash[:success] = "Successfully updated"
 				redirect_to :back
 			else

@@ -26,6 +26,10 @@
 					My Headline (limited to 140 characters):
 					</p>
 					<%= text_area_tag :headline, @user.headline, :maxlength => 140, :style => "width: 400px" %>
+					<p>
+					My location :
+					</p>
+					<%= text_field_tag :location, @user.location, :style => "width:400px" %>
 				</section>	
 				<section class="profile-info group">
 					<h3 class="top-line">
