@@ -11,9 +11,6 @@ class ApplicationsController < ApplicationController
 			application.save
 		end
 
-		@school = School.find(@job.school_id)
-		@owner = User.find(@school.owned_by)
-
 		respond_to do |format|
 			format.html # index.html.erb
 			format.xml  { render :json => @applications }
