@@ -918,16 +918,17 @@ class UsersController < ApplicationController
 			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
 
+		# Get whiteboard activity
+		@whiteboard = Array.new
+		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 3, :page => params[:page]).each do |post|
+			@post = post
+			@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+		end
+			
 		# If the there is currently a user logged in
 		if !self.current_user.nil?
 			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
 			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
-			# Get whiteboard activity
-			@whiteboard = Array.new
-			Whiteboard.getActivity(:first, :conditions => [ "user_id = ?", self.current_user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
-				@post = post
-				@whiteboard << render_to_string('whiteboards/show', :layout => false)
-			end
 		end
 
 		# Filter Upcoming Events
