@@ -1,3 +1,17 @@
+v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
+============================================================
+* 6f68cf0: Aleks Stanisic - changes to profile activity
+* 225273b: Aleks Stanisic - changes to activity on profile
+* 3c5f5ef: Aleks Stanisic - changes to activity feed in profile
+* 4703088: Aleks Stanisic - added activity
+* b4d4cb9: Aleks Stanisic - style changes
+* 01ffe8f: Aleks Stanisic - changes to profile
+* 026235f: Brian Martinez - slight changes to the profile
+* 33eef48: Aleks Stanisic - profile changes- added video
+* 2d1390c: Aleks Stanisic - changes to profile
+* b63a9a2: Aleks Stanisic - more additions to info box on profile page
+* 12c44ed: Aleks Stanisic - adding info box to profile
+
 v3.0.36 - Dec 6, 2012  7:05PM PST deployed by Kelly Becker
 ==========================================================
 
