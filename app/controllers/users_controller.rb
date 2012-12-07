@@ -144,7 +144,7 @@ class UsersController < ApplicationController
 			@user.social = params[:social]
 			@user.contact = params[:contact]
 
-			@user.slug = params[:slug]
+			@user.slug = params[:slug].parameterize
 			@user.headline = params[:headline]
 			@user.location = params[:location]
 
@@ -957,7 +957,7 @@ class UsersController < ApplicationController
 	end
 
 	def slug_availability
-		slug = User.find_by_slug(params[:slug])
+		slug = User.find_by_slug(params[:slug].parameterize)
 		if !slug.nil? && slug != User.current
 			return render :json => false
 		else
