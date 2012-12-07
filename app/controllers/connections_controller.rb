@@ -22,6 +22,9 @@ class ConnectionsController < ApplicationController
 			users = User.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
 			users = User.search(:school => params[:connectsearch])
+		elsif params[:topic] == 'location'
+			#20 mile radius
+			users = User.search(:location => params[:connectsearch])
 		else
 			users = []
 		end
@@ -425,13 +428,15 @@ class ConnectionsController < ApplicationController
 
 		# Build Hash
 		search = Hash.new
-		search[:skill] = params[:skill] if !params[:skill].nil?
-		search[:skills] = params[:skills] if !params[:skills].nil?
-		search[:school] = params[:school] if !params[:school].nil?
-		search[:schools] = params[:schools] if !params[:schools].nil?
-		search[:email] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'email'
-		search[:school] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic] == 'school'
-		search[:name] = params[:connectsearch] if !params[:connectsearch].nil? && params[:topic].nil?
+		search[:skill] = params[:skill] if params[:skill]
+		search[:skills] = params[:skills] if params[:skills]
+		search[:school] = params[:school] if params[:school]
+		search[:schools] = params[:schools] if params[:schools]
+		search[:email] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'email'
+		search[:school] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'school'
+		search[:name] = params[:connectsearch] if params[:connectsearch] && 
+			(params[:topic].nil? || params[:topic] == 'name')
+		search[:location] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'location'
 
 		unless search.empty?
 			users = User.search(search)
