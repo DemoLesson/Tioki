@@ -1,3 +1,7 @@
+v3.0.32 - Dec 6, 2012  6:52PM PST deployed by 
+==============================================
+
+
 v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
 ==========================================================
 * cb67916: Elijah Green - Gemfile.lock
