@@ -1,3 +1,9 @@
+v3.0.39 - Dec 7, 2012  1:26PM PST deployed by Aleks Stanisic
+============================================================
+* 2817666: Elijah Green - Remove invites div on group members page
+* 4bb6fcc: Elijah Green - Only collect user_ids once on group members page
+* a3d9c6d: Elijah Green - Add location search on my_connections
+
 v3.0.38 - Dec 7, 2012 12:24AM PST deployed by Kelly Becker
 ==========================================================
 * b86dda6: Kelly Becker - parameterize
