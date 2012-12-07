@@ -3,6 +3,8 @@ v3.0.38 - Dec 7, 2012 12:24AM PST deployed by Kelly Becker
 * b86dda6: Kelly Becker - parameterize
 * 5162625: Kelly Becker - allow changing of urls and added an availability notifier
 
+Removed empty deploy logs 
+
 v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
 ============================================================
 * 6f68cf0: Aleks Stanisic - changes to profile activity
@@ -17,24 +19,9 @@ v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
 * b63a9a2: Aleks Stanisic - more additions to info box on profile page
 * 12c44ed: Aleks Stanisic - adding info box to profile
 
-v3.0.36 - Dec 6, 2012  7:05PM PST deployed by Kelly Becker
-==========================================================
-
-
-v3.0.35 - Dec 6, 2012  7:03PM PST deployed by Kelly Becker
-==========================================================
-
-
 v3.0.34 - Dec 6, 2012  6:51PM PST deployed by Aleks Stanisic
 ============================================================
 * fc5e0c3: Aleks Stanisic - new gem.lock
-
-v3.0.33 - Dec 6, 2012  7:02PM PST deployed by 
-==============================================
-
-
-v3.0.32 - Dec 6, 2012  6:52PM PST deployed by 
-==============================================
 
 
 v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
@@ -46,10 +33,6 @@ v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
 * 4cbc61a: Elijah Green - Use a callback that will actaully work
 * bc2d098: Elijah Green - Add Geocoder fields to user
 * 0fa2bbb: Elijah Green - Remove geokit
-
-v3.0.30 - Dec 6, 2012  3:09PM PST deployed by Aleks Stanisic
-============================================================
-
 
 v3.0.29 - Dec 6, 2012  1:49PM PST deployed by Kelly Becker
 ==========================================================
