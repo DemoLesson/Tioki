@@ -1,3 +1,13 @@
+v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
+==========================================================
+* cb67916: Elijah Green - Gemfile.lock
+* bd4d986: Elijah Green - Check if current job is nil on educator_dashboard
+* 4fbf532: Elijah Green - Readd location on profile_edit and fix user validations
+* 39d9a73: Brian Martinez - changes to suggested areas of dashboard, add group button on group heading, and jobs on the header
+* 4cbc61a: Elijah Green - Use a callback that will actaully work
+* bc2d098: Elijah Green - Add Geocoder fields to user
+* 0fa2bbb: Elijah Green - Remove geokit
+
 v3.0.30 - Dec 6, 2012  3:09PM PST deployed by Aleks Stanisic
 ============================================================
 
