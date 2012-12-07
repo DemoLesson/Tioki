@@ -183,7 +183,7 @@ class JobsController < ApplicationController
 		end
 		
 		respond_to do |format|
-			if @job.active == true || @job.stats == 'running' || @job.belongs_to_me(self.current_user) || @job.shared_to_me(self.current_user)
+			if @job.active == true || @job.status == 'running' || @job.belongs_to_me(self.current_user) || @job.shared_to_me(self.current_user)
 				format.html # show.html.erb
 				format.json  { render :json => @job }
 			else

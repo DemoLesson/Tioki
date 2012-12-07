@@ -18,6 +18,9 @@
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
+							<%= link_to 'View', job %> | 
+							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
+							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
 						</li>
 					<% end %>
 				</ul>
@@ -32,6 +35,9 @@
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
+							<%= link_to 'View', job %> | 
+							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
+							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
 						</li>
 					<% end %>
 				</ul>
@@ -46,6 +52,9 @@
 							<h4><%= job.title %> - <%= job.salary %></h4>
 							<p><%= @org.name %></p>
 							<span>Drag to relocate</span>
+							<%= link_to 'View', job %> | 
+							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
+							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
 						</li>
 					<% end %>
 				</ul>
@@ -119,10 +128,10 @@ $ ->
 						true
 
 	# Bind click trigger
-	$('li.job').live 'click', (e) ->
-		do e.preventDefault
-		window.location = '<%= currentURL %>' + '/edit/' + $(@).attr('data-job-id')
-		return false
+	#$('li.job').live 'click', (e) ->
+	#	do e.preventDefault
+	#	window.location = '<%= currentURL %>' + '/edit/' + $(@).attr('data-job-id')
+	#	return false
 
 	# Initialize the elements
 	do setColumnHeights
