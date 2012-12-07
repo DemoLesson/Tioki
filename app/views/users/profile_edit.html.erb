@@ -16,16 +16,40 @@
 					<%= @user.name %>
 					</h3>
 					<p>
-					My Public Profile:
-					<% if @user.guest_code != nil %>
-						<%= text_field :a, :b, :value => "http://tioki.com/profile/"+@user.slug, :class => :guest_pass_field %>
-						<% end %>
-					</p>
-				
+					My Public Profile:<br />
+					<a href="http://tioki.com/profile/<%= @user.slug %>">
+						http://tioki.com/profile/<%= @user.slug %>
+					</a><br /><br />
 					<p>
 					My Headline (limited to 140 characters):
 					</p>
 					<%= text_area_tag :headline, @user.headline, :maxlength => 140, :style => "width: 400px" %>
+					<p>
+					My location:
+					</p>
+					<%= text_field_tag :location, @user.location, :style => "width:400px" %>
+					<p>
+					My profile URL:
+					</p>
+					<%= text_field_tag :slug, @user.slug, :style => "width:400px" %>
+					<small style="position:relative;top:-15px;float:right;" id="url_slug">If the bar turns green the the url is available</small>
+					<script type="text/coffeescript">
+					$ -> 
+						call = 0
+						$('input#slug').keyup (e) ->
+							clearTimeout call
+							run = =>
+								$.post '<%= currentURL %>/slug_availability', {slug: do $(@).val}, (r) =>
+									if r == true
+										$(@).css background: '#b4ff80'
+										$('small#url_slug').text 'The url is available'
+										$('small#url_slug').css color: 'green'
+									else
+										$(@).css background: 'red'
+										$('small#url_slug').text 'The url is not available'
+										$('small#url_slug').css color: 'red'
+							call = setTimeout run, 500
+					</script>
 				</section>	
 				<section class="profile-info group">
 					<h3 class="top-line">

@@ -41,9 +41,6 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave'
 gem 'carrierwave_direct'
 
-# Geolocation Processor
-gem 'geokit', '1.6.0'
-
 gem "remotipart", "~> 0.4.1"
 gem 'will_paginate', '3.0.pre4'
 

@@ -144,7 +144,11 @@ class UsersController < ApplicationController
 			@user.social = params[:social]
 			@user.contact = params[:contact]
 
-			if @user.update_attribute(:headline, params[:headline])
+			@user.slug = params[:slug].parameterize
+			@user.headline = params[:headline]
+			@user.location = params[:location]
+
+			if @user.save
 				flash[:success] = "Successfully updated"
 				redirect_to :back
 			else
@@ -910,6 +914,7 @@ class UsersController < ApplicationController
 
 		# Review
 		# Why is this here?
+		# Before Tioki, there were buttons that only the school user could see on the teacher profile. Those buttons included, requesting an interview or removing them from the application. We will have to add those acctions back at some point. -Aleks 
 		# Load up an application
 		@application = nil
 		if params[:application] != nil
@@ -917,6 +922,13 @@ class UsersController < ApplicationController
 			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
 
+		# Get whiteboard activity
+		@whiteboard = Array.new
+		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 3, :page => params[:page]).each do |post|
+			@post = post
+			@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+		end
+			
 		# If the there is currently a user logged in
 		if !self.current_user.nil?
 			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
@@ -941,6 +953,15 @@ class UsersController < ApplicationController
 				format.html # profile.html.erb
 				format.json  { render :json => @teacher } # profile.json
 			end
+		end
+	end
+
+	def slug_availability
+		slug = User.find_by_slug(params[:slug].parameterize)
+		if !slug.nil? && slug != User.current
+			return render :json => false
+		else
+			render :json => true
 		end
 	end
 

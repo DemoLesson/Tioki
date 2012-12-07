@@ -91,6 +91,20 @@
 					<% end %>
 				</ul>
 			</li>
+		<% else %>
+			<li style="float:right;">
+				<% if self.current_user %>
+					<% unless self.current_user.groups.include? @group %>
+						<span>
+							<%= link_to "Join Group +", { :action => "add_group", :id => @group.id } if @group.permissions['public'] %>
+						</span>
+					<% end %>
+				<% else %>
+					<span>
+					<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button', :target => "_blank" %>
+					</span>
+				<% end %>
+			</li>
 		<% end %>
 	</ul>
 </nav>

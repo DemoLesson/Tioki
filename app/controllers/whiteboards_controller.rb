@@ -128,4 +128,20 @@ class WhiteboardsController < ApplicationController
 		end
 	end
 
+	def user_profile
+
+		@user = User.find(params[:user_id])
+		# Get whiteboard activity
+		w = Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 3, :page => params[:page])
+		return render :json => w unless params[:raw].nil?
+
+		divs = Array.new
+		w.each do |post|
+			@post = post
+			divs << render_to_string('whiteboards/profile_activity', :layout => false)
+		end
+
+		render :json => divs
+	end
+
 end

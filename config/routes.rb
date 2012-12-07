@@ -143,7 +143,7 @@ Preview::Application.routes.draw do
 		match 'whiteboard/delete/:post' => 'whiteboards#delete'
 		match 'whiteboard/:id/comment' => 'whiteboards#comment'
 		match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
-
+		match 'whiteboard/user_profile' => 'whiteboards#user_profile'
 	# Signup / Login
 		match 'signup' => 'users#signup'
 		match 'login' => 'users#login'
@@ -172,6 +172,7 @@ Preview::Application.routes.draw do
 				match 'upload-avatar' => 'users#change_picture'
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
+				match 'slug_availability' => 'users#slug_availability'
 				
 				root :to => 'users#profile_edit'
 			end

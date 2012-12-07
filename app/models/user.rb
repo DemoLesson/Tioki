@@ -1,6 +1,8 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+	geocoded_by :location
+	after_validation :geocode, :if => :location_changed?
 
 	# Key Value Pairs
 	kvpair :social
@@ -18,7 +20,9 @@ class User < ActiveRecord::Base
 	attr_protected :id, :salt, :is_admin
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions
+	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, 
+					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions, 
+					:location, :headline
 
 	# Has One Connections
 	has_one :login_token
@@ -97,7 +101,8 @@ class User < ActiveRecord::Base
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'
 
 	# Validations
-	validates_length_of :password, :within => 5..40
+	validates_length_of :password, :within => 5..40, :on => :create
+	validates_length_of :password, :within => 5..40, :on => :update, :unless => lambda {|user| user.password.blank? }
 	validates_confirmation_of :password
 	validates_presence_of :first_name
 	validates_presence_of :last_name

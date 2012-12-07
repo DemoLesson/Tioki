@@ -1,3 +1,60 @@
+v3.0.38 - Dec 7, 2012 12:24AM PST deployed by Kelly Becker
+==========================================================
+* b86dda6: Kelly Becker - parameterize
+* 5162625: Kelly Becker - allow changing of urls and added an availability notifier
+
+v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
+============================================================
+* 6f68cf0: Aleks Stanisic - changes to profile activity
+* 225273b: Aleks Stanisic - changes to activity on profile
+* 3c5f5ef: Aleks Stanisic - changes to activity feed in profile
+* 4703088: Aleks Stanisic - added activity
+* b4d4cb9: Aleks Stanisic - style changes
+* 01ffe8f: Aleks Stanisic - changes to profile
+* 026235f: Brian Martinez - slight changes to the profile
+* 33eef48: Aleks Stanisic - profile changes- added video
+* 2d1390c: Aleks Stanisic - changes to profile
+* b63a9a2: Aleks Stanisic - more additions to info box on profile page
+* 12c44ed: Aleks Stanisic - adding info box to profile
+
+v3.0.36 - Dec 6, 2012  7:05PM PST deployed by Kelly Becker
+==========================================================
+
+
+v3.0.35 - Dec 6, 2012  7:03PM PST deployed by Kelly Becker
+==========================================================
+
+
+v3.0.34 - Dec 6, 2012  6:51PM PST deployed by Aleks Stanisic
+============================================================
+* fc5e0c3: Aleks Stanisic - new gem.lock
+
+v3.0.33 - Dec 6, 2012  7:02PM PST deployed by 
+==============================================
+
+
+v3.0.32 - Dec 6, 2012  6:52PM PST deployed by 
+==============================================
+
+
+v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
+==========================================================
+* cb67916: Elijah Green - Gemfile.lock
+* bd4d986: Elijah Green - Check if current job is nil on educator_dashboard
+* 4fbf532: Elijah Green - Readd location on profile_edit and fix user validations
+* 39d9a73: Brian Martinez - changes to suggested areas of dashboard, add group button on group heading, and jobs on the header
+* 4cbc61a: Elijah Green - Use a callback that will actaully work
+* bc2d098: Elijah Green - Add Geocoder fields to user
+* 0fa2bbb: Elijah Green - Remove geokit
+
+v3.0.30 - Dec 6, 2012  3:09PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v3.0.29 - Dec 6, 2012  1:49PM PST deployed by Kelly Becker
+==========================================================
+* 462e690: Kelly Becker - popdown new results
+
 v3.0.28 - Dec 6, 2012 12:47PM PST deployed by Aleks Stanisic
 ============================================================
 * 8a632ee: Aleks Stanisic - changes to profile links in our team page
