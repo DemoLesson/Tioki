@@ -1,3 +1,7 @@
+v3.0.34 - Dec 6, 2012  6:51PM PST deployed by Aleks Stanisic
+============================================================
+* fc5e0c3: Aleks Stanisic - new gem.lock
+
 v3.0.33 - Dec 6, 2012  7:02PM PST deployed by 
 ==============================================
 
