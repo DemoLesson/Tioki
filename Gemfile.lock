@@ -171,7 +171,6 @@ GEM
     gelf (1.3.2)
       json
     geocoder (1.1.5)
-    geokit (1.6.0)
     gibberish (1.2.0)
     gmaps4rails (0.10.2)
       crack
@@ -402,7 +401,6 @@ DEPENDENCIES
   fog
   gelf
   geocoder
-  geokit (= 1.6.0)
   gibberish
   gmaps4rails (~> 0.10.2)
   graylog2-resque
