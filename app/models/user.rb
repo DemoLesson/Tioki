@@ -1,6 +1,8 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+	geocoded_by :location
+	after_validation :geocode, :if => :location_changed?
 
 	# Key Value Pairs
 	kvpair :social
