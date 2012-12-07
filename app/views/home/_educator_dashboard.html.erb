@@ -175,7 +175,7 @@
 								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :width => '45px', :height => '45px'), "/profile/#{user.slug}" unless user.avatar? %>
 							</div>
 							<p style="font-size:13px;margin-top:0px;width:auto;margin-left:55px">
-								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline", :style => "color:#F66C4C" %>, <%= "#{user.currentJob.position}" %> in <%= "#{user.location}" %>
+							<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline", :style => "color:#F66C4C" %>, <% unless user.currentJob.nil? %> <%= "#{user.currentJob.position}" %> in <% end %><%= "#{user.location}" %>
 								<br/>
 								<span class="iconic plus" style="color:#F66C4C"></span>
 								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :style => 'color:#F66C4C;' %>
