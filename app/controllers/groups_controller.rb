@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Organization jobs
-		@jobs = @group.jobs.order("created_at DESC").limit(@group.job_allowance).paginate(:per_page => 15, :page => params[:page])
+		@jobs = @group.jobs.where(:status => 'running').order("created_at DESC").limit(@group.job_allowance)
 	end
 
 	def add_group

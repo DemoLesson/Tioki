@@ -182,11 +182,8 @@ class JobsController < ApplicationController
 			end
 		end
 		
-		@school = School.find(@job.school_id)
-		@owner = User.find(@school.owned_by)
-		
 		respond_to do |format|
-			if @job.active == true || @job.belongs_to_me(self.current_user) || @job.shared_to_me(self.current_user)
+			if @job.active == true || @job.stats == 'running' || @job.belongs_to_me(self.current_user) || @job.shared_to_me(self.current_user)
 				format.html # show.html.erb
 				format.json  { render :json => @job }
 			else
@@ -234,27 +231,48 @@ class JobsController < ApplicationController
 	def create
 		@subjects = Subject.all
 		@job = Job.new(params[:job])
-		@job.school_id = params[:school_id]
-		@job.latitude = @job.school.latitude
-		@job.longitude = @job.school.longitude
 
-		respond_to do |format|
+		# New Organizations Vs. Old Organizations
+		if !params[:group_id].nil? && !params[:group_id].empty?
+			@job.group_id = params[:group_id]
+			
+			# Only allow a hard limit of jobs to be "running"
+			@org = Group.find(params[:group_id])
+			if @job.status == 'running' && @org.job_allowance <= @org.jobs.where(:status => 'running').count
+				flash[:error] = "You cannot create more running jobs without buying more packs"
+				return redirect_to "/jobs/manage/#{@org.id}"
+			end
+
+			if @job.save
+				if params[:subjects]
+					@job.update_subjects(params[:subjects])
+				end
+
+				flash[:success] = "New job was successfully created."
+				return redirect_to "/jobs/manage/#{@org.id}"
+			end
+		else
+			@job.school_id = params[:school_id]
+			@job.latitude = @job.school.latitude
+			@job.longitude = @job.school.longitude
+
 			if @job.belongs_to_me(self.current_user) == true  || @job.shared_to_me(self.current_user)
-				count=self.current_user.organization.totaljobs
+				count = self.current_user.organization.totaljobs
 				if self.current_user.organization.job_allowance <= count
 					redirect_to :root, :notice => 'Your current job allowance is too small to create this job. Please contact support in order to increase it.'
 					return
 				end
+
 				if @job.save
-					self.current_user.organization.update_attribute(:totaljobs, count+1)
+					self.current_user.organization.update_attribute(:totaljobs, count + 1)
+
 					if params[:subjects]
 						@job.update_subjects(params[:subjects])
 					end
-					format.html { redirect_to(@job, :notice => 'Job was successfully created.') }
-					format.xml  { render :xml => @job, :status => :created, :location => @job }
+
+					return redirect_to @job, :notice => 'Job was successfully created.'
 				else
-					format.html { render :action => "new" }
-					format.xml  { render :xml => @job.errors, :status => :unprocessable_entity }
+					return render :action => "new"
 				end
 			else
 				format.html { redirect_to :root, :notice => 'Unauthorized' }
@@ -267,6 +285,15 @@ class JobsController < ApplicationController
 	def update
 		@subjects = Subject.all
 		@job = Job.find(params[:id])
+
+		if !params[:group_id].nil? && !params[:group_id].empty?
+			@org = @job.group
+
+			if params[:job][:status] == 'running' && @org.job_allowance <= @org.jobs.where(:status => 'running').count
+				flash[:error] = "You must buy more job packs if you want to run more jobs"
+				return redirect_to :back
+			end
+		end
 		
 		if @job.update_attributes(params[:job])
 			if params[:subjects]
@@ -275,7 +302,7 @@ class JobsController < ApplicationController
 
 			flash[:success] = "Job was successfully updated."
 
-			if params[:orgs2] == 'true'
+			if !params[:group_id].nil? && !params[:group_id].empty?
 				redirect_to "/manage/#{@job.group_id}"
 			else
 				redirect_to @job

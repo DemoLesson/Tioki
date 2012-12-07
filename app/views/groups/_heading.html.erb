@@ -59,8 +59,8 @@
 			<li class="<%= currentPath.split('/')[3] == 'jobs' ? 'current' : '' %>">
 				<a href="/groups/<%= @group.id %>/jobs">
 					Jobs
-					<% if @group.jobs.count > 0 %>
-						(<%= @group.jobs.count %>)
+					<% if @group.jobs.where(:status => 'running').count > 0 %>
+						(<%= @group.jobs.where(:status => 'running').count %>)
 					<% end %>
 				</a>
 			</li>

@@ -20,7 +20,7 @@ class Job < ActiveRecord::Base
 
   #Don't show if user account is deactivated
 
-  default_scope joins(:school => :user).where('users.deleted_at' => nil).readonly(false)
+  #default_scope joins(:school => :user).where('users.deleted_at' => nil).readonly(false)
   
   self.per_page = 15
   
@@ -83,6 +83,10 @@ class Job < ActiveRecord::Base
   end
   
   def belongs_to_me(user)
+    if !group_id.nil?
+      return group.user_permissions['administrator']
+    end
+
     @school = School.find(self.school)
     belongs = false
     if @school != nil

@@ -1,5 +1,5 @@
 <%= form_for @job, :html => { :multipart => true } do |f| %>
-	<input type="hidden" name="orgs2" value="true" />
+	<input type="hidden" name="group_id" value="<%= @org.id %>" />
 
 	<% if @job.errors.any? %>
 		<div id="error_explanation">
