@@ -165,24 +165,25 @@
 			</ul>
 		</section> <!-- END WHITEBOARD -->
 		<section id="list" class="panel one-column right-side">
+			<h3 class="bottom-line">Suggested Educators</h3>
 			<div class="suggested-connections">
-				<h3>Suggested Connections</h3>
 				<ul>
 					<% @suggested_connections.each do |user| %>
-				    	<li style="width:275px;padding:12px 15px 12px 15px !important">
-							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
-								<%= link_to image_tag(user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.slug}" if user.avatar? %>
-								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
+				    	<li style="width:275px;padding: 5px 15px 0px 15px !important;">
+							<div class="profile-thumb-small" style="float:left;margin-right:10px;margin-bottom:5px;overflow:hidden;">
+								<%= link_to image_tag(user.avatar.url(:medium), :width => '45px', :height => '45px'), "/profile/#{user.slug}" if user.avatar? %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :width => '45px', :height => '45px'), "/profile/#{user.slug}" unless user.avatar? %>
 							</div>
-							<strong>
-								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline" %>
-							</strong>
-							<p style="width:195px;float:left;">
-								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+							<p style="font-size:13px;margin-top:0px;width:auto;margin-left:55px">
+								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline", :style => "color:#F66C4C" %>, <%= "#{user.currentJob.position}" %> in <%= "#{user.location}" %>
+								<br/>
+								<span class="iconic plus" style="color:#F66C4C"></span>
+								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :style => 'color:#F66C4C;' %>
 							</p>
 						</li>
 					<% end %>
 				</ul>
+				<%= link_to "Find Friends >>", "/inviteconnections/twitter", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				<div class="clear"></div>
 			</div>
 		</section>
@@ -190,18 +191,16 @@
 			<h3>Discussions</h3>
 			<ul>
 				<% @discussions.each do |discussion| %>
-					<li style="padding:12px 50px 12px 0px !important">
+					<li style="padding:12px 15px 12px 5px !important;width:290px">
 					<%  if self.current_user %>
-						<div style="float:right">
-							<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }%>
-						</div>
+						<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }, :style => "float:right" %>
 					<% end %>
-						<p><%= link_to discussion.title, discussion %></p>
-						<p>
+						<p style="width:240px"><%= link_to discussion.title, discussion %></p>
+						<p style="width:240px;float:left;margin-left:10px">
 						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
 						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
 						</p>
-						<p>
+						<p style="width:240px;float:left;margin-left:10px">
 							<% discussion.participants.each do |user| %>
 								<% if user.avatar? %>
 									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
@@ -213,6 +212,41 @@
 					</li>
 				<% end %>
 			</ul>
+		</section>
+		<section id="list" class="panel one-column right-side" style ="height:250px;">
+			<section style="padding-left:10px;padding-right:10px">
+				<h4 class="bottom-line">
+					Featured Groups
+				</h4>
+				<!-- Featured Group 1-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:45px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
+				<p style="margin:-40px 0px 0px 60px;width:220px">
+					<%= link_to 'Education Bloggers', 'http://tioki.com/groups/2-education-bloggers/members' %>
+					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 2 }, :style => "float:right;color:#F66C4C" %>
+					<br />
+					43 Members<br/>
+				</p>
+				<br/>
+			
+				<!-- Featured Group 2-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:45px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
+				<p style="margin:-40px 0px 0px 60px;width:220px">
+					Beta Testing Teachers
+					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 50 }, :style => "float:right;color:#F66C4C" %>	
+					<br />
+					30 Members<br/>
+				</p>
+				<br />
+				
+				<!-- Featured Group 3-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:45px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
+				<p style="margin:-40px 0px 0px 60px;width:220px">
+					Educators on Twitter
+					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 101 }, :style => "float:right;color:#F66C4C" %>
+					<br/>	
+					18 Members<br/>
+				</p><br/>
+			</section>
 		</section>
 		<section id="list" class="panel one-column right-side">
 			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
