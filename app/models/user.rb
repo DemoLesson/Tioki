@@ -682,6 +682,11 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
+		if args[:location]
+			#currently just returning location only
+			return User.near(args[:location], 20)
+		end
+
 		find(:all, :include => [:skills, :experiences], :conditions => tup.compile)
 	end
 
@@ -717,6 +722,14 @@ class User < ActiveRecord::Base
 			rescue
 				return ""
 			end
+		else
+			return ""
+		end
+	end
+
+	def current_job_string
+		if (current_job = self.experiences(:current => true).first)
+			return [self.current_job.position, self.current_job.company].delete_if{|x|x.empty?}.join(' at ')
 		else
 			return ""
 		end
