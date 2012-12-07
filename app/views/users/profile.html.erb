@@ -213,7 +213,7 @@
 		
 		<!-- Activity Content -->
 		<section class="profile-content">
-
+			<% if @whiteboard.count != 0 %>
 			<h3>
 				<a href="#">
 				Activity
@@ -227,6 +227,7 @@
 					<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 				</ul>
 			</section>
+			<% end %>
 		<!-- START Checklist Content -->
 			<% if @self %>
 				<% if !self.current_user.got_started %>

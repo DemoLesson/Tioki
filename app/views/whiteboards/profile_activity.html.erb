@@ -58,7 +58,7 @@
 		<div class="clear"></div>
 	</li>
 <% else %>
-	<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %> id="<%= @post.id %>" style="min-height: 10px;">
+	<li <%= "class=\"has-actions\"".html_safe if User.current && (@post.user == User.current || User.current.is_admin) %> id="<%= @post.id %>" style="min-height: 10px;">
 		<p><strong><%= time_ago_in_words(@post.created_at) %> ago:</strong> <%= raw @post.getMessage %></p>
 		<div id="comment-wrapper" style="display:none;">
 			<ul id="comments" class="comments">
