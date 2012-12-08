@@ -411,7 +411,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def show_my_connections
-		connections = Connection.mine(:pending => false).paginate(:per_page => 5, :page => params[:page]).all
+		connections = Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).all
 		return render :json => connections unless params[:raw].nil?
 
 		divs = Array.new
