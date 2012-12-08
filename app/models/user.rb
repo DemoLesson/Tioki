@@ -740,7 +740,7 @@ class User < ActiveRecord::Base
 
 	def current_job_string
 		if (current_job = self.experiences(:current => true).first)
-			return [self.current_job.position, self.current_job.company].delete_if{|x|x.empty?}.join(' at ')
+			return [current_job.position, current_job.company].delete_if{|x|x.empty?}.join(' at ')
 		else
 			return ""
 		end
