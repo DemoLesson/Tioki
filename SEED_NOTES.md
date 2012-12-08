@@ -1,3 +1,11 @@
+v3.0.40 - Dec 8, 2012 12:42PM PST deployed by Aleks Stanisic
+============================================================
+* c001cc2: Elijah Green - Fix some formatting on my_connections
+* 10de569: Elijah Green - Fix current_job_string
+* 415cfea: Elijah Green - Only show profile whiteboard javascript if there are whiteboard posts
+* 2a9923d: Elijah Green - Fix the pagination of my_connections
+* e7d80e4: Elijah Green - Fix up connection search
+
 v3.0.39 - Dec 7, 2012  1:26PM PST deployed by Aleks Stanisic
 ============================================================
 * 2817666: Elijah Green - Remove invites div on group members page
