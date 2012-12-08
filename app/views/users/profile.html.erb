@@ -227,6 +227,184 @@
 					<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 				</ul>
 			</section>
+
+			<script type="text/javascript">
+				// White board more
+			$(document).ready(function() {
+				window.whiteboardPage = 1;
+				window.whiteboardMax = false;
+
+				// Load more whiteboard posts
+				$('a[href="#whiteboard-more"]').click(function(e) {
+					e.preventDefault();
+
+					// If we have already reached the end of the whiteboard then stop
+					if(window.whiteboardMax) return false;
+
+					// Get the number for the next page of data to pull
+					window.whiteboardPage++;
+
+					// Store for future use down the stack
+					more = $(this);
+
+					// Get the next pieces of activity via JSON
+					$.getJSON('/whiteboard/user_profile?user_id=<%= @user.id %>&page=' + window.whiteboardPage, function(data) {
+
+						// If no data was returned handle by removing the button and erroring
+						if(data.length == 0) {
+							more.animate({"opacity": 0}, 700, function() {
+								window.whiteboardMax = true;
+								more.text('No More Updates');
+								setTimeout(function() {
+									more.animate({"opacity": 1}, 1000);
+								}, 50);
+							});
+						}
+
+						// For every element
+						for(var x in data) {
+
+							// Create the object, insert, and fade it in
+							$(data[x]).css('display','block').insertBefore(more.closest('li'))
+						}
+					});
+
+					return false;
+				});
+
+				// Favorite a whiteboard post
+				$('a[whiteboard-action="favorite"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+
+						// Star the post
+						if(r.type == 'success' && r.new) {
+							link.addClass('salmon').removeClass('gray');
+							var inc = parseInt(link.children('span').text()) + 1;
+							if(isNaN(inc)) link.children('span').text('1');
+							else link.children('span').text(inc);
+						}
+
+						// Unstar the post
+						if(r.type == 'success' && !r.new) {
+							link.removeClass('salmon').addClass('gray');
+							var dec = parseInt(link.children('span').text()) - 1;
+							if(isNaN(dec) || dec === 0) link.children('span').text('');
+							else link.children('span').text(dec);
+						}
+					});
+
+					return false;
+				});
+
+				// Show the comments
+				$('a[whiteboard-action="show-comments"]').live('click', function(e) {
+					e.preventDefault();
+
+					// Show the comments wrapper
+					$(this).closest('div.bar').next('div.comments').slideDown(500);
+
+					return false;
+				});
+
+				// Hide a whiteboard post
+				$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+						var li = link.closest('li');
+
+						// Hide the post
+						if(r.type == 'success') li.slideUp(500, function() {
+							$('span.tooltip').remove();
+							$(this).remove();
+						});
+					});
+
+					return false;
+				});
+
+				$('form#post-comment').submit(function(e) {
+					e.preventDefault();
+
+					var form = $(this);
+					$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+						if(r.id !== undefined && r.type == 'success') {
+							form.find('textarea').val('Posted!').prop('disabled', true);
+							$.get('/comments/' + r.id, function(d) {
+								comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
+								form.prev('ul').append(comment);
+								comment.slideDown(500, function() {
+									$('ul').scrollTo('100%', 800);
+									setTimeout(function() {
+										comment.animate({backgroundColor: '#FFF'}, 600, function() {
+											comment.css('background-color', '');
+										});
+										form.find('textarea').val('').prop('disabled', false);
+									}, 1000);
+								});
+							});
+						}
+					})
+
+					return false;
+				});
+
+				// Favorite a comment
+				$('a[comment-action="favorite"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+
+						// Star the post
+						if(r.type == 'success' && r.new) {
+							link.addClass('salmon').removeClass('gray');;
+							var inc = parseInt(link.children('span').text()) + 1;
+							if(isNaN(inc)) link.children('span').text('1');
+							else link.children('span').text(inc);
+						}
+
+						// Unstar the post
+						if(r.type == 'success' && !r.new) {
+							link.removeClass('salmon').addClass('gray');;
+							var dec = parseInt(link.children('span').text()) - 1;
+							if(isNaN(dec) || dec === 0) link.children('span').text('');
+							else link.children('span').text(dec);
+						}
+					});
+
+					return false;
+				});
+
+				// Delete a comment
+				$('a[comment-action="delete"]').live('click', function(e) {
+					e.preventDefault();
+
+					var link = $(this);
+					$.get(link.attr('href') + '.json', function(r) {
+						var li = link.closest('li');
+
+						// Hide the post
+						if(r.type == 'success') li.slideUp(500, function() {
+							$('span.tooltip').remove();
+							$(this).remove();
+						});
+					});
+
+					return false;
+				});
+
+				//Came to comments from email
+				if(window.location.hash.indexOf("whiteboard_comments") >= 0){
+					var hash = window.location.hash;
+					$(hash).click();
+				}
+			});
+			</script>
 			<% end %>
 		<!-- START Checklist Content -->
 			<% if @self %>
@@ -735,181 +913,3 @@ $(document).ready(function() {
 		});
 	</script>
 <% end %>
-
-<script type="text/javascript">
-// White board more
-$(document).ready(function() {
-	window.whiteboardPage = 1;
-	window.whiteboardMax = false;
-
-	// Load more whiteboard posts
-	$('a[href="#whiteboard-more"]').click(function(e) {
-		e.preventDefault();
-
-		// If we have already reached the end of the whiteboard then stop
-		if(window.whiteboardMax) return false;
-		
-		// Get the number for the next page of data to pull
-		window.whiteboardPage++;
-
-		// Store for future use down the stack
-		more = $(this);
-
-		// Get the next pieces of activity via JSON
-		$.getJSON('/whiteboard/user_profile?user_id=<%= @user.id %>&page=' + window.whiteboardPage, function(data) {
-
-			// If no data was returned handle by removing the button and erroring
-			if(data.length == 0) {
-				more.animate({"opacity": 0}, 700, function() {
-					window.whiteboardMax = true;
-					more.text('No More Updates');
-					setTimeout(function() {
-						more.animate({"opacity": 1}, 1000);
-					}, 50);
-				});
-			}
-
-			// For every element
-			for(var x in data) {
-
-				// Create the object, insert, and fade it in
-				$(data[x]).css('display','block').insertBefore(more.closest('li'))
-			}
-		});
-
-		return false;
-	});
-
-	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
-
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
-		});
-
-		return false;
-	});
-
-	// Show the comments
-	$('a[whiteboard-action="show-comments"]').live('click', function(e) {
-		e.preventDefault();
-
-		// Show the comments wrapper
-		$(this).closest('div.bar').next('div.comments').slideDown(500);
-
-		return false;
-	});
-
-	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	$('form#post-comment').submit(function(e) {
-		e.preventDefault();
-
-		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
-			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
-				$.get('/comments/' + r.id, function(d) {
-					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-					form.prev('ul').append(comment);
-					comment.slideDown(500, function() {
-						$('ul').scrollTo('100%', 800);
-						setTimeout(function() {
-							comment.animate({backgroundColor: '#FFF'}, 600, function() {
-								comment.css('background-color', '');
-							});
-							form.find('textarea').val('').prop('disabled', false);
-						}, 1000);
-					});
-				});
-			}
-		})
-
-		return false;
-	});
-
-	// Favorite a comment
-	$('a[comment-action="favorite"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');;
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
-
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');;
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
-		});
-
-		return false;
-	});
-
-	// Delete a comment
-	$('a[comment-action="delete"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	//Came to comments from email
-	if(window.location.hash.indexOf("whiteboard_comments") >= 0){
-		var hash = window.location.hash;
-		$(hash).click();
-	}
-});
-</script>
