@@ -129,7 +129,11 @@ class GroupsController < ApplicationController
 			permissions[:public] = params[:group][:permissions][:public] == 'true'
 			permissions[:private] = params[:group][:permissions][:public] != 'true'
 			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
-			permissions[:organization] = params[:group][:permissions][:organization] == 'true'
+
+			if User.is_admin
+				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
+			end
+			
 			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
 			params[:group].delete_if{|k,v|k.to_s == 'permissions'}
 			@group.permissions = permissions
