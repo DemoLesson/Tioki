@@ -682,7 +682,23 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
-		find(:all, :include => [:skills, :experiences], :conditions => tup.compile)
+
+		if (args[:school] || args[:schools]) && (args[:skills] || args[:skill])
+			query = joins(:skills, :experiences).where(tup.compile)
+		elsif args[:school] || args[:schools]
+			query = joins(:experiences).where(tup.compile)
+		elsif args[:skills] || args[:skill]
+			query = joins(:skills).where(tup.compile)
+		else
+			query = where(tup.compile)
+		end
+
+		#only search on one location at a time currently
+		if args[:location]
+			return query.near(args[:location], 20)
+		else
+			return query
+		end
 	end
 
 	def new_asset_attributes=(asset_attributes) 
@@ -717,6 +733,14 @@ class User < ActiveRecord::Base
 			rescue
 				return ""
 			end
+		else
+			return ""
+		end
+	end
+
+	def current_job_string
+		if (current_job = self.experiences(:current => true).first)
+			return [current_job.position, current_job.company].delete_if{|x|x.empty?}.join(' at ')
 		else
 			return ""
 		end
