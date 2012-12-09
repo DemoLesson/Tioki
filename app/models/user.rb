@@ -3,6 +3,13 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
 	geocoded_by :location
 	after_validation :geocode, :if => :location_changed?
+	reverse_geocoded_by :latitude, :longitude do |obj, results|
+		if geo = results.first
+			obj.city = geo.city
+			obj.country = geo.city
+			obj.state = geo.state
+		end
+	end
 
 	# Key Value Pairs
 	kvpair :social
@@ -695,7 +702,21 @@ class User < ActiveRecord::Base
 
 		#only search on one location at a time currently
 		if args[:location]
-			return query.near(args[:location], 20)
+			#Get the bounds in which this location is contained
+			address = Geocoder::search(args[:location]).first
+
+			if address
+				coords = address.geometry.bounds.values.collect{|coord| [coord.lat, coord.lng] }
+
+				#get distance for bounding box
+				distance = Geocoder::Calculations.distance_between(coords.first, coords.last)
+
+				box = Geocoder::Calculations.bounding_box(address.geometry.location.values, distance)
+				return query.within_bounding_box(box)
+			else
+				return []
+			end
+
 		else
 			return query
 		end
