@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/KellyLSB/Bitswitch.git
-  revision: 56d29e19165833885100a14cedf3e0b04aaeaaee
+  revision: 9a0f632e2277541b758f24d6829196f9ed189785
   specs:
     bitswitch (1.0.4)
 
@@ -317,7 +317,7 @@ GEM
     scoped_search (2.4.0)
       activerecord (>= 2.1.0)
     sexp_processor (3.2.0)
-    simple_oauth (0.1.9)
+    simple_oauth (0.2.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -348,15 +348,15 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter (4.4.0)
+    twitter (4.4.1)
       faraday (~> 0.8)
       multi_json (~> 1.3)
-      simple_oauth (~> 0.1.6)
+      simple_oauth (~> 0.2)
     tzinfo (0.3.35)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    unicorn (4.4.0)
+    unicorn (4.5.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)

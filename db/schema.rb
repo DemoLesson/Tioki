@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207201506) do
+ActiveRecord::Schema.define(:version => 20121208224804) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -379,6 +379,7 @@ ActiveRecord::Schema.define(:version => 20121207201506) do
     t.integer  "group_id"
     t.integer  "jobs"
     t.datetime "expiration"
+    t.datetime "inception"
     t.string   "charge_token"
     t.string   "card_token"
     t.integer  "refunded"
@@ -579,6 +580,7 @@ ActiveRecord::Schema.define(:version => 20121207201506) do
     t.string   "additionallinkname"
     t.string   "additionallink"
     t.string   "twitter"
+    t.integer  "migrated"
   end
 
   add_index "schools", ["latitude", "longitude"], :name => "index_schools_on_lat_and_lng"
