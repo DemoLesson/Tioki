@@ -3,13 +3,6 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
 	geocoded_by :location
 	after_validation :geocode, :if => :location_changed?
-	reverse_geocoded_by :latitude, :longitude do |obj, results|
-		if geo = results.first
-			obj.city = geo.city
-			obj.country = geo.city
-			obj.state = geo.state
-		end
-	end
 
 	# Key Value Pairs
 	kvpair :social
