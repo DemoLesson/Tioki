@@ -183,10 +183,120 @@
 						</li>
 					<% end %>
 				</ul>
-				<%= link_to "Find Friends >>", "/inviteconnections/twitter", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
+				<%= link_to "Find Friends →", "/inviteconnections/twitter", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				<div class="clear"></div>
 			</div>
 		</section>
+		
+		<!-- START Who Viewed Your Profile -->
+		<section id="list" class="panel one-column right-side">
+			<h3>
+				<a href="/me/profile/stats">
+				Who's Viewed Your Profile? 
+				</a>
+			</h3>
+			<ul>
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
+						<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
+					</div>
+					<p style="width:230px;margin-top:5px">
+						<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
+					</p>
+				<li>
+			</ul>
+		</section> <!-- END WHO'S VIEWED YOUR PROFILE -->
+		
+		<!-- START Featured Jobs -->
+		<section id="list" class="panel one-column right-side">
+			<h3>
+				Featured Jobs
+			</h3>
+			<ul>
+				<!-- Featured Job 1 -->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121208212638-20121208212637-20121208212636-techbridge-logo.jpg?1355001996", :style => "width:45px"), 'http://tioki.com/jobs/114325' %>
+					<p style="margin:-40px 0px 0px 60px;width:220px">
+						<%= link_to 'Techbridge', 'http://tioki.com/jobs/114325' %>
+						<%= link_to "View", 'http://tioki.com/jobs/114325', :style => "float:right;color:#F66C4C", :target => "_blank" %>
+						<br />
+						Girls "Go Techbridge" <br/>Program Coordinator
+					</p>
+				</li>
+				
+				<!-- Featured Job 2-->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205195748-20121205195748-20121205195747-27531_105473479498305_4206_n.jpg?1354737467", :style => "width:45px"), 'http://tioki.com/jobs/114323' %>
+					<p style="margin:-35px 0px 0px 60px;width:220px">
+						<%= link_to 'KIPP Bay Area', 'http://tioki.com/jobs/114323' %>
+						<%= link_to "View", 'http://tioki.com/jobs/114323', :style => "float:right;color:#F66C4C", :target => "_blank" %>
+						<br />
+						KIPP San Francisco College<br/> Prep Core Teacher
+					</p>
+				</li>
+				
+				<!-- Featured Job 3 -->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205224432-20121205224431-20121205224430-174829_143358642391657_3935380_n.jpg?1354747470", :style => "width:45px"), 'http://tioki.com/jobs/114324' %>
+					<p style="margin:-50px 0px 0px 60px;width:220px">
+						<%= link_to 'Rocketship Education', 'http://tioki.com/jobs/114324' %>
+						<%= link_to "View", 'http://tioki.com/jobs/114324', :style => "float:right;color:#F66C4C", :target => "_blank" %>
+						<br />
+						2013-2014 Teacher in <br /> San Jose, CA<br/>
+					</p>
+				</li>
+				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
+					<%= link_to "View More Jobs →", "/jobs", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
+				</li>
+			</ul>
+		</section><!-- END Featured Jobs -->
+		
+		<!-- START Featured Groups -->
+		<section id="list" class="panel one-column right-side">
+			<h3>
+				Featured Groups
+			</h3>
+			<ul>
+				<!-- Featured Group 1-->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:45px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
+					<p style="margin:-40px 0px 0px 60px;width:220px">
+						<%= link_to 'Education Bloggers', 'http://tioki.com/groups/2-education-bloggers/members' %>
+						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 2 }, :style => "float:right;color:#F66C4C" %>
+						<br />
+						43 Members<br/>
+					</p>
+				</li>
+			
+				<!-- Featured Group 2-->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:45px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
+					<p style="margin:-40px 0px 0px 60px;width:220px">
+						<%= link_to 'Beta Testing Teachers', 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
+						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 50 }, :style => "float:right;color:#F66C4C" %>	
+						<br />
+						32 Members<br/>
+					</p>
+				</li>
+				
+				<!-- Featured Group 3-->
+				<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:45px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
+					<p style="margin:-40px 0px 0px 60px;width:220px">
+						<%= link_to 'Educators on Twitter', 'http://tioki.com/groups/101-educators-on-twitter/members' %>
+						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 101 }, :style => "float:right;color:#F66C4C" %>
+						<br/>	
+						23 Members<br/>
+					</p>
+				</li>
+				
+				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
+				<%= link_to "View More Groups →", "/groups", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
+				</li>
+			</ul>
+		</section><!-- END Featued Groups -->
+		
+		<!-- START Discussions -->
 		<section id="list" class="panel one-column right-side">
 			<h3>Discussions</h3>
 			<ul>
@@ -211,87 +321,14 @@
 						</p>
 					</li>
 				<% end %>
-			</ul>
-		</section>
-		<section id="list" class="panel one-column right-side" style ="height:250px;">
-			<section style="padding-left:10px;padding-right:10px">
-				<h4 class="bottom-line">
-					Featured Groups
-				</h4>
-				<!-- Featured Group 1-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:45px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
-				<p style="margin:-40px 0px 0px 60px;width:220px">
-					<%= link_to 'Education Bloggers', 'http://tioki.com/groups/2-education-bloggers/members' %>
-					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 2 }, :style => "float:right;color:#F66C4C" %>
-					<br />
-					43 Members<br/>
-				</p>
-				<br/>
-			
-				<!-- Featured Group 2-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:45px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-				<p style="margin:-40px 0px 0px 60px;width:220px">
-					Beta Testing Teachers
-					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 50 }, :style => "float:right;color:#F66C4C" %>	
-					<br />
-					30 Members<br/>
-				</p>
-				<br />
 				
-				<!-- Featured Group 3-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:45px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-				<p style="margin:-40px 0px 0px 60px;width:220px">
-					Educators on Twitter
-					<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 101 }, :style => "float:right;color:#F66C4C" %>
-					<br/>	
-					18 Members<br/>
-				</p><br/>
-			</section>
-		</section>
-		<section id="list" class="panel one-column right-side">
-			<%= link_to image_tag("tioki/icons/play-icon.png"),  "/me/profile/edit/upload-video", :style => "float:right;margin:17px 15px 0px 0px" %>
-			<h3>
-				<a href="/videos">
-				Latest Demo Lessons
-				</a>
-			</h3>
-			<ul>
-				<% @latest_dl.each do |vid| %>
-					<li>
-						<a href="/profile/<%= vid.user.slug %>">
-							<div class="profile-thumb-small">
-								<img alt="Play-icon" height="45" src="/assets/tioki/icons/play-icon.png" width="45">
-							</div>
-						</a>
-						<p><%= vid.getMessage %></p>
-						<!--div class=" quick-action star-empty">
-						</div-->
-					</li>
-				<% end %>
+				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
+					<%= link_to "View More Discussions →", "/discussions", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
+				</li>
 			</ul>
-			<section class="panel-actions demolesson">
-				<a href="/me/profile/edit/upload-video" class="action-button">
-				Upload Demo Lesson
-				</a>
-			</section>
-		</section> <!-- END DEMO LESSONS -->
-		<section id="list" class="panel one-column right-side">
-			<h3>
-				<a href="#">
-				Who's Viewed Your Profile? 
-				</a>
-			</h3>
-			<ul>
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
-						<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
-					</div>
-					<p style="width:230px;margin-top:5px">
-						<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
-					</p>
-				<li>
-			</ul>
-		</section> <!-- END WHO'S VIEWED YOUR PROFILE -->
+		</section><!-- END Discussions -->
+		
+		<!-- START Upcoming Events -->
 		<section id="list" class="panel one-column right-side">
 			<%= link_to image_tag("tioki/icons/calendar.png"), "/events/new", :style => "float:right;margin:17px 15px 0px 0px;" %>
 			<h3>
@@ -344,18 +381,6 @@
 				</a>
 			</section>		
 		</section> <!-- END UPCOMING EVENTS -->
-		<section id="list" class="panel one-column right-side">
-			<h3>My Favorites</h3>
-			<ul>
-				<% User.current.favorites.limit(3).where('`favorites`.`model` IS NOT NULL').each do |fav| %>
-					<% next unless fav.model?(:whiteboard, :video) %>
-					<% if fav.model?(:whiteboard) %>
-						<% @post = fav.model! %>
-						<%= render :template => 'whiteboards/favorite' %>
-					<% end %>
-				<% end %>
-			</ul>
-		</section> <!-- END MY FAVORITES -->
 		<div class="clearfloat"></div>
 	</section>
 	<div class="clearfloat"></div>

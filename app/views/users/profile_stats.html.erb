@@ -29,7 +29,17 @@
 			</div>
 			<h3><%= @user.name %></h3>
 			<p><%= @user.headline %></p>
+			<hr>
+			<section style="text-align:center;margin:15px 0 -14px 0;padding-top:5px;background:#fff;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+				<strong>Want More Profile Views?</strong><br/>
+				Invite your Twitter and Facebook friends to bask in your awesomeness!
+				<p style="width:auto;margin-top:5px">
+					<%= link_to image_tag('/assets/tioki/icons/twitter_transparent.png', :style => "width:70px"), '/inviteconnections/twitter' %>
+					<%= link_to image_tag('/assets/tioki/icons/fb_transparent.png', :style => "width:70px"), '/inviteconnections/facebook' %>
+				</p>
+			</section>
 		</section>
+		
 
 		<section class="profile-content">	
 			<section class="info panel">
