@@ -682,6 +682,17 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
+		if args[:locations]
+			#Uses populated populated country, state, city
+			#fields as opposed to a geocoder search
+			
+			subtup = SmartTuple.new(" OR ")
+
+			params[:locations].split.each do |token|
+				subtup << ["(users.country = ? || users.state = ? || users.city = ?)", token]
+			end
+		end
+
 
 		if (args[:school] || args[:schools]) && (args[:skills] || args[:skill])
 			query = joins(:skills, :experiences).where(tup.compile)

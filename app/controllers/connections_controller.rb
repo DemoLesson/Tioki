@@ -33,6 +33,11 @@ class ConnectionsController < ApplicationController
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
 			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
 			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
+
+			#count returns a hash
+			@locations = User.geocoded.group("country")
+			@locations = User.geocoded.group("state")
+			@locations = User.geocoded.group("city")
 		end
 		
 		# Paginate to 25 per

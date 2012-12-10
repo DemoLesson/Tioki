@@ -59,6 +59,21 @@
 							<% end %>
 						</ul>
 					</div>
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						Location
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @user_skills.each do |skill| %>
+								<li>
+									<%= check_box_tag "skills[]", skill.id %>
+									<%= skill.name %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
 				</div>
 			<% end %>
 			<hr>
