@@ -700,9 +700,11 @@ class User < ActiveRecord::Base
 			
 			subtup = SmartTuple.new(" OR ")
 
-			params[:locations].split.each do |token|
-				subtup << ["(users.country = ? || users.state = ? || users.city = ?)", token]
+			params[:locations].each do |token|
+				subtup << ["(users.country = ? || users.state = ? || users.city = ?)", token, token, token]
 			end
+
+			tup << subtup
 		end
 
 

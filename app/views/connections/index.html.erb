@@ -66,10 +66,10 @@
 					</p>
 					<div>
 						<ul>
-							<% @user_skills.each do |skill| %>
+							<% @locations.each do |location, count| %>
 								<li>
-									<%= check_box_tag "skills[]", skill.id %>
-									<%= skill.name %>
+									<%= check_box_tag "locations[]", location %>
+									<%= location %> (<%= count %>)
 								</li>
 							<% end %>
 						</ul>
@@ -128,9 +128,10 @@
 	$(document).ready(function(){
 			window.connectionPage = 1;
 			window.connectionMax = false;
-			var skillstring = '';
-			var schoolstring = '';
-			<% searchstring = ""; params.each { |key, value| searchstring << "&#{key}=#{value}"} %>
+			var skillString = '';
+			var schoolString = '';
+			var locationString = '';
+			<% search_string = ""; params.each { |key, value| search_string << "&#{key}=#{value}"} %>
 			$("input:checkbox").click(function() {
 				//keep the viewmore
 				$('.viewmore').text("View More");
@@ -139,12 +140,16 @@
 				window.connectionPage = 1;
 				window.connectionMax = false;
 
-				schoolstring= '';
-				$("input[name='schools[]']:checked").each(function(){schoolstring += "&schools[]=" + $(this).val();});
+				schoolString= '';
+				$("input[name='schools[]']:checked").each(function(){schoolString += "&schools[]=" + $(this).val();});
 
-				skillstring = '';
-				$("input[name='skills[]']:checked").each(function(){skillstring += "&skills[]=" + $(this).val();});
-				$.getJSON('/newconnections?page=1<%= searchstring %>' + skillstring + schoolstring, function(data) {
+				skillString = '';
+				$("input[name='skills[]']:checked").each(function(){skillString += "&skills[]=" + $(this).val();});
+
+				locationString = '';
+				$("input[name='locations[]']:checked").each(function(){locationString += "&locations[]=" + $(this).val();});
+
+				$.getJSON('/newconnections?page=1<%= search_string %>' + skillString + schoolString + locationString, function(data) {
 
 					// For every element
 					for(var x in data) {
@@ -166,7 +171,7 @@
 				more = $(this);
 
 				// Get the next pieces of activity via JSON
-				$.getJSON('/newconnections?page=' + window.connectionPage + "<%= searchstring %>" + skillstring + schoolstring, function(data) {
+				$.getJSON('/newconnections?page=' + window.connectionPage + "<%= search_string %>" + skillString + schoolString + locationString, function(data) {
 
 					// If no data was returned handle by removing the button and erroring
 					if(data.length == 0) {

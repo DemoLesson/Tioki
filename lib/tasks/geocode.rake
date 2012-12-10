@@ -22,6 +22,8 @@ namespace :geocode do
 
 		  #country,state,location
 		  user.reverse_geocode
+
+		  user.save
 	  end
   end
 end
