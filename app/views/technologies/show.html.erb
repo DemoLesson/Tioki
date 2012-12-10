@@ -145,9 +145,7 @@
 
 				<div id ="connection_desc">
 					<strong><%= link_to user.name, '/profile/' + user.slug.to_s, :style => "color:#F66C4C" %></strong><br />
-					<% if user.currentJob.position.present? && user.currentJob.company.present?%>
-						<%= user.currentJob.position %> at <%= user.currentJob.company %>
-					<% end %><br />
+					<%= user.current_job_string %><br />
 					<%= user.location %><br /><br />
 					<div>
 						<% if !self.current_user.nil? %>
