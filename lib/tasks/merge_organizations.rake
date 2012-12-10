@@ -70,7 +70,10 @@ task :merge_organizations => :environment do
 		organization[:long_description] = school.description
 
 		organization = Group.create(organization)
-		organization.picture_from_url school.picture.url
+		begin
+			organization.picture_from_url school.picture.url if school.picture?
+		rescue
+		end
 		organization.social = {
 			:website => school.website,
 			:greatschools => school.greatschools,
@@ -95,7 +98,7 @@ task :merge_organizations => :environment do
 		organization.save!
 
 		# Migrate Jobs
-		schools.jobs.each do |job|
+		school.jobs.each do |job|
 			job.group_id = organization.id
 			job.save!
 		end
@@ -108,5 +111,7 @@ task :merge_organizations => :environment do
 		userPermissions['owner'] = 1
 
 		User_Group.create(:user_id => school.owned_by, :group_id => organization.id, :permissions => userPermissions)
+
+		school.update_attribute(:migrated, true)
 	end
 end
