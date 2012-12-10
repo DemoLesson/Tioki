@@ -2,7 +2,7 @@ require 'rubygems'
 
 namespace :geocode do
   desc "Migrate school gps data to jobs"
-  task :update_jobs => :environment do
+  task :jobs => :environment do
     @jobs = Job.all
     @jobs.each do |job|
       job.latitude = job.school.latitude
@@ -12,7 +12,7 @@ namespace :geocode do
   end
 
   desc "Set users coordinates and country,state,city"
-  task :geocode_users =>:environment do
+  task :users =>:environment do
 	  users = User.where("location is not null")
 	  users = users.select{|user| user.location.present? }
 
