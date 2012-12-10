@@ -67,9 +67,7 @@
 						</div>
 						<p>
 						<%= link_to connection.not_me.name, "profile/#{connection.not_me.slug}" %><br />
-						<%= connection.not_me.experiences.where(:current => true).first.position %> 
-						<% if connection.not_me.experiences.where(:current => true).first.position.present? %>at<% end %> 
-						<%= connection.not_me.experiences.where(:current => true).first.company %><br />
+						<%= connection.not_me.current_job_string %><br />
 						<%= connection.not_me.location %>
 						</p>
 						<div style="float:left;margin:9px 0 0 65px;width:200px">
@@ -104,8 +102,8 @@
 							<option value="name">Name</option>
 							<option value="email">Email</option>
 							<option value="school">School</option>
-							<!--<option>Subject</option>
-							<option>Location</option>-->
+							<!--<option>Subject</option>-->
+							<option value="location">Location</option>
 						</select>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
