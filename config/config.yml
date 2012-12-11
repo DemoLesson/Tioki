@@ -1,5 +1,9 @@
 ---
 default:
+  date_formats:
+    date: "%B %do, %Y %Z"
+    datetime: "%B %do, %Y %I:%M %p %Z"
+    time: "%I:%M %p %Z"
   bitswitches:
     user_privacy:
       0: "contact_info"

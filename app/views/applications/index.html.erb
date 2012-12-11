@@ -4,7 +4,7 @@
 		<%= @source.title.possessive if @source.is_a?(Job) %> 
 		Applications
 	</h1>
-	<table>
+	<table style="width:100%;">
 		<tr>
 			<% if @source.is_a?(User) %>
 				<th>Organization Photo</th>
@@ -33,7 +33,7 @@
 				<% end %>
 
 				<td><%= app.job.title %></td>
-				<td><%= app.created_at.to_s(:long_ordinal) %></td>
+				<td><%= app.created_at.to_s(:date) %></td>
 				<td><%= app.status %></td>
 			</tr>
 		<% end %>

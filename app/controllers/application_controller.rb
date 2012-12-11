@@ -242,6 +242,8 @@ class ApplicationController < ActionController::Base
 					render :template => 'errors/error_500',
 						:layout => 'layouts/application',
 						:status => 500
+				else
+					raise e		
 				end
 			end
 		end
