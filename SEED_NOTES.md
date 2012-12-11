@@ -1,3 +1,19 @@
+v3.0.43 - Dec 11, 2012  1:10PM PST deployed by Aleks Stanisic
+=============================================================
+* ce7420b: Aleks Stanisic - my schema
+* 9c0f4b2: Elijah Green - Send email on application submit
+* 8c674c2: Elijah Green - Fix link to new applicants
+* f79e151: Elijah Green - Clean up a fix to migration
+* 1a2aaf7: Elijah Green - Change some things in geocode.rake
+* b9524ef: Elijah Green - Location search complete
+* a94945b: Elijah Green - Change some names in tbhe geocode rake task
+* 792f4bc: Elijah Green - Geocoding can now populate location fields
+* e52a365: Elijah Green - Temporarily add back teacher files to fix a bad migration
+* a077779: Elijah Green - Fix a broken migration
+* 8d8f35b: Elijah Green - Get started with location on new connections page
+* 377e810: Elijah Green - Remove reverse geocode on user
+* 47a219d: Elijah Green - Use bounding box instead of radius for connection search
+
 v3.0.42 - Dec 10, 2012  5:54PM PST deployed by Aleks Stanisic
 =============================================================
 
