@@ -1,4 +1,4 @@
-class JobsController < ApplicationController
+ class JobsController < ApplicationController
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
 	
 	# GET /jobs
@@ -19,11 +19,11 @@ class JobsController < ApplicationController
 
 			tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
 
-			tup << ["schools.school_type = ?", params[:school_type]] if params[:school_type].present?
-
-			tup << ["schools.grades = ?", params[:grade_level]] if params[:grade_level].present?
-
-			tup << ["schools.calendar = ?", params[:calendar]] if params[:calendar].present?
+			# On KVPairs Now
+			# Review
+			#tup << ["schools.school_type = ?", params[:school_type]] if params[:school_type].present?
+			#tup << ["schools.grades = ?", params[:grade_level]] if params[:grade_level].present?
+			#tup << ["schools.calendar = ?", params[:calendar]] if params[:calendar].present?
 
 			tup << ["employment_type = ?", params[:employment]] if params[:employment].present?
 
