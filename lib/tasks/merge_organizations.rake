@@ -55,6 +55,33 @@ task :merge_organizations => :environment do
 		51 => "Washington DC",
 	}
 
+	organization_type = {
+		1 => "District",
+		2 => "Charter",
+		3 => "Private",
+		4 => "Other"
+	}
+
+	organization_grades = {
+		1 => "Pre-K",
+		2 => "Elementary",
+		3 => "Middle",
+		4 => "High School",
+		5 => "Adult School",
+		6 => "Other",
+		7 => "K-6",
+		8 => "K-8",
+		9 => "6-12",
+		10 => "12"
+	}
+
+	organization_calendar = {
+		1 => "Year-Round",
+		2 => "Track",
+		3 => "Semester",
+		4 => "Traditional"
+	}
+
 	School.where("`migrated` IS NULL").order('`id` DESC').each do |school|
 		puts "Migrated Org: #{school.name}\n"
 
@@ -63,6 +90,8 @@ task :merge_organizations => :environment do
 		organization[:name] = school.name
 		organization[:description] = school.description.nil? ? '' : school.description
 		organization[:long_description] = school.description.nil? ? '' : school.description
+		organization[:longitude] = school.longitude
+		organization[:latitude] = school.latitude
 
 		# Create organization and permissions
 		organization = Group.create(organization)
@@ -106,6 +135,15 @@ task :merge_organizations => :environment do
 			:phone => school.phone,
 			:fax => school.fax
 		}
+
+		# Update misc
+		misc = Hash.new
+		misc[:school_type] = organization_type[school.school_type] if !school.school_type.nil?
+		misc[:school_calendar] = organization_calendar[school.calendar] if !school.calendar.nil?
+		misc[:school_grades] = organization_grades[school.grades] if !school.grades.nil?
+		misc[:school_district] = school.district if !school.district.nil? && !school.district.empty?
+		misc[:mission] = school.mission if !school.mission.nil? && !school.mission.empty?
+		organization.misc = misc
 
 		# Save the organization (Primarily for the image)
 		organization.save!
