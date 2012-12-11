@@ -1,3 +1,7 @@
+v3.0.46 - Dec 11, 2012  2:14PM PST deployed by Aleks Stanisic
+=============================================================
+* 4537c60: Elijah Green - User User.none instead of empty array to represent no users
+
 v3.0.45 - Dec 11, 2012  2:04PM PST deployed by Aleks Stanisic
 =============================================================
 * c0c27a2: Aleks Stanisic - removed teacher.id from awards form and changed url in team page
