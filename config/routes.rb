@@ -260,7 +260,11 @@ Preview::Application.routes.draw do
 	resources :users do
 
 		# User Applications
-		resources :applications
+		resources :applications do
+
+			# Interviews
+			resources :interviews
+		end
 	end
 
 	# Groups
@@ -270,7 +274,11 @@ Preview::Application.routes.draw do
 		resources :jobs do
 
 			# Job Applications
-			resources :applications
+			resources :applications do
+
+				# Interviews
+				resources :interviews
+			end
 		end
 	end
 

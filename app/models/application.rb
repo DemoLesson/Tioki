@@ -3,6 +3,7 @@ class Application < ActiveRecord::Base
   belongs_to :job
 
   has_one :video
+  has_one :interview
 
   scope :is_active, where(:status => 1)
 

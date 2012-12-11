@@ -234,7 +234,7 @@ class ApplicationController < ActionController::Base
 				
 				@not_found_path = request.fullpath
 				render :template => 'errors/error_404',
-					layout => 'layouts/application',
+					:layout => 'layouts/application',
 					:status => 404
 			else
 				if Rails.env == 'production'
@@ -350,7 +350,7 @@ class ApplicationController < ActionController::Base
 			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
 				APP_CONFIG.twitter.consumer_secret, 
 				{ :site => "http://twitter.com", 
-					:authorize_path => "/oauth/authenticate" 
+					:authorize_path => "/oauth/authenticate"
 				})
 		end
 

@@ -1,5 +1,6 @@
 class InterviewsController < ApplicationController
   before_filter :login_required
+  before_filter :source_owner
   
   # GET /interviews
   # GET /interviews.json
@@ -63,6 +64,19 @@ class InterviewsController < ApplicationController
           format.json { render json: @interview }
         end
       end
+    end
+  end
+
+  # Edit the interview in question
+  # Author: Kelly Lauren Summer Becker
+  # GET /users/:user_id/applications/:application_id/interviews/:interview_id
+  # GET /group/:group_id/job/:job_id/applications/:application_id/interviews/:interview_id
+  def edit
+    @interview = Interview.find(params[:id])
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @interview }
     end
   end
 
@@ -166,4 +180,24 @@ class InterviewsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  protected
+  
+    def source_owner
+      # Get the proper source
+      @source = User.find(params[:user_id]) unless params[:user_id].nil?
+      @source = Job.find(params[:job_id]) unless params[:job_id].nil?
+
+      # Check permissions to see if the owner also has application
+      raise SecurityTransgression if @source.applications.include?(Application.find(params[:application_id]))
+
+      # Check to make sure the if the user is accessing that the user is the current one
+      raise SecurityTransgression if @source != User.current if @source.is_a?(User)
+
+      # Check permissions on the job side
+      if @source.is_a?(Job)
+        raise SecurityTransgression if @source.group != Group.find(params[:group_id])
+        raise SecurityTransgression if !@source.group.user_permissions.administrator
+      end
+    end
 end

@@ -24,11 +24,32 @@ class ApplicationsController < ApplicationController
 	def update
 		@application = Application.find(params[:id])
 
+		# If an interview was requested go ahead and create the interview
+		if params[:application][:status] == 'Request an Interview' && @application.interview.nil?
+			interview = Interview.create(
+				:application => @application,
+				:user => @application.user,
+				:job => @application.job)
+		end
+
 		respond_to do |format|
+
+			# Go ahead and try to save
 			if @application.update_attributes(params[:application])
-				format.html { redirect_to [@source.group, @source, :applications], :notice => 'Application was successfully updated.' }
+
+				# Respond with either HTML or JSON
+				format.html {
+
+					# If an interview was created take the person to the edit interview page
+					return redirect_to [:edit, @source.group, @source, @application, interview] if interview.is_a?(Interview)
+					redirect_to [@source.group, @source, :applications], :notice => 'Application was successfully updated.'
+				}
 				format.json { head :no_content }
 			else
+				# Delete the interview if it failed to save
+				interview.destroy if interview.is_a?(Interview)
+
+				# Respond with either HTML or JSON
 				format.html { render action: "edit" }
 				format.json { render json: @application.errors, status: :unprocessable_entity }
 			end
@@ -85,5 +106,14 @@ class ApplicationsController < ApplicationController
 		def source_owner
 			@source = User.find(params[:user_id]) unless params[:user_id].nil?
 			@source = Job.find(params[:job_id]) unless params[:job_id].nil?
+
+			# Check to make sure the if the user is accessing that the user is the current one
+      		raise SecurityTransgression if @source != User.current if @source.is_a?(User)
+
+			# Check permissions on the job side
+			if @source.is_a?(Job)
+				#raise SecurityTransgression if @source.group != Group.find(params[:group_id])
+				#raise SecurityTransgression if !@source.group.user_permissions.administrator
+			end
 		end
 end
