@@ -1,3 +1,11 @@
+v3.0.41 - Dec 10, 2012  5:48PM PST deployed by Aleks Stanisic
+=============================================================
+* a2fa4d8: Elijah Green - Make sure presence always links to Mandela's profile
+* 3c0a6fb: Elijah Green - Fix technology errors
+* 4f4030f: Elijah Green - Fix skill page errors
+* 930dfb8: Kelly Becker - updated some bundles (like bitswitch)
+* a305b09: Brian Martinez - changing customers on school splash, featured jobs on dashboard, twitter link on stats
+
 v3.0.40 - Dec 8, 2012 12:42PM PST deployed by Aleks Stanisic
 ============================================================
 * c001cc2: Elijah Green - Fix some formatting on my_connections
