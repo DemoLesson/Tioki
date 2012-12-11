@@ -15,7 +15,7 @@ class ConnectionsController < ApplicationController
 		if params[:skill]
 			users = User.search(:skill => params[:skill])
 		elsif params[:connectsearch].empty?
-			users = []
+			users = User.none
 		elsif params[:topic].empty? || params[:topic] == 'name'
 			users = User.search(:name => params[:connectsearch])
 		elsif params[:topic] == 'email'
@@ -26,7 +26,7 @@ class ConnectionsController < ApplicationController
 			#20 mile radius
 			users = User.search(:location => params[:connectsearch])
 		else
-			users = []
+			users = User.none
 		end
 
 		#Populate search options
