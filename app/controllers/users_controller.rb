@@ -877,7 +877,26 @@ class UsersController < ApplicationController
 			@data[k] = dates.join(',')
 		end
 	end
-
+  
+  # Profile About 
+  def profile_about
+			# Figure out whether to load a profile by slug or the current user.
+  		if !params[:slug].nil? && !params[:slug].empty?
+  			@user = User.find_by_slug(params[:slug])
+  		elsif !self.current_user.nil?
+  			@user = self.current_user
+  		end
+  		
+  		# Check if user is connected to teacher or is self
+  		@self = false
+  		@connected = false
+  		if @user.me?
+  			@connected = true
+  			@self = true
+  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+  			@connected = true
+  		end
+  end
 
 	# Migrated from teacher_controller.rb
 	def profile

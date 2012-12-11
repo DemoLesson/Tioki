@@ -171,6 +171,7 @@ Preview::Application.routes.draw do
 
 			# Misc
 			match 'stats' => 'users#profile_stats'
+			match 'about' => 'users#profile_about'
 			root :to => 'users#profile'
 		end
 

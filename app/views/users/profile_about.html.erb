@@ -147,12 +147,12 @@
 	<section class="profile group">
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
-				<li class="current">
+				<li>
 					<a href="/me/profile">
 						Activity
 					</a>
 				</li>
-				<li>
+				<li class="current">
 					<a href="/me/profile/about">
 					About
 					</a>
@@ -168,7 +168,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="/me/profile/stats">
+					<a href="/">
 					Stats
 					</a>
 				</li>
@@ -242,21 +242,7 @@
 		
 		<!-- Activity Content -->
 		<section class="profile-content" style="float:left;margin:0px 0px 30px 15px">
-			<% if @whiteboard.count != 0 %>
-			<h3>
-				<a href="#">
-				Activity
-				</a>
-			</h3>
-			<section class="panel two-column left-side">
-				<ul class="whiteboard" >
-					<% @whiteboard.each do |post| %>
-						<%= raw post %>
-					<% end %>
-					<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
-				</ul>
-			</section>
-			<% end %>
+			
 		<!-- START Checklist Content -->
 			<% if @self %>
 				<% if !self.current_user.got_started %>
