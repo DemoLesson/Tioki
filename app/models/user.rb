@@ -2,7 +2,22 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 	geocoded_by :location
-	after_validation :geocode, :if => :location_changed?
+	after_validation :geocode, :reverse_geocode, :if => :location_changed?
+
+	#scope to get empty relation
+	scope :none, where("1 = 0")
+
+	def reverse_geocode
+		#instead of reverse geocoding by coordinates
+		#Reverse by the location string
+		address = Geocoder.search(self.location)
+
+		if geo = address.first
+			self.city = geo.city
+			self.state = geo.state
+			self.country = geo.country
+		end
+	end
 
 	# Key Value Pairs
 	kvpair :social
@@ -688,6 +703,19 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
+		if args[:locations]
+			#Uses populated populated country, state, city
+			#fields as opposed to a geocoder search
+			
+			subtup = SmartTuple.new(" OR ")
+
+			params[:locations].each do |token|
+				subtup << ["(users.country = ? || users.state = ? || users.city = ?)", token, token, token]
+			end
+
+			tup << subtup
+		end
+
 
 		if (args[:school] || args[:schools]) && (args[:skills] || args[:skill])
 			query = joins(:skills, :experiences).where(tup.compile)
@@ -701,7 +729,21 @@ class User < ActiveRecord::Base
 
 		#only search on one location at a time currently
 		if args[:location]
-			return query.near(args[:location], 20)
+			#Get the bounds in which this location is contained
+			address = Geocoder::search(args[:location]).first
+
+			if address
+				coords = address.geometry.bounds.values.collect{|coord| [coord.lat, coord.lng] }
+
+				#get distance for bounding box
+				distance = Geocoder::Calculations.distance_between(coords.first, coords.last)
+
+				box = Geocoder::Calculations.bounding_box(address.geometry.location.values, distance)
+				return query.within_bounding_box(box)
+			else
+				return []
+			end
+
 		else
 			return query.group("users.id").uniq
 		end

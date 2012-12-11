@@ -74,7 +74,7 @@ class MergeTeachersUsers < ActiveRecord::Migration
   	add_index :users, :slug, :unique => true
 
     # Run rake task
-    Rake::Task['merge_teachers'].invoke
+    #Rake::Task['merge_teachers'].invoke
   end
 
   def down

@@ -138,6 +138,11 @@ class ApplicationWizardController < ApplicationController
 		_loadSession
 
 		if @app.update_attributes({:submitted => true, :status => 1, :viewed => 0})
+
+			#Notify that owner(s) of the school that this application has been submitted
+			job = Job.find(@app.job_id)
+			UserMailer.teacher_applied(job.school_id, job.id, @app.user_id).deliver
+
 			flash[:success] = "Your application has been submitted"
 		else
 			flash[:error] = "There was an issue submitting your application"
