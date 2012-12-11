@@ -11,12 +11,23 @@ end
 # Application Controller
 class ApplicationController < ActionController::Base
 	protect_from_forgery
+
+	# Exceptions and exception handler
+	class SecurityTransgression < StandardError; end
+	rescue_from Exception, :with => :rescue_action
+
+	# Ensure permissions
+	around_filter :ensure_permission_to_create, :only => [:new, :create]
+	around_filter :ensure_permission_to_update, :only => [:edit, :update]
+	around_filter :ensure_permission_to_destroy, :only => :destroy
+
 	skip_before_filter :verify_authenticity_token
 	before_filter :check_login_token
 	before_filter :sweep_session
 	
 	helper_method :currentHost
 	helper_method :currentPath
+	helper_method :currentUser
 	helper_method :currentURL
 
 	def currentHost
@@ -29,6 +40,10 @@ class ApplicationController < ActionController::Base
 
 	def currentPath
 		request.fullpath
+	end
+
+	def currentUser
+		User.find(session[:user]) rescue User.new
 	end
 
 	def sweep_session
@@ -193,27 +208,6 @@ class ApplicationController < ActionController::Base
 		return analytic.respond_to?(:all) ? analytic.all : analytic
 	end
 
-	##################
-	# Error Handling #
-	##################
-
-	if !Preview::Application.config.consider_all_requests_local || ENV['RAILS_ENV'] == 'production'
-
-		# Server Error
-		rescue_from Exception, with: :render_500
-		rescue_from HTTPStatus::ServerError, with: :render_500
-
-		# Unauthorized
-		rescue_from HTTPStatus::Unauthorized, with: :render_401
-
-		# Not Found
-		rescue_from HTTPStatus::NotFound, with: :render_404
-		rescue_from ActionController::RoutingError, with: :render_404
-		rescue_from ActionController::UnknownController, with: :render_404
-		rescue_from ActionController::UnknownAction, with: :render_404
-		rescue_from ActiveRecord::RecordNotFound, with: :render_404
-	end
-
 	# Break MCV	
 	around_filter :__sessions_in_model
 
@@ -221,6 +215,64 @@ class ApplicationController < ActionController::Base
 	before_filter :__session_append
 
 	protected
+
+		# Exceptions and error pages
+		def rescue_action(e)
+			log_exception(e)
+
+			case e
+			when SecurityTransgression, HTTPStatus::Unauthorized
+				@path = request.fullpath
+				render :template => 'errors/error_401',
+					:layout => 'layouts/application',
+					:status => :forbidden
+			when HTTPStatus::NotFound,
+				ActionController::UnknownController,
+				ActionController::UnknownAction,
+				ActionController::RoutingError,
+				ActiveRecord::RecordNotFound
+				
+				@not_found_path = request.fullpath
+				render :template => 'errors/error_404',
+					layout => 'layouts/application',
+					:status => 404
+			else
+				if Rails.env == 'production'
+					@path = request.fullpath
+					render :template => 'errors/error_500',
+						:layout => 'layouts/application',
+						:status => 500
+				end
+			end
+		end
+
+		# Security
+		def ensure_permission_to_create
+			class_name = self.class.name.gsub(/Controller$/,'').singularize
+			if currentUser.can_create?(class_name.constantize.new())
+				yield
+			else
+				raise SecurityTransgression
+			end
+		end
+
+		def ensure_permission_to_destroy
+			class_name = self.class.name.gsub(/Controller$/,'').singularize
+			if currentUser.can_destroy?(class_name.constantize.find(params[:id]))
+				yield
+			else
+				raise SecurityTransgression
+			end
+		end
+
+		def ensure_permission_to_update
+			class_name = self.class.name.gsub(/Controller$/,'').singularize
+			if currentUser.can_update?(class_name.constantize.find(params[:id]))
+				yield
+			else
+			raise SecurityTransgression
+			end
+		end
 
 		# Break MCV
 		# => Though Controversial to many programmers MCV programming while
@@ -269,33 +321,6 @@ class ApplicationController < ActionController::Base
 			end
 		end
 
-		def render_401(exception)
-			
-			# Log Error
-			log_exception(exception)
-
-			# Path that was not found
-			@path = request.fullpath
-			render template: 'errors/error_401', layout: 'layouts/application', status: 401
-		end
-
-		def render_404(exception)
-			
-			# Log Error
-			log_exception(exception)
-
-			# Path that was not found
-			@not_found_path = request.fullpath
-			render template: 'errors/error_404', layout: 'layouts/application', status: 404
-		end
-
-		def render_500(exception)
-
-			# Log Error
-			log_exception(exception)
-			render template: 'errors/error_500', layout: 'layouts/application', status: 500
-		end
-
 		def log_exception(exception, severity = 4)
 
 			# Log Error
@@ -321,11 +346,10 @@ class ApplicationController < ActionController::Base
 			#specifically set the authorize ath for authenticate in order
 			#to only have to authorize once
 			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
-																			APP_CONFIG.twitter.consumer_secret, 
-																			{ :site => "http://twitter.com", 
-																				:authorize_path => "/oauth/authenticate" 
-																			}
-																		 )
+				APP_CONFIG.twitter.consumer_secret, 
+				{ :site => "http://twitter.com", 
+					:authorize_path => "/oauth/authenticate" 
+				})
 		end
 
 		def facebook_oauth

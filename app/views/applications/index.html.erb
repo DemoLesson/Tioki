@@ -1,48 +1,41 @@
 <section id="main-content" class="inner-content">
-<script type="text/javascript">
-	Shadowbox.init();
-	</script>
-<h1>Applications</h1>
-
-<div id="sidebar" class="job_browser">
-<h1><%= link_to @job.title, @job %></h1>
-
-<h3><%= @job.group_id.nil? ? School.find(@job.school_id).name : @job.group.name %></h3>
-</div>
-
-<div id="content">
-<% @applications.each do |application| %>
-<div class="item_jobs">
-	<div class="item_picture">
-		<% if application.user.avatar? %><%= link_to image_tag(application.user.avatar.url(:thumb)), '/profile/'+application.user.slug.to_s+'?application='+application.id.to_s()  %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{application.user.slug}?application=#{application.id}" %><% end %>
-	</div>
-
-		<strong><%= link_to application.user.name, "/profile/#{application.user.slug}?application=#{application.id}" %></strong><br />
-	<%= application.user.experiences.where(:current => true).first.position %> at <%= application.user.experiences.where(:current => true).first.company %><br />
-	<br />
-	
-	<div>
-		<% if application.booked == nil %>
-		<%= link_to 'Arrange Interview', {:controller => :interviews, :action => :new, :user_id => application.user_id, :job_id => application.job_id}, {:class => "button"} %> 
-		
-		<% else %>
-			<% if application.interview.selected == 0 %>
-				<%= link_to 'Interview requested, awaiting response', :interviews, :method => :get, :class => "btn" %>
-			<% elsif application.interview.selected == 1 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date.to_s(:due_time), application.interview, :class => "button bg-green" %>
-			<% elsif application.interview.selected == 2 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date_alternate.to_s(:due_time), application.interview, :class => "button bg-green" %>
-			<% elsif application.interview.selected == 3 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date_alternate_second.to_s(:due_time), application.interview, :class => "button bg-green" %>
+	<h1>
+		<%= @source.name.possessive if @source.is_a?(User) %>
+		<%= @source.title.possessive if @source.is_a?(Job) %> 
+		Applications
+	</h1>
+	<table>
+		<tr>
+			<% if @source.is_a?(User) %>
+				<th>Organization Photo</th>
+				<th>Organization Name</th>
 			<% end %>
+
+			<% if @source.is_a?(Job) %>
+				<th>User Photo</th>
+				<th>User Name</th>
+			<% end %>
+
+			<th>Job Title</th>
+			<th>Application Received On</th>
+			<th>Status</th>
+		</tr>
+		<% @applications.each do |app| %>
+			<tr>
+				<% if @source.is_a?(User) %>
+					<td><%= app.job.group.picture? ? image_tag(app.job.group.picture.url) : '' %></td>
+					<td><%= app.job.group.name %></td>
+				<% end %>
+
+				<% if @source.is_a?(Job) %>
+					<td><%= app.user.avatar? ? image_tag(app.user.avatar.url(:thumb)) : '' %></td>
+					<td><%= app.user.name %></td>
+				<% end %>
+
+				<td><%= app.job.title %></td>
+				<td><%= app.created_at.to_s(:long_ordinal) %></td>
+				<td><%= app.status %></td>
+			</tr>
 		<% end %>
-		<% if application.assets.size > 0 %>
-		  <%= link_to 'Attachments', "/applications/attachments/#{application.id}", {:class => "btn"} %>
-		<% end %>
-		<%= application.user.snippet_watchvideo_button.html_safe %>
-		<%= link_to 'Remove', {:controller => :applications, :action => :reject, :id => application.id}, {:class => "btn"} %>          
-	</div>
-</div>
-<% end %>
-</div>
+	</table>
 </section>

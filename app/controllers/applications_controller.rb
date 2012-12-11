@@ -1,20 +1,18 @@
 class ApplicationsController < ApplicationController
 	before_filter :login_required
+	before_filter :source_owner
 
 	# GET /applications
 	# GET /applications.xml
 	def index
-		@job = Job.find(params[:id])
-		@applications = Application.find(:all, :conditions => ['job_id = ? AND status = ?', @job.id, 1])
-		@applications.each do |application|
-			application.viewed = 1
-			application.save
-		end
+		@applications = @source.applications
 
 		respond_to do |format|
 			format.html # index.html.erb
 			format.xml  { render :json => @applications }
 		end
+
+		return true
 	end
 
 	# GET /applications/1
@@ -61,4 +59,11 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 		@user = self.current_user
 	end
+
+	protected
+
+		def source_owner
+			@source = User.find(params[:user_id]) unless params[:user_id].nil?
+			@source = Job.find(params[:job_id]) unless params[:job_id].nil?
+		end
 end

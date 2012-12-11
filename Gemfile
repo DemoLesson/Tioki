@@ -115,6 +115,9 @@ gem 'unicorn'
 gem 'eventmachine'
 gem 'em-websocket'
 
+# Intelligent Possesification
+gem 'possessive'
+
 # Deploy with Capistrano
 # gem 'capistrano'
 

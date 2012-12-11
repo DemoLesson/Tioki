@@ -256,6 +256,24 @@ Preview::Application.routes.draw do
 	# Skills information page
 	match '/skill/:id' => 'skills#show'
 
+	# Users routes
+	resources :users do
+
+		# User Applications
+		resources :applications
+	end
+
+	# Groups
+	resources :groups do
+
+		# Jobs routes
+		resources :jobs do
+
+			# Job Applications
+			resources :applications
+		end
+	end
+
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
@@ -396,12 +414,10 @@ Preview::Application.routes.draw do
 	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
 	resources :reviews
-	resources :jobs
 	resources :applications
 	resources :review_permissions
 	resources :schools
 	resources :videos
-	resources :users
 	resources :organizations
 	resources :attachments
 	resources :subjects

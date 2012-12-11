@@ -746,6 +746,46 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	# Permissions
+
+		# Can resource be created
+		def can_create?(resource)
+			return true unless resource.respond_to?('can_be_created_by?')
+			resource.can_be_created_by?(self)
+		end
+
+		# Can resource be created
+		def can_update?(resource)
+			return true unless resource.respond_to?('can_be_updated_by?')
+			resource.can_be_updated_by?(self)
+		end
+
+		# Can resource be created
+		def can_destroy?(resource)
+			return true unless resource.respond_to?('can_be_destroyed_by?')
+			resource.can_be_destroyed_by?(self)
+		end
+
+		def can_be_created_by?(_user)
+			return true if _user.new_record?
+			return true if _user.is_admin
+			false
+		end
+
+		def can_be_destroyed_by?(_user)
+			return false if _user.new_record?
+			return true if _user.is_admin
+
+			self == _user
+		end
+
+		def can_be_updated_by?(_user)
+			return false if _user.new_record?
+			return true if _user.is_admin
+
+			self == _user
+		end
+
 	protected
 
 		def create_invite_code
