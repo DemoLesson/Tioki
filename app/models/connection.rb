@@ -87,7 +87,8 @@ class Connection < ActiveRecord::Base
 			@previous.pending = false
 
 			if @previous.save
-				Whiteboard.createActivity(:connection, "{user.profile_link} just connected with {tag.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
+				Whiteboard.createActivity(:connection, "{user.profile_link} just connected with {tag.profile_link} you should too!", 
+					User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
 				self.log_analytic(:user_connection_accepted, "Two users connection", @previous)
 
 				return true
