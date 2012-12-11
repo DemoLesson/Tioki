@@ -1,3 +1,7 @@
+v3.0.45 - Dec 11, 2012  2:04PM PST deployed by Aleks Stanisic
+=============================================================
+* c0c27a2: Aleks Stanisic - removed teacher.id from awards form and changed url in team page
+
 v3.0.44 - Dec 11, 2012  1:47PM PST deployed by Aleks Stanisic
 =============================================================
 * f4b57e7: Aleks Stanisic - changing urls in static pages
