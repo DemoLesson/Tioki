@@ -86,7 +86,6 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	# @Aleks look at this. It doesn't appear to be sending anything out.
 	def teacher_applied(school_id, job_id, user_id)
 		@school = School.find(school_id)
 		@admin_user = User.find(@school.owned_by)
