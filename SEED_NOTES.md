@@ -1,3 +1,7 @@
+v3.0.47 - Dec 11, 2012  3:48PM PST deployed by Aleks Stanisic
+=============================================================
+* 9c92411: Elijah Green - Fix applications/index where users position is null
+
 v3.0.46 - Dec 11, 2012  2:14PM PST deployed by Aleks Stanisic
 =============================================================
 * 4537c60: Elijah Green - User User.none instead of empty array to represent no users
