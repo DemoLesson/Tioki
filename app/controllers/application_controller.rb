@@ -220,30 +220,33 @@ class ApplicationController < ActionController::Base
 		def rescue_action(e)
 			log_exception(e)
 
-			case e
-			when SecurityTransgression, HTTPStatus::Unauthorized
-				@path = request.fullpath
-				render :template => 'errors/error_401',
-					:layout => 'layouts/application',
-					:status => :forbidden
-			when HTTPStatus::NotFound,
-				ActionController::UnknownController,
-				ActionController::UnknownAction,
-				ActionController::RoutingError,
-				ActiveRecord::RecordNotFound
-				
-				@not_found_path = request.fullpath
-				render :template => 'errors/error_404',
-					:layout => 'layouts/application',
-					:status => 404
-			else
-				if Rails.env == 'production'
+			# Makes sure the models are sourced
+			__sessions_in_model do
+				case e
+				when SecurityTransgression, HTTPStatus::Unauthorized
 					@path = request.fullpath
-					render :template => 'errors/error_500',
+					render :template => 'errors/error_401',
 						:layout => 'layouts/application',
-						:status => 500
+						:status => :forbidden
+				when HTTPStatus::NotFound,
+					ActionController::UnknownController,
+					ActionController::UnknownAction,
+					ActionController::RoutingError,
+					ActiveRecord::RecordNotFound
+					
+					@not_found_path = request.fullpath
+					render :template => 'errors/error_404',
+						:layout => 'layouts/application',
+						:status => 404
 				else
-					raise e		
+					if Rails.env == 'production'
+						@path = request.fullpath
+						render :template => 'errors/error_500',
+							:layout => 'layouts/application',
+							:status => 500
+					else
+						raise e		
+					end
 				end
 			end
 		end
@@ -277,10 +280,6 @@ class ApplicationController < ActionController::Base
 		end
 
 		# Break MCV
-		# => Though Controversial to many programmers MCV programming while
-		# still a standard is actually quite limiting to the capabilities of the developer.
-		# This breaks the MCV shell and turns the code into a modern age framework where all
-		# for models happen on the models
 		def __sessions_in_model
 			klasses = [ActiveRecord::Base, ActiveRecord::Base.class]
 			methods = ["session", "cookies", "params", "request"]
