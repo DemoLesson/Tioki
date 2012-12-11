@@ -24,6 +24,13 @@
 			<h3>
 				Find <%= ablang('connection.plural', true) %>
 			</h3>
+			<% if @skills %>
+				<p style="padding-left:20px">
+				<% @skills.each do |skill| %>
+					<%= link_to skill.name, skill %><br />
+				<% end %>
+				</p>
+			<% end %>
 			<% if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'  %>
 				<div class="accordion filterconnections">
 					<h4 class="bottom-line" style="margin-top:0px">
@@ -81,7 +88,7 @@
 				
 				<section style="float:right;margin-top:-51px;margin-right:20px">
 				<%= form_tag "/connections", :method => "get" do %>
-					<%= select_tag :skill, options_from_collection_for_select(@skills, "id", "name"), {:id => "skills", :style => "width:200px;", :prompt => "OR Browse By Skill"} %>
+					<%= select_tag :skill, options_from_collection_for_select(Skill.find(:all, :order => "name"), "id", "name"), {:id => "skills", :style => "width:200px;", :prompt => "OR Browse By Skill"} %>
 					<%= submit_tag "Browse", :style => "margin-top:-4px" %>
 				<% end %>
 				</section>

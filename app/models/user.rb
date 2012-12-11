@@ -659,6 +659,12 @@ class User < ActiveRecord::Base
 			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
 		end
 
+		if args[:skill_string]
+			args[:skill_string].split.each do |token|
+				tup << ["skill_claims.id = skills.id && (skills.name like ? || skills.name like ?)", "#{token}%", "% #{token}%"]
+			end
+		end
+
 		if args[:name]
 			args[:name].split.each do |token|
 				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
@@ -697,7 +703,7 @@ class User < ActiveRecord::Base
 		if args[:location]
 			return query.near(args[:location], 20)
 		else
-			return query
+			return query.group("users.id").uniq
 		end
 	end
 
