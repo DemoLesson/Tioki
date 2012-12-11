@@ -78,21 +78,18 @@
 			</section>
 		</section> <!-- END FIND NEW CONNECTIONS -->
 		<section id="list" class="panel two-column right-side">
-			<div class="search-connections" style="text-align:left">
-				<section>
-				<%= form_tag connections_url, {:method => :get, :id => "newconnections"} do %>
-					<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search", :style => "width:200px;margin-left:20px" } %>
-					<input type="submit" value="GO" class="button" />
+			<div class="search-connections">	
+				<%= form_tag connections_path, :method => :get do %>
+					<fieldset>
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
+						<select name="topic">
+							<option value="name">Name</option>
+							<option value="skill_string">Skill</option>
+							<option value="location">Location</option>
+						</select>
+						<input type="submit" value="GO" class="button" />
+					</fieldset>
 				<% end %>
-				</section>
-				
-				<section style="float:right;margin-top:-51px;margin-right:20px">
-				<%= form_tag "/connections", :method => "get" do %>
-					<%= select_tag :skill, options_from_collection_for_select(Skill.find(:all, :order => "name"), "id", "name"), {:id => "skills", :style => "width:200px;", :prompt => "OR Browse By Skill"} %>
-					<%= submit_tag "Browse", :style => "margin-top:-4px" %>
-				<% end %>
-				</section>
-				
 			</div>
 			<ul id="connection_list">
 				<% @users.each do |user| %>
