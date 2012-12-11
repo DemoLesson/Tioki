@@ -1,3 +1,7 @@
+v3.0.44 - Dec 11, 2012  1:47PM PST deployed by Aleks Stanisic
+=============================================================
+* f4b57e7: Aleks Stanisic - changing urls in static pages
+
 v3.0.43 - Dec 11, 2012  1:10PM PST deployed by Aleks Stanisic
 =============================================================
 * ce7420b: Aleks Stanisic - my schema
