@@ -13,17 +13,17 @@ namespace :geocode do
 
   desc "Set users coordinates and country,state,city"
   task :users =>:environment do
-	  users = User.where("location is not null")
-	  users = users.select{|user| user.location.present? }
+    users = User.where("location is not null")
+    users = users.select{|user| user.location.present? }
 
-	  users.each do |user|
-		  #coordinates
-		  user.geocode
+    users.each do |user|
+      #coordinates
+      user.geocode
 
-		  #country,state,location
-		  user.reverse_geocode
+      #country,state,city
+      user.reverse_geocode
 
-		  user.save
-	  end
+      user.save
+    end
   end
 end
