@@ -133,9 +133,7 @@ class User < ActiveRecord::Base
 
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
-			jobs += Job.find(:all,
-											 :conditions => ['school_id = ? AND active = ?', school.id, true],
-											 :order => 'created_at DESC')
+			jobs += Job.find(:all, :conditions => ['school_id = ? AND active = ?', school.id, true], :order => 'created_at DESC')
 		end
 	end
 

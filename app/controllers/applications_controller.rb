@@ -2,10 +2,13 @@ class ApplicationsController < ApplicationController
 	before_filter :login_required
 	before_filter :source_owner
 
-	# GET /applications
-	# GET /applications.xml
+	# Application and Interviews listing
+	# Author: Kelly Lauren Summer Becker
+	# GET /user/:user_id/applications
+	# GET /groups/:group_id/jobs/:job_id/applications
 	def index
 		@applications = @source.applications
+		@interviews = @source.interviews
 
 		respond_to do |format|
 			format.html # index.html.erb
@@ -13,6 +16,23 @@ class ApplicationsController < ApplicationController
 		end
 
 		return true
+	end
+
+	# Update the application status and details
+	# Author: Kelly Lauren Summer Becker
+	# POST /groups/:group_id/jobs/:job_id/applications/:id
+	def update
+		@application = Application.find(params[:id])
+
+		respond_to do |format|
+			if @application.update_attributes(params[:application])
+				format.html { redirect_to [@source.group, @source, :applications], :notice => 'Application was successfully updated.' }
+				format.json { head :no_content }
+			else
+				format.html { render action: "edit" }
+				format.json { render json: @application.errors, status: :unprocessable_entity }
+			end
+		end
 	end
 
 	# GET /applications/1

@@ -4,38 +4,68 @@
 		<%= @source.title.possessive if @source.is_a?(Job) %> 
 		Applications
 	</h1>
-	<table style="width:100%;">
-		<tr>
-			<% if @source.is_a?(User) %>
-				<th>Organization Photo</th>
-				<th>Organization Name</th>
-			<% end %>
+	<table style="width:100%;" class="applications">
+		<td class="left">
+			<h3>Applications</h3>
+			<ul style="width:100%;">
+				<% @applications.each do |app| %>
+					<li>
+						<% if @source.is_a?(User) %>
+							<%= app.job.group.picture? ? image_tag(app.job.group.picture.url(:medium)) : '' %>
+							<h4><%= link_to app.job.group.name, app.job.group %></h4>
+						<% end %>
 
-			<% if @source.is_a?(Job) %>
-				<th>User Photo</th>
-				<th>User Name</th>
-			<% end %>
+						<% if @source.is_a?(Job) %>
+							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
+							<h4><%= link_to app.user.name, app.user %></h4>
+						<% end %>
 
-			<th>Job Title</th>
-			<th>Application Received On</th>
-			<th>Status</th>
-		</tr>
-		<% @applications.each do |app| %>
-			<tr>
-				<% if @source.is_a?(User) %>
-					<td><%= app.job.group.picture? ? image_tag(app.job.group.picture.url) : '' %></td>
-					<td><%= app.job.group.name %></td>
+						<span>Applicant for: <%= link_to app.job.title, app.job %></span>
+						<span>Applied on: <%= app.created_at.to_s(:date) %></span>
+						<span>
+							Application Status: 
+							<% if @source.is_a?(User) %>
+								<%= app.status %>
+							<% else %>
+								<%= form_for([@source.group, @source, app]) do |f| %>
+									<select name="application[status]">
+										<option <%= app.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+										<option <%= app.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+										<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+										<option <%= app.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+									</select><br /><br />
+									<%= f.submit "Update Status" %>
+								<% end %>
+							<% end %>
+						</span>
+					</li>
 				<% end %>
-
-				<% if @source.is_a?(Job) %>
-					<td><%= app.user.avatar? ? image_tag(app.user.avatar.url(:thumb)) : '' %></td>
-					<td><%= app.user.name %></td>
+			</ul>
+		</td>
+		<td class="right">
+			<h3>Interviews</h3>
+			<ul style="width:100%;">
+				<% if @interviews.count < 1 %>
+					<li>You have no interviews scheduled</li>
 				<% end %>
+				<% @interviews.each do |int| %>
+					<li>
+						<% if @source.is_a?(User) %>
+							<%= int.job.group.picture? ? image_tag(int.job.group.picture.url(:medium)) : '' %>
+							<h4><%= link_to int.job.group.name, app.job.group %></h4>
+						<% end %>
 
-				<td><%= app.job.title %></td>
-				<td><%= app.created_at.to_s(:date) %></td>
-				<td><%= app.status %></td>
-			</tr>
-		<% end %>
+						<% if @source.is_a?(Job) %>
+							<%= int.user.avatar? ? image_tag(int.user.avatar.url(:medium)) : '' %>
+							<h4><%= link_to int.user.name, int.user %></h4>
+						<% end %>
+
+						<span>Applicant for: <%= link_to int.job.title, int.job %></span>
+						<span>Applied on: <%= int.application.created_at.to_s(:date) %></span>
+						<span>Interview on: <%= int.intDate %></span>
+					</li>
+				<% end %>
+			</ul>
+		</td>
 	</table>
 </section>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121211012611) do
+ActiveRecord::Schema.define(:version => 20121211200107) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(:version => 20121211012611) do
   create_table "applications", :force => true do |t|
     t.integer  "job_id",                          :null => false
     t.text     "additional_notes"
-    t.integer  "status"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "viewed"
@@ -375,6 +375,7 @@ ActiveRecord::Schema.define(:version => 20121211012611) do
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
+    t.integer  "application_id"
   end
 
   create_table "job_packs", :force => true do |t|

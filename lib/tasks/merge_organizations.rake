@@ -194,4 +194,32 @@ task :merge_organizations => :environment do
 		# Mark the school as being migrated
 		school.update_attribute(:migrated, true)
 	end
+
+	# Update Application Status Format
+	Application.all.each do |app|
+		next if !app.status.nil? && app.status.length > 3
+		puts "Updating Application (#{app.id})"
+
+		if app.booked != nil
+			status = "Interview Requested"
+		elsif app.status == false
+			status = "Application Declined"
+		elsif app.viewed == true
+			status = "Profile Reviewed"
+		else
+			status = "Not Reviewed"
+		end
+
+		app.update_attribute(:status,  status)
+	end
+
+	# Attach applications to interviews
+	Interview.all.each do |int|
+		puts "Updating Interview (#{int.id})"
+		application = int.job.applications.where(:user_id => int.user_id).first
+		int.update_attribute(:application_id, application.id) if !application.nil?
+	end
+
+	puts "Done!!!!!!"
+
 end

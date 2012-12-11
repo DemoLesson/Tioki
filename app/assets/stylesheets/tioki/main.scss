@@ -1159,3 +1159,42 @@ section.jobs-management {
 		}
 	}
 }
+
+table.applications {
+	td {
+		vertical-align: top;
+		border: solid 1px #DADADA;
+		background: #FFFFFF;
+		padding: 15px;
+		width: 50%;
+
+		h3 {
+			margin-top: 0px;
+		}
+
+		ul {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+
+			li {
+				border-bottom: solid 1px #DADADA;
+
+				&:last-child {
+					border: none;
+				}
+
+				img {
+					margin-bottom: 10px;
+					margin-right: 10px;
+					width: 175px;
+					float: left;
+				}
+
+				span {
+					display: block;
+				}
+			}
+		}
+	}
+}

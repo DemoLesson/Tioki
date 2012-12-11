@@ -4,6 +4,19 @@ class Interview < ActiveRecord::Base
   belongs_to :job
   belongs_to :teacher # Migration
   belongs_to :user
+
+  def intDate
+    case selected
+    when 1
+      return date.to_s(:datetime)
+    when 2
+      return date_alternate.to_s(:datetime)
+    when 3
+      return date_alternate_second.to_s(:datetime)
+    else
+      return 'Unscheduled'
+    end
+  end
   
   def responded
     

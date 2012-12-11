@@ -4,6 +4,9 @@ APP_CONFIG = APP_CONFIG_TMP['default'].merge(APP_CONFIG_TMP[Rails.env])
 # Load in custom date formats
 APP_CONFIG['date_formats'].each{|df,str|Time::DATE_FORMATS[df.to_sym]=Proc.new{|time|time.strftime(str.gsub('%do', time.day.ordinalize))}}
 
+# Chronic use Time.zone instead of Time
+Chronic.time_class = Time.zone
+
 # Load Twitter keys
 if APP_CONFIG.has_key?('twitter')
 	Twitter.configure do |config|
