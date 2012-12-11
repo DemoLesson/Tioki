@@ -9,7 +9,6 @@ class ConnectionsController < ApplicationController
 	# GET /connections.json
 	def index
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
-		@users = Array.new
 
 		if params[:skill]
 			users = User.search(:skill => params[:skill])
@@ -48,6 +47,7 @@ class ConnectionsController < ApplicationController
 		end
 		
 		# Paginate to 25 per
+		@users = Array.new
 		users.paginate(:per_page => 25, :page => params[:page]).each do |user|
 			@user = user
 			@users << render_to_string("connections/new_connections", :layout => false)

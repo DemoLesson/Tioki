@@ -741,11 +741,11 @@ class User < ActiveRecord::Base
 				box = Geocoder::Calculations.bounding_box(address.geometry.location.values, distance)
 				return query.within_bounding_box(box)
 			else
-				return []
+				return self.none
 			end
 
 		else
-			return query.group("users.id").uniq
+			return query.group("users.id")
 		end
 	end
 
