@@ -85,7 +85,8 @@
 	<section class="panel right-side" style="width: 384px; border:solid 1px #2AA99B">
 		<h3><span class="green bold">What Tioki means to you...</span></h3>
 		<ul>
-			<li>Establish your online <a href="http://tioki.com/profile/Mandela" target="_blank">Presence</a></li>
+			<% mandelas_profile = User.find(3).slug %>
+			<li>Establish your online <a href="http://tioki.com/profile/<%= mandelas_profile %>" target="_blank">Presence</a></li>
 			<li>Connect with others to collaborate & <a href="http://tioki.com/static/howitworks" target="_blank">Grow</a></li>
 			<li>Find <a href="http://tioki.com/events" target="_blank">Education Events</a> that appeal to you</li>
 			<li>Explore cutting edge <a href="http://tioki.com/technologies" target="_blank">Classroom Technology</a></li>
