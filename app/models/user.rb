@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
 	geocoded_by :location
 	after_validation :geocode, :reverse_geocode, :if => :location_changed?
 
+	#scope to get empty relation
+	scope :none, where("1 = 0")
+
 	def reverse_geocode
 		#instead of reverse geocoding by coordinates
 		#Reverse by the location string
