@@ -33,6 +33,14 @@ class ConnectionsController < ApplicationController
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
 			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
 			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
+
+			#count returns a hash
+			@locations = users.geocoded.group("country").count
+			@locations.merge!(users.geocoded.group("state").count)
+			@locations.merge!(users.geocoded.group("city").count)
+
+			@locations.sort_by!{ |location, value| value }
+			@locations.reverse!
 		end
 		
 		# Paginate to 25 per
@@ -437,6 +445,7 @@ class ConnectionsController < ApplicationController
 		search[:name] = params[:connectsearch] if params[:connectsearch] && 
 			(params[:topic].nil? || params[:topic] == 'name')
 		search[:location] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'location'
+		search[:locations] = params[:locations] if params[:locations]
 
 		unless search.empty?
 			users = User.search(search)

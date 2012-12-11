@@ -14,7 +14,7 @@ tr.seeking, tr.student {
 		<% if User.current.social[:linkedin].nil? %>
 			<form action="/linkedinprofile" method="POST">
 				<h2>
-				<%= image_tag "/assets/Tioki/icons/LinkedIn_IN_Icon_25px.png", :style => "width:30px;margin-bottom:-6px" %> Import from Linkedin
+				<%= image_tag "/assets/tioki/icons/LinkedIn_IN_Icon_25px.png", :style => "width:30px;margin-bottom:-6px" %> Import from Linkedin
 				<input type="hidden" name="response" value="yes" />
 				<input type="hidden" name="redirect" value="<%= currentURL %>" />
 				<input type="submit" value="Import" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" />
