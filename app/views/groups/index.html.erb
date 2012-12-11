@@ -28,7 +28,7 @@
 			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 0px;width:500px" %>
 			<%= submit_tag "Search" %>
 		<% end %>
-		<% @groups.each do |group| %>
+		<% @groups.organization!.each do |group| %>
 			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
 					<% if group.picture? %>

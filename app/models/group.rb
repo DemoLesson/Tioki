@@ -35,7 +35,7 @@ class Group < ActiveRecord::Base
 			},
 			:fog_public => true,
 			:fog_directory => 'tioki',
-			:path => 'groups/:style/:basename.:extension',
+			:path => 'groups/:style/' + (Rails.env == 'development' ? 'dev-' : '') + ':basename.:extension',
 			:processors => [:thumbnail, :timestamper],
 			:date_format => "%Y%m%d%H%M%S"
 
@@ -105,7 +105,11 @@ class Group < ActiveRecord::Base
 		end
 
 		def self.organization
-			permissions('organization')
+			permissions(:organization => true)
+		end
+
+		def self.organization!
+			permissions(:organization => false)
 		end
 
 		def job_allowance

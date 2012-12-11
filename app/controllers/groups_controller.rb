@@ -1,6 +1,5 @@
 class GroupsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :members, :about]
-	
 
 	def index
 		@groups = Group.permissions('OR', :public => true, :private => true)
@@ -8,6 +7,8 @@ class GroupsController < ApplicationController
 			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
 		end
 	end
+
+	def organizations; index; end
 
 	def new
 		@group = Group.new

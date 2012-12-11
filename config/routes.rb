@@ -37,6 +37,8 @@ Preview::Application.routes.draw do
 		match 'groups/:id/jobs' => 'groups#jobs'
 		match 'groups/:id/discussions' => 'groups#discussions'
 
+		match 'organizations' => 'groups#organizations'
+
 		resources :groups do
 			member do
 				get 'edit_picture'

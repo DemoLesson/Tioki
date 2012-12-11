@@ -15,45 +15,23 @@
 		<% end %>
 	</section>
 	<section class="info panel" style="width:635px;height:90px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-		<% if @job.group_id.nil? %>
-			<section class="two-column left-side">
-				<section class="profile-thumb-medium" style="margin: 10px 10px 0px 10px;float:right;overflow:hidden;">
-					<% if @job.school.picture? %>
-						<%= image_tag(@job.school.picture.url(:medium)) %>
-					<% else %>
-						<%= image_tag("tioki/icons/placeholder.png'") %>
-					<% end %>
-				</section>
-				<h2 style="margin: 10px 0px -5px 10px;color:#000">
-					<%= @job.title %>
-				</h2>
-				<p style="margin-left:10px">
-				<strong>
-					<%= link_to @job.school.name, @job.school %>
-				</strong>
-				|
-				<%= @job.school.map_city %><% if @job.school.map_state? %>, <%= STATES_ARRAY[@job.school.map_state.to_i-1] %><% end %>
-				</p>	
+		<section class="two-column left-side">
+			<section class="profile-thumb-medium" style="margin: 10px 10px 0px 10px;float:right;overflow:hidden;">
+				<% if @job.group.picture? %>
+					<%= image_tag(@job.group.picture.url(:medium)) %>
+				<% else %>
+					<%= image_tag("tioki/icons/placeholder.png'") %>
+				<% end %>
 			</section>
-		<% else %>
-			<section class="two-column left-side">
-				<section class="profile-thumb-medium" style="margin: 10px 10px 0px 10px;float:right;overflow:hidden;">
-					<% if @job.group.picture? %>
-						<%= image_tag(@job.group.picture.url(:medium)) %>
-					<% else %>
-						<%= image_tag("tioki/icons/placeholder.png'") %>
-					<% end %>
-				</section>
-				<h2 style="margin: 10px 0px -5px 10px;color:#000">
-					<%= @job.title %>
-				</h2>
-				<p style="margin-left:10px">
-				<strong>
-					<%= link_to @job.group.name, @job.group %>
-				</strong>
-				</p>	
-			</section>
-		<% end %>
+			<h2 style="margin: 10px 0px -5px 10px;color:#000">
+				<%= @job.title %>
+			</h2>
+			<p style="margin-left:10px">
+			<strong>
+				<%= link_to @job.group.name, @job.group %>
+			</strong>
+			</p>	
+		</section>
 	</section>
 	<section class="panels">
 		<section id="list" class="two-column left-side">
@@ -79,24 +57,14 @@
 		<% end %>-->
 
 		<!-- SCHOOL/COMPANY DESCRIPTION -->
-		<% if @job.group_id.nil? %>
-			<% if @job.school.description? %>
-				<h3 class="bottom-line">
-					School Description
-				</h3>
-				<p style="width:auto">
-				<%= @job.school.description[0..501]+'...' %> <%= link_to 'Learn More', @job.school, :target => "_blank" %>
-				</p>
-			<% end %>
-		<% else %>
-			<% if @job.group.description? %>
-				<h3 class="bottom-line">
-					Organization Description
-				</h3>
-				<p style="width:auto">
-				<%= @job.group.description.more! %>
-				</p>
-			<% end %>
+		
+		<% if @job.group.description? %>
+			<h3 class="bottom-line">
+				Organization Description
+			</h3>
+			<p style="width:auto">
+			<%= @job.group.description.more! %>
+			</p>
 		<% end %>
 
 		<!-- JOB APPLICATION INSTRUCTIONS -->

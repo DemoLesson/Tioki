@@ -55,25 +55,32 @@ task :merge_organizations => :environment do
 		51 => "Washington DC",
 	}
 
-	School.where("`migrated` IS NULL").each do |school|
+	School.where("`migrated` IS NULL").order('`id` DESC').each do |school|
 		puts "Migrated Org: #{school.name}\n"
 
-		permissions = BitSwitch.new(0, APP_CONFIG['bitswitches']['group_permissions'])
-		permissions['organization'] = 1
-		permissions['private'] = 1
-		permissions['hidden'] = 1
-
+		# Organization data
 		organization = Hash.new
-		organization[:permissions] = permissions
 		organization[:name] = school.name
-		organization[:description] = school.description
-		organization[:long_description] = school.description
+		organization[:description] = school.description.nil? ? '' : school.description
+		organization[:long_description] = school.description.nil? ? '' : school.description
 
+		# Create organization and permissions
 		organization = Group.create(organization)
+		permissions = organization.permissions
+		permissions[:organization] = 1
+		permissions[:private] = 1
+		permissions[:hidden] = 1
+
+		# Update permissions attribute
+		organization.update_attribute(:permissions, permissions)
+
+		# Download the the image from the school
 		begin
 			organization.picture_from_url school.picture.url if school.picture?
 		rescue
 		end
+
+		# Update social attributes
 		organization.social = {
 			:website => school.website,
 			:greatschools => school.greatschools,
@@ -82,6 +89,8 @@ task :merge_organizations => :environment do
 			:twitter => school.twitter,
 			school.additionallinkname.nil? ? 'tmp' : school.additionallinkname.to_sym => school.additionallinkname.nil? ? nil : school.additionallink
 		}
+
+		# Update location attributes
 		organization.location = {
 			:location => school.location,
 			:latitude => school.latitude,
@@ -91,27 +100,60 @@ task :merge_organizations => :environment do
 			:region => states[school.map_state],
 			:postal => school.map_zip
 		}
+
+		# Update the location attributes
 		organization.contact = {
 			:phone => school.phone,
 			:fax => school.fax
 		}
+
+		# Save the organization (Primarily for the image)
 		organization.save!
 
-		# Migrate Jobs
-		school.jobs.each do |job|
+		# Migrate jobs over
+		Job.where(:school_id => school.id).each do |job|
+			puts "\t=> Migrated: (#{job.id}) #{job.title}"
+			job.status = 'running' if job.active
+			job.status = 'completed' if !job.active
 			job.group_id = organization.id
 			job.save!
 		end
 
-		# First User
-		userPermissions = BitSwitch.new(0, APP_CONFIG['bitswitches']['user_group_permissions'])
-		userPermissions['member'] = 1
-		userPermissions['moderator'] = 1
-		userPermissions['administrator'] = 1
-		userPermissions['owner'] = 1
+		# How many active jobs should we give them
+		activeJobs = Job.where(:school_id => school.id, :active => true)
+			.where('created_at BETWEEN ? AND ?', 60.days.ago, Time.now)
+			.order('created_at DESC')
+		activeJobsCount = activeJobs.count
 
-		User_Group.create(:user_id => school.owned_by, :group_id => organization.id, :permissions => userPermissions)
+		# Don't create a job pack if there are no active jobs
+		if activeJobsCount > 0
+			activeJobsStart = activeJobs.limit(1).first.created_at
 
+			# Create the job pack
+			JobPack.create(
+				:group_id => organization.id,
+				:jobs => activeJobsCount,
+				:expiration => activeJobsStart + 60.days,
+				:inception => activeJobsStart,
+				:refunded => 0,
+				:amount => 0,
+				:additional_data => {:migration => true}.to_json)
+		end
+
+		# Create first user and permissions
+		userGroup = User_Group.create(
+			:user_id => school.owned_by,
+			:group_id => organization.id)
+		userPermissions = userGroup.permissions
+		userPermissions[:member] = 1
+		userPermissions[:moderator] = 1
+		userPermissions[:administrator] = 1
+		userPermissions[:owner] = 1
+
+		# Update permissions attribute
+		userGroup.update_attribute(:permissions, userPermissions)
+
+		# Mark the school as being migrated
 		school.update_attribute(:migrated, true)
 	end
 end
