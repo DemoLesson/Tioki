@@ -1,3 +1,7 @@
+v3.0.42 - Dec 10, 2012  5:54PM PST deployed by Aleks Stanisic
+=============================================================
+
+
 v3.0.41 - Dec 10, 2012  5:48PM PST deployed by Aleks Stanisic
 =============================================================
 * a2fa4d8: Elijah Green - Make sure presence always links to Mandela's profile
