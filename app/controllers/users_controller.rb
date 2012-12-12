@@ -152,7 +152,7 @@ class UsersController < ApplicationController
 				flash[:success] = "Successfully updated"
 				redirect_to :back
 			else
-				flash[:error] = "There was an error updating"
+				flash[:error] = @user.errors.full_messages.to_sentence
 				redirect_to :back
 			end
 		end
