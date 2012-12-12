@@ -137,7 +137,7 @@ class ApplicationWizardController < ApplicationController
 	def complete
 		_loadSession
 
-		if @app.update_attributes({:submitted => true, :status => 1, :viewed => 0})
+		if @app.update_attributes({:submitted => true, :status => 'Not Reviewed', :viewed => 0})
 
 			#Notify that owner(s) of the school that this application has been submitted
 			job = Job.find(@app.job_id)
