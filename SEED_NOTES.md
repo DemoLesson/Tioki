@@ -1,3 +1,7 @@
+v3.0.48 - Dec 11, 2012  4:25PM PST deployed by Aleks Stanisic
+=============================================================
+* 8ee42c8: Elijah Green - Fix profile url being set to blank
+
 v3.0.47 - Dec 11, 2012  3:48PM PST deployed by Aleks Stanisic
 =============================================================
 * 9c92411: Elijah Green - Fix applications/index where users position is null
