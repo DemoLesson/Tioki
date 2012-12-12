@@ -145,54 +145,52 @@
 	
 	<section class="profile group">
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
-		
-				<ul>
-					<li>
-						<% if !self.current_user.nil? && @self %>
-						<a href="/me/profile">
-						<% else %>
-						<a href="/profile/<%= @user.slug %>">
-						<% end %>
-							Activity
-						</a>
-					</li>
-
-					<li  class="current">
-						<a href="/profile/<%= @user.slug %>/about">
-						About
-						</a>
-					</li>
-
-					<li>
-						<a href="/profile/<%= @user.slug %>/resume">
-						Resume
-						</a>
-					</li>
-
-					<% if @user.videos.count > 0 %>
-					<li>
-						<a href="/profile/<%= @user.slug %>/videos">
-						Videos
-						</a>
-					</li>
-					<% elsif !self.current_user.nil? && @self %>
-					<li>
-						<a href="/me/profile/edit/upload-video">
-						Upload Video
-						</a>
-					</li>
-					<% end %>
-
+			<ul>
+				<li>
 					<% if !self.current_user.nil? && @self %>
-					<li>
-						<a href="/me/profile/stats">
-						Stats
-						</a>
-					</li>
+					<a href="/me/profile">
+					<% else %>
+					<a href="/profile/<%= @user.slug %>">
 					<% end %>
+						Activity
+					</a>
+				</li>
 
-				</ul>
-			
+				<li>
+					<a href="/profile/<%= @user.slug %>/about">
+					About
+					</a>
+				</li>
+
+				<li class="current">
+					<a href="/profile/<%= @user.slug %>/resume">
+					Resume
+					</a>
+				</li>
+
+				<% if @user.videos.count > 0 %>
+				<li>
+					<a href="/profile/<%= @user.slug %>/videos">
+					Videos
+					</a>
+				</li>
+				<% elsif !self.current_user.nil? && @self %>
+				<li>
+					<a href="/me/profile/edit/upload-video">
+					Upload Video
+					</a>
+				</li>
+				<% end %>
+
+				<% if !self.current_user.nil? && @self %>
+				<li>
+					<a href="/me/profile/stats">
+					Stats
+					</a>
+				</li>
+				<% end %>
+
+			</ul>
 		</nav>
 		
 		<section class="sidebar" style="float:right;margin-top:-17px" >
@@ -272,239 +270,357 @@
 				<% end %>
 			<% end %>
 			
-
-			<!-- START Skills Section-->
-			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
-			<% if @user.skill_groups.empty? && @self %>
+			<!-- Video -->
+			<% if @connected || @guest || !@user.privacy["video"] %>
+				<% unless @user.video.nil? %>
+					<div class="profile-video panel">
+						<%= @user.video.embed_code %>
+					</div>
+				<% end %>
+				<section class="video-actions group">
+					<% if @self %>
+						<% unless @user.video.nil? %>
+							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
+							Upload another Video
+							</a>
+						<% else %>
+							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
+							Add a Video
+							</a>
+						<% end %>
+					<% end %>
+					<% if @user.videos.count > 0 %>
+						<a href="/profile/<%= @user.slug %>/videos" class="action-button edit-video bg-green" style="margin-right:10px;white-space:nowrap;width:auto;padding-left:10px;padding-right:10px;">
+							View More Videos of <%= @user.first_name %>
+						</a>
+					<% end %>
+					<% unless @user.video.nil?%>
+						<!--ul class="stats">
+							<li>
+								<div class="count favorites">
+								47
+								</div>
+							</li>
+						</ul-->
+					<% end %>
+				</section>
+			<% end %>
+			
+			<!-- START Education Section-->
+			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.educations.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
-						<%= link_to "Skills", "/me/profile/edit/skills", :style => "color:#4D4D4D" %>
-						<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
-						<span style="font-size:16px">
-							<a href="/me/profile/edit/skills"> >> Tell us what you're great at.</a>
+					<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit/educations">  >> Where did you get that awesome brain of Yours?</a>
+					</span>
+					</h3>
+				</section>
+				
+			<!-- If Education is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @user.educations.empty? %>
+			
+			<!-- If Educations aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if !self.current_user.nil? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/educations" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Education	
+						</h3>
+					<% end %>
+					<% @user.educations.each do |edu| %>
+						<p class="bold">
+							<%= edu.school %>
+						</p>
+					
+						<% unless edu.degree.nil? || edu.degree.empty? %>
+							<p>
+							<%= edu.degree %>, 
+								
+						<% end %>
+						<% unless edu.concentrations.nil? || edu.concentrations.empty? %>
+							<%= edu.concentrations %>	
+							</p>
+						<% end %>
+
+						<p>
+							<% if edu.current == true %>
+								<% if edu.year.present?  %>
+								<%= edu.start_year%> - <%= edu.year %> (expected)<br /><br />
+								<% end %>
+								
+							<% else %>
+								<% if !edu.year.present? %>
+									<% else %>
+									<% if !edu.start_year.present? %>
+										<%= edu.year %><br />
+										
+									<% else %>
+										<%= edu.start_year %> - <%= edu.year %><br /><br />
+									<% end %>
+									<% end %>
+							<% end %>
+						</p>
+					<% end %>
+				</section>
+			<% end %>
+			
+			<!-- START Experience Section-->
+			<!-- If Experiences are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.experiences.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						<%= link_to "Work Experience", "/me/profile/edit/experiences", :style => "color:#4D4D4D" %>
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/experiences"> >> How did you get so good at this?</a>
 						</span>
 					</h3>
 				</section><br />
+				
+			<!-- If Experiences are blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @user.experiences.empty? %>
 			
-			<!-- If Skills are blank and you do not own the profile, you will see nothing. -->
-			<% elsif @user.skill_groups.empty? %>
-			
-			<!-- If Skills aren't nil, no matter who you are, you will see them suckers. -->
+			<!-- If Experiences aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
 					<% if @self %>
 						<h3 class="bottom-line">
-							<%= link_to "Skills", "/me/profile/edit/skills", :style => "color:#4D4D4D" %>	
-							<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
-		
-							<span style="float:right;font-size:18px">
-							<%= link_to "Get Vouched", "/requestvouch", :style => 'color:#F66C4C' %> 
-							<span style="font-size:16px">|</span>
-							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "height:16px;margin-top:10px"), "/me/profile/edit/skills" %>
-							</span>
+							<%= link_to "Experience", "/me/profile/edit/experiences", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/experiences" %>
 						</h3>
 					<% else %>
 						<h3 class="bottom-line">
-							Skills
-							<span style="margin-left:10px;color:#F66C4C;" data-skillgroup-name="true"></span>
-							<span style="float:right;color:#F66C4C;font-size:18px" >
-								Vouch for <%= @user.first_name %> 
+							Experience
+						</h3>
+					<% end %>
+					<% @user.experiences.each do |experience| %>
+						<p class="bold">
+						<%= experience.position %><br />
+						<%= experience.company %>	
+						</p>
+						<p>
+						<% if experience.current == true %>
+								<%= experience.startMonth.to_s+"/"+experience.startYear.to_s %> - Present
+						<% else %>
+							<% if experience.startMonth != nil %>
+								<%= experience.startMonth.to_s+"/"+experience.startYear.to_s %>
+							<% end %> -
+							<% if experience.endMonth != nil %>
+								<%= experience.endMonth.to_s+"/"+experience.endYear.to_s %>
+							<% end %>
+						<% end %>
+						</p>
+						<p>
+						<%= experience.description %>
+						</p><br />
+					<% end %>
+				</section>
+			<% end %>
+
+			<!-- START Credential Section-->
+			<!-- If Credentials are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.credentials.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						<%= link_to "Credentials", "/me/profile/edit/credentials", :style => "color:#4D4D4D" %>
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/credentials"> >> Update them</a>
+						</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Credentials are blank and you do not own the profile, you will see nothing. --> 	
+			<% elsif @user.credentials.empty? %>
+
+			<!-- If Credentials aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Credentials", "/me/profile/edit/credentials", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/credentials" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Credentials
+						</h3>
+					<% end %>
+					<% @user.credentials.each do |credential| %>
+						<p class="bold">  
+						<%= credential.credentialType %>
+						</p>
+						<p>
+						Subject: <%= credential.name %>
+						</p>
+						<p>
+						Issued by: <%= credential.issuer %>
+						</p>
+						<% unless credential.state == ''  %>
+							<p>
+							Licensed in the state of: <%= credential.state %>
+							</p>
+						<% end %>
+						</br>
+					<% end %>
+				</section>
+			<% end %>
+			
+			<!-- START Presentation & Publications Section-->
+			<!-- If Presentations are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.presentations.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						<%= link_to "Presentation & Publications", "/me/profile/edit/presentations", :style => "color:#4D4D4D" %>
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/presentations"> >> Show off your Press</a>
+						</span>
+					</h3>
+				</section><br />
+				
+			<!-- If Presentations are blank and you do not own the profile, you will see nothing. --> 		
+			<% elsif @user.presentations.empty? %>
+				
+			<!-- If Presentations aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
+				<section class="profile-info group">
+					<% if @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Presentation & Publications", "/me/profile/edit/presentations", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/presentations" %> 
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Presentation & Publications
+						</h3>
+					<% end %>
+					
+					<% @user.presentations.each do |presentation| %>
+						<p class="bold">
+						<% unless presentation.url == nil || presentation.url == '' %>
+							<%= link_to presentation.title, presentation.url %>
+						<% else %>
+							<%= presentation.title %>
+						<% end %>
+						</p>
+						<p>
+							<% if presentation.location? %>
+								<%= presentation.location %> | 
+							<% end %>
+							<%= presentation.date.to_s(:job_time) %>
+						</p>
+						<% if presentation.author?%>
+						<p>
+						Authors: <%= link_to presentation.author, "#" %>
+						</p>
+						<% end %>
+						<p>
+						<%= sanitize(presentation.description, :tags => %w(p a strong em span)) %>
+						</p><br/ >
+					<% end %>
+				</section>
+			<% end %>
+			
+			<!-- START Awards & Honors Section-->
+			<!-- If Awards are blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.awards.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+						<%= link_to "Honors & Awards", "/me/profile/edit/awards", :style => "color:#4D4D4D" %>
+						<span style="font-size:16px; margin-left:5px">
+							<a href="/me/profile/edit/awards"> >> What's in your trophy case?</a>
+						</span>
+					</h3>
+				</section><br />
+			
+			<!-- If Awards are blank and you do not own the profile, you will see nothing. -->
+			<% elsif @user.awards.empty? %>
+			
+			<!-- If Awards aren't nil, no matter who you are, you will see them suckers. -->	
+			<% else %>
+				<section class="profile-info group">
+					<% if @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Honors & Awards", "/me/profile/edit/awards", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/awards" %>
+						</h3>
+					<% else %>	
+						<h3 class="bottom-line">
+							Honors & Awards
+						</h3>
+					<% end %>
+					
+					<% @user.awards.each do |award| %>
+					<p class="bold">
+						<%= award.title %>
+					</p>
+					<p>
+						<%= award.issuer %>
+					</p>
+					<p>
+						<%= award.date.to_s(:job_time) %>
+					</p>
+					<p>
+						<%= award.description %>
+					</p></br>
+					<% end %>
+				</section>		
+			<% end %>
+			
+			<!-- START Attachments Section -->
+			<% if @connected || @guest || !@user.privacy["attachments"] %>
+			
+				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
+				<% if @user.assets.empty? && @self %>
+					<section class="profile-info group">
+						<h3 class="bottom-line">
+						<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>
+							<span style="font-size:16px; margin-left:5px">
+								<a href="/profileattachments"> >> Upload your favorite teaching documents</a>
 							</span>
-						</h3> 
-					<% end %>
-
-					<% @user.skill_groups.each do |skill_group| %>
-						<% @user.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
-							<div style="border-bottom: 1px dashed #CFD4D5;padding-top:5px">
-								<%= link_to skill.name, "/skill/#{skill.id}", :style => "font-size:15px" %>
-								<% if @user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
-									<%= @user.vouched_skills.collect(&:skill_id).count(skill.id) %>
-								<% end %>
-								<div style="float:right">
-									<% @user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
-										<% if vouched_skill.voucher.avatar? %>
-											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "#{vouched_skill.voucher.slug}" %>
-										<% else %>
-											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "#{vouched_skill.voucher.slug}" %>
-										<% end %>
-									<% end %>
-									<% if self.current_user && !@self %>
-										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @user.id, :skill_id => skill.id } %>
-									<% end %>
-								</div>
-								<br />
-							</div>
-						<% end %>
-					<% end %>
-					</section>
-					</br>
-				<% end %>
-				
-				<!-- START Group Tag Section-->
-				<!-- If Group is blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @user.groups.empty? && @self %>
-					<section class="profile-info group">
-						<h3 class="bottom-line">
-						<%= link_to "Groups", "/groups", :style => "color:#4D4D4D" %>
-						<span style="font-size:16px; margin-left:5px">
-							<a href="/groups">  >> Join a few groups that interest you.</a>
-						</span>
 						</h3>
 					</section>
-
-				<!-- If Group is blank and you do not own the profile, you will see nothing. --> 
-				<% elsif @user.groups.empty? %>
-
-				<!-- If Groups aren't nil, no matter who you are, you will see them suckers. -->
+					
+				<!-- If Attachments are blank and you do not own the profile, you will see nothing. -->
+				<% elsif @user.assets.empty? %>
+				
+				<!-- If Attachments aren't nil, and they are not private, you will see them suckers. -->
 				<% else %>
 					<section class="profile-info group">
-						<!-- Giving the profile owner the ability to edit -->
-						<% if !self.current_user.nil? && @self %>
+						<% if @self %>
 							<h3 class="bottom-line">
-								<%= link_to "Groups", "/groups", :style => "color:#4D4D4D", :id => "groups" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/groups" %>
+								<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>	
+								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/profileattachments" %>
 							</h3>
-						<!-- Restricting that ability to everyone else -->
 						<% else %>
 							<h3 class="bottom-line">
-								<a id="groups" style="color:#4D4D4D">Groups</a>	
+								Attachments
 							</h3>
 						<% end %>
-						
-						<!-- Actual Styling of the Group Tags, 3 wide -->
-						<div style="padding:0px 5px;">
-							
-							<!-- Check if the user is part of more than 9 Groups -->
-							<% if @user.groups.count > 9 %>
-								<!-- We will display the first 8 of their groups -->
-								<% @user.groups.limit(8).each do |group| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<p style="margin:10px 0 0 0;width:120px;float:right">
-											<strong>
-											<% if group.name.size > 24 %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
-											<% else %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
-											<% end %>
-											</strong><br/>
-											<!--<%= group.users.count %> Members<br>-->
-											<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
-										</p>
-									</div>
-								<% end %>
-							
-								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px;text-align:center">
-										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:15px 89px 0px 89px;'), "/" %>
-										<div style="width:205px">
-											<h5 style="margin-top:5px;"> 
-												<a href='/' style="color:#2AA99B"> View <%= @user.groups.count - 8 %> More ></a>
-											</h5>
-										</div>
-									</div>
-								
-								
-							<% else %>
-								<!-- If they have 9 groups or less, we will display the entire list -->
-								<% @user.groups.each do |group| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<p style="margin:10px 0 0 0;width:120px;float:right">
-											<strong>
-											<% if group.name.size > 24 %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
-											<% else %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
-											<% end %>
-											</strong><br/>
-											<!--<%= group.users.count %> Members<br>-->
-											<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
-										</p>
-									</div>
 
-								<% end %>
-							<% end %>
-							<div style="clear:both;"></div>
-						</div>
-					</section>
-					<div style="clear:both;"></div>
-				<% end %>
-				
-				<!-- START Tech Tag Section-->
-				<!-- If Tech is blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @user.technologies.empty? && @self %>
-					<section class="profile-info group">
-						<h3 class="bottom-line">
-						<%= link_to "Ed Tech", "/technologies", :style => "color:#4D4D4D" %>
-						<span style="font-size:16px; margin-left:5px">
-							<a href="/technologies">  >> What Ed Tech tools do you use?</a>
-						</span>
-						</h3>
-					</section>
-
-				<!-- If Technology is blank and you do not own the profile, you will see nothing. --> 
-				<% elsif @user.technologies.empty? %>
-
-				<!-- If Technology aren't nil, no matter who you are, you will see them suckers. -->
-				<% else %>
-					<section class="profile-info group">
-						<!-- Giving the profile owner the ability to edit -->
-						<% if !self.current_user.nil? && @self %>
-							<h3 class="bottom-line">
-								<%= link_to "Technology", "/technologies", :style => "color:#4D4D4D", :id => "technology" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/technologies" %>
-							</h3>
-						<!-- Restricting that ability from everyone else -->
+						<% if User.current.nil? %>
+							<p>Please <%= link_to "login", '/login' %> to view profile attachments.</p>
 						<% else %>
-							<h3 class="bottom-line">
-								<a id="technology" style="color:#4D4D4D">Technology</a>	
-							</h3>
-						<% end %>
-						
-						<!-- Actual Styling of the Technology Tags, 5 wide -->
-						<div style="padding:0px 5px;">
-							<!-- Check if the user has more than 10 Technologies on their profile -->
-							<% if @user.technologies.count > 10 %>
-							
-								<!-- If they have more than 10 Technologies we will display 9 of them -->
-								<% @user.technologies.limit(9).each do |technology| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
-										<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"><%= technology.name %></h5>
-										</div>
-									</div>
-								<% end %>
-								
-								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px;text-align:center">
-										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:25px 0 25px 0;'), "/" %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"> 
-												<a href='/' style="color:#2AA99B"> View <%= @user.technologies.count - 9 %> More ></a>
-											</h5>
-										</div>
-									</div>
-									
-							<% else %>
-							
-								<!-- If the user has 10 or fewer technologies, we will display all the technologies without a "More" Container -->
-								<% @user.technologies.each do |technology| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
-										<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"><%= technology.name %></h5>
-										</div>
-									</div>
+							<% @user.assets.each do |asset| %>
+								<% if asset.assetType != 1 %>
+									<p>
+									<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+									<%= asset.description %>
+									</p>
 								<% end %>
 							<% end %>
-							<div style="clear:both;"></div>
-						</div>
+						<% end %>
 					</section>
-					<div style="clear:both;"></div>
 				<% end %>
-				
+			<% end %>
+
+			
+			
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
