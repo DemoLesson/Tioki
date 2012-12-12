@@ -65,7 +65,7 @@ tr.seeking, tr.student {
 		</div>
 
 		<% if @invite %>
-			<a href="/profile/<%= @invite.user.url %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
+			<a href="/profile/<%= @invite.user.slug %>?invite_id=<%= @invite.id %>" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% else %>
 			<a href="/get_started" class="large button" style="margin-top:45px;float:right;padding:9px 50px;display:inline;width:auto;">Next Step</a>
 		<% end %>

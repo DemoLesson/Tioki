@@ -18,7 +18,7 @@
 	</div>
 
 		<strong><%= link_to application.user.name, "/profile/#{application.user.slug}?application=#{application.id}" %></strong><br />
-	<%= application.user.experiences.where(:current => true).first.position %> at <%= application.user.experiences.where(:current => true).first.company %><br />
+		<%= application.user.current_job_string %><br />
 	<br />
 	
 	<div>

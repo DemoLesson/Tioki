@@ -1,3 +1,27 @@
+v3.0.52 - Dec 12, 2012 10:31AM PST deployed by Aleks Stanisic
+=============================================================
+* e824db3: Elijah Green - Fix the link to an inviters profile
+
+v3.0.51 - Dec 11, 2012  5:24PM PST deployed by Aleks Stanisic
+=============================================================
+* cd7e16a: Elijah Green - Make note of possible race condition
+
+v3.0.50 - Dec 11, 2012  4:57PM PST deployed by Aleks Stanisic
+=============================================================
+* 0119577: Elijah Green - Don't allow urls to be blank
+
+v3.0.49 - Dec 11, 2012  4:32PM PST deployed by Aleks Stanisic
+=============================================================
+* ca77372: Elijah Green - Undo adding presence validation
+
+v3.0.48 - Dec 11, 2012  4:25PM PST deployed by Aleks Stanisic
+=============================================================
+* 8ee42c8: Elijah Green - Fix profile url being set to blank
+
+v3.0.47 - Dec 11, 2012  3:48PM PST deployed by Aleks Stanisic
+=============================================================
+* 9c92411: Elijah Green - Fix applications/index where users position is null
+
 v3.0.46 - Dec 11, 2012  2:14PM PST deployed by Aleks Stanisic
 =============================================================
 * 4537c60: Elijah Green - User User.none instead of empty array to represent no users

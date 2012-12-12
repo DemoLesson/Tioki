@@ -50,13 +50,18 @@ class User < ActiveRecord::Base
 	has_many :awards, :dependent => :destroy
 	has_many :presentations, :dependent => :destroy
 	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
-  	has_and_belongs_to_many :credentials
-  	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
-  	has_many :assets, :dependent => :destroy
-  	has_and_belongs_to_many :subjects
-  	has_and_belongs_to_many :grades
-  	validates_associated :assets
-  	validates_uniqueness_of :slug, :message => "The name you selected is not available."
+	has_and_belongs_to_many :credentials
+	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
+	has_many :assets, :dependent => :destroy
+	has_and_belongs_to_many :subjects
+	has_and_belongs_to_many :grades
+	validates_associated :assets
+
+	# possible race condition, if two users are signing up at the same time
+	# after the creation of first bit before the commit of slug the second user 
+	# will fail the validation due as both wslug will be empty
+	validates_uniqueness_of :slug, :message => "That profile url is not available"
+	validates_presence_of :slug, :on => :update
 
 	# Has Many Connections
 	has_many :activities, :order => 'created_at DESC'
