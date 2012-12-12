@@ -57,7 +57,6 @@ class User < ActiveRecord::Base
 	has_and_belongs_to_many :grades
 	validates_associated :assets
 	validates_uniqueness_of :slug, :message => "That profile url is not available"
-	validates_presence_of :slug, :message => "Profile url can't be blank"
 
 	# Has Many Connections
 	has_many :activities, :order => 'created_at DESC'
