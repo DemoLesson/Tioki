@@ -69,7 +69,7 @@ class ApplicationsController < ApplicationController
 
 	# Revise
 	def attachments
-		@application= Application.find(params[:id])
+		@application = Application.find(params[:id])
 		@profileassets= Asset.find(:all, :conditions => ['user_id = ? AND assetType = ?', @application.user_id, 0])
 		respond_to do |format|
 			format.html # attachments.html.erb

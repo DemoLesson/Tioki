@@ -152,10 +152,14 @@ class InterviewsController < ApplicationController
   def update
     @interview = Interview.find(params[:id])
 
+    # Go ahread an parse the dates
+    params[:interview][:date] = Chronic.parse(params[:interview][:date])
+    params[:interview][:date_alternate] = Chronic.parse(params[:interview][:date_alternate])
+    params[:interview][:date_alternate_second] = Chronic.parse(params[:interview][:date_alternate_second])
+
     respond_to do |format|
       if @interview.update_attributes(params[:interview])
-        @interview.activify
-        format.html { redirect_to '/teacher_applications', notice: 'Interview details have been updated.' }
+        format.html { redirect_to [@source.group, @source, @interview.application], notice: 'Interview details have been updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -189,15 +193,15 @@ class InterviewsController < ApplicationController
       @source = Job.find(params[:job_id]) unless params[:job_id].nil?
 
       # Check permissions to see if the owner also has application
-      raise SecurityTransgression if @source.applications.include?(Application.find(params[:application_id]))
+      raise SecurityTransgression if !@source.applications.include?(Application.find(params[:application_id]))
 
       # Check to make sure the if the user is accessing that the user is the current one
       raise SecurityTransgression if @source != User.current if @source.is_a?(User)
 
       # Check permissions on the job side
       if @source.is_a?(Job)
-        raise SecurityTransgression if @source.group != Group.find(params[:group_id])
-        raise SecurityTransgression if !@source.group.user_permissions.administrator
+        #raise SecurityTransgression if @source.group != Group.find(params[:group_id])
+        #raise SecurityTransgression if !@source.group.user_permissions.administrator
       end
     end
 end

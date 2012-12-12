@@ -1,10 +1,19 @@
 class Interview < ActiveRecord::Base
-  attr_accessible :interview_type, :location, :school_location, :message, :user_id, :job_id, :date, :date_alternate, :date_alternate_second, :selected
+  attr_accessible :interview_type, 
+    :location,
+    :school_location,
+    :message,
+    :date,
+    :date_alternate,
+    :date_alternate_second,
+    :selected,
+    :job,
+    :user,
+    :application
   
-  belongs_to :job
-  belongs_to :user
-  belongs_to :teacher
   belongs_to :application
+  belongs_to :user
+  belongs_to :job
 
   def intDate
     case selected
@@ -18,4 +27,5 @@ class Interview < ActiveRecord::Base
       return 'Unscheduled'
     end
   end
+  
 end

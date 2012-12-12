@@ -1,6 +1,80 @@
-<h1>Editing interview details</h1>
+<section id="main-contant" class="inner-content">
+	<h1>Edit Interview with <%= @interview.user.name %></h1>
 
-<%= render 'form' %>
+	<p>Yay! Looks like you scheduling an interview with a prospective educator. Please select 3 potential interview dates and we will let the applicant know right away. If the dates don't work out for the applicant we will notify you again.</p>
 
-<%= link_to 'Show', @interview %> |
-<%= link_to 'Back', '/my_jobs' %>
+	<%= form_for([@source.group, @source, @interview.application, @interview], :html => { :class => :gridded }) do |t| %>
+		<table style="width:100%;" class="applications">
+			<tr>
+				<td>
+					<label>
+						<span>First Date</span>
+						<input type="text" name="interview[date]" />
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">First Potential Interview Date: </span> This is the first date you would like to interview with your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<span>Second Potential Interview Date</span>
+						<input type="text" name="interview[date_alternate]" />
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">First Date: </span> This is the second date you would like to use when interviewing your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<span>Third Potential Interview Date</span>
+						<input type="text" name="interview[date_alternate_second]" />
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">Third Date: </span> This is your third choice interview date. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<span>Interview Location</span>
+						<input type="text" name="interview[location]" />
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">Interview Location: </span> Where is the interview going to be held. We recomend entering the address of the organization, skype address, phone mumber, or wherever/however your organization generally conducts interviews. If you do choose skype or another other online communication program don't forget to include the name of the software and the username or address of your account.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<span>Message</span>
+						<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"></textarea>
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">Message: </span> This is the fun part go ahead and tell your applicant that they have been accepted for an interview. We have provided a generic template for you but feel free to change it in anyway that you see fit.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<%= t.submit "Save Interview" %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+</section>

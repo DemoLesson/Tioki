@@ -218,7 +218,12 @@ class ApplicationController < ActionController::Base
 
 		# Exceptions and error pages
 		def rescue_action(e)
+
+			# Log to GrayLog2
 			log_exception(e)
+
+			# Raise the error if in development
+			raise e if Rails.env != 'production'
 
 			# Makes sure the models are sourced
 			__sessions_in_model do
@@ -239,14 +244,10 @@ class ApplicationController < ActionController::Base
 						:layout => 'layouts/application',
 						:status => 404
 				else
-					if Rails.env == 'production'
-						@path = request.fullpath
-						render :template => 'errors/error_500',
-							:layout => 'layouts/application',
-							:status => 500
-					else
-						raise e		
-					end
+					@path = request.fullpath
+					render :template => 'errors/error_500',
+						:layout => 'layouts/application',
+						:status => 500
 				end
 			end
 		end
@@ -275,7 +276,7 @@ class ApplicationController < ActionController::Base
 			if currentUser.can_update?(class_name.constantize.find(params[:id]))
 				yield
 			else
-			raise SecurityTransgression
+				raise SecurityTransgression
 			end
 		end
 
