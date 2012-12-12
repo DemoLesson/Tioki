@@ -65,12 +65,12 @@ class UsersController < ApplicationController
 	def swap_dashboard
 		dashboard = params[:switch]
 
-		if !User.current.school.nil? && params[:switch] == 'recruiter'
-			User.current.update_attribute(:dashboard, params[:switch])
+		if currentUser.organization? && params[:switch] == 'recruiter'
+			currentUser.update_attribute(:dashboard, params[:switch])
 		end
 
 		if params[:switch] == 'educator'
-			User.current.update_attribute(:dashboard, params[:switch])
+			currentUser.update_attribute(:dashboard, params[:switch])
 		end
 
 		redirect_to :root

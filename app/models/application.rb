@@ -19,6 +19,7 @@ class Application < ActiveRecord::Base
     # Filter down
     tmp = tmp.where('`viewed` = ?', args[:viewed]) unless args[:viewed].nil?
     tmp = tmp.where('`status` = ?', args[:status]) unless args[:status].nil?
+    tmp = tmp.where('`status` != ?', args[:status!]) unless args[:status!].nil?
 
     return tmp
   end

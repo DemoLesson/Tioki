@@ -791,6 +791,10 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def organization?
+		self.groups.my_permissions('administrator').organization.count > 0
+	end
+
 	# Permissions
 
 		# Can resource be created

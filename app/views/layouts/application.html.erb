@@ -151,10 +151,10 @@
 					<div id="user-actions">
 						<ul>
 							<li style="float:left">
-								<% if !currentUser.school.nil? %>
+								<% if currentUser.organization? %>
 									<% if currentUser.dashboard == 'recruiter' %>
 										<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
-									<% elsif !currentUser.school.nil? %>
+									<% else %>
 										<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
 									<% end %>
 								<% end %>
@@ -257,13 +257,13 @@
 						<a href="/">
 						Home
 						</a>
-						<% if !currentUser.school.nil? %>
+						<% if currentUser.organization? %>
 							<ul>
 								<% if currentUser.dashboard == 'recruiter' %>
 									<li>
 										<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
 									</li>
-								<% elsif !currentUser.school.nil? %>
+								<% else %>
 									<li>
 										<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
 									</li>
