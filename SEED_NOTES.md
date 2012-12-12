@@ -1,3 +1,7 @@
+v3.0.51 - Dec 11, 2012  5:24PM PST deployed by Aleks Stanisic
+=============================================================
+* cd7e16a: Elijah Green - Make note of possible race condition
+
 v3.0.50 - Dec 11, 2012  4:57PM PST deployed by Aleks Stanisic
 =============================================================
 * 0119577: Elijah Green - Don't allow urls to be blank
