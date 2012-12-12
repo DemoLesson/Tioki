@@ -48,7 +48,7 @@ class ConnectionsController < ApplicationController
 		
 		# Paginate to 25 per
 		@users = Array.new
-		users.paginate(:per_page => 25, :page => params[:page]).each do |user|
+		users.paginate(:per_page => 25, :page => params[:page], :order => "users.connections_count DESC").each do |user|
 			@user = user
 			@users << render_to_string("connections/new_connections", :layout => false)
 		end
