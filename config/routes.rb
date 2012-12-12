@@ -199,6 +199,12 @@ Preview::Application.routes.draw do
 
 		# Connections
 		match ':slug/connections' => 'connections#profile_connections'
+		
+		# About 
+		match ':slug/about' => 'users#profile_about'
+		
+		# Resume Info
+		match ':slug/resume' => 'users#profile_resume'
 
 		# Skills
 		match ':slug/skills' => 'skills#my_skills'

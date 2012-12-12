@@ -203,7 +203,6 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
     t.string   "owner"
   end
 
