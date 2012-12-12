@@ -1,3 +1,7 @@
+v3.0.49 - Dec 11, 2012  4:32PM PST deployed by Aleks Stanisic
+=============================================================
+* ca77372: Elijah Green - Undo adding presence validation
+
 v3.0.48 - Dec 11, 2012  4:25PM PST deployed by Aleks Stanisic
 =============================================================
 * 8ee42c8: Elijah Green - Fix profile url being set to blank
