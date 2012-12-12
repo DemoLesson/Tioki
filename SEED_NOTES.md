@@ -1,3 +1,7 @@
+v3.0.50 - Dec 11, 2012  4:57PM PST deployed by Aleks Stanisic
+=============================================================
+* 0119577: Elijah Green - Don't allow urls to be blank
+
 v3.0.49 - Dec 11, 2012  4:32PM PST deployed by Aleks Stanisic
 =============================================================
 * ca77372: Elijah Green - Undo adding presence validation
