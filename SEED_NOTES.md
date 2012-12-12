@@ -1,3 +1,7 @@
+v3.0.52 - Dec 12, 2012 10:31AM PST deployed by Aleks Stanisic
+=============================================================
+* e824db3: Elijah Green - Fix the link to an inviters profile
+
 v3.0.51 - Dec 11, 2012  5:24PM PST deployed by Aleks Stanisic
 =============================================================
 * cd7e16a: Elijah Green - Make note of possible race condition
