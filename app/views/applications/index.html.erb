@@ -12,15 +12,15 @@
 					<li>
 						<% if @source.is_a?(User) %>
 							<%= app.job.group.picture? ? image_tag(app.job.group.picture.url(:medium)) : '' %>
-							<h4><%= link_to app.job.group.name, app.job.group %></h4>
+							<h4><%= link_to app.job.group.name, app.job.group, :class => :salmon %></h4>
 						<% end %>
 
 						<% if @source.is_a?(Job) %>
 							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
-							<h4><%= link_to app.user.name, app.user %></h4>
+							<h4><%= link_to app.user.name, app.user, :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to app.job.title, app.job %></span>
+						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
 						<span>Applied on: <%= app.created_at.to_s(:date) %></span>
 						<span>
 							Application Status: 
@@ -52,17 +52,24 @@
 					<li>
 						<% if @source.is_a?(User) %>
 							<%= int.job.group.picture? ? image_tag(int.job.group.picture.url(:medium)) : '' %>
-							<h4><%= link_to int.job.group.name, app.job.group %></h4>
+							<h4><%= link_to int.job.group.name, int.job.group, :class => :salmon %></h4>
 						<% end %>
 
 						<% if @source.is_a?(Job) %>
 							<%= int.user.avatar? ? image_tag(int.user.avatar.url(:medium)) : '' %>
-							<h4><%= link_to int.user.name, int.user %></h4>
+							<h4><%= link_to int.user.name, int.user, :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to int.job.title, int.job %></span>
+						<span>Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
 						<span>Applied on: <%= int.application.created_at.to_s(:date) %></span>
-						<span>Interview on: <%= int.intDate %></span>
+
+						<% if @source.is_a?(User) && int.intDate == 'Unscheduled' %>
+							<span><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
+						<% elsif @source.is_a?(Job) && int.intDate == 'Reschedule Requested' %>
+							<span><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
+						<% else %>
+							<span>Interview on: <%= int.intDate %></span>
+						<% end %>
 					</li>
 				<% end %>
 			</ul>

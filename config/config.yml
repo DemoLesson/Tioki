@@ -1,9 +1,12 @@
 ---
 default:
   date_formats:
-    date: "%B %do, %Y %Z"
-    datetime: "%B %do, %Y %I:%M %p %Z"
-    time: "%I:%M %p %Z"
+    time: "%I:%M%P - %Z"
+    date: "%B %do, %Y - %Z"
+    datetime: "%B %do, %Y %I:%M%P - %Z"
+    timez: "%I:%M%P"
+    datez: "%B %do, %Y"
+    datetimez: "%B %do, %Y %I:%M%P"
   bitswitches:
     user_privacy:
       0: "contact_info"

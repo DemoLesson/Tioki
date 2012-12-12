@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121210200226) do
+ActiveRecord::Schema.define(:version => 20121211200107) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -203,7 +203,6 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
     t.string   "owner"
   end
 
@@ -367,15 +366,14 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
-    t.datetime "date"
-    t.datetime "date_alternate"
-    t.datetime "date_alternate_second"
-    t.integer  "selected",              :default => 0
-    t.integer  "interview_type"
-    t.boolean  "school_location"
+    t.datetime "datetime_1"
+    t.datetime "datetime_2"
+    t.datetime "datetime_3"
+    t.integer  "datetime_selected", :default => 0
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
+    t.integer  "number"
     t.integer  "application_id"
   end
 
@@ -462,6 +460,7 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "read"
+    t.string   "tag"
   end
 
   create_table "notifications", :force => true do |t|

@@ -1,28 +1,24 @@
 class Interview < ActiveRecord::Base
-  attr_accessible :interview_type, 
-    :location,
-    :school_location,
-    :message,
-    :date,
-    :date_alternate,
-    :date_alternate_second,
-    :selected,
-    :job,
-    :user,
-    :application
+  attr_accessible :location, :message, :number,
+    :datetime_1, :datetime_2, :datetime_3, :datetime_selected,
+    :job, :user, :application
   
+  # Relations
   belongs_to :application
   belongs_to :user
   belongs_to :job
 
+  # Interview Date
   def intDate
-    case selected
+    case datetime_selected
     when 1
-      return date.to_s(:datetime)
+      return datetime_1.to_s(:datetime)
     when 2
-      return date_alternate.to_s(:datetime)
+      return datetime_2.to_s(:datetime)
     when 3
-      return date_alternate_second.to_s(:datetime)
+      return datetime_3.to_s(:datetime)
+    when 4
+      return 'Reschedule Requested'
     else
       return 'Unscheduled'
     end
