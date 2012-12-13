@@ -280,8 +280,8 @@
 				<section class="video-actions group">
 					<% if @self %>
 						<% unless @user.video.nil? %>
-							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
-							Upload another Video
+							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green" style="width: auto;padding-left:10px;padding-right:10px;">
+							Upload Another Video
 							</a>
 						<% else %>
 							<a href="/me/profile/edit/upload-video" class="action-button edit-video bg-green">
@@ -295,13 +295,6 @@
 						</a>
 					<% end %>
 					<% unless @user.video.nil?%>
-						<!--ul class="stats">
-							<li>
-								<div class="count favorites">
-								47
-								</div>
-							</li>
-						</ul-->
 					<% end %>
 				</section>
 			<% end %>
