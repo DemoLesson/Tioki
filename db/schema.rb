@@ -468,6 +468,7 @@ ActiveRecord::Schema.define(:version => 20121211200107) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "dashboard"
   end
 
   create_table "organizations", :force => true do |t|

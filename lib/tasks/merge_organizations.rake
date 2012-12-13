@@ -220,6 +220,34 @@ task :merge_organizations => :environment do
 		int.update_attribute(:application_id, application.id) if !application.nil?
 	end
 
+	# Migrate the activites table
+	Activity.all.each do |a|
+		puts "Migrating Activity to Notifications: (#{a.id})"
+
+		# Migrate old activity
+		note = Hash.new
+		begin	
+			case a.activityType
+			when 1
+				note[:notifiable_type] = Message.find(a.message_id).tag!
+			when 2
+				note[:notifiable_type] = Interview.find(a.interview_id).tag!
+			when 3
+				note[:notifiable_type] = Application.find(a.application_id).tag!
+			end
+		rescue
+			next
+		end
+
+		# If the notifiable type is nil or empty skip this activity
+		next if note[:notifiable_type].nil? || note[:notifiable_type].empty?
+
+		# Set the user
+		note[:user_id] = a.user_id
+		note[:dashboard] = 'recruiter'
+		Notification.create(note)
+	end
+
 	puts "Done!!!!!!"
 
 end

@@ -69,6 +69,17 @@
 				<br/>
 			<% end %>
 		</section>
+
+		<section class="panel right-side">
+			<h3>Recruiting Activity</h3>
+			<ul>
+				<%= Notification.mine(:dashboard => 'recruiter').each do |d| %>
+					<li>
+						<%= d.message %>
+					</li>
+				<% end %>
+			</ul>
+		</section>
 	</section>
 
 	<script type="text/javascript">

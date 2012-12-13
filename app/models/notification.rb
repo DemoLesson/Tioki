@@ -23,6 +23,8 @@ class Notification < ActiveRecord::Base
 
 		query = self.where('`notifications`.`user_id` = ?', user.id)
 		query = query.order("`notifications`.`created_at` #{conds[:order]}")
+		query = query.where('`notifications`.`dashboard` = ?', conds[:dashboard]) unless conds[:dashboard].nil?
+		return query
 	end
 
 	def self.notify_likes
