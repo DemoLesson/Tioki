@@ -25,6 +25,8 @@ class ConnectionsController < ApplicationController
 			@skills = Skill.where("skills.name like ?", "#{params[:connectsearch]}%")
 			if @skills.count > 0
 				users = User.search(:skills => @skills.collect(&:id))
+			else
+				users = User.none
 			end
 		elsif params[:topic] == 'location'
 			users = User.search(:location => params[:connectsearch])
