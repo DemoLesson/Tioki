@@ -88,7 +88,7 @@
 																		<tr>
 																			<td style="line-height: 18px;color: #555;font-size: 13px;padding-left: 5px;border-collapse: collapse;">
 																				<br>
-																				<span style="color: #6d6d6d; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%=sanitize @message_body, :tags => %w(a), :attributes => %w(href) %>... <a href="http://wwww.tioki.com/messages/<%= @id %>" target="_blank" style="color: #2aa99b;font-weight: normal;text-decoration: underline;">(read more)</a> </span>
+																				<span style="color: #6d6d6d; font: lighter 14px/17px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;"><%= @message_body.html_safe %>... <a href="http://www.tioki.com/messages/<%= @id %>" target="_blank" style="color: #2aa99b;font-weight: normal;text-decoration: underline;">(read more)</a> </span>
 																				<br>
 																				<br>
 																			</td>
