@@ -31,6 +31,11 @@ class SkillsController < ApplicationController
 		end
 	end
 
+	def skillpage
+		skill = Skill.find(params[:topic])
+		redirect_to skill
+	end
+
   	def create
 
   		# Current user
