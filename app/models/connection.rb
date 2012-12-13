@@ -1,6 +1,6 @@
 class Connection < ActiveRecord::Base
-	belongs_to :user
-	belongs_to :owner, :class_name => "User", :foreign_key => :owned_by
+	belongs_to :user, :counter_cache => true
+	belongs_to :owner, :class_name => "User", :foreign_key => :owned_by, :counter_cache => true
 	scope :not_pending, where(:pending => false)
 
 	# Get information on my connections

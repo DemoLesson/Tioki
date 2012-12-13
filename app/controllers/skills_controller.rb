@@ -7,7 +7,7 @@ class SkillsController < ApplicationController
 	    @skill = Skill.find(params[:id])
 
 	    # Load teachers that have claimed the above skill
-			@users = User.joins(:skill_claims).where("skill_claims.skill_id = ?", @skill.id).paginate(:page => params[:page], :per_page => 25)
+			@users = User.joins(:skill_claims).where("skill_claims.skill_id = ?", @skill.id).paginate(:page => params[:page], :per_page => 25, :order => "users.connections_count DESC")
 
 	    # Videos that claim the skill
 	    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
@@ -29,6 +29,11 @@ class SkillsController < ApplicationController
 			format.html # show.html.erb
 			format.json { render json: @skill }
 		end
+	end
+
+	def skillpage
+		skill = Skill.find(params[:topic])
+		redirect_to skill
 	end
 
   	def create
