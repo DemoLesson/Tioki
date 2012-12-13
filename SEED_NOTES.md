@@ -1,3 +1,7 @@
+v3.0.54 - Dec 12, 2012  8:09PM PST deployed by Aleks Stanisic
+=============================================================
+* 9c6b4ac: Elijah Green - Fix search on skills when no skills are found
+
 v3.0.53 - Dec 12, 2012  7:53PM PST deployed by Aleks Stanisic
 =============================================================
 * 7f7c3b9: Brian Martinez - Splash Page Changes
