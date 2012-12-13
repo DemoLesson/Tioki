@@ -9,8 +9,6 @@ class ConnectionsController < ApplicationController
 	# GET /connections.json
 	def index
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
-		@skills = Skill.find(:all, :order => "name")
-		@users = Array.new
 
 		if params[:skill]
 			users = User.search(:skill => params[:skill])
@@ -22,8 +20,13 @@ class ConnectionsController < ApplicationController
 			users = User.search(:email => params[:connectsearch])
 		elsif params[:topic] == 'school'
 			users = User.search(:school => params[:connectsearch])
+		elsif params[:topic] == 'skill_string'
+			#Make sure this skill actually exists
+			@skills = Skill.where("skills.name like ?", "#{params[:connectsearch]}%")
+			if @skills.count > 0
+				users = User.search(:skills => @skills.collect(&:id))
+			end
 		elsif params[:topic] == 'location'
-			#20 mile radius
 			users = User.search(:location => params[:connectsearch])
 		else
 			users = User.none
@@ -44,7 +47,8 @@ class ConnectionsController < ApplicationController
 		end
 		
 		# Paginate to 25 per
-		users.paginate(:per_page => 25, :page => params[:page]).each do |user|
+		@users = Array.new
+		users.paginate(:per_page => 25, :page => params[:page], :order => "users.connections_count DESC").each do |user|
 			@user = user
 			@users << render_to_string("connections/new_connections", :layout => false)
 		end
@@ -445,6 +449,8 @@ class ConnectionsController < ApplicationController
 		search[:name] = params[:connectsearch] if params[:connectsearch] && 
 			(params[:topic].nil? || params[:topic] == 'name')
 		search[:location] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'location'
+		search[:skills] = Skill.where("skills.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
+			params[:topic] == 'skill_string'
 		search[:locations] = params[:locations] if params[:locations]
 
 		unless search.empty?
