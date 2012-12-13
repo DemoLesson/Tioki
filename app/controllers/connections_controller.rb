@@ -308,6 +308,8 @@ class ConnectionsController < ApplicationController
 							break
 							notice = "An error occured while attempting to message followers"
 						end
+					rescue Twitter::Error::BadGateway
+						notice = "Twitter is down or being upgraded."
 					end
 					flash[:notice] = notice
 				end
