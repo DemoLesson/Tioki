@@ -25,6 +25,8 @@ class ConnectionsController < ApplicationController
 			@skills = Skill.where("skills.name like ?", "#{params[:connectsearch]}%")
 			if @skills.count > 0
 				users = User.search(:skills => @skills.collect(&:id))
+			else
+				users = User.none
 			end
 		elsif params[:topic] == 'location'
 			users = User.search(:location => params[:connectsearch])
@@ -306,6 +308,8 @@ class ConnectionsController < ApplicationController
 							break
 							notice = "An error occured while attempting to message followers"
 						end
+					rescue Twitter::Error::BadGateway
+						notice = "Twitter is down or being upgraded."
 					end
 					flash[:notice] = notice
 				end

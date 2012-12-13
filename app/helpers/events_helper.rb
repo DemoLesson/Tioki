@@ -61,7 +61,6 @@ module EventsHelper
 			location << "#{event.loc_city}, " unless event.loc_city.empty?
 			location << "#{event.loc_state}<br />" unless event.loc_state.empty?
 			location << "#{event.loc_zip}<br />" unless event.loc_zip.empty?
-			return ERB::Util.html_escape(location).html_safe
 		elsif type == :virtual
 			location = ''
 			location << "Phone Call In Number: #{event.virtual_phone}<br />" unless event.virtual_phone.empty?
@@ -69,7 +68,7 @@ module EventsHelper
 			location << "Website Event: <a href=\"#{event.virtual_web_link}\" target=\"_blank\">#{event.virtual_web_link}</a><br />" unless event.virtual_web_link.empty?
 			location << "Website Access Code: #{event.virtual_web_access}<br />" unless event.virtual_web_access.empty?
 			location << "TV Station: #{event.virtual_tv_station}<br />" unless event.virtual_tv_station.empty?
-			return ERB::Util.html_escape(location).html_safe
 		end
+		return ActionController::Base.helpers.sanitize(location).html_safe
 	end
 end

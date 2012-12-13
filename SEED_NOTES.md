@@ -1,3 +1,30 @@
+v3.0.57 - Dec 13, 2012  1:13PM PST deployed by Aleks Stanisic
+=============================================================
+* 9959525: Elijah Green - Catch BadGateway erors on twitter direct messages
+
+v3.0.56 - Dec 13, 2012 11:31AM PST deployed by Aleks Stanisic
+=============================================================
+* 15f3686: Elijah Green - Allow some html tags when showing and event's location
+
+v3.0.55 - Dec 13, 2012 11:21AM PST deployed by Aleks Stanisic
+=============================================================
+* 7804bf3: Elijah Green - Fix discussion invite messages
+
+v3.0.54 - Dec 12, 2012  8:09PM PST deployed by Aleks Stanisic
+=============================================================
+* 9c6b4ac: Elijah Green - Fix search on skills when no skills are found
+
+v3.0.53 - Dec 12, 2012  7:53PM PST deployed by Aleks Stanisic
+=============================================================
+* 7f7c3b9: Brian Martinez - Splash Page Changes
+* a200b66: Elijah Green - Redirect_to back un video deletion
+* bc8f672: Elijah Green - Bring back the skills page
+* c8738be: Elijah Green - Sort users by connections_count on skills page
+* 7bef415: Elijah Green - Add connections_count to users
+* 591ad9f: Elijah Green - Fix some cases where search would not work correctly
+* 4a3801d: Elijah Green - Change search bar on connections/index
+* c60f07c: Elijah Green - Add search bar to top right of page
+
 v3.0.52 - Dec 12, 2012 10:31AM PST deployed by Aleks Stanisic
 =============================================================
 * e824db3: Elijah Green - Fix the link to an inviters profile
