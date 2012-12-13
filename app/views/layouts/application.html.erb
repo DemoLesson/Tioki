@@ -250,7 +250,12 @@
 				<ul class="inner-content">
 					<li class="searchBox">
 						<form style="margin:0px;" action="/connections">
-							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" />
+							<select name="topic">
+								<option value="name">Name</option>
+								<option value="location">Location</option>
+								<option value="skill_string">Skill</option>
+							</select>
+							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:150px" />
 						</form>
 					</li>
 					<li>
