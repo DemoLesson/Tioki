@@ -4,45 +4,85 @@
 		Video Library
 	</h1>
 	<section id="panels">
-		<section class="panel one-column left-side">
-			<h3>Most recent videos</h3>
-			<ul>
-				<% @videodb.limit(6).each do |vid| %>
-					<a href="<%= "#{@videolist}/#{vid.id}" %>">
-						<li>
-							<div style="float:left;" class="profile-thumb-small">
-								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
-							</div>
-							<strong><%= vid.name %></strong><br />
-							<p style="float:none;"><%= vid.description %></p>
-						</li>
-					</a>
-				<% end %>
-			</ul>
-		</section>
-		<section class="panel two-column right-side">
-			<h3 id="video"><%= @video.name %> by <%= @video.user.profile_link :class => 'salmon' %></h3>
+		
+		<section class="panel two-column left-side" style="border-radius:5px">
+			<h3 id="video"><%= @video.name %></h3>
 			<section class="panel-actions" id="video">
 				<%= @video.embed_code(605, 350) %>
 				<hr />
 				<% if @video.user == self.current_user || self.current_user.is_admin %>
-					<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}", :class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
-					<%= link_to 'Edit Video', edit_video_path(@video), :class => "button" %>
-					<%= link_to 'Delete Video', @video, method: :delete, data: { confirm: 'Are you sure?' }, :class => "button bg-green" %>
-					<hr />
+					<span style="float:left">
+						<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}", :class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
+	
+						<h4 style="margin-top:0px">Share:
+							<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							<% if self.current_user %>
+								<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							<% end %>
+						</h4>
+					</span>
+					
+					<span style="float:right">
+						<%= link_to image_tag('/assets/tioki/icons/pencil.png', :style => "height:17px", :title => "Edit" ), edit_video_path(@video) %>
+						<a href="/videos/<%= @video.id%>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">
+							<span class="iconic x" style="font-size:20px;color:#892A38"></span>
+						</a>
+					</span>
+					
+				<% else %>
+					<h4 style="margin-top:0px">Share:
+						<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
+						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
+						<% if self.current_user %>
+							<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "height:26px;margin-bottom:-4px") %></a>
+						<% end %>
+					</h4>
 				<% end %>
+				
+				<br/>
+				<br/>
+				
+				<h4>Video Description</h4>
+				<p><%= @video.description %></p>
+				
 				<% unless @video.skills.empty? %>
 					<div class="skills">
 						<h4>Skills shown in this video</h4>
 						<% @video.skills.each do |skill| %>
-							<a href="/skill/<%= skill.id %>" class="button2 bg-ltgray gray"><%= skill.name %></a>
+							<a href="/skill/<%= skill.id %>" class="button2 bg-ltgray gray" ><%= skill.name %></a>
 						<% end %>
 					</div>
 				<% end %>
-				<h4>Video Description</h4>
-				<p><%= @video.description %></p>
+				
 			</section>
+		</section>
+		
+		<section id="list" class="panel one-column right-right" style="border-radius:5px">
+			<h3><%= possesify(@user.first_name) + ' ' if @user%> Most recent videos</h3>
+			<ul>
+				<% @videodb.limit(10).each do |vid| %>
+					<li>
+						<a href="<%= "#{@videolist}/#{vid.id}" %>">
+							<div style="float:left;background:none" class="profile-thumb-small" >
+								<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+							</div>
+							<strong style="color:#4D4D4D"><%= vid.name %></strong><br />
+						</a>
+					</li>
+				<% end %>
+
+				<% if @videodb.count > 10 %>
+					<li>
+						<h5 style="float:right;margin-top:5px">
+							<%= link_to 'View More →', '' %>
+						</h5>
+					</li>
+				<% end %>
+			</ul>
+
 		</section>
 	</section>
 	<div class="clearfloat"></div>
 </section>
+
