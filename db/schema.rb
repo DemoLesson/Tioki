@@ -203,7 +203,6 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.integer  "group_id"
     t.string   "owner"
   end
 
@@ -389,7 +388,7 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
   end
 
   create_table "jobs", :force => true do |t|
-    t.integer  "school_id"
+    t.integer  "school_id",                              :null => false
     t.text     "description"
     t.integer  "employment_type"
     t.string   "salary"
@@ -415,7 +414,6 @@ ActiveRecord::Schema.define(:version => 20121210200226) do
     t.text     "instructions"
     t.string   "external_url"
     t.integer  "group_id"
-    t.string   "status"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
