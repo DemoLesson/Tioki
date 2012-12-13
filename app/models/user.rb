@@ -677,6 +677,12 @@ class User < ActiveRecord::Base
 			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
 		end
 
+		if args[:skill_string]
+			args[:skill_string].split.each do |token|
+				tup << ["skill_claims.id = skills.id && (skills.name like ? || skills.name like ?)", "#{token}%", "% #{token}%"]
+			end
+		end
+
 		if args[:name]
 			args[:name].split.each do |token|
 				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
@@ -738,11 +744,11 @@ class User < ActiveRecord::Base
 				box = Geocoder::Calculations.bounding_box(address.geometry.location.values, distance)
 				return query.within_bounding_box(box)
 			else
-				return []
+				return self.none
 			end
 
 		else
-			return query
+			return query.group("users.id")
 		end
 	end
 

@@ -42,7 +42,7 @@ gem 'carrierwave'
 gem 'carrierwave_direct'
 
 gem "remotipart", "~> 0.4.1"
-gem 'will_paginate', '3.0.pre4'
+gem 'will_paginate', '~> 3.0.3'
 
 # Video Processing
 gem "zencoder", "~> 2.4.0"

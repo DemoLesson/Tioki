@@ -1,3 +1,18 @@
+v3.0.54 - Dec 12, 2012  8:09PM PST deployed by Aleks Stanisic
+=============================================================
+* 9c6b4ac: Elijah Green - Fix search on skills when no skills are found
+
+v3.0.53 - Dec 12, 2012  7:53PM PST deployed by Aleks Stanisic
+=============================================================
+* 7f7c3b9: Brian Martinez - Splash Page Changes
+* a200b66: Elijah Green - Redirect_to back un video deletion
+* bc8f672: Elijah Green - Bring back the skills page
+* c8738be: Elijah Green - Sort users by connections_count on skills page
+* 7bef415: Elijah Green - Add connections_count to users
+* 591ad9f: Elijah Green - Fix some cases where search would not work correctly
+* 4a3801d: Elijah Green - Change search bar on connections/index
+* c60f07c: Elijah Green - Add search bar to top right of page
+
 v3.0.52 - Dec 12, 2012 10:31AM PST deployed by Aleks Stanisic
 =============================================================
 * e824db3: Elijah Green - Fix the link to an inviters profile
