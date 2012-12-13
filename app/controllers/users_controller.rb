@@ -995,6 +995,20 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def more_groups
+		@user = User.find_by_slug(params[:slug].parameterize)
+		group = render_to_string("users/more_groups", :layout => false)
+		return render :json => group.to_json
+
+	end
+
+	def more_tech
+		@user = User.find_by_slug(params[:slug].parameterize)
+		tech = render_to_string("users/more_tech", :layout => false)
+		return render :json => tech.to_json
+
+	end
+
 	def slug_availability
 		slug = User.find_by_slug(params[:slug].parameterize)
 		if !slug.nil? && slug != User.current

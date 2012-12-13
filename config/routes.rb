@@ -209,11 +209,16 @@ Preview::Application.routes.draw do
 		# Skills
 		match ':slug/skills' => 'skills#my_skills'
 
+		match ':slug/more_groups' => 'users#more_groups'
+
+		match ':slug/more_tech' => 'users#more_tech'
+
 		# Guest Access
 		match ':slug/:guest_pass' => 'users#profile'
 		
 		# Normal Access
 		match ':slug' => 'users#profile'
+
 	end
 
 	# Static pages by default route the action

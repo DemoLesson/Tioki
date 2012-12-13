@@ -376,7 +376,7 @@
 							
 							<!-- Check if the user is part of more than 9 Groups -->
 							<% if @user.groups.count > 9 %>
-								<!-- We will display the first 8 of their groups -->
+							<!-- We will display the first 8 of their groups -->
 								<% @user.groups.limit(8).each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
 										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
@@ -393,13 +393,15 @@
 										</p>
 									</div>
 								<% end %>
+								<div id="more_groups">
+								</div>
 							
 								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px;text-align:center">
+									<div id="group-more" class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px;text-align:center">
 										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:15px 89px 0px 89px;'), "/" %>
 										<div style="width:205px">
 											<h5 style="margin-top:5px;"> 
-												<a href='/' style="color:#2AA99B"> View <%= @user.groups.count - 8 %> More ></a>
+												<a href="/" style="color:#2AA99B"> View <%= @user.groups.count - 8 %> More ></a>
 											</h5>
 										</div>
 									</div>
@@ -478,7 +480,7 @@
 								<% end %>
 								
 								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px;text-align:center">
+									<div  id="tech-more" class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px;text-align:center">
 										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:25px 0 25px 0;'), "/" %>
 										<div style="float:left;width:100px">
 											<h5 style="margin-top:0px;"> 
@@ -581,179 +583,51 @@ $(document).ready(function() {
 <% end %>
 
 <script type="text/javascript">
-// White board more
+// Group board more
 $(document).ready(function() {
-	window.whiteboardPage = 1;
-	window.whiteboardMax = false;
 
-	// Load more whiteboard posts
-	$('a[href="#whiteboard-more"]').click(function(e) {
+	// Load more groups
+	$('#group-more').click(function(e) {
 		e.preventDefault();
-
-		// If we have already reached the end of the whiteboard then stop
-		if(window.whiteboardMax) return false;
-		
-		// Get the number for the next page of data to pull
-		window.whiteboardPage++;
 
 		// Store for future use down the stack
 		more = $(this);
+		//more.append(data);
+		$("#group-more").hide();
 
 		// Get the next pieces of activity via JSON
-		$.getJSON('/whiteboard/user_profile?user_id=<%= @user.id %>&page=' + window.whiteboardPage, function(data) {
+		$.getJSON( '/profile/<%= @user.slug%>/more_groups?user_id=<%=@user.id%>', function(data) {
 
-			// If no data was returned handle by removing the button and erroring
-			if(data.length == 0) {
-				more.animate({"opacity": 0}, 700, function() {
-					window.whiteboardMax = true;
-					more.text('No More Updates');
-					setTimeout(function() {
-						more.animate({"opacity": 1}, 1000);
-					}, 50);
-				});
-			}
-
-			// For every element
-			for(var x in data) {
-
-				// Create the object, insert, and fade it in
-				$(data[x]).css('display','block').insertBefore(more.closest('li'))
-			}
+			more.before(data);
+			
 		});
-
 		return false;
 	});
 
-	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+});
+</script>
+
+<script type="text/javascript">
+// More tech
+$(document).ready(function() {
+
+	// Load more tech
+	$('#tech-more').click(function(e) {
 		e.preventDefault();
 
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
+		// Store for future use down the stack
+		more = $(this);
+		//more.append(data);
+		$("#tech-more").hide();
 
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
+		// Get the next pieces of activity via JSON
+		$.getJSON( '/profile/<%= @user.slug%>/more_tech?user_id=<%=@user.id%>', function(data) {
 
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
+			more.before(data);
+			
 		});
-
 		return false;
 	});
 
-	// Show the comments
-	$('a[whiteboard-action="show-comments"]').live('click', function(e) {
-		e.preventDefault();
-
-		// Show the comments wrapper
-		$(this).closest('div.bar').next('div.comments').slideDown(500);
-
-		return false;
-	});
-
-	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	$('form#post-comment').submit(function(e) {
-		e.preventDefault();
-
-		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
-			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
-				$.get('/comments/' + r.id, function(d) {
-					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-					form.prev('ul').append(comment);
-					comment.slideDown(500, function() {
-						$('ul').scrollTo('100%', 800);
-						setTimeout(function() {
-							comment.animate({backgroundColor: '#FFF'}, 600, function() {
-								comment.css('background-color', '');
-							});
-							form.find('textarea').val('').prop('disabled', false);
-						}, 1000);
-					});
-				});
-			}
-		})
-
-		return false;
-	});
-
-	// Favorite a comment
-	$('a[comment-action="favorite"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');;
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
-
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');;
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
-		});
-
-		return false;
-	});
-
-	// Delete a comment
-	$('a[comment-action="delete"]').live('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	//Came to comments from email
-	if(window.location.hash.indexOf("whiteboard_comments") >= 0){
-		var hash = window.location.hash;
-		$(hash).click();
-	}
 });
 </script>
