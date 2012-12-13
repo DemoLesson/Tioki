@@ -1,20 +1,21 @@
  class JobsController < ApplicationController
+ 	# Deprecate
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
+
+	# Source the owner if applicable
+	before_filter :source_owner, :only => :index
 	
 	# GET /jobs
 	# GET /jobs.xml
 	def index
-		puts params
-		params.each do |key,value|
-			Rails.logger.warn "Param #{key}: #{value}"
-		end
-		
+
+		# Deprecate job filter needs a replacement
 		@subjects = Subject.all
 		if params[:subject].present? || params[:school_type].present? || params[:grade_level].present? || params[:calendar].present? || params[:employment].present? || params[:special_needs].present? || params[:searchkey].present? || params[:location].present?
 			tup = SmartTuple.new(" AND ")
 
 			#tup << ["schools.map_zip = ?", params[:zipcode][:code]] if params[:zipcode][:code].present?
-			logger.debug "test1"
+
 			tup << ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
 
 			tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
@@ -53,6 +54,10 @@
 			end
 		else
 			@jobs = Job.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
+		end
+
+		unless @source.nil?
+			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
 		end
 		
 		@title = "Jobs"
@@ -393,4 +398,14 @@
 			return render :json => {:status => 'error'}
 		end
 	end
+
+	protected
+
+		# Jobs source
+		def source_owner
+			unless params[:user_id].nil?
+				dump ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).to_sql
+				dump @source = Job.joins(:group).where('`groups`.`id` IN (?)', ids).to_sql
+			end
+		end
 end

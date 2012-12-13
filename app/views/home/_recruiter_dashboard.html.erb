@@ -25,7 +25,7 @@
 				<% end %>
 				<% if @applicants > 0 %>
 					<li>
-						<a href="/my_jobs">
+						<a href="<%= user_jobs_path currentUser %>">
 							<div class="count iconic">
 								<span class="iconic book_alt" style="font-size:1.5em;"></span>
 								<%= @applicants %>
@@ -40,8 +40,7 @@
 	
 	<section id="panels">
 		<section id="list" class="panel one-column left-side">
-			<h3>
-			Recruiting Updates
+			<h3>Recruiting Updates</h3>
 			<a href="/my_jobs">
 				<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
 				<% if @jobs.count > 0 %>
@@ -73,7 +72,7 @@
 		<section class="panel right-side">
 			<h3>Recruiting Activity</h3>
 			<ul>
-				<%= Notification.mine(:dashboard => 'recruiter').each do |d| %>
+				<% Notification.mine(:dashboard => 'recruiter').each do |d| %>
 					<li>
 						<%= d.message %>
 					</li>

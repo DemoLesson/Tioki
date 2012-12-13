@@ -12,7 +12,7 @@ class Job < ActiveRecord::Base
   accepts_nested_attributes_for :assets, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   reverse_geocoded_by :latitude, :longitude
   
-  scope :is_active, where(:active => true)
+  scope :is_active, where(:active => 'Running')
   
   #scope :dry_clean_only, joins(:washing_instructions).where('washing_instructions.dry_clean_only = ?', true)
   

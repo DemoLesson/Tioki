@@ -259,6 +259,8 @@ Preview::Application.routes.draw do
 	# Users routes
 	resources :users do
 
+		resources :jobs
+
 		# User Applications
 		resources :applications do
 
