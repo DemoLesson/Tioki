@@ -470,7 +470,7 @@ class ConnectionsController < ApplicationController
 
 		# Review
 		# Paginate rescue cause it will fail on empty arrays ^^
-		users = users.paginate(:per_page => 25, :page => params[:page], :order => "connections_count") rescue Array.new
+		users = users.paginate(:per_page => 25, :page => params[:page], :order => "connections_count DESC") rescue Array.new
 
 		# Return raw json
 		return render :json => users unless params[:raw].nil?
