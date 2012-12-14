@@ -161,7 +161,7 @@ class HomeController < ApplicationController
 
 		# Return user back to the home page 
 		respond_to do |format|
-			format.html { redirect_to "http://www.demolesson.com", :notice => 'Email Sent Successfully' }
+			format.html { redirect_to "http://www.tioki.com", :notice => 'Email Sent Successfully' }
 		end
 	end
 
@@ -194,7 +194,7 @@ class HomeController < ApplicationController
 			end
 		end
 
-		redirect_to :root
+		redirect_to :back
 	end
 
 	def whiteboard_rmv

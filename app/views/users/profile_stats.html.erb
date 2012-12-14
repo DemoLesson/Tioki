@@ -1,24 +1,50 @@
 <section id="main-content" class="inner-content">
-	<h1>Profile View History</h1>
+	
+	
 
 	<section class="profile group">
 		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.js"></script>
 
-		<nav class="subpage">
+		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
 				<li>
 					<a href="/me/profile">
-						Tioki Profile
+						Activity
 					</a>
 				</li>
-				<!--li>
-					<a href="terms.html">
-					Card Profile
+
+				<li>
+					<a href="/profile/<%= @user.slug %>/about">
+					About
 					</a>
-				</li-->
-				<li class="current">
+				</li>
+
+				<li>
+					<a href="/profile/<%= @user.slug %>/resume">
+					Resume
+					</a>
+				</li>
+
+				<% if @user.videos.count > 0 %>
+				<li>
+					<a href="/profile/<%= @user.slug %>/videos">
+					Videos
+					</a>
+				</li>
+				<% elsif !self.current_user.nil? && @self %>
+				<li>
+					<a href="/me/profile/edit/upload-video">
+					Upload Video
+					</a>
+				</li>
+				<% end %>
+
+				<li  class="current">
+					<a href="/me/profile/stats">
 					Profile Stats
+					</a>
 				</li>
+
 			</ul>
 		</nav>
 

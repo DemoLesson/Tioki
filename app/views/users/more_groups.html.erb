@@ -1,0 +1,20 @@
+<% @user.groups.offset(8).each do |group| %>
+    <div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
+      <%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+      <p style="margin:10px 0 0 0;width:120px;float:right">
+        <strong>
+        <% if group.name.size > 24 %>
+            <%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
+        <% else %>
+            <%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
+        <% end %>
+        </strong><br/>
+            <!--<%= group.users.count %> Members<br>-->
+        <% unless !self.current_user %>
+            <% unless self.current_user.groups.include? group %>
+                <%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+            <% end %>
+        <% end %>
+        </p>
+    </div>
+<% end %>
