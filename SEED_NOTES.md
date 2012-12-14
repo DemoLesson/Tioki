@@ -1,3 +1,7 @@
+v3.1.5 - Dec 14, 2012 11:56AM PST deployed by Aleks Stanisic
+============================================================
+* 4a1e1d9: Elijah Green - Eager load connected user when getting connections
+
 v3.1.4 - Dec 14, 2012 11:40AM PST deployed by Aleks Stanisic
 ============================================================
 * 4ce4dc7: Aleks Stanisic - changes to video profile page
