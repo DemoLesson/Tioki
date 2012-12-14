@@ -275,6 +275,15 @@
 				<% unless @user.video.nil? %>
 					<div class="profile-video panel">
 						<%= @user.video.embed_code %>
+						<section class="panel-actions" id="video" style="padding:0px;">
+							<% unless @user.video.name.nil? %>
+								<h4><%= @user.video.name %></h4>
+							<% end %>
+							<% unless @user.video.description.nil? || @user.video.description == "Description unavailable for external videos." %>
+								<h4>Video Description</h4>
+								<p><%= @user.video.description %></p>
+							<% end %>
+						</section>
 					</div>
 				<% end %>
 				<section class="video-actions group">
