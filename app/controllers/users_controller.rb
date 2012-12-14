@@ -460,31 +460,30 @@ class UsersController < ApplicationController
 	end
 
 	def organization_user_list
-		if params[:orgname]
-			@organizations=Organization.all
-			#Since the names we can select can be eitheir the organization or the name of the first school instead of using ActiveRecord for selection, reject is used
-			@organizations=@organizations.select { |organization| organization.oname.downcase.include?(params[:orgname])} 
-			@organizations=@organizations.paginate :page => params[:page], :per_page => 25
-		else
-			@organizations=Organization.paginate :page => params[:page], :per_page => 25
-		end
+		@organizations = Group.organization
+		@organizations = @organizations.where("name LIKE '%#{params[:orgname]}%'") if params[:orgname]
+		@organizations = @organizations.paginate :page => params[:page], :per_page => 25
+
 		@stats = []
-		@stats.push({:name => 'Organizations', :value => Organization.count})
-		@stats.push({:name => 'Administrators', :value => User.find(:all).reject { |user| user }.count})
+		@stats.push({:name => 'Organizations', :value => @organizations.count})
+		@stats.push({:name => 'Administrators', :value => User_Group.permissions(:administrator).count })
 	end
 
 	def manage
-		@schools = School.find(:all, :conditions => { :owned_by => params[:id] })
-		@organization = Organization.find(:first, :conditions => { :owned_by => params[:id] })
-		shared=SharedUsers.find(:all, :conditions => { :owned_by => params[:id]}).collect(&:user_id)
-		@members=User.find(shared)
+		@organization = Group.find(params[:id])
+
 		if request.post?
-			if self.current_user.is_limited
-				redirect_to :back, :notice => 'You are not authorized to do this action.'
-				return
-			end
-			@organization.update_attributes(:name => params[:name], :job_allowance => params[:job_allowance], :admin_allowance => params[:admin_allowance], :school_allowance => params[:school_allowance])
-			redirect_to :schoollist
+			return redirect_to :back, :notice => 'You are not authorized to do this action.' unless currentUser.is_admin
+
+			# Add parameters
+			params[:jobpack][:group] = @organization
+			params[:jobpack][:expiration] = Chronic.parse(params[:jobpack][:expiration])
+			params[:jobpack][:inception] = Chronic.parse(params[:jobpack][:inception])
+
+			# Create a new job pack
+			JobPack.create(params[:jobpack])
+
+			redirect_to '/organizationlist'
 		end
 	end
 

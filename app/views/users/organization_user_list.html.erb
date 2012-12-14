@@ -26,20 +26,18 @@
 
 <div id="left" style="width: 905px"align="left">
 
-<p style= "font-size: 20px"><strong>Organizations</strong></p>
-<table cellpadding = "5">
+<p style="font-size: 20px"><strong>Organizations</strong></p>
+<table cellpadding="5" style="width:100%;">
   <tr>
     <th>Organization Name</th>
-    <th>Schools</th>
     <th>Jobs</th>
     <th>Applicants</th>
   </tr>
 <%- @organizations.each do |organization| %>
   <tr>
-    <td><% if organization.name == nil || organization.name == ""%><%= link_to organization.user.school.name,'/manage/'+organization.user.id.to_s %><% else %><%= link_to organization.name, '/manage/'+organization.user.id.to_s %><% end %></td>
-    <td><%= organization.schools.count %></td>
-    <td><%= organization.jobcount %></td>
-    <td><%= organization.applicationcount %></td>
+    <td><%= link_to organization.name, "/manage/#{organization.id}" %></td>
+    <td><%= organization.jobs.count %></td>
+    <td><%= organization.jobs.collect{|x|x.applications.count}.flatten.inject(0){|t,v|t+v} %></td>
   </tr>
 <% end -%>
 </table>
