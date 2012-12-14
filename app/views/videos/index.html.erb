@@ -3,6 +3,48 @@
 		<%= possesify(@user.first_name) + ' ' if @user%>
 		Video Library
 	</h1>
+
+		<nav class="subpage" style="width: 635px;margin-left: 0px;margin-top: -15px; margin-bottom: 10px;">
+		<ul>
+			<li>
+				<% if !self.current_user.nil? && @self %>
+				<a href="/me/profile">
+				<% else %>
+				<a href="/profile/<%= @user.slug %>">
+				<% end %>
+					Activity
+				</a>
+			</li>
+
+			<li>
+				<a href="/profile/<%= @user.slug %>/about">
+				About
+				</a>
+			</li>
+
+			<li>
+				<a href="/profile/<%= @user.slug %>/resume">
+				Resume
+				</a>
+			</li>
+
+			<li class="current">
+				<a href="/profile/<%= @user.slug %>/videos">
+				Videos
+				</a>
+			</li>
+
+			<% if !self.current_user.nil? && @self %>
+			<li>
+				<a href="/me/profile/stats">
+				Stats
+				</a>
+			</li>
+			<% end %>
+
+		</ul>
+	</nav>
+
 	<section id="panels">
 		
 		<section class="panel two-column left-side" style="border-radius:5px">
@@ -12,20 +54,17 @@
 				<hr />
 				<% if @video.user == self.current_user || self.current_user.is_admin %>
 					<span style="float:left">
-						<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}", :class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
+						<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}",:class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
 	
-						<h4 style="margin-top:0px">Share:
+						<h4 style="margin-top:10px">Share:
 							<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
 							<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
-							<% if self.current_user %>
-								<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "height:26px;margin-bottom:-4px") %></a>
-							<% end %>
 						</h4>
 					</span>
 					
 					<span style="float:right">
 						<%= link_to image_tag('/assets/tioki/icons/pencil.png', :style => "height:17px", :title => "Edit" ), edit_video_path(@video) %>
-						<a href="/videos/<%= @video.id%>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">
+						<a href="/videos/<%= @video.id%>" data-confirm="Are you sure?" data-method="delete" rel="nofollow" title="Delete Video">
 							<span class="iconic x" style="font-size:20px;color:#892A38"></span>
 						</a>
 					</span>
@@ -85,4 +124,54 @@
 	</section>
 	<div class="clearfloat"></div>
 </section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%=j @video.name %>',
+			link: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join the discussion on Tioki.',
+			description: 'Come check out this awesome video, "<%=j @video.name %>", on Tioki; a professional development site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			text: 'Come see this awesome video, "<%=j @video.name %>", on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
 

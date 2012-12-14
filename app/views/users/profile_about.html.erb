@@ -389,7 +389,9 @@
 											<% end %>
 											</strong><br/>
 											<!--<%= group.users.count %> Members<br>-->
-											<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% unless self.current_user.groups.include? group %>
+												<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% end %>
 										</p>
 									</div>
 								<% end %>
@@ -421,7 +423,9 @@
 											<% end %>
 											</strong><br/>
 											<!--<%= group.users.count %> Members<br>-->
-											<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% unless self.current_user.groups.include? group %>
+												<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% end %>
 										</p>
 									</div>
 
