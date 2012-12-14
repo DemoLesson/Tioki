@@ -4,8 +4,8 @@
 			<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, :class => "action-button bg-salmon", :target => "_blank" %>
 		<% else %>
 			<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user) %>
-				<%= link_to "View Applicants", {:controller => :applications, :action => :index, :id => @job.id}, {:class => "button bg-salmon"} %>
-				<%= link_to "Edit Posting", job_path+'/edit', :class => "button bg-ltgray" %>
+				<%= link_to "View Applicants", [@job.group, @job, :applications], {:class => "button bg-salmon"} %>
+				<%= link_to "Edit Posting", [:edit, @job.group, @job], :class => "button bg-ltgray" %>
 			<% else %>
 				<% if @application == nil %>
 					<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>

@@ -2,17 +2,17 @@
 	<nav class="subpage" style="padding-left:0px">
 		<ul>
 			<li class="current">
-				All Groups
+				All <%= @type %>s
 			</li>
 			<% if self.current_user %>
 				<li>
 					<a href="/my_groups">
-						My Groups
+						My <%= @type %>s
 					</a>
 				</li>
 				<% if self.current_user %>
 					<li style="float:right;margin-top:0px;">
-						<%= link_to "Create A Group", new_group_path %>
+						<%= link_to "Create A #{@type}", new_group_path %>
 					</li>
 				<% else %>
 					<li style="float:right;margin-top:0px">
@@ -25,10 +25,11 @@
 	<section class="panels">
 		<section class="two-column left-side">
 		<%= form_tag  "/groups", :action => "search", :method => 'get' do %>
+			<%= hidden_field(nil, :organization, :value => :true) if @type.downcase == 'organization' %>
 			<%= text_field_tag :group_search, params[:group_search], :placeholder => "Search groups by name", :style => "margin: 0px 10px -10px 0px;width:500px" %>
 			<%= submit_tag "Search" %>
 		<% end %>
-		<% @groups.organization!.each do |group| %>
+		<% @groups.each do |group| %>
 			<div class="item_jobs" style="height:auto;">
 				<div class="item_picture">
 					<% if group.picture? %>

@@ -86,31 +86,15 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def teacher_applied(school_id, job_id, user_id)
-		@school = School.find(school_id)
-		@admin_user = User.find(@school.owned_by)
-
-		@job = Job.find(job_id)
-		@user = User.find(user_id)
+	def teacher_applied(group, job, user)
+		@user = user
+		@job = job
 
 		message_body = "Please login to tioki.com to respond to this request."
 		subject = @user.name + ' applied to your job posting: ' + @job.title
 
-		mail(:to => @admin_user.email, :subject => subject)
-
-		@admins = SharedUsers.find(:all, :conditions => { :owned_by => @admin_user.id })
-		@admins.each do |admin|
-			shared =User.find(admin.user_id)
-			if shared.is_limited ==false
-				mail(:to => shared.email, :subject => subject)
-			end
-		end
-
-		@limitedusers = SharedSchool.find(:all, :conditions => { :school_id => @school.id})
-		@limitedusers.each do |limiteduser|
-			shared = User.find(limiteduser.user_id)
-			mail(:to => shared.email, :subject => subject)
-		end
+		admins = group.users(:administrator).map(&:email)
+		mail(:to => admins, :subject => subject)
 	end
 
 	# @Aleks look at this. It doesn't appear to be sending anything out.
@@ -123,20 +107,20 @@ class UserMailer < ActionMailer::Base
 
 		message_body = "Please login to tioki.com to view your interviewee's request."
 
-		mail(:to => @admin_user.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
+		mail(:to => @admin_user.email, :subject => @user.name + ' has scheduled an interview', :body => message_body)
 
 		@admins = SharedUsers.find(:all, :conditions => { :owned_by => @admin_user.id })
 		@admins.each do |admin|
 			shared =User.find(admin.user_id)
 			if shared.is_limited ==false
-				mail(:to => shared.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
+				mail(:to => shared.email, :subject => @user.name + ' has scheduled an interview', :body => message_body)
 			end
 		end
 
 		@limitedusers = SharedSchool.find(:all, :conditions => { :school_id => @school.id})
 		@limitedusers.each do |limiteduser|
 			shared = User.find(limiteduser.user_id)
-			mail(:to => shared.email, :subject => @user.name+' has scheduled an interview', :body => message_body)
+			mail(:to => shared.email, :subject => @user.name + ' has scheduled an interview', :body => message_body)
 		end
 	end
 

@@ -277,12 +277,8 @@
 						<% end %>
 					</li>
 					<% if currentUser.dashboard == 'recruiter' %>
-						<li>
-                            <%= link_to "My organizations", user_groups_path(currentUser, :organization => true, :mine => true) %>
-                        </li>
-                        <li>
-                            <%= link_to "My Jobs", user_jobs_path(currentUser) %>
-                        </li>
+						<li><%= link_to "My Organizations", user_groups_path(currentUser, :organization => true) %></li>
+                        <li><%= link_to "My Jobs", user_jobs_path(currentUser) %></li>
 					<% else %>
 						<li>
 							<a href="/me/profile">
@@ -307,8 +303,9 @@
 							Groups
 							</a>
 							<ul>
-								<li><a href="/groups">Browse Groups</a></li>
-								<li><a href="/my_groups">My Groups</a></li>
+								<li><%= link_to "Browse Groups", groups_path %></li>
+								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
+								<li><%= link_to "My Groups", user_groups_path(currentUser) %></li>
 							</ul>
 						</li>
 						<li>

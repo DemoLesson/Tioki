@@ -16,11 +16,11 @@
 					<% @jobs.where(:status => ['unpublished', nil]).each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @org.name %></p>
+							<p><%= @source.name %></p>
 							<span>Drag to relocate</span>
-							<%= link_to 'View', job %> | 
-							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
-							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
 						</li>
 					<% end %>
 				</ul>
@@ -33,11 +33,11 @@
 					<% @jobs.where(:status => 'running').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @org.name %></p>
+							<p><%= @source.name %></p>
 							<span>Drag to relocate</span>
-							<%= link_to 'View', job %> | 
-							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
-							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
 						</li>
 					<% end %>
 				</ul>
@@ -50,11 +50,11 @@
 					<% @jobs.where(:status => 'completed').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
 							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @org.name %></p>
+							<p><%= @source.name %></p>
 							<span>Drag to relocate</span>
-							<%= link_to 'View', job %> | 
-							<%= link_to 'Edit', currentURL + '/edit/' + job.id.to_s %> | 
-							<%= link_to 'View Applicants', '/applications/' + job.id.to_s %>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
 						</li>
 					<% end %>
 				</ul>
@@ -72,7 +72,7 @@ $ ->
 		completed: $('ul#completed')
 
 	# Running limit
-	runningLimit = <%= @org.job_allowance %>
+	runningLimit = <%= @source.job_allowance %>
 
 	# Make sure the running jobs does not exceed the running limit
 	checkRunningLimit = ->

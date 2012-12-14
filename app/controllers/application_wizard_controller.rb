@@ -141,7 +141,7 @@ class ApplicationWizardController < ApplicationController
 
 			#Notify that owner(s) of the school that this application has been submitted
 			job = Job.find(@app.job_id)
-			UserMailer.teacher_applied(job.school_id, job.id, @app.user_id).deliver
+			UserMailer.teacher_applied(job.group, job, @app.user).deliver
 
 			flash[:success] = "Your application has been submitted"
 		else

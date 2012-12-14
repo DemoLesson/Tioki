@@ -77,18 +77,8 @@
 					<span class="iconic arrow_down"></span>
 				</span>
 				<ul>
-					<li>
-						<a href="/groups/<%= @group.id %>/edit">
-							<%= @group.type? %> Settings
-						</a>
-					</li>
-					<% if @group.organization? %>
-						<li>
-							<a href="/jobs/manage/<%= @group.id %>">
-								Manage Job Postings
-							</a>
-						</li>
-					<% end %>
+					<li><%= link_to @group.type?, [:edit, @group] %></li>
+					<li><%= link_to "Manage Job Postings", [@group, :jobs] if @group.organization? %></li>
 				</ul>
 			</li>
 		<% else %>

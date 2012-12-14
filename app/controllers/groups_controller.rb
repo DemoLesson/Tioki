@@ -3,10 +3,12 @@ class GroupsController < ApplicationController
 	before_filter :source_owner, :only => :index
 
 	def index
-		if params[:organization] == true
+		if params[:organization] == 'true'
 			@groups = @source.organization
+			@type = 'Organization'
 		else
 			@groups = @source.organization!
+			@type = 'Group'
 		end
 
 		if params[:group_search]

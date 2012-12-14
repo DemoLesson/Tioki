@@ -8,6 +8,16 @@
 	# GET /jobs
 	# GET /jobs.xml
 	def index
+		if @source.is_a?(Group)
+			if @source.user_permissions.administrator
+				manage
+				return render :manage
+			else
+				@group = @source
+				@jobs = @group.jobs.where(:status => 'running')
+				return render :group_jobs
+			end
+		end
 
 		if @source.nil?
 			# Deprecate job filter needs a replacement
@@ -68,6 +78,7 @@
 		end
 	end
 	
+	# Review
 	def auto_complete_search
 		begin
 			@items = Job.complete_for(params[:search])
@@ -77,6 +88,7 @@
 		render :json => @items
 	end
 	
+	# Review
 	def apply
 		@job = Job.find(params[:id])
 		@job.apply(self.current_user.id)
@@ -95,11 +107,13 @@
 		end
 	end
 	
+	# Review
 	def apply_confirmation
 		@job = Job.find(params[:id])
 		@user = User.find(self.current_user.id)
 	end
 
+	# Review
 	def job_referral
 		@job = Job.find(params[:id])
 		
@@ -109,6 +123,7 @@
 		
 	end
 	
+	# Review
 	def job_referral_email
 		@job = Job.find(params[:id])
 		@referral = params[:referral]
@@ -133,50 +148,9 @@
 		 end
 		 
 	end
-	
-	def kipp_apply
-		@job = Job.find(params[:id])
-		if (params.has_key?(:job))
-			@passcode = params[:job][:passcode]
-		else
-			@passcode = ''
-		end
-			
-		respond_to do |format|
-			if @passcode != nil
-				if @passcode == @job.passcode
-					@job.apply(self.current_user.id)
-					format.html { redirect_to @job, :notice => 'Application successful.' }
-				else
-					format.html
-				end
-			else
-				format.html
-			end
-		end
-	end
 
-	def my_jobs
-		if params[:school_id]
-			@school = School.find(params[:school_id])
-		else
-			if(self.current_user.school != nil)
-				@school = School.find(self.current_user.school)
-			else
-				@school = School.find(self.current_user.sharedschool)
-			end
-		end  
-		@jobs = Job.paginate(:page => params[:page], :conditions => ['school_id = ?', @school.id])
-		@user = self.current_user
-
-		respond_to do |format|
-			format.html # index.html.erb
-			format.json  { render :json => @jobs }
-		end
-	end
-
-	# GET /jobs/1
-	# GET /jobs/1.xml
+	# GET /jobs/:id
+	# GET /jobs/:id
 	def show
 		@job = Job.find(params[:id])
 		if self.current_user == nil
@@ -196,125 +170,99 @@
 			end
 		end
 	end
-
-	# GET /jobs/new
-	# GET /jobs/new.xml
+	
+	# Create a new job posting
+	# Author: Kelly Lauren Summer Becker
+	# GET /group/:group_id/jobs/new
 	def new
+		@organizations = User.current.groups.my_permissions('administrator').organization
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
 		@job = Job.new
-		@subjects = Subject.all
-		3.times { @job.assets.build }
-
-		respond_to do |format|
-			format.html # new.html.erb
-			format.xml  { render :xml => @job }
-		end
 	end
 
-	# GET /jobs/1/edit
+	# Edit a job posting
+	# Author: Kelly Lauren Summer Becker
+	# GET /group/:group_id/jobs/:id/edit
 	def edit
-		@job = Job.find(params[:id])
-		@subjects = Subject.all
-		3.times { @job.assets.build }
-
-		# Upgraded process
-		if !@job.group_id.nil?
-			raise HTTPStatus::Unauthorized if !@job.group.user_permissions['administrator']
-		# Old processs
-		else
-			respond_to do |format|
-				if @job.belongs_to_me(self.current_user) || @job.shared_to_me(self.current_user) 
-					format.html
-				else
-					format.html { redirect_to :root, :notice => 'Unauthorized' }
-				end
-			end
-		end
+		@organizations = User.current.groups.my_permissions('administrator').organization
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
+		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
 	end
 
-	# POST /jobs
-	# POST /jobs.xml
+	# create a new job posting
+	# Author: Kelly Lauren Summer Becker
+	# POST /group/:group_id/jobs
 	def create
-		@subjects = Subject.all
+
+		# Make sure we have permissions to create the job
+		group = Group.find(params[:group_id])
+		raise SecurityTransgression if !group.user_permissions.administrator
+
 		@job = Job.new(params[:job])
 
 		# New Organizations Vs. Old Organizations
-		if !params[:group_id].nil? && !params[:group_id].empty?
-			@job.group_id = params[:group_id]
-			
-			# Only allow a hard limit of jobs to be "running"
-			@org = Group.find(params[:group_id])
-			if @job.status == 'running' && @org.job_allowance <= @org.jobs.where(:status => 'running').count
-				flash[:error] = "You cannot create more running jobs without buying more packs"
-				return redirect_to "/jobs/manage/#{@org.id}"
-			end
+		@job.longitude = group.longitude
+		@job.latitude = group.latitude
+		@job.group = group
+		
+		# Only allow a hard limit of jobs to be "running"
+		if @job.status == 'running' && group.job_allowance <= group.jobs.where(:status => 'running').count
+			flash[:error] = "You cannot create more running jobs without buying more packs"
+			return redirect_to [group, :jobs]
+		end
 
+		# Attemp to save and return
+		respond_to do |format|
 			if @job.save
-				if params[:subjects]
-					@job.update_subjects(params[:subjects])
-				end
 
-				flash[:success] = "New job was successfully created."
-				return redirect_to "/jobs/manage/#{@org.id}"
-			end
-		else
-			@job.school_id = params[:school_id]
-			@job.latitude = @job.school.latitude
-			@job.longitude = @job.school.longitude
+				# Update the subjects with new parameters
+				@job.update_subjects(params[:subjects]) if params[:subjects]
 
-			if @job.belongs_to_me(self.current_user) == true  || @job.shared_to_me(self.current_user)
-				count = self.current_user.organization.totaljobs
-				if self.current_user.organization.job_allowance <= count
-					redirect_to :root, :notice => 'Your current job allowance is too small to create this job. Please contact support in order to increase it.'
-					return
-				end
-
-				if @job.save
-					self.current_user.organization.update_attribute(:totaljobs, count + 1)
-
-					if params[:subjects]
-						@job.update_subjects(params[:subjects])
-					end
-
-					return redirect_to @job, :notice => 'Job was successfully created.'
-				else
-					return render :action => "new"
-				end
+				format.html {
+					flash[:success] = "New job was successfully created."
+					redirect_to [group, :jobs]
+				}
+				format.json { render json: @job }
 			else
-				format.html { redirect_to :root, :notice => 'Unauthorized' }
+				format.html { redirect_to :back }
+				format.json { render json: @job.errors, status => :unprocessable_entity }
 			end
 		end
 	end
 
-	# PUT /jobs/1
-	# PUT /jobs/1.xml
+	# Update an existing job posting
+	# Author: Kelly Lauren Summer Becker
+	# POST /group/:group_id/jobs/:id
 	def update
-		@subjects = Subject.all
 		@job = Job.find(params[:id])
 
-		if !params[:group_id].nil? && !params[:group_id].empty?
-			@org = @job.group
+		# Make sure we have permissions to update the job
+		raise SecurityTransgression if @job.group.id != params[:group_id]
+		raise SecurityTransgression if !@job.group.user_permissions.administrator
 
-			if params[:job][:status] == 'running' && @org.job_allowance <= @org.jobs.where(:status => 'running').count
-				flash[:error] = "You must buy more job packs if you want to run more jobs"
-				return redirect_to :back
-			end
+		group = @job.group
+
+		if params[:job][:status] == 'running' && group.job_allowance <= group.jobs.where(:status => 'running').count
+			flash[:error] = "You must buy more job packs if you want to run more jobs"
+			return redirect_to :back
 		end
-		
-		if @job.update_attributes(params[:job])
-			if params[:subjects]
-				@job.update_subjects(params[:subjects])
-			end
 
-			flash[:success] = "Job was successfully updated."
+		# Attemp to save and return
+		respond_to do |format|
+			if @job.update_attributes(params[:job])
 
-			if !params[:group_id].nil? && !params[:group_id].empty?
-				redirect_to "/manage/#{@job.group_id}"
+				# Update the subjects with new parameters
+				@job.update_subjects(params[:subjects]) if params[:subjects]
+
+				format.html {
+					flash[:success] = "New job was successfully updates."
+					redirect_to [group, :jobs]
+				}
+				format.json { render json: @job }
 			else
-				redirect_to @job
+				format.html { redirect_to :back }
+				format.json { render json: @job.errors, status => :unprocessable_entity }
 			end
-		else
-			format.html { render :action => "edit" }
-			format.xml  { render :xml => @job.errors, :status => :unprocessable_entity }
 		end
 	end
 
@@ -371,20 +319,8 @@
 
 	def manage
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
-		@jobs = @org.jobs
-	end
-
-	def manage_edit
-		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
-		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
-	end
-
-	def manage_new
-		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
-		@job = Job.new
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@source)
+		@jobs = @source.jobs
 	end
 
 	def manage_status
@@ -407,6 +343,11 @@
 				ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).map(&:id)
 				@source = Job.joins(:group).where('`groups`.`id` IN (?)', ids)
 				@org = true
+			end
+
+			# Source the group
+			unless params[:group_id].nil?
+				@source = Group.find(params[:group_id])
 			end
 		end
 end

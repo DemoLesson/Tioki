@@ -34,7 +34,6 @@ Preview::Application.routes.draw do
 		match 'groups/:id/invite' => 'groups#invite'
 
 		match 'groups/:id/members' => 'groups#members'
-		match 'groups/:id/jobs' => 'groups#jobs'
 		match 'groups/:id/discussions' => 'groups#discussions'
 
 		resources :groups do
@@ -111,10 +110,6 @@ Preview::Application.routes.draw do
 	resources :metrics
 
 	# Jobs
-		match 'jobs/manage/:org' => 'jobs#manage'
-		match 'jobs/manage/:org/status' => 'jobs#manage_status'
-		match 'jobs/manage/:org/edit/:id' => 'jobs#manage_edit'
-		match 'jobs/manage/:org/new' => 'jobs#manage_new'
 		resources :jobs
 
 	# Analytics Controller
