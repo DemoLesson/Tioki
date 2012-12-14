@@ -1,3 +1,17 @@
+v3.1.0 - Dec 13, 2012  6:28PM PST deployed by Aleks Stanisic
+============================================================
+* e5db58d: Aleks Stanisic - changes to profile part billion
+* ad10161: Brian Martinez - changes to profile resume video display
+* f52da1a: Aleks Stanisic - changes to profile video page
+* 55aad07: Elijah Green - Redirect on video deletion based on referrer
+* b9cd16d: Elijah Green - When there is no bounding box use viewport to search by location
+* 78b6238: Aleks Stanisic - profile changes
+* 82744e6: Elijah Green - Fix being able to click add twice get an accepted connection
+* 4523221: Aleks Stanisic - adding javascript to about profile page
+* 659904b: Brian Martinez - changed to user video page
+* cc32d6c: Brian Martinez - profile redesign files
+* 7f9c1b1: Brian Martinez - changes to profile pages
+
 v3.0.57 - Dec 13, 2012  1:13PM PST deployed by Aleks Stanisic
 =============================================================
 * 9959525: Elijah Green - Catch BadGateway erors on twitter direct messages

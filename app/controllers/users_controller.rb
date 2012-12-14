@@ -878,7 +878,46 @@ class UsersController < ApplicationController
 			@data[k] = dates.join(',')
 		end
 	end
-
+  
+  # Profile About 
+  def profile_about
+			# Figure out whether to load a profile by slug or the current user.
+  		if !params[:slug].nil? && !params[:slug].empty?
+  			@user = User.find_by_slug(params[:slug])
+  		elsif !self.current_user.nil?
+  			@user = self.current_user
+  		end
+  		
+  		# Check if user is connected to teacher or is self
+  		@self = false
+  		@connected = false
+  		if @user.me?
+  			@connected = true
+  			@self = true
+  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+  			@connected = true
+  		end
+  end
+  
+  # Profile Resume 
+  def profile_resume
+			# Figure out whether to load a profile by slug or the current user.
+  		if !params[:slug].nil? && !params[:slug].empty?
+  			@user = User.find_by_slug(params[:slug])
+  		elsif !self.current_user.nil?
+  			@user = self.current_user
+  		end
+  		
+  		# Check if user is connected to teacher or is self
+  		@self = false
+  		@connected = false
+  		if @user.me?
+  			@connected = true
+  			@self = true
+  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+  			@connected = true
+  		end
+  end
 
 	# Migrated from teacher_controller.rb
 	def profile
@@ -924,7 +963,7 @@ class UsersController < ApplicationController
 
 		# Get whiteboard activity
 		@whiteboard = Array.new
-		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 3, :page => params[:page]).each do |post|
+		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
 			@post = post
 			@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
 		end
@@ -954,6 +993,20 @@ class UsersController < ApplicationController
 				format.json  { render :json => @teacher } # profile.json
 			end
 		end
+	end
+
+	def more_groups
+		@user = User.find_by_slug(params[:slug].parameterize)
+		group = render_to_string("users/more_groups", :layout => false)
+		return render :json => group.to_json
+
+	end
+
+	def more_tech
+		@user = User.find_by_slug(params[:slug].parameterize)
+		tech = render_to_string("users/more_tech", :layout => false)
+		return render :json => tech.to_json
+
 	end
 
 	def slug_availability

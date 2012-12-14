@@ -1,0 +1,8 @@
+<% @user.technologies.offset(9).each do |technology| %>
+    <div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
+        <%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
+        <div style="float:left;width:100px">
+            <h5 style="margin-top:0px;"><%= technology.name %></h5>
+        </div>
+    </div>
+<% end %>
