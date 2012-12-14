@@ -52,7 +52,7 @@ END
 
       # Send a message to the administrator regarding the interview
       if !params[:interview][:message].nil?
-        @source.job.group.users(:administrator).each do |to|
+        @interview.job.group.users(:administrator).each do |to|
           Message.send!(to, :subject => "Re: Interview with #{@interview.user.name} for #{@interview.job.title} position",
             :body => params[:interview][:message], :tag => @interview.tag!)
         end

@@ -366,10 +366,10 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
-    t.datetime "date"
-    t.datetime "date_alternate"
-    t.datetime "date_alternate_second"
-    t.integer  "selected",              :default => 0
+    t.datetime "datetime_1"
+    t.datetime "datetime_2"
+    t.datetime "datetime_3"
+    t.integer  "datetime_selected", :default => 0
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
