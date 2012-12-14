@@ -19,7 +19,7 @@
 					</td>
 					<td>
 						<p>
-							<span style="font-weight:bold;">First Potential Interview Date: </span> This is the first date you would like to interview with your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+							<span style="font-weight:bold;">First Potential Interview Date: </span> This is the first date you would like to interview with your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
 						</p>
 					</td>
 				</tr>
@@ -32,7 +32,7 @@
 					</td>
 					<td>
 						<p>
-							<span style="font-weight:bold;">First Date: </span> This is the second date you would like to use when interviewing your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+							<span style="font-weight:bold;">First Date: </span> This is the second date you would like to use when interviewing your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
 						</p>
 					</td>
 				</tr>
@@ -45,7 +45,7 @@
 					</td>
 					<td>
 						<p>
-							<span style="font-weight:bold;">Third Date: </span> This is your third choice interview date. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%z') %> time zone.
+							<span style="font-weight:bold;">Third Date: </span> This is your third choice interview date. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
 						</p>
 					</td>
 				</tr>
@@ -109,7 +109,7 @@
 				<tr>
 					<td>
 						<label>
-							<span>Message</span>
+							<span>Message (optional)</span>
 							<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"></textarea>
 						</label>
 					</td>
