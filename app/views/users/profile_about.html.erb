@@ -147,8 +147,9 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 		
 				<ul>
+					<%unless self.current_user.nil? %>
 					<li>
-						<% if !self.current_user.nil? && @self %>
+						<% if @self %>
 						<a href="/me/profile">
 						<% else %>
 						<a href="/profile/<%= @user.slug %>">
@@ -156,6 +157,7 @@
 							Activity
 						</a>
 					</li>
+					<% end %>
 
 					<li  class="current">
 						<a href="/profile/<%= @user.slug %>/about">
@@ -168,21 +170,21 @@
 						Resume
 						</a>
 					</li>
-
-					<% if @user.videos.count > 0 %>
-					<li>
-						<a href="/profile/<%= @user.slug %>/videos">
-						Videos
-						</a>
-					</li>
-					<% elsif !self.current_user.nil? && @self %>
-					<li>
-						<a href="/me/profile/edit/upload-video">
-						Upload Video
-						</a>
-					</li>
+					<%unless self.current_user.nil? %>
+						<% if @user.videos.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/videos">
+							Videos
+							</a>
+						</li>
+						<% elsif !self.current_user.nil? && @self %>
+						<li>
+							<a href="/me/profile/edit/upload-video">
+							Upload Video
+							</a>
+						</li>
+						<% end %>
 					<% end %>
-
 					<% if !self.current_user.nil? && @self %>
 					<li>
 						<a href="/me/profile/stats">

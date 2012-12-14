@@ -989,8 +989,13 @@ class UsersController < ApplicationController
 			flash[:alert]  = "User was not found"
 		else 
 			respond_to do |format|
-				format.html # profile.html.erb
-				format.json  { render :json => @teacher } # profile.json
+				if self.current_user.nil?
+					format.html { redirect_to "/profile/#{@user.slug}/about"}
+					format.json  { render :json => @teacher } # profile.json
+				else
+					format.html # profile.html.erb
+					format.json  { render :json => @teacher } # profile.json
+				end
 			end
 		end
 	end
