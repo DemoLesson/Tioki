@@ -1,3 +1,7 @@
+v3.1.2 - Dec 13, 2012  7:53PM PST deployed by Aleks Stanisic
+============================================================
+* 543c0db: Aleks Stanisic - fix to about page
+
 v3.1.1 - Dec 13, 2012  7:35PM PST deployed by Aleks Stanisic
 ============================================================
 * ca0b13f: Aleks Stanisic - fix to profile about page
