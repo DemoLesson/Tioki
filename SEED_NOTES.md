@@ -1,3 +1,7 @@
+v3.1.6 - Dec 14, 2012 12:58PM PST deployed by Aleks Stanisic
+============================================================
+* 465edf5: Elijah Green - Speed up my_connections page with some eager loading of users
+
 v3.1.5 - Dec 14, 2012 11:56AM PST deployed by Aleks Stanisic
 ============================================================
 * 4a1e1d9: Elijah Green - Eager load connected user when getting connections
