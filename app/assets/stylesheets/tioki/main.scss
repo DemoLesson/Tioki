@@ -1171,6 +1171,12 @@ section.jobs-management {
 }
 
 table.applications {
+	width: 100%;
+
+	&.equal td {
+		width: auto;
+	}
+
 	td {
 		vertical-align: top;
 		border: solid 1px #DADADA;

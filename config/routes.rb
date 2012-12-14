@@ -277,6 +277,9 @@ Preview::Application.routes.draw do
 	# Groups
 	resources :groups do
 
+		# Job pack purchases
+		resources :job_packs
+
 		# Jobs routes
 		resources :jobs do
 
