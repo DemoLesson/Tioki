@@ -1,0 +1,54 @@
+<h1>Interview Request from <%= @job.school.name %></h1>
+
+<div id="sidebar" class="job_browser">
+
+</div>
+
+<div id="content">
+<h4>Details</h4>
+
+<%= form_for(@interview) do |f| %>
+
+<p><strong>Interview Type:</strong>
+<% if @interview.interview_type == 1 %>
+In Person
+<% elsif @interview.interview_type == 2 %>
+Phone
+<% else %>
+Video Chat
+<% end %>
+</p>
+
+<p><strong>Location:</strong>
+<% if @interview.school_location == true %>
+<%= @job.school.map_address+", "+@job.school.map_city+", "+STATES_ARRAY[@job.school.map_state.to_i-1]+' '+@job.school.map_zip.to_s %><br />
+<% else %>
+  <%= @interview.location %><br />
+<% end %>
+<%= @job.school.phone %>
+</p>
+	
+<h4>Available Time Slots</h4>
+
+<%= f.radio_button 'selected', '1', :selected => :true %>
+<%= @interview.date.to_s(:due_time) %><br />
+<%= f.radio_button 'selected', '2' %>
+<%= @interview.date_alternate.to_s(:due_time) %><br />
+<%= f.radio_button 'selected', '3' %>
+<%= @interview.date_alternate_second.to_s(:due_time) %>
+
+<h4>Message</h4>
+
+<%=h simple_format @interview.message %>
+
+<p>&middot; <%= link_to 'Reply to Message', { :controller => 'messages', :action => 'new', :user_id_to => @job.school.user.id.to_s } %></p>
+
+<div class="actions">
+<%= f.submit 'Accept' %>
+<% end %>
+<%= button_to 'Back', '/teacher_applications' %>	
+</div>
+
+
+
+</div>

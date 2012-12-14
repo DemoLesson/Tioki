@@ -1,0 +1,45 @@
+
+<% @assets.each do |asset| %>
+    <p class="attached">
+    <img src="<%= asset_path 'file.png' %>" />
+    <%= link_to asset.name, asset.file.url %> <span class="purge"><%= link_to 'Remove?', '/jobattachpurge/'+asset.id.to_s, :confirm => 'Are you sure you want to remove "'+asset.name+'" from your profile? The file will be permanently deleted.' %></span><br />
+    <%= asset.description %>
+    </p>
+<% end %>
+
+<div id="attach_form" style="display: none">
+  <%= form_for @asset, :as => :asset, :url => {}, :html => { :multipart => true } do |f| %>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description %>
+    </div>
+
+    <div class="field">
+      <%= f.label :file %><br />
+      <%= f.file_field :file %>
+    </div>
+
+    <div>
+      <input name="commit" type="submit" value="Upload File" onclick="$('#loader').show('fast');" class="btn btn-success" />
+    </div>
+
+    <div id="loader" style="display: none">
+      <img src="<%= asset_path 'loader.gif' %>" />
+    </div>
+
+  <% end %>
+</div>
+
+<div id="attach_new_btn">
+  <input name="attach" type="button" value="Attach New File" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="btn btn-success" />
+</div>
+
+<div>
+  <%= link_to 'Back to edit', "/jobs/"+@job.id.to_s+"/edit", :class => "btn" %>
+</div>

@@ -1,0 +1,18 @@
+<section id="main-content" class="inner-content">
+<%= form_for @comment, :url => {:action => 'reply_to_comment', :id => @discussion.id, :comment_id => @replied_to_comment.id} do |f| %>
+	<section style= "width:675px">
+	<h2>Add your Reply</h2>
+		<%= @comment.user %>
+	You are replying to:<br />
+	<p style="margin-left:25px;width:650px">
+	<%= h(@replied_to_comment.body).url2link.gsub(/\n/, '<br />').html_safe %>
+	</p>
+	<hr>
+	<br />
+
+	<strong>Body</strong><br />
+	<%= f.text_area :body, :style => "width:600px;margin:-17px 0px 0px 50px" %><br />
+	<%= f.submit "Add Your Response", :style => "margin-left:50px" %>
+<% end %>
+</section>
+</section>

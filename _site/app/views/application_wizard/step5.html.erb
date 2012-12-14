@@ -1,0 +1,97 @@
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, do you have any documents you would like to include?</h1>
+		<h5 style="margin-top:-12px">
+		(e.g. Cover Letter, Resume, Lesson Plans, etc...)
+		</h5>	
+	</div>
+	<div class="clear"></div>
+
+	<div class="seven columns">
+		<% unless @app.assets.empty? %>
+			<h3 style="margin-bottom:0px">Attached Files:</h3>
+			<table style="width:100%;">
+				<% @app.assets.each do |a| %>
+					<tr>
+						<td>
+							<a href="/purge/<%= a.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
+							<h4 class="bottom-line">
+							<a href="<%= a.file.url %>" style="color:#F66C4C">
+								<span class="iconic paperclip" style="color:#4D4D4D"></span>
+								<%= a.name.capitalize %> &mdash; <%= a.file_content_type %> (<%= number_to_human_size(a.file_file_size) %>)
+							</a>
+							</h4>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		<% end %>
+		<form method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="upload_asset" value="1" />
+			<% unless @app.assets.empty? %>
+				<h3 class="bottom-line" style="margin-bottom:0px">Upload another file</h3>
+			<% else %>
+				<h3 class="bottom-line" style="margin-bottom:0px">Upload a file</h3>
+			<% end %>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span>Name</span>
+							<input type="text" name="asset[name]" placeholder="e.g. John Doe Lesson Plan"/>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Description (optional)</span>
+							<input type="text" name="asset[description]" placeholder="e.g. Lesson plan covering Nouns vs. Verbs" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>File</span>
+							<input type="file" name="asset[file]" />
+						</label>
+					</td>
+				</tr>
+				<!-- THIS IS NOT CURRENTLY WORKING
+				<tr>
+					<td>
+						<label class="checkbox">
+							<input type="checkbox" name="asset[profile]" />
+							<span>Also include this item on my profile</span>
+						</label>
+					</td>
+				</tr>
+				-->
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Add this attachment to my application" style="width:350px" />
+						</label>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<% if @app.assets.count < 1 %>
+			<p>We typically suggest including at least a cover letter.</p>
+		<% end %>
+	</div>
+	<div class="eleven columns">
+		<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step →</a>
+		<div style="clear:both;height:40px;"></div>
+	</div>
+	<div class="four columns">
+	</div>
+</div>

@@ -1,0 +1,224 @@
+<div id="intro">
+	<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
+	Welcome to your Discover page!
+	</h2>
+	<p style="margin:0;">
+	Here are a few tips on how to get the most out of Tioki.
+	</p>
+	<section>
+		<p>
+		<span class="bold caps">Find New Skills</span><br />
+		Use the drop down menu to find new skills.
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Explore Technologies</span><br />
+		Explore all the new classroom tech associated with that skill.  
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Connect With Educators</span><br />
+		Connect with educators that share your same skill set. 
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Watch Videos</span><br />
+		There are many videos related to the variuos skills. Watch and learn!
+		</p>
+	</section>
+</div>
+
+<section id="main-content" class="inner-content">
+	<fieldset class="search-connections">
+		<h1>
+		
+		<%= form_tag "/skillpage", :method => :get do %>
+		<span style="float:right">
+		<%= select_tag :topic, options_from_collection_for_select(Skill.all, "id", "name"), {:style => "margin-top:10px", :prompt => "Want More Content?"} %>
+		<input type="submit" value="GO" class="button" />
+		</span>
+		Discover → <%= @skill.name %>
+		<% end %>
+		</h1>
+	</fieldset>
+
+	<section id="panels">
+		<section class="one-column left-side">
+			<section class="panel">
+				<h3>Top Technologies</h3>
+				<ul>
+					<% unless @technologies.empty? %>
+						<% @technologies.each do |technology| %>
+							<a href="/technologies/<%= technology.id %>">
+								<li style="width:275px;padding:12px 15px 12px 15px !important">
+									<div style="float:left;" class="profile-thumb-small">
+										<%= image_tag(technology.picture(:medium), :width => '45', :height => '45') %>
+									</div>
+									<strong><%= technology.name %></strong><br />
+									<p style="float:left;width:215px">
+										<% if technology.description.size > 100 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+										<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+										<% end %>
+									</p>
+								</li>
+							</a>
+						<% end %>
+					<% else %>
+						<li>Do you know of a great <%= @skill.name %> technology?
+							<%= link_to "Send us a note", "/techsuggestion" %> and we'll add it.
+						</li>
+					<% end %>
+				</ul>
+			</section>
+			<section class="panel">
+				<h3>Videos</h3>
+				<ul>
+					<% unless @videodb.empty? %>
+						<% @videodb.each do |vid| %>
+							<a href="/videos/<%= vid.id %>">
+								<li style="width:275px;padding:12px 15px 12px 15px !important">
+									<div style="float:left;" class="profile-thumb-small">
+										<%= image_tag(vid.thumbnail, :width => '45', :height => '45') %>
+									</div>
+									<strong><%= vid.name %></strong><br />
+									<p style="float:left;width:215px">
+										<% if vid.description.size > 100 %><%=h (vid.description.gsub(%r{</?[^>]+?>}, '')[0..104]+'...').html_safe %>
+										<% else %><%=h vid.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+										<% end %>
+									</p>
+								</li>
+							</a>
+						<% end %>
+						<li>
+							<%= will_paginate @videodb, :param_name => 'vpage' %>
+						</li>
+					<% else %>
+						<li>No videos showing off skills in <%= @skill.name %>.</li>
+					<% end %>
+				</ul>
+			</section>
+		</section>
+
+		<section class="panel one-column left-side">
+			<h3>Educators</h3>
+			<ul>
+				<% unless @users.empty? %>
+					<% @users.each do |user| %>
+						<li style="width:275px;padding:12px 15px 12px 15px !important">
+							<div class="profile-thumb-medium" style="float:left;margin-right:10px;margin-bottom:10px;overflow:hidden;">
+								<%= link_to image_tag(user.avatar.url(:medium), :width => '70px', :height => '70px'), "/profile/#{user.slug}" if user.avatar? %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
+							</div>
+							<strong>
+								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline" %>
+							</strong><br />
+							<p style="width:195px;float:left;">
+							<%= user.current_job_string %><br />
+							<% if user.location.present? %>
+									<%= user.location %><br />
+							<% end %><br />
+							<% if self.current_user %>	
+								<% unless self.current_user == user %>
+								<% if @my_connections.include? user.id %>
+									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+								<% else %>
+									<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+									<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :class => "button", :style => 'color:#FFF !important;' %>
+								<% end %>
+							<% end %>
+
+						<% else %>
+							<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s }, {:class => "button bg-green", :style => 'color:#FFF !important;'} %>
+						<% end %>
+						</p>
+						<!--div class="quick-action star-empty">
+							</div-->
+						</li>
+					<% end %>
+					<li><%= will_paginate @users %></li>
+				<% else %>
+					<li>No educators showing off skills in <%= @skill.name %>.</li>
+				<% end %>
+			</ul>
+		</section>
+
+		<section class="one-column right-side">
+			<section class="panel">
+				<h3>Discussions</h3>
+				<ul>
+					<% if @discussions.count < 1 %>
+						<li>No discussions with the <%= @skill.name %> tag.</li>
+					<% else %>
+						<% @discussions.each do |discuss| %>
+							<li>
+								<div class="profile-thumb-small" style="float:left;">
+									<%= image_tag(discuss.user.avatar.url(:medium), :width => '70px', :height => '70px') if discuss.user.avatar? %>
+									<%= image_tag("dl_icons/no_avatar_medium.jpg") unless discuss.user.avatar? %>
+								</div>
+								<p style="display:inline;">
+								<strong><%= link_to discuss.title, discussion_path(discuss) %></strong><br />
+								started <%= time_ago_in_words(discuss.created_at) %> ago by
+								<%= discuss.user.profile_link unless discuss.user.nil? %>
+								<%= discuss.user.name if discuss.user.nil? %>
+								</p>
+								<!--div class=" quick-action star-gold"></div-->
+							</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</section>
+			<section class="panel">
+				<h3>Upcoming Events</h3>
+				<ul>
+					<% if @events.count < 1 %>
+						<li>No events with the <%= @skill.name %> tag.</li>
+					<% else %>
+						<% @events.each do |event| %>
+							<li>
+								<div class="calendar-thumb" style="float:left;">
+									<div class="cal-month">
+									<%= event.start_time.localtime.strftime("%^b") %>
+									</div>
+									<div class="cal-date">
+									<%= event.start_time.localtime.strftime("%e") %>
+									</div>
+								</div>
+								<p style="display:inline;">
+								<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
+								</p>
+								<!--div class=" quick-action star-gold"></div-->
+							</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</section>
+		</section>
+		
+	</section>
+</section>
+
+<% if !cookies[:discovery_viewed] %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').introOverlay({
+			introLength: 10000, // anything numeric no quotes
+			transitionSpeed: 400, // ditto
+			introAutoFade: false, //timed fade on overlay...true or false
+			introCloseBtn: true, //btn to close overlay...true or false
+			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+			openAnimation: true, //opening animation...true or false
+			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+			cookieActive : false,
+			/* also you can use 'href' to load content for a seperate page..
+			when using href it also uses the class of the clicked element to find the content...
+			it goes like this .load(href class); check source for use */ 
+			introTemplate: 'full', // either 'full' or 'module'
+			introTurnOffLights: false, //turn off and on lights...true or false
+		});
+	});
+</script>
+	<% cookies[:discovery_viewed] = { :value => true, :expires => 1.month.from_now } %>
+<% end %>

@@ -1,0 +1,39 @@
+<section id="main-content" class="inner-content">
+	<p>
+		<span style="float:right">
+		<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
+		</span>
+ 		<h2 class="greeting">
+			My School Profiles	
+		</h2>
+	</p>
+
+	<section id="list" class="panel two-column left-side">
+		<h4 style="margin-left:15px;">
+			<% if !self.current_user.is_limited %>
+			<%= link_to "Create New School", {:controller => :schools, :action => :new}, :style => 'color:#4D4D4D' %> 
+			<%= link_to "", {:controller => :schools, :action => :new}, :class => "iconic plus", :style => 'color:#F66C4C;font-size:18px;margin:-5px 0px 0px 0px' %> 
+			<% end %>
+		</h4>
+		<% @schools.each do |school| %>
+			<section class="panel-actions">
+				<section class="profile-thumb-medium" style="margin: 0px 0px 30px 0px;">
+					<% if school.picture? %>
+						<%= image_tag school.picture.url(:medium), :style => "width:70px;height:auto" %>
+					<% else %>
+						<%= image_tag('tioki/icons/placeholder.png') %>
+					<% end %>
+				</section>
+				
+				<p style="margin-left:90px;margin-top:-90px">
+					<strong><%= link_to school.name, '/schools/'+school.id.to_s %></strong></strong>
+					<br />
+		        	<%= link_to 'Edit Profile', '/schools/'+school.id.to_s+'/edit' %>
+		        	<% if !self.current_user.is_limited %>
+		          		<span class="purge"><%= link_to 'Remove?', school, :method => "delete", :confirm => 'Are you sure you want to remove '+school.name+'? This is not reversible and will remove ALL related data including job postings, interviews, and applications.' %></span>
+		          	<% end %>
+				</p>
+			</section>
+		<% end %>	
+	</section>	
+</section>

@@ -1,0 +1,248 @@
+<html>
+	<head>
+		<script type="text/javascript" src="/assets/application.js"></script>
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.js"></script>
+		<script type="text/javascript" src="/uncompiled/flot/jquery.flot.selection.js"></script>
+		<style>
+		body {
+			font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+			background: #DADADA;
+			padding: 25px;
+			color: #333;
+		}
+		h1.title {
+			border-bottom: solid 3px #333;
+			letter-spacing: 3px;
+			margin: 0 auto 25px;
+			font-size: 35px;
+		}
+		h1.title a.pause, h1.title a.resume {
+			letter-spacing: 0;
+			font-size: 14px;
+			float:right;
+		}
+		div.data {
+			display: block;
+			width: 100%;
+		}
+		div.data div.stat {
+			border-bottom: solid 2px #333;
+			padding: 5px 2px;
+			margin: 5px 17px;
+			width: 250px;
+			float: left;
+		}
+		div.data div.stat span.value {
+			font-weight: bold;
+			float: right;
+		}
+		div.data div.graph {
+			margin: 10px 10px 30px;
+			border: solid 2px #333;
+			position: relative;
+			padding: 25px;
+			height: 200px;
+			width: 500px;
+			float: left;
+		}
+		div.data div.graph div.data {
+			height: inherit;
+			width: inherit;
+		}
+		div.data div.graph h3.title {
+			position: absolute;
+			text-align: center;
+			bottom: -25px;
+			width: inherit;
+			margin: 0;
+		}
+		div.data div.graph a.reset {
+			position: absolute;
+			left: 2px;
+			top: 2px;
+			margin: 0;
+		}		
+		</style>
+	</head>
+	<body>
+		<h1 class="title">
+			<a href="javascript:void(0);" onclick="return false;" class="pause">
+				Pause Auto Update
+			</a>
+			Demo Lesson Local Metrics
+		</h1>
+		<div class="data">
+			<% unless @stats.nil? || @stats.empty? %>
+				<% @stats.each do |k,s| %>
+					<div class="stat" id="<%= s[:slug] %>">
+						<span class="value"><%= s[:data] %></span>
+						<%= s[:name] %>
+					</div>
+				<% end %>
+				<div style="clear:both;"></div>
+			<% end %>
+			<% unless @graphs["local"].nil? || @graphs["local"].empty? %>
+				<% @graphs["local"].each do |k,g| %>
+					<div class="graph" id="local_<%= g[:slug] %>">
+						<div class="data"></div>
+						<h3 class="title">
+							<%= g[:name] %>
+						</h3>
+						<a href="javascript:void(0);" onclick="return false;" class="reset">Reset Zoom</a>
+					</div>
+				<% end %>
+				<div style="clear:both;"></div>
+			<% else %>
+				<p>No Graph Data</p>
+			<% end %>
+		</div>
+
+		<h1 class="title">Demo Lesson Email Metrics</h1>
+
+		<div class="data">
+			<% unless @graphs["mailgun"].nil? || @graphs["mailgun"].empty? %>
+				<% @graphs["mailgun"].each do |k,g| %>
+					<div class="graph" id="mailgun_<%= g[:slug] %>">
+						<div class="data"></div>
+						<h3 class="title">
+							<%= g[:name] %>
+						</h3>
+						<a href="javascript:void(0);" onclick="return false;" class="reset">Reset Zoom</a>
+					</div>
+				<% end %>
+				<div style="clear:both;"></div>
+			<% else %>
+				<p>No Graph Data</p>
+			<% end %>
+		</div>
+
+		<% unless @graphs.nil? || @graphs.empty? %>
+			<!-- JS For the graph data -->
+			<script type="text/javascript">
+			$(document).ready(function() {
+				var graphOptions = {
+					xaxis: { 
+						mode: "time",
+						tickLength: 5,
+						timeformat: "%b %0d",
+						autoscaleMargin: 0,
+					},
+					yaxis: {
+						autoscaleMargin: 0,
+						tickFormatter: function(val, axis) {
+							return val;
+						}
+					},
+					selection: {
+						mode: "x"
+					},
+					grid: {
+						hoverable: true
+					},
+					series: {
+						lines: {
+							show: true,
+							fill: true
+						},
+						points: {
+							radius: 5,
+							show: true,
+							fill: true,
+							symbol: "circle"
+						}	
+					}
+				};
+				
+				var data = new Array;
+				var plot = new Array;
+
+				/**
+				 * Plotting function
+				 */
+				var plot = function(slug, addOptions) {
+					plot[slug] = $.plot($("div#" + slug + " div.data"), data[slug], $.extend(true, {}, graphOptions, addOptions));
+				};
+
+				var info = function(series, x, y, info) {
+					var baloon = $('<div id="info">');
+					baloon.css('background', '#FFF');
+					baloon.css('position', 'absolute');
+					baloon.css('padding', '4px');
+					baloon.css('border', 'solid 1px #666');
+					baloon.css('left', x + 12);
+					baloon.css('top', y + 12);
+
+					data = info;
+					var time = new Date(data[0]);
+					info = '<h3 style="margin:0px;padding:0px;text-align:center;">' + series + '</h4>';
+					info += '<strong>' + time.getMonth() + '/' + time.getDate() + '/' + time.getFullYear() + ':</strong>';
+					info += ' ' + data[1];
+
+					baloon.html(info)
+					$('html').append(baloon)
+				}
+
+				/**
+				 * For Each Graph
+				 */
+				<% @graphs.each do |zone_slug,zone| %>
+					<% zone.each do |k,g| %>
+					data["<%= zone_slug + '_' + g[:slug] %>"] = [
+						<% g[:data].each do |key, val| %>
+							{label: "<%= key %>", data: [<%= val %>]},
+						<% end %>
+					];
+					plot("<%= zone_slug + '_' + g[:slug] %>");
+
+					$("div#<%= zone_slug + '_' + g[:slug] %> div.data").bind("plotselected", function (event, ranges) {
+						plot("<%= zone_slug + '_' + g[:slug] %>", { xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }});
+					});
+
+					$("div#<%= zone_slug + '_' + g[:slug] %> a.reset").live('click', function() {
+						plot("<%= zone_slug + '_' + g[:slug] %>");
+					});
+
+					$("div#<%= zone_slug + '_' + g[:slug] %> div.data").bind("plothover", function (event, pos, item) {
+						if(item) info(item.series.label, item.pageX, item.pageY, item.datapoint)
+						else $('div#info').remove();
+					});
+					<% end %>
+				<% end %>
+			});
+			</script>
+		<% end %>
+
+		<script type="text/javascript">
+		$(document).ready(function() {
+			var timer = function() {
+				window.auto_update = setTimeout(function() {
+					window.location.reload();
+				}, 10000);
+			};
+
+			// Start the timer
+			timer();
+
+			// Pause the timer
+			$("a.pause").live('click', function() {
+				$(this).removeClass('pause');
+				$(this).addClass('resume');
+				$(this).text("Resume Auto Update");
+
+				// Stop the timer
+				clearTimeout(window.auto_update);
+			});
+
+			// Resume the timer
+			$("a.resume").live('click', function() {
+				$(this).removeClass('resume');
+				$(this).addClass('pause');
+				$(this).text("Pause Auto Update");
+
+				// Stop the timer
+				timer();
+			});
+		});
+		</script>
+	</body>
+</html>

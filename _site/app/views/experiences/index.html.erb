@@ -1,0 +1,87 @@
+<section id="main-content" class="inner-content">
+    <h1>Experience</h1>
+
+	<div class="attached">
+		<% @experiences.each do |experience| %>
+			<p>
+				<span class="purge" style="float:right">
+					<%= link_to 'Edit', edit_experience_path(experience) %><br />
+					<%= link_to 'Remove?', experience,:method => :delete, :confirm => 'Are you sure you want to remove ' + experience.company + ' from your profile?' %>
+				</span>	
+				<strong>
+				<%= experience.position %><br />
+				<%= experience.company %>
+				</strong><br />
+				<% if experience.current == true %>
+					<%= experience.startMonth.to_s+"/"+experience.startYear.to_s %> - Present
+				<% else %>
+					<% if experience.startMonth != nil %>
+						<%= experience.startMonth.to_s+"/"+experience.startYear.to_s %>
+					<% end %> -
+					<% if experience.endMonth != nil %>
+						<%= experience.endMonth.to_s+"/"+experience.endYear.to_s %>
+					<% end %>
+				<% end %><br />
+				<%= experience.description %>
+			</p>
+		<% end %>
+	</div>
+
+	<div id="attach_new_btn">
+		<input name="attach" type="submit" value="Add a New Position" onclick="$('#attach_form').show('fast'); $('#attach_new_btn').hide();" class="button"/>
+		<%= link_to 'View Profile', '/me/profile' %>
+	</div>
+
+	<div id="attach_form" style="display: none">
+		<%= form_for @experience do |f| %>
+			<fieldset>
+				<p>
+				Company, District or School
+				</p>
+				<%= f.text_field :company %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Date: 
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
+				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+				End Date:
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
+				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<label>
+					<%= check_box_tag 'current', 'yes', false, :class => 'current' %> 
+					I currently work here
+				</label>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position
+				</p>
+				<%= f.text_field :position %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Description (optional)
+				</p>
+				<%= f.text_area :description %>
+			</fieldset>
+			<fieldset>
+				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Cancel', "/me/profile" %>
+			</fieldset>
+
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
+		<% end %>
+		<script type="text/javascript">
+		</script>
+	</div>
+</section>

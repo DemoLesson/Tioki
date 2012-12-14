@@ -76,7 +76,7 @@ class Group < ActiveRecord::Base
 		end
 
 		def self.my_permissions(type = nil)
-			bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type]
+			bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type.to_s]
 			return where("POW(2, ?) & `users_groups`.`permissions` > 0", bit)
 		end
 

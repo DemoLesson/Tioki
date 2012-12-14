@@ -1,14 +1,18 @@
 class GroupsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :members, :about]
+	before_filter :source_owner, :only => :index
 
 	def index
-		@groups = Group.permissions('OR', :public => true, :private => true)
+		if params[:organization] == true
+			@groups = @source.organization
+		else
+			@groups = @source.organization!
+		end
+
 		if params[:group_search]
 			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
 		end
 	end
-
-	def organizations; index; end
 
 	def new
 		@group = Group.new
@@ -286,4 +290,14 @@ class GroupsController < ApplicationController
 		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
 		redirect_to :back
 	end
+
+	protected
+
+		def source_owner
+			if !params[:user_id].nil?
+				@source = User.find(params[:user_id]).groups
+			else
+				@source = Group.permissions('OR', :public => true, :private => true)
+			end
+		end
 end

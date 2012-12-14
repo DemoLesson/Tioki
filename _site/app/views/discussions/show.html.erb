@@ -1,0 +1,267 @@
+<section id="main-content" class="inner-content">
+	<h2>
+		<%= @discussion.title %>
+	</h2>
+
+	<!-- Topics of the Discussion -->
+	<section style="width: 650px">
+		<p style="margin-top:-10px">Topics:
+			<% @discussion.skills.each do |skill| %>
+			<%= link_to skill.name, "/skill/#{skill.id}" %> |
+			<% end %>
+		</p>
+	</section>
+	<section id="panels">
+		<section id="list" class="panel three-column left-side" >
+
+			<!-- Followers Section -->
+			<section style="float:right;margin:0px 15px 0px 0px;overflow:hidden;width: 175px;">
+				<% if self.current_user %>
+					<% if @follower %>
+						<%= link_to "Unfollow", { :action => "unfollow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% else %>
+						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
+					<% end %>
+				<% else %>
+					<%= link_to "Follow", '/welcome_wizard?x=step1&discussion_follow', :class => "action-button bg-green", :target => "_blank" %>
+				<% end %>
+				<% @discussion.following.each do |user| %>
+					<% if user %>
+						<% if user.avatar? %>
+							<%= link_to image_tag(user.avatar.url(:medium), :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.slug}" %>
+						<% else %>
+							<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => 'max-height:30px;max-width:30px;'), "/profile/#{user.slug}" %>
+						<% end %>
+					<% end %>
+				<% end %>
+					<div style="display:block;">
+						<h3 class="top-line" style="margin:15px 0px 0px -15px">Share Discussion:</h3>
+						<a href="#facebook"><%= image_tag('tioki/icons/facebook.png') %></a>
+						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png') %></a>
+						<% if self.current_user %>
+							<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png') %></a>
+							<a href="<%= discussion_path(@discussion) + '/inviting'%>"><%= image_tag('tioki/icons/email.png') %></a>
+						<% end %>
+						
+					</div>
+			</section>
+
+			<!--Content Section-->
+			<div style="padding:12px 0px 12px 15px;">
+				<div class="profile-thumb-small">
+					<% if @discussion.user %>
+					<% if @discussion.user.avatar? %>
+					<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.slug}" %>
+					<% else %>
+					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.slug}" %>
+					<% end %>
+					<% end %>
+				</div>
+				<% if @discussion.user %>
+				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.slug}", :style => "color:#F66C4C" %></strong><br />
+				<% else %>
+				[Deleted]
+				<% end %>
+				<% if @discussion.deleted_at %>
+				[Message Deleted]
+				<% else %>
+				<p style="width:675px;margin-left:65px">
+					<%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
+				</p>
+				<% end %>
+				<section style="margin-left:65px">
+					<% if self.current_user %>
+						<%= link_to 'Reply to discussion', "#discussion_reply" , :class => "action-button bg-green" %>
+						<% if self.current_user.id == @discussion.user_id || self.current_user.is_admin %>
+							<% if !@discussion.deleted_at %>
+								<%= link_to "Edit", { :action => "edit", :id => @discussion.id}, :style => "color:#F66C4C" %>
+									|
+								<%= link_to "Delete", {:action => "destroy_discussion", :id => @discussion.id }, :confirm => "Are you sure?", :style => "color:#F66C4C" %><br/><br />
+							<% end %>
+						<% end %>
+					<% else %>
+						<%= link_to 'Reply to discussion', "/welcome_wizard?x=step1&discussion_reply" , :class => "action-button bg-green" %>
+					<% end %>
+				</section>
+			</div>
+			<!-- Start of Replies to Discussion-->
+			<ul>
+				<% @discussion.comment_threads.order("lft").each do |comment| %>
+				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+					<a name="c<%= comment.id %>"></a>
+
+					<div <% if comment.child? %>style="margin-left:65px"<% end %> class="comments">
+						<div class="profile-thumb-small">
+							<% if comment.user %>
+							<% if comment.user.avatar? %>
+							<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.slug}" %>
+							<% else %>
+							<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.slug}" %>
+							<% end %>
+							<% end %>
+						</div>
+						<% if comment.user %>
+						<%= link_to comment.user.name, "/profile/#{comment.user.slug}" %>
+						<% else %>
+						[deleted]
+						<% end %><br />
+
+						<% if comment.deleted_at %>
+						[Message Deleted]
+						<% else %>
+						<p style="margin-left:65px;width:auto">
+							<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
+						</p>
+						<% end %>
+					</div><br/><br/>
+
+					<% if self.current_user %>
+					<p style="float:left;margin-left:65px">
+						<div class ="reply_to_comment">
+							<a>Reply</a>
+						</div>
+						<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
+						|
+						<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
+						|
+						<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+						<% end %>
+					</p>
+					<% else %>
+					<p style="float:left;margin-left:65px">
+						<%= link_to 'Reply', "/welcome_wizard?x=step1&discussion_reply" %>
+					</p>
+					<% end %>
+
+					<% if self.current_user %>
+						<div class="bar">
+							<span class="icons">
+								<% if self.current_user %>
+									<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
+										<span class="iconic star"><%= favorites(comment) %></span>
+									</a>
+								<% end %>
+							</span>
+						</div>
+					<% end %>
+						
+				</li>
+				<% end %>
+				<li style="width:700px;padding:12px 0px 12px 15px !important">
+				<a id="discussion_reply">
+					<% if self.current_user %>
+						<%= render "reply_to_discussion" %>
+					<% elsif !self.current_user %>
+						<%= render "reply_nologin" %>
+					<% end %>
+				</a>
+				</li>
+			</ul>
+		</section>
+	</section>
+</section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".reply_to_comment").live("click", function () {
+		var list = document.createElement('li');
+		var id = $(this).closest("li").attr('id').replace(/comment/, '');
+		list.innerHTML = '<form accept-charset=\"UTF-8\" action=\"/discussions/<%= @discussion.id %>/reply_to_comment?comment_id&comment_id=' + id + '\" class=\"new_comment\" id=\"new_comment\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" /><\/div>\n <strong>Add Your Reply<\/strong><br />\n <textarea cols=\"40\" id=\"comment_body\" name=\"comment[body]\" rows=\"20\" style=\"width:650px\"><\/textarea><br />\n <input name=\"commit\" type=\"submit\" value=\"Add Reply\" />\n<\/form>'
+		$(this).closest("li").append(list);
+	});
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%=j @discussion.title %>',
+			link: '<%= url_for(:only_path => false) %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join the discussion on Tioki.',
+			description: 'Come join the "<%=j @discussion.title %>" discussion on Tioki; a professional development site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: '<%= url_for(:only_path => false) %>',
+			text: 'Come join the "<%=j @discussion.title %>" on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>
+
+<% unless User.current.nil? %>
+<div id="share_on_tioki" class="kmodal">
+	<h2>
+		Share with other Tioki users.
+	</h2>
+	<p>
+		Please select some of your connections to share with.
+	</p>
+	<section style="max-height:300px;overflow-y:scroll;">
+		<form method="post" action="/discussions/<%= @discussion.id %>/invite">
+			<% Connection.mine(:pending => false).each do |connection| %>
+			<% user = connection.not_me %>
+			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
+				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
+				<div class="profile-thumb-small" style="float:left;">
+					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
+					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
+				</div>
+				<p style="margin-top:0px;"><strong><%= user.profile_link %></strong><br /><%= user.location %>
+			</div>
+			<% end %>
+			<div style="clear:both;"></div>
+			<a style="float:right;margin:25px 5px 5px;font-size:20px;" href="javascript:void(0);" onclick="$(this).closest('form').submit();" class="button">Invite Connections</a>
+		</form>
+	</section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div.user').click(function(e) {
+		e.preventDefault();
+
+		var check = $(this).children('input');
+		if(check.prop('checked')) {
+			$(this).css('border-color', '#DADADA');
+			check.prop('checked', false);
+			check.hide();
+		}
+		else {
+			$(this).css('border-color', '#F66C4C');
+			check.prop('checked', true);
+			check.show();
+		}
+
+		return false;
+	})
+});
+</script>
+<% end %>

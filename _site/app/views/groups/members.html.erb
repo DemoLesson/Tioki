@@ -1,0 +1,116 @@
+<section id="main-content" class="inner-content">
+	<%= render 'heading' %>
+
+	<h2><%= @group.type? %> Members</h2>
+
+	<section class="panels">
+		<!-- Populating the Group Member list -->
+		<section class="two-column left-side " style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0 0 0 0">
+			<section style="margin: 10px 10px 0px 10px">
+				<% @group.users.avatar?.each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.slug %>
+						<section style="width:600px;margin:-80px 0px 0px 80px">
+							<p style="width:auto">	<%= link_to user.name, '/profile/' + user.slug, :style => "color:#F66C4C;font-weight:bold" %>
+								
+								<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
+								<span style="float:right;">
+									<% if !self.current_user.nil? %>	
+										<% unless self.current_user == user %>
+											<% if @my_connections.include? user.id %>
+												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>
+											<% else %>
+												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id } %>
+											<% end %>
+										<% end %>
+									<% end %>
+								</span>
+								<br/>
+								<!-- Pulling the Users Position -->
+								<% unless (currentJob = user.experiences.where(:current=>true).first).nil? %>
+									<%= currentJob.position %> at <%= currentJob.company %>
+								<% end %>
+								<!-- Allowing an admin to create other admins -->
+								<span style="float:right">
+									<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
+										<% unless self.current_user == user %>
+											<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
+											<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
+										<% end %>
+									<% end %>
+								</span>	
+								<br />
+								<!-- Pulling the User's Location -->
+								<% if user.location.present? %>
+									<%= user.location %>
+								<% end %><br /><br />
+							</p>
+						</section>
+				<% end %>
+			</section>
+		</section>
+		<section class="one-column right-side" style="width:250px;margin:-20px 0px 10px 0px">
+			<section style="margin-left:20px">
+				<h3 class="bottom-line">
+					<%= @group.type? %> Administrators
+				</h3>
+				<% @group.users('administrator').avatar?.each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.slug %>
+					<p style="margin:-40px 0 5px 50px">
+						<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
+						<%= user.location %>
+					</p>
+				<% end %>
+			</section>
+		</section>
+	</section>
+</section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: '<%= @group.name %>',
+			link: '<%= url_for(:only_path => false) %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join this Group on Tioki.',
+			description: 'Come join the "<%= @group.name %>" group on Tioki; a professional development site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: '<%= url_for(:only_path => false) %>',
+			text: 'Come join the "<%= @group.name %>" Group on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+		
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>

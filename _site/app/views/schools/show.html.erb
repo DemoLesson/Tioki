@@ -1,0 +1,194 @@
+<section id="main-content" class="inner-content">
+	<section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
+				<!-- EDIT AND FOLLOW BUTTONS -->
+				<% if self.current_user != nil %>
+					<% if @school.belongs_to_me(self.current_user) == true || @school.shared_to_me(self.current_user) %>
+						<div style="float:right;margin-top:10px">
+							<%= link_to 'Edit School', edit_school_path, :class => "button bg-green" %>
+							<%= link_to "Change Picture", '/change_school_picture/'+@school.id.to_s, :class => "button bg-green" %>
+						</div>
+					<% else %>
+						<!--<div style="float:right;margin-top:-5px">
+							<%= link_to 'Follow', '#', :class => "action-button bg-green" %>
+						</div>-->
+					<% end %>
+				<% end %>
+				
+				<!-- START SCHOOL INFO -->
+				<h2 style="margin: 10px 0px -5px 10px">
+				<%= @school.name %>
+				</h2>
+				<% if @school.district? %>
+					<p style="margin-left:10px;margin-top:2px;width:auto">
+						(A <%= @school.district %> School)
+					</p>
+				<% end %>
+				<p style="margin-left:10px;width:auto">
+				  	<% if @school.school_type? %>
+						<strong style="color:#2AA99B">
+							School Type:
+						</strong> 
+						<%= @school_types[@school.school_type-1] %>,  
+					<% end %>
+				  	<% if @school.grades? %>
+						<%= @grades[@school.grades-1] %> <strong>| </strong>
+					<% end %>
+					<% if @school.calendar %>
+						<%= @calendar[@school.calendar-1] %> Calendar Year <strong>| </strong>
+					<% end %>
+					<% if @school.students_count? && @school.api_ayp_scores? %>
+				  		<strong style="color:#2AA99B">
+							Stats: 
+						</strong>
+							<%= @school.students_count %> Students,
+							<%= @school.api_ayp_scores %> API
+					<% elsif @school.students_count? %>
+						<strong>
+							Stats: 
+						</strong>
+							<%= @school.students_count %> Students
+				  	<% elsif @school.api_ayp_scores? %>
+						<strong>
+							Stats: 
+						</strong>
+						API: <%= @school.api_ayp_scores %>
+					<% end %>
+				</p>
+				
+				<!-- SCHOOL ADDRESS -->
+				<p style="margin-left:10px;margin-top:-12px; width:auto">
+					<strong style="color:#2AA99B">
+					Location: 
+					</strong>
+					<%= @school.map_address %>, <%= @school.map_city %>, 
+						<% if @school.map_state? %> 
+							<%= STATES_ARRAY[@school.map_state.to_i-1] %>,
+						<% end %> 
+					<%= @school.map_zip %> <strong>| </strong> 
+					<% if @school.latitude? && @school.longitude? %>
+						<%= link_to "View on Google Maps »", "http://maps.google.com/maps?q="+@school.latitude.to_s+","+@school.longitude.to_s+"&z=10", :target => "_blank" %>
+					<% end %>
+				</p>
+				
+				<!-- SOCIAL LINKS -->
+				<p style="margin-left:10px; width:auto">
+					<% if @school.website? %>
+					  <% if @school.website.include? '//' %>
+					    <%= link_to image_tag('tioki/icons/globe.png'), @school.website, :target => "_blank" %>
+					  <% else %>
+					    <%= link_to image_tag('tioki/icons/globe.png'), '//'+@school.website, :target => "_blank" %>
+					  <% end %>
+					<% end %>
+
+					<% if @school.twitter? %>
+					  <% if @school.twitter.include? '//' %>
+					    <%= link_to image_tag('tioki/icons/twitter2.png'), @school.twitter, :target => "_blank" %>
+					  <% else %>
+					    <%= link_to image_tag('tioki/icons/twitter2.png'), '//'+@school.twitter, :target => "_blank" %>
+					  <% end %>
+					<% end %>
+					
+					<% if @school.facebook? %>
+					  <% if @school.facebook.include? '//' %>
+					    <%= link_to image_tag('tioki/icons/fb_button.png'), @school.facebook, :target => "_blank" %>
+					  <% else %>
+					    <%= link_to image_tag('tioki/icons/fb_button.png'), '//'+@school.facebook, :target => "_blank" %>
+					  <% end %>
+					<% end %>
+					
+					<% if @school.greatschools? %>
+					  <% if @school.greatschools.include? '//' %>
+					    <%= link_to image_tag('tioki/icons/greatschools.png'), @school.greatschools, :target => "_blank", :style => "height:25px" %>
+					  <% else %>
+					    <%= link_to image_tag('tioki/icons/greatschools.png'), '//'+@school.greatschools, :target => "_blank" %>
+					  <% end %>
+					<% end %>
+
+					<% if @school.additionallink? %>
+					  <% if @school.additionallink.include? '//' %>
+					    <%= link_to @school.additionallinkname, @school.additionallink, :target => "_blank"  %>
+					  <% else %>
+					    <%= link_to @school.additionallinkname, '//'+@school.additionallink, :target => "_blank"  %>
+					  <% end %>
+					<% end %>
+				
+					
+				</p>
+			</section>
+			
+		<!--START SCHOOL PICTURE-->	
+		<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
+			<% if @school.picture? %><%= image_tag @school.picture.url(:medium), :style => "width:160px;height:auto" %><% else %><%= image_tag('tioki/icons/placeholder.png') %><% end %>
+		</section>
+	</section>
+	<!-- CONTENT SECTION -->
+	<section class="panels">
+		<section class="two-column left-side" style ="min-height:650px">
+			<% if @school.gmaps? %>
+			<%= gmaps("markers" => {"data" => @json}, "map_options" => {"processing" => "json", "auto_adjust" => true, "auto_zoom" => false, "zoom" => 15}) %>
+			<% end %>
+			<% if @school.description? %>
+				<h3 class="bottom-line">
+					Description
+				</h3>
+				<p style="width:auto">
+					<%=raw auto_link(@school.description).gsub(/\n/, '<br />') %>
+				</p>
+			<% end %>
+			<% if @school.mission? %>
+				<h3 class="bottom-line">
+					Mission Statement
+				</h3>
+				<p style="width:auto">
+					<%=raw h(@school.mission).gsub(/\n/, '<br />') %>
+				</p>
+			<% end %>
+		</section>
+		
+		<!-- AVAILABLE POSITIONS-->
+		<section id="list" class="panel one-column right-side" style ="border-radius:0px">
+			<h4 style="margin-left:10px">
+				Jobs at <%= @school.name %>
+			</h4>
+					<% if @school.jobs %>
+							<% @school.jobs.each do |job| %>
+							<section class="panel-actions" style="padding: 5px 10px 5px 10px">
+								<p style="width:auto">
+								<%= link_to job.title, job %>
+								<br/>
+								<span style="color:#8B8B8B;font-size:12px">
+								<%= @school.map_city %><% if @school.map_state? %>, <%= STATES_ARRAY[@school.map_state.to_i-1] %><% end %> <%= @school.map_zip %>
+								</span>
+								</p>
+							</section>
+							<% end %>
+					<% else %>
+						<p>
+							Looks like their all shored up right now. Follow them, and we'll let you know when they post a new position.
+						</p>
+					<% end %>
+				</section>
+		</section>
+		
+		<!--CONTACT INFORMATION-->
+		<% if @school.show_personal_info == true %>
+			<section id="list" class="panel one-column right-side" style ="border-radius:0px">
+				<h4 class="bottom-line" style="margin-left:10px">
+					Contact Information
+				</h4>
+				<section class="panel-actions">
+					<p style="width:auto">
+		  				<%= @school.representative_title %><br />
+						<% if @owner.email? %>
+		  					Email: <%= link_to @owner.email, "mailto:"+@owner.email %>
+						<% end %><br />
+		  				Phone: <%= @school.phone %><br />
+		  				Fax: <%= @school.fax %>
+					</p>	
+					<%= link_to " Message School Contact", { :controller => 'messages', :action => 'new', :user_id_to => @school.user.id.to_s }, {:class => "action-button bg-salmon"} %>
+				</section>
+			</section>
+		<% end %>
+	</section>
+</section>

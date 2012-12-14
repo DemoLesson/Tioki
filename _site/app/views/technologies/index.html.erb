@@ -1,0 +1,109 @@
+<div id="intro">
+	<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
+	Welcome to your technologies page!
+	</h2>
+	<p style="margin:0;">
+	Here are a few tips on how to get the most out of Tioki.
+	</p>
+	<section>
+		<p>
+		<span class="bold caps">Find New Technologies</span><br />
+		Find out what new technologies educators are using in the classroom.
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Explore Technologies</span><br />
+		Click on a technology to learn more about it!
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Add Technologies</span><br />
+		See a technology that you use in the classroom? Add it to your profile!
+		</p>
+	</section>
+	<section>
+		<p>
+		<span class="bold caps">Tell Tioki About New Technologies</span><br />
+		Don't see a technology that you use in the classroom? Tell us about it!
+		</p>
+	</section>
+</div>
+
+<section id="main-content" class="inner-content">
+<h1>Technologies</h1>
+<div id="content">
+	<% @technologies.each do |technology| %>
+		<div class="item_jobs" style="height:auto;margin-left: -30px">
+			<div class="item_picture">
+				<% if technology.picture? %><%= link_to image_tag(technology.picture.url(:thumb)), technology %><% else %><%= link_to image_tag("no_image.png"), technology %><% end %>
+			</div>
+			<div class ="item_desc">
+				<p>
+					<h3>
+					<%= link_to technology.name, technology, :style => "color:#4D4D4D" %>
+					</h3>
+					<p style="margin-top:-15px">
+						<% if technology.description.size > 270 %><%=h (technology.description.gsub(%r{</?[^>]+?>}, '')[0..274]+'...').html_safe %>
+						<% else %><%=h technology.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+						<% end %>
+					</p>
+					<% if self.current_user %>
+						<% if self.current_user.technologies.include? technology %>
+							<%= link_to "Remove From Profile", { :action => "remove_technology", :id => technology.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" %>
+						<% else %>
+							<%= link_to "Add To My Profile", { :action => "add_technology", :id => technology.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" %>
+						<% end %>
+					<% end %>
+					
+					<!-- Check if the Technology has tags in order to determine if the tags should be displayed-->
+					<% if technology.skills.count  > 0 %>
+					<section style="margin-left: 125px;width:400px">
+					Tags:
+						<% technology.skills.each do |skill| %>
+							<span class="skills">
+								<a href="/skill/<%= skill.id.to_s %>" >
+									<%= skill.name %> &middot;
+								</a>
+							</span>
+						<% end %>
+					</section>
+					<% end %>
+					<div style="clear:both"></div>
+				</p>
+			</div>
+		</div>
+	<% end %>
+	
+	<h4>
+	Something Missing?
+	</h4>
+	<p>
+	Do you use an awesome technology that other educators would like? <%= link_to "Let us know", "/techsuggestion" %> and we'll add it to the list. 
+	
+</div>
+</section>
+
+<% if !cookies[:technologies_viewed] %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').introOverlay({
+			introLength: 10000, // anything numeric no quotes
+			transitionSpeed: 400, // ditto
+			introAutoFade: false, //timed fade on overlay...true or false
+			introCloseBtn: true, //btn to close overlay...true or false
+			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+			openAnimation: true, //opening animation...true or false
+			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+			cookieActive : false,
+			/* also you can use 'href' to load content for a seperate page..
+			when using href it also uses the class of the clicked element to find the content...
+			it goes like this .load(href class); check source for use */ 
+			introTemplate: 'full', // either 'full' or 'module'
+			introTurnOffLights: false, //turn off and on lights...true or false
+		});
+	});
+</script>
+	<% cookies[:technologies_viewed] = { :value => true, :expires => 1.month.from_now } %>
+<% end %>

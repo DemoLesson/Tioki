@@ -1,0 +1,114 @@
+<section id="main-content" class="inner-content" style="margin-top:30px">
+	<section>
+		<nav class="subpage" style="padding-left:0px">
+			<ul>
+				<li>
+					<a href="/groups">
+					Groups
+					</a>
+				</li>
+				<li class="current">
+						My Groups
+				</li>
+				<% if self.current_user %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
+					</div>
+				<% end %>
+			</ul>
+		</nav>
+	</section>
+	<section class="panels">
+		<section class="two-column left-side">
+			<% if @groups != nil %>
+		  		<% @groups.each do |group| %>
+					<div class="item_jobs" style="height:auto;">
+							<div class="item_picture">
+								<% if group.picture? %>
+									<%= link_to image_tag(group.picture.url(:thumb)), group %>
+								<% else %>
+									<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %>
+								<% end %>
+							</div>
+							<div class ="item_desc">
+								<p style="width:auto">
+									<h3 style="padding-left:122px">
+										<% if group.name.size > 65 %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..69]+'...').html_safe, group, :style => "color:#4D4D4D" %>
+										<% else %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#4D4D4D" %>
+										<% end %>
+									</h3>
+									<p style="margin-top:-15px; width:525px">
+										<% if group.description.size > 230 %>
+											<%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..234]+'...').html_safe %>
+										<% else %>
+											<%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+										<% end %>
+									</p>
+									<% if self.current_user %>
+										<% unless self.current_user.groups.include? group %>
+											<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
+										<% end %>
+									<% end %>
+						
+									<div style="clear:both"></div>
+								</p>
+							</div>
+					</div>
+		  		<% end %>
+			<% else @groups == nil %>
+			<p> You're not in any groups yet! Here are some you should join'</p>	
+			<% end %>
+		</section>
+		<section class="panel one-column right-side" style ="width:276px;height:430px;border-radius:5px">
+			<section style="padding-left:10px;padding-right:10px">
+				<h4 class="bottom-line">
+					Featured Groups
+				</h4>
+				<!-- Featured Group 1-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:75px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Education Bloggers	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					43 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 2 } %>
+				</p>
+				<br/>
+			
+				<!-- Featured Group 2-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:75px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Beta Testing Teachers	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					30 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 50 } %>
+				</p>
+				<br />
+				
+				<!-- Featured Group 3-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:75px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					Educators on Twitter	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					18 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 101 } %>
+				</p><br/>
+				
+				<!-- Featured Group 4-->
+				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121111001202-20121111001200-20121111001159-entrepreneur.jpg?1352592718", :style => "width:75px"), 'http://tioki.com/groups/51-edtech-entrepreneurs/members' %>
+				<h5 style="margin:-65px 0px 0px 90px">
+					EdTech Entrepreneurs	
+				</h5>
+				<p style="margin:0 0px 0px 90px">
+					34 Members<br/>
+					<%= link_to "Join +", { :action => "add_group", :id => 51 } %>
+				</p><br/>
+			</section>
+		</section>
+	</section>
+	<div class="clearfloat"></div>
+</section>

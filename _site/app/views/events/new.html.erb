@@ -1,0 +1,10 @@
+<section id="main-content" class="inner-content events-wrapper">
+	<h1>New Event</h1>
+
+	<% unless self.current_user.nil? %>
+		<%= render 'form' %>
+	<% else %>
+		<p>You must be logged in in order to submit a new event on DemoLesson.</p>
+	<% end %>
+
+</section>

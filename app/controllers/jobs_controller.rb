@@ -9,54 +9,54 @@
 	# GET /jobs.xml
 	def index
 
-		# Deprecate job filter needs a replacement
-		@subjects = Subject.all
-		if params[:subject].present? || params[:school_type].present? || params[:grade_level].present? || params[:calendar].present? || params[:employment].present? || params[:special_needs].present? || params[:searchkey].present? || params[:location].present?
-			tup = SmartTuple.new(" AND ")
+		if @source.nil?
+			# Deprecate job filter needs a replacement
+			@subjects = Subject.all
+			if params[:subject].present? || params[:school_type].present? || params[:grade_level].present? || params[:calendar].present? || params[:employment].present? || params[:special_needs].present? || params[:searchkey].present? || params[:location].present?
+				tup = SmartTuple.new(" AND ")
 
-			#tup << ["schools.map_zip = ?", params[:zipcode][:code]] if params[:zipcode][:code].present?
+				#tup << ["schools.map_zip = ?", params[:zipcode][:code]] if params[:zipcode][:code].present?
 
-			tup << ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
+				tup << ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
 
-			tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
+				tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
 
-			# On KVPairs Now
-			# Review
-			#tup << ["schools.school_type = ?", params[:school_type]] if params[:school_type].present?
-			#tup << ["schools.grades = ?", params[:grade_level]] if params[:grade_level].present?
-			#tup << ["schools.calendar = ?", params[:calendar]] if params[:calendar].present?
+				# On KVPairs Now
+				# Review
+				#tup << ["schools.school_type = ?", params[:school_type]] if params[:school_type].present?
+				#tup << ["schools.grades = ?", params[:grade_level]] if params[:grade_level].present?
+				#tup << ["schools.calendar = ?", params[:calendar]] if params[:calendar].present?
 
-			tup << ["employment_type = ?", params[:employment]] if params[:employment].present?
+				tup << ["employment_type = ?", params[:employment]] if params[:employment].present?
 
-			tup << ["special_needs = ?", params[:special_needs]] if params[:special_needs].present?
+				tup << ["special_needs = ?", params[:special_needs]] if params[:special_needs].present?
 
-			tup << ["jobs.created_at > ?", Date.today- params[:posttime].to_f.days] if params[:posttime].present?
+				tup << ["jobs.created_at > ?", Date.today- params[:posttime].to_f.days] if params[:posttime].present?
 
-			if params[:location].present? && params[:location][:city].length > 0
-				@schools = School.near(params[:location][:city], params[:radius]).collect(&:id)
+				if params[:location].present? && params[:location][:city].length > 0
+					@schools = School.near(params[:location][:city], params[:radius]).collect(&:id)
 
-				if @schools.size == 0
-					#will_paginate does not like nil objects or arrays so just giving it something it will not have an error on
-					@jobs = Job.unscoped.is_active.near(params[:location][:city], params[:radius]).paginate(:page => params[:page], :order => 'created_at DESC')
+					if @schools.size == 0
+						#will_paginate does not like nil objects or arrays so just giving it something it will not have an error on
+						@jobs = Job.unscoped.is_active.near(params[:location][:city], params[:radius]).paginate(:page => params[:page], :order => 'created_at DESC')
+					else
+						if params[:subject].present?
+							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => [:school, :subjects],:conditions => tup.compile, :order => 'created_at DESC')
+						else
+							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => :school,:conditions => tup.compile, :order => 'created_at DESC')
+						end
+					end
 				else
 					if params[:subject].present?
-						@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => [:school, :subjects],:conditions => tup.compile, :order => 'created_at DESC')
+						@jobs = Job.is_active.paginate(:page => params[:page], :joins => [:school, :subjects], :conditions => tup.compile, :order => 'created_at DESC')
 					else
-						@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => :school,:conditions => tup.compile, :order => 'created_at DESC')
+						@jobs = Job.is_active.paginate(:page => params[:page], :joins => :school, :conditions => tup.compile, :order => 'created_at DESC')
 					end
 				end
 			else
-				if params[:subject].present?
-					@jobs = Job.is_active.paginate(:page => params[:page], :joins => [:school, :subjects], :conditions => tup.compile, :order => 'created_at DESC')
-				else
-					@jobs = Job.is_active.paginate(:page => params[:page], :joins => :school, :conditions => tup.compile, :order => 'created_at DESC')
-				end
+				@jobs = Job.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
 			end
 		else
-			@jobs = Job.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
-		end
-
-		unless @source.nil?
 			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
 		end
 		
@@ -404,8 +404,9 @@
 		# Jobs source
 		def source_owner
 			unless params[:user_id].nil?
-				dump ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).to_sql
-				dump @source = Job.joins(:group).where('`groups`.`id` IN (?)', ids).to_sql
+				ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).map(&:id)
+				@source = Job.joins(:group).where('`groups`.`id` IN (?)', ids)
+				@org = true
 			end
 		end
 end

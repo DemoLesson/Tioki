@@ -1,0 +1,51 @@
+<section id="main-content" class="inner-content">
+	
+<h2>Jobs at <%= link_to @school.name, @school %></h2>
+
+<div id="sidebar" class="job_browser">
+	
+	<h4>Select School</h4>
+
+	<%= form_for :my_jobs do |f| %>
+          <% if self.current_user.is_limited %>
+            <p><%= select_tag 'school_id', options_from_collection_for_select(self.current_user.sharedschools, :id, :name), :multiple => false, :value => "School" %></p>
+          <% else %>
+            <p><%= select_tag 'school_id', options_from_collection_for_select(self.current_user.schools, :id, :name), :multiple => false, :value => "School" %></p>
+          <% end %>
+		<div><%= f.submit "View Jobs", :class => "btn" %></div>
+	<% end -%>
+	
+	<h4>Post Jobs</h4>
+	
+	<div>
+		<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "btn btn-success"} %>
+	</div>
+
+	<h4>Tip</h4>
+
+Job opportunities at <%= link_to @school.name, @school %> you've posted are listed here. 
+
+</div>
+
+<div id="content">
+<% @jobs.each do |job| %>
+<div class="item">
+	<p class="attached">
+		<span class="purge"><%= link_to 'Remove?', job, :method => "delete", :confirm => 'Are you sure you want to remove this posting? This is not reversible and will remove ALL related data including interviews and applications.' %></span>
+	<strong><%= link_to job.title, job %> <% if job.active == false %><span style="color:red">(Inactive)</span><% end %></strong>
+	<br />
+	<%= link_to job.applications.is_active.count.to_s+" Applicants", :controller => :applications, :action => :index, :id => job.id %>, <%= link_to job.new_applicants.count.to_s+" New", :controller => :applications, :action => :index, :id => job.id %> &middot; <%= link_to "Edit posting", edit_job_path(job) %>
+	</p>
+</div>
+<% end %>
+
+<div class="apple_pagination">
+	<p><%= will_paginate @jobs, :container => false %></p>
+</div>
+
+</div>
+
+<div style="display:none;height:0px">
+	<%= javascript_tag " $(\"#school_id\").chosen() "%>
+</div>
+</section>

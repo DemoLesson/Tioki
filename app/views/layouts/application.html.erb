@@ -278,15 +278,10 @@
 					</li>
 					<% if currentUser.dashboard == 'recruiter' %>
 						<li>
-                            <%= link_to "My Schools", "/my_schools" %>
+                            <%= link_to "My organizations", user_groups_path(currentUser, :organization => true, :mine => true) %>
                         </li>
                         <li>
-                            <a href="/events">
-                            Events
-                            </a>
-                        </li>
-                        <li>
-                            <%= link_to "My Jobs", :my_jobs %>
+                            <%= link_to "My Jobs", user_jobs_path(currentUser) %>
                         </li>
 					<% else %>
 						<li>

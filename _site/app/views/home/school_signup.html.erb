@@ -1,0 +1,55 @@
+<section id="main-content" class="inner-content signup-page" style="height:400px">
+	
+	<h2>
+		Start Recruiting Top Talent with Tioki
+	</h2>
+	<section class="one-column left-side" >
+		<%= form_tag  :controller => :home, :action => :school_signup do %>
+			<fieldset>
+				<small><em>First Name:</em></small>
+          		<%= text_field_tag :contact_first, params[:contact_first],:placeholder => "Abe" %>
+			</fieldset>
+
+			<fieldset>
+				<small><em>Last Name:</em></small>
+				<%= text_field_tag :contact_last, params[:contact_last], :placeholder => "Lincoln" %><br />
+			</fieldset>
+					
+    		<fieldset>
+				<small><em>School/Company Name:</em></small>
+				<%= text_field_tag :name, params[:name],:placeholder => "Los Angeles School District" %>
+			</fieldset>
+
+			<fieldset>
+				<small><em>Your Email Address:</em></small>
+				<%= text_field_tag :email, params[:email], :placeholder => "john@lausd.org" %><br />
+			</fieldset>
+		
+			<fieldset>
+				<small><em>Password:</em></small>
+				<%= password_field_tag :pass, params[:pass], :placeholder => "********" %><br />
+			</fieldset>
+			
+			<fieldset>
+				<small><em>Confirm Password:</em></small>
+				<%= password_field_tag :confirm_pass, params[:confirm_pass], :placeholder => "********" %><br />
+			</fieldset>
+			
+			<fieldset>
+				<small><em>Type:</em></small><br/>
+				<%= select(:school, :school_type, { "District" => "1", "Charter" => "2", "Private" => "3", "Other" => "4" }) %><br />
+			</fieldset>
+			<p>
+				<%= submit_tag "Start Posting", :class => "button" %>
+			</p>
+		<% end %>	
+	</section>
+	
+	<section class="two-column right-side" style="margin-top:-10px">
+		<h3 style="margin-left: 150px;color:#2AA99B">
+			Start recruiting amazing educators today.
+		</h3>
+			<%= image_tag 'tioki/connected_map.png', :style => "width:500px;margin-left:100px" %>
+	</section>
+	
+</section>

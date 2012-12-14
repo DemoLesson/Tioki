@@ -1,0 +1,54 @@
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Would you like to include a demo lesson video with this application?</h1>
+	</div>
+	<div class="clear"></div>
+
+	<div class="five columns">
+
+		<h2>Link from YouTube or Vimeo</h2>
+		<form action="/add_embed" method="POST">
+			<input type="hidden" name="redirect" value="<%= url + '/step7' %>" />
+			<input type="hidden" name="session" value="true" />
+			<label>
+				<span>Video URL</span>
+				<input type="text" name="video_embed_url" placeholder="http://www.youtube.com/watch?v=cPYiS5ebGgk" />
+			</label>
+			<label>
+				<span></span>
+				<input type="submit" class="button large" value="Attach Video &amp; Continue" />
+			</label>
+		</form>
+	</div>
+
+	<div class="five columns" style ="float:right">
+		<h2>or Upload a new video</h2>
+		<%= direct_upload_form_for @uploader do |f| %>
+			<label>
+				<span>Video File</span>
+				<%= f.file_field :video %>
+			</label>
+		  	<label>
+				<span></span>
+				<input type="submit" class="button large" value="Upload / Attach Video &amp; Continue" />
+			</label>
+		<% end %>
+	</div>
+	
+	
+	</div>
+	
+	<div class ="eleven columns">
+		<div style="clear:both;height:40px;"></div>
+		<a href="step7" data-confirm="Are you sure? We highly recommend you attach a video." class="large button" style="padding:9px 50px;width:auto;float:right">Skip →</a>
+		<div style="clear:both;height:40px;"></div>
+	</div>
+	<div class="four columns">
+	</div>
+</div>

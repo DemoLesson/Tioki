@@ -1,0 +1,213 @@
+<section id="main-content" class="inner-content events-wrapper">
+	<h1><%= @event.name %></h1>
+	<section class="profile group">
+		<nav class="subpage">
+			<ul>
+				<li>
+					<a href="/events">
+						<span class="iconic arrow_left"></span> Events List
+					</a>
+				</li>
+				<li class="current">
+					Event Details
+				</li>
+				<% if User.current %>
+				<li>
+					<a href="<%= event_path(@event) %>/invite">
+						Invite Friends
+					</a>
+				</li>
+				<% end %>
+				<% if @event.user == User.current || (User.current && User.current.is_admin) %>
+					<li>
+						<a href="<%= event_path(@event) + '/edit' %>">
+							Edit Event
+						</a>
+					</li>
+				<% end %>
+			</ul>
+		</nav>
+		<section class="sidebar">
+			<section class="panel" style="padding:10px 0px 5px 0px">
+
+				<!-- Event Image -->
+				<div class="profile-thumb-large" style="margin: 0px 0px -10px 10px;">
+					<span class="iconic calendar_alt_stroke" style="font-size:150px;line-height:160px;display:block;text-align:center;color:#FFF"></span>
+				</div>
+
+				<!-- Event Dates -->
+				<h3 style="margin: 0px 0px -10px -5px">
+					Event Dates
+				</h3>
+				<div style="margin: 0px 10px 10px;">
+					<p><%= event_dates @event %></p>
+				</div>
+
+				<!-- External RSVP -->
+				<% unless @event.rsvp_external.nil? || @event.rsvp_external.empty? %>
+					<h3 style="margin: 0px 0px -10px -5px">
+						Reserve Your Place
+					</h3>
+					<div style="margin: 0px 10px 10px;">
+						<p>This event has an offsite rsvp system, or may require tickets. Head on over and submit your RSVP then let us know if your going below.</p>
+						<a href="<%= @event.rsvp_external %>" class="button large" target="_blank"><span class="iconic new_window"></span> RSVP Offsite</a>
+					</div>
+				<% end %>
+
+				<% if User.current %>
+					<!-- RSVP Status -->
+					<h3 style="margin: 0px 0px -10px -5px">
+						RSVP Status
+					</h3>
+					<div style="margin: 0px 10px 10px;">
+						<a href="<%= event_path(@event) + '/rsvp' %>" class="button <%= "bg-green" if rsvp_status(@event) %> large"><span class="iconic check"></span> Going</a>
+						<a href="<%= event_path(@event) + '/rsvp?disconnect=1' %>" class="button <%= "bg-green" unless rsvp_status(@event) %> large"><span class="iconic x"></span> Not Going</a>
+					</div>
+				<% end %>
+			</section>
+
+			<!-- RSVPs -->
+			<section class="info">
+				<p class="heading">RSVPs</p>
+				<div style="padding:0px 20px;">
+					<% @event.rsvp.all.shuffle.select{|x|x.avatar?}[0..17].each do |c| %>
+						<div class="profile-thumb-small" style="float:left;margin:0px;overflow:hidden;">
+							<%= link_to image_tag(c.avatar(:medium), :style => 'min-height:45px;min-width:45px;'), "/profile/#{c.slug}" unless c.nil? %>
+						</div>
+					<% end %>
+					<div style="clear:both;"></div>
+				</div>
+			</section>
+		</section>
+		<section class="profile-content panel">
+			<h3>
+				<%= @event.name %>
+				 <%= "[" + @event.eventformats[0].name + "]" unless @event.eventformats.nil? || @event.eventformats.empty? %>
+			</h3>
+			<% unless @event.skills.empty? %>
+				<div class="panel-actions" style="display:block;">
+					<strong>Skills Emphasized</strong><br />
+					<%= @event.skills.collect!{|x| link_to x.name, "/skill/#{x.id}", :class => 'salmon'}.join(', ').html_safe %>
+				</div>
+			<% end %>
+			<div class="panel-actions" style="display:block;">
+				<strong>Description</strong>
+				<p><%= @event.description %></p>
+
+				<% if !@event.attendance_cost.nil? && @event.attendance_cost > 0 %>
+					<strong>Attendance Cost</strong>
+					<p><%= number_to_currency @event.attendance_cost %> / person</p>
+				<% end %>
+
+				<% unless @event.virtual %>
+					<strong>Event Location</strong>
+					<p><%= location :physical, @event %></p>
+				<% else %>
+					<strong>Virtual Access</strong>
+					<p><%= location :virtual, @event %></p>
+				<% end %>
+
+				<% unless @event.host_organization == nil %>
+					<strong>Hosting Organization</strong>
+					<p>
+						Name: <%= @event.host_organization %><br />
+						<% unless @event.host_organization_website == nil %>
+							Organization Webite: <a href="<%= @event.host_organization_website %>" target="_blank"><%= @event.host_organization_website %></a>
+						<% end %>
+					</p>
+				<% end %>
+			</div>
+		</section>
+		<section class="profile-content panel">
+			<h3>Comments</h3>
+			<ul id="comments">
+				<% @comments.each do |comment| %>
+					<% @comment = comment %>
+					<%= render 'comments/show' %>
+				<% end %>
+			</ul>
+			<% unless User.current.nil? %>
+				<section class="panel-actions">
+					<form id="post-comment" action="<%= event_path(@event) + "/comment"  %>" method="post">
+						<textarea name="comment" style="height:50px;"></textarea>
+						<input type="submit" value="Post Comment" />
+					</form>
+				</section>
+
+				<!-- Load js for processing comments - AJAX HACK -->
+				<script type="text/javascript">
+				$(document).ready(function() {
+					$('form#post-comment').submit(function(e) {
+						e.preventDefault();
+
+						var form = $(this);
+						$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+							if(r.id !== undefined && r.type == 'success') {
+								form.find('textarea').val('Posted!').prop('disabled', true);
+								$.get('/comments/' + r.id, function(d) {
+									comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
+									$('ul#comments').append(comment);
+									comment.slideDown(500, function() {
+										$('ul#comments').scrollTo('100%', 800);
+										setTimeout(function() {
+											comment.animate({backgroundColor: '#FFF'}, 600);
+											form.find('textarea').val('').prop('disabled', false);
+										}, 1000);
+									});
+								});
+							}
+						})
+
+						return false;
+					});
+
+					// Favorite a comment
+					$('a[comment-action="favorite"]').live('click', function(e) {
+						e.preventDefault();
+
+						var link = $(this);
+						$.get(link.attr('href') + '.json', function(r) {
+
+							// Star the post
+							if(r.type == 'success' && r.new) {
+								link.removeClass('star-empty').addClass('star-gold');
+								var inc = parseInt(link.text()) + 1;
+								if(isNaN(inc)) link.text('1');
+								else link.text(inc);
+							}
+
+							// Unstar the post
+							if(r.type == 'success' && !r.new) {
+								link.removeClass('star-gold').addClass('star-empty');
+								var dec = parseInt(link.text()) - 1;
+								if(isNaN(dec) || dec === 0) link.text('');
+								else link.text(dec);
+							}
+						});
+
+						return false;
+					});
+
+					// Delete a comment
+					$('a[comment-action="delete"]').live('click', function(e) {
+						e.preventDefault();
+
+						var link = $(this);
+						$.get(link.attr('href') + '.json', function(r) {
+							var li = link.closest('li');
+
+							// Hide the post
+							if(r.type == 'success') li.slideUp(500, function() {
+								$('span.tooltip').remove();
+								$(this).remove();
+							});
+						});
+
+						return false;
+					});
+				});
+				</script>
+			<% end %>
+		</section>
+	</section>
+</section>

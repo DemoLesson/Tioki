@@ -1,0 +1,69 @@
+<section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
+	<section>
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+				Recent Discussions
+				</li>
+				<% if self.current_user %>
+				<li>
+					<a href="/my_discussions">
+						My Discussions
+					</a>
+				</li>
+				<li>
+					<a href="/followed_discussions">
+						Followed Discussions
+					</a>
+				</li>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Start New Discussion", new_discussion_path, :class => "action-button bg-green" %>
+					</div>
+				<% else %>
+					<div style="float:right;margin-top:0px">
+						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&discussion_signup', :class => "action-button bg-green", :target => "_blank" %>
+					</div>
+				<% end %>
+			</ul>
+		</nav>
+	</section>
+	<section id="panels">
+		<section id="list" class="panel three-column left-side">
+		<h4 style="margin-left:25px">
+		</h4>
+		<ul>
+			<% @discussions.each do |discussion| %>
+				<li>
+					<p style="float:left;margin-left:12px">
+						<strong>
+						<%= link_to discussion.title, discussion %>
+						</strong>
+					</p>
+					<p style="color:#999;float:left;margin-left:12px;font-size:12px">
+						<%= discussion.followers.count %><% if discussion.followers.count == 1 %> follower<% else %> followers<% end %>,
+						<%= discussion.comment_threads.count %><% if discussion.comment_threads.count == 1 %> reply<% else %> replies<% end %>
+					</p>
+					<p style="float:left;margin-left:12px;font-size:12px">
+						Topics: 
+						<% discussion.skills.each do |skill| %>
+							<%= link_to skill.name, "/skill/#{skill.id}" %> |
+						<% end %>
+					</p>
+					<p style="float:left;margin:15px 0px 0px 12px">
+						Participants:
+						<% discussion.participants.each do |user| %>
+							<% if user %>
+								<% if user.avatar? %>
+									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}" %>
+								<% else %>
+									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}"  %>
+								<% end %>	
+							<% end %>
+						<% end %>
+					</p>
+				</li>
+			<% end %>
+		</ul>
+		</section>
+	</section>
+</section>

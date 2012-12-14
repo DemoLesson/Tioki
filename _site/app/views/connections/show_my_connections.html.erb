@@ -1,0 +1,23 @@
+<li>
+	<div class="profile-thumb-big">
+		<% if @connection.not_me.avatar? %>
+			<%= link_to image_tag(@connection.not_me.avatar.url(:thumb)), "profile/#{@connection.not_me.slug}" %>
+		<% else %>
+			<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{@connection.not_me.slug}" %>
+		<% end %>
+	</div>
+	<p>
+		<a href="/profile/<%= @connection.not_me.slug %>"><%= @connection.not_me.name %></a>
+		<br />
+		<%= @connection.not_me.current_job_string %><br />
+		<%= @connection.not_me.location %>
+	</p>
+	<div>
+		<a href="/profile/<%= @connection.not_me.slug %>/connections" class="count connections">
+			<%= @connection.not_me.connections.not_pending.count.to_s %>
+		</a>
+		<a href="/messages/new?user_id_to=<%= @connection.not_me.id %>" class="sendmessage">
+			Send Message
+		</a>
+	</div>
+</li>

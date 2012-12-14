@@ -1,0 +1,52 @@
+<div id="wrapper">
+
+<!-- Include these scripts to import address books with CloudSponge -->
+<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
+<script type="text/javascript" charset="utf-8">
+var csPageOptions = {
+  domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>", 
+  textarea_id:"referral_emails"
+};
+</script>
+
+<h1 class="green">Demo Lesson Referral</h1>
+
+ Complete the fields below to send your friend a link to Demo Lesson!</br></br>
+
+<%= form_for :referral, :url => { :controller => :home, :action => :site_referral_email} do |f| -%>
+
+	<table style="width:100%">
+		<td style="width:40%;vertical-align:top;">
+			<div class="field">
+				<%= f.label :teachername, "Your Name" %><br />
+				<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+			</div>
+			
+			<% if false %>	
+			    <div class="field">
+					<%= f.text_field :name, :placeholder => "Friend's Name", :size => 44 %><br />
+				</div>
+			<% end %>
+				
+			<div class="field">
+				<%= f.label :emails, "Friend's Emails" %><br />
+				<%= f.text_area :emails, :placeholder => "Friend's Emails", :size => 44, :style => "height:75px;width:100%", :class => "css3-border-box" %><br />
+				<a class="cs_import">Add from Address Book</a>
+			</div>
+				
+			<div>
+				<%= f.submit "Send Email", :class => "btn btn-success" %>
+				<%= link_to 'Back', :back, :class => "btn" %>
+			</div>
+		</td>
+		<td style="width:60%;vertical-align:top;padding-left:20px">
+			<div class="field">
+				<%= f.label :message, "Email Message" %><br />
+				<%= f.text_area :message, :value => @default_message, :style => "height:150px;width:100%", :class => "css3-border-box" %>
+			</div>
+		</td>
+	</table>
+	
+<% end -%>
+
+</div>

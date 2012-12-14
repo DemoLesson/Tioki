@@ -1,228 +1,240 @@
 <section id="main-content" class="inner-content">
-<div id="content_full">
-	
-<%= form_tag jobs_path, :method => :get do %>
-  <div id = "search">
-    <!--<span style:"margin-top: 6px"><img src="/assets/magnifying_glass.png" alt="magnifying_glass.png" /></span>--><span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#4D4D4D; text-shadow:#ccc 1px 1px 2px; margin-left:5px;"> Search Jobs </span>
-    <%= text_field_tag :searchkey, params[:searchkey], :placeholder => 'Search Keyword (job title, subject)', :size => 40 %>
-    <%= text_field :location, 'city', :placeholder => "Type a city or address", :size => 40 %> 
-    <%= submit_tag "GO", :id => "go", :class => "btn btn-success" %>
-    <div id="advanced" style="color:#4D4D4D">Advanced</div>
+	<%= form_tag jobs_path, :method => :get do %>
+		<div id="search">
+			<!--<span style:"margin-top: 6px"><img src="/assets/magnifying_glass.png" alt="magnifying_glass.png" /></span>--><span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#4D4D4D; text-shadow:#ccc 1px 1px 2px; margin-left:5px;"> Search Jobs </span>
+			<%= text_field_tag :searchkey, params[:searchkey], :placeholder => 'Search Keyword (job title, subject)', :size => 40 %>
+			<%= text_field :location, 'city', :placeholder => "Type a city or address", :size => 40 %> 
+			<%= submit_tag "GO", :id => "go", :class => "btn btn-success" %>
+			<div id="advanced" style="color:#4D4D4D">Advanced</div>
 
 
-    <div id="jobSearchMenu" class="hideAdvancedSearch" > 
-      <div id="jobList">
-        <div>Show Jobs within Distance of</div>
-        <div>That has been Posted within</div>
-        <!--div>That is for these Grade Levels</div-->
-        <!--div>Show jobs of School Type</div-->
-        <div>That is this Job Type</div>
-        <!--div>For this Calendar Year</div-->
-      </div>
-      <div id="jobSelection" >
-        <select id="radius" name="radius">
-          <option value="100">100 miles</option>
-          <option value="50">50 miles</option>
-          <option value="25" selected>25 miles</option>
-          <option value="20">20 miles</option>
-          <option value="15">15 miles</option>
-          <option value="10">10 miles</option>
-          <option value="5">5 miles</option>
-        </select><br />
-        <select id="posttime" name="posttime">
-          <option value="">Show All</option>
-          <option value="1">Last 24-hours</option>
-          <option value="7">Last 7 days</option>
-          <option value="14">14 days</option>
-          <option value="30">30 days</option>
-        </select><br />
-        <!-- ON KVPAIR # Review -->
-        <!--select id="grade_level" name="grade_level">
-          <option value="">Show All</option>
-          <option value="1">Pre-K</option>
-          <option value="2">Elementary</option>
-          <option value="3">Middle</option>
-          <option value="4">High School</option>
-          <option value="5">Adult School</option>
-          <option value="6">Other</option>
-          <option value="7">K-6</option>
-          <option value="8">K-8</option>
-          <option value="9">6-12</option>
-          <option value="10">12</option>
-        </select><br /-->
-        <!-- ON KVPAIR # Review -->
-        <!--select id="school_type" name="school_type">
-          <option value="">Show All</option>
-          <option value="2">Charter</option>
-          <option value="1">District</option>
-          <option value="3">Private</option>
-          <option value="4">Other</option>
-        </select><br /-->
-        <select id="employment" name="employment">
-          <option value="">Show All</option>
-          <option value="0">Full-Time</option>
-          <option value="1">Part-Time</option>
-          <!--<option value="Substitute">Substitute</option>-->
-          <option value="2">Contract</option>
-          <option value="3">Other</option>
-        </select>
-        <!-- ON KVPAIR # Review -->
-        <!--select id="calender" name="calender" >
-          <option value="">Show All</option>
-          <option value="1">Year-Round</option>
-          <option value="2">Track</option>
-          <option value="3">Semester</option>
-          <option value="4">Traditional</option>
-        </select-->
-      </div>
-    </div>
-  </div>
-<% end %>
+			<div id="jobSearchMenu" class="hideAdvancedSearch" > 
+				<div id="jobList">
+					<div>Show Jobs within Distance of</div>
+					<div>That has been Posted within</div>
+					<!--div>That is for these Grade Levels</div-->
+					<!--div>Show jobs of School Type</div-->
+					<div>That is this Job Type</div>
+					<!--div>For this Calendar Year</div-->
+				</div>
+				<div id="jobSelection">
+					<select id="radius" name="radius">
+						<option value="100">100 miles</option>
+						<option value="50">50 miles</option>
+						<option value="25" selected>25 miles</option>
+						<option value="20">20 miles</option>
+						<option value="15">15 miles</option>
+						<option value="10">10 miles</option>
+						<option value="5">5 miles</option>
+					</select><br />
+					<select id="posttime" name="posttime">
+						<option value="">Show All</option>
+						<option value="1">Last 24-hours</option>
+						<option value="7">Last 7 days</option>
+						<option value="14">14 days</option>
+						<option value="30">30 days</option>
+					</select><br />
+					<!-- ON KVPAIR # Review -->
+					<!--select id="grade_level" name="grade_level">
+						<option value="">Show All</option>
+						<option value="1">Pre-K</option>
+						<option value="2">Elementary</option>
+						<option value="3">Middle</option>
+						<option value="4">High School</option>
+						<option value="5">Adult School</option>
+						<option value="6">Other</option>
+						<option value="7">K-6</option>
+						<option value="8">K-8</option>
+						<option value="9">6-12</option>
+						<option value="10">12</option>
+					</select><br /-->
+					<!-- ON KVPAIR # Review -->
+					<!--select id="school_type" name="school_type">
+						<option value="">Show All</option>
+						<option value="2">Charter</option>
+						<option value="1">District</option>
+						<option value="3">Private</option>
+						<option value="4">Other</option>
+					</select><br /-->
+					<select id="employment" name="employment">
+						<option value="">Show All</option>
+						<option value="0">Full-Time</option>
+						<option value="1">Part-Time</option>
+						<!--<option value="Substitute">Substitute</option>-->
+						<option value="2">Contract</option>
+						<option value="3">Other</option>
+					</select>
+					<!-- ON KVPAIR # Review -->
+					<!--select id="calender" name="calender" >
+						<option value="">Show All</option>
+						<option value="1">Year-Round</option>
+						<option value="2">Track</option>
+						<option value="3">Semester</option>
+						<option value="4">Traditional</option>
+					</select-->
+				</div>
+			</div>
+		</div>
+	<% end %>
 
-<script> 
-$(document).ready(function() {
-	$("#advanced").click(function() {
-		if ($("#jobSearchMenu").hasClass("hideAdvancedSearch")) {
-			$("#jobSearchMenu").removeClass("hideAdvancedSearch").addClass("showAdvancedSearch");
-			$("#search").after($("#jobSearchMenu"));
-		} else {
-			$("#jobSearchMenu").removeClass("showAdvancedSearch").addClass("hideAdvancedSearch");
-		}
+	<!-- # Deprecate -->
+	<script type="text/javascript"> 
+	$(document).ready(function() {
+		$("#advanced").click(function() {
+			if ($("#jobSearchMenu").hasClass("hideAdvancedSearch")) {
+				$("#jobSearchMenu").removeClass("hideAdvancedSearch").addClass("showAdvancedSearch");
+				$("#search").after($("#jobSearchMenu"));
+			} else {
+				$("#jobSearchMenu").removeClass("showAdvancedSearch").addClass("hideAdvancedSearch");
+			}
+		});
 	});
-});
-</script>
+	</script>
 
-<!--START Job Search Criteria Display-->
-
-<div id="criteria">
-	<% params.each do |key, value| %>
-		<% if key == "subject" %>
+	<!--START Job Search Criteria Display-->
+	<div id="criteria">
+		<% params.each do |key, value| %>
+			<% if key == "subject" %>
+				<span class="criteria_option">
+					<strong>Subject: </strong>
+					<%= @subjects[params[:subject].to_i-1].name %>
+				</span>
+			<% elsif key == "school_type" %>
+				<% if value != "" %>
+					<span class="criteria_option">
+						<strong>School Type: </strong>
+						<% if value == "1" %>
+							District
+						<% elsif value == "2" %>	
+							Charter
+						<% elsif value == "3" %>
+							Private
+						<% elsif value == "4" %>
+							Other
+						<% end %>
+					</span>
+				<% end %>
+			<% elsif key == "grade_level" %>
+				<% if value != "" %>
+					<span class="criteria_option">
+						<strong>Grade Level: </strong>
+						<% if value == "1" %>
+							Pre-K
+						<% elsif value== "2" %>
+							Elementary
+						<% elsif value == "3" %>
+							Middle
+						<% elsif value == "4" %>
+							High School
+						<% elsif value == "5" %>
+							Adult School
+						<% elsif value == "6" %>
+							Other
+						<% elsif value == "7" %>
+							K-6
+						<% elsif value == "8" %>
+							K-8
+						<% elsif value == "9" %>
+							6-12
+						<% elsif value == "10" %>
+							K-12
+						<% end %>
+					</span>
+				<% end %>
+			<% elsif key == "calendar" %>
+				<% if value != "" %>
+					<span class="criteria_option">
+						<strong>Calendar: </strong>
+						<% if value == "1" %>
+							Year-round
+						<% elsif value == "2" %>
+							Track
+						<% elsif value == "3" %>
+							Semester
+						<% elsif value == "4" %>
+							Traditional
+						<% end%>
+					</span>
+				<% end %>
+			<% elsif key == "employment" %>
+				<% if value != "" %>
+					<span class="criteria_option">
+						<strong>Employment: </strong>
+						<% if value == "0" %>
+							Full Time
+						<% elsif value == "1" %>
+							Part Time
+						<% elsif value == "2" %>
+							Contract
+						<% elsif value == "3" %>
+							Other
+						<% end %>
+					</span>
+				<% end %>
+			<% elsif key == "special_needs" %>
+				<span class="criteria_option">
+				<% if value == "1" %>
+					Special Needs
+				<% end %>
+				</span>
+			<% end %>	
+		<% end %>
+		<% if params[:subject] || params[:school_type] || params[:grade_level] || params[:calendar] || params[:employment] || params[:special_needs] %>
 			<span class="criteria_option">
-			<strong>Subject: </strong>
-			<%= @subjects[params[:subject].to_i-1].name %>
+				<%= link_to "Remove All", :jobs %>
 			</span>
-		<% elsif key == "school_type" %>
-	          <% if value != "" %>
-			<span class="criteria_option">
-			<strong>School Type: </strong>
-			<% if value == "1" %>
-				District
-			<% elsif value == "2" %>	
-				Charter
-			<% elsif value == "3" %>
-				Private
-			<% elsif value == "4" %>
-				Other
-			<% end %>
-			</span>
-	              <% end %>
-		<% elsif key == "grade_level" %>
-	          <% if value != "" %>
-	            <span class="criteria_option">
-			<strong>Grade Level: </strong>
-			<% if value == "1" %>
-				Pre-K
-			<% elsif value== "2" %>
-				Elementary
-			<% elsif value == "3" %>
-				Middle
-			<% elsif value == "4" %>
-				High School
-			<% elsif value == "5" %>
-				Adult School
-			<% elsif value == "6" %>
-				Other
-			<% elsif value == "7" %>
-				K-6
-			<% elsif value == "8" %>
-				K-8
-			<% elsif value == "9" %>
-				6-12
-			<% elsif value == "10" %>
-				K-12
-			<% end %>
-	            </span>
-	          <% end %>
-		<% elsif key == "calendar" %>
-	          <% if value != "" %>
-			<span class="criteria_option">
-			<strong>Calendar: </strong>
-			<% if value == "1" %>
-				Year-round
-			<% elsif value == "2" %>
-				Track
-			<% elsif value == "3" %>
-				Semester
-			<% elsif value == "4" %>
-				Traditional
-			<% end%>
-			</span>
-	              <% end %>
-		<% elsif key == "employment" %>
-	          <% if value != "" %>
-			<span class="criteria_option">
-			<strong>Employment: </strong>
-			<% if value == "0" %>
-				Full Time
-			<% elsif value == "1" %>
-				Part Time
-			<% elsif value == "2" %>
-				Contract
-			<% elsif value == "3" %>
-				Other
-			<% end %>
-			</span>
-	              <% end %>
-		<% elsif key == "special_needs" %>
-			<span class="criteria_option">
-			<% if value == "1" %>
-				Special Needs
-			<% end %>
-			</span>
-		<% end %>	
-	<% end %>
-	<% if params[:subject] || params[:school_type] || params[:grade_level] || params[:calendar] || params[:employment] || params[:special_needs] %>
-	<span class="criteria_option"><%= link_to "Remove All", :jobs %></span>
-	<% end %>
-	
-</div>
-
-<!--END Job Search Criteria Display-->
-
-<!--BEGIN Job Search Results-->
-<div style="margin-top: 10px">
-<% if @jobs.size != 0 %>
-<% @jobs.each do |job| %>
-  <div class="item_jobs">
-	<div class="item_picture">
-		<% if job.group.picture? %><%= link_to image_tag(job.group.picture.url(:thumb)), job %><% else %><%= link_to image_tag("no_image.png"), job %><% end %>
+		<% end %>
 	</div>
-	
-	<div class ="item_desc">
-	<p>
-	<strong><%= link_to job.title, job %></strong><br />
-	<%= link_to job.group.name, job.group %> - <%= job.group.location.city %>, <%= job.group.location.region %><br />
-	<span><% if job.description.size > 300 %><%=h (job.description.gsub(%r{</?[^>]+?>}, '')[0..304]+'...').html_safe %><% else %><%=h job.description.gsub(%r{</?[^>]+?>}, '').html_safe %><% end %></span><br />	
-	<br />
-	
-	</p>
+	<!--END Job Search Criteria Display-->
+
+	<!--BEGIN Job Search Results-->
+	<div style="margin-top: 10px">
+		<% if @jobs.size != 0 %>
+			<% @jobs.each do |job| %>
+				<div class="item_jobs">
+
+					<% if @org %>
+						<div style="float:right">
+							<%= (ct = job.applications.where(:status => 'Not Reviewed').count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
+							<%= (ct = job.applications.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
+							<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
+						</div>
+					<% end %>
+					
+					<div class="item_picture">
+						<% if job.group.picture? %>
+							<%= link_to image_tag(job.group.picture.url(:thumb)), job %>
+						<% else %>
+							<%= link_to image_tag("no_image.png"), job %>
+						<% end %>
+					</div>
+					
+					<div class="item_desc">
+						<p>
+							<strong><%= link_to job.title, job %></strong>
+							<br />
+							<%= link_to job.group.name, job.group %> - <%= job.group.location.city %>, <%= job.group.location.region %><br />
+							<span>
+								<% if job.description.size > 300 %>
+									<%=h (job.description.gsub(%r{</?[^>]+?>}, '')[0..304]+'...').html_safe %>
+								<% else %>
+									<%=h job.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+								<% end %>
+							</span><br /><br />
+						</p>
+					</div>
+					
+				</div>
+			<% end %>
+		<% else %>
+			<h3 style="text-align:center;">No Results</h3>
+			<p style="text-align:center;">Try modifying your criteria.</p>
+		<% end %>
 	</div>
-	
-  </div>
-<% end %>
-<% else %>
-	<h3 style="text-align:center;">No Results</h3>
-	<p style="text-align:center;">Try modifying your criteria.</p>
-<% end %>
 
-</div>
-
-<div class="apple_pagination">
-	<p><%= will_paginate @jobs, :container => false %></p>
-</div>
-
-</div>
-
+	<div class="apple_pagination">
+		<p><%= will_paginate @jobs, :container => false %></p>
+	</div>
 </section>
 <!--END Job Search Results-->
 

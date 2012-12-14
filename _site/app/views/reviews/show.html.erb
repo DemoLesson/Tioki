@@ -1,0 +1,25 @@
+ 
+
+<p>
+  <b>Application:</b>
+  <%= @review.application_id %>
+</p>
+
+<p>
+  <b>Reviewer:</b>
+  <%= @review.reviewer_id %>
+</p>
+
+<p>
+  <b>Rating:</b>
+  <%= @review.rating %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @review.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Back', reviews_path %>

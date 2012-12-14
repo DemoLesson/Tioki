@@ -1,0 +1,154 @@
+<h2 class="count"><%= @users.total_entries %> Results</h2>
+<%= render 'header' %>
+
+<form method="POST">
+	<fieldset>
+		<legend>Logged In Date Range</legend>
+		<label>
+			<span>Date Start</span>
+			<input name="date_start" placeholder="2012-01-01" value="<%= params[:date_start] %>" />
+		</label>
+		<label>
+			<span>Date End</span>
+			<input name="date_end" placeholder="2012-01-01" value="<%= params[:date_end] %>" />
+		</label>
+	</fieldset>
+	<fieldset>
+		<legend>User Type Info</legend>
+		<label>
+			<span>User Type</span>
+			<select name="user_type">
+				<option value="">- ALL -</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'educator' %> value="educator">Educator (Teacher)</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'recruiter' %> value="recruiter" disabled>Recruiter</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'group' %> value="group" disabled>Group Owner</option>
+				<option <%= 'selected="selected"' if params[:user_type] == 'organization' %> value="organization">Organization (School)</option>
+			</select>
+		</label>
+		<label>
+			<span>A/B Groups</span>
+			<select name="user_test">
+				<option value="">- ALL -</option>
+				<% AB.getTests.each do |test| %>
+					<option <%= 'selected="selected"' if params[:user_test] == test %> value="<%= test %>"><%= test %></option>
+				<% end %>
+			</select>
+		</label>
+	</fieldset>
+	<fieldset>
+		<legend>Narrowing Data</legend>
+		<label>
+			<span>ID Range</span>
+			<input name="range" placeholder="1~100" value="<%= params[:range] %>" />
+		</label>
+		<label>
+			<span>Percent Complete</span>
+			<input name="complete" placeholder="50 or 50< or 50> or 50-70" value="<%= params[:complete] %>" />
+		</label>
+	</fieldset>
+	<input type="submit" value="Filter" />
+</form>
+
+<div class="clear"></div>
+
+<table>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<tr>
+		<td class="right"><strong>*</strong></td>
+		<td>All</td>
+		<td>N/A</td>
+		<% if @show_raw %>
+			<td><%= @totals[:events_rsvps].count %></td>
+			<td class="nowrap">
+				<strong><%= @totals[:vouched_skills].count %></strong>
+				 (<%= @rawtotals[:vouched_skills].count %>)
+			</td>
+			<td class="nowrap">
+				<strong><%= @totals[:skill_claims].count %></strong>
+				 (<%= @rawtotals[:skill_claims].count %>)
+			</td>
+			<td class="nowrap">
+				<strong><%= @totals[:videos].count %></strong>
+				 (<%= @rawtotals[:videos].count %>)
+			</td>
+			<td class="nowrap">
+				<strong><%= @totals[:connections].count %></strong>
+				 (<%= @rawtotals[:connections].count %>)
+			</td>
+		<% else %>
+			<td><%= @totals[:events_rsvps].count %></td>
+			<td><%= @totals[:vouched_skills].count %></td>
+			<td><%= @totals[:skill_claims].count %></td>
+			<td><%= @totals[:videos].count %></td>
+			<td><%= @totals[:connections].count %></td>
+		<% end %>
+		<td><%= @totals[:completion].first._completion %>% - AVG</td>
+		<td>N/A</td>
+	</tr>
+	<tr>
+		<% @fields.each do |field| %>
+			<th><%= field %></th>
+		<% end %>
+	</tr>
+	<% @users.each do |user| %>
+		<tr>
+			<td class="right"><strong><%= user.id %></strong></td>
+			<td><%= link_to user.name, "/analytics/user/#{user.id}" %></td>
+			<td><%= user.email %></td>
+			<% if @show_raw %>
+				<td><%= user.rsvp.count %></td>
+				<td class="nowrap">
+					<strong><%= user.vouched_skills.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
+					 (<%= user.vouched_skills.count %>)
+				</td>
+				<td class="nowrap">
+					<strong><%= user.skill_claims.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
+					 (<%= user.skill_claims.count %>)
+				</td>
+				<td class="nowrap">
+					<strong><%= user.videos.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count rescue 0 %></strong>
+					 (<%= user.videos.count %>)
+				</td>
+				<td class="nowrap">
+					<strong><%= user.connections.where('`created_at` BETWEEN ? AND ?', params[:date_start], params[:date_end]).count %></strong>
+					 (<%= user.connections.count %>)
+				</td>
+			<% else %>
+				<td><%= user.rsvp.count %></td>
+				<td><%= user.vouched_skills.count %></td>
+				<td><%= user.skills.count %></td>
+				<td><%= user.videos.count rescue 0 %></td>
+				<td><%= user.connections.count %></td>
+			<% end %>
+			<td><%= user.completion %>%</td>
+			<td><%= user.analytics.where('`slug` IS NOT NULL').group('slug').collect!{|x| link_to(x.slug, '/analytics/slug/' + u(x.slug))}.join(', ').html_safe %></td>
+		</tr>
+	<% end %>
+</table>
+<div>
+	<%= will_paginate @users %>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('input[name="date_start"]').datepicker({
+		dateFormat: 'yy-mm-dd',
+		defaultDate: "-1m",
+		changeMonth: true,
+		onSelect: function( selectedDate ) {
+			$('input[name="date_end"]').datepicker("option", "minDate", selectedDate);
+		}
+	});
+	$('input[name="date_end"]').datepicker({
+		changeMonth: true,
+		dateFormat: 'yy-mm-dd',
+		onSelect: function( selectedDate ) {
+			$('input[name="date_start"]').datepicker("option", "maxDate", selectedDate);
+		}
+	});
+});
+</script>

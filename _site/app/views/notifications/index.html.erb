@@ -1,0 +1,9 @@
+<% @notifications.each do |notification| %>
+	<% if notification.type == "Comment" %>
+		<% if notification.map_tag == "Discussion" %>
+			<%= notification.user.name %> has commented on the discussion with <%= notification.map_tag.body %>
+		<% elsif notification.map_tag == "Whiteboard" %>
+			<%= notification.user.name %> has commented on your whiteboard <%= notification.map_tag.body %>
+		<% end %>
+	<% end %>
+<% end %>

@@ -1,0 +1,22 @@
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, your application is ready to submit.</h1>
+	</div>
+	<div class="clear"></div>
+
+	<div class="twelve columns">
+		<p>One you click submit, <%= @app.job.group.name %> will be able to view your profile, video, and attachments. Do you wish to proceed?</p>
+		<a href="complete" class="large button" style="padding:9px 50px;width:auto;">Submit</a>
+		<a href="/me/profile" target="_blank" style="padding:9px 50px;width:auto;color:#F66C4C">View my Profile</a>
+		
+		<div style="clear:both;height:40px;"></div>
+	</div>
+	<div class="four columns">
+	</div>
+</div>
