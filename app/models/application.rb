@@ -61,18 +61,5 @@ class Application < ActiveRecord::Base
       return false
     end
   end
-  
-  def activify
-    @activity = Activity.create!(:user_id => School.find(Job.find(job_id).school_id).owned_by, :creator_id => User.find(self.user_id).user_id, :activityType => 3, :message_id => 0, :interview_id => 0, :application_id => self.id)
-  end
-    
-  def deactivify
-    @activity = Activity.find(:first, :conditions => ['application_id = ?', self.id])
-    @interviews = Interview.find(:all, :conditions => ['job_id = ?', self.job_id])
-    @interviews.map(&:destroy)
-    if @activity != nil
-      @activity.destroy
-    end
-  end
 
 end

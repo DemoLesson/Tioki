@@ -4,17 +4,6 @@ class Message < ActiveRecord::Base
 
   self.per_page = 15
 
-  def activify
-    @activity = Activity.create!(:user_id => self.user_id_to, :creator_id => self.user_id_from, :activityType => 1, :message_id => self.id, :interview_id => 0, :application_id => 0)
-  end
-
-  def deactivify
-    @activity = Activity.find(:first, :conditions => ['message_id = ?', self.id])
-    if @activity
-      @activity.destroy
-    end
-  end
-
   def sender
     @user = User.unscoped.find(self.user_id_from) rescue nil
     return @user

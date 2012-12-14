@@ -255,7 +255,7 @@ class ApplicationController < ActionController::Base
 		# Security
 		def ensure_permission_to_create
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
-			if currentUser.can_create?(class_name.constantize.new())
+			if !Module.const_defined?(class_name) || currentUser.can_create?(class_name.constantize.new())
 				yield
 			else
 				raise SecurityTransgression
@@ -264,7 +264,7 @@ class ApplicationController < ActionController::Base
 
 		def ensure_permission_to_destroy
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
-			if currentUser.can_destroy?(class_name.constantize.find(params[:id]))
+			if !Module.const_defined?(class_name) || currentUser.can_destroy?(class_name.constantize.find(params[:id]))
 				yield
 			else
 				raise SecurityTransgression
@@ -273,7 +273,7 @@ class ApplicationController < ActionController::Base
 
 		def ensure_permission_to_update
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
-			if currentUser.can_update?(class_name.constantize.find(params[:id]))
+			if !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
 				yield
 			else
 				raise SecurityTransgression

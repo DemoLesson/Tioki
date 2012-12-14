@@ -67,13 +67,11 @@
 			<% end %>
 		</section>
 
-		<section class="panel right-side">
+		<section class="panel two-column right-side">
 			<h3>Recruiting Activity</h3>
 			<ul>
 				<% Notification.mine(:dashboard => 'recruiter').each do |d| %>
-					<li>
-						<%= d.message %>
-					</li>
+					<li><%= time_ago_in_words(d.created_at) %> ago: <%= d.message %></li>
 				<% end %>
 			</ul>
 		</section>

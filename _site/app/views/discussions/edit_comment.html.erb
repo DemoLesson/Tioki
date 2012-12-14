@@ -1,8 +1,0 @@
-<section id="main-content" class="inner-content">
-<%= form_for @comment, :url => {:action => 'update_comment', :id => @comment.id} do |f| %>
-
-	<h2>Edit your Reply:</h2>
-	<%= f.text_area :body, :style => "width:600px" %><br />
-	<%= f.submit "Reply" %><%= link_to " Cancel", :back %>
-<% end %>
-</section>

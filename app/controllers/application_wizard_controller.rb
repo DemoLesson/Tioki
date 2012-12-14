@@ -139,9 +139,14 @@ class ApplicationWizardController < ApplicationController
 
 		if @app.update_attributes({:submitted => true, :status => 'Not Reviewed', :viewed => 0})
 
-			#Notify that owner(s) of the school that this application has been submitted
+			# Notify that owner(s) of the school that this application has been submitted
 			job = Job.find(@app.job_id)
 			UserMailer.teacher_applied(job.group, job, @app.user).deliver
+
+			# Application was submitted or updated
+			job.group.users(:administrator).each do |u|
+				Notification.create(:notifiable_type => @app.tag!, :user_id => u.id, :dashboard => 'recruiter')
+			end
 
 			flash[:success] = "Your application has been submitted"
 		else

@@ -1,7 +1,0 @@
-<% if currentUser.new_record? %>
-	<%= render :partial => 'splash' %>
-<% elsif ['recruiter'].include?(currentUser.dashboard) %>
-	<%= render :partial => 'recruiter_dashboard' %>
-<% else %>
-	<%= render :partial => 'educator_dashboard' %>
-<% end %>
