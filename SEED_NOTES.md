@@ -1,3 +1,15 @@
+v3.0.57 - Dec 13, 2012  1:13PM PST deployed by Aleks Stanisic
+=============================================================
+* 9959525: Elijah Green - Catch BadGateway erors on twitter direct messages
+
+v3.0.56 - Dec 13, 2012 11:31AM PST deployed by Aleks Stanisic
+=============================================================
+* 15f3686: Elijah Green - Allow some html tags when showing and event's location
+
+v3.0.55 - Dec 13, 2012 11:21AM PST deployed by Aleks Stanisic
+=============================================================
+* 7804bf3: Elijah Green - Fix discussion invite messages
+
 v3.0.54 - Dec 12, 2012  8:09PM PST deployed by Aleks Stanisic
 =============================================================
 * 9c6b4ac: Elijah Green - Fix search on skills when no skills are found

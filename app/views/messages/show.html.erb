@@ -29,7 +29,7 @@
 		</p>
 		
 		<p style="margin:20px 10px 0px 10px;width:auto">
-			<%=raw h(@message.body).gsub(/\n/, '<br />').html_safe %>
+			<%= sanitize(@message.body) %>
 		</p>
 
 		<section style="margin-left:10px">

@@ -736,7 +736,12 @@ class User < ActiveRecord::Base
 			address = Geocoder::search(args[:location]).first
 
 			if address
-				coords = address.geometry.bounds.values.collect{|coord| [coord.lat, coord.lng] }
+				if address.geometry.bounds
+					coords = address.geometry.bounds.values.collect{|coord| [coord.lat, coord.lng] }
+				else
+					#Some things do not have a bounding box given by google
+					coords = address.geometry.viewport.values.collect{|coord| [coord.lat, coord.lng] }
+				end
 
 				#get distance for bounding box
 				distance = Geocoder::Calculations.distance_between(coords.first, coords.last)

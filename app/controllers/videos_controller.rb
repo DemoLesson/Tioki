@@ -234,12 +234,17 @@ class VideosController < ApplicationController
 	# DELETE /videos/1.xml
 	def destroy
 		@video = Video.find(params[:id])
+		@user = @video.user
 		@video.cleanup
 		@video.destroy
 
 		respond_to do |format|
-			format.html { redirect_to :back }
-			format.xml  { head :ok }
+			if URI(request.referrer).path.start_with?('/videos')
+				format.html { redirect_to "/videos" }
+			else
+				format.html { redirect_to "/profile/#{@user.slug}/videos" }
+			end
+			format.xml { head :ok }
 		end
 	end
 

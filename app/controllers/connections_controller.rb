@@ -114,7 +114,7 @@ class ConnectionsController < ApplicationController
 			end
 
 		# Were actually still pending
-		elsif @previous.pending == true && @previous.user_id = a
+		elsif @previous.pending == true && @previous.user_id == a
 
 			# Dry way of accepting the connection
 			self.send('accept_connection', respond)
@@ -308,6 +308,8 @@ class ConnectionsController < ApplicationController
 							break
 							notice = "An error occured while attempting to message followers"
 						end
+					rescue Twitter::Error::BadGateway
+						notice = "Twitter is down or being upgraded."
 					end
 					flash[:notice] = notice
 				end
