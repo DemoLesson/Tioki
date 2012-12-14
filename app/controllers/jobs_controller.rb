@@ -176,7 +176,7 @@
 	# GET /group/:group_id/jobs/new
 	def new
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
 		@job = Job.new
 	end
 
@@ -237,7 +237,7 @@
 		@job = Job.find(params[:id])
 
 		# Make sure we have permissions to update the job
-		raise SecurityTransgression if @job.group.id != params[:group_id]
+		raise SecurityTransgression if @job.group.to_param != params[:group_id]
 		raise SecurityTransgression if !@job.group.user_permissions.administrator
 
 		group = @job.group

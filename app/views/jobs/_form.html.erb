@@ -1,6 +1,4 @@
-<%= form_for [@source, @job], :html => { :multipart => true } do |f| %>
-  <input type="hidden" name="group_id" value="<%= @org.id %>" />
-
+<%= form_for [@org, @job], :html => { :multipart => true } do |f| %>
   <% if @job.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
@@ -125,11 +123,6 @@
   <h3 class="bottom-line">
     Additional Options
   </h3>
-      
-  <fieldset>
-    <%= f.check_box :active %> <span style="color:#F66C4C">This is an active job posting.</span>
-    <small>Unchecking will hide your listing from the site.</small>
-  </fieldset>
     
   <fieldset>
     <%= f.check_box :special_needs %> 

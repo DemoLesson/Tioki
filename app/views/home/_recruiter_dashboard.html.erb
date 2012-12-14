@@ -41,20 +41,18 @@
 	<section id="panels">
 		<section id="list" class="panel one-column left-side">
 			<h3>Recruiting Updates</h3>
-			<a href="/my_jobs">
-				<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
-				<% if @jobs.count > 0 %>
+			<% if @jobs.count > 0 %>
+				<a href="<%= user_jobs_path currentUser %>">
+					<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
 					<div class="count_recruit">
-					<%= @jobs.count.to_s %>
+						<%= @jobs.count.to_s %>
 					</div>
 					Active Job Postings
-				<% else %>
-				Post a New Job
-				<% end %>
-			</a>
-			<br />
+				</a>
+				<br />
+			<% end %>
 			<% if @applicants > 0 %>
-				<a href="/my_jobs">
+				<a href="<%= user_jobs_path currentUser %>">
 					<%= image_tag 'tioki/icons/jobs.png', :style => "height:20px;margin:3px -2px 0px 15px" %>
 				<div class="count_recruit">
 				<%= @applicants.to_s %>
@@ -65,7 +63,7 @@
 					New Applicants
 				<% end %>
 				</a>
-				<br/>
+				<br />
 			<% end %>
 		</section>
 
