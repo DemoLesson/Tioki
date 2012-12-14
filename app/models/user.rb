@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
 	has_many :analytics
 	has_many :connection_invites
 	has_many :connection_invites, :dependent => :destroy
-	has_many :connections, :foreign_key => 'owned_by', :dependent => :destroy
+	has_many :connections, :dependent => :destroy
 	has_many :discussions
 	has_many :events
 	has_many :events_rsvps

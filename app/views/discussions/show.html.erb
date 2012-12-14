@@ -227,7 +227,7 @@ $(document).ready(function() {
 	</p>
 	<section style="max-height:300px;overflow-y:scroll;">
 		<form method="post" action="/discussions/<%= @discussion.id %>/invite">
-			<% Connection.mine(:pending => false).each do |connection| %>
+			<% self.current_user.connections.not_pending.includes(:user, :owner).each do |connection| %>
 			<% user = connection.not_me %>
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
 				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
