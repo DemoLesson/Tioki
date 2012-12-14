@@ -91,7 +91,7 @@ class Notification < ActiveRecord::Base
 		_class = notifiable_type.split(':').first
 
 		case _class
-		when 'Comment', 'Favorite', 'Application'
+		when 'Comment', 'Favorite', 'Application', 'Interview'
 			return map_tag.user
 		end
 	end
@@ -108,6 +108,9 @@ class Notification < ActiveRecord::Base
 		when 'Application'
 			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
 			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
+		when 'Interview'
+			ret = "#{triggered.profile_link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
 		ret.html_safe

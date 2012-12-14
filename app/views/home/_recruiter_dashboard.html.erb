@@ -1,8 +1,5 @@
 <section id="main-content" class="inner-content">
 	<section id="updates" style="margin-top:30px;">
-		<span style="float:right">
-			<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
-		</span>
 		<div class="profile-thumb-medium">
 			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
 			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
@@ -39,32 +36,44 @@
 	</section>
 	
 	<section id="panels">
-		<section id="list" class="panel one-column left-side">
-			<h3>Recruiting Updates</h3>
-			<% if @jobs.count > 0 %>
-				<a href="<%= user_jobs_path currentUser %>">
-					<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
-					<div class="count_recruit">
-						<%= @jobs.count.to_s %>
-					</div>
-					Active Job Postings
-				</a>
-				<br />
-			<% end %>
-			<% if @applicants > 0 %>
-				<a href="<%= user_jobs_path currentUser %>">
-					<%= image_tag 'tioki/icons/jobs.png', :style => "height:20px;margin:3px -2px 0px 15px" %>
-				<div class="count_recruit">
-				<%= @applicants.to_s %>
-				</div>
-				<% if @applicants == 1 %>
-					New Applicant
-				<% else %>
-					New Applicants
-				<% end %>
-				</a>
-				<br />
-			<% end %>
+		<section id="list" class="one-column left-side">
+			<section class="panel">
+				<h3>Recruiting Updates</h3>
+				<section class="panel-actions">
+					<% if @jobs.count > 0 %>
+						<a href="<%= user_jobs_path currentUser %>">
+							<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
+							<div class="count_recruit">
+								<%= @jobs.count.to_s %>
+							</div>
+							Active Job Postings
+						</a>
+						<br />
+					<% end %>
+					<% if @applicants > 0 %>
+						<a href="<%= user_jobs_path currentUser %>">
+							<%= image_tag 'tioki/icons/jobs.png', :style => "height:20px;margin:3px -2px 0px 15px" %>
+							<div class="count_recruit">
+								<%= @applicants.to_s %>
+							</div>
+							<% if @applicants == 1 %>
+								New Applicant
+							<% else %>
+								New Applicants
+							<% end %>
+						</a>
+						<br />
+					<% end %>
+				</section>
+			</section>
+			<section class="panel">
+				<h3>My Organizations</h3>
+				<ul>
+					<% currentUser.groups.organization.my_permissions(:administrator).each do |org| %>
+						<li><%= link_to org.name, org %></li>
+					<% end %>
+				</ul>
+			</section>
 		</section>
 
 		<section class="panel two-column right-side">
