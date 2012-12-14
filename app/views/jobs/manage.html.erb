@@ -123,7 +123,7 @@ $ ->
 						do checkRunningLimit
 
 					# Go ahead and update the status column
-					$.post '<%= currentURL %>/status.json', {status: $(@).attr('id'), job: $clone.attr('data-job-id')}, (r) ->
+					$.get '<%= currentURL %>.json', {status: $(@).attr('id'), job: $clone.attr('data-job-id')}, (r) ->
 						#console.log r
 						true
 

@@ -366,10 +366,10 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
-    t.datetime "datetime_1"
-    t.datetime "datetime_2"
-    t.datetime "datetime_3"
-    t.integer  "datetime_selected", :default => 0
+    t.datetime "date"
+    t.datetime "date_alternate"
+    t.datetime "date_alternate_second"
+    t.integer  "selected",              :default => 0
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
@@ -390,7 +390,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
   end
 
   create_table "jobs", :force => true do |t|
-    t.integer  "school_id",                              :null => false
+    t.integer  "school_id"
     t.text     "description"
     t.integer  "employment_type"
     t.string   "salary"
@@ -416,6 +416,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.text     "instructions"
     t.string   "external_url"
     t.integer  "group_id"
+    t.string   "status"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
@@ -468,6 +469,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "dashboard"
+    t.string   "message"
   end
 
   create_table "organizations", :force => true do |t|

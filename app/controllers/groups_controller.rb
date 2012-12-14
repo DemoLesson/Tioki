@@ -137,7 +137,7 @@ class GroupsController < ApplicationController
 			permissions[:private] = params[:group][:permissions][:public] != 'true'
 			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
 
-			if User.is_admin
+			if currentUser.is_admin
 				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
 			end
 			

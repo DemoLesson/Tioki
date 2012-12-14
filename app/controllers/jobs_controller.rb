@@ -10,8 +10,12 @@
 	def index
 		if @source.is_a?(Group)
 			if @source.user_permissions.administrator
-				manage
-				return render :manage
+				respond_to do |format|
+					format.html { manage; render :manage }
+					format.json  { render :json => manage_status }
+				end
+
+				return
 			else
 				@group = @source
 				@jobs = @group.jobs.where(:status => 'running')
@@ -325,13 +329,13 @@
 
 	def manage_status
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:org]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:job]))
 
 		if @job.update_attribute(:status, params[:status])
-			return render :json => {:status => 'success'}
+			return {:status => 'success'}
 		else
-			return render :json => {:status => 'error'}
+			return {:status => 'error'}
 		end
 	end
 

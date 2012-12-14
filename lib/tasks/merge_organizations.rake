@@ -216,6 +216,15 @@ task :merge_organizations => :environment do
 	# Attach applications to interviews
 	Interview.all.each do |int|
 		puts "Updating Interview (#{int.id})"
+		if int.job.nil?
+			int.destroy
+			next
+		end
+		if int.job.group.nil?
+			int.job.destroy
+			int.destroy
+			next
+		end
 		application = int.job.applications.where(:user_id => int.user_id).first
 		int.update_attribute(:application_id, application.id) if !application.nil?
 	end
