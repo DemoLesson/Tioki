@@ -24,6 +24,11 @@ class VideosController < ApplicationController
 
 		# Get first video
 		@video = @videodb.first
+
+		@self = false
+		if @user.me?
+			@self = true
+		end
 	end
 
 	# GET /videos/1

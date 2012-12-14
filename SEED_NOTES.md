@@ -1,3 +1,8 @@
+v3.1.4 - Dec 14, 2012 11:40AM PST deployed by Aleks Stanisic
+============================================================
+* 4ce4dc7: Aleks Stanisic - changes to video profile page
+* 244ebcb: Elijah Green - Eager load users for comments on discussions/show
+
 v3.1.3 - Dec 13, 2012  8:40PM PST deployed by Aleks Stanisic
 ============================================================
 * 51a9dbf: Aleks Stanisic - changes to public profiles
