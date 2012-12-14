@@ -1,6 +1,5 @@
 <section id="main-content" class="inner-content">
-	<h1>Upgrade your account</h1>
-	<% if User.current.groups.organization.empty? %>
+	<h1>Upgrade your account</h1>	
 	<form method="POST">
 		<h3>Recruiter Account</h3>
 		<p>
@@ -18,7 +17,6 @@
 		</div>
 		<a href="#upgrade" class="large button">Upgrade to Recruiter</a>
 	</form>
-	<% end %>
 </section>
 
 <script type="text/coffeescript">

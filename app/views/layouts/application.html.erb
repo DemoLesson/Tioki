@@ -179,14 +179,12 @@
 									<% end %>
 
 									<!-- Schools -->
-									<% if self.current_user.groups.organization.empty? %>
-										<!--li>
-											<a href="/me/settings/upgrade">
-												Upgrade Account
-											</a>
-										</li>
-										<hr-->
-									<% end %>
+									<li>
+										<a href="/me/settings/upgrade">
+											Upgrade Account
+										</a>
+									</li>
+									<hr />
 									
 									<!-- Teacher Methods -->
 									<% unless currentUser.new_record? %>

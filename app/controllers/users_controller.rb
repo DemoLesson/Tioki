@@ -1043,7 +1043,7 @@ class UsersController < ApplicationController
 
 							# Create join row for users -> groups
 							user_group = User_Group.new
-							user_group.user_id = self.current_user.id
+							user_group.user_id = currentUser.id
 							user_group.group_id = group.id
 							user_group.save
 
@@ -1057,6 +1057,15 @@ class UsersController < ApplicationController
 								:administrator => true,
 								:owner => true
 							}
+
+							JobPack.create(
+								:group => group,
+								:jobs => 1,
+								:expiration => Time.now + 60.days,
+								:inception => Time.now,
+								:refunded => 0,
+								:amount => 0,
+								:additional_data => {:freebie => true}.to_json)
 
 							# Return HTML or JSON
 							format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
