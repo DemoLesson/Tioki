@@ -1,3 +1,7 @@
+v3.1.3 - Dec 13, 2012  8:40PM PST deployed by Aleks Stanisic
+============================================================
+* 51a9dbf: Aleks Stanisic - changes to public profiles
+
 v3.1.2 - Dec 13, 2012  7:53PM PST deployed by Aleks Stanisic
 ============================================================
 * 543c0db: Aleks Stanisic - fix to about page
