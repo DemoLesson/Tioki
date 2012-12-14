@@ -201,7 +201,7 @@ class HomeController < ApplicationController
 			end
 		end
 
-		redirect_to :root
+		redirect_to :back
 	end
 
 	def whiteboard_rmv
