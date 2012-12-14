@@ -389,8 +389,10 @@
 											<% end %>
 											</strong><br/>
 											<!--<%= group.users.count %> Members<br>-->
-											<% unless self.current_user.groups.include? group %>
-												<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% unless !self.current_user %>
+												<% unless self.current_user.groups.include? group %>
+													<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+												<% end %>
 											<% end %>
 										</p>
 									</div>
