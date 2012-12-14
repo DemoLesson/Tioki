@@ -188,8 +188,9 @@ class ConnectionsController < ApplicationController
 	def my_connections
 		# Get all not pending connections
 		@connections = Array.new
-		Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).each do |connection|
-			@connection = connection
+		@users = self.current_user.connections.includes(:user, :owner).not_pending.map(&:not_me)
+		@users.paginate(:per_page => 20, :page => params[:page]).each do |user|
+			@user = user
 			@connections << render_to_string("connections/show_my_connections", :layout => false)
 		end
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
@@ -427,12 +428,11 @@ class ConnectionsController < ApplicationController
 	end
 
 	def show_my_connections
-		connections = Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).all
-		return render :json => connections unless params[:raw].nil?
+		users = self.current_user.connections.includes(:user, :owner).not_pending.map(&:not_me).paginate(:per_page => 20, :page => params[:page])
 
 		divs = Array.new
-		connections.each do |connection|
-			@connection = connection
+		users.each do |user|
+			@user = user
 			divs << render_to_string
 		end
 
