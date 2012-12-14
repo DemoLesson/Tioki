@@ -38,17 +38,13 @@ class Connection < ActiveRecord::Base
 	def not_me(user_id = nil)
 		begin
 			user_id = User.current.id if user_id.nil?
-			user = User.find(self.owned_by.to_i == user_id.to_i ? self.user_id : self.owned_by)
+			user = self.owned_by.to_i == user_id.to_i ? self.user : self.owner
 		rescue ActiveRecord::RecordNotFound => e
 			self.destroy
 			return redirect_to request.path
 		end
 
 		return user
-	end
-
-	def owner
-		User.find(self.owned_by)
 	end
 
 	def icreated?
