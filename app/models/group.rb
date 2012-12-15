@@ -113,15 +113,15 @@ class Group < ActiveRecord::Base
 		end
 
 		def job_allowance
-			allowance = 0
 
-			# Loop through the purchased jobs
-			job_packs.each do |jp|
-				allowance += jp.jobs
-			end
+			# 100% SQL based aggregation
+			job_packs.jobAllowance.first.jobs
+		end
 
-			# Return the allowed amount of jobs
-			return allowance
+		def ajobs
+
+			# 100% SQL based aggregation and remove expired
+			job_packs.jobAllowance.disableExpired
 		end
 
 	# Private Methods

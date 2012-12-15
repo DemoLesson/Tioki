@@ -18,7 +18,7 @@
 				return
 			else
 				@group = @source
-				@jobs = @group.jobs.where(:status => 'running')
+				@jobs = @group.jobs.where(:status => 'running').limit(@group.job_allowance)
 				return render :group_jobs
 			end
 		end
