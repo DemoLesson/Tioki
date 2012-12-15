@@ -13,7 +13,8 @@ class VideosController < ApplicationController
 		# Url to video list
 		@videolist = request.url
 		
-		@user = false; unless params[:slug].nil?
+		@user = nil
+		unless params[:slug].nil?
 
 			# Get the user by url
 			@user = User.where('`slug` = ?', params[:slug]).first
@@ -26,7 +27,7 @@ class VideosController < ApplicationController
 		@video = @videodb.first
 
 		@self = false
-		if @user.me?
+		if @user && @user.me?
 			@self = true
 		end
 	end
