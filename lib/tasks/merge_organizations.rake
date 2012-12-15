@@ -98,7 +98,6 @@ task :merge_organizations => :environment do
 		permissions = organization.permissions
 		permissions[:organization] = 1
 		permissions[:private] = 1
-		permissions[:hidden] = 1
 
 		# Update permissions attribute
 		organization.update_attribute(:permissions, permissions)

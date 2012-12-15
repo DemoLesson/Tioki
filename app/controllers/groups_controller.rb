@@ -299,7 +299,7 @@ class GroupsController < ApplicationController
 			if !params[:user_id].nil?
 				@source = User.find(params[:user_id]).groups
 			else
-				@source = Group.permissions('OR', :public => true, :private => true)
+				@source = Group.permissions('OR', :public => true, :private => true).permissions(:hidden => false)
 			end
 		end
 end
