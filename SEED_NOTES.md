@@ -1,3 +1,10 @@
+v3.1.7 - Dec 14, 2012  5:49PM PST deployed by Aleks Stanisic
+============================================================
+* 371babb: Elijah Green - Sort users correctly
+* 6c23d8b: Elijah Green - Fix location search on connections pages
+* ba840d4: Elijah Green - Fix error where the a message's sender wasn't returned properly
+* 64486f5: Elijah Green - Ajax add connections on connections/index
+
 v3.1.6 - Dec 14, 2012 12:58PM PST deployed by Aleks Stanisic
 ============================================================
 * 465edf5: Elijah Green - Speed up my_connections page with some eager loading of users
