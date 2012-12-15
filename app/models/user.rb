@@ -753,7 +753,7 @@ class User < ActiveRecord::Base
 			end
 
 		else
-			return query.group("users.id")
+			return query
 		end
 	end
 

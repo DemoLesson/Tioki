@@ -74,6 +74,7 @@ class ConnectionsController < ApplicationController
 	def add_connection(respond = true)
 		# Check and see if we are already connected (or are pending)
 		a = self.current_user.id
+		@user = User.find(params[:user_id])
 		b = params[:user_id]
 		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
 
@@ -108,6 +109,7 @@ class ConnectionsController < ApplicationController
 							format.html { redirect_to '/welcome_wizard?x=step2' }
 						else
 							format.html { redirect_to :back, :notice => "Connection request successfully sent."  }
+							format.js
 						end
 					end
 				end
@@ -128,6 +130,7 @@ class ConnectionsController < ApplicationController
 				# Redirect to "My Connections"
 				respond_to do |format|
 					format.html { redirect_to :back, :notice => "Connection request successfully sent." }
+					format.js
 				end
 			end
 		end
@@ -164,6 +167,7 @@ class ConnectionsController < ApplicationController
 
 		# Set A and B
 		a = self.current_user.id
+		@user = User.find(params[:user_id])
 		b = params[:user_id]
 
 		# Get the connection in question (A <-> B)
@@ -181,6 +185,7 @@ class ConnectionsController < ApplicationController
 			# Redirect to My Connections page
 			respond_to do |format|
 				format.html { redirect_to :my_connections }
+				format.js { render :action => "add_connection" }
 			end
 		end
 	end
@@ -188,8 +193,9 @@ class ConnectionsController < ApplicationController
 	def my_connections
 		# Get all not pending connections
 		@connections = Array.new
-		Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).each do |connection|
-			@connection = connection
+		@users = self.current_user.connections.includes(:user, :owner).not_pending.map(&:not_me)
+		@users.paginate(:per_page => 20, :page => params[:page]).each do |user|
+			@user = user
 			@connections << render_to_string("connections/show_my_connections", :layout => false)
 		end
 		@my_pending_connections = Connection.mine(:pending => true, :creator => false)
@@ -427,12 +433,11 @@ class ConnectionsController < ApplicationController
 	end
 
 	def show_my_connections
-		connections = Connection.mine(:pending => false).paginate(:per_page => 20, :page => params[:page]).all
-		return render :json => connections unless params[:raw].nil?
+		users = self.current_user.connections.includes(:user, :owner).not_pending.map(&:not_me).paginate(:per_page => 20, :page => params[:page])
 
 		divs = Array.new
-		connections.each do |connection|
-			@connection = connection
+		users.each do |user|
+			@user = user
 			divs << render_to_string
 		end
 
@@ -465,7 +470,7 @@ class ConnectionsController < ApplicationController
 
 		# Review
 		# Paginate rescue cause it will fail on empty arrays ^^
-		users = users.paginate(:per_page => 25, :page => params[:page]) rescue Array.new
+		users = users.paginate(:per_page => 25, :page => params[:page], :order => "connections_count DESC") rescue Array.new
 
 		# Return raw json
 		return render :json => users unless params[:raw].nil?
