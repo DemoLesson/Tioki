@@ -112,12 +112,16 @@ class Group < ActiveRecord::Base
 			permissions(:organization => false)
 		end
 
+		# Returns the job allowance for the group
+		# Author: Kelly Lauren Summer Becker
 		def job_allowance
 
 			# 100% SQL based aggregation
 			job_packs.jobAllowance.first.jobs
 		end
 
+		# Returns the still active jobs based on job packs
+		# Author: Kelly Lauren Summer Becker
 		def ajobs
 
 			# 100% SQL based aggregation and remove expired
