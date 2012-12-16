@@ -4,51 +4,53 @@
 		Video Library
 	</h1>
 
+	<% if @self || @user %>
 		<nav class="subpage" style="width: 635px;margin-left: 0px;margin-top: -15px; margin-bottom: 10px;">
 		<ul>
 			<li>
 				<% if !self.current_user.nil? && @self %>
-				<a href="/me/profile">
-				<% else %>
-				<a href="/profile/<%= @user.slug %>">
-				<% end %>
+					<a href="/me/profile">
+					<% else %>
+						<a href="/profile/<%= @user.slug %>">
+					<% end %>
 					Activity
 				</a>
 			</li>
 
 			<li>
 				<a href="/profile/<%= @user.slug %>/about">
-				About
+					About
 				</a>
 			</li>
 
 			<li>
 				<a href="/profile/<%= @user.slug %>/resume">
-				Resume
+					Resume
 				</a>
 			</li>
 
 			<li class="current">
 				<a href="/profile/<%= @user.slug %>/videos">
-				Videos
+					Videos
 				</a>
 			</li>
 
 			<% if !self.current_user.nil? && @self %>
-			<li>
-				<a href="/me/profile/stats">
-				Stats
-				</a>
-			</li>
-			<li style="float:right;">
-				<a href="/me/profile/edit/upload-video"Ï>
-				Add a Video
-				</a>
-			</li>
+				<li>
+					<a href="/me/profile/stats">
+						Stats
+					</a>
+				</li>
+				<li style="float:right;">
+					<a href="/me/profile/edit/upload-video"Ï>
+						Add a Video
+					</a>
+				</li>
 			<% end %>
 
 		</ul>
-	</nav>
+		</nav>
+	<% end %>
 
 	<section id="panels">
 		
@@ -140,7 +142,11 @@ $(document).ready(function() {
 		FB.ui({
 			method: 'feed',
 			name: '<%=j @video.name %>',
-			link: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			<% if @user %>
+				link: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			<% else %>
+				link: 'http://tioki.com/videos/<%=@video.id%>',
+			<% end %>
 			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
 			caption: 'Come join the discussion on Tioki.',
 			description: 'Come check out this awesome video, "<%=j @video.name %>", on Tioki; a professional development site for educators!'
@@ -163,7 +169,11 @@ $(document).ready(function() {
 		// Paramaters to build
 		var params = {
 			via: 'tioki',
-			url: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			<% if @user %>
+				url: 'http://tioki.com/profile/<%=@user.slug%>/videos/<%=@video.id%>',
+			<% else %>
+				url: 'http://tioki.com/videos/<%=@video.id%>',
+			<% end %>
 			text: 'Come see this awesome video, "<%=j @video.name %>", on Tioki!'
 		}
 

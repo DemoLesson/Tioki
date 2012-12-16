@@ -1,3 +1,8 @@
+v3.1.8 - Dec 15, 2012  4:14PM PST deployed by Aleks Stanisic
+============================================================
+* 06ec753: Elijah Green - Fix activity on profile page
+* 277dbdc: Elijah Green - Fix videos page
+
 v3.1.7 - Dec 14, 2012  5:49PM PST deployed by Aleks Stanisic
 ============================================================
 * 371babb: Elijah Green - Sort users correctly
