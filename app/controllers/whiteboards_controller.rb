@@ -132,7 +132,7 @@ class WhiteboardsController < ApplicationController
 
 		@user = User.find(params[:user_id])
 		# Get whiteboard activity
-		w = Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 3, :page => params[:page])
+		w = Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page])
 		return render :json => w unless params[:raw].nil?
 
 		divs = Array.new
