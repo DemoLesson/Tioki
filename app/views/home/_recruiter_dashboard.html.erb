@@ -70,7 +70,10 @@
 				<h3>My Organizations</h3>
 				<ul>
 					<% currentUser.groups.organization.my_permissions(:administrator).each do |org| %>
-						<li><%= link_to org.name, org %></li>
+						<li>
+							<a href="<%= new_group_job_path(org) %>" style="float:right;">+ Job</a>
+							<%= link_to org.name, org %>
+						</li>
 					<% end %>
 				</ul>
 			</section>

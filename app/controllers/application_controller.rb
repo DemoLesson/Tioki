@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def sweep_session
-		Session.sweep("1 hour")
+		#Session.sweep("1 hour")
 	end
 	
 	def login_required
