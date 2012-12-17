@@ -65,11 +65,13 @@
 				</a>
 			</li>
 		<% end %>
-		<li class="<%= currentPath.split('/')[3] == 'discussions' ? 'current' : '' %>">
-			<a href="/groups/<%= @group.id %>/discussions">
-				Discussions
-			</a>
-		</li>
+		<% if @owner.member? || @group.permissions.public_discussions %>
+			<li class="<%= currentPath.split('/')[3] == 'discussions' ? 'current' : '' %>">
+				<a href="/groups/<%= @group.id %>/discussions">
+					Discussions
+				</a>
+			</li>
+		<% end %>
 		<% if @group.user_permissions['administrator'] %>
 			<li style="float:right;">
 				<span>
