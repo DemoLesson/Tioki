@@ -1,3 +1,7 @@
+v4.0.1 - Dec 17, 2012 12:45PM PST deployed by Kelly Becker
+==========================================================
+* 49d3a50: Kelly Becker - you can now display multiple banners
+
 v4.0.0 - Dec 17, 2012 12:21PM PST deployed by Kelly Becker
 ==========================================================
 * 7bfdec8: Kelly Becker - added group_id to accessible
