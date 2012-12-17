@@ -65,7 +65,7 @@
 				</a>
 			</li>
 		<% end %>
-		<% if @owner.member? || @group.permissions.public_discussions %>
+		<% if @group.member? || @group.permissions.public_discussions %>
 			<li class="<%= currentPath.split('/')[3] == 'discussions' ? 'current' : '' %>">
 				<a href="/groups/<%= @group.id %>/discussions">
 					Discussions

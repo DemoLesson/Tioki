@@ -5,7 +5,7 @@
 
 
 	<ul class="group-discussions">
-		<% if !@owner.member? && !@group.permissions.public_discussions %>
+		<% if !@group.member? && !@group.permissions.public_discussions %>
 			<li>We apologize but the discussions on this group are not public. You must be a member before you can participate in these discussions.</li>
 		<% else %>
 			<% if @discussions.count < 1 %>
