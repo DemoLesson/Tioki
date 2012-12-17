@@ -1,8 +1,5 @@
 <section id="main-content" class="inner-content">
 	<section id="updates" style="margin-top:30px;">
-		<span style="float:right">
-			<%= link_to "Post New Job", {:controller => :jobs, :action => :new}, {:class => "button action-button"} %>
-		</span>
 		<div class="profile-thumb-medium">
 			<%= image_tag @user.avatar.url(:medium) if @user.avatar? %>
 			<%= image_tag("dl_icons/no_avatar_medium.jpg") unless @user.avatar? %>
@@ -25,7 +22,7 @@
 				<% end %>
 				<% if @applicants > 0 %>
 					<li>
-						<a href="/my_jobs">
+						<a href="<%= user_jobs_path currentUser %>">
 							<div class="count iconic">
 								<span class="iconic book_alt" style="font-size:1.5em;"></span>
 								<%= @applicants %>
@@ -39,120 +36,64 @@
 	</section>
 	
 	<section id="panels">
-		<section id="list" class="panel one-column left-side">
-			<h3>
-			Recruiting Updates
-			<a href="/my_jobs">
-				<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
-				<% if @jobs.count > 0 %>
-					<div class="count_recruit">
-					<%= @jobs.count.to_s %>
-					</div>
-					Active Job Postings
-				<% else %>
-				Post a New Job
-				<% end %>
-			</a>
-			<br />
-			<% if @applicants > 0 %>
-				<a href="/my_jobs">
-					<%= image_tag 'tioki/icons/jobs.png', :style => "height:20px;margin:3px -2px 0px 15px" %>
-				<div class="count_recruit">
-				<%= @applicants.to_s %>
-				</div>
-				<% if @applicants == 1 %>
-					New Applicant
-				<% else %>
-					New Applicants
-				<% end %>
-				</a>
-				<br/>
-			<% end %>
-		</section>
-		<section id="list" class="panel two-column right-side">
-		<h3>
-		Recruiting Feed
-		</h3>
-		<% if @activities.count == 0 %>
-			<div style="text-align:center; color: #2AA99B">
-				No News Updates Yet? Don't worry. You built it...they will come!
-			</div>
-		<% else %>
-			<% @activities.each do |activity| %>
-			<section class="panel-actions">
-				<% if activity.activityType == 3 %>
-                  	<% if activity.application_job.active && activity.application.status == 1 %>
-							<p style="float:right;margin:-5px 0px 0px 0px">
-							<% if activity.user != nil %>
-								<%= link_to activity.creator.name, "/profile/#{activity.user.slug}?application=#{activity.application.id}", :style => "color:#F66C4C" %>
-							<% end %> 
-							applied to your 
-								<%= link_to activity.application_job.title, activity.application_job, :style => "color:#F66C4C" %> 
-							position at 
-								<%= link_to activity.application_school.name, activity.application_school, :style => "color:#F66C4C" %>.
-							<br />
-							<span style="color:#8B8B8B;font-size:12px">
-								<%= activity.created_at.to_s(:due_time) %>
-							</span>
-							</p>
-                  <% end %>
-				<% elsif activity.activityType == 2 %>
-        			<% if activity.interview.date != Time.at(0) && activity.application_job.title != 'Not found' && activity.application_job.active && activity.application.status == 1 %>
-            			<p style="float:right;margin:-5px 0px 0px 0px">
-							<% if activity.interview.date == Time.at(0) %>
-								<%= link_to activity.creator.name, "/profile/#{activity.user.slug}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
-								 scheduled an interview with you, but it doesn't look like they selected a time. You may want to message them.
-								<% else %>
-									<%= link_to activity.creator.name, "/profile/#{activity.user.slug}'?application=#{activity.application.id}", :style => "color:#F66C4C" %>
-								scheduled an interview with you for your 
-									<%= link_to activity.application_job.title, activity.application_job, :style => "color:#F66C4C" %> 
-								position on
-									<strong>
-            						<% if activity.interview.selected == 1 %>
-                						<%= link_to activity.interview.date.to_s(:interview_time), '/applications/'+activity.application_job.id.to_s, :style => "color:#2AA99B" %>
-                					<% elsif activity.interview.selected == 2 %>
-                    					<%= link_to activity.interview.date_alternate.to_s(:interview_time), '/applications/'+activity.application_job.id.to_s, :style => "color:#2AA99B" %>
-               						<% else %>
-                    					<%= link_to activity.interview.date_alternate_second.to_s(:interview_time), '/applications/'+activity.application_job.id.to_s, :style => "color:#2AA99B" %>
-									
-                					<% end %>.
-									</strong>
-            				<% end %> 
-							<br />
-							<span style="color:#8B8B8B;font-size:12px">
-								<%= activity.created_at.to_s(:due_time) %>
-							</span>
-						</p> 
-					<%end %>
-				<% elsif activity.activityType == 1 %>
-					<p style="float:right;margin:-5px 0px 0px 0px">
-						You have a new message from
-						<% if activity.user != nil %>
-							<%= link_to activity.creator.name, "/profile/#{activity.user.slug}", :style => "color:#F66C4C" %>
-						<% end %>
-						<br/>
-						Subject: <%= link_to activity.message.subject, activity.message, :style => "color:#F66C4C" %>.
+		<section id="list" class="one-column left-side">
+			<section class="panel">
+				<h3>Recruiting Updates</h3>
+				<section class="panel-actions">
+					<% if @jobs.count > 0 %>
+						<a href="<%= user_jobs_path currentUser %>">
+							<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
+							<div class="count_recruit">
+								<%= @jobs.count.to_s %>
+							</div>
+							Active Job Postings
+						</a>
 						<br />
-						<span style="color:#8B8B8B;font-size:12px">
-							<%= activity.created_at.to_s(:due_time) %>
-						</span>
-					</p> 
-				<% end %>
-				<section class="profile-thumb-small">
-					<%= image_tag activity.creator.avatar.url(:tiny) if activity.creator.avatar? %>
-					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless activity.creator.avatar? %>
+					<% end %>
+					<% if @applicants > 0 %>
+						<a href="<%= user_jobs_path currentUser %>">
+							<%= image_tag 'tioki/icons/jobs.png', :style => "height:20px;margin:3px -2px 0px 15px" %>
+							<div class="count_recruit">
+								<%= @applicants.to_s %>
+							</div>
+							<% if @applicants == 1 %>
+								New Applicant
+							<% else %>
+								New Applicants
+							<% end %>
+						</a>
+						<br />
+					<% end %>
 				</section>
 			</section>
-			<% end %>
-		<% end %>
+			<section class="panel">
+				<h3>My Organizations</h3>
+				<ul>
+					<% currentUser.groups.organization.my_permissions(:administrator).each do |org| %>
+						<li>
+							<a href="<%= new_group_job_path(org) %>" style="float:right;">+ Job</a>
+							<%= link_to org.name, org %>
+						</li>
+					<% end %>
+				</ul>
+			</section>
+		</section>
+
+		<section class="panel two-column right-side">
+			<h3>Recruiting Activity</h3>
+			<ul>
+				<% Notification.mine(:dashboard => 'recruiter').each do |d| %>
+					<li><%= time_ago_in_words(d.created_at) %> ago: <%= d.message %></li>
+				<% end %>
+			</ul>
 		</section>
 	</section>
 
-<script type="text/javascript">
-var CE_SNAPSHOT_NAME = "School Dashboard";
-setTimeout(function(){var a=document.createElement("script");
-var b=document.getElementsByTagName("script")[0];
-a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/8633.js?"+Math.floor(new Date().getTime()/3600000);
-a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-</script>
+	<script type="text/javascript">
+	var CE_SNAPSHOT_NAME = "School Dashboard";
+	setTimeout(function(){var a=document.createElement("script");
+	var b=document.getElementsByTagName("script")[0];
+	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/8633.js?"+Math.floor(new Date().getTime()/3600000);
+	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+	</script>
 </section>

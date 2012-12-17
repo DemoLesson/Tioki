@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
   create_table "applications", :force => true do |t|
     t.integer  "job_id",                          :null => false
     t.text     "additional_notes"
-    t.integer  "status"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "viewed"
@@ -354,6 +354,8 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.string   "twitter"
     t.string   "facebook"
     t.text     "long_description"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -364,15 +366,15 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
-    t.datetime "date"
-    t.datetime "date_alternate"
-    t.datetime "date_alternate_second"
-    t.integer  "selected",              :default => 0
-    t.integer  "interview_type"
-    t.boolean  "school_location"
+    t.datetime "datetime_1"
+    t.datetime "datetime_2"
+    t.datetime "datetime_3"
+    t.integer  "datetime_selected", :default => 0
     t.string   "location"
     t.text     "message"
     t.integer  "user_id"
+    t.integer  "number"
+    t.integer  "application_id"
   end
 
   create_table "job_packs", :force => true do |t|
@@ -388,7 +390,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
   end
 
   create_table "jobs", :force => true do |t|
-    t.integer  "school_id",                              :null => false
+    t.integer  "school_id"
     t.text     "description"
     t.integer  "employment_type"
     t.string   "salary"
@@ -414,6 +416,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.text     "instructions"
     t.string   "external_url"
     t.integer  "group_id"
+    t.string   "status"
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
@@ -457,6 +460,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "read"
+    t.string   "tag"
   end
 
   create_table "notifications", :force => true do |t|
@@ -464,6 +468,8 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "dashboard"
+    t.string   "message"
   end
 
   create_table "organizations", :force => true do |t|
@@ -579,6 +585,7 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.string   "additionallinkname"
     t.string   "additionallink"
     t.string   "twitter"
+    t.integer  "migrated"
   end
 
   add_index "schools", ["latitude", "longitude"], :name => "index_schools_on_lat_and_lng"

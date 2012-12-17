@@ -153,9 +153,7 @@ class User < ActiveRecord::Base
 
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
-			jobs += Job.find(:all,
-											 :conditions => ['school_id = ? AND active = ?', school.id, true],
-											 :order => 'created_at DESC')
+			jobs += Job.find(:all, :conditions => ['school_id = ? AND active = ?', school.id, true], :order => 'created_at DESC')
 		end
 	end
 
@@ -803,6 +801,50 @@ class User < ActiveRecord::Base
 			return ""
 		end
 	end
+
+	def organization?
+		self.groups.my_permissions('administrator').organization.count > 0
+	end
+
+	# Permissions
+
+		# Can resource be created
+		def can_create?(resource)
+			return true unless resource.respond_to?('can_be_created_by?')
+			resource.can_be_created_by?(self)
+		end
+
+		# Can resource be created
+		def can_update?(resource)
+			return true unless resource.respond_to?('can_be_updated_by?')
+			resource.can_be_updated_by?(self)
+		end
+
+		# Can resource be created
+		def can_destroy?(resource)
+			return true unless resource.respond_to?('can_be_destroyed_by?')
+			resource.can_be_destroyed_by?(self)
+		end
+
+		def can_be_created_by?(_user)
+			return true if _user.new_record?
+			return true if _user.is_admin
+			false
+		end
+
+		def can_be_destroyed_by?(_user)
+			return false if _user.new_record?
+			return true if _user.is_admin
+
+			self == _user
+		end
+
+		def can_be_updated_by?(_user)
+			return false if _user.new_record?
+			return true if _user.is_admin
+
+			self == _user
+		end
 
 	protected
 

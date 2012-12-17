@@ -1,48 +1,78 @@
 <section id="main-content" class="inner-content">
-<script type="text/javascript">
-	Shadowbox.init();
-	</script>
-<h1>Applications</h1>
+	<h1>
+		<%= @source.name.possessive if @source.is_a?(User) %>
+		<%= @source.title.possessive if @source.is_a?(Job) %> 
+		Applications
+	</h1>
+	<table style="width:100%;" class="applications">
+		<td class="left">
+			<h3>Applications</h3>
+			<ul style="width:100%;">
+				<% @applications.each do |app| %>
+					<li>
+						<% if @source.is_a?(User) %>
+							<%= app.job.group.picture? ? image_tag(app.job.group.picture.url(:medium)) : '' %>
+							<h4><%= link_to app.job.group.name, app.job.group, :class => :salmon %></h4>
+						<% end %>
 
-<div id="sidebar" class="job_browser">
-<h1><%= link_to @job.title, @job %></h1>
+						<% if @source.is_a?(Job) %>
+							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
+							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}", :class => :salmon %></h4>
+						<% end %>
 
-<h3><%= School.find(@job.school_id).name %></h3>
-</div>
+						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
+						<span>Applied on: <%= app.created_at.to_s(:date) %></span>
+						<span>
+							Application Status: 
+							<% if @source.is_a?(User) %>
+								<%= app.status %>
+							<% else %>
+								<%= form_for([@source.group, @source, app]) do |f| %>
+									<select name="application[status]">
+										<option <%= app.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+										<option <%= app.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+										<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+										<option <%= app.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+									</select><br /><br />
+									<%= f.submit "Update Status" %>
+								<% end %>
+							<% end %>
+						</span>
+					</li>
+				<% end %>
+			</ul>
+		</td>
+		<td class="right">
+			<h3>Interviews</h3>
+			<ul style="width:100%;">
+				<% if @interviews.count < 1 %>
+					<li>You have no interviews scheduled</li>
+				<% end %>
+				<% @interviews.each do |int| %>
+					<li>
+						<% if @source.is_a?(User) %>
+							<%= int.job.group.picture? ? image_tag(int.job.group.picture.url(:medium)) : '' %>
+							<h4><%= link_to int.job.group.name, int.job.group, :class => :salmon %></h4>
+						<% end %>
 
-<div id="content">
-<% @applications.each do |application| %>
-<div class="item_jobs">
-	<div class="item_picture">
-		<% if application.user.avatar? %><%= link_to image_tag(application.user.avatar.url(:thumb)), '/profile/'+application.user.slug.to_s+'?application='+application.id.to_s()  %><% else %><%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), "/profile/#{application.user.slug}?application=#{application.id}" %><% end %>
-	</div>
+						<% if @source.is_a?(Job) %>
+							<%= int.user.avatar? ? image_tag(int.user.avatar.url(:medium)) : '' %>
+							<h4><%= link_to int.user.name, "/profile/#{int.user.slug}", :class => :salmon %></h4>
+						<% end %>
 
-		<strong><%= link_to application.user.name, "/profile/#{application.user.slug}?application=#{application.id}" %></strong><br />
-		<%= application.user.current_job_string %><br />
-	<br />
-	
-	<div>
-		<% if application.booked == nil %>
-		<%= link_to 'Arrange Interview', {:controller => :interviews, :action => :new, :user_id => application.user_id, :job_id => application.job_id}, {:class => "button"} %> 
-		
-		<% else %>
-			<% if application.interview.selected == 0 %>
-				<%= link_to 'Interview requested, awaiting response', :interviews, :method => :get, :class => "btn" %>
-			<% elsif application.interview.selected == 1 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date.to_s(:due_time), application.interview, :class => "button bg-green" %>
-			<% elsif application.interview.selected == 2 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date_alternate.to_s(:due_time), application.interview, :class => "button bg-green" %>
-			<% elsif application.interview.selected == 3 %>
-				<%= link_to 'Interview scheduled: '+application.interview.date_alternate_second.to_s(:due_time), application.interview, :class => "button bg-green" %>
-			<% end %>
-		<% end %>
-		<% if application.assets.size > 0 %>
-		  <%= link_to 'Attachments', "/applications/attachments/#{application.id}", {:class => "btn"} %>
-		<% end %>
-		<%= application.user.snippet_watchvideo_button.html_safe %>
-		<%= link_to 'Remove', {:controller => :applications, :action => :reject, :id => application.id}, {:class => "btn"} %>          
-	</div>
-</div>
-<% end %>
-</div>
+						<span>Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
+						<span>Applied on: <%= int.application.created_at.to_s(:date) %></span>
+
+						<% if @source.is_a?(User) && int.intDate == 'Unscheduled' %>
+							<span><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
+						<% elsif @source.is_a?(Job) && int.intDate == 'Reschedule Requested' %>
+							<span><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
+						<% else %>
+							<span>Interview on: <%= int.intDate %></span>
+						<% end %>
+					</li>
+				<% end %>
+			</ul>
+		</td>
+	</table>
 </section>

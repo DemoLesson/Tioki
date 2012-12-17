@@ -7,6 +7,12 @@ class Group < ActiveRecord::Base
 	# Instantiate BitSwitch
 	bitswitch :permissions, APP_CONFIG['bitswitches']['group_permissions']
 
+	# Social KVPair
+	kvpair :social
+	kvpair :location
+	kvpair :contact
+	kvpair :misc
+
 	# Connected to users through users_groups
 	has_and_belongs_to_many :users, :join_table => 'users_groups'
 	
@@ -16,22 +22,26 @@ class Group < ActiveRecord::Base
 			Discussion.where(:owner => "#{self.class}:#{self.id}")
 		end
 	
-	# Group picture
-	has_attached_file :picture,
-		:storage => :fog,
-		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-		:content_type => [ 'image/jpeg', 'image/png' ],
-		:fog_credentials => {
-			:provider => 'AWS',
-			:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-			:aws_secret_access_key  => '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',
-			:region => 'us-west-2'
-		},
-		:fog_public => true,
-		:fog_directory => 'tioki',
-		:path => 'groups/:style/:basename.:extension',
-		:processors => [:thumbnail, :timestamper],
-		:date_format => "%Y%m%d%H%M%S"
+	# Picture Support
+		has_attached_file :picture,
+			:storage => :fog,
+			:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
+			:content_type => [ 'image/jpeg', 'image/png' ],
+			:fog_credentials => {
+				:provider => 'AWS',
+				:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+				:aws_secret_access_key  => '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',
+				:region => 'us-west-2'
+			},
+			:fog_public => true,
+			:fog_directory => 'tioki',
+			:path => 'groups/:style/' + (Rails.env == 'development' ? 'dev-' : '') + ':basename.:extension',
+			:processors => [:thumbnail, :timestamper],
+			:date_format => "%Y%m%d%H%M%S"
+
+		def picture_from_url(url)
+    		self.picture = download_remote_file(url)
+  		end
 
 	# User permissions
 
@@ -65,11 +75,16 @@ class Group < ActiveRecord::Base
 			return user_group.permissions
 		end
 
+		def self.my_permissions(type = nil)
+			bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type.to_s]
+			return where("POW(2, ?) & `users_groups`.`permissions` > 0", bit)
+		end
+
 		def users(type = nil)
 			_users = User.joins("INNER JOIN `users_groups` ON `users`.`id` = `users_groups`.`user_id`").where("`users_groups`.`group_id` = ?", self.id)
 
 			unless type.nil?
-				bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type]
+				bit = APP_CONFIG['bitswitches']['user_group_permissions'].invert[type.to_s]
 				return _users.where("POW(2, ?) & `users_groups`.`permissions` > 0", bit)
 			end
 
@@ -90,19 +105,41 @@ class Group < ActiveRecord::Base
 		end
 
 		def self.organization
-			permissions('organization')
+			permissions(:organization => true)
 		end
 
+		def self.organization!
+			permissions(:organization => false)
+		end
+
+		# Returns the job allowance for the group
+		# Author: Kelly Lauren Summer Becker
 		def job_allowance
-			allowance = 0
 
-			# Loop through the purchased jobs
-			job_packs.each do |jp|
-				allowance += jp.jobs
-			end
-
-			# Return the allowed amount of jobs
-			return allowance
+			# 100% SQL based aggregation
+			job_packs.jobAllowance.first.jobs rescue 0
 		end
+
+		# Returns the still active jobs based on job packs
+		# Author: Kelly Lauren Summer Becker
+		def ajobs
+
+			# 100% SQL based aggregation and remove expired
+			job_packs.jobAllowance.disableExpired
+		end
+
+	# Private Methods
+
+		private
+  
+			def download_remote_file(url)
+				io = open(url)
+			    
+				def io.original_filename
+					base_uri.path.split('/').last
+				end
+			    
+				io.original_filename.blank? ? nil : io
+			end
 
 end

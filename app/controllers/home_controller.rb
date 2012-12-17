@@ -3,34 +3,27 @@ class HomeController < ApplicationController
 	def index
 
 		# If logged in then load a dashboard
-		if !self.current_user.nil?
+		if !currentUser.new_record?
 
 			# Current user
-			@user = User.current
+			@user = currentUser
 
-			# TODO Add check to see if school...
-			if User.current.dashboard == 'recruiter'
-				@schools = self.current_user.all_schools
+			if @user.dashboard == 'recruiter'
 
-				@jobs = self.current_user.all_jobs_for_schools
+				# All your organizations
+				@organizations = @user.groups.organization
 
-				@activities = self.current_user.activities
+				# All the jobs of all your organizations
+				@jobs = @organizations.all.collect{|x|x.jobs}.flatten
 
-				@administrators = self.current_user.organization.admincount
+				# How many administrators exist across all your orgs
+				@administrators = @organizations.all.collect{|x|x.users(:administrator).count}.inject(0){|t,x|t+x}
 
-				@interviews = @jobs.inject(0) do |total, job|
-					total += job.interviews.count
-				end
+				# Total amount of interviews you have ever had across all your orgs
+				@interviews = @jobs.inject(0){|t,x|t+x.interviews.count}
 
-				if self.current_user.is_shared && !self.current_user.is_limited
-					#if shared and not limited user get the activities for the master admin
-					admin = SharedUsers.find(:first, :conditions => { :user_id => self.current_user.id})
-					@activities = @activities + Activity.find(:all, :conditions => ['user_id = ? OR user_id = 0', admin.owned_by], :order => 'created_at DESC')
-				end
-
-				@applicants = @jobs.inject(0) do |total, job|
-					total += job.new_applicants.count
-				end
+				# Total amount of applicants you have ever had across all your orgs
+				@applicants = @jobs.inject(0){|t,x|t+x.new_applicants.count}
 			else
 
 				# Get whiteboard activity

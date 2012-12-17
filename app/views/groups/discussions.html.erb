@@ -3,45 +3,50 @@
 
 	<h2>Discussions</h4>
 
+
 	<ul class="group-discussions">
-		<% if @discussions.count < 1 %>
-			<li>
-				There have been no discussions started on this <%= @group.type?.downcase %>. <%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag! %>.
-			</li>
+		<% if !@group.member? && !@group.permissions.public_discussions %>
+			<li>We apologize but the discussions on this group are not public. You must be a member before you can participate in these discussions.</li>
 		<% else %>
-			<% @discussions.each do |discussion| %>
+			<% if @discussions.count < 1 %>
 				<li>
-					<h4>
-						<%= link_to discussion.title, discussion, :style => 'color:#F66C4C;' %>
-						<span style="font-size:14px;margin-left:10px;">
-							<%= discussion.followers.count %> <%= discussion.followers.count == 1 ? 'follower' : 'followers' %>,
-							<%= discussion.comment_threads.count %> <%= discussion.comment_threads.count == 1 ? 'reply' : 'replies' %>
-						</span>
-					</h4>
-					<% if discussion.skills.count > 0 %>
-						<div>
-							Topics: 
-							<% discussion.skills.each do |skill| %>
-								<%= link_to skill.name, "/skill/#{skill.id}", :style => 'color:#F66C4C;' %> |
+					There have been no discussions started on this <%= @group.type?.downcase %>. <%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag! %>.
+				</li>
+			<% else %>
+				<% @discussions.each do |discussion| %>
+					<li>
+						<h4>
+							<%= link_to discussion.title, discussion, :style => 'color:#F66C4C;' %>
+							<span style="font-size:14px;margin-left:10px;">
+								<%= discussion.followers.count %> <%= discussion.followers.count == 1 ? 'follower' : 'followers' %>,
+								<%= discussion.comment_threads.count %> <%= discussion.comment_threads.count == 1 ? 'reply' : 'replies' %>
+							</span>
+						</h4>
+						<% if discussion.skills.count > 0 %>
+							<div>
+								Topics: 
+								<% discussion.skills.each do |skill| %>
+									<%= link_to skill.name, "/skill/#{skill.id}", :style => 'color:#F66C4C;' %> |
+								<% end %>
+							</div>
+						<% end %>
+						<div style="margin-top:10px;">
+							Participants:
+							<% discussion.participants.each do |user| %>
+								<% if user %>
+									<% if user.avatar? %>
+										<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}"  %>
+									<% end %>	
+								<% end %>
 							<% end %>
 						</div>
-					<% end %>
-					<div style="margin-top:10px;">
-						Participants:
-						<% discussion.participants.each do |user| %>
-							<% if user %>
-								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:medium), :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}" %>
-								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:30px;max-width:30px;margin-bottom:-10px"), "/profile/#{user.slug}"  %>
-								<% end %>	
-							<% end %>
-						<% end %>
-					</div>
-				</li>
-			<% end %>
-			<% if @discussions.count > 15 %>
-				<li><%= will_paginate @discussions %></li>
+					</li>
+				<% end %>
+				<% if @discussions.count > 15 %>
+					<li><%= will_paginate @discussions %></li>
+				<% end %>
 			<% end %>
 		<% end %>
 	</ul>

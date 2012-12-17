@@ -1,0 +1,19 @@
+<section id="main-content" class="inner-content">
+	<%= render 'groups/heading' %>
+
+	<table class="applications equal">
+		<tr>
+			<th>Jobpack Count</th>
+			<!--th>Jobpack Inception</th-->
+			<th>Jobpack Expiration</th>
+			<th>Jobpack Cost</th>
+		</tr>
+		<% @jobpacks.each do |jp| %>
+			<tr>
+				<td><%= jp.jobs %></td>
+				<td><%= jp.expiration.to_s(:date) %></td>
+				<td><%= jp.amount %></td>
+			</tr>
+		<% end %>
+	</table>
+</section>

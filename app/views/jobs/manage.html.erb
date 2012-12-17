@@ -1,0 +1,139 @@
+<section id="main-content" class="inner-content jobs-management">
+	<%= render 'heading' %>
+
+	<table class="drops">
+		<tr>
+			<td colspan="3">
+				Available Credits Remaining: <span id="runningLimit">0</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h4 class="title">Unpublished</h4>
+				<ul id="unpublished">
+					<li class="dropzone">
+					</li>
+					<% @jobs.where(:status => ['unpublished', nil]).each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @source.name %></p>
+							<span>Drag to relocate</span>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+			<td>
+				<h4 class="title">Running</h4>
+				<ul id="running">
+					<li class="dropzone">
+					</li>
+					<% @jobs.where(:status => 'running').each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @source.name %></p>
+							<span>Drag to relocate</span>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+			<td>
+				<h4 class="title">Completed</h4>
+				<ul id="completed">
+					<li class="dropzone">
+					</li>
+					<% @jobs.where(:status => 'completed').each do |job| %>
+						<li class="job" data-job-id="<%= job.id %>">
+							<h4><%= job.title %> - <%= job.salary %></h4>
+							<p><%= @source.name %></p>
+							<span>Drag to relocate</span>
+							<%= link_to 'View', [@source, job] %> | 
+							<%= link_to 'Edit', [:edit, @source, job] %> | 
+							<%= link_to 'View Applicants', [@source, job, :applications] %>
+						</li>
+					<% end %>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</section>
+
+<script type="text/coffeescript">
+$ ->
+	# Columns
+	$containers =
+		unpublished: $('ul#unpublished')
+		running: $('ul#running')
+		completed: $('ul#completed')
+
+	# Running limit
+	runningLimit = <%= @source.job_allowance %>
+
+	# Make sure the running jobs does not exceed the running limit
+	checkRunningLimit = ->
+		running = $containers['running'].children('li.job').length
+		$containers['running'].droppable 'option', 'disabled', running >= runningLimit
+		$('span#runningLimit').text runningLimit - running
+
+	# Set the height of the ul elements to the max
+	setColumnHeights = ->
+		height = Math.max((do obj.height for id, obj of $containers)...)
+		obj.css 'min-height': height for id, obj of $containers
+
+	# Bind the drag and drop handlers
+	for id, obj of $containers
+
+		excluding = for _id of $containers
+			continue if _id == id
+			'#' + _id + ' > li.job'
+
+		$('li.job', obj).liveDraggable
+			distance: 50
+			cancel: 'a'
+			revert: 'invalid'
+			containment: 'table.drops'
+			helper: 'clone'
+			cursor: 'move'
+
+		obj.droppable
+			accept: excluding.join(', ')
+			activeClass: "show_drop"
+			drop: (event, ui) ->
+
+				# Fade out the old job
+				job = ui.draggable
+				job.fadeOut 500, =>
+
+					# Clone the object
+					$clone = job.clone()
+					$clone.appendTo($(@))
+					do job.remove
+
+					# Set the height of the containers to auto
+					obj.css 'min-height': 'auto' for id, obj of $containers
+
+					# Fade in the clone
+					$clone.fadeIn 500, ->
+						do setColumnHeights
+						do checkRunningLimit
+
+					# Go ahead and update the status column
+					$.get '<%= currentURL %>.json', {status: $(@).attr('id'), job: $clone.attr('data-job-id')}, (r) ->
+						#console.log r
+						true
+
+	# Bind click trigger
+	#$('li.job').live 'click', (e) ->
+	#	do e.preventDefault
+	#	window.location = '<%= currentURL %>' + '/edit/' + $(@).attr('data-job-id')
+	#	return false
+
+	# Initialize the elements
+	do setColumnHeights
+	do checkRunningLimit
+</script>

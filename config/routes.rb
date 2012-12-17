@@ -34,7 +34,6 @@ Preview::Application.routes.draw do
 		match 'groups/:id/invite' => 'groups#invite'
 
 		match 'groups/:id/members' => 'groups#members'
-		match 'groups/:id/jobs' => 'groups#jobs'
 		match 'groups/:id/discussions' => 'groups#discussions'
 
 		resources :groups do
@@ -109,6 +108,9 @@ Preview::Application.routes.draw do
 
 	# Metrics Controller
 	resources :metrics
+
+	# Jobs
+		resources :jobs
 
 	# Analytics Controller
 		match 'analytics/slugs' => 'analytics#slugs'
@@ -258,6 +260,38 @@ Preview::Application.routes.draw do
 	# Skills information page
 	match '/skill/:id' => 'skills#show'
 
+	# Users routes
+	resources :users do
+
+		resources :jobs
+		resources :groups
+
+		# User Applications
+		resources :applications do
+
+			# Interviews
+			resources :interviews
+		end
+	end
+
+	# Groups
+	resources :groups do
+
+		# Job pack purchases
+		resources :job_packs
+
+		# Jobs routes
+		resources :jobs do
+
+			# Job Applications
+			resources :applications do
+
+				# Interviews
+				resources :interviews
+			end
+		end
+	end
+
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
@@ -398,12 +432,10 @@ Preview::Application.routes.draw do
 	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
 	resources :reviews
-	resources :jobs
 	resources :applications
 	resources :review_permissions
 	resources :schools
 	resources :videos
-	resources :users
 	resources :organizations
 	resources :attachments
 	resources :subjects

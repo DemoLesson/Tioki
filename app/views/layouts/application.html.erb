@@ -87,10 +87,10 @@
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
 			
-	<div id="page-wrapper" class="<%= "logged-in" unless self.current_user.nil? %>">
+	<div id="page-wrapper" class="<%= "logged-in" unless currentUser.new_record? %>">
 
 		<!-- Login Drawer -->
-		<% if self.current_user.nil? %>
+		<% if currentUser.new_record? %>
 			<section id="login-drawer" class="wrapper">
 				<div class="drawer-wrapper inner-content">
 					<a href="#" id="close-drawer">
@@ -119,14 +119,14 @@
 				</a>
 
 				<!-- Notifications Icon -->
-				<% unless self.current_user.nil? %>
+				<% unless currentUser.new_record? %>
 					<a href="#notifications" kmodal="1" class="notifications has-tip no-tip-dots tip-right" title="Notifications">
 						<span class="iconic rss_alt"></span>
 					</a>
 				<% end %>
 
 				<!-- What is and how does tioki work -->
-				<% if self.current_user.nil? %>
+				<% if currentUser.new_record? %>
 					<% if request.fullpath == "/forschools" || request.fullpath == "/school_signup" || request.fullpath == "/howitworks/schools" || request.fullpath == "/schoolpricing" %>
 						<h4 style="float:right;margin:20px 100px 0px 0px;">
 							<a href="/howitworks/schools" style="color:#4D4D4D;margin-right:7px">How it Works</a>
@@ -147,14 +147,14 @@
 				<% end %>
 
 				<!-- If the user is authenticated -->
-				<% unless self.current_user.nil? %>
+				<% unless currentUser.new_record? %>
 					<div id="user-actions">
 						<ul>
 							<li style="float:left">
-								<% if !User.current.school.nil? %>
-									<% if User.current.dashboard == 'recruiter' %>
+								<% if currentUser.organization? %>
+									<% if currentUser.dashboard == 'recruiter' %>
 										<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
-									<% elsif !User.current.school.nil? %>
+									<% else %>
 										<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
 									<% end %>
 								<% end %>
@@ -179,17 +179,15 @@
 									<% end %>
 
 									<!-- Schools -->
-									<% if self.current_user.groups.organization.empty? %>
-										<!--li>
-											<a href="/me/settings/upgrade">
-												Upgrade Account
-											</a>
-										</li>
-										<hr-->
-									<% end %>
+									<li>
+										<a href="/me/settings/upgrade">
+											Upgrade Account
+										</a>
+									</li>
+									<hr />
 									
 									<!-- Teacher Methods -->
-									<% unless self.current_user.nil? %>
+									<% unless currentUser.new_record? %>
 										<li>
 											<a href="/inviteconnections/twitter">
 												Find Friends
@@ -245,7 +243,7 @@
 		</section>
 
 		<!-- Navigation Bar -->
-		<% unless self.current_user.nil? %>
+		<% unless currentUser.new_record? %>
 			<nav class="wrapper top-nav">
 				<ul class="inner-content">
 					<li class="searchBox">
@@ -262,13 +260,13 @@
 						<a href="/">
 						Home
 						</a>
-						<% if !User.current.school.nil? %>
+						<% if currentUser.organization? %>
 							<ul>
-								<% if User.current.dashboard == 'recruiter' %>
+								<% if currentUser.dashboard == 'recruiter' %>
 									<li>
 										<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
 									</li>
-								<% elsif !User.current.school.nil? %>
+								<% else %>
 									<li>
 										<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
 									</li>
@@ -276,18 +274,9 @@
 							</ul>
 						<% end %>
 					</li>
-					<% if User.current.dashboard == 'recruiter' %>
-						<li>
-                            <%= link_to "My Schools", "/my_schools" %>
-                        </li>
-                        <li>
-                            <a href="/events">
-                            Events
-                            </a>
-                        </li>
-                        <li>
-                            <%= link_to "My Jobs", :my_jobs %>
-                        </li>
+					<% if currentUser.dashboard == 'recruiter' %>
+						<li><%= link_to "My Organizations", user_groups_path(currentUser, :organization => true) %></li>
+                        <li><%= link_to "My Jobs", user_jobs_path(currentUser) %></li>
 					<% else %>
 						<li>
 							<a href="/me/profile">
@@ -312,8 +301,9 @@
 							Groups
 							</a>
 							<ul>
-								<li><a href="/groups">Browse Groups</a></li>
-								<li><a href="/my_groups">My Groups</a></li>
+								<li><%= link_to "Browse Groups", groups_path %></li>
+								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
+								<li><%= link_to "My Groups", user_groups_path(currentUser) %></li>
 							</ul>
 						</li>
 						<li>
@@ -347,7 +337,7 @@
         <% end %>
         
 		<!-- Featured Banner -->
-		<% if (banner = Banner.current) && !User.current.nil? %>
+		<% if (banner = Banner.current) && !currentUser.new_record? %>
 			<section class="notice tioki_message">
 				<a href="/me/dismiss_banner" style="float:right;color:#FFF;">
 					<span class="iconic x"></span>
@@ -504,7 +494,7 @@
 	</div><!-- End Page Wrapper -->
 
 	<!-- Notifications Window -->  	
-	<% unless self.current_user.nil? %>
+	<% unless currentUser.new_record? %>
 		<div id="notifications" kmodal-resize="false">
 			<ul>
 				<% notes = Notification.mine %>
