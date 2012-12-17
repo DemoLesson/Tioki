@@ -4,44 +4,43 @@
   domain: tioki.com
   roles:
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: app
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: haproxy
-    options: {}
-  - !ruby/object:Rubber::Configuration::RoleItem
-    name: nginx
+    name: web
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: unicorn
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: web
+    name: nginx
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
-    name: web_tools
+    name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
     options: {}
   - !ruby/object:Rubber::Configuration::RoleItem
     name: db
     options:
       primary: true
-  instance_id: i-3248b300
+  instance_id: i-74de1a46
   image_type: m1.medium
   image_id: ami-2add531a
   security_groups:
   - tioki_staging_default
   - tioki_staging_web
   - tioki_staging_staging
-  - tioki_staging_app
-  - tioki_staging_haproxy
-  - tioki_staging_nginx
   - tioki_staging_unicorn
-  - tioki_staging_web_tools
+  - tioki_staging_nginx
+  - tioki_staging_haproxy
+  - tioki_staging_app
   - tioki_staging_db
-  external_host: ec2-50-112-203-151.us-west-2.compute.amazonaws.com
-  external_ip: 50.112.203.151
-  internal_host: ip-10-244-23-11.us-west-2.compute.internal
-  internal_ip: 10.244.23.11
+  external_host: ec2-50-112-230-33.us-west-2.compute.amazonaws.com
+  external_ip: 50.112.230.33
+  internal_host: ip-10-244-29-141.us-west-2.compute.internal
+  internal_ip: 10.244.29.141
   zone: us-west-2c
   platform: linux
   root_device_type: instance-store
