@@ -1,3 +1,62 @@
+v4.0.0 - Dec 17, 2012 12:21PM PST deployed by Kelly Becker
+==========================================================
+* 7bfdec8: Kelly Becker - added group_id to accessible
+* e9dc8f2: Kelly Becker - fixed some source issues
+* c7a9716: Kelly Becker - merge_organizations
+* c30a08b: Kelly Becker - proper error messages on unauthorized discussions
+* c5dbe01: Kelly Becker - pretty errors on staging
+* 1a55dd4: Kelly Becker - if the amount of jobs on an org is none then dont throw exception
+* 3ce7c51: Kelly Becker - dont show interview tiems that are unset
+* 7500293: Elijah Green - Only get submitted applications on job/show
+* 9567136: Kelly Becker - added +job
+* 48a6fe6: Elijah Green - Commenting out some dead code in user.rb
+* 0d122bb: Kelly Becker - new staging server configuration
+* f2f8b20: Kelly Becker - trying a different nginx config
+* d47f251: Kelly Becker - staging instances and nginx hack
+* fed3588: Kelly Becker - made organizations not hidden during migration but otherwise hidden by default
+* 2e98706: Kelly Becker - docs
+* c8a7c4b: Kelly Becker - just added the job disabling script needs to be run nightly the script is JobPack.jobAllowance.disableExpired you can also call Group.find(:id).ajobs which will run that and return the still active jobs.
+* 5e8b722: Kelly Becker - message on accept interview page is optional
+* a8b11ab: Kelly Becker - schools removed from admin menu
+* e2dc807: Kelly Becker - add job packs to organizations
+* a513e5f: Kelly Becker - fixed members not showing on group members page
+* 2ec569a: Kelly Becker - freebie job pack
+* 8ce4ad1: Kelly Becker - recruiter dashboard
+* 9e9ad42: Kelly Becker - yay interview stuff seems to work
+* 361b0c0: Kelly Becker - running some cleanup and debugging
+* 388aec2: Kelly Becker - removing duplicate files ?
+* caa601b: Kelly Becker - creating and posting new jobs seems to be working from the new organizations pane
+* 9b31ff8: Kelly Becker - jobs editing
+* 1c91f56: Kelly Becker - rewriting jobs controllers and views
+* b6863a1: Kelly Becker - organzations custom route going bye bye
+* ceb6d3e: Kelly Becker - cleaning up jobs controller for use
+* c969845: Kelly Becker - have made some progress started moving to removing activity and merging into notifications.
+* 9ec5db7: Kelly Becker - getting rid of the docs foler
+* d1e55ff: Kelly Becker - progress is slow and hard. Moving towards getting the dashboard working again
+* fa05d2c: Kelly Becker - interviews :D
+* b37f37f: Kelly Becker - interviews pretty much working
+* ec4273c: Kelly Becker - source items around the exceptions displays
+* a5fad0f: Kelly Becker - makeing some progress @astanisic @elijahgreen when this branch gets merged back into develop we need to work towards migrating current_user.nil to currentUser.new_record?
+* 3712311: Kelly Becker - interviews are almost working
+* 3a8a053: Kelly Becker - ordinalized dates and default formats
+* 39af900: Kelly Becker - new permissions style :D
+* 63e9911: Kelly Becker - jobs listing updates
+* a7a9bdd: Kelly Becker - making some more progress
+* 1288ace: Kelly Becker - added school / job migrator
+* 6c1e1ac: Kelly Becker - schools migration
+* a565bd7: Kelly Becker - fix to the organization removal problem
+* c1304a0: Kelly Becker - making progress fixing interviews
+* 2dda477: Kelly Becker - convert group into an org
+* 879e029: Kelly Becker - application process fixes
+* ff809ba: Kelly Becker - whoops
+* b92ad2e: Kelly Becker - cleaned up some bugs
+* b12b6a7: Kelly Becker - show job posting
+* 515661a: Kelly Becker - jobs progress
+* 82f0d57: Kelly Becker - got a working drag n drop credit system
+* 092e5b7: Kelly Becker - got drag n drop working
+* e03a352: Kelly Becker - styleing for drag n drop
+* 5bf7d8d: Kelly Becker - progress so far with droppable
+
 v3.1.8 - Dec 15, 2012  4:14PM PST deployed by Aleks Stanisic
 ============================================================
 * 06ec753: Elijah Green - Fix activity on profile page
