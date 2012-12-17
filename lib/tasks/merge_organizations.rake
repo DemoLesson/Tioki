@@ -187,6 +187,9 @@ task :merge_organizations => :environment do
 		userPermissions[:administrator] = 1
 		userPermissions[:owner] = 1
 
+		# Set to recruiter dashboard by default for all former schools
+		User.find(school.owned_by).update_attribute(:dashboard, :recruiter)
+
 		# Update permissions attribute
 		userGroup.update_attribute(:permissions, userPermissions)
 
