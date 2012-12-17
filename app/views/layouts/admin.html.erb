@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	
+	<title>Tioki &mdash; Admin.</title>
+
+	<%= javascript_include_tag "application" %>
+	<%= stylesheet_link_tag "application" %>
+	<%= csrf_meta_tags %>
+	
+	<link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Video JS -->
+	<link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+	<script src="http://vjs.zencdn.net/c/video.js"></script>
+
+	<!--script src="http://api.html5media.info/1.1.5/html5media.min.js"></script-->
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		// Tooltips
+		$(document).foundationTooltips();
+
+		// Initialize kModal
+		$(document).kModal('init', {'fixed-top': 55});
+
+		// Localscroll
+		$.localScroll();
+		$.localScroll.hash();
+	});
+	</script>
+
+</head>
+
+<body>			
+	<div id="page-wrapper" class="logged-in">
+
+		<!-- Header / User Dropdown -->
+		<section class="login-header wrapper">
+			<header class="inner-content">
+
+				<!-- Logo Link -->
+				<a href="/">
+					<div class="logo">
+					Tioki
+					</div>
+				</a>
+
+				<!-- Notifications Icon -->
+				<a href="#notifications" kmodal="1" class="notifications has-tip no-tip-dots tip-right" title="Notifications">
+					<span class="iconic rss_alt"></span>
+				</a>
+
+				<!-- If the user is authenticated -->
+				<% unless currentUser.new_record? %>
+					<div id="user-actions">
+						<ul>
+							<li style="float:left">
+								<% if currentUser.organization? %>
+									<% if currentUser.dashboard == 'recruiter' %>
+										<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
+									<% else %>
+										<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
+									<% end %>
+								<% end %>
+							</li>
+							<li class="user-name" style="float:left">
+								<a href="/me/profile">
+									<%= self.current_user.name %>
+									<div class="gear">
+									</div>
+								</a>
+								<ul>
+									<!-- All -->
+									<li>
+										<a href="/">
+										Site Home
+										</a> 
+									</li>
+									
+									<!-- Logout -->
+									<li>
+										<a href="/logout">
+										Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				<% end %>
+			</header>
+		</section>
+
+		<!-- Navigation Bar -->
+		<nav class="wrapper top-nav">
+			<ul class="inner-content">
+				<li class="searchBox">
+					<form style="margin:0px;" action="/connections">
+						<select name="topic">
+							<option value="name">Name</option>
+							<option value="location">Location</option>
+							<option value="skill_string">Skill</option>
+						</select>
+						<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:150px" />
+					</form>
+				</li>
+				<li>
+					<a href="/">
+					Home
+					</a>
+					<% if currentUser.organization? %>
+						<ul>
+							<% if currentUser.dashboard == 'recruiter' %>
+								<li>
+									<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
+								</li>
+							<% else %>
+								<li>
+									<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
+								</li>
+							<% end %>
+						</ul>
+					<% end %>
+				</li>
+            </ul>
+        </nav><!-- End Nav -->
+
+		<!-- Display Notices -->
+		<% flash.each do |type, message| %>
+			<% next unless message.is_a?(String) %>
+			<section class="notice <%= type %>">
+				<%= message %>
+			</section>
+		<% end unless flash.empty? %>
+		
+		<!-- Import page here -->
+		<%= yield %>
+
+		<div class="clearfloat" style="height:230px;"></div>
+	</div>
+</body>
+</html>

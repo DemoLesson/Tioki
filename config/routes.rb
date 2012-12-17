@@ -238,7 +238,7 @@ Preview::Application.routes.draw do
 	end
 
 	# Admin Routing
-	scope 'admin' do
+	scope 'oldadmin' do
 		scope 'users' do
 		end
 		match 'banners' => 'users#banners'
@@ -291,6 +291,8 @@ Preview::Application.routes.draw do
 			end
 		end
 	end
+
+	resources :admin
 
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #
@@ -393,7 +395,7 @@ Preview::Application.routes.draw do
 	match 'dmca' => 'home#dmca'
 	
 	# Admin
-	match 'admin' => 'users#teacher_user_list'
+	match 'oldadmin' => 'users#teacher_user_list'
 	match 'teachlist' => 'users#teacher_user_list'
 	match 'schoollist' => 'users#school_user_list'
 	match 'deactivatedlist' => 'users#deactivated_user_list'
