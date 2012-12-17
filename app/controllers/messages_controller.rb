@@ -82,7 +82,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1.xml
   def destroy
     @message = Message.find(params[:id])
-    @message.deactivify
+    #@message.deactivify
     @message.destroy
 
     respond_to do |format|
