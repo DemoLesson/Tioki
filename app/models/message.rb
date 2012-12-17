@@ -1,19 +1,8 @@
 class Message < ActiveRecord::Base
-  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body
+  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag
   validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
 
   self.per_page = 15
-
-  def activify
-    @activity = Activity.create!(:user_id => self.user_id_to, :creator_id => self.user_id_from, :activityType => 1, :message_id => self.id, :interview_id => 0, :application_id => 0)
-  end
-
-  def deactivify
-    @activity = Activity.find(:first, :conditions => ['message_id = ?', self.id])
-    if @activity
-      @activity.destroy
-    end
-  end
 
   def sender
     @user = User.unscoped.find(self.user_id_from) rescue nil
@@ -28,6 +17,10 @@ class Message < ActiveRecord::Base
   def mark_read
     self.read = true
     self.save
+  end
+
+  def tag
+    _map!(read_attribute(:tag))
   end
 
   def self.send!(to, opts = {})
@@ -55,6 +48,9 @@ class Message < ActiveRecord::Base
     read = opts[:read] unless opts[:read].nil?
     read = false if opts[:read].nil?
 
+    # Tag the message with an object
+    tag = opts[:tag] unless opts[:tag].nil?
+
     # Create the message
     msg = new
     msg.user_id_to = to.id
@@ -62,6 +58,7 @@ class Message < ActiveRecord::Base
     msg.subject = subject
     msg.body = body
     msg.read = read
+    msg.tag = tag
 
     if msg.save
       

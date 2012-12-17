@@ -3,6 +3,7 @@ class Application < ActiveRecord::Base
   belongs_to :job
 
   has_one :video
+  has_one :interview
 
   scope :is_active, where(:status => 1)
 
@@ -18,6 +19,7 @@ class Application < ActiveRecord::Base
     # Filter down
     tmp = tmp.where('`viewed` = ?', args[:viewed]) unless args[:viewed].nil?
     tmp = tmp.where('`status` = ?', args[:status]) unless args[:status].nil?
+    tmp = tmp.where('`status` != ?', args[:status!]) unless args[:status!].nil?
 
     return tmp
   end
@@ -57,19 +59,6 @@ class Application < ActiveRecord::Base
       end
     else
       return false
-    end
-  end
-  
-  def activify
-    @activity = Activity.create!(:user_id => School.find(Job.find(job_id).school_id).owned_by, :creator_id => User.find(self.user_id).user_id, :activityType => 3, :message_id => 0, :interview_id => 0, :application_id => self.id)
-  end
-    
-  def deactivify
-    @activity = Activity.find(:first, :conditions => ['application_id = ?', self.id])
-    @interviews = Interview.find(:all, :conditions => ['job_id = ?', self.job_id])
-    @interviews.map(&:destroy)
-    if @activity != nil
-      @activity.destroy
     end
   end
 

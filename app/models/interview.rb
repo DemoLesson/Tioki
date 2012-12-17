@@ -1,24 +1,27 @@
 class Interview < ActiveRecord::Base
-  attr_accessible :interview_type, :location, :school_location, :message, :user_id, :job_id, :date, :date_alternate, :date_alternate_second, :selected
+  attr_accessible :location, :message, :number,
+    :datetime_1, :datetime_2, :datetime_3, :datetime_selected,
+    :job, :user, :application
   
-  belongs_to :job
-  belongs_to :teacher # Migration
+  # Relations
+  belongs_to :application
   belongs_to :user
-  
-  def responded
-    
-  end
+  belongs_to :job
 
-  def application
-    return Application.find(:first, :conditions => ['user_id = ? AND job_id = ?', self.user_id, self.job_id])
+  # Interview Date
+  def intDate
+    case datetime_selected
+    when 1
+      return datetime_1.to_s(:datetime)
+    when 2
+      return datetime_2.to_s(:datetime)
+    when 3
+      return datetime_3.to_s(:datetime)
+    when 4
+      return 'Reschedule Requested'
+    else
+      return 'Unscheduled'
+    end
   end
   
-  def activify
-    @activity = Activity.create!(:user_id => School.job_owner(job_id), :creator_id => self.user.id, :activityType => 2, :message_id => 0, :interview_id => self.id, :application_id => Application.find_by_user_job(self.user_id, self.job_id).id)    
-  end
-  
-  def deactivify
-    @activity = Activity.find(:first, :conditions => ['interview_id = ?', self.id])
-    @activity.destroy
-  end
 end

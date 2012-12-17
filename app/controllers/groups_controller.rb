@@ -1,9 +1,16 @@
 class GroupsController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :members, :about]
-	
+	before_filter :source_owner, :only => :index
 
 	def index
-		@groups = Group.permissions('OR', :public => true, :private => true)
+		if params[:organization] == 'true'
+			@groups = @source.organization
+			@type = 'Organization'
+		else
+			@groups = @source.organization!
+			@type = 'Group'
+		end
+
 		if params[:group_search]
 			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
 		end
@@ -79,7 +86,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Organization jobs
-		@jobs = @group.jobs.order("created_at DESC").limit(@group.job_allowance).paginate(:per_page => 15, :page => params[:page])
+		@jobs = @group.jobs.where(:status => 'running').order("created_at DESC").limit(@group.job_allowance)
 	end
 
 	def add_group
@@ -129,7 +136,11 @@ class GroupsController < ApplicationController
 			permissions[:public] = params[:group][:permissions][:public] == 'true'
 			permissions[:private] = params[:group][:permissions][:public] != 'true'
 			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
-			permissions[:organization] = params[:group][:permissions][:organization] == 'true'
+
+			if currentUser.is_admin
+				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
+			end
+			
 			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
 			params[:group].delete_if{|k,v|k.to_s == 'permissions'}
 			@group.permissions = permissions
@@ -281,4 +292,14 @@ class GroupsController < ApplicationController
 		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
 		redirect_to :back
 	end
+
+	protected
+
+		def source_owner
+			if !params[:user_id].nil?
+				@source = User.find(params[:user_id]).groups
+			else
+				@source = Group.permissions('OR', :public => true, :private => true).permissions(:hidden => false)
+			end
+		end
 end

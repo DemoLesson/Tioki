@@ -1,5 +1,6 @@
 class Job < ActiveRecord::Base
   belongs_to :school
+  belongs_to :group
   
   has_and_belongs_to_many :credentials
   has_and_belongs_to_many :subjects
@@ -11,7 +12,7 @@ class Job < ActiveRecord::Base
   accepts_nested_attributes_for :assets, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   reverse_geocoded_by :latitude, :longitude
   
-  scope :is_active, where(:active => true)
+  scope :is_active, where(:status => 'running')
   
   #scope :dry_clean_only, joins(:washing_instructions).where('washing_instructions.dry_clean_only = ?', true)
   
@@ -19,7 +20,7 @@ class Job < ActiveRecord::Base
 
   #Don't show if user account is deactivated
 
-  default_scope joins(:school => :user).where('users.deleted_at' => nil).readonly(false)
+  #default_scope joins(:school => :user).where('users.deleted_at' => nil).readonly(false)
   
   self.per_page = 15
   
@@ -78,10 +79,14 @@ class Job < ActiveRecord::Base
   end
   
   def new_applicants
-    @applicants = Application.find(:all, :conditions => ['job_id = ? AND viewed = ?', self.id, false])
+    @applicants = Application.find(:all, :conditions => ['job_id = ? AND (status = ? || status =?)', self.id, 'Not Reviewed', nil])
   end
   
   def belongs_to_me(user)
+    if !group_id.nil?
+      return group.user_permissions['administrator']
+    end
+
     @school = School.find(self.school)
     belongs = false
     if @school != nil
@@ -95,6 +100,10 @@ class Job < ActiveRecord::Base
   #for full admins compare the owned_by of the user to the owned_by of the school
   #for limited admins look up it's row in SharedSchools
   def shared_to_me(user)
+    if !group_id.nil?
+      return group.user_permissions['administrator']
+    end
+    
     @school= School.find(self.school)
     @shared= SharedUsers.find(:first, :conditions => { :user_id => user.id})
     if @school != nil && @shared != nil

@@ -1,0 +1,175 @@
+<%= form_for @job, :html => { :multipart => true } do |f| %>
+	<input type="hidden" name="group_id" value="<%= @org.id %>" />
+
+	<% if @job.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+			<ul>
+				<% @job.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+
+	<h3 class="bottom-line">
+		Job Posting - <%= @org.name %>
+	</h3>
+
+	<fieldset>
+		<p>
+			Job Title<br />
+			<%= f.text_field :title, :style => "width:375px" %>
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<p>
+			Employment Type<br />
+			<%= select(:job, :employment_type, [ ["Full Time" , 0], ["Part Time", 1], ["Contract", 2], ["Other", 3] ], :style => "width:400px") %>
+		</p>
+	</fieldset>
+
+	<fieldset>
+		Salary (or Hourly Rate)<br />
+		<%= f.text_field :salary, :placeholder => '$45,000 Annually', :style => "width:375px" %>
+	</fieldset>
+
+	<fieldset>
+		<p> 
+			Subjects
+			<% if controller.action_name == "edit" %>
+				<span style="color:#999">(Leave blank if you do not want to change)</span>
+			<% end %><br />
+			<%= select_tag 'subjects', options_from_collection_for_select(Subject.all, :id, :name), :multiple => true, :value => "Subjects", :style => "width:400px" %>
+		</p>
+	</fieldset>
+			
+	<fieldset>
+		<p>
+			Application Deadline<br />
+			<%= f.text_field :deadline_string, :placeholder => "mm/dd/yyyy", :class => "datePicker", :id => "job_deadline", :style => "width:374px" %><br/>
+			<!--<input type="text" name="date" placeholder="mm/dd/yyyy" class="datePicker" id="job_deadline" />-->
+			<%= f.check_box :rolling_deadline %> <span style="color:#F66C4C">Check here if this is a rolling deadline.</span>
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<p>
+			Position Start Date<br />
+			<!--<input type="text" name="date" placeholder="mm/dd/yyyy" class="datePicker" id="job_start_date" />-->
+			<%= f.text_field :start_date_string, :placeholder => "mm/dd/yyyy", :class => "datePicker", :id => "job_start_date", :style => "width:374px" %><br/>
+			<%= f.check_box :immediate %> <span style="color:#F66C4C">Check here if this position starts immediately</span>
+		</p>
+	</fieldset>
+		
+	<h3 class="bottom-line">
+		Position Details
+	</h3>
+
+	<fieldset>
+		<p>
+			Job Description<br />
+			<%= f.text_area :description, :rows => 15, :style => "width:600px", :class => 'tinymce' %>
+		</p>
+	</fieldset>
+	<br />
+	<fieldset>
+		<p>
+			Application Instructions<br />
+			<% if @job.instructions == nil %>
+				<%= f.text_area :instructions, :rows => 15, :value => "Please upload the following documents:\n\n1) Cover letter\n\n2) Resume\n\n3) 10-15 minute video-recorded lesson\n\n4) Lesson plan", :style => "width:575px" %>
+			<% else %>
+				<%= f.text_area :instructions, :rows => 15, :style => "width:575px" %>
+			<% end %>
+		</p>
+	</fieldset>
+		
+	<h3 class="bottom-line">
+		Attachments <span style="font-size:15px">(optional)</span>
+	</h3>
+	<p>
+		Do you have any documents you would like to attach to your posting (e.g. PDF copy of application instructions)?<br/>
+	</p>
+	
+	<% if @job.new_record? %>
+		<% assetnum = 1 %>
+		<%= f.fields_for :assets do |asset| %>
+			<% if asset.object.new_record? %>
+				<p>
+					<strong>
+						Attachment <%= assetnum %>:
+					</strong>
+					<fieldset style="margin-left:25px">
+						Document Name:
+						<%= asset.text_field :name, :style => "margin-left:40px" %>
+					</fieldset>
+
+					<fieldset style="margin-left:25px">
+						Document Description:
+						<%= asset.text_field :description, :style => "margin-left:6px" %>
+					</fieldset>
+
+					<fieldset style="margin-left:25px">
+						Choose Your File: 
+						<%= asset.file_field :file, :style => "margin-left:40px;width:263px" %>
+					</fieldset>
+				</p>
+			<% end %>
+			<% assetnum+=1 %>
+		<% end %>
+	<% else %>
+		<%= link_to "Edit attachments", '/jobs/'+@job.id.to_s+'/jobattachments', :class => "btn" %>
+	<% end %>
+
+	<h3 class="bottom-line">
+		Additional Options
+	</h3>
+			
+	<fieldset>
+		<%= f.check_box :active %> <span style="color:#F66C4C">This is an active job posting.</span>
+		<small>Unchecking will hide your listing from the site.</small>
+	</fieldset>
+		
+	<fieldset>
+		<%= f.check_box :special_needs %> 
+		<span style="color:#F66C4C">Check here if this is a special needs position</span>
+	</fieldset>
+
+	<fieldset>
+		<%= f.label :external_url %>
+		<%= f.text_field :external_url %>
+	</fieldset>
+		
+	<p>
+		<strong>Private Job Posting?</strong/><br />
+		Is this a private job posting, such as a position only open to current employees? Perhaps you would only prefer that applicants that have passed a certain milestone be permitted to apply (e.g. have passed your resume screening). If so, please enter a passcode (e.g. "gotigers") for your application and provide this passcode to your applicants so that their application will be processed.
+	</p>
+	<% if controller.action_name == "edit" %>
+		<fieldset>
+			<p>
+				Application Passcode: 
+				<%= f.text_field :passcode %>
+			</p>
+		</fieldset>
+	<% else %>
+		<fieldset>
+			<p>
+				Application Passcode: 
+				<%= f.text_field :passcode %>
+			</p>
+		</fieldset>
+	<% end %>
+	<br />
+
+	<div class="actions">
+		<%= f.submit %>
+	</div>
+<% end %>
+
+<script type="text/coffeescript">
+$ ->
+	$('.datePicker').datepicker numberOfMonths: 2
+	do $('select').chosen
+</script>
+<%= tinymce :theme => "simple" %>

@@ -1,150 +1,89 @@
 class InterviewsController < ApplicationController
-  before_filter :login_required
-  
-  # GET /interviews
-  # GET /interviews.json
-  def index
-    @interviews = Interview.all
+  before_filter :source_owner
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @interviews }
-    end
-  end
-  
-  # GET /my_interviews
-  # GET /my_interviews.json
-  
-  def my_interviews
-    @interviews = Interview.find(:all, :conditions => ['user_id = ?', self.current_user.id])
-    
-    respond_to do |format|
-      format.html # my_interviews.html.erb
-      format.json { render json: @interviews }
-    end
-  end
-  
-  # POST /interviews/respond
-  # POST /interviews/respond.json
-  
-  def respond
-    @interview = Interview.find(params[:id])
-    @job = Job.find(@interview.job_id)
-
-    respond_to do |format|
-      if self.current_user == nil || @interview.user_id != self.current_user.id
-        render :nothing => true, :status => "Forbidden" 
-      else
-        UserMailer.interview_scheduled(self.current_user.id, @job.id).deliver
-        format.html
-        format.json
-      end
-    end
-  end
-
-  # GET /interviews/1
-  # GET /interviews/1.json
-  def show
+  # Edit the interview in question
+  # Author: Kelly Lauren Summer Becker
+  # GET /users/:user_id/applications/:application_id/interviews/:interview_id/edit
+  # GET /group/:group_id/job/:job_id/applications/:application_id/interviews/:interview_id/edit
+  def edit
     @interview = Interview.find(params[:id])
 
-    respond_to do |format|
-      if self.current_user != nil
-        if @interview.user_id != self.current_user.id
-          render :nothing => true, :status => "Forbidden"
-        else
-          format.html # show.html.erb
-          format.json { render json: @interview }
-        end
-      elsif self.current_user.school != nil
-        if Job.find(@interview.job_id).school_id != self.current_user.school.id
-          render :nothing => true, :status => "Forbidden"
-        else
-          format.html # show.html.erb
-          format.json { render json: @interview }
-        end
-      end
-    end
-  end
+    if @interview.datetime_selected == 4
+      @message = <<-END
+Dear #{@interview.user.name},
 
-  # POST /interviews/new
-  # POST /interviews/new.json
-  def new
-    session[:return_to] ||= request.referer
-    @interview = Interview.new
-    
-    @teacher = User.find_by_id(params[:user_id])
-    @job = Job.find_by_id(params[:job_id])
-    @user = User.find(@user_id)
-    @school = School.find(@job.school_id)
-    
+We apologize that the dates did not work out with your schedule. We took the message you sent us to consideration and we have 3 more dates for you to look over. Please have a look over them and let us know if they work for you.
+
+Kind Regards,
+#{currentUser.name}
+#{@interview.job.group.name}
+END
+    elsif @interview.datetime_1.nil?
+      @message = <<-END
+Dear #{@interview.user.name},
+
+After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@interview.job.title} position available at #{@interview.job.group.name}. Please confirm if any of these dates and times work for you. We look forward to meeting with you!
+
+Kind Regards,
+#{currentUser.name}
+#{@interview.job.group.name}
+END
+    else
+      @message = String.new
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @interview }
     end
   end
 
-  # POST /interviews
-  # POST /interviews.json
-  def create
-    @interview = Interview.new(params[:interview])
-    if params[:minute]==""
-      params[:minute]="00"
-    end
-    if params[:minute1]==""
-      params[:minute1]="00"
-    end
-    if params[:minute2]==""
-      params[:minute2]="00"
-    end
-    date1 = params[:date]+ " " + params[:hour] + ":" +params[:minute] + " " +params[:ampm]
-    date2 = params[:alternateDate]+ " " + params[:hour1] + ":" +params[:minute1] + " " +params[:ampm1]
-    date3 = params[:alternateDate2]+ " " + params[:hour2] + ":" +params[:minute2] + " " +params[:ampm2]
-    begin
-      date=Time.strptime(date1, "%m/%d/%Y %I:%M %p")
-    rescue
-      redirect_to :back, :notice => "There was something wrong with with your first date"
-      return
-    end
-    begin
-      date_alternate=Time.strptime(date2, "%m/%d/%Y %I:%M %p")
-    rescue
-      date_alternate=date
-    end
-    begin
-      date_alternate_second= Time.strptime(date3, "%m/%d/%Y %I:%M %p")
-    rescue
-      date_alternate_second=date
-    end
-
-
-    @interview.date = date
-    @interview.date_alternate = date_alternate
-    @interview.date_alternate_second = date_alternate_second
-    @interview.user_id = params[:interview][:user_id]
-    @interview.job_id = params[:interview][:job_id]
-    
-    respond_to do |format|
-      if @interview.save
-        UserMailer.interview_notification(@interview.user_id, @interview.job_id).deliver
-        
-        format.html { redirect_to session[:return_to], notice: 'Interview request has been sent.' }
-        format.json { render json: @interview, status: :created, location: @interview }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @interview.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /interviews/1
-  # PUT /interviews/1.json
+  # Update the interview
+  # Author: Kelly Lauren Summer Becker
+  # POST /users/:user_id/applications/:application_id/interviews/:interview_id
+  # POST /group/:group_id/job/:job_id/applications/:application_id/interviews/:interview_id
   def update
     @interview = Interview.find(params[:id])
 
+    # If the message is empty go ahead and remove it from the parameters
+    params[:interview].delete(:message) if params[:interview][:message].strip.empty?
+
+    if @source.is_a?(User)
+
+      # Send a message to the administrator regarding the interview
+      if !params[:interview][:message].nil?
+        @interview.job.group.users(:administrator).each do |to|
+          Message.send!(to, :subject => "Re: Interview with #{@interview.user.name} for #{@interview.job.title} position",
+            :body => params[:interview][:message], :tag => @interview.tag!)
+          Notification.create(:notifiable_type => @interview.tag!, :user_id => to.id, :dashboard => 'recruiter')
+        end
+      end
+    end
+
+    # Go ahread an parse the dates
+    if @source.is_a?(Job)
+      params[:interview][:datetime_1] = Chronic.parse(params[:interview][:datetime_1])
+      params[:interview][:datetime_2] = Chronic.parse(params[:interview][:datetime_2])
+      params[:interview][:datetime_3] = Chronic.parse(params[:interview][:datetime_3])
+      params[:interview][:datetime_selected] = 0 if @interview.datetime_selected == 4
+
+      # Send a message to the application regarding the interview
+      if !params[:interview][:message].nil?
+        Message.send!(@interview.user, :subject => "Re: Interview with #{@interview.job.group.name} for #{@interview.job.title} position",
+          :body => params[:interview][:message], :tag => @interview.tag!)
+      end
+    else
+      params[:interview].delete_if{|k,v|[:datetime_1, :datetime_2, :datetime_3, :message].include?(k)}
+    end
+
     respond_to do |format|
       if @interview.update_attributes(params[:interview])
-        @interview.activify
-        format.html { redirect_to '/teacher_applications', notice: 'Interview details have been updated.' }
+
+        # Get the redirect url based on the source of the submission
+        goto = [@source, :applications]
+        goto = goto.unshift(@source.group) if @source.is_a?(Job)
+
+        format.html { redirect_to goto, notice: 'Interview details have been updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -153,20 +92,23 @@ class InterviewsController < ApplicationController
     end
   end
 
-  # DELETE /interviews/1
-  # DELETE /interviews/1.json
-  def destroy
-    @interview = Interview.find(params[:id])
-    @interview.deactivify
-    @interview.destroy
+  protected
+  
+    def source_owner
+      # Get the proper source
+      @source = User.find(params[:user_id]) unless params[:user_id].nil?
+      @source = Job.find(params[:job_id]) unless params[:job_id].nil?
 
-    if @interview.application != nil
-      @interview.application.reject
-    end
+      # Check permissions to see if the owner also has application
+      raise SecurityTransgression if !@source.applications.include?(Application.find(params[:application_id]))
 
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.json { head :ok }
+      # Check to make sure the if the user is accessing that the user is the current one
+      raise SecurityTransgression if @source != User.current if @source.is_a?(User)
+
+      # Check permissions on the job side
+      if @source.is_a?(Job)
+        #raise SecurityTransgression if @source.group != Group.find(params[:group_id])
+        #raise SecurityTransgression if !@source.group.user_permissions.administrator
+      end
     end
-  end
 end

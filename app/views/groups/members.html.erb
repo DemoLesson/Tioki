@@ -7,44 +7,45 @@
 		<!-- Populating the Group Member list -->
 		<section class="two-column left-side " style="width:700px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:0 0 0 0">
 			<section style="margin: 10px 10px 0px 10px">
-				<% @group.users.avatar?.each do |user| %>
-					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.slug %>
-						<section style="width:600px;margin:-80px 0px 0px 80px">
-							<p style="width:auto">	<%= link_to user.name, '/profile/' + user.slug, :style => "color:#F66C4C;font-weight:bold" %>
-								
-								<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
-								<span style="float:right;">
-									<% if !self.current_user.nil? %>	
-										<% unless self.current_user == user %>
-											<% if @my_connections.include? user.id %>
-												<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>
-											<% else %>
-												<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id } %>
-											<% end %>
+				<% @group.users.each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '70px', :height => '70px'), '/profile/' + user.slug if user.avatar? %>
+					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '70px', :height => '70px'), '/profile/' + user.slug if !user.avatar? %>
+					<section style="width:600px;margin:-80px 0px 0px 80px">
+						<p style="width:auto">	<%= link_to user.name, '/profile/' + user.slug, :style => "color:#F66C4C;font-weight:bold" %>
+							
+							<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
+							<span style="float:right;">
+								<% if !self.current_user.nil? %>	
+									<% unless self.current_user == user %>
+										<% if @my_connections.include? user.id %>
+											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>
+										<% else %>
+											<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id } %>
 										<% end %>
 									<% end %>
-								</span>
-								<br/>
-								<!-- Pulling the Users Position -->
-								<% unless (currentJob = user.experiences.where(:current=>true).first).nil? %>
-									<%= currentJob.position %> at <%= currentJob.company %>
 								<% end %>
-								<!-- Allowing an admin to create other admins -->
-								<span style="float:right">
-									<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
-										<% unless self.current_user == user %>
-											<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
-											<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
-										<% end %>
+							</span>
+							<br/>
+							<!-- Pulling the Users Position -->
+							<% unless (currentJob = user.experiences.where(:current=>true).first).nil? %>
+								<%= currentJob.position %> at <%= currentJob.company %>
+							<% end %>
+							<!-- Allowing an admin to create other admins -->
+							<span style="float:right">
+								<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
+									<% unless self.current_user == user %>
+										<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
+										<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
 									<% end %>
-								</span>	
-								<br />
-								<!-- Pulling the User's Location -->
-								<% if user.location.present? %>
-									<%= user.location %>
-								<% end %><br /><br />
-							</p>
-						</section>
+								<% end %>
+							</span>	
+							<br />
+							<!-- Pulling the User's Location -->
+							<% if user.location.present? %>
+								<%= user.location %>
+							<% end %><br /><br />
+						</p>
+					</section>
 				<% end %>
 			</section>
 		</section>
@@ -53,8 +54,9 @@
 				<h3 class="bottom-line">
 					<%= @group.type? %> Administrators
 				</h3>
-				<% @group.users('administrator').avatar?.each do |user| %>
-					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.slug %>
+				<% @group.users('administrator').each do |user| %>
+					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.slug if user.avatar? %>
+					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '40px', :height => '40px'), '/profile/' + user.slug if !user.avatar? %>
 					<p style="margin:-40px 0 5px 50px">
 						<%= link_to user.name, '#', :style => "color:#F66C4C;" %><br/>
 						<%= user.location %>

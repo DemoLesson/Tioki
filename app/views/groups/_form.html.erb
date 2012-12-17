@@ -49,7 +49,7 @@
     		<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %> 
     		Hidden <%= @group.type? %> (Must either be a member or have the link)
     	</label>
-    	<% if @group.permissions['organization'] && User.current.is_admin %>
+    	<% if User.current.is_admin %>
 	    	<label>
 	    		<%= check_box_tag 'group[permissions][organization]', 'true', true %> 
 	    		is an Organization? (If you uncheck this the Organization will lose it's job postings and be converted to a group!)

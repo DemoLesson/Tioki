@@ -23,6 +23,8 @@ class Notification < ActiveRecord::Base
 
 		query = self.where('`notifications`.`user_id` = ?', user.id)
 		query = query.order("`notifications`.`created_at` #{conds[:order]}")
+		query = query.where('`notifications`.`dashboard` = ?', conds[:dashboard]) unless conds[:dashboard].nil?
+		return query
 	end
 
 	def self.notify_likes
@@ -89,9 +91,7 @@ class Notification < ActiveRecord::Base
 		_class = notifiable_type.split(':').first
 
 		case _class
-		when 'Comment'
-			return map_tag.user
-		when 'Favorite'
+		when 'Comment', 'Favorite', 'Application', 'Interview'
 			return map_tag.user
 		end
 	end
@@ -105,6 +105,12 @@ class Notification < ActiveRecord::Base
 			ret = "#{triggered.profile_link} replied to a discussion."
 		when 'Favorite'
 			ret = "#{triggered.profile_link} favorited a post of yours."
+		when 'Application'
+			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
+		when 'Interview'
+			ret = "#{triggered.profile_link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
 		ret.html_safe

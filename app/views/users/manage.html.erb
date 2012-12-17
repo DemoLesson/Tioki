@@ -1,28 +1,18 @@
 <section id="main-content" class="inner-content">
-<%= form_tag :action => "manage" do %>
-  <p><%= label_tag "Organization Name" %></p>
-  <p><%= text_field_tag :name, @organization.name %></p>
-  <p><%= label_tag "Job Posting Allowance" %></p>
-  <p>Total Jobs = <%= @organization.totaljobs %></p>
-  <p><%= text_field_tag :job_allowance, @organization.job_allowance %></p>
-  <p><%= label_tag "Admin Account Allowance" %></p>
-  <p>Total Admins = <%= @organization.totaladmins %></p>
-  <p><%= text_field_tag :admin_allowance, @organization.admin_allowance %></p>
-  <p><%= label_tag "School Allowance" %></p>
-  <p>Total Schools = <%= @organization.totalschools %></p>
-  <p><%= text_field_tag :school_allowance, @organization.school_allowance %></p>
-  <p><%= submit_tag "Save" %></p>
-  <Strong>Accounts:</Strong><br />
-  <% @members.each do |member| %>
-    <p><%= member.name %></p>
+  <h1>Add a job pack to <%= link_to @organization.name, @organization %></h1>
+  <%= form_tag :action => "manage" do %>
+    <label>
+      <span>Job Allowance</span><br />
+      <input type="text" name="jobpack[jobs]" />
+    </label>
+    <label>
+      <span>Expiration</span><br />
+      <input type="text" name="jobpack[expiration]" />
+    </label>
+    <label>
+      <span>Effective Date</span><br />
+      <input type="text" name="jobpack[inception]" />
+    </label>
+    <input type="submit" value="Add a new JobPack" />
   <% end %>
-  <Strong>Organization info:</Strong><br />
-  <% @schools.each do |school| %>
-    <h2><%= link_to school.name, school %></h2>
-    <% jobs= Job.find(:all, :conditions => { :school_id => school.id})%>
-    <% jobs.each do |job| %>
-      <p><%= link_to job.title, job %> Applicants: <%= job.applications.count %></p>
-    <% end %>
-  <% end %>
-<% end %>
 </section>
