@@ -117,7 +117,7 @@ class Group < ActiveRecord::Base
 		def job_allowance
 
 			# 100% SQL based aggregation
-			job_packs.jobAllowance.first.jobs
+			job_packs.jobAllowance.first.jobs rescue 0
 		end
 
 		# Returns the still active jobs based on job packs
