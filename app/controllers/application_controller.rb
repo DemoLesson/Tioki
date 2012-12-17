@@ -223,12 +223,14 @@ class ApplicationController < ActionController::Base
 			log_exception(e)
 
 			# Raise the error if in development
-			raise e if Rails.env != 'production'
+			raise e if Rails.env == 'development'
 
 			# Makes sure the models are sourced
 			__sessions_in_model do
 				case e
 				when SecurityTransgression, HTTPStatus::Unauthorized
+
+					# Unauthorized
 					@path = request.fullpath
 					render :template => 'errors/error_401',
 						:layout => 'layouts/application',
@@ -239,11 +241,16 @@ class ApplicationController < ActionController::Base
 					ActionController::RoutingError,
 					ActiveRecord::RecordNotFound
 					
+					# 404s
 					@not_found_path = request.fullpath
 					render :template => 'errors/error_404',
 						:layout => 'layouts/application',
 						:status => 404
 				else
+					# If staging use pretty on all except fatals
+					raise e if Rails.env == 'staging'
+
+					# Hide fatal errors on production
 					@path = request.fullpath
 					render :template => 'errors/error_500',
 						:layout => 'layouts/application',
