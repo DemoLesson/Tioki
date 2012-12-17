@@ -1,4 +1,4 @@
- class JobsController < ApplicationController
+class JobsController < ApplicationController
  	# Deprecate
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
 
