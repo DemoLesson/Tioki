@@ -94,8 +94,12 @@
 						<label>
 							<span>Select an interview date</span><br />
 							<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
-							<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
-							<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
+							<% if not @interview.datetime_2.nil? %>
+								<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
+							<% end %>
+							<% if not @interview.datetime_3.nil? %>
+								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
+							<% end %>
 							<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
 							Location: <%= @interview.location %>
 						</label>
