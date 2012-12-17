@@ -161,7 +161,7 @@
 			# do nothing
 		else
 			if self.current_user != nil
-				@application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', @job.id, self.current_user.id])
+				@application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id])
 			end
 		end
 		
