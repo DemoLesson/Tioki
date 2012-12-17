@@ -217,36 +217,36 @@ class User < ActiveRecord::Base
 	def completion
 		return 0
 
-		# Only update progress if the model is over a day old or empty
-		if self.updated_at < Time.new.yesterday || super.nil? || super == 0
-			percent = 0
+		## Only update progress if the model is over a day old or empty
+		#if self.updated_at < Time.new.yesterday || super.nil? || super == 0
+		#	percent = 0
 
-			if !self.teacher.nil?
-				percent += 5 if self.teacher.headline.present?
-				percent += 15 if self.connections.count >= 5
-				percent += 5 if self.teacher.has_social?
-				percent += 10 if !self.teacher.educations.empty?
-				percent += 10 if !self.teacher.experiences.empty?
-				percent += 5 if !self.teacher.credentials.empty?
-				percent += 5 if self.avatar?
-				percent += 10 if self.skills.count >= 5
+		#	if !self.teacher.nil?
+		#		percent += 5 if self.teacher.headline.present?
+		#		percent += 15 if self.connections.count >= 5
+		#		percent += 5 if self.teacher.has_social?
+		#		percent += 10 if !self.teacher.educations.empty?
+		#		percent += 10 if !self.teacher.experiences.empty?
+		#		percent += 5 if !self.teacher.credentials.empty?
+		#		percent += 5 if self.avatar?
+		#		percent += 10 if self.skills.count >= 5
 
-				# Tech tags
-				percent += 10 if true
+		#		# Tech tags
+		#		percent += 10 if true
 
-				percent += 15 if self.vouched_skills.count > 3
-				percent += 10 if self.teacher.videos.count > 0
-			elsif !self.school.nil?
-				percent = 100
-			end
+		#		percent += 15 if self.vouched_skills.count > 3
+		#		percent += 10 if self.teacher.videos.count > 0
+		#	elsif !self.school.nil?
+		#		percent = 100
+		#	end
 
-			# Save the user with the updated completion
-			self.update_attribute(:completion, percent)
-		else
-			percent = super
-		end
+		#	# Save the user with the updated completion
+		#	self.update_attribute(:completion, percent)
+		#else
+		#	percent = super
+		#end
 
-		return percent
+		#return percent
 	end
 
 	def connections
@@ -261,15 +261,15 @@ class User < ActiveRecord::Base
 			s.save!
 		end
 		return s
-		@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer_schools.yml'))).result)[Rails.env]
-		@message = Message.new
-		@message.user_id_from = @mailer["from"].to_i
-		@message.user_id_to = self.id
-		@message.subject = @mailer["subject"]
-		@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
-		@message.read = false
-		@message.activify
-		@message.save
+		#@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer_schools.yml'))).result)[Rails.env]
+		#@message = Message.new
+		#@message.user_id_from = @mailer["from"].to_i
+		#@message.user_id_to = self.id
+		#@message.subject = @mailer["subject"]
+		#@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
+		#@message.read = false
+		#@message.activify
+		#@message.save
 	end
 
 	def distance(find, level = 1, delve = false, scanned = [])
