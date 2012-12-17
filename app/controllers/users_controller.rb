@@ -400,8 +400,8 @@ class UsersController < ApplicationController
 							:email => params[:email],
 							:password => params[:pass])
 			if user.save
-				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-				if school.save
+				@school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
+				if @school.save
 					o=Organization.create
 					o.update_attribute(:owned_by, user.id)
 
