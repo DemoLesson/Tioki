@@ -6,6 +6,7 @@ class Application < ActiveRecord::Base
   has_one :interview
 
   scope :is_active, where(:status => 1)
+	scope :is_submitted, where(:submitted => 1)
 
   def self.mine(args = {})
 

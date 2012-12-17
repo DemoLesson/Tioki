@@ -7,7 +7,7 @@ class ApplicationsController < ApplicationController
 	# GET /user/:user_id/applications
 	# GET /groups/:group_id/jobs/:job_id/applications
 	def index
-		@applications = @source.applications
+		@applications = @source.applications.is_submitted
 		@interviews = @source.interviews
 
 		respond_to do |format|
