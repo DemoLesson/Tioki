@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/KellyLSB/KVPair.git
-  revision: 89b2e260b3d364f0fcb7e807a466112ca51c7fc1
+  revision: 7320575d963fb2511ce8902e4fa9334dc998118f
   specs:
     kvpair (0.0.1)
 
@@ -233,7 +233,7 @@ GEM
       jruby-pageant (>= 1.0.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    newrelic_rpm (3.5.3.25)
+    newrelic_rpm (3.5.4.33)
     nifty-generators (0.4.6)
     nokogiri (1.5.5)
     oauth (0.4.7)

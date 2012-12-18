@@ -353,10 +353,7 @@ class UsersController < ApplicationController
 		# Limit to teachers that have job applications
 		@users = @users.join(:applications).where('users.id = applications.user_id') if params[:applied]
 
-		@recruiters = User.organization?.count
-		dump @recruiters
-
-		@educatorcount = User.find(:all, :conditions => ['users.is_shared = false && users.id NOT IN (?)', @recruiters.collect(&:id)]).count
+		@educatorcount = User.organization?.count
 
 		#count videos as 1 per user
 		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
@@ -368,7 +365,7 @@ class UsersController < ApplicationController
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
-		@stats.push({:name => 'Number of Educators', :value => @educatorcount})
+		@stats.push({:name => 'Number of Organization Owners', :value => @educatorcount})
 
 		# Render the page
 		render :teacher_user_list

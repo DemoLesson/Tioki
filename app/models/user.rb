@@ -810,7 +810,7 @@ class User < ActiveRecord::Base
 
 	def organization?
 		isorg = self.groups.my_permissions(:administrator).organization.count > 0
-		self.cache = {:organization => isorg ? 'true' : nil} if updated_at < 1.day.ago
+		self.cache = {'organization' => isorg ? 'true' : nil} #if updated_at < 1.day.ago
 		return isorg
 	end
 
