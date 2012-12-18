@@ -103,32 +103,15 @@
 		<nav class="wrapper top-nav">
 			<ul class="inner-content">
 				<li class="searchBox">
-					<form style="margin:0px;" action="/connections">
-						<select name="topic">
-							<option value="name">Name</option>
-							<option value="location">Location</option>
-							<option value="skill_string">Skill</option>
-						</select>
-						<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:150px" />
+					<form style="margin:0px;">
+						<input type="text" name="connectsearch" style="width:150px" />
 					</form>
 				</li>
 				<li>
-					<a href="/">
-					Home
-					</a>
-					<% if currentUser.organization? %>
-						<ul>
-							<% if currentUser.dashboard == 'recruiter' %>
-								<li>
-									<a href="/me/settings/dashboard/educator">Educator Dashboard</a>
-								</li>
-							<% else %>
-								<li>
-									<a href="/me/settings/dashboard/recruiter">Recruiter Dashboard</a>
-								</li>
-							<% end %>
-						</ul>
-					<% end %>
+					<%= link_to 'Admin Home', [:admin, :index] %>
+					<ul>
+						<li><%= link_to 'Site Home', :root %></li>
+					</ul>
 				</li>
             </ul>
         </nav><!-- End Nav -->

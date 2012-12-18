@@ -1,1 +1,11 @@
-HI
+<section id="main-content" class="inner-content admin-panel">
+	<h1>Admin Panel</h1>
+	<ul class="stats">
+		<% for stat, num in @stats %>
+			<li>
+				<span><%= num %></span>
+				<%= stat.to_s.gsub('_', ' ').capitalize %>
+			</li>
+		<% end %>
+	</ul>
+</section>
