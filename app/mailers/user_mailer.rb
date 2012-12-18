@@ -32,12 +32,20 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def message_notification(user_id, subject, body, id, name)
+	def message_notification(user_id, subject, body, id, name, tag = nil)
 		@user = User.find(user_id)
 		@subject = subject
 		@message_body = body[0,140]
 		@id = id
 		@sender_name = name
+
+		if tag
+			#Set url and button text
+			#Currently for groups and discussions
+			#Needs special cases for interviews, applications, etc
+			@url = "#{tag.split(':').first.downcase}s/#{tag.split(':').second}"
+			@button_text = "Go to #{tag.split(':').first}"
+		end
 
 		mail = mail(:to => @user.email, :subject => name+' messaged you: '+subject)
 
@@ -90,7 +98,7 @@ class UserMailer < ActionMailer::Base
 		@user = user
 		@job = job
 
-		message_body = "Please login to tioki.com to respond to this request."
+		#message_body = "Please login to tioki.com to respond to this request."
 		subject = @user.name + ' applied to your job posting: ' + @job.title
 
 		admins = group.users(:administrator).map(&:email)
