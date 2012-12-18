@@ -1,3 +1,8 @@
+v4.0.4 - Dec 18, 2012 12:28PM PST deployed by Kelly Becker
+==========================================================
+* 673f3d0: Kelly Becker - organization owner count GAH! that was a pain!
+* d450f42: Kelly Becker - cache the organization check
+
 v4.0.3 - Dec 17, 2012  6:39PM PST deployed by Kelly Becker
 ==========================================================
 * be32ff8: Elijah Green - Use tags to change how some messages are displayed
