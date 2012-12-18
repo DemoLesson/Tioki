@@ -324,7 +324,7 @@ BODY
 
 		# Send the message
 		params[:connection].each do |user|
-			Message.send!(user, :subject => subject, :body => body)
+			Message.send!(user, :subject => subject, :body => body, :tag => "Discussion:#{d.id}")
 		end
 
 		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
