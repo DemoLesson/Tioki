@@ -921,8 +921,8 @@ class UsersController < ApplicationController
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
-		elsif !self.current_user.nil?
-			@user = self.current_user
+		elsif !currentUser.new_record?
+			@user = currentUser
 		end
 
 		# Check if user is a guest
