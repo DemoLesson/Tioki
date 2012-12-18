@@ -1,3 +1,10 @@
+v4.0.5 - Dec 18, 2012  3:43PM PST deployed by Kelly Becker
+==========================================================
+* 46fe22c: Kelly Becker - some minor bug fixes and sweeping sessions again
+* 6e149c9: Elijah Green - For interview messages, put link for the applications page
+* 7ddaf82: Kelly Becker - disabled the websockets for now
+* d6b1855: Kelly Becker - log all connection access
+
 v4.0.4 - Dec 18, 2012 12:28PM PST deployed by Kelly Becker
 ==========================================================
 * 673f3d0: Kelly Becker - organization owner count GAH! that was a pain!
