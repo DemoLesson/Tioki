@@ -348,12 +348,13 @@ class UsersController < ApplicationController
 		end
 
 		# Limit to those that have at least 1 video
-		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
+		@users = @users.join(:videos).where('users.id = videos.user_id') if params[:vid]
 
 		# Limit to teachers that have job applications
-		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
+		@users = @users.join(:applications).where('users.id = applications.user_id') if params[:applied]
 
-		@recruiters = User.find(:all, :joins => :schools, :group => "users.id")
+		@recruiters = User.organization?.count
+		dump @recruiters
 
 		@educatorcount = User.find(:all, :conditions => ['users.is_shared = false && users.id NOT IN (?)', @recruiters.collect(&:id)]).count
 

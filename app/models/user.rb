@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
 	kvpair :seeking
 	kvpair :authorizations
 	kvpair :social_actions
+	kvpair :cache
 
 	# BitSwitches
 
@@ -131,6 +132,13 @@ class User < ActiveRecord::Base
 	# Callbacks in order or processing
     after_create :after_create
     before_save :before_save
+    after_find :_isorg
+
+    def _isorg
+
+    	# Cache organization value
+    	organization? if updated_at < 1.day.ago
+    end
 	#after_save :add_ab_test_data
     
     def after_create
@@ -801,7 +809,13 @@ class User < ActiveRecord::Base
 	end
 
 	def organization?
-		self.groups.my_permissions('administrator').organization.count > 0
+		isorg = self.groups.my_permissions(:administrator).organization.count > 0
+		self.cache = {:organization => isorg ? 'true' : nil} if updated_at < 1.day.ago
+		return isorg
+	end
+
+	def self.organization?
+		cache(:organization => 'true')
 	end
 
 	# Permissions

@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/KellyLSB/KVPair.git
-  revision: 30ec1134c638605b2ca95cccaffd900ea260af24
+  revision: 89b2e260b3d364f0fcb7e807a466112ca51c7fc1
   specs:
     kvpair (0.0.1)
 
