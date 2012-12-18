@@ -113,7 +113,7 @@ class Notification < ActiveRecord::Base
 			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
-		ret.html_safe
+		ActionController::Base.helpers.sanitize(ret).html_safe
 	end
 
 	def link
