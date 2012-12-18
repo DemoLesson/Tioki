@@ -1,3 +1,8 @@
+v4.0.3 - Dec 17, 2012  6:39PM PST deployed by Kelly Becker
+==========================================================
+* be32ff8: Elijah Green - Use tags to change how some messages are displayed
+* 1bb2130: Kelly Becker - Update SEED_NOTES.md
+
 v4.0.2 - Dec 17, 2012  5:20PM PST deployed by Kelly Becker
 ==========================================================
 * 32d5745: Kelly Becker - fix to old activifies being gone
