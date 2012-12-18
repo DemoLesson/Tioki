@@ -1,3 +1,15 @@
+v4.0.2 - Dec 17, 2012  5:20PM PST deployed by Kelly Becker
+==========================================================
+* 32d5745: Kelly Becker - fix to old activifies being gone
+* 0c8b26e: Elijah Green - Remove unused methods for messages
+* 9603b3f: Elijah Green - Fix a XSS vulnerability
+* 5ad811c: Elijah Green - Remove warning that ruby -wc was showing about shadowed variables
+* 65bf387: Elijah Green - Only show ubsmitted applications
+* b9bf219: Elijah Green - Fix a jobs/show xss vulnerability
+* 45ee961: Elijah Green - School Signup
+* 3fb045b: Kelly Becker - removed staging
+* b36faef: Elijah Green - Gemfile.lock
+
 v4.0.1 - Dec 17, 2012 12:45PM PST deployed by Kelly Becker
 ==========================================================
 * 49d3a50: Kelly Becker - you can now display multiple banners
