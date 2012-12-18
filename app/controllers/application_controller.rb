@@ -336,7 +336,7 @@ class ApplicationController < ActionController::Base
 			short = "#{exception.class} (#{exception.message})"
 
 			error = String.new
-			error << "\nURL: #{request.fullpath}"
+			error << "\nURL: #{currentURL}"
 			error << "\n" + short + "\n"
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
 
