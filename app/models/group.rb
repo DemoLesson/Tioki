@@ -128,6 +128,10 @@ class Group < ActiveRecord::Base
 			job_packs.jobAllowance.disableExpired
 		end
 
+		def url
+			"groups/#{self.to_param}"
+		end
+
 	# Private Methods
 
 		private

@@ -48,4 +48,8 @@ class Discussion < ActiveRecord::Base
 		# Return the link to the profile
 		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
 	end
+
+	def url
+		"discussions/#{self.to_param}"
+	end
 end

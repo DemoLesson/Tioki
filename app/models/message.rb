@@ -69,7 +69,7 @@ class Message < ActiveRecord::Base
 				msg.body, 
 				msg.id, 
 				from.name, 
-				tag).deliver
+				msg.tag).deliver
       
       # Return true on success
       return true

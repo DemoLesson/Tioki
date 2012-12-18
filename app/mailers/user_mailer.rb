@@ -41,10 +41,21 @@ class UserMailer < ActionMailer::Base
 
 		if tag
 			#Set url and button text
-			#Currently for groups and discussions
-			#Needs special cases for interviews, applications, etc
-			@url = "#{tag.split(':').first.downcase}s/#{tag.split(':').second}"
-			@button_text = "Go to #{tag.split(':').first}"
+			#Currently works for models with link defined
+			#groups, discussions
+			if defined? tag.url
+				@url = tag.url
+				@button_text = "Go to #{tag.class.to_s}"
+			elsif tag.class.to_s == "Interview"
+				#Interview requires special case
+				#base off of who owns interview
+				if user_id == tag.user_id
+					@url = "users/#{user_id}/applications"
+				else
+					@url = "groups/#{tag.job.group.to_param}/jobs/#{tag.job.id}/applications"
+				end
+				@button_text = "Go to Applications"
+			end
 		end
 
 		mail = mail(:to => @user.email, :subject => name+' messaged you: '+subject)
