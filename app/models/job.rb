@@ -66,9 +66,7 @@ class Job < ActiveRecord::Base
     if @application == nil
       @application = Application.create!(:job_id => self.id, :user_id => user_id, :status => 1, :viewed => 0)
       UserMailer.teacher_applied(self.school_id, self.id, user_id).deliver
-      @application.activify
     else
-      @application.deactivify
       @application.destroy
     end
   end

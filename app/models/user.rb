@@ -265,7 +265,6 @@ class User < ActiveRecord::Base
 		#@message.subject = @mailer["subject"]
 		#@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
 		#@message.read = false
-		#@message.activify
 		#@message.save
 	end
 

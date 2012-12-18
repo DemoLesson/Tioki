@@ -30,7 +30,12 @@ class ApplicationsController < ApplicationController
 				:application => @application,
 				:user => @application.user,
 				:job => @application.job)
+
+			# Redirect Path
+			redirect = [:edit, @source.group, @source, @application, interview]
 		end
+
+		#
 
 		respond_to do |format|
 
@@ -40,8 +45,10 @@ class ApplicationsController < ApplicationController
 				# Respond with either HTML or JSON
 				format.html {
 
-					# If an interview was created take the person to the edit interview page
-					return redirect_to [:edit, @source.group, @source, @application, interview] if interview.is_a?(Interview)
+					# If we have an alternate location to redirect to
+					return redirect_to(redirect) if not redirect.nil?
+
+					# Otherwise redirect to to the groups applications
 					redirect_to [@source.group, @source, :applications], :notice => 'Application was successfully updated.'
 				}
 				format.json { head :no_content }
