@@ -81,7 +81,7 @@ Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
 end
 
 # Start websockets / delayed job daemons
-after "deploy:restart", "websockets:start"
+#after "deploy:restart", "websockets:start"
 after "deploy:restart", "delayed_job:start"
 
 # Add chmod to after rubber:setup_app_permissions
