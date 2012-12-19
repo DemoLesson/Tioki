@@ -960,7 +960,7 @@ class UsersController < ApplicationController
 		# Check if user is connected to teacher or is self
 		@self = false
 		@connected = false
-		if not currentUser.new_record? || @user.me?
+		if not currentUser.new_record? && @user.me?
 			@connected = true
 			@self = true
 		elsif not currentUser.new_record? && currentUser.connected_to?(@user)
