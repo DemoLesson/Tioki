@@ -994,8 +994,8 @@ class UsersController < ApplicationController
 			
 		# If the there is currently a user logged in
 		if !currentUser.new_record?
-			@connection = currentUser.connection_to(_user)
-			@pendingconnection = currentUser.connection_to(_user, true)
+			@connection = currentUser.connection_to(@user)
+			@pendingconnection = currentUser.connection_to(@user, true)
 		end
 
 		# Filter Upcoming Events
