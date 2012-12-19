@@ -1,1 +1,4 @@
-$('#<%= dom_id(@user) %>').html('<a class="addconnection">Connection Requested</a>');
+$(function() {
+	if(<%= @redirect ? 'true' : 'false' %>) window.location = '<%= @redirect %>';
+	else $('#<%= dom_id(@user) %>').html('<a class="addconnection">Connection Requested</a>');
+});
