@@ -1,3 +1,7 @@
+v4.0.9 - Dec 19, 2012 10:07AM PST deployed by Kelly Becker
+==========================================================
+* 9bc7c49: Kelly Becker - added the ability to add more discussions after one has been created on a group
+
 v4.0.8 - Dec 19, 2012  9:55AM PST deployed by Kelly Becker
 ==========================================================
 * d3b3bab: Kelly Becker - cleanup connections better
