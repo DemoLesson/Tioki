@@ -31,7 +31,7 @@ class ActiveRecord::Base
 		_class, _id = tag.split(':')
 
 		# Get the model by class and ID
-		Kernel.const_get(_class).find(_id.to_i)
+		_class.constantize.find(_id.to_i)
 	end
 end
 
@@ -47,7 +47,7 @@ def mapTag!(tag)
 	_class, _id = tag.split(':')
 
 	# Get the model by class and ID
-	Kernel.const_get(_class).find(_id)
+	_class.constantize.find(_id.to_i)
 end
 
 # Array class
