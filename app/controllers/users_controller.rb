@@ -903,45 +903,11 @@ class UsersController < ApplicationController
 		end
 	end
   
-  # Profile About 
-  def profile_about
-			# Figure out whether to load a profile by slug or the current user.
-  		if !params[:slug].nil? && !params[:slug].empty?
-  			@user = User.find_by_slug(params[:slug])
-  		elsif !self.current_user.nil?
-  			@user = self.current_user
-  		end
-  		
-  		# Check if user is connected to teacher or is self
-  		@self = false
-  		@connected = false
-  		if @user.me?
-  			@connected = true
-  			@self = true
-  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
-  			@connected = true
-  		end
-  end
+	# Profile About 
+	def profile_about; profile; end
   
-  # Profile Resume 
-  def profile_resume
-			# Figure out whether to load a profile by slug or the current user.
-  		if !params[:slug].nil? && !params[:slug].empty?
-  			@user = User.find_by_slug(params[:slug])
-  		elsif !self.current_user.nil?
-  			@user = self.current_user
-  		end
-  		
-  		# Check if user is connected to teacher or is self
-  		@self = false
-  		@connected = false
-  		if @user.me?
-  			@connected = true
-  			@self = true
-  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
-  			@connected = true
-  		end
-  end
+	# Profile Resume 
+	def profile_resume; profile; end
 
 	# Migrated from teacher_controller.rb
 	def profile
@@ -960,10 +926,10 @@ class UsersController < ApplicationController
 		# Check if user is connected to teacher or is self
 		@self = false
 		@connected = false
-		if not currentUser.new_record? && @user.me?
+		if !currentUser.new_record? && @user.me?
 			@connected = true
 			@self = true
-		elsif not currentUser.new_record? && currentUser.connected_to?(@user)
+		elsif !currentUser.new_record? && currentUser.connected_to?(@user)
 			@connected = true
 		end
 
