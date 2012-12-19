@@ -904,13 +904,13 @@ class UsersController < ApplicationController
 	end
   
 	# Profile About 
-	def profile_about; profile; end
+	def profile_about; profile(false); end
   
 	# Profile Resume 
-	def profile_resume; profile; end
+	def profile_resume; profile(false); end
 
 	# Migrated from teacher_controller.rb
-	def profile
+	def profile(whiteboard = true)
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
@@ -951,11 +951,13 @@ class UsersController < ApplicationController
 			@application = nil unless @application.belongs_to_me(self.current_user)
 		end
 
-		# Get whiteboard activity
-		@whiteboard = Array.new
-		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
-			@post = post
-			@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+		if whiteboard
+			# Get whiteboard activity
+			@whiteboard = Array.new
+			Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
+				@post = post
+				@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+			end
 		end
 			
 		# If the there is currently a user logged in
