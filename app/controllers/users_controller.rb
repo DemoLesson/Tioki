@@ -911,12 +911,16 @@ class UsersController < ApplicationController
 
 	# Migrated from teacher_controller.rb
 	def profile(whiteboard = true)
+
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
 		elsif !currentUser.new_record?
 			@user = currentUser
 		end
+
+		# If no record is found 404 it
+		raise HTTPStatus::NotFound if @user.nil?
 
 		# Check if user is a guest
 		@guest = false; if !params[:guest_pass].nil? && !params[:guest_pass].empty?
