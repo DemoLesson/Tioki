@@ -63,7 +63,7 @@
 				Organization Description
 			</h3>
 			<p style="width:auto">
-			<%= @job.group.description.more! %>
+			<%= sanitize(@job.group.description).more! %>
 			</p>
 		<% end %>
 

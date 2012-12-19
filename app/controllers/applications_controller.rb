@@ -7,7 +7,7 @@ class ApplicationsController < ApplicationController
 	# GET /user/:user_id/applications
 	# GET /groups/:group_id/jobs/:job_id/applications
 	def index
-		@applications = @source.applications
+		@applications = @source.applications.is_submitted
 		@interviews = @source.interviews
 
 		respond_to do |format|
@@ -25,11 +25,29 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 
 		# If an interview was requested go ahead and create the interview
-		if params[:application][:status] == 'Request an Interview' && @application.interview.nil?
+		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interview.nil?
 			interview = Interview.create(
-				:application => @application,
-				:user => @application.user,
-				:job => @application.job)
+				:application_id => @application.id,
+				:user_id => @application.user_id,
+				:job_id => @application.job_id)
+
+			# Redirect Path
+			redirect = [:edit, @source.group, @source, @application, interview]
+		end
+
+		# Handle rejection letter
+		if !params[:application].nil? && params[:application][:status] == 'Deny Application'
+			redirect = [:message, @source.group, @source, @application]
+		end
+
+		if not params[:message].nil?
+			Message.send!(@application.user,
+				:from => currentUser,
+				:subject => params[:subject],
+				:body => params[:message],
+				:tag => @application.tag!)
+
+			return redirect_to [@source.group, @source, :applications], :notice => 'Rejection notice successfully sent.'
 		end
 
 		respond_to do |format|
@@ -40,8 +58,10 @@ class ApplicationsController < ApplicationController
 				# Respond with either HTML or JSON
 				format.html {
 
-					# If an interview was created take the person to the edit interview page
-					return redirect_to [:edit, @source.group, @source, @application, interview] if interview.is_a?(Interview)
+					# If we have an alternate location to redirect to
+					return redirect_to(redirect) if not redirect.nil?
+
+					# Otherwise redirect to to the groups applications
 					redirect_to [@source.group, @source, :applications], :notice => 'Application was successfully updated.'
 				}
 				format.json { head :no_content }
@@ -54,6 +74,13 @@ class ApplicationsController < ApplicationController
 				format.json { render json: @application.errors, status: :unprocessable_entity }
 			end
 		end
+	end
+
+	# Send the applicant a message
+	# Author: Kelly Lauren Summer Becker
+	# POST /groups/:group_id/jobs/:job_id/applications/:id/message
+	def message
+		@application = Application.find(params[:id])
 	end
 
 	# GET /applications/1

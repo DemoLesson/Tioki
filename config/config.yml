@@ -27,6 +27,7 @@ default:
       2: "administrator"
       3: "employee"
       4: "owner"
+      5: "discussion_notifications"
     email_permissions:
       0: "followed_discussion"
       1: "participated_discussion"

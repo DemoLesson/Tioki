@@ -285,6 +285,7 @@ Preview::Application.routes.draw do
 
 			# Job Applications
 			resources :applications do
+				get 'message', :on => :member
 
 				# Interviews
 				resources :interviews

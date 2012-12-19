@@ -1,0 +1,44 @@
+<section id="main-contant" class="inner-content">
+	<h1>
+		Send a message to 
+		<%= link_to @application.user.name, @application.user %>
+	</h1>
+
+	<p>Aww, we are sorry the applicant is not what you were looking for. Below is a default rejection letter please insert whatever message you desire to send.</p>
+
+	<%= form_for([@application.job.group, @application.job, @application], :html => { :class => :gridded }) do |t| %>
+		<table style="width:100%;" class="applications">
+			<tr>
+				<td>
+					<label>
+						<span>Subject</span>
+						<input name="subject" style="width:100%;" class="css3-border-box" />
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">Subject: </span> The subject for the message to send.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<span>Message</span>
+						<textarea name="message" style="width:100%;" class="css3-border-box" rows="10"><%= @message %></textarea>
+					</label>
+				</td>
+				<td>
+					<p>
+						<span style="font-weight:bold;">Message: </span> Send a message explaining why you rejected their application.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<%= t.submit "Send Message" %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+</section>

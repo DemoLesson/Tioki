@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def sweep_session
-		#Session.sweep("1 hour")
+		Session.sweep("2 hours")
 	end
 	
 	def login_required
@@ -280,7 +280,7 @@ class ApplicationController < ActionController::Base
 
 		def ensure_permission_to_update
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
-			if !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
+			if !params[:id] || !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
 				yield
 			else
 				raise SecurityTransgression
@@ -336,7 +336,7 @@ class ApplicationController < ActionController::Base
 			short = "#{exception.class} (#{exception.message})"
 
 			error = String.new
-			error << "\nURL: #{request.fullpath}"
+			error << "\nURL: #{currentURL}"
 			error << "\n" + short + "\n"
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
 

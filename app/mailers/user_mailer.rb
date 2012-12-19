@@ -32,12 +32,31 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def message_notification(user_id, subject, body, id, name)
+	def message_notification(user_id, subject, body, id, name, tag = nil)
 		@user = User.find(user_id)
 		@subject = subject
 		@message_body = body[0,140]
 		@id = id
 		@sender_name = name
+
+		if tag
+			#Set url and button text
+			#Currently works for models with link defined
+			#groups, discussions
+			if defined? tag.url
+				@url = tag.url
+				@button_text = "Go to #{tag.class.to_s}"
+			elsif tag.class.to_s == "Interview"
+				#Interview requires special case
+				#base off of who owns interview
+				if user_id == tag.user_id
+					@url = "users/#{user_id}/applications"
+				else
+					@url = "groups/#{tag.job.group.to_param}/jobs/#{tag.job.id}/applications"
+				end
+				@button_text = "Go to Applications"
+			end
+		end
 
 		mail = mail(:to => @user.email, :subject => name+' messaged you: '+subject)
 
@@ -90,7 +109,7 @@ class UserMailer < ActionMailer::Base
 		@user = user
 		@job = job
 
-		message_body = "Please login to tioki.com to respond to this request."
+		#message_body = "Please login to tioki.com to respond to this request."
 		subject = @user.name + ' applied to your job posting: ' + @job.title
 
 		admins = group.users(:administrator).map(&:email)

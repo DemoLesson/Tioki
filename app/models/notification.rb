@@ -91,7 +91,7 @@ class Notification < ActiveRecord::Base
 		_class = notifiable_type.split(':').first
 
 		case _class
-		when 'Comment', 'Favorite', 'Application', 'Interview'
+		when 'Comment', 'Discussion', 'Favorite', 'Application', 'Interview'
 			return map_tag.user
 		end
 	end
@@ -103,6 +103,8 @@ class Notification < ActiveRecord::Base
 		case _class
 		when 'Comment'
 			ret = "#{triggered.profile_link} replied to a discussion."
+		when 'Discussion'
+			ret = "#{triggered.profile_link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
 		when 'Favorite'
 			ret = "#{triggered.profile_link} favorited a post of yours."
 		when 'Application'
@@ -113,10 +115,18 @@ class Notification < ActiveRecord::Base
 			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
-		ret.html_safe
+		ActionController::Base.helpers.sanitize(ret).html_safe
 	end
 
 	def link
-		map_tag.link rescue nil
+		_class = notifiable_type.split(':').first
+
+		case _class
+		when 'Comment', 'Favorite', 'Application', 'Interview'
+			map_tag.link rescue nil
+		when 'Discussion'
+			map_tag.url rescue nil
+		end
+		
 	end
 end

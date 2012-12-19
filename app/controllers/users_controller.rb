@@ -129,7 +129,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		@user = User.find(self.current_user.id)
+		@user = currentUser
 	end
 
 	def profile_edit
@@ -181,10 +181,35 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		@user=self.current_user
-		if !(params[:user][:avatar].content_type.include? "image")
+		# Get the currently logged in user
+		@user = currentUser
+
+		# Group notification settings
+		if params[:group] && params[:group][:discussions]
+
+			# Is all or none set
+			all = params[:group][:discussions][:all] if params[:group][:discussions][:all]
+			none = params[:group][:discussions][:none] if params[:group][:discussions][:none]
+
+			# Determine if we should set all to true or false
+			value = all && none ? false : (none ? false : true) if all || none
+
+			# Set the value in the user permissions
+			for group in @user.groups
+
+				# If override value is set use it if not then use the local one
+				set = !value.nil? ? value : (params[:group][:discussions][group.id.to_s.to_sym] ? true : false)
+				group.user_permissions(:update => {:discussion_notifications => set})
+			end
+
+			# Redirect back to the edit page
+			return redirect_to :back, :notice => "Group notification settings have been updated."
+		end
+
+		# Image upload
+		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			redirect_to :back, :notice => "The file was not an image."
-		else
+		elsif params[:user]
 			#move tempoary file created by uploader 
 			#to a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
@@ -196,6 +221,8 @@ class UsersController < ApplicationController
 				format.js
 			end
 		end
+
+		redirect_to :back
 	end
 
 	def crop_image_temp
@@ -348,14 +375,12 @@ class UsersController < ApplicationController
 		end
 
 		# Limit to those that have at least 1 video
-		@users = @users.reject{ |user| user.videos.count == 0 } if params[:vid]
+		@users = @users.join(:videos).where('users.id = videos.user_id') if params[:vid]
 
 		# Limit to teachers that have job applications
-		@users = @users.reject{ |user| user.applications.count == 0 } if params[:applied]
+		@users = @users.join(:applications).where('users.id = applications.user_id') if params[:applied]
 
-		@recruiters = User.find(:all, :joins => :schools, :group => "users.id")
-
-		@educatorcount = User.find(:all, :conditions => ['users.is_shared = false && users.id NOT IN (?)', @recruiters.collect(&:id)]).count
+		@educatorcount = User.organization?.count
 
 		#count videos as 1 per user
 		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
@@ -367,7 +392,7 @@ class UsersController < ApplicationController
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
-		@stats.push({:name => 'Number of Educators', :value => @educatorcount})
+		@stats.push({:name => 'Number of Organization Owners', :value => @educatorcount})
 
 		# Render the page
 		render :teacher_user_list
@@ -400,8 +425,8 @@ class UsersController < ApplicationController
 							:email => params[:email],
 							:password => params[:pass])
 			if user.save
-				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-				if school.save
+				@school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
+				if @school.save
 					o=Organization.create
 					o.update_attribute(:owned_by, user.id)
 
@@ -923,8 +948,8 @@ class UsersController < ApplicationController
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
-		elsif !self.current_user.nil?
-			@user = self.current_user
+		elsif !currentUser.new_record?
+			@user = currentUser
 		end
 
 		# Check if user is a guest

@@ -63,7 +63,13 @@ class Message < ActiveRecord::Base
     if msg.save
       
       # Notify the user of the message via email
-      UserMailer.message_notification(msg.user_id_to, msg.subject, msg.body, msg.id, from.name).deliver
+      UserMailer.message_notification(
+				msg.user_id_to, 
+				msg.subject, 
+				msg.body, 
+				msg.id, 
+				from.name, 
+				msg.tag).deliver
       
       # Return true on success
       return true

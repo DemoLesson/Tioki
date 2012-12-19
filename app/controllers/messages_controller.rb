@@ -63,18 +63,13 @@ class MessagesController < ApplicationController
     @message = Message.create!(:subject => params[:message][:subject], :body => params[:message][:body], :user_id_from => self.current_user.id, :user_id_to => params[:message][:user_id_to], :read => false)
     
     respond_to do |format|
-      if @message.activify
-        UserMailer.message_notification(@message.user_id_to, @message.subject, @message.body, @message.id, self.current_user.name).deliver
+      UserMailer.message_notification(@message.user_id_to, @message.subject, @message.body, @message.id, self.current_user.name).deliver
 
-        #Log in Analytics
-        self.log_analytic(:message_sent, "User to user message.", @message, [], :messages)
-        
-        format.html { redirect_to(:messages, :notice => 'Your message to '+User.find(@message.user_id_to).name+' was sent.') }
-        format.xml  { render :xml => @message, :status => :created, :location => @message }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
-      end
+      #Log in Analytics
+      self.log_analytic(:message_sent, "User to user message.", @message, [], :messages)
+      
+      format.html { redirect_to(:messages, :notice => 'Your message to '+User.find(@message.user_id_to).name+' was sent.') }
+      format.xml  { render :xml => @message, :status => :created, :location => @message }
     end
   end
 
@@ -82,7 +77,6 @@ class MessagesController < ApplicationController
   # DELETE /messages/1.xml
   def destroy
     @message = Message.find(params[:id])
-    @message.deactivify
     @message.destroy
 
     respond_to do |format|

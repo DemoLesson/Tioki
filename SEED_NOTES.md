@@ -1,3 +1,51 @@
+v4.0.9 - Dec 19, 2012 10:07AM PST deployed by Kelly Becker
+==========================================================
+* 9bc7c49: Kelly Becker - added the ability to add more discussions after one has been created on a group
+
+v4.0.8 - Dec 19, 2012  9:55AM PST deployed by Kelly Becker
+==========================================================
+* d3b3bab: Kelly Becker - cleanup connections better
+
+v4.0.7 - Dec 18, 2012  5:50PM PST deployed by Kelly Becker
+==========================================================
+* 09dad8c: Kelly Becker - added notification for new discussions on a group
+* 099ec01: Kelly Becker - added notification for new discussions on a group
+
+v4.0.6 - Dec 18, 2012  4:47PM PST deployed by Kelly Becker
+==========================================================
+* 5bc4588: Kelly Becker - added not id attr access to interview
+* c3190b8: Kelly Becker - group notification settings
+* 059dd8a: Elijah Green - Add ajax add connection to educator dashboard and skills/show
+
+v4.0.5 - Dec 18, 2012  3:43PM PST deployed by Kelly Becker
+==========================================================
+* 46fe22c: Kelly Becker - some minor bug fixes and sweeping sessions again
+* 6e149c9: Elijah Green - For interview messages, put link for the applications page
+* 7ddaf82: Kelly Becker - disabled the websockets for now
+* d6b1855: Kelly Becker - log all connection access
+
+v4.0.4 - Dec 18, 2012 12:28PM PST deployed by Kelly Becker
+==========================================================
+* 673f3d0: Kelly Becker - organization owner count GAH! that was a pain!
+* d450f42: Kelly Becker - cache the organization check
+
+v4.0.3 - Dec 17, 2012  6:39PM PST deployed by Kelly Becker
+==========================================================
+* be32ff8: Elijah Green - Use tags to change how some messages are displayed
+* 1bb2130: Kelly Becker - Update SEED_NOTES.md
+
+v4.0.2 - Dec 17, 2012  5:20PM PST deployed by Kelly Becker
+==========================================================
+* 32d5745: Kelly Becker - fix to old activifies being gone
+* 0c8b26e: Elijah Green - Remove unused methods for messages
+* 9603b3f: Elijah Green - Fix a XSS vulnerability
+* 5ad811c: Elijah Green - Remove warning that ruby -wc was showing about shadowed variables
+* 65bf387: Elijah Green - Only show ubsmitted applications
+* b9bf219: Elijah Green - Fix a jobs/show xss vulnerability
+* 45ee961: Elijah Green - School Signup
+* 3fb045b: Kelly Becker - removed staging
+* b36faef: Elijah Green - Gemfile.lock
+
 v4.0.1 - Dec 17, 2012 12:45PM PST deployed by Kelly Becker
 ==========================================================
 * 49d3a50: Kelly Becker - you can now display multiple banners
@@ -222,6 +270,8 @@ v3.0.38 - Dec 7, 2012 12:24AM PST deployed by Kelly Becker
 * b86dda6: Kelly Becker - parameterize
 * 5162625: Kelly Becker - allow changing of urls and added an availability notifier
 
+Removed empty deploy logs 
+
 v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
 ============================================================
 * 6f68cf0: Aleks Stanisic - changes to profile activity
@@ -236,24 +286,9 @@ v3.0.37 - Dec 6, 2012  7:40PM PST deployed by Aleks Stanisic
 * b63a9a2: Aleks Stanisic - more additions to info box on profile page
 * 12c44ed: Aleks Stanisic - adding info box to profile
 
-v3.0.36 - Dec 6, 2012  7:05PM PST deployed by Kelly Becker
-==========================================================
-
-
-v3.0.35 - Dec 6, 2012  7:03PM PST deployed by Kelly Becker
-==========================================================
-
-
 v3.0.34 - Dec 6, 2012  6:51PM PST deployed by Aleks Stanisic
 ============================================================
 * fc5e0c3: Aleks Stanisic - new gem.lock
-
-v3.0.33 - Dec 6, 2012  7:02PM PST deployed by 
-==============================================
-
-
-v3.0.32 - Dec 6, 2012  6:52PM PST deployed by 
-==============================================
 
 
 v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
@@ -265,10 +300,6 @@ v3.0.31 - Dec 6, 2012  6:45PM PST deployed by Elijah Green
 * 4cbc61a: Elijah Green - Use a callback that will actaully work
 * bc2d098: Elijah Green - Add Geocoder fields to user
 * 0fa2bbb: Elijah Green - Remove geokit
-
-v3.0.30 - Dec 6, 2012  3:09PM PST deployed by Aleks Stanisic
-============================================================
-
 
 v3.0.29 - Dec 6, 2012  1:49PM PST deployed by Kelly Becker
 ==========================================================

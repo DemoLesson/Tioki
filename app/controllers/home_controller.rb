@@ -85,30 +85,60 @@ class HomeController < ApplicationController
 	def school_signup
 		# Creating Free School Account
 		if request.post?
+
 			user = User.new(
 				:first_name => params[:contact_first],
 				:last_name => params[:contact_last],
 				:email => params[:email],
 				:password => params[:pass],
 				:password_confirmation => params[:confirm_pass]
-				)
-			if user.save
-				school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-				if school.save
-					o=Organization.create
-					o.update_attribute(:owned_by, user.id)
+			)
 
-					flash[:notice] = "The account was successfully created"
-					
-					# Authenticate the user
-					session[:user] = User.authenticate(user.email, user.password)
-					redirect_to :root
-				else
-					user.destroy
-					flash[:notice] = "The account school could not be created"
+			if user.save
+				session[:user] = User.authenticate(user.email, user.password)
+				group = Group.new
+				group.name = params[:name]
+
+				if group.save
+
+					# Set permissions
+					group.permissions = {
+						:hidden => true,
+						:private => true,
+						:organization => true
+					}
+
+					# Create join row for users -> groups
+					user_group = User_Group.new
+					user_group.user_id = currentUser.id
+					user_group.group_id = group.id
+					user_group.save
+
+					#Log into Analytics 
+					self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
+
+					# Add the first administrator
+					user_group.permissions = {
+						:member => true,
+						:moderator => true,
+						:administrator => true,
+						:owner => true
+					}
+
+					JobPack.create(
+						:group => group,
+						:jobs => 1,
+						:expiration => Time.now + 60.days,
+						:inception => Time.now,
+						:refunded => 0,
+						:amount => 0,
+						:additional_data => {:freebie => true}.to_json)
+					respond_to do |format|
+						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
+					end
 				end
 			else
-				flash[:notice] = "The account could not be created."
+				flash[:error] = "There was an error creating your organization"
 			end
 		end
 	end
