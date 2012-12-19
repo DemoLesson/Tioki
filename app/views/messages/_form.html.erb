@@ -1,4 +1,8 @@
-<h3>New message to <%= User.find_by_id(params[:user_id_to]).name %></h3>
+<% if @replied_to_message %>
+	<h3>Reply to <%= @user.name %></h3>
+<% else %>
+	<h3>New message to <%= @user.name%></h3>
+<% end %>
 
 <%= form_for(@message) do |f| %>
   <% if @message.errors.any? %>
@@ -13,26 +17,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.text_field :user_id_to, :value => params[:user_id_to], :type => :hidden %>
-  </div>
+	<%= f.text_field :user_id_to, :value => params[:user_id_to], :type => :hidden %>
 
-  <fiedset>
-    <p>
-		Subject: 
-	</p>
-    <%= f.text_field :subject, :value => params[:subject], :style => "width:675px" %>
-  </fieldset>
+	<% if @replied_to_message %>
+		<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
+	<% end %>
 
   <fieldset>
-    <p>
-		Message:
-	</p>
-    <%= f.text_area :body, :style => "width:675px" %>
-  </fieldset>
+		<p>
+			Subject: 
+		</p>
+		<% if @replied_to_message %>
+			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:675px" %>
+		<% else %>
+			<%= f.text_field :subject, :style => "width:675px" %>
+		<% end %>
+	</fieldset>
 
-  <div class="actions">
-    <%= f.submit "Send Message" %>
-	<%= link_to "Cancel", :back %>
-  </div>
+	<fieldset>
+		<p>
+			Message:
+		</p>
+		<%= f.text_area :body, :style => "width:675px" %>
+	</fieldset>
+
+	<div class="actions">
+		<%= f.submit "Send Message" %>
+		<%= link_to "Cancel", :back %>
+	</div>
+<% end %>
+<% if @replied_to_message %>
 <% end %>

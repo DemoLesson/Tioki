@@ -1,6 +1,9 @@
 class Message < ActiveRecord::Base
-  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag
+  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id
   validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
+
+	has_many :messages, :foreign_key => "replied_to_id", :dependent => :nullify
+	belongs_to :message
 
   self.per_page = 15
 

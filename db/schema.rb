@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212203710) do
+ActiveRecord::Schema.define(:version => 20121219013146) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -456,11 +456,12 @@ ActiveRecord::Schema.define(:version => 20121212203710) do
     t.integer  "user_id_from"
     t.integer  "user_id_to"
     t.string   "subject"
-    t.string   "body",         :limit => 10000
+    t.string   "body",          :limit => 10000
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "read"
     t.string   "tag"
+    t.integer  "replied_to_id"
   end
 
   create_table "notifications", :force => true do |t|
