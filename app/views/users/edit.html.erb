@@ -4,4 +4,31 @@
 	<div class="notice">On this page you can change your registered name, email address, and password.</div>
 
 	<%= render 'form' %>
+
+	<h1>Group Notification Settings</h1>
+	<%= form_for(@user) do |t| %>
+		<input type="hidden" name="group[discussions][x]" value="1" />
+		<fieldset>
+			<label>
+				<%= check_box_tag("group[discussions][none]") %> 
+				Do not receive any discussion notifications from groups.
+			</label>
+		</fieldset>
+		<fieldset>
+			<label>
+				<%= check_box_tag("group[discussions][all]") %> 
+				Receive discussion notifications from all groups.
+			</label>
+		</fieldset>
+		<hr /><br />
+		<% for group in @user.groups do %>
+			<fieldset>
+				<label>
+					<%= check_box_tag("group[discussions][#{group.id}]", 1, group.user_permissions.discussion_notifications) %> 
+					Receive discussion notifications from <%= group.name %>.
+				</label>
+			</fieldset>
+		<% end %>
+		<%= t.submit "Save Group Notification Settings" %>
+	<% end %>
 </section>

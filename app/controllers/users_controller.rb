@@ -129,7 +129,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		@user = User.find(self.current_user.id)
+		@user = currentUser
 	end
 
 	def profile_edit
@@ -181,10 +181,35 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		@user=self.current_user
-		if !(params[:user][:avatar].content_type.include? "image")
+		# Get the currently logged in user
+		@user = currentUser
+
+		# Group notification settings
+		if params[:group] && params[:group][:discussions]
+
+			# Is all or none set
+			all = params[:group][:discussions][:all] if params[:group][:discussions][:all]
+			none = params[:group][:discussions][:none] if params[:group][:discussions][:none]
+
+			# Determine if we should set all to true or false
+			value = all && none ? false : (none ? false : true) if all || none
+
+			# Set the value in the user permissions
+			for group in @user.groups
+
+				# If override value is set use it if not then use the local one
+				set = !value.nil? ? value : (params[:group][:discussions][group.id.to_s.to_sym] ? true : false)
+				group.user_permissions(:update => {:discussion_notifications => set})
+			end
+
+			# Redirect back to the edit page
+			return redirect_to :back, :notice => "Group notification settings have been updated."
+		end
+
+		# Image upload
+		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			redirect_to :back, :notice => "The file was not an image."
-		else
+		elsif params[:user]
 			#move tempoary file created by uploader 
 			#to a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
@@ -196,6 +221,8 @@ class UsersController < ApplicationController
 				format.js
 			end
 		end
+
+		redirect_to :back
 	end
 
 	def crop_image_temp

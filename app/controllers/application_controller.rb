@@ -280,7 +280,7 @@ class ApplicationController < ActionController::Base
 
 		def ensure_permission_to_update
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
-			if !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
+			if !params[:id] || !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
 				yield
 			else
 				raise SecurityTransgression
