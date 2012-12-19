@@ -911,7 +911,6 @@ class UsersController < ApplicationController
 
 	# Migrated from teacher_controller.rb
 	def profile(whiteboard = true)
-
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
@@ -945,16 +944,6 @@ class UsersController < ApplicationController
 			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
 		end
 
-		# Review
-		# Why is this here?
-		# Before Tioki, there were buttons that only the school user could see on the teacher profile. Those buttons included, requesting an interview or removing them from the application. We will have to add those acctions back at some point. -Aleks 
-		# Load up an application
-		@application = nil
-		if params[:application] != nil
-			@application = Application.find(params[:application])
-			@application = nil unless @application.belongs_to_me(self.current_user)
-		end
-
 		if whiteboard
 			# Get whiteboard activity
 			@whiteboard = Array.new
@@ -968,11 +957,6 @@ class UsersController < ApplicationController
 		if !currentUser.new_record?
 			@connection = currentUser.connection_to(@user)
 			@pendingconnection = currentUser.connection_to(@user, true)
-		end
-
-		# Filter Upcoming Events
-		@events = @user.rsvp.select do |x|
-			(x.end_time.future? || x.end_time.today?) && x.published
 		end
 
 		# Vouch referring teacher 

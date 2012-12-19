@@ -46,7 +46,7 @@ class Connection < ActiveRecord::Base
 		end
 
 		# Log the connection
-		Rails.logger.info "Connection.rb Method `not_me` Accessed on (#{id}): #{self.user.class}:#{self.user.id rescue '*'} <-> #{self.owner.class}:#{self.owner.id rescue '*'}"
+		#Rails.logger.info "Connection.rb Method `not_me` Accessed on (#{id}): #{self.user.class}:#{self.user.id rescue '*'} <-> #{self.owner.class}:#{self.owner.id rescue '*'}"
 
 		return user
 	end
