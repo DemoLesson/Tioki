@@ -134,6 +134,10 @@ class User < ActiveRecord::Base
     before_save :before_save
     after_find :_isorg
 
+    # Delete all connections associated with the user
+    before_destroy :remove_connections
+    def remove_connections; Connection.mine(:user => self).map(&:destroy); end
+
     def _isorg
 
     	# Cache organization value
