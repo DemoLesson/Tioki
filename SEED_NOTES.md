@@ -1,3 +1,19 @@
+v4.0.12 - Dec 19, 2012 11:23AM PST deployed by Kelly Becker
+===========================================================
+* edfa7ac: Kelly Becker - is profile mine
+* 8caaa36: Kelly Becker - is profile mine
+* 089e15e: Kelly Becker - profile whiteboard load will always default to a page of one
+
+v4.0.11 - Dec 19, 2012 11:08AM PST deployed by Kelly Becker
+===========================================================
+* 740c9f5: Kelly Becker - whoops varible name is not right
+
+v4.0.10 - Dec 19, 2012 10:56AM PST deployed by Kelly Becker
+===========================================================
+* 9fc7fd3: Kelly Becker - cleaning up some and fixing some bugs on the profile
+* e77e443: Kelly Becker - added connected_to? to user.rb
+* 89f6599: Kelly Becker - assume that the user will want to recveive new discussion notification on a group
+
 v4.0.9 - Dec 19, 2012 10:07AM PST deployed by Kelly Becker
 ==========================================================
 * 9bc7c49: Kelly Becker - added the ability to add more discussions after one has been created on a group
