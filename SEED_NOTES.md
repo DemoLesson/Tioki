@@ -1,3 +1,9 @@
+v4.0.6 - Dec 18, 2012  4:47PM PST deployed by Kelly Becker
+==========================================================
+* 5bc4588: Kelly Becker - added not id attr access to interview
+* c3190b8: Kelly Becker - group notification settings
+* 059dd8a: Elijah Green - Add ajax add connection to educator dashboard and skills/show
+
 v4.0.5 - Dec 18, 2012  3:43PM PST deployed by Kelly Becker
 ==========================================================
 * 46fe22c: Kelly Becker - some minor bug fixes and sweeping sessions again
