@@ -520,13 +520,18 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
-<% if @invite %>
+<% if @invite || params[:add_connection] %>
 	<div id="vouch">
 		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
 			Vouch for <%= @user.first_name %>'s skills
 		</h2>
 		<%= form_tag '/vouch_connection_skills', :class => "skills_form" do %>
-			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<% if @invite %>
+				<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<% end %>
+
+			<%= hidden_field_tag "user_id", @user.id %>
+
 			<input type="hidden" name="skills" />
 
 			<div class="skill_cloud">
