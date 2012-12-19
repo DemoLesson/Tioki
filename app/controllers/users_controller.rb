@@ -993,9 +993,9 @@ class UsersController < ApplicationController
 		end
 			
 		# If the there is currently a user logged in
-		if !self.current_user.nil?
-			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
-			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
+		if !currentUser.new_record?
+			@connection = currentUser.connection_to(_user)
+			@pendingconnection = currentUser.connection_to(_user, true)
 		end
 
 		# Filter Upcoming Events
@@ -1013,7 +1013,7 @@ class UsersController < ApplicationController
 			flash[:alert]  = "User was not found"
 		else 
 			respond_to do |format|
-				if self.current_user.nil?
+				if currentUser.new_record?
 					format.html { redirect_to "/profile/#{@user.slug}/about"}
 					format.json  { render :json => @teacher } # profile.json
 				else

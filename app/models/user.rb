@@ -825,7 +825,11 @@ class User < ActiveRecord::Base
 	# Connections
 
 		def connected_to?(_user)
-			Connection.mine(:user => self, :pending => false).where('`owned_by` = ? || `user_id` = ?', _user.id, _user.id).length > 0
+			not connection_to(_user).nil?
+		end
+
+		def connection_to(_user, pending = false)
+			Connection.mine(:user => self, :pending => pending).where('`owned_by` = ? || `user_id` = ?', _user.id, _user.id).first
 		end
 
 	# Permissions
