@@ -822,6 +822,12 @@ class User < ActiveRecord::Base
 		cache(:organization => 'true')
 	end
 
+	# Connections
+
+		def connected_to?(_user)
+			Connection.mine(:user => self, :pending => false).where('`owned_by` = ? || `user_id` = ?', _user.id, _user.id).length > 0
+		end
+
 	# Permissions
 
 		# Can resource be created

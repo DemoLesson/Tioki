@@ -960,10 +960,10 @@ class UsersController < ApplicationController
 		# Check if user is connected to teacher or is self
 		@self = false
 		@connected = false
-		if @user.me?
+		if not currentUser.new_record? || @user.me?
 			@connected = true
 			@self = true
-		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+		elsif not currentUser.new_record? && currentUser.connected_to?(@user)
 			@connected = true
 		end
 
