@@ -22,9 +22,7 @@
 		<% elsif @my_connections.include? @user.id %>
 			<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id.to_s }, {:class => "sendmessage"} %>
 		<% else %>
-			<%= div_for(@user) do %>
-				<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id.to_s }, :class => "addconnection", :remote => true %>
-			<% end %>
+			<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id.to_s }, :class => "addconnection", :remote => true, :id => dom_id(@user) %>
 		<% end %>
 	</div>
 </li>

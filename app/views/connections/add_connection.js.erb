@@ -1,1 +1,2 @@
-$('#<%= dom_id(@user) %>').html('<a class="addconnection">Connection Requested</a>');
+$('#<%= dom_id(@user) %>').removeAttr('href');
+$('#<%= dom_id(@user) %>').text('Requested');
