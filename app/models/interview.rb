@@ -1,7 +1,8 @@
 class Interview < ActiveRecord::Base
   attr_accessible :location, :message, :number,
     :datetime_1, :datetime_2, :datetime_3, :datetime_selected,
-    :job_id, :user_id, :application_id
+    :job_id, :user_id, :application_id,
+    :job, :user, :application
   
   # Relations
   belongs_to :application
