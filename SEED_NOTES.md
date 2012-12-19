@@ -1,3 +1,8 @@
+v4.0.7 - Dec 18, 2012  5:50PM PST deployed by Kelly Becker
+==========================================================
+* 09dad8c: Kelly Becker - added notification for new discussions on a group
+* 099ec01: Kelly Becker - added notification for new discussions on a group
+
 v4.0.6 - Dec 18, 2012  4:47PM PST deployed by Kelly Becker
 ==========================================================
 * 5bc4588: Kelly Becker - added not id attr access to interview
