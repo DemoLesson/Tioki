@@ -1,3 +1,7 @@
+v4.0.8 - Dec 19, 2012  9:55AM PST deployed by Kelly Becker
+==========================================================
+* d3b3bab: Kelly Becker - cleanup connections better
+
 v4.0.7 - Dec 18, 2012  5:50PM PST deployed by Kelly Becker
 ==========================================================
 * 09dad8c: Kelly Becker - added notification for new discussions on a group
