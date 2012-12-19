@@ -1,3 +1,50 @@
+v4.0.12 - Dec 19, 2012 11:23AM PST deployed by Kelly Becker
+===========================================================
+* edfa7ac: Kelly Becker - is profile mine
+* 8caaa36: Kelly Becker - is profile mine
+* 089e15e: Kelly Becker - profile whiteboard load will always default to a page of one
+
+v4.0.11 - Dec 19, 2012 11:08AM PST deployed by Kelly Becker
+===========================================================
+* 740c9f5: Kelly Becker - whoops varible name is not right
+
+v4.0.10 - Dec 19, 2012 10:56AM PST deployed by Kelly Becker
+===========================================================
+* 9fc7fd3: Kelly Becker - cleaning up some and fixing some bugs on the profile
+* e77e443: Kelly Becker - added connected_to? to user.rb
+* 89f6599: Kelly Becker - assume that the user will want to recveive new discussion notification on a group
+
+v4.0.9 - Dec 19, 2012 10:07AM PST deployed by Kelly Becker
+==========================================================
+* 9bc7c49: Kelly Becker - added the ability to add more discussions after one has been created on a group
+
+v4.0.8 - Dec 19, 2012  9:55AM PST deployed by Kelly Becker
+==========================================================
+* d3b3bab: Kelly Becker - cleanup connections better
+
+v4.0.7 - Dec 18, 2012  5:50PM PST deployed by Kelly Becker
+==========================================================
+* 09dad8c: Kelly Becker - added notification for new discussions on a group
+* 099ec01: Kelly Becker - added notification for new discussions on a group
+
+v4.0.6 - Dec 18, 2012  4:47PM PST deployed by Kelly Becker
+==========================================================
+* 5bc4588: Kelly Becker - added not id attr access to interview
+* c3190b8: Kelly Becker - group notification settings
+* 059dd8a: Elijah Green - Add ajax add connection to educator dashboard and skills/show
+
+v4.0.5 - Dec 18, 2012  3:43PM PST deployed by Kelly Becker
+==========================================================
+* 46fe22c: Kelly Becker - some minor bug fixes and sweeping sessions again
+* 6e149c9: Elijah Green - For interview messages, put link for the applications page
+* 7ddaf82: Kelly Becker - disabled the websockets for now
+* d6b1855: Kelly Becker - log all connection access
+
+v4.0.4 - Dec 18, 2012 12:28PM PST deployed by Kelly Becker
+==========================================================
+* 673f3d0: Kelly Becker - organization owner count GAH! that was a pain!
+* d450f42: Kelly Becker - cache the organization check
+
 v4.0.3 - Dec 17, 2012  6:39PM PST deployed by Kelly Becker
 ==========================================================
 * be32ff8: Elijah Green - Use tags to change how some messages are displayed

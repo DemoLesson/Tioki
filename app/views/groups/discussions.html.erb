@@ -1,8 +1,9 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 
-	<h2>Discussions</h4>
+	<%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag!, :style => 'float:right;', :class => 'large button' %>
 
+	<h2>Discussions</h4>
 
 	<ul class="group-discussions">
 		<% if !@group.member? && !@group.permissions.public_discussions %>

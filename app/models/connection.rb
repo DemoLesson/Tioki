@@ -45,6 +45,9 @@ class Connection < ActiveRecord::Base
 			return redirect_to request.path
 		end
 
+		# Log the connection
+		Rails.logger.info "Connection.rb Method `not_me` Accessed on (#{id}): #{self.user.class}:#{self.user.id rescue '*'} <-> #{self.owner.class}:#{self.owner.id rescue '*'}"
+
 		return user
 	end
 

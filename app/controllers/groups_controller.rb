@@ -98,7 +98,7 @@ class GroupsController < ApplicationController
 			user_group = User_Group.create(:user_id => self.current_user.id, :group_id => params[:id])
 
 			#set as member
-			user_group.permissions = {:member => true}
+			user_group.permissions = {:member => true, :discussion_notifications => true}
 
 			self.log_analytic(:user_joined_group, "A user joined a group", user_group.group, [], :groups)
 			redirect_to user_group.group, :notice => "Group was successfully added."

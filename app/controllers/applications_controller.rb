@@ -27,9 +27,9 @@ class ApplicationsController < ApplicationController
 		# If an interview was requested go ahead and create the interview
 		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interview.nil?
 			interview = Interview.create(
-				:application => @application,
-				:user => @application.user,
-				:job => @application.job)
+				:application_id => @application.id,
+				:user_id => @application.user_id,
+				:job_id => @application.job_id)
 
 			# Redirect Path
 			redirect = [:edit, @source.group, @source, @application, interview]

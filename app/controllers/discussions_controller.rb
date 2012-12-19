@@ -18,8 +18,8 @@ class DiscussionsController < ApplicationController
     @discussion = Discussion.find(params[:id])
 
     # Unauthorized
-    if !@discussion.owner.nil? && !@discussion.owner.empty?
-    	@owner = mapTag!(@discussion.owner)
+    if !@discussion.owner!.nil? && !@discussion.owner!.empty?
+    	@owner = @discussion.owner
     	if !@owner.member? && !@owner.permissions['public_discussions']
     		raise HTTPStatus::Unauthorized
     	end
@@ -88,6 +88,15 @@ class DiscussionsController < ApplicationController
 				if params[:skills]
 					params[:skills].uniq.each do |skill_id|
 						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
+					end
+				end
+
+				if @discussion.owner.nil?
+					# Tell the whiteboard about this new discussion
+					Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+				elsif @discussion.owner.is_a?(Group)
+					for user in @discussion.owner.users(:discussion_notifications)
+						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id)
 					end
 				end
 

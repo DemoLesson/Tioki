@@ -14,7 +14,7 @@ class Discussion < ActiveRecord::Base
 	before_save :before_save
 
 	def before_save
-		self.owner = nil if owner.nil? || owner.empty?
+		self.owner = nil if read_attribute(:owner).nil? || read_attribute(:owner).empty?
 	end
 
 	def before_destroy
@@ -47,5 +47,19 @@ class Discussion < ActiveRecord::Base
 
 		# Return the link to the profile
 		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
+	end
+
+	def url
+		"/discussions/#{self.to_param}"
+	end
+
+	# Get the owner
+	def owner
+		_class, _id = read_attribute(:owner).split(':')
+		_class.constantize.find(_id)
+	end
+
+	def owner!
+		read_attribute(:owner)
 	end
 end

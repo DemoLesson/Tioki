@@ -1,6 +1,7 @@
 class Application < ActiveRecord::Base
   has_many :assets, :dependent => :destroy
   belongs_to :job
+	belongs_to :user
 
   has_one :video
   has_one :interview
@@ -28,26 +29,14 @@ class Application < ActiveRecord::Base
   def self.find_by_user_job(user_id, job_id)
     Application.find(:first, :conditions => ['user_id = ? AND job_id = ?', self.user_id, self.job_id])
   end
-
-  def user
-    @user = User.find(self.user_id)
-  end
   
   def reject
     self.status = 0
     self.save
   end
-
-  def interview
-    @interview = Interview.find_by_job_id(self.job_id)
-    
-    return @interview
-  end
     
   def booked
     @interviews = Interview.find(:first, :conditions => ['user_id = ? AND job_id = ?', self.user_id, self.job_id])
-    
-    return @interviews
   end
 
   def belongs_to_me(user)
