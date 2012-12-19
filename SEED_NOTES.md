@@ -1,3 +1,9 @@
+v4.0.12 - Dec 19, 2012 11:23AM PST deployed by Kelly Becker
+===========================================================
+* edfa7ac: Kelly Becker - is profile mine
+* 8caaa36: Kelly Becker - is profile mine
+* 089e15e: Kelly Becker - profile whiteboard load will always default to a page of one
+
 v4.0.11 - Dec 19, 2012 11:08AM PST deployed by Kelly Becker
 ===========================================================
 * 740c9f5: Kelly Becker - whoops varible name is not right
