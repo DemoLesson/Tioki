@@ -50,7 +50,7 @@ class Discussion < ActiveRecord::Base
 	end
 
 	def url
-		"discussions/#{self.to_param}"
+		"/discussions/#{self.to_param}"
 	end
 
 	# Get the owner

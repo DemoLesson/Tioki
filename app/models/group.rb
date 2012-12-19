@@ -132,6 +132,21 @@ class Group < ActiveRecord::Base
 			"groups/#{self.to_param}"
 		end
 
+		def link(attrs = {})
+
+			# Parse attrs
+			_attrs = []; attrs.each do |k,v|
+				# Make sure not a symbol
+				k = k.to_s if k.is_a?(Symbol)
+				next if k == 'href'
+				# Add to attrs array
+				_attrs << "#{k}=\"#{v}\""
+			end; attrs = _attrs.join(' ')
+
+			# Return the link to the profile
+			return "<a href=\"/group/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
+		end
+
 	# Private Methods
 
 		private
