@@ -208,7 +208,7 @@ class UsersController < ApplicationController
 
 		# Image upload
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
-			redirect_to :back, :notice => "The file was not an image."
+			return redirect_to :back, :notice => "The file was not an image."
 		elsif params[:user]
 			#move tempoary file created by uploader 
 			#to a file that won't disapper after the completion of the request
@@ -220,7 +220,10 @@ class UsersController < ApplicationController
 			respond_to do |format|
 				format.js
 			end
+			return
 		end
+
+		redirect_to :back
 	end
 
 	def crop_image_temp
