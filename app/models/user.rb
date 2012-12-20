@@ -141,7 +141,7 @@ class User < ActiveRecord::Base
     def _isorg
 
     	# Cache organization value
-    	organization? if updated_at < 1.day.ago
+    	organization? if 1.day.ago > read_attribute(:updated_at)
     end
 	#after_save :add_ab_test_data
     
