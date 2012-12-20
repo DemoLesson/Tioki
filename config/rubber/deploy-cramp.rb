@@ -42,9 +42,6 @@ namespace :rubber do
         if exists.strip.size == 0
           rubber.sudo_script 'bootstrap_cramp', <<-ENDSCRIPT
             cd #{rubber_env.cramp_dir}
-
-            # Add puma to the Gemfile so we can run the server.
-            echo "gem 'thin'" >> Gemfile
             bundle install
           ENDSCRIPT
 
