@@ -221,8 +221,6 @@ class UsersController < ApplicationController
 				format.js
 			end
 		end
-
-		redirect_to :back
 	end
 
 	def crop_image_temp
