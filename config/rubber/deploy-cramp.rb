@@ -10,7 +10,7 @@ namespace :rubber do
       task :install, :roles => :cramp do
         rubber.sudo_script 'install_cramp', <<-ENDSCRIPT
           if [[ ! -d "#{rubber_env.cramp_dir}" ]]; then
-            git clone #{rubber_env.cramp_git_repository} –depth 1 #{rubber_env.cramp_prefix}
+            git clone -–depth 1 #{rubber_env.cramp_git_repository} #{rubber_env.cramp_prefix}
 
             mkdir #{rubber_env.cramp_dir}/log
             mkdir #{rubber_env.cramp_dir}/tmp
