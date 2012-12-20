@@ -347,7 +347,6 @@ class DeployCLI
 
 			# Stop the delayed job and websockets daemon
 			system("cap delayed_job:stop#{filters}")
-			#system("cap websockets:stop#{filters}")
 
 			# Create the symlink and restart
 			system("cap deploy:create_symlink#{filters}")
@@ -384,7 +383,6 @@ class DeployCLI
 			
 			# Stop the delayed job and websockets daemon
 			system("cap delayed_job:stop#{filters}")
-			#system("cap websockets:stop#{filters}")
 
 			# Create the symlink and restart
 			system("cap deploy:create_symlink#{filters}")

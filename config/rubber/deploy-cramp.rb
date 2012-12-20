@@ -24,11 +24,16 @@ namespace :rubber do
 
       task :update, :roles => :cramp do
         stop
-        rubber.sudo_script 'update_cramp', <<-ENDSCRIPT
-          if [[ ! -d "#{rubber_env.cramp_dir}" ]]; then
-            cd #{rubber_env.cramp_prefix}; git pull
+
+        script = <<-ENDSCRIPT
+          if [[ -d "#{rubber_env.cramp_dir}" ]]; then
+            cd #{rubber_env.cramp_dir}; git pull
           fi
         ENDSCRIPT
+        puts script
+
+        rubber.sudo_script 'update_cramp', script
+        
         start
       end
 
