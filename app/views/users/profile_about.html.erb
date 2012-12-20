@@ -205,7 +205,7 @@
 				<%= @user.pending_connections(false).count %> <%= ablang('connection.plural') %>
 				</h5>
 				<div style="padding:0px 0px;width:230px">
-					<% @user.connections.joins(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..9].each do |c| %>
+					<% @user.connections.includes(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..9].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px 1px 1px 0px;overflow:hidden;background:none">
 							<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;border-radius:5px'), "/profile/#{c.not_me(@user.id).slug}" %>
 						</div>
