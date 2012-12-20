@@ -1,3 +1,7 @@
+v4.0.18 - Dec 20, 2012 11:04AM PST deployed by Kelly Becker
+===========================================================
+* 95d9479: Kelly Becker - ha proxy config
+
 v4.0.17 - Dec 20, 2012 10:42AM PST deployed by Kelly Becker
 ===========================================================
 * 4fb397d: Kelly Becker - save
