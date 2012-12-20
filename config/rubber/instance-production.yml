@@ -22,6 +22,12 @@
   - !ruby/object:Rubber::Configuration::RoleItem
     name: app
     options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: cramp
+    options: {}
   instance_id: i-9c789fae
   image_type: m1.medium
   image_id: ami-2add531a

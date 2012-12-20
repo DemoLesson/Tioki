@@ -1,4 +1,4 @@
-cramp_git_repository: "https://key:x-oauth-basic@github.com/KellyLSB/cramp_repo"
+cramp_git_repository: "https://bde517dd911d0961403d72a933bf2e989310892c:x-oauth-basic@github.com/DemoLesson/tioki-cramp"
 cramp_prefix: "/usr/local"
 cramp_dir: "#{cramp_prefix}/cramp"
 cramp_pid_file: "/var/run/cramp.pid"
