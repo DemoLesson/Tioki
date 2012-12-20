@@ -1,3 +1,7 @@
+v4.0.15 - Dec 19, 2012  6:13PM PST deployed by Kelly Becker
+===========================================================
+* 0e6c43e: Kelly Becker - default user id
+
 v4.0.14 - Dec 19, 2012  6:05PM PST deployed by Kelly Becker
 ===========================================================
 * c82934a: Kelly Becker - get connection ids
