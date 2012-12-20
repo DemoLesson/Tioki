@@ -5,9 +5,10 @@ class MessagesController < ApplicationController
   # GET /messages.xml
   def index
     @messages = Message.paginate(
-			:include => [:sender, :receiver], 
+			:joins => "LEFT JOIN `messages` `replied_messages` ON `replied_messages`.`replied_to_id` = `messages`.id",
 			:page => params[:page], 
-			:conditions => ['user_id_to = ? && replied_to_id is null', self.current_user.id], 
+			:conditions => ['(messages.user_id_to = ?) || (replied_messages.user_id_to = ?)', self.current_user.id, self.current_user.id], 
+			:group => "messages.id",
 			:order => 'updated_at DESC')
     
     respond_to do |format|
@@ -19,8 +20,8 @@ class MessagesController < ApplicationController
   def sent
     @messages = Message.paginate(
 			:page => params[:page],
-			:conditions => ['user_id_from = ?', self.current_user.id], 
-			:order => 'created_at DESC' )
+			:conditions => ['user_id_from = ? && replied_to_id is null', self.current_user.id], 
+			:order => 'updated_at DESC' )
 
     respond_to do |format|
       format.html # index.html.erb

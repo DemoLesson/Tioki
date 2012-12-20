@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
 	around_filter :ensure_permission_to_destroy, :only => :destroy
 
 	skip_before_filter :verify_authenticity_token
-	before_filter :check_login_token
-	before_filter :sweep_session
+	#before_filter :check_login_token
+	#before_filter :sweep_session
 	
 	helper_method :currentHost
 	helper_method :currentPath

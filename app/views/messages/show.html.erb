@@ -1,21 +1,21 @@
 <section id="main-content" class="inner-content">
 	<h1><%= link_to "Messages", :messages, :style => "color:#F66C4C" %> / Conversation with <%= @message.sender.name %></h1>
 
-			<%= link_to 'Reply', '/messages/new?user_id_to=' + @message.sender.id.to_s + '&replied_to_id=' + @message.id.to_s, :class => "action-button bg-green" %>
+	<%= link_to 'Reply', '/messages/new?user_id_to=' + @message.sender.id.to_s + '&replied_to_id=' + @message.id.to_s, :class => "action-button bg-green" %>
 
-	<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px">
+	<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
 		<!-- Pulling the Teachers Picture or the No Avatar-->
 		<% if @message.sender.avatar? %>
 			<%= link_to image_tag(@message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + @message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
 		<% else %>
 			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+ @message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
 		<% end %>
-		
+
 		<p style="margin:-50px 10px 0px 60px;width:auto">
 			<span style="float:right">
 				<%= @message.created_at.to_s(:message_time)%>
 			</span>
-			
+
 			<strong>
 				<% if @message.sender %>
 					<%= link_to @message.sender.name, '/profile/' + @message.sender.slug %>
@@ -27,14 +27,14 @@
 		<p style="margin:5px 10px 0px 60px;width:auto">
 			Subject: <%= @message.subject %>
 		</p>
-		
+
 		<p style="margin:20px 10px 0px 10px;width:auto">
 			<%= sanitize(@message.body) %>
 		</p>
 
 	</section>
-	<% @message.messages.each do |message| %>
-		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px">
+	<% @message.replied_messages.each do |message| %>
+		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
 			<!-- Pulling the Teachers Picture or the No Avatar-->
 			<% if message.sender.avatar? %>
 				<%= link_to image_tag(message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
@@ -56,12 +56,13 @@
 				</strong>
 			</p>
 			<p style="margin:5px 10px 0px 60px;width:auto">
-				Subject: <%= message.subject %>
-		</p>
+				Subject: <%= message.subject %> 
+			</p>
 
-		<p style="margin:20px 10px 0px 10px;width:auto">
-			<%= sanitize(message.body) %>
-		</p>
+			<p style="margin:20px 10px 0px 10px;width:auto">
+				<%= sanitize(message.body) %>
+			</p>
 
+		</section>
 	<% end %>
 </section>

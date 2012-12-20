@@ -18,7 +18,7 @@
 		</ul>
 	</nav>
 
-	<% if @messages.size == 0 %>
+	<% if @messages.length == 0 %>
 		<div align="center">
 			<h4> Bummer, no messages yet. <%= link_to "Add more connections", '/inviteconnections', :style => 'color:#F66C4C' %> and you'll be sure to receive one!
 			</h4>	
@@ -61,8 +61,8 @@
 						<!-- Floating the Message Sent Date and Delete button to the right -->
 						<span style="float:right">
 							<%= message.created_at.to_s(:message_time)%> |
-							<% if message.messages.count > 0 %>
-								<%= message.messages.count + 1 %> Messages |
+							<% if message.replied_messages.count > 0 %>
+								<%= message.replied_messages.count + 1 %> Messages |
 							<% end%>
 								<span class="purge_visible">
 									<%= link_to 'Delete', message, :confirm => 'Are you sure you want to delete "'+message.subject+'"?', :method => :delete %>
