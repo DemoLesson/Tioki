@@ -8,14 +8,18 @@ namespace :rubber do
       after "deploy:update_code", "rubber:cramp:update"
 
       task :install, :roles => :cramp do
-        rubber.sudo_script 'install_cramp', <<-ENDSCRIPT
+        script = <<-ENDSCRIPT
           if [[ ! -d "#{rubber_env.cramp_dir}" ]]; then
-            git clone -–depth 1 #{rubber_env.cramp_git_repository} #{rubber_env.cramp_prefix}
+            git clone #{rubber_env.cramp_git_repository} #{rubber_env.cramp_dir} --depth 1
 
             mkdir #{rubber_env.cramp_dir}/log
             mkdir #{rubber_env.cramp_dir}/tmp
           fi
         ENDSCRIPT
+
+        puts script
+
+        rubber.sudo_script 'install_cramp', script
       end
 
       task :update, :roles => :cramp do
@@ -31,10 +35,6 @@ namespace :rubber do
       task :bootstrap, :roles => :cramp do
         exists = capture("echo $(ls #{rubber_env.cramp_dir}/log 2> /dev/null)")
         if exists.strip.size == 0
-          rubber.update_code_for_bootstrap
-
-          rubber.run_config(:file => "role/cramp/", :force => true, :deploy_path => release_path)
-
           rubber.sudo_script 'bootstrap_cramp', <<-ENDSCRIPT
             cd #{rubber_env.cramp_dir}
 
