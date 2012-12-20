@@ -1,3 +1,9 @@
+v4.0.17 - Dec 20, 2012 10:42AM PST deployed by Kelly Becker
+===========================================================
+* 4fb397d: Kelly Becker - save
+* 2003fa0: Elijah Green - Speed up the messages/index
+* 060f642: Elijah Green - Store current_user in an instance variable
+
 v4.0.16 - Dec 19, 2012  7:21PM PST deployed by Kelly Becker
 ===========================================================
 * cdd28ea: Kelly Becker - cramp rubber config
