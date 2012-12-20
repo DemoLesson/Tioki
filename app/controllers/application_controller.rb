@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
 	def current_user
 
 		# Get the currently logged in user and set to Model Access
-		@current_user = User.find(session[:user]) unless session[:user].nil?
+		@current_user ||= User.find(session[:user]) unless session[:user].nil?
 	end
 	
 	def is_admin
