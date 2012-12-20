@@ -130,9 +130,16 @@ class WhiteboardsController < ApplicationController
 
 	def user_profile
 
+		# Find the user in question
 		@user = User.find(params[:user_id])
-		# Get whiteboard activity
-		w = Whiteboard.where(:user_id => @user.id).order('created_at DESC').paginate(:per_page => 15, :page => params[:page])
+
+		# Set the user profile page
+		page = params[:page].nil? || params[:page].empty? ? 1 : params[:page]
+
+		# Get the users whiteboard activity
+		w = Whiteboard.where(:user_id => @user.id).order('created_at DESC').paginate(:per_page => 15, :page => page)
+
+		# Render the result as JSON unless raw is requested
 		return render :json => w unless params[:raw].nil?
 
 		divs = Array.new

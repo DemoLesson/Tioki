@@ -138,18 +138,25 @@ class VouchesController < ApplicationController
 	end
 
 	def vouch_connection_skills
-		@invite = ConnectionInvite.find(params[:invite_id])
-		unless @invite.created_user_id == self.current_user.id
-			return redirect_to "/get_started"
+		@user = User.find(params[:user_id])
+		if params[:invite_id]
+			@invite = ConnectionInvite.find(params[:invite_id])
+			unless @invite.created_user_id == self.current_user.id
+				return redirect_to "/get_started"
+			end
 		end
 
 		# Install the skills
 		if params[:skills]
 			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
-				VouchedSkill.create(:skill_id => skill.id, :user_id => @invite.user.id, :voucher_id => User.current.id)
+				VouchedSkill.create(:skill_id => skill.id, :user_id => @user.id, :voucher_id => User.current.id)
 			end
 		end
-		redirect_to "/get_started"
+		if @invite
+			redirect_to "/get_started"
+		else
+			redirect_to "/profile/#{@user.slug}/about"
+		end
 	end
 end

@@ -1,3 +1,61 @@
+v4.0.18 - Dec 20, 2012 11:04AM PST deployed by Kelly Becker
+===========================================================
+* 95d9479: Kelly Becker - ha proxy config
+
+v4.0.17 - Dec 20, 2012 10:42AM PST deployed by Kelly Becker
+===========================================================
+* 4fb397d: Kelly Becker - save
+* 2003fa0: Elijah Green - Speed up the messages/index
+* 060f642: Elijah Green - Store current_user in an instance variable
+
+v4.0.16 - Dec 19, 2012  7:21PM PST deployed by Kelly Becker
+===========================================================
+* cdd28ea: Kelly Becker - cramp rubber config
+* a2a8810: Kelly Becker - update script
+* 5eb8d1d: Elijah Green - More fixes to the massives user loads
+* 86ae7cd: Kelly Becker - update script
+* 743d2c3: Kelly Becker - update script
+* 8d61b6d: Kelly Becker - cramp config
+* 76ede32: Elijah Green - Fix places on profile where every connected user is loaded
+* 8327385: Kelly Becker - adding cramp test
+* 6ae7bb5: Elijah Green - When checking if connected with a user, use their id
+
+v4.0.15 - Dec 19, 2012  6:13PM PST deployed by Kelly Becker
+===========================================================
+* 0e6c43e: Kelly Becker - default user id
+
+v4.0.14 - Dec 19, 2012  6:05PM PST deployed by Kelly Becker
+===========================================================
+* c82934a: Kelly Becker - get connection ids
+* 9e6d41d: Elijah Green - Remove a query on all connnections by just getting the ids
+* 95cf842: Elijah Green - Format last commit differently in case no if statement is true
+* cecb8fa: Elijah Green - Fix picture uploading
+* a9b1648: Elijah Green - Change text on the get_started page
+
+v4.0.13 - Dec 19, 2012  4:03PM PST deployed by Kelly Becker
+===========================================================
+* 7065b13: Kelly Becker - teacher user list filter works now
+* 0fee917: Elijah Green - Remove some uneeded queries and use includes instead of  joins on profile
+* 84f87e8: Kelly Becker - user not found
+* 95b21d3: Kelly Becker - limit
+* ca7a60c: Aleks Stanisic - adding vouching to connection request flow for odd users
+
+v4.0.12 - Dec 19, 2012 11:23AM PST deployed by Kelly Becker
+===========================================================
+* edfa7ac: Kelly Becker - is profile mine
+* 8caaa36: Kelly Becker - is profile mine
+* 089e15e: Kelly Becker - profile whiteboard load will always default to a page of one
+
+v4.0.11 - Dec 19, 2012 11:08AM PST deployed by Kelly Becker
+===========================================================
+* 740c9f5: Kelly Becker - whoops varible name is not right
+
+v4.0.10 - Dec 19, 2012 10:56AM PST deployed by Kelly Becker
+===========================================================
+* 9fc7fd3: Kelly Becker - cleaning up some and fixing some bugs on the profile
+* e77e443: Kelly Becker - added connected_to? to user.rb
+* 89f6599: Kelly Becker - assume that the user will want to recveive new discussion notification on a group
+
 v4.0.9 - Dec 19, 2012 10:07AM PST deployed by Kelly Becker
 ==========================================================
 * 9bc7c49: Kelly Becker - added the ability to add more discussions after one has been created on a group

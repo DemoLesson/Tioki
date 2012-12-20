@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Get a list of my connections
-		@my_connections = Connection.mine(:pending => false).collect{|connection| connection.not_me.id} unless self.current_user.nil?
+		@my_connections = Connection.mine(:pending => false).collect{|connection| connection.not_me_id(@current_user.id)} unless self.current_user.nil?
 		@my_connections = Array.new if self.current_user.nil?
 	end
 

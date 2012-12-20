@@ -208,7 +208,7 @@ class UsersController < ApplicationController
 
 		# Image upload
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
-			redirect_to :back, :notice => "The file was not an image."
+			return redirect_to :back, :notice => "The file was not an image."
 		elsif params[:user]
 			#move tempoary file created by uploader 
 			#to a file that won't disapper after the completion of the request
@@ -220,6 +220,7 @@ class UsersController < ApplicationController
 			respond_to do |format|
 				format.js
 			end
+			return
 		end
 
 		redirect_to :back
@@ -366,19 +367,19 @@ class UsersController < ApplicationController
 		if params[:tname]
 			#is it a valid integer?
 			if params[:tname].numeric?
-				@users = User.find :all, :conditions => ["id = ?", params[:tname]], :order => "users.created_at DESC"
+				@users = User.where('id = ?', params[:tname]).order('users.created_at DESC')
 			else
-				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+				@users = User.where('name LIKE ?', "%#{params[:tname]}%").order('users.created_at DESC')
 			end
 		else
-			@users = User.find :all, :order => "created_at DESC"
+			@users = User.order('users.created_at DESC')
 		end
 
 		# Limit to those that have at least 1 video
-		@users = @users.join(:videos).where('users.id = videos.user_id') if params[:vid]
+		@users = @users.joins(:videos).where('users.id = videos.user_id') if params[:vid]
 
 		# Limit to teachers that have job applications
-		@users = @users.join(:applications).where('users.id = applications.user_id') if params[:applied]
+		@users = @users.joins(:applications).where('users.id = applications.user_id') if params[:applied]
 
 		@educatorcount = User.organization?.count
 
@@ -903,54 +904,23 @@ class UsersController < ApplicationController
 		end
 	end
   
-  # Profile About 
-  def profile_about
-			# Figure out whether to load a profile by slug or the current user.
-  		if !params[:slug].nil? && !params[:slug].empty?
-  			@user = User.find_by_slug(params[:slug])
-  		elsif !self.current_user.nil?
-  			@user = self.current_user
-  		end
-  		
-  		# Check if user is connected to teacher or is self
-  		@self = false
-  		@connected = false
-  		if @user.me?
-  			@connected = true
-  			@self = true
-  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
-  			@connected = true
-  		end
-  end
+	# Profile About 
+	def profile_about; profile(false); end
   
-  # Profile Resume 
-  def profile_resume
-			# Figure out whether to load a profile by slug or the current user.
-  		if !params[:slug].nil? && !params[:slug].empty?
-  			@user = User.find_by_slug(params[:slug])
-  		elsif !self.current_user.nil?
-  			@user = self.current_user
-  		end
-  		
-  		# Check if user is connected to teacher or is self
-  		@self = false
-  		@connected = false
-  		if @user.me?
-  			@connected = true
-  			@self = true
-  		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
-  			@connected = true
-  		end
-  end
+	# Profile Resume 
+	def profile_resume; profile(false); end
 
 	# Migrated from teacher_controller.rb
-	def profile
+	def profile(whiteboard = true)
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
 		elsif !currentUser.new_record?
 			@user = currentUser
 		end
+
+		# If no record is found 404 it
+		raise HTTPStatus::NotFound if @user.nil?
 
 		# Check if user is a guest
 		@guest = false; if !params[:guest_pass].nil? && !params[:guest_pass].empty?
@@ -960,10 +930,10 @@ class UsersController < ApplicationController
 		# Check if user is connected to teacher or is self
 		@self = false
 		@connected = false
-		if @user.me?
+		if !currentUser.new_record? && @user.me?
 			@connected = true
 			@self = true
-		elsif !self.current_user.nil? && self.current_user.connections.collect(&:user_id).include?(@user_id)
+		elsif !currentUser.new_record? && currentUser.connected_to?(@user)
 			@connected = true
 		end
 
@@ -975,32 +945,19 @@ class UsersController < ApplicationController
 			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
 		end
 
-		# Review
-		# Why is this here?
-		# Before Tioki, there were buttons that only the school user could see on the teacher profile. Those buttons included, requesting an interview or removing them from the application. We will have to add those acctions back at some point. -Aleks 
-		# Load up an application
-		@application = nil
-		if params[:application] != nil
-			@application = Application.find(params[:application])
-			@application = nil unless @application.belongs_to_me(self.current_user)
-		end
-
-		# Get whiteboard activity
-		@whiteboard = Array.new
-		Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
-			@post = post
-			@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+		if whiteboard
+			# Get whiteboard activity
+			@whiteboard = Array.new
+			Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
+				@post = post
+				@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+			end
 		end
 			
 		# If the there is currently a user logged in
-		if !self.current_user.nil?
-			@connection = Connection.find(:first, :conditions => ['owned_by = ? and user_id = ?', self.current_user.id, @user.id])
-			@pendingconnection =  Connection.find(:first, :conditions => ['owned_by = ? and user_id = ? and pending = true', @user.id, self.current_user.id])
-		end
-
-		# Filter Upcoming Events
-		@events = @user.rsvp.select do |x|
-			(x.end_time.future? || x.end_time.today?) && x.published
+		if !currentUser.new_record?
+			@connection = currentUser.connection_to(@user)
+			@pendingconnection = currentUser.connection_to(@user, true)
 		end
 
 		# Vouch referring teacher 
@@ -1013,7 +970,7 @@ class UsersController < ApplicationController
 			flash[:alert]  = "User was not found"
 		else 
 			respond_to do |format|
-				if self.current_user.nil?
+				if currentUser.new_record?
 					format.html { redirect_to "/profile/#{@user.slug}/about"}
 					format.json  { render :json => @teacher } # profile.json
 				else

@@ -5,17 +5,10 @@ class Message < ActiveRecord::Base
 	has_many :messages, :foreign_key => "replied_to_id", :dependent => :nullify
 	belongs_to :message
 
+	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
+	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to
+
   self.per_page = 15
-
-  def sender
-    @user = User.unscoped.find(self.user_id_from) rescue nil
-    return @user
-  end
-
-  def receiver
-    @user = User.unscoped.find(self.user_id_to) rescue nil
-    return @user
-  end
 
   def mark_read
     self.read = true

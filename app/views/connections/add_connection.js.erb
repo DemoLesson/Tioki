@@ -1,2 +1,7 @@
-$('#<%= dom_id(@user) %>').removeAttr('href');
-$('#<%= dom_id(@user) %>').text('Requested');
+$(function() {
+	if(<%= @redirect ? 'true' : 'false' %>) window.location = '<%= @redirect %>';
+	else 
+		$('#<%= dom_id(@user) %>').removeAttr('href');
+		$('#<%= dom_id(@user) %>').text('Requested');
+});
+

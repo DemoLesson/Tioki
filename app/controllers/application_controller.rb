@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
 	def current_user
 
 		# Get the currently logged in user and set to Model Access
-		User.find(session[:user]) unless session[:user].nil?
+		@current_user ||= User.find(session[:user]) unless session[:user].nil?
 	end
 	
 	def is_admin
@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
 			redirect_to(return_to)
 		elsif self.current_user.nil?
 			redirect_to :controller => "users", :action => "login"
-		else self.current_user != nil
+		elsif self.current_user != nil
 			redirect_to :root
 		end
 	end

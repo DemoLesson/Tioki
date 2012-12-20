@@ -41,7 +41,7 @@ class HomeController < ApplicationController
 				# Get a list of all my skills and a list of all my connections
 				skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
 				skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
-				my_connections = Connection.mine.collect!{|x| x.not_me.id}
+				my_connections = @user.connections.collect{|x| x.not_me_id}
 
 				# Create / Run the Query
 				joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]

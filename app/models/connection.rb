@@ -36,19 +36,25 @@ class Connection < ActiveRecord::Base
 		Connection.find(:all, :conditions => ['owned_by = ?', user_id])
 	end
 
-	def not_me(user_id = nil)
+	def not_me(_user_id = nil)
 		begin
-			user_id = User.current.id if user_id.nil?
-			user = self.owned_by.to_i == user_id.to_i ? self.user : self.owner
+			_user_id = User.current.id if _user_id.nil?
+			user = self.owned_by.to_i == _user_id.to_i ? self.user : self.owner
 		rescue ActiveRecord::RecordNotFound => e
 			self.destroy
 			return redirect_to request.path
 		end
 
 		# Log the connection
-		Rails.logger.info "Connection.rb Method `not_me` Accessed on (#{id}): #{self.user.class}:#{self.user.id rescue '*'} <-> #{self.owner.class}:#{self.owner.id rescue '*'}"
+		#Rails.logger.info "Connection.rb Method `not_me` Accessed on (#{id}): #{self.user.class}:#{self.user.id rescue '*'} <-> #{self.owner.class}:#{self.owner.id rescue '*'}"
 
 		return user
+	end
+
+	# Just return id
+	def not_me_id(_user_id = nil)
+		_user_id = User.current.id if _user_id.nil?
+		self.owned_by == _user_id ? self.user_id : self.owned_by
 	end
 
 	def icreated?

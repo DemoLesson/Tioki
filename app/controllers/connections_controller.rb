@@ -77,6 +77,7 @@ class ConnectionsController < ApplicationController
 		@user = User.find(params[:user_id])
 		b = params[:user_id]
 		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
+		@redirect = !currentUser.id.even? ? '/profile/' + @user.slug + '/about?add_connection=b' : false
 
 		# If we are not go ahead and initiate the connection
 		if @previous == nil
