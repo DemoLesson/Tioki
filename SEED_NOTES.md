@@ -1,3 +1,8 @@
+v4.0.19 - Dec 20, 2012  2:00PM PST deployed by Kelly Becker
+===========================================================
+* 08c43d8: Kelly Becker - some cramp updates getting ready for cramp notifications
+* b00baf5: Aleks Stanisic - sharting added to groups header
+
 v4.0.18 - Dec 20, 2012 11:04AM PST deployed by Kelly Becker
 ===========================================================
 * 95d9479: Kelly Becker - ha proxy config
