@@ -5,16 +5,27 @@ namespace :rubber do
       rubber.allow_optional_tasks(self)
 
       after "rubber:install_packages", "rubber:cramp:install"
+      after "deploy:update_code", "rubber:cramp:update"
 
       task :install, :roles => :cramp do
         rubber.sudo_script 'install_cramp', <<-ENDSCRIPT
           if [[ ! -d "#{rubber_env.cramp_dir}" ]]; then
-            git #{rubber_env.cramp_git_repository} –depth 1 #{rubber_env.cramp_prefix}
+            git clone #{rubber_env.cramp_git_repository} –depth 1 #{rubber_env.cramp_prefix}
 
             mkdir #{rubber_env.cramp_dir}/log
             mkdir #{rubber_env.cramp_dir}/tmp
           fi
         ENDSCRIPT
+      end
+
+      task :update, :roles => :cramp do
+        stop
+        rubber.sudo_script 'update_cramp', <<-ENDSCRIPT
+          if [[ ! -d "#{rubber_env.cramp_dir}" ]]; then
+            cd #{rubber_env.cramp_prefix}; git pull
+          fi
+        ENDSCRIPT
+        start
       end
 
       task :bootstrap, :roles => :cramp do
