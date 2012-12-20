@@ -1,3 +1,11 @@
+v4.0.13 - Dec 19, 2012  4:03PM PST deployed by Kelly Becker
+===========================================================
+* 7065b13: Kelly Becker - teacher user list filter works now
+* 0fee917: Elijah Green - Remove some uneeded queries and use includes instead of  joins on profile
+* 84f87e8: Kelly Becker - user not found
+* 95b21d3: Kelly Becker - limit
+* ca7a60c: Aleks Stanisic - adding vouching to connection request flow for odd users
+
 v4.0.12 - Dec 19, 2012 11:23AM PST deployed by Kelly Becker
 ===========================================================
 * edfa7ac: Kelly Becker - is profile mine
