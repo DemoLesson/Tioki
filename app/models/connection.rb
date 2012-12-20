@@ -36,10 +36,10 @@ class Connection < ActiveRecord::Base
 		Connection.find(:all, :conditions => ['owned_by = ?', user_id])
 	end
 
-	def not_me(user_id = nil)
+	def not_me(_user_id = nil)
 		begin
-			user_id = User.current.id if user_id.nil?
-			user = self.owned_by.to_i == user_id.to_i ? self.user : self.owner
+			_user_id = User.current.id if _user_id.nil?
+			user = self.owned_by.to_i == _user_id.to_i ? self.user : self.owner
 		rescue ActiveRecord::RecordNotFound => e
 			self.destroy
 			return redirect_to request.path
@@ -51,11 +51,9 @@ class Connection < ActiveRecord::Base
 		return user
 	end
 
-	#just return id
-	def not_me_id
-		user_id = self.owned_by == user_id ? self.user_id : self.owned_by
-
-		return user_id
+	# Just return id
+	def not_me_id(_user_id)
+		self.owned_by == _user_id ? self.user_id : self.owned_by
 	end
 
 	def icreated?
