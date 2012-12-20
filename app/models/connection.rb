@@ -52,7 +52,8 @@ class Connection < ActiveRecord::Base
 	end
 
 	# Just return id
-	def not_me_id(_user_id)
+	def not_me_id(_user_id = nil)
+		_user_id = User.current.id if _user_id.nil?
 		self.owned_by == _user_id ? self.user_id : self.owned_by
 	end
 
