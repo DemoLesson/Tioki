@@ -1,0 +1,10 @@
+cramp_git_repository: "https://key:x-oauth-basic@github.com/KellyLSB/cramp_repo"
+cramp_prefix: "/usr/local"
+cramp_dir: "#{cramp_prefix}/cramp"
+cramp_pid_file: "/var/run/cramp.pid"
+cramp_port: 8888
+
+roles:
+  cramp:
+    packages: []
+    gems: [cramp, thin]
