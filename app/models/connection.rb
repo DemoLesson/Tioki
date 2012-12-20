@@ -51,6 +51,13 @@ class Connection < ActiveRecord::Base
 		return user
 	end
 
+	#just return id
+	def not_me_id
+		user_id = self.owned_by == user_id ? self.user_id : self.owned_by
+
+		return user_id
+	end
+
 	def icreated?
 		User.current.id == self.owned_by ? true : false
 	end
