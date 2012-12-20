@@ -366,19 +366,19 @@ class UsersController < ApplicationController
 		if params[:tname]
 			#is it a valid integer?
 			if params[:tname].numeric?
-				@users = User.find :all, :conditions => ["id = ?", params[:tname]], :order => "users.created_at DESC"
+				@users = User.where('id = ?', params[:tname]).order('users.created_at DESC')
 			else
-				@users = User.find :all, :conditions => ['name LIKE ?', "%#{params[:tname]}%"], :order => "created_at DESC"
+				@users = User.where('name LIKE ?', "%#{params[:tname]}%").order('users.created_at DESC')
 			end
 		else
-			@users = User.find :all, :order => "created_at DESC"
+			@users = User.order('users.created_at DESC')
 		end
 
 		# Limit to those that have at least 1 video
-		@users = @users.join(:videos).where('users.id = videos.user_id') if params[:vid]
+		@users = @users.joins(:videos).where('users.id = videos.user_id') if params[:vid]
 
 		# Limit to teachers that have job applications
-		@users = @users.join(:applications).where('users.id = applications.user_id') if params[:applied]
+		@users = @users.joins(:applications).where('users.id = applications.user_id') if params[:applied]
 
 		@educatorcount = User.organization?.count
 
