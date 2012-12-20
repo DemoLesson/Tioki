@@ -1,3 +1,11 @@
+v4.0.14 - Dec 19, 2012  6:05PM PST deployed by Kelly Becker
+===========================================================
+* c82934a: Kelly Becker - get connection ids
+* 9e6d41d: Elijah Green - Remove a query on all connnections by just getting the ids
+* 95cf842: Elijah Green - Format last commit differently in case no if statement is true
+* cecb8fa: Elijah Green - Fix picture uploading
+* a9b1648: Elijah Green - Change text on the get_started page
+
 v4.0.13 - Dec 19, 2012  4:03PM PST deployed by Kelly Becker
 ===========================================================
 * 7065b13: Kelly Becker - teacher user list filter works now
