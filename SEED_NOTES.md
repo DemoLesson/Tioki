@@ -1,3 +1,15 @@
+v4.0.16 - Dec 19, 2012  7:21PM PST deployed by Kelly Becker
+===========================================================
+* cdd28ea: Kelly Becker - cramp rubber config
+* a2a8810: Kelly Becker - update script
+* 5eb8d1d: Elijah Green - More fixes to the massives user loads
+* 86ae7cd: Kelly Becker - update script
+* 743d2c3: Kelly Becker - update script
+* 8d61b6d: Kelly Becker - cramp config
+* 76ede32: Elijah Green - Fix places on profile where every connected user is loaded
+* 8327385: Kelly Becker - adding cramp test
+* 6ae7bb5: Elijah Green - When checking if connected with a user, use their id
+
 v4.0.15 - Dec 19, 2012  6:13PM PST deployed by Kelly Becker
 ===========================================================
 * 0e6c43e: Kelly Becker - default user id
