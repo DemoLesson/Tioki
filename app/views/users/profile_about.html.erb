@@ -17,7 +17,7 @@
 							<%= ablang('connection.connect') %>
 						</a>
 					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @user.id %>
+					<% elsif Connection.mine.collect{|x| x.not_me_id(@current_user.id)}.include? @user.id %>
 						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
 					<% # IF we are not connected then display "connect" button %>
 					<% else %>
