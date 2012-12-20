@@ -269,22 +269,3 @@
 	});
 
 })(jQuery, window);
-
-// ======================= //
-// ======================= //
-// ======================= //
-// ======================= //
-// ======================= //
-// ======================= //
-
-$.eventsource({
-	label: "json-event-source",
-	url: "/cramp/notifications",
-	dataType: "json",
-	open: function() {
-		console.log("opened");
-	},
-	message: function( data ) {
-		console.log( data );
-	}
-});

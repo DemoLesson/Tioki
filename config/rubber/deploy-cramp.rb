@@ -27,7 +27,11 @@ namespace :rubber do
 
         script = <<-ENDSCRIPT
           if [[ -d "#{rubber_env.cramp_dir}" ]]; then
-            cd #{rubber_env.cramp_dir}; git pull
+            cd #{rubber_env.cramp_dir}
+            git reset --hard HEAD
+            git pull
+
+            bundle install
           fi
         ENDSCRIPT
         puts script
@@ -51,12 +55,12 @@ namespace :rubber do
 
       desc "Stops the cramp server"
       task :stop, :roles => :cramp, :on_error => :continue do
-        rsudo "cd #{rubber_env.cramp_dir}; bundle exec thin -d -P #{rubber_env.cramp_pid} -p #{rubber_env.cramp_port} --timeout 0 -R config.ru stop"
+        rsudo "cd #{rubber_env.cramp_dir}; bundle exec thin -d -P #{rubber_env.cramp_pid} -e #{rails_env} -p #{rubber_env.cramp_port} --timeout 0 -R config.ru stop"
       end
 
       desc "Starts the cramp server"
       task :start, :roles => :cramp do
-        rsudo "cd #{rubber_env.cramp_dir}; bundle exec thin -d -P #{rubber_env.cramp_pid} -p #{rubber_env.cramp_port} --timeout 0 -R config.ru start"
+        rsudo "cd #{rubber_env.cramp_dir}; bundle exec thin -d -P #{rubber_env.cramp_pid} -e #{rails_env} -p #{rubber_env.cramp_port} --timeout 0 -R config.ru start"
       end
 
       desc "Restarts the cramp server"
