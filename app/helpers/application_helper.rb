@@ -1,6 +1,6 @@
 module ApplicationHelper  
   def current_user
-    User.find(session[:user]) unless session[:user].nil?
+    @current_user ||= User.find(session[:user]) unless session[:user].nil?
   end
   
   def unread_messages
