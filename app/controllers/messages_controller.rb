@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.paginate(:page => params[:page], :conditions => ['user_id_to = ?', self.current_user.id], :order => 'created_at DESC' )
+    @messages = Message.paginate(:include => [:sender, :receiver], :page => params[:page], :conditions => ['user_id_to = ?', self.current_user.id], :order => 'created_at DESC')
     @title = TITLE
     
     respond_to do |format|
