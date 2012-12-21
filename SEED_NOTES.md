@@ -1,3 +1,7 @@
+v4.0.27 - Dec 21, 2012  2:21PM PST deployed by Kelly Becker
+===========================================================
+* 6dab31d: Kelly Becker - haproxy update
+
 v4.0.26 - Dec 21, 2012  1:49PM PST deployed by Kelly Becker
 ===========================================================
 * c7a51f1: Kelly Becker - changed all find quieres to the accept rails 3.2 format which is faster since it does not have to recurse for things like counts.
