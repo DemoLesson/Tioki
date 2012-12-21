@@ -1,3 +1,7 @@
+v4.0.21 - Dec 20, 2012  4:44PM PST deployed by Kelly Becker
+===========================================================
+* 5dd2291: Kelly Becker - creating notifications with the wrong comments
+
 v4.0.20 - Dec 20, 2012  3:52PM PST deployed by Kelly Becker
 ===========================================================
 * c222235: Kelly Becker - sse
