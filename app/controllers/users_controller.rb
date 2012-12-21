@@ -81,18 +81,27 @@ class UsersController < ApplicationController
 
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
+
+        # Log an analytic about the uer loggin in
 				self.log_analytic(:user_logged_in, "User logged in.")
-				self.current_user.update_login_count
 				Rails.logger.info "Login successful: #{params[:user][:email]} logged in."
 
+        # Up the user login count
+        currentUser.update_login_count
+
+        # Remember the user
 				if params[:remember_me]
 					login_token = LoginToken.generate_token_for!(session[:user])
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
-				end
+        end
 
-				return redirect_to :root
+        # Is there a location we should return the user to
+        return_to = session[:return_to] || :root
+        session.delete(:return_to) if session[:return_to]
+
+				return redirect_to return_to
 			else
 				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
 				flash[:error] = "Your username or password was incorrect."

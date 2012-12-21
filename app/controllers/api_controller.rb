@@ -1,7 +1,5 @@
-class BlockJson < StandardError
-end
-
 class ApiController < ApplicationController
+  class BlockJson < StandardError; end
 
 	# Load in api methods
 	files = Dir.glob File.dirname(__FILE__) + "/api/*.{rb}"
@@ -36,6 +34,6 @@ class ApiController < ApplicationController
 	end
 
 	def __rank(type = false)
-		raise HTTPStatus::Unauthorized if User.current.nil? || !User.current.rank?
+		raise SecurityTransgression if User.current.nil? || !User.current.rank?
 	end
 end
