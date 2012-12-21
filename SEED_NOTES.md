@@ -1,3 +1,7 @@
+v4.0.23 - Dec 20, 2012  5:26PM PST deployed by Kelly Becker
+===========================================================
+* 12a2837: Kelly Becker - deploy cramp update
+
 v4.0.22 - Dec 20, 2012  5:09PM PST deployed by Kelly Becker
 ===========================================================
 * 5db1058: Kelly Becker - cache user_id on session
