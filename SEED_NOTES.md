@@ -1,3 +1,8 @@
+v4.0.25 - Dec 21, 2012 11:08AM PST deployed by Kelly Becker
+===========================================================
+* aaf45df: Kelly Becker - redirect user back to the last page they were on if applicable
+* dabbc61: Kelly Becker - cleaned up and documented some code and added some todos
+
 v4.0.24 - Dec 21, 2012 10:33AM PST deployed by Kelly Becker
 ===========================================================
 * 811f992: Kelly Becker - gitignore
