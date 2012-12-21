@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
 			:conditions => ['(messages.user_id_to = ? && messages.replied_to_id is null) || replied_messages.user_id_to = ?',
 				self.current_user.id, self.current_user.id], 
 			:group => "messages.id",
-			:order => 'updated_at DESC')
+			:order => 'messages.replied_at DESC, messages.updated_at DESC')
     
     respond_to do |format|
       format.html # index.html.erb
@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
 
-		@message.mark_read
+		@message.mark_read(self.current_user.id)
     
     respond_to do |format|
 			if self.current_user.id == @message.user_id_to || self.current_user.id == @message.user_id_from
@@ -81,7 +81,7 @@ class MessagesController < ApplicationController
 													else
 														replied_to_message.user_id_from
 													end
-			replied_to_message.update_attribute(:read, false)
+			replied_to_message.update_attribute(:replied_at, Time.now)
 		end
 
 		@message.read = false

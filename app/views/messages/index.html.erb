@@ -28,10 +28,18 @@
 			<% @messages.each do |message| %>
 				<!--Determining the color that the box will be based on the message read status-->
 				<% replied_message = message.replied_messages.last %>
-				<% if message.read == false %>
-					<section class="panel three-column left-side" style="border-radius:0px;background:whitesmoke;padding:5px 0px 5px 0px;min-height:50px;">
-				<% else %>
+				<% if replied_message %>
+					<% if replied_message.read == false %>
+						<section class="panel three-column left-side" style="border-radius:0px;background:whitesmoke;padding:5px 0px 5px 0px;min-height:50px;">
+					<% else %>
 						<section class="panel three-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;min-height:50px">
+					<% end %>
+				<% else %>
+					<% if message.read == false %>
+						<section class="panel three-column left-side" style="border-radius:0px;background:whitesmoke;padding:5px 0px 5px 0px;min-height:50px;">
+					<% else %>
+						<section class="panel three-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;min-height:50px">
+					<% end %>
 				<% end %>
 
 				<!-- Pulling the Teachers Picture or the No Avatar-->
@@ -68,13 +76,24 @@
 					</strong>
 
 					<!-- Rendering the Message Subject, making unread messages bold font -->
-					<% if message.read == false %>
-						<strong>
+					<% if replied_message %>
+						<% if replied_message.read == false && replied_message.user_id_to == self.current_user.id %>
+							<strong>
+								- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+							</strong>
+						<% else %>
 							- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
-						</strong>
+						<% end %>
 					<% else %>
-						- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+						<% if message.read == false %>
+							<strong>
+								- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+							</strong>
+						<% else %>
+							- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+						<% end %>
 					<% end %>
+
 					<!-- Floating the Message Sent Date and Delete button to the right -->
 					<span style="float:right">
 						<%= message.created_at.to_s(:message_time)%> |

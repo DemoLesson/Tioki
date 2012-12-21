@@ -1,5 +1,5 @@
 class Message < ActiveRecord::Base
-  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id
+  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id, :replied_at
   validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
 
 	has_many :replied_messages, :class_name => "Message", :foreign_key => "replied_to_id", :dependent => :nullify
@@ -10,9 +10,9 @@ class Message < ActiveRecord::Base
 
   self.per_page = 15
 
-  def mark_read
+  def mark_read(user_id)
     self.read = true
-		self.replied_messages.update_all :read => true
+		self.replied_messages.where("user_id_to = ?", user_id).update_all :read => true
     self.save
   end
 

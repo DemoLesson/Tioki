@@ -1,5 +1,11 @@
 <section id="main-content" class="inner-content">
-	<h1><%= link_to "Messages", :messages, :style => "color:#F66C4C" %> / Conversation with <%= @message.sender.name %></h1>
+	<h1><%= link_to "Messages", :messages, :style => "color:#F66C4C" %> / Conversation with 
+		<% if @message.user_id_to == self.current_user.id %>
+			<%= @message.sender.name %>
+		<% else %>
+			<%= @message.receiver.name %>
+		<% end %>
+	</h1>
 
 	<%= link_to 'Reply', '/messages/new?user_id_to=' + @message.sender.id.to_s + '&replied_to_id=' + @message.id.to_s, :class => "action-button bg-green" %>
 
@@ -48,7 +54,7 @@
 				</span>
 
 				<strong>
-					<% if @message.sender %>
+					<% if message.sender %>
 						<%= link_to message.sender.name, '/profile/' + message.sender.slug %>
 					<% else %>
 						User no longer exists

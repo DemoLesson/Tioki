@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220224931) do
+ActiveRecord::Schema.define(:version => 20121221005120) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -462,6 +462,7 @@ ActiveRecord::Schema.define(:version => 20121220224931) do
     t.boolean  "read"
     t.string   "tag"
     t.integer  "replied_to_id"
+    t.datetime "replied_at"
   end
 
   add_index "messages", ["replied_to_id"], :name => "index_messages_on_replied_to_id"
