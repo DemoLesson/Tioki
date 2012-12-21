@@ -394,8 +394,7 @@ class UsersController < ApplicationController
 		@educatorcount = User.organization?.count
 
 		#count videos as 1 per user
-		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).group('`videos`.`user_id`')
-		dump @videos
+		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
