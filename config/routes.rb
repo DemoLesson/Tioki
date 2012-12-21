@@ -293,7 +293,11 @@ Preview::Application.routes.draw do
 		end
 	end
 
-	resources :admin
+	resources :admin do
+		collection do
+			get 'users'
+		end
+	end
 
 	# # # # # # # # # # # # # #
 	# # # # # # # # # # # # # #

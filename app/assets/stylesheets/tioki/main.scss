@@ -1222,15 +1222,27 @@ form.gridded {
 }
 
 #main-content.admin-panel {
-	ul.stats {
-		width: 100%;
-		list-style: none;
-		margin: 0px;
-		padding: 0px;
+    ul {
+        width: 100%;
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
 
 		li {
 			@include css3-border-box;
 
+			padding: 7px 10px;
+			display: block;
+
+			&:last-child {
+				border: none;
+			}
+		}
+    }
+
+	ul.stats {
+
+		li {
 			display: inline-block;
 			background: #e2e2e2;
 			padding: 7px 10px;
@@ -1243,5 +1255,15 @@ form.gridded {
 			}
 		}
 	}
+
+    ul.users {
+		li {
+			border-bottom: solid 1px #e2e2e2;
+
+			&:last-child {
+				border: none;
+			}
+		}
+    }
 
 }
