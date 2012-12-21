@@ -1,0 +1,11 @@
+<section id="main-content" class="inner-content admin-panel">
+  <h1>Admin Panel &mdash; Users</h1>
+  <ul class="users">
+    <% for user in @users %>
+        <li>
+          <span><%= user.id %></span>
+          <%= user.name %>
+        </li>
+    <% end %>
+  </ul>
+</section>

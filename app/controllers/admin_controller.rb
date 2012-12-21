@@ -6,6 +6,10 @@ class AdminController < ApplicationController
 		@stats = _getStats
 	end
 
+	def users
+		@users = User.unscoped
+	end
+
 	private
 
 		def check_for_admin
