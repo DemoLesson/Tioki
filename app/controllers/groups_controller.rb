@@ -245,8 +245,10 @@ class GroupsController < ApplicationController
 		BODY
 
 		# Send the message
-		params[:connection].each do |user|
-			Message.send!(user, :subject => subject, :body => body.html_safe)
+		if params[:connection]
+			params[:connection].each do |user|
+				Message.send!(user, :subject => subject, :body => body.html_safe)
+			end
 		end
 
 		flash[:success] = "Share successfully."
