@@ -499,16 +499,6 @@
 	<% unless currentUser.new_record? %>
 		<div id="notifications" kmodal-resize="false">
 			<ul>
-				<% notes = Notification.mine %>
-				<% if notes.count == 0 %>
-					<li>No notifications</li>
-				<% end %>
-				<% notes.each do |note| %>
-					<li href="<%= note.link %>">
-						<%= note.message %>
-						<span><%= time_ago_in_words(note.created_at) %> ago...</span>
-					</li>
-				<% end %>
 			</ul>
 		</div>
 		<script type="text/javascript">
@@ -523,7 +513,12 @@
 				height = $(window).height() - 100;
 				e.css('max-height', height);
 			});
-			$('#notifications [href]').click(function() {
+
+			$('#notifications').kModal('bind', 'show', function(e) {
+				$('a[href="#notifications"]').removeClass('unread');
+			});
+
+			$('#notifications [href]').live('click', function() {
 				$link = $(this);
 				$.defercall(function() {
 					$('#notifications').kModal('hide');

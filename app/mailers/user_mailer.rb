@@ -471,10 +471,10 @@ class UserMailer < ActionMailer::Base
 	end
 
 	def connection_invite(user, emails, url, message)
-		@teachername=user.name
-		@url= url
-		@message= message
-		@user=user
+		@username = user.name
+		@url = url
+		@message = message
+		@user = user
 
 		# Which template to use
 		ab = Abtests.use("email:connection_invite", 1).to_s
@@ -483,11 +483,11 @@ class UserMailer < ActionMailer::Base
 		# Send out the email
 		# Use new subject lines
 		if ab == 0.to_s
-			mail = mail(:to => emails, :subject => @teachername + " wants you to checkout Tioki!") do |f|
+			mail = mail(:to => emails, :subject => @username + " wants you to checkout Tioki!") do |f|
 				f.html { render template }
 			end
 		else
-			mail = mail(:to => emails, :subject => @teachername + " wants to connect on Tioki!") do |f|
+			mail = mail(:to => emails, :subject => @username + " wants to connect on Tioki!") do |f|
 				f.html { render template }
 			end
 		end

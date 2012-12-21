@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221005120) do
+ActiveRecord::Schema.define(:version => 20121221010629) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -603,6 +603,7 @@ ActiveRecord::Schema.define(:version => 20121221005120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "remember"
+    t.integer  "user_id"
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"

@@ -1,3 +1,20 @@
+v4.0.22 - Dec 20, 2012  5:09PM PST deployed by Kelly Becker
+===========================================================
+* 5db1058: Kelly Becker - cache user_id on session
+
+v4.0.21 - Dec 20, 2012  4:44PM PST deployed by Kelly Becker
+===========================================================
+* 5dd2291: Kelly Becker - creating notifications with the wrong comments
+
+v4.0.20 - Dec 20, 2012  3:52PM PST deployed by Kelly Becker
+===========================================================
+* c222235: Kelly Becker - sse
+
+v4.0.19 - Dec 20, 2012  2:00PM PST deployed by Kelly Becker
+===========================================================
+* 08c43d8: Kelly Becker - some cramp updates getting ready for cramp notifications
+* b00baf5: Aleks Stanisic - sharting added to groups header
+
 v4.0.18 - Dec 20, 2012 11:04AM PST deployed by Kelly Becker
 ===========================================================
 * 95d9479: Kelly Becker - ha proxy config

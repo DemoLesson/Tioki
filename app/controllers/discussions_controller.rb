@@ -171,9 +171,9 @@ class DiscussionsController < ApplicationController
 		@replied_to_comment = Comment.find(params[:comment_id])
 		@comment = Comment.new
 		if request.post?
-			comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
-			if comment.save
-				comment.move_to_child_of(@replied_to_comment)
+			@comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
+			if @comment.save
+				@comment.move_to_child_of(@replied_to_comment)
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
