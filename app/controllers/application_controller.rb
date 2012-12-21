@@ -70,6 +70,15 @@ class ApplicationController < ActionController::Base
 		_session = Session.where(:session_id => request.session_options[:id]).first
 		
 		unless _session.nil?
+
+			# Set the user id on the session
+			if session[:user].is_a?(User)
+				_session.user_id = session[:user].id
+			else
+				_session.user_id = nil
+			end
+
+			# Update the timestamp
 			_session.updated_at = Time.now.to_s(:db)
 			_session.save
 		end
