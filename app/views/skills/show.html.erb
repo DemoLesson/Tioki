@@ -161,7 +161,7 @@
 								<p style="display:inline;">
 								<strong><%= link_to discuss.title, discussion_path(discuss) %></strong><br />
 								started <%= time_ago_in_words(discuss.created_at) %> ago by
-								<%= discuss.user.profile_link unless discuss.user.nil? %>
+								<%= discuss.user.link unless discuss.user.nil? %>
 								<%= discuss.user.name if discuss.user.nil? %>
 								</p>
 								<!--div class=" quick-action star-gold"></div-->

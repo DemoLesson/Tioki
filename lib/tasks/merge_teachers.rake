@@ -76,7 +76,7 @@ task :merge_teachers => :environment do
 
 	Analytic.update_all("`slug` = 'view_user_profile'", "`slug` = 'view_teacher_profile'")
 	Whiteboard.all.each do |wb|
-		message = wb.message.gsub('.teacher.profile_link', '.profile_link')
+		message = wb.message.gsub('.teacher.profile_link', '.link')
 		wb.message = message
 		wb.save
 	end

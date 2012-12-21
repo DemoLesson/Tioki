@@ -107,7 +107,7 @@ class VouchesController < ApplicationController
 		user_delayed_job.save
 
 		# Log to whiteboard and analytics
-		Whiteboard.createActivity(:created_vouch, "{user.profile_link} vouched for {tag.profile_link} skills.", User.find(params[:user_id]))
+		Whiteboard.createActivity(:created_vouch, "{user.link} vouched for {tag.link} skills.", User.find(params[:user_id]))
 		self.log_analytic(:created_vouch, "A user vouched for somones skills.", vouch)
 
 		# Redirect to where you came from
