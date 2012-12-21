@@ -346,6 +346,7 @@ class ApplicationController < ActionController::Base
 
 			error = String.new
 			error << "\nURL: #{currentURL}"
+			error << "\nReferer: #{request.referer rescue 'n/a'}"
 			error << "\n" + short + "\n"
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
 
