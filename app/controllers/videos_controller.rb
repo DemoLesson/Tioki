@@ -8,7 +8,7 @@ class VideosController < ApplicationController
 	def index
 
 		# Get all the videos
-		@videodb = Video.where("'1' = '1'").order("`created_at` DESC")
+		@videodb = Video.order("`created_at` DESC")
 
 		# Url to video list
 		@videolist = request.url

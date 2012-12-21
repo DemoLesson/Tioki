@@ -30,7 +30,7 @@ tr.seeking, tr.student {
 			<% User.current.experiences.each do |exp| %>
 				<tr>
 					<td>
-						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
+						<a href="/remove_experience/<%= exp.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C">X</a>
 						<h4 class="bottom-line" style="margin-bottom:5px"><%= exp.position %> at <%= exp.company %><br />
 						<span style="font-size:15px"><%= exp.startMonth %>/<%= exp.startYear %></span>
 						<span style="font-size:15px"> &mdash; </span>

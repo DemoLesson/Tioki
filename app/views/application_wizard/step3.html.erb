@@ -20,7 +20,7 @@ tr.seeking, tr.student {
 			<% User.current.educations.each do |edu| %>
 				<tr>
 					<td>
-						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
+						<a href="/remove_education/<%= edu.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C">X</a>
 						<h4 class="bottom-line" style="margin-bottom:5px"><%= edu.school %><br />
 						<span style="font-size:15px"><%= edu.degree.empty? ? '' : edu.degree + ', ' %><%= edu.concentrations %></span><br />
 						<span style="font-size:15px"><%= edu.start_year %></span>
