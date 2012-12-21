@@ -1,3 +1,10 @@
+v4.0.24 - Dec 21, 2012 10:33AM PST deployed by Kelly Becker
+===========================================================
+* 811f992: Kelly Becker - gitignore
+* 3ff8b88: Kelly Becker - check for connection key
+* 4b49e6d: Kelly Becker - check for connection key
+* ca490bd: Kelly Becker - testing a fix to group sharing
+
 v4.0.23 - Dec 20, 2012  5:26PM PST deployed by Kelly Becker
 ===========================================================
 * 12a2837: Kelly Becker - deploy cramp update
