@@ -90,7 +90,7 @@ class GroupsController < ApplicationController
 	end
 
 	def add_group
-		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
+		user_group = User_Group.where('user_id = ? && group_id = ?', self.current_user.id, params[:id]).first
 		if user_group
 			redirect_to :back, :notice => "You have already added this group."
 		else

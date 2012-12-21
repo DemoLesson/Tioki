@@ -61,7 +61,7 @@ class AnalyticsController < ApplicationController
                 
                 @users = User.all if type == 'educator'
                 
-                @users = User.joins(:schools).find(:all, :grouby_by => "users.id") if type == 'organization'
+                @users = User.joins(:schools).group('users.id').all if type == 'organization'
                 
 				# Filter the totals
 				@totals.collect! do |key, record|

@@ -96,8 +96,8 @@ class JobsController < ApplicationController
 	def apply
 		@job = Job.find(params[:id])
 		@job.apply(self.current_user.id)
-		@application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', @job.id, self.current_user.id])
-		@assets=Asset.find(:all, :conditions => ['job_id = ? AND user_id =?', @job.id, self.current_user.id])
+		@application = Application.where('job_id = ? AND user_id = ?', @job.id, self.current_user.id).first
+		@assets = Asset.where('job_id = ? AND user_id =?', @job.id, self.current_user.id).all
 		@assets.each do |asset|
 			asset.update_attribute(:application_id, @application.id)
 		end
@@ -161,7 +161,7 @@ class JobsController < ApplicationController
 			# do nothing
 		else
 			if self.current_user != nil
-				@application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id])
+				@application = Application.where('job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id).first
 			end
 		end
 		
@@ -284,7 +284,7 @@ class JobsController < ApplicationController
 
 	def jobattachpost
 		@job = Job.find_by_id(params[:id])
-		@assets= Asset.find(:all, :conditions => ['job_id = ? AND assetType = ?', params[:id], 0])
+		@assets= Asset.where('job_id = ? AND assetType = ?', params[:id], 0).all
 		if request.post?
 			@job.new_asset_attributes=params[:asset]
 

@@ -35,24 +35,24 @@ class WelcomeWizardController < ApplicationController
 
 		#check if this account is part of a mass invite email
 		if params[:invitestring]
-			@invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+			@invite = ConnectionInvite.where('url = ?', params[:invitestring]).first
 			if @invite == nil
 				params[:invitestring] = nil
 			end
 		#check if account is part of a vouchrequest
 		elsif params[:vouchstring]
-			@vouch = Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
+			@vouch = Vouch.where('url = ?', params[:vouchstring]).first
 			if @vouch == nil
 				params[:vouchstring] = nil
 			end
 		#check if this account was part of a link to invite a user
 		elsif params[:invitecode]
-			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
+			@inviter = User.where('invite_code = ?', params[:invitecode]).first
 			if @inviter == nil
 				params[:invitecode] = nil
 			end
 		elsif params[:welcomecode]
-			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
+			@inviter = User.where('invite_code = ?', params[:welcomecode]).first
 			if @inviter == nil
 				params[:welcomecode] = nil
 			end
@@ -75,7 +75,7 @@ class WelcomeWizardController < ApplicationController
 				elsif params[:invitestring]
 					#Mass invite emails connections
 
-					@invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+					@invite = ConnectionInvite.where('url = ?', params[:invitestring]).first
 
 					if @invite.pending
 						Connection.create(:owned_by => @user.id, :user_id => @invite.user_id, :pending => false)
@@ -85,20 +85,20 @@ class WelcomeWizardController < ApplicationController
 						session[:_ak] = "unlock_invite_link"
 					end
 				elsif params[:invitecode]
-					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
+					@inviter = User.where('invite_code = ?', params[:invitecode]).first
 
 					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id)
 					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
 
 				elsif params[:welcomecode]
-					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
+					@inviter = User.where('invite_code = ?', params[:welcomecode]).first
 
 					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id, :donors_choose => false)
 					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
 
 				elsif params[:vouchstring]
 					# Find a vouch matching urlstring
-					@vouch=Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
+					@vouch = Vouch.where('url = ?', params[:vouchstring]).first
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
@@ -333,7 +333,7 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = self.current_user
-		@invite = ConnectionInvite.find(:first, :conditions => ["created_user_id = ?", self.current_user.id])
+		@invite = ConnectionInvite.where("created_user_id = ?", self.current_user.id).first
 
 		render :step5
 	end	

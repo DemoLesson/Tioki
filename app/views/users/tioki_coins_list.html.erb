@@ -38,7 +38,7 @@
 						<td><%= teacher.facebook_connect %></td>
 						<td><%= teacher.facebook_connect %></td>
 						<td><%= teacher.tweet_about %></td>
-						<td><%= ConnectionInvite.find(:all, :conditions => ["connection_invites.user_id = ? && connection_invites.created_at > ?", teacher.user_id, 1.hour.ago]).count %></td>
+						<td><%= ConnectionInvite.where("connection_invites.user_id = ? && connection_invites.created_at > ?", teacher.user_id, 1.hour.ago).count %></td>
 					</tr>
 				<% end -%>
 			</table>
