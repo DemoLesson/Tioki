@@ -36,7 +36,7 @@
 				<%- @videos.each do |video| %>
   					<tr>
 						<td><%= video.name %></td>
-						<td><%= video.user.profile_link unless video.user.nil? %></td>
+						<td><%= video.user.link unless video.user.nil? %></td>
 						<td><%= link_to "View Video", video %></td>
 						<td><%= link_to("Edit Video", video_path(video) + '/edit') %></td>
 						<td><%= video.external? ? "Remote" : "Local" %></td>

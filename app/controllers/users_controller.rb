@@ -262,7 +262,7 @@ class UsersController < ApplicationController
 		@user.update_attribute(:avatar, tmp_img)
 
 		# Log to the whiteboard that a user updated their profile picture
-		Whiteboard.createActivity(:avatar_update, "{user.profile_link} updated their profile picture.")
+		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		tmp_img.close
 		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
