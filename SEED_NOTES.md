@@ -1,3 +1,8 @@
+v4.0.28 - Dec 21, 2012  2:59PM PST deployed by Kelly Becker
+===========================================================
+* 1ea698b: Kelly Becker - count videos properly
+* 87fd5be: Kelly Becker - minor cleanup
+
 v4.0.27 - Dec 21, 2012  2:21PM PST deployed by Kelly Becker
 ===========================================================
 * 6dab31d: Kelly Becker - haproxy update
