@@ -8,7 +8,14 @@ class Message < ActiveRecord::Base
 	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
 	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to
 
+	after_create :set_replied_at
+
   self.per_page = 15
+
+	def set_replied_at
+		self.replied_at = self.created_at
+		self.save
+	end
 
   def mark_read(user_id)
     self.read = true

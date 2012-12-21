@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
 			:conditions => ['(messages.user_id_to = ? && messages.replied_to_id is null) || replied_messages.user_id_to = ?',
 				self.current_user.id, self.current_user.id], 
 			:group => "messages.id",
-			:order => 'messages.replied_at DESC, messages.updated_at DESC')
+			:order => 'messages.replied_at DESC, messages.created_at DESC')
     
     respond_to do |format|
       format.html # index.html.erb
@@ -21,12 +21,16 @@ class MessagesController < ApplicationController
   
   def sent
     @messages = Message.paginate(
-			:page => params[:page],
-			:conditions => ['user_id_from = ?', self.current_user.id], 
-			:order => 'updated_at DESC' )
-
+			:joins => "LEFT JOIN `messages` `replied_messages` ON `replied_messages`.`replied_to_id` = `messages`.id",
+			:include => [:sender, :receiver, :replied_messages],
+			:page => params[:page], 
+			:conditions => ['(messages.user_id_from = ? && messages.replied_to_id is null) || replied_messages.user_id_from = ?',
+				self.current_user.id, self.current_user.id], 
+			:group => "messages.id",
+			:order => 'messages.replied_at DESC, messages.created_at DESC')
+    
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @messages }
     end   
   end
