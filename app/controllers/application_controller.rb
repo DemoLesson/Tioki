@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 
 	# Exceptions and exception handler
 	class SecurityTransgression < StandardError; end
+  class ServerError < StandardError; end
+  class NotFound < StandardError; end
+
+  # Rescue all exceptions
 	rescue_from Exception, :with => :rescue_action
 
 	# Ensure permissions
@@ -22,48 +26,40 @@ class ApplicationController < ActionController::Base
 	around_filter :ensure_permission_to_destroy, :only => :destroy
 
 	skip_before_filter :verify_authenticity_token
+  before_filter :sweep_session
 	before_filter :check_login_token
-	before_filter :sweep_session
-	
+  # Helper methods
 	helper_method :currentHost
 	helper_method :currentPath
 	helper_method :currentUser
 	helper_method :currentURL
 
-	def currentHost
-		"#{request.protocol}#{request.host_with_port}"
-	end
+  # Current host / url / path methods
+  # @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
+	def currentHost; request.protocol + request.host_with_port; end
+  def currentURL; currentHost + currentPath; end
+  def currentPath; request.fullpath; end;
 
-	def currentURL
-		"#{request.protocol}#{request.host_with_port}#{request.fullpath}"
-	end
+  # Current User
+  # @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
+	def currentUser; User.find(session[:user]) rescue User.new; end
 
-	def currentPath
-		request.fullpath
-	end
+  # Sweep away old sessions
+	def sweep_session; Session.sweep("2 hours"); end
 
-	def currentUser
-		User.find(session[:user]) rescue User.new
-	end
-
-	def sweep_session
-		Session.sweep("2 hours")
-	end
-	
+  # Require the user to login
+  # @todo change to an around_filter
 	def login_required
-		if session[:user]
-			return true
-		end
-		flash[:notice]='Please login to continue'
-		session[:return_to] = request.path
+		return true if session[:user] && session[:user].is_a?(User)
+
+    flash[:notice] = 'Please login to continue.'
+    session[:return_to] = currentPath
+
 		redirect_to :controller => "users", :action => "login"
-		return false
-	end
+  end
 
-	def teacher_required
-		return true
-	end
-
+  # Check to see if a user is logged in and set session level args
+  # @todo cleanup, streamline, and rename method
 	def check_login_token
 
 		# Bump updated_timestamp every page load
@@ -102,6 +98,8 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+  # Check where the person may have been referred from
+  # @todo rethink and fix this
 	def check_if_referer
 
 		# Check if we have a referer set anywhere
@@ -120,19 +118,23 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-	def current_user
+  # Get the current user
+  # @todo deprecate
+  def current_user
 
 		# Get the currently logged in user and set to Model Access
 		@current_user ||= User.find(session[:user]) unless session[:user].nil?
 	end
-	
+
+  # @todo deprecate
 	def is_admin
 	end
-	
+
+  # @todo deprecate
 	def belongs_to_me
 	end
 
-	# Deprecate ?
+	# @todo deprecate?
 	def redirect_to_stored
 		if session[:return_to] != nil
 			return_to = session[:return_to]
@@ -145,6 +147,8 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+  # Log an analytic
+  # @todo move to the analytic model
 	def log_analytic(slug, message, tag = '', data = [], group = :root)
 
 		# Make sure the slug group is a string
@@ -183,6 +187,8 @@ class ApplicationController < ActionController::Base
 		a.save
 	end
 
+  # Get any analytics
+  # @todo move to the analytic model
 	def get_analytics(slug, tag = '', date_start = nil, date_end = nil, unique = false)
 
 		# Make sure the slug is a string
@@ -217,10 +223,11 @@ class ApplicationController < ActionController::Base
 		return analytic.respond_to?(:all) ? analytic.all : analytic
 	end
 
-	# Break MCV	
+	# Break MCV
 	around_filter :__sessions_in_model
 
 	# Append data to session
+  # @todo rethink and revise
 	before_filter :__session_append
 
 	protected
@@ -320,6 +327,8 @@ class ApplicationController < ActionController::Base
 
 	private
 
+    # Add a hashed url var to the session
+    # @todo append a url var to the session
 		def __session_append
 			return if params[:"--@"].nil?
 
@@ -339,6 +348,7 @@ class ApplicationController < ActionController::Base
 			end
 		end
 
+    # Log an exception to graylog
 		def log_exception(exception, severity = 4)
 
 			# Log Error
@@ -361,6 +371,8 @@ class ApplicationController < ActionController::Base
 			end
 		end
 
+    # Twitter oAuth access
+    # @todo document
 		def twitter_oauth
 			#specifically set the authorize ath for authenticate in order
 			#to only have to authorize once
@@ -371,6 +383,8 @@ class ApplicationController < ActionController::Base
 				})
 		end
 
+    # Facebook oAuth access
+    # @todo document
 		def facebook_oauth
 			callback_url = "http://#{request.host_with_port}/facebook_callback"
 			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
