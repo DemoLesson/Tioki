@@ -128,7 +128,7 @@ class UserMailer < ActionMailer::Base
 
 		mail(:to => @admin_user.email, :subject => @user.name + ' has scheduled an interview', :body => message_body)
 
-		@admins = SharedUsers.find(:all, :conditions => { :owned_by => @admin_user.id })
+		@admins = SharedUsers.where(:owned_by => @admin_user.id).all
 		@admins.each do |admin|
 			shared =User.find(admin.user_id)
 			if shared.is_limited ==false
@@ -136,7 +136,7 @@ class UserMailer < ActionMailer::Base
 			end
 		end
 
-		@limitedusers = SharedSchool.find(:all, :conditions => { :school_id => @school.id})
+		@limitedusers = SharedSchool.where(:school_id => @school.id).all
 		@limitedusers.each do |limiteduser|
 			shared = User.find(limiteduser.user_id)
 			mail(:to => shared.email, :subject => @user.name + ' has scheduled an interview', :body => message_body)
@@ -383,10 +383,10 @@ class UserMailer < ActionMailer::Base
 			if schools.size == 0
 				return
 			else
-				@jobs = Job.is_active.where(:school_id => schools).is_active.find(:all, :conditions => tup.compile)
+				@jobs = Job.is_active.where(:school_id => schools).where(tup.compile).all
 			end
 		else
-			@jobs = Job.is_active.find(:all, :conditions => tup.compile)
+			@jobs = Job.is_active.where(tup.compile).all
 		end
 
 		if !user.seeking['grade'].nil?
@@ -431,8 +431,9 @@ class UserMailer < ActionMailer::Base
 			jobarray = []
 
 			#any jobs with a particular subject is added to the array, because of this there are possibly duplicates
+      # @todo review this. There is definately a better way to do this
 			@subjects.each do |subject|
-				jobarray+=@jobs.select{ |job| JobsSubjects.find(:first, :conditions => [ "job_id = ? AND subject_id = ?", job.id, subject.id]) != nil }
+				jobarray += @jobs.select{ |job| JobsSubjects.where("job_id = ? AND subject_id = ?", job.id, subject.id).first != nil }
 			end
 			#make sure that every job of the jobs array is unique
 			@jobs=jobarray.uniq
@@ -514,7 +515,7 @@ class UserMailer < ActionMailer::Base
 		voucher = User.find(voucher_id)
 		email = vouchee.email
 		@profile_name = vouchee.slug
-		@vouched_skills = VouchedSkill.find(:all, :conditions => ["user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, start_time], :limit => 6)
+		@vouched_skills = VouchedSkill.where("user_id = ? && voucher_id = ? && created_at >= ?", vouchee.id, voucher.id, start_time).limit(6).all
 		@sender_name = voucher.name
 		@receiver_name = vouchee.name
 

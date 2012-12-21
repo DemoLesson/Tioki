@@ -42,7 +42,7 @@ class Job < ActiveRecord::Base
   end
   
   def subjects
-    @subjects = JobsSubjects.find(:all, :conditions => ['job_id = ?', self.id])
+    @subjects = JobsSubjects.where('job_id = ?', self.id).all
     return @subjects
   end
   
@@ -60,9 +60,10 @@ class Job < ActiveRecord::Base
   def zipcode
     return self.school.map_zip
   end
-  
+
+  # @todo deprecate?
   def apply(user_id)
-    @application = Application.find(:first, :conditions => ['job_id = ? AND user_id = ?', self.id, user_id])
+    @application = Application.where('job_id = ? AND user_id = ?', self.id, user_id).first
     if @application == nil
       @application = Application.create!(:job_id => self.id, :user_id => user_id, :status => 1, :viewed => 0)
       UserMailer.teacher_applied(self.school_id, self.id, user_id).deliver
@@ -72,12 +73,12 @@ class Job < ActiveRecord::Base
   end
   
   def applicants
-    @applicants = Application.find(:all, :conditions => ['job_id = ?', self.id])
+    @applicants = Application.where('job_id = ?', self.id).all
     return @applicants
   end
   
   def new_applicants
-    @applicants = Application.find(:all, :conditions => ['job_id = ? AND (status = ? || status =?)', self.id, 'Not Reviewed', nil])
+    @applicants = Application.where('job_id = ? AND (status = ? || status =?)', self.id, 'Not Reviewed', nil).all
   end
   
   def belongs_to_me(user)
@@ -103,7 +104,7 @@ class Job < ActiveRecord::Base
     end
     
     @school= School.find(self.school)
-    @shared= SharedUsers.find(:first, :conditions => { :user_id => user.id})
+    @shared= SharedUsers.where(:user_id => user.id).first
     if @school != nil && @shared != nil
       if user.is_limited == false
         if @shared.owned_by == @school.owned_by
@@ -112,7 +113,7 @@ class Job < ActiveRecord::Base
           return false
         end
       else
-        if SharedSchool.find(:first, :conditions => { :user_id => user.id, :school_id => @school.id}).nil?
+        if SharedSchool.where(:user_id => user.id, :school_id => @school.id).first.nil?
           return false
         else
           return true
@@ -164,11 +165,12 @@ class Job < ActiveRecord::Base
     errors.add(:start_date, "is invalid") if @start_date_invalid
     errors.add(:deadline, "is invalid") if @deadline_invalid
   end
-  
+
+  # @todo can this be cleaned up a bit?
   def cleanup
-    @applications = Application.find(:all, :conditions => ['job_id = ?', self.id])
+    @applications = Application.where('job_id = ?', self.id).all
     @applications.each do |application|
-      @activity = Activity.find(:all, :conditions => ['application_id = ?', application.id])
+      @activity = Activity.where('application_id = ?', application.id).all
       @activity.map(&:destroy)
     end
     @applications.map(&:destroy)

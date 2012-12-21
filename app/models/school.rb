@@ -42,7 +42,7 @@ class School < ActiveRecord::Base
 	end
 	
 	def jobs
-		@jobs = Job.find(:all, :conditions => ['school_id = ? AND active = 1', self.id])
+		@jobs = Job.where('school_id = ? AND active = 1', self.id).all
 		return @jobs
 	end
 	
@@ -64,34 +64,35 @@ class School < ActiveRecord::Base
 		#if full admin all schools are shared
 		#if limited only those in SharedSchool
 		if(!current_user.is_limited && current_user.is_shared)
-			@owner = SharedUsers.find(:first, :conditions => { :user_id => current_user.id })
+			@owner = SharedUsers.where(:user_id => current_user.id).first
 			if self.owned_by == @owner.owned_by
 				return true
 			else
 				return false
 			end
 		else
-			if SharedSchool.find(:first, :conditions => { :user_id => current_user.id, :school_id => id}).nil?
+			if SharedSchool.where(:user_id => current_user.id, :school_id => id).first.nil?
 				return false
 			else
 				return true
 			end
 		end
 	end
-	
+
+  # @todo make faster
 	def remove_associated_data
-		@jobs = Job.find(:all, :conditions => ['school_id = ?', self.id])
+		@jobs = Job.where('school_id = ?', self.id).all
 		@jobs.each do |job|
-			@applications = Application.find(:all, :conditions => ['job_id = ?', job.id])
+			@applications = Application.where('job_id = ?', job.id).all
 			@applications.each do |application|
-				@activities = Activity.find(:all, :conditions => ['application_id = ?', application.id])
+				@activities = Activity.where('application_id = ?', application.id).all
 				@activities.map(&:destroy)
 			end
 			@applications.map(&:destroy)
 			
-			@interviews = Interview.find(:all, :conditions => ['job_id = ?', job.id])
+			@interviews = Interview.where('job_id = ?', job.id).all
 			@interviews.each do |interview|
-				@activites = Activity.find(:all, :conditions => ['interview_id = ?', interview.id])
+				@activites = Activity.where('interview_id = ?', interview.id).all
 			end
 			@interviews.map(&:destroy)
 		end

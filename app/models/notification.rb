@@ -29,7 +29,7 @@ class Notification < ActiveRecord::Base
 
 	def self.notify_likes
 		#find users with notifications that have happened in the last hour
-		User.find(:all, :include => :notifications, :conditions => ["notifications.created_at > ?", 1.hour.ago]).each do |user|
+		User.include(:notifications).where("notifications.created_at > ?", 1.hour.ago).each do |user|
 
 			notifications = user.notifications.where("created_at > ?", 1.hour.ago)
 
@@ -37,13 +37,12 @@ class Notification < ActiveRecord::Base
 
 			#send an email out for each whiteboard with likes
 			#model with sup == false is returning nil the first time so using the model attribute
-			
-			whiteboards = Whiteboard.find(:all, :conditions => ["whiteboards.id in (?)", 
-			 liked_notifications.collect { |notification| notification.map_tag.model(sup = true).split(':').last }])
+
+      # @todo simplfy and maybe find a single query alternative
+			whiteboards = Whiteboard.where("whiteboards.id in (?)", liked_notifications.collect { |notification| notification.map_tag.model(sup = true).split(':').last }).all
 
 			whiteboards.each do |whiteboard|
-				favorites = Favorite.find(:all, :conditions => ["favorites.model = ?", 
-					"#{whiteboard.class.name}:#{whiteboard.id}"])
+				favorites = Favorite.where("favorites.model = ?", "#{whiteboard.class.name}:#{whiteboard.id}").all
 
 				if favorites.count > 1
 					NotificationMailer.likes(user, favorites)

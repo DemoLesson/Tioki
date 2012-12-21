@@ -20,9 +20,10 @@ class Organization < ActiveRecord::Base
     return jobs
   end
 
+  # @todo do we need this? does it work? / deprecate?
   def admincount
-    shared = SharedUsers.find(:all, :conditions => ['owned_by = ?', :owned_by]).count
-    return shared+1
+    shared = SharedUsers.where('owned_by = ?', :owned_by).count
+    return shared + 1
   end
 
   def applicationcount

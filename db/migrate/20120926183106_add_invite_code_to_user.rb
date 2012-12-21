@@ -5,7 +5,7 @@ class AddInviteCodeToUser < ActiveRecord::Migration
 			user_invite = nil
 			generated_code = rand(36**7).to_s(36)
 			begin
-				user_invite = User.find(:first, :conditions => ['invite_code = ?', generated_code])
+				user_invite = User.where('invite_code = ?', generated_code).first
 			end while user_invite != nil
 			user.update_attribute(:invite_code, generated_code)
 		end

@@ -32,8 +32,9 @@ class Connection < ActiveRecord::Base
 		self.mine(:user => user_id, :pending => false)
 	end
 
+  # @todo deprecate .mine() does roughly the same thing
 	def self.find_for_user(user_id)
-		Connection.find(:all, :conditions => ['owned_by = ?', user_id])
+		Connection.where('owned_by = ?', user_id).all
 	end
 
 	def not_me(_user_id = nil)

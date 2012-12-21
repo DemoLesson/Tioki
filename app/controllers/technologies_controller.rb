@@ -92,7 +92,7 @@ class TechnologiesController < ApplicationController
 	end
 
 	def add_technology
-		@technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
+		@technology_user = TechnologyUser.where('user_id = ? && technology_id = ?', self.current_user.id, params[:id]).first
 		if @technology_user
 			redirect_to :back, :notice => "You have already added this technology."
 		else
@@ -103,7 +103,7 @@ class TechnologiesController < ApplicationController
 	end
 
 	def remove_technology
-		@technology_user = TechnologyUser.find(:first, :conditions => ['user_id = ? && technology_id = ?', self.current_user.id, params[:id]])
+		@technology_user = TechnologyUser.where('user_id = ? && technology_id = ?', self.current_user.id, params[:id]).first
 		self.log_analytic(:user_removed_technology, "A user removed a technology tag from their profile", @technology_user)
 		@technology_user.destroy
 		respond_to do |format|

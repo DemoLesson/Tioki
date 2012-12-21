@@ -97,7 +97,7 @@ class ApplicationsController < ApplicationController
 	# Revise
 	def attachments
 		@application = Application.find(params[:id])
-		@profileassets= Asset.find(:all, :conditions => ['user_id = ? AND assetType = ?', @application.user_id, 0])
+		@profileassets = Asset.where('user_id = ? AND assetType = ?', @application.user_id, 0).all
 		respond_to do |format|
 			format.html # attachments.html.erb
 		end
@@ -117,10 +117,11 @@ class ApplicationsController < ApplicationController
 
 	# Deprecate
 	def teacher_applications
-		@featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
+		@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
+    # @todo review is this still accuracte?
 		@interviews = Interview.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:interview_page], :per_page => 5
 		@applications = Application.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:application_page], :per_page => 5
-		@pendingcount = Connection.find(:all, :conditions => ['user_id = ? AND pending = true', self.current_user.id]).count  
+		@pendingcount = Connection.where('user_id = ? AND pending = true', self.current_user.id).count
 	end
 
 	def appattachments

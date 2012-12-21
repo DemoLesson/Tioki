@@ -27,7 +27,7 @@ class Application < ActiveRecord::Base
   end
 
   def self.find_by_user_job(user_id, job_id)
-    Application.find(:first, :conditions => ['user_id = ? AND job_id = ?', self.user_id, self.job_id])
+    Application.where('user_id = ? AND job_id = ?', self.user_id, self.job_id).first
   end
   
   def reject
@@ -36,7 +36,7 @@ class Application < ActiveRecord::Base
   end
     
   def booked
-    @interviews = Interview.find(:first, :conditions => ['user_id = ? AND job_id = ?', self.user_id, self.job_id])
+    @interviews = Interview.where('user_id = ? AND job_id = ?', self.user_id, self.job_id).first
   end
 
   def belongs_to_me(user)
