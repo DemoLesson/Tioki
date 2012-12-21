@@ -6,16 +6,16 @@
 		</span>
 	</h1>
 	<nav class="subpage">
-		<ul>
-			<li class="current">
-				Inbox
-			</li>
-			<li>
-				<a href="/messages/sent">
+	<ul>
+		<li class="current">
+			Inbox
+		</li>
+		<li>
+			<a href="/messages/sent">
 				Sent
-				</a>
-			</li>
-		</ul>
+			</a>
+		</li>
+	</ul>
 	</nav>
 
 	<% if @messages.length == 0 %>
@@ -27,58 +27,83 @@
 		<section class="panels">
 			<% @messages.each do |message| %>
 				<!--Determining the color that the box will be based on the message read status-->
+				<% replied_message = message.replied_messages.last %>
 				<% if message.read == false %>
-				<section class="panel three-column left-side" style="border-radius:0px;background:whitesmoke;padding:5px 0px 5px 0px;min-height:50px;">
+					<section class="panel three-column left-side" style="border-radius:0px;background:whitesmoke;padding:5px 0px 5px 0px;min-height:50px;">
 				<% else %>
-				<section class="panel three-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;min-height:50px">
+						<section class="panel three-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;min-height:50px">
 				<% end %>
-				
-					<!-- Pulling the Teachers Picture or the No Avatar-->
+
+				<!-- Pulling the Teachers Picture or the No Avatar-->
+				<% if replied_message %>
+					<% if replied_message.sender.avatar? %>
+						<%= link_to image_tag(replied_message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/'+replied_message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+					<% else %>
+						<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+replied_message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+					<% end %>
+				<% else %>
 					<% if message.sender.avatar? %>
 						<%= link_to image_tag(message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/'+message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
 					<% else %>
 						<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
 					<% end %>
-						
-					<p style="margin:-50px 5px 0px 60px;width:auto">
-						<!-- Linking to the Name and Profile of the Message Sender or School-->
-						<strong>
+				<% end %>
+
+				<p style="margin:-50px 5px 0px 60px;width:auto">
+					<!-- Linking to the Name and Profile of the Message Sender or School-->
+					<strong>
+						<% if replied_message %>
+							<% if replied_message.sender %>		
+								<%= link_to replied_message.sender.name, '/profile/' + replied_message.sender.slug %>
+							<% else %>
+								User no longer exists
+							<% end %>		
+						<%else %>
 							<% if message.sender %>		
 								<%= link_to message.sender.name, '/profile/' + message.sender.slug %>
 							<% else %>
 								User no longer exists
 							<% end %>		
-						</strong>
-						
-						<!-- Rendering the Message Subject, making unread messages bold font -->
-						<% if message.read == false %>
-							<strong>
-								- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
-							</strong>
-						<% else %>
-							- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
 						<% end %>
-						<!-- Floating the Message Sent Date and Delete button to the right -->
-						<span style="float:right">
-							<%= message.created_at.to_s(:message_time)%> |
-							<% if message.replied_messages.count > 0 %>
-								<%= message.replied_messages.count + 1 %> Messages |
-							<% end%>
-								<span class="purge_visible">
-									<%= link_to 'Delete', message, :confirm => 'Are you sure you want to delete "'+message.subject+'"?', :method => :delete %>
-								</span>
+					</strong>
+
+					<!-- Rendering the Message Subject, making unread messages bold font -->
+					<% if message.read == false %>
+						<strong>
+							- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+						</strong>
+					<% else %>
+						- <%= link_to message.subject, message, :style => 'color:#4D4D4D' %>
+					<% end %>
+					<!-- Floating the Message Sent Date and Delete button to the right -->
+					<span style="float:right">
+						<%= message.created_at.to_s(:message_time)%> |
+						<% if message.replied_messages.count > 0 %>
+							<%= message.replied_messages.count + 1 %> Messages |
+						<% end%>
+						<span class="purge_visible">
+							<%= link_to 'Delete', message, :confirm => 'Are you sure you want to delete "'+message.subject+'"?', :method => :delete %>
 						</span>
-					</p>
-					<!-- The Body Teaser of the Message-->
-					<p style="margin:5px 5px 0px 60px;width:auto">
+					</span>
+				</p>
+				<!-- The Body Teaser of the Message-->
+				<p style="margin:5px 5px 0px 60px;width:auto">
+					<% if replied_message %>
+						<% if replied_message.body.size > 80 %><%=h (replied_message.body.gsub(%r{</?[^>]+?>}, '')[0..84]+'...').html_safe %>
+							<%= link_to "read more", message %>
+						<% else %>
+							<%=h replied_message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
+						<% end %>
+					<% else %>
 						<% if message.body.size > 80 %><%=h (message.body.gsub(%r{</?[^>]+?>}, '')[0..84]+'...').html_safe %>
 							<%= link_to "read more", message %>
 						<% else %>
 							<%=h message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
 						<% end %>
-					</p>	
-				</section>
-			<% end %>
+					<% end %>
+				</p>	
+			</section>
+		<% end %>
 		<div class="apple_pagination">
 			<p>
 				<%= will_paginate @messages, :container => false %>

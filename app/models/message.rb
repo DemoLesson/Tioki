@@ -12,6 +12,7 @@ class Message < ActiveRecord::Base
 
   def mark_read
     self.read = true
+		self.replied_messages.update_all :read => true
     self.save
   end
 

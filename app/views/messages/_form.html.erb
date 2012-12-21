@@ -19,16 +19,13 @@
 
 	<%= f.text_field :user_id_to, :value => params[:user_id_to], :type => :hidden %>
 
-	<% if @replied_to_message %>
-		<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
-	<% end %>
-
   <fieldset>
 		<p>
 			Subject: 
 		</p>
 		<% if @replied_to_message %>
 			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:675px" %>
+			<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
 		<% else %>
 			<%= f.text_field :subject, :style => "width:675px" %>
 		<% end %>

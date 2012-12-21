@@ -6,8 +6,10 @@ class MessagesController < ApplicationController
   def index
     @messages = Message.paginate(
 			:joins => "LEFT JOIN `messages` `replied_messages` ON `replied_messages`.`replied_to_id` = `messages`.id",
+			:include => [:sender, :receiver, :replied_messages],
 			:page => params[:page], 
-			:conditions => ['(messages.user_id_to = ?) || (replied_messages.user_id_to = ?)', self.current_user.id, self.current_user.id], 
+			:conditions => ['(messages.user_id_to = ? && messages.replied_to_id is null) || replied_messages.user_id_to = ?',
+				self.current_user.id, self.current_user.id], 
 			:group => "messages.id",
 			:order => 'updated_at DESC')
     
@@ -20,7 +22,7 @@ class MessagesController < ApplicationController
   def sent
     @messages = Message.paginate(
 			:page => params[:page],
-			:conditions => ['user_id_from = ? && replied_to_id is null', self.current_user.id], 
+			:conditions => ['user_id_from = ?', self.current_user.id], 
 			:order => 'updated_at DESC' )
 
     respond_to do |format|
@@ -34,10 +36,7 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
 
-		#Only mark read if the receiver was the one who viewed it
-		if self.current_user.id == @message.user_id_to
-			@message.mark_read
-		end
+		@message.mark_read
     
     respond_to do |format|
 			if self.current_user.id == @message.user_id_to || self.current_user.id == @message.user_id_from
@@ -58,7 +57,8 @@ class MessagesController < ApplicationController
 
 			#Check if this person is allowed to replied
 			#to reply and see these messages
-			if @replied_to_message.receiver.id != self.current_user.id
+			if @replied_to_message.user_id_to != self.current_user.id &&
+				@replied_to_message.user_id_from != self.current_user.id
 				@replied_to_message = nil
 			end
 		end
@@ -74,6 +74,15 @@ class MessagesController < ApplicationController
   # POST /messages.xml
   def create
     @message = Message.new(params[:message])
+		if params[:message][:replied_to_id]
+			replied_to_message = Message.find(params[:message][:replied_to_id])
+			@message.user_id_to = if replied_to_message.user_id_from == self.current_user.id
+														replied_to_message.user_id_to
+													else
+														replied_to_message.user_id_from
+													end
+			replied_to_message.update_attribute(:read, false)
+		end
 
 		@message.read = false
 		@message.user_id_from = self.current_user.id
