@@ -37,7 +37,7 @@ class ConnectionsController < ApplicationController
 		#Populate search options
 		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
 			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
-			@user_skills = Skill.joins(:skill_claims => :user).find(:all, :conditions => ["users.id IN (?)", users.collect(&:id)]).uniq
+			@user_skills = Skill.joins(:skill_claims => :user).where("users.id IN (?)", users.collect(&:id)).all.uniq
 
 			#count returns a hash
 			@locations = users.geocoded.group("country").count
@@ -77,6 +77,7 @@ class ConnectionsController < ApplicationController
 		@user = User.find(params[:user_id])
 		b = params[:user_id]
 		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
+		@redirect = !currentUser.id.even? ? '/profile/' + @user.slug + '/about?add_connection=b' : false
 
 		# If we are not go ahead and initiate the connection
 		if @previous == nil
@@ -245,7 +246,7 @@ class ConnectionsController < ApplicationController
 				demail = mail.address
 
 				# Find the user by the provided email
-				@user = User.find(:first, :conditions => ["email = ?", email])
+				@user = User.where("email = ?", email).first
 
 				# If the user exists run a add connection
 				if @user != nil
@@ -415,7 +416,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def linkinvite
-		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		user = User.where('users.invite_code = ?', params[:url]).first
 		if user
 			redirect_to "/welcome_wizard?x=step1&invitecode=#{user.invite_code}"
 		else 
@@ -424,7 +425,7 @@ class ConnectionsController < ApplicationController
 	end
 
 	def welcome_wizard_invite
-		user = User.find(:first, :conditions => ['users.invite_code = ?', params[:url]])
+		user = User.where('users.invite_code = ?', params[:url]).first
 		if user
 			redirect_to "/welcome_wizard?x=step1&welcomecode=#{user.invite_code}"
 		else 

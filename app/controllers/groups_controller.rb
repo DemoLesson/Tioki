@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Get a list of my connections
-		@my_connections = Connection.mine(:pending => false).collect{|connection| connection.not_me.id} unless self.current_user.nil?
+		@my_connections = Connection.mine(:pending => false).collect{|connection| connection.not_me_id(@current_user.id)} unless self.current_user.nil?
 		@my_connections = Array.new if self.current_user.nil?
 	end
 
@@ -90,7 +90,7 @@ class GroupsController < ApplicationController
 	end
 
 	def add_group
-		user_group = User_Group.find(:first, :conditions => ['user_id = ? && group_id = ?', self.current_user.id, params[:id]])
+		user_group = User_Group.where('user_id = ? && group_id = ?', self.current_user.id, params[:id]).first
 		if user_group
 			redirect_to :back, :notice => "You have already added this group."
 		else
@@ -245,8 +245,10 @@ class GroupsController < ApplicationController
 		BODY
 
 		# Send the message
-		params[:connection].each do |user|
-			Message.send!(user, :subject => subject, :body => body.html_safe)
+		if params[:connection]
+			params[:connection].each do |user|
+				Message.send!(user, :subject => subject, :body => body.html_safe)
+			end
 		end
 
 		flash[:success] = "Share successfully."

@@ -2,17 +2,10 @@ class Message < ActiveRecord::Base
   attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag
   validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
 
+	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
+	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to
+
   self.per_page = 15
-
-  def sender
-    @user = User.unscoped.find(self.user_id_from) rescue nil
-    return @user
-  end
-
-  def receiver
-    @user = User.unscoped.find(self.user_id_to) rescue nil
-    return @user
-  end
 
   def mark_read
     self.read = true

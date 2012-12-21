@@ -27,7 +27,7 @@ class DiscussionsController < ApplicationController
 
     @comment =Comment.new
 		if self.current_user
-			@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])
+			@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id).first
 		end
 
     respond_to do |format|
@@ -171,9 +171,9 @@ class DiscussionsController < ApplicationController
 		@replied_to_comment = Comment.find(params[:comment_id])
 		@comment = Comment.new
 		if request.post?
-			comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
-			if comment.save
-				comment.move_to_child_of(@replied_to_comment)
+			@comment = Comment.build_from(@discussion, self.current_user.id, params[:comment][:body])
+			if @comment.save
+				@comment.move_to_child_of(@replied_to_comment)
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
@@ -206,7 +206,7 @@ class DiscussionsController < ApplicationController
 
 	def follow_discussion
 		@discussion = Discussion.find(params[:id])
-		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, params[:id]).first
 		if @follower
 			return redirect_to :back, :notice => "You are already following this discussion"
 		end
@@ -220,7 +220,7 @@ class DiscussionsController < ApplicationController
 	end
 
 	def unfollow_discussion
-		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, params[:id]).first
 		if @follower
 			@follower.destroy
 			redirect_to :back, :notice => "You are no longer following this discussion."

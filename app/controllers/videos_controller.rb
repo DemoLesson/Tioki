@@ -8,7 +8,7 @@ class VideosController < ApplicationController
 	def index
 
 		# Get all the videos
-		@videodb = Video.where("'1' = '1'").order("`created_at` DESC")
+		@videodb = Video.order("`created_at` DESC")
 
 		# Url to video list
 		@videolist = request.url
@@ -224,7 +224,7 @@ class VideosController < ApplicationController
 		@video = Video.new
 		@video.user = self.current_user
 		@user = self.current_user
-		@sourcevideo = Video.find(:first, :conditions => ['user_id = ? AND is_snippet=?', @user.id, false], :order => 'created_at DESC')
+		@sourcevideo = Video.where('user_id = ? AND is_snippet=?', @user.id, false).order('created_at DESC').first
 		@video.secret_url = @sourcevideo.secret_url
 		@video.video_id = @sourcevideo.video_id
 		@video.is_snippet = true

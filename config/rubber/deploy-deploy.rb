@@ -6,7 +6,6 @@ namespace :deploy do
     update_code
     migrate
     assets.default
-    #websockets.stop
     delayed_job.stop
     create_symlink
     restart

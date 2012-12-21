@@ -1,3 +1,5 @@
+# @todo deprecate whole controller
+
 class SchoolsController < ApplicationController
   before_filter :login_required, :except => ['show']
 
@@ -50,9 +52,10 @@ class SchoolsController < ApplicationController
   # POST /schools
   # POST /schools.xml
   def create
+    # @todo deprecate?
     @school = School.new(params[:school])
     if self.current_user.is_shared
-      u=SharedUsers.find(:first, :conditions => {:user_id => self.current_user.id})
+      u = SharedUsers.where(:user_id => self.current_user.id).first
       @school.owned_by = u.owned_by
     else
       @school.owned_by = self.current_user.id

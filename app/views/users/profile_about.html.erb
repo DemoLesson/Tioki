@@ -17,7 +17,7 @@
 							<%= ablang('connection.connect') %>
 						</a>
 					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif Connection.mine.collect{|x| x.not_me.id}.include? @user.id %>
+					<% elsif Connection.mine.collect{|x| x.not_me_id(self.current_user.id)}.include? @user.id %>
 						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
 					<% # IF we are not connected then display "connect" button %>
 					<% else %>
@@ -205,7 +205,7 @@
 				<%= @user.pending_connections(false).count %> <%= ablang('connection.plural') %>
 				</h5>
 				<div style="padding:0px 0px;width:230px">
-					<% @user.connections.joins(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..9].each do |c| %>
+					<% @user.connections.includes(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..9].each do |c| %>
 						<div class="profile-thumb-small" style="float:left;margin:0px 1px 1px 0px;overflow:hidden;background:none">
 							<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;border-radius:5px'), "/profile/#{c.not_me(@user.id).slug}" %>
 						</div>
@@ -520,13 +520,18 @@
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
 </section> <!-- End Main Content -->
-<% if @invite %>
+<% if @invite || params[:add_connection] %>
 	<div id="vouch">
 		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
 			Vouch for <%= @user.first_name %>'s skills
 		</h2>
 		<%= form_tag '/vouch_connection_skills', :class => "skills_form" do %>
-			<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<% if @invite %>
+				<input type="hidden" name="invite_id" value="<%= @invite.id %>" />
+			<% end %>
+
+			<%= hidden_field_tag "user_id", @user.id %>
+
 			<input type="hidden" name="skills" />
 
 			<div class="skill_cloud">

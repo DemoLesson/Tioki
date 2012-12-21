@@ -10,7 +10,7 @@ class VouchesController < ApplicationController
 		if params[:skills] == nil || params[:skills].size == '0'
 			return redirect_to :back, :notice => "You must choose at least one of your skills to be vouched in."
 		end
-		user = User.find(:first, :conditions => ["email = ?", params[:vouch][:email]])
+		user = User.where("email = ?", params[:vouch][:email]).first
 		@vouch = Vouch.new(params[:vouch])
 		@vouch.vouchee_id= self.current_user.id
 		#using a random string + the user_id and vouch_id to create a unique address
@@ -73,7 +73,7 @@ class VouchesController < ApplicationController
 		raise HTTPStatus::Unauthorized if params[:user_id] == User.current.id
 
 		# Have you already vouched for this skill?
-		vouched_skill = VouchedSkill.find(:first, :conditions => ['skill_id = ? && voucher_id = ? && user_id = ?', params[:skill_id], User.current.id, params[:user_id]])
+		vouched_skill = VouchedSkill.where('skill_id = ? && voucher_id = ? && user_id = ?', params[:skill_id], User.current.id, params[:user_id]).first
 
 		# Already vouched
 		return redirect_to :back, :notice => "You have already vouched for this skill" if vouched_skill
@@ -83,7 +83,7 @@ class VouchesController < ApplicationController
 
 		#Inform vouchee of the vouch five minutes later to give time for voucher to add more vouches
 		#first search for existing
-		user_delayed_job = UserDelayedJob.find(:first, :conditions =>["user_id = ? && vouchee_id = ?", User.current.id, params[:user_id]])
+		user_delayed_job = UserDelayedJob.where("user_id = ? && vouchee_id = ?", User.current.id, params[:user_id]).first
 
 		if user_delayed_job
 			prev_delayed_job = Delayed::Job.find_by_id(user_delayed_job.delayed_job_id)
@@ -115,8 +115,8 @@ class VouchesController < ApplicationController
 	end
 
 	def updatevouch
-		@vouch=Vouch.find(:last, :conditions => ["url = ?", params[:url]])
-		user = User.find(:first, :conditions => ["users.email = ?", @vouch.email])
+		@vouch=Vouch.where("url = ?", params[:url]).last
+		user = User.where("users.email = ?", @vouch.email).first
 		params[:skills].each do |skill|
 			if user
 				VouchedSkill.create(:user_id=> @vouch.vouchee_id, :skill_id => skill, :vouch_id => @vouch.id, :voucher_id => user.id)
@@ -133,23 +133,30 @@ class VouchesController < ApplicationController
 	end
 
 	def vouchresponse
-		@vouch = Vouch.find(:first, :conditions =>["url = ?", params[:u]])
+		@vouch = Vouch.where("url = ?", params[:u]).first
 
 	end
 
 	def vouch_connection_skills
-		@invite = ConnectionInvite.find(params[:invite_id])
-		unless @invite.created_user_id == self.current_user.id
-			return redirect_to "/get_started"
+		@user = User.find(params[:user_id])
+		if params[:invite_id]
+			@invite = ConnectionInvite.find(params[:invite_id])
+			unless @invite.created_user_id == self.current_user.id
+				return redirect_to "/get_started"
+			end
 		end
 
 		# Install the skills
 		if params[:skills]
 			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
-				VouchedSkill.create(:skill_id => skill.id, :user_id => @invite.user.id, :voucher_id => User.current.id)
+				VouchedSkill.create(:skill_id => skill.id, :user_id => @user.id, :voucher_id => User.current.id)
 			end
 		end
-		redirect_to "/get_started"
+		if @invite
+			redirect_to "/get_started"
+		else
+			redirect_to "/profile/#{@user.slug}/about"
+		end
 	end
 end

@@ -67,8 +67,6 @@ class Event < ActiveRecord::Base
 	end
 
 	def cleanup!
-		Whiteboard.find(:all, :conditions => ["whiteboards.tag = 'Event:?'", self.id]).each do |whiteboard|
-			whiteboard.destroy
-		end
+		Whiteboard.where("whiteboards.tag = 'Event:?'", self.id).map(&:destroy)
 	end
 end
