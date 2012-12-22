@@ -7,6 +7,11 @@ gem 'rails', '3.1.3'
 # Database Handler
 gem 'mysql2'
 
+# Production only gems
+group :production do
+	gem 'therubyracer', '~> 0.9.3.beta1'
+end
+
 # Assets
 group :assets do
 	gem 'sprockets' # Assets pipeline
