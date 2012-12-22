@@ -1,3 +1,8 @@
+v4.1.0 - Dec 21, 2012  4:55PM PST deployed by Kelly Becker
+==========================================================
+* 629277a: Kelly Becker - convert profile link to link
+* dcc0d9c: Kelly Becker - renamed profile_link to link
+
 v4.0.28 - Dec 21, 2012  2:59PM PST deployed by Kelly Becker
 ===========================================================
 * 1ea698b: Kelly Becker - count videos properly
