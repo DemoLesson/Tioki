@@ -116,6 +116,7 @@ class GroupsController < ApplicationController
 		# Is the current user an administrator
 		admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
 		raise HTTPStatus::Unauthorized unless admin
+
 	end
 
 	def update
@@ -146,9 +147,22 @@ class GroupsController < ApplicationController
 			@group.permissions = permissions
 		end
 
-		@group.update_attributes(params[:group])
+		@group.name = params[:name]
+		@group.misc = params[:misc]
+		@group.description = params[:description]
+		@group.long_description = params[:long_description]
+		@group.social = params[:social]
+		@group.location = params[:location]
 
-		redirect_to @group
+		@group.update_attributes(params[:group])
+		if @group.save
+			flash[:success] = "Successfully updated"
+			redirect_to @group
+		else
+			flash[:error] = "Did not update"
+			redirect_to @group
+		end
+
 	end
 
 	# Add a comment to an group

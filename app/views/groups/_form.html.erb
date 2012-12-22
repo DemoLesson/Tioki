@@ -3,37 +3,76 @@
 		<p>
 		<%= @group.type? %> Name (make it catchy)
 		</p>
-		<%= f.text_field :name, :placeholder => "Ex: EdTech Bloggers United", :style => "width:500px" %>
+		<%= text_field_tag :name, @group.name, :placeholder => "Ex: EdTech Bloggers United", :style => "width:500px" %>
 	</fieldset><br/>
+	<fieldset>
+		<p>
+		Location
+		</p>
+		<%= text_field_tag 'location[address]', @group.location[:address], :placeholder => "Ex: 222 E. 4th St.", :style => "width:200px" %>
+		<%= text_field_tag 'location[city]', @group.location[:city], :placeholder => "Ex: Oakland", :style => "width:200px" %>
+		<%= text_field_tag 'location[region]', @group.location[:region], :placeholder => "Ex: CA", :style => "width:200px" %>
+		<%= text_field_tag 'location[postal]', @group.location[:postal], :placeholder => "Ex: 92245", :style => "width:200px" %>
+	</fieldset><br/>
+	<% if @group.organization? %>
+		<fieldset>
+			<p>
+			Stats
+			</p>
+			<%= text_field_tag 'misc[api_score]', @group.misc[:api_score], :placeholder => "API Score Ex: 1 Million", :style => "width:200px" %>
+			<%= text_field_tag 'misc[students_count]', @group.misc[:students_count], :placeholder => "Number of Students Ex: A Lot", :style => "width:200px" %>
+		</fieldset><br/>
+		<fieldset>
+			<p>
+			Basic Information
+			</p>
+			<label>School Type</label>
+			<%= select_tag('misc[school_type]', options_for_select([["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], :selected => @group.misc[:school_type])) %>
+		</fieldset><br/>
+	<% end %>
 	<fieldset>
 		<p>
 		Short <%= @group.type? %> Description (the key here is to be Short and Sweet)
 		</p>
-		<%= f.text_area :description, :style => "width:500px;height:100px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
+		<%= text_area_tag :description, @group.description, :style => "width:500px;height:100px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
 	</fieldset><br />
 	<fieldset>
 		<p>
 		Long <%= @group.type? %> Description
 		</p>
-		<%= f.text_area :long_description, :style => "width:500px;height:150px", :class => 'tinymce' %>
+		<%= text_area_tag :long_description, @group.long_description, :style => "width:500px;height:150px", :class => 'tinymce' %>
 	</fieldset><br />
+	<% if @group.organization? %>
+		<fieldset>
+			<p>
+			Mission Statement
+			</p>
+			<%= text_area_tag 'misc[mission]', @group.misc[:mission], :style => "width:500px;height:150px", :class => 'tinymce' %>
+		</fieldset><br />
+	<% end %>
   	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/globe.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Website (if ya got it, flaunt it)
 		</p>
-		<%= f.text_field :site, :style => "width:500px" %>
+		<%= text_field_tag 'social[website]', @group.social[:website], :placeholder => "http://www.yourawesome.com", :style => "width:500px" %>
 	</fieldset><br/>
 	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/twitter2.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Twitter (educators love the little blue bird)
 		</p>
-    	<%= f.text_field :twitter, :placeholder => "http://twitter.com/", :style => "width:500px" %>
+    	<%= text_field_tag 'social[twitter]', @group.social[:twitter], :placeholder => "http://twitter.com/", :style => "width:500px" %>
   	</fieldset><br />
 	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/fb_button.png', :style => "margin-bottom:-5px") %> Facebook Page (show off your likes)
 		</p>
-    	<%= f.text_field :facebook, :placeholder => "http://facebook.com/yourgroupname", :style => "width:500px" %>
+    	<%= text_field_tag 'social[facebook]', @group.social[:facebook], :placeholder => "http://facebook.com/yourgroupname", :style => "width:500px" %>
+  	</fieldset><br />
+	<fieldset>
+		<p>
+		<%= image_tag('tioki/icons/greatschools.png', :style => "margin-bottom:-5px") %> GreatSchools Page
+		</p>
+    	<%= text_field_tag 'social[greatschools]', @group.social[:greatschools], :placeholder => "Your GreatSchools Link", :style => "width:500px" %>
   	</fieldset><br />
   	<fieldset>
 		<p>
@@ -60,9 +99,7 @@
 	    	Does this <%= @group.type? %> have a publiclically readable discussion board?
 	    </label>
   	</fieldset><br />
-	<div class="actions">
-		<%= f.submit "Update #{@group.type?}" %>
-	</div>
+	<input type="submit" class="huge-button" value="Save Changes">
 <% end %>
 
 <%= tinymce :theme => "simple" %>
