@@ -32,8 +32,9 @@ class Connection < ActiveRecord::Base
 		self.mine(:user => user_id, :pending => false)
 	end
 
+  # @todo deprecate .mine() does roughly the same thing
 	def self.find_for_user(user_id)
-		Connection.find(:all, :conditions => ['owned_by = ?', user_id])
+		Connection.where('owned_by = ?', user_id).all
 	end
 
 	def not_me(_user_id = nil)
@@ -93,7 +94,7 @@ class Connection < ActiveRecord::Base
 			@previous.pending = false
 
 			if @previous.save
-				Whiteboard.createActivity(:connection, "{user.profile_link} just connected with {tag.profile_link} you should too!", 
+				Whiteboard.createActivity(:connection, "{user.link} just connected with {tag.link} you should too!",
 					User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
 				self.log_analytic(:user_connection_accepted, "Two users connection", @previous)
 

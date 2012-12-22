@@ -1,14 +1,25 @@
 class Message < ActiveRecord::Base
-  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag
+  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id, :replied_at
   validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
+
+	has_many :replied_messages, :class_name => "Message", :foreign_key => "replied_to_id", :dependent => :nullify
+	belongs_to :message, :foreign_key => :replied_to_id
 
 	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
 	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to
 
+	after_create :set_replied_at
+
   self.per_page = 15
 
-  def mark_read
+	def set_replied_at
+		self.replied_at = self.created_at
+		self.save
+	end
+
+  def mark_read(user_id)
     self.read = true
+		self.replied_messages.where("user_id_to = ?", user_id).update_all :read => true
     self.save
   end
 

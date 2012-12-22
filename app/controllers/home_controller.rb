@@ -57,11 +57,11 @@ class HomeController < ApplicationController
 
 				@profile_views = self.get_analytics(:view_user_profile, self.current_user, nil, nil, true).count
 
-				@jobs = Job.find(:all, :conditions => ['active = ?', true], :limit => 4, :order => 'created_at DESC')
+				@jobs = Job.where('active = ?', true).limit(4).order('created_at DESC').all
 
-				@discussions = Discussion.find(:all, :limit => 3, :order => 'created_at DESC')
+				@discussions = Discussion.limit(3).order('created_at DESC').all
 
-				@featuredjobs = Job.find(:all, :conditions => ['active = ?', true], :order => 'created_at DESC')
+				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
 
 				@interviews = self.current_user.interviews
 			end

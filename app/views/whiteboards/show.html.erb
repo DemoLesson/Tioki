@@ -124,7 +124,7 @@
 				<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.slug}" unless x.avatar? %>
 			</div>
 		<% end %>
-		<p><strong><%= time_ago_in_words(@post.created_at) %> ago <%= @post.user.profile_link %> posted:</strong> <%= raw @post.getMessage %></p>
+		<p><strong><%= time_ago_in_words(@post.created_at) %> ago <%= @post.user.link %> posted:</strong> <%= raw @post.getMessage %></p>
 		<div id="comment-wrapper" style="display:none;">
 			<ul id="comments" class="comments">
 				<% @post.getComments.each do |comment| %>

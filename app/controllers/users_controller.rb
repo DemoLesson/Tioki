@@ -81,18 +81,27 @@ class UsersController < ApplicationController
 
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
+
+        # Log an analytic about the uer loggin in
 				self.log_analytic(:user_logged_in, "User logged in.")
-				self.current_user.update_login_count
 				Rails.logger.info "Login successful: #{params[:user][:email]} logged in."
 
+        # Up the user login count
+        currentUser.update_login_count
+
+        # Remember the user
 				if params[:remember_me]
 					login_token = LoginToken.generate_token_for!(session[:user])
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
-				end
+        end
 
-				return redirect_to :root
+        # Is there a location we should return the user to
+        return_to = session[:return_to] || :root
+        session.delete(:return_to) if session[:return_to]
+
+				return redirect_to return_to
 			else
 				Rails.logger.debug "Login unsuccessful: username or password was incorrect."
 				flash[:error] = "Your username or password was incorrect."
@@ -166,17 +175,18 @@ class UsersController < ApplicationController
 	def accounts
 		@organization = self.current_user.organization
 		if self.current_user.is_shared
-			u=SharedUsers.find(:first,:conditions => { :user_id => self.current_user.id})
-			@user=User.find(u.owned_by)
+			u=SharedUsers.where(:user_id => self.current_user.id).first
+			@user = User.find(u.owned_by)
 		else
-			@user=self.current_user
+			@user = self.current_user
 		end
 
+    # @todo is this still needed / deprecate?
 		if self.current_user.is_shared
-			sharedschool = SharedUsers.find(:first, :conditions => {:user_id => self.current_user.id})
-			@members = SharedUsers.find(:all, :conditions => { :owned_by => sharedschool.owned_by})
+			sharedschool = SharedUsers.where(:user_id => self.current_user.id).first
+			@members = SharedUsers.where(:owned_by => sharedschool.owned_by).all
 		else
-			@members = SharedUsers.find(:all, :conditions => { :owned_by => self.current_user.id})
+			@members = SharedUsers.where(:owned_by => self.current_user.id).all
 		end
 	end
 
@@ -252,7 +262,7 @@ class UsersController < ApplicationController
 		@user.update_attribute(:avatar, tmp_img)
 
 		# Log to the whiteboard that a user updated their profile picture
-		Whiteboard.createActivity(:avatar_update, "{user.profile_link} updated their profile picture.")
+		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		tmp_img.close
 		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
@@ -340,7 +350,7 @@ class UsersController < ApplicationController
 	def change_org_info
 		@organization = self.current_user.organization
 		if self.current_user.is_shared
-			u=SharedUsers.find(:first,:conditions => { :user_id => self.current_user.id})
+			u=SharedUsers.where(:user_id => self.current_user.id).first
 			@user=User.find(u.owned_by)
 		else
 			@user = User.find(self.current_user.id)
@@ -352,7 +362,7 @@ class UsersController < ApplicationController
 	end
 
 	def user_list
-		@users = User.find(:all, :order => 'created_at DESC')
+		@users = User.order('created_at DESC').all
 		@teachercounter = 0
 		@schoolcounter = 0
 		@schoolsnumber = 0
@@ -384,7 +394,7 @@ class UsersController < ApplicationController
 		@educatorcount = User.organization?.count
 
 		#count videos as 1 per user
-		@videos = User.find(:all, :joins => :videos, :conditions => ['users.id IN (?)', @users.collect(&:id)]).uniq.count
+		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
@@ -443,12 +453,11 @@ class UsersController < ApplicationController
 		if params[:orgname] || params[:contactname] || params[:emailaddress]
 			#The default scope for schools is currently joined with users
 			#so I can select rows from the users table
-			@schools = School.find :all,
-				:conditions => ['schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%"],
-			:order => "created_at DESC"
-		else
-			@schools = School.find :all,
-				:order => "created_at DESC"
+      # @todo what uses this method and why are we getting an array?
+			@schools = School.where('schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%").order("created_at DESC").all
+    else
+      # @todo what uses this method and why are we getting an array?
+			@schools = School.order("created_at DESC").all
 		end
 		#number of shared users+admins that created the orginal accounts
 		#Full admins+Limited admins+organizations
@@ -473,16 +482,14 @@ class UsersController < ApplicationController
 	end
 
 	def donors_choose_list
-		@users = User.joins(:connection_invites).find(:all, 
-			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00"]).uniq.paginate(:per_page => 100, :page => params[:page])
+    # @todo find a better way to do this
+		@users = User.joins(:connection_invites).where('connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', "2012-10-22 20:00:00").all.uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def referral_user_list
-		#after donors choose before tioki bucks
-		@users = User.joins(:connection_invites).find(:all, 
-			:conditions => ['connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', 
-			"2012-10-22 20:00:00", TIOKI_BUCKS_START]).uniq.paginate(:per_page => 100, :page => params[:page])
+		# after donors choose before tioki bucks
+    # @todo find a better way to do this
+		@users = User.joins(:connection_invites).where('connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL AND connection_invites.created_at > ? and connection_invites.created_at < ?', "2012-10-22 20:00:00", TIOKI_BUCKS_START).all.uniq.paginate(:per_page => 100, :page => params[:page])
 	end
 
 	def organization_user_list
@@ -516,7 +523,8 @@ class UsersController < ApplicationController
 	def tioki_coins_list
 		#get users tioki dollars except from those that received
 		#them solely from getting started which depends on 6 different tables
-		connection_invites = ConnectionInvite.find(:all, :conditions => ["connection_invites.created_at > ?", TIOKI_BUCKS_START]).collect(&:user_id)
+    # @todo make cleaner query instead of using .collect which recursively get the value
+		connection_invites = ConnectionInvite.where("connection_invites.created_at > ?", TIOKI_BUCKS_START).all.collect(&:user_id)
 		@teachers = Teacher.find(:all, :conditions => ["teachers.facebook_connect = true || teachers.twitter_connect = true || teachers.tweet_about = true || teachers.user_id IN (?)", connection_invites])
 	end
 
@@ -723,34 +731,31 @@ class UsersController < ApplicationController
 		end
 
 		#follow three discussions
-		if Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+		if Follower.where("user_id = ?", self.current_user.id).count >= 3
 			@followed = true
 			@start_count += 1
 		end
 
 		#Join three groups
-		if User_Group.find(:all, 
-						   :conditions => ["user_id = ?", self.current_user.id]).count >= 3
+		if User_Group.where("user_id = ?", self.current_user.id).count >= 3
 		@groups = true
 		@start_count += 1
 		end
 
 		#Vouch 5 skills
-		if VouchedSkill.find(:all, 
-							 :conditions => ["voucher_id = ?" , self.current_user.id]).count >= 5
+		if VouchedSkill.where("voucher_id = ?" , self.current_user.id).count >= 5
 		@vouched_skills = true
 		@start_count += 1
 		end
 
 		#post to whiteboard
-		if Whiteboard.find(:first, 
-						   :conditions => ["whiteboards.slug = ?", 'share'])
+		if Whiteboard.where("whiteboards.slug = ?", 'share').first
 		@whiteboard_post = true
 		@start_count += 1
 		end
 
 		#Post a reply to discussion
-		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+		if Comment.where("commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id).first
 			@commented = true
 			@start_count += 1
 		end
@@ -763,7 +768,7 @@ class UsersController < ApplicationController
 		end
 
 		#referrals
-		@invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START]).count
+		@invite_count = ConnectionInvite.where("user_id = ? && connection_invites.created_at > ?", self.current_user.id, TIOKI_BUCKS_START).count
 
 		#two dollars per invite maxed at 42 dollars
 		if @invite_count*2 > 42
@@ -813,19 +818,19 @@ class UsersController < ApplicationController
 		@connections = Connection.mine(:pending => false).count
 
 		#follow three discussions
-		@following = Follower.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+		@following = Follower.where("user_id = ?", self.current_user.id).count
 
 		#Join three groups
-		@groups = User_Group.find(:all, :conditions => ["user_id = ?", self.current_user.id]).count
+		@groups = User_Group.where("user_id = ?", self.current_user.id).count
 
 		#Vouch 5 skills
-		@vouched_skills =  VouchedSkill.find(:all, :conditions => ["voucher_id = ?" , self.current_user.id]).count
+		@vouched_skills =  VouchedSkill.where("voucher_id = ?" , self.current_user.id).count
 
 		#post to whiteboard
-		@whiteboard_post =  Whiteboard.find(:first, :conditions => ["user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share'])
+		@whiteboard_post =  Whiteboard.where("user_id = ? && whiteboards.slug = ?", self.current_user.id, 'share').first
 
 		#Post a reply to discussion
-		@comment =  Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id])
+		@comment =  Comment.where("commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id).first
 	end
 
 	# Profile stats
@@ -948,7 +953,7 @@ class UsersController < ApplicationController
 		if whiteboard
 			# Get whiteboard activity
 			@whiteboard = Array.new
-			Whiteboard.find(:all, :order => "created_at DESC", :conditions => [ "user_id = ?", @user.id]).paginate(:per_page => 15, :page => params[:page]).each do |post|
+			Whiteboard.where("user_id = ?", @user.id).order("created_at DESC").paginate(:per_page => 15, :page => params[:page]).each do |post|
 				@post = post
 				@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
 			end

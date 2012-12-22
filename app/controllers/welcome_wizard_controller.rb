@@ -7,12 +7,14 @@ class WelcomeWizardController < ApplicationController
 			@url = "&invitecode=#{params[:invitecode]}"
 		elsif params[:vouchstring].present?
 			@url = "&vouchstring=#{params[:vouchstring]}"
-		elsif params[:invitestring].present?
-			@url = "&invitestring=#{params[:invitestring]}"
 		elsif params[:user_connection].present?
 			@url = "&user_connection=#{params[:user_connection]}"
 		elsif params[:welcomecode].present?
 			@url = "&user_connection=#{params[:welcomecode]}"
+		elsif params[:twittercode].present?
+			@url = "&user_connection=#{params[:twittercode]}"
+		elsif params[:facebookcode].present?
+			@url = "&user_connection=#{params[:facebookcode]}"
 		else
 			@url = ""
 		end
@@ -33,29 +35,14 @@ class WelcomeWizardController < ApplicationController
 			return redirect_to :root
 		end
 
-		#check if this account is part of a mass invite email
-		if params[:invitestring]
-			@invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
-			if @invite == nil
-				params[:invitestring] = nil
-			end
 		#check if account is part of a vouchrequest
-		elsif params[:vouchstring]
-			@vouch = Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
-			if @vouch == nil
-				params[:vouchstring] = nil
-			end
+		if params[:vouchstring]
+			@vouch = Vouch.where('url = ?', params[:vouchstring]).first
 		#check if this account was part of a link to invite a user
 		elsif params[:invitecode]
-			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
-			if @inviter == nil
-				params[:invitecode] = nil
-			end
+			@inviter = User.where('invite_code = ?', params[:invitecode]).first
 		elsif params[:welcomecode]
-			@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
-			if @inviter == nil
-				params[:welcomecode] = nil
-			end
+			@inviter = User.where('invite_code = ?', params[:welcomecode]).first
 		end
 		
 		# Detect post variables
@@ -71,34 +58,22 @@ class WelcomeWizardController < ApplicationController
 
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
-					return redirect_to :controller => :connections, :action => :add_connection, :user_id => params[:user_connection], :to_wizard => true
-				elsif params[:invitestring]
-					#Mass invite emails connections
 
-					@invite = ConnectionInvite.find(:first, :conditions => ['url = ?', params[:invitestring]])
+					return redirect_to :controller => :connections,
+						:action => :add_connection,
+						:user_id => params[:user_connection],
+						:to_wizard => true
 
-					if @invite.pending
-						Connection.create(:owned_by => @user.id, :user_id => @invite.user_id, :pending => false)
-						@invite.update_attribute(:created_user_id, @user.id)
-						@invite.update_attribute(:pending, false)
+				elsif @inviter
 
-						session[:_ak] = "unlock_invite_link"
-					end
-				elsif params[:invitecode]
-					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:invitecode]])
+					ConnectionInvite.create(:user_id => @inviter.id,
+																	:created_user_id => @user.id)
 
-					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id)
-					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
-
-				elsif params[:welcomecode]
-					@inviter = User.find(:first, :conditions => ['invite_code = ?', params[:welcomecode]])
-
-					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id, :donors_choose => false)
-					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
+					Connection.create(:owned_by => @inviter.id,
+														:user_id => @user.id,
+														:pending => false)
 
 				elsif params[:vouchstring]
-					# Find a vouch matching urlstring
-					@vouch=Vouch.find(:first, :conditions => ['url = ?', params[:vouchstring]])
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
@@ -297,7 +272,7 @@ class WelcomeWizardController < ApplicationController
 						url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
 
 						# Send out the email
-						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+						UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
 						# Don't bother notifying the user
 						# notice << "Your invite to " + demail + " has been sent."
@@ -333,7 +308,7 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = self.current_user
-		@invite = ConnectionInvite.find(:first, :conditions => ["created_user_id = ?", self.current_user.id])
+		@invite = ConnectionInvite.where("created_user_id = ?", self.current_user.id).first
 
 		render :step5
 	end	

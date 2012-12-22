@@ -177,12 +177,12 @@ $(document).ready(function() {
 			<% Connection.mine(:pending => false).each do |connection| %>
 			<% user = connection.not_me %>
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
-				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>"></input>
+				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>" />
 				<div class="profile-thumb-small" style="float:left;">
 					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
 					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
 				</div>
-				<p style="margin-top:0px;"><strong><%= user.profile_link %></strong><br /><%= user.location %>
+				<p style="margin-top:0px;"><strong><%= user.link %></strong><br /><%= user.location %>
 			</div>
 			<% end %>
 			<div style="clear:both;"></div>

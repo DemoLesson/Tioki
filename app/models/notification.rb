@@ -29,7 +29,7 @@ class Notification < ActiveRecord::Base
 
 	def self.notify_likes
 		#find users with notifications that have happened in the last hour
-		User.find(:all, :include => :notifications, :conditions => ["notifications.created_at > ?", 1.hour.ago]).each do |user|
+		User.include(:notifications).where("notifications.created_at > ?", 1.hour.ago).each do |user|
 
 			notifications = user.notifications.where("created_at > ?", 1.hour.ago)
 
@@ -37,13 +37,12 @@ class Notification < ActiveRecord::Base
 
 			#send an email out for each whiteboard with likes
 			#model with sup == false is returning nil the first time so using the model attribute
-			
-			whiteboards = Whiteboard.find(:all, :conditions => ["whiteboards.id in (?)", 
-			 liked_notifications.collect { |notification| notification.map_tag.model(sup = true).split(':').last }])
+
+      # @todo simplfy and maybe find a single query alternative
+			whiteboards = Whiteboard.where("whiteboards.id in (?)", liked_notifications.collect { |notification| notification.map_tag.model(sup = true).split(':').last }).all
 
 			whiteboards.each do |whiteboard|
-				favorites = Favorite.find(:all, :conditions => ["favorites.model = ?", 
-					"#{whiteboard.class.name}:#{whiteboard.id}"])
+				favorites = Favorite.where("favorites.model = ?", "#{whiteboard.class.name}:#{whiteboard.id}").all
 
 				if favorites.count > 1
 					NotificationMailer.likes(user, favorites)
@@ -102,17 +101,17 @@ class Notification < ActiveRecord::Base
 		ret = String.new
 		case _class
 		when 'Comment'
-			ret = "#{triggered.profile_link} replied to a discussion."
+			ret = "#{triggered.link} replied to a discussion."
 		when 'Discussion'
-			ret = "#{triggered.profile_link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
+			ret = "#{triggered.link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
 		when 'Favorite'
-			ret = "#{triggered.profile_link} favorited a post of yours."
+			ret = "#{triggered.link} favorited a post of yours."
 		when 'Application'
-			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
+			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
 		when 'Interview'
-			ret = "#{triggered.profile_link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
+			ret = "#{triggered.link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
 		ActionController::Base.helpers.sanitize(ret).html_safe

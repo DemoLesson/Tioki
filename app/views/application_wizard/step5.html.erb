@@ -20,7 +20,7 @@ tr.seeking, tr.student {
 				<% @app.assets.each do |a| %>
 					<tr>
 						<td>
-							<a href="/purge/<%= a.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C" />X</a>
+							<a href="/purge/<%= a.id %>?redirect=<%= currentURL %>" style="float:right;margin-top:20px;color:#F66C4C">X</a>
 							<h4 class="bottom-line">
 							<a href="<%= a.file.url %>" style="color:#F66C4C">
 								<span class="iconic paperclip" style="color:#4D4D4D"></span>

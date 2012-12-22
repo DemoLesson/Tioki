@@ -27,7 +27,7 @@ class DiscussionsController < ApplicationController
 
     @comment =Comment.new
 		if self.current_user
-			@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id])
+			@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, @discussion.id).first
 		end
 
     respond_to do |format|
@@ -93,7 +93,7 @@ class DiscussionsController < ApplicationController
 
 				if @discussion.owner.nil?
 					# Tell the whiteboard about this new discussion
-					Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+					Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
 						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id)
@@ -101,7 +101,7 @@ class DiscussionsController < ApplicationController
 				end
 
 				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+				Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
 
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
@@ -206,7 +206,7 @@ class DiscussionsController < ApplicationController
 
 	def follow_discussion
 		@discussion = Discussion.find(params[:id])
-		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, params[:id]).first
 		if @follower
 			return redirect_to :back, :notice => "You are already following this discussion"
 		end
@@ -220,7 +220,7 @@ class DiscussionsController < ApplicationController
 	end
 
 	def unfollow_discussion
-		@follower = Follower.find(:first, :conditions => ["user_id = ? && discussion_id = ?", self.current_user.id, params[:id]])
+		@follower = Follower.where("user_id = ? && discussion_id = ?", self.current_user.id, params[:id]).first
 		if @follower
 			@follower.destroy
 			redirect_to :back, :notice => "You are no longer following this discussion."

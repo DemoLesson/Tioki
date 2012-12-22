@@ -1,3 +1,32 @@
+v4.1.1 - Dec 22, 2012 12:17PM PST deployed by Kelly Becker
+==========================================================
+* ce9aabe: Elijah Green - Finih and varaibles in welcome wizard for tracking
+* c22b048: Elijah Green - Slightly change video rake task
+* 5e39370: Elijah Green - Store external tumbnail url and name in database
+
+v4.1.0 - Dec 21, 2012  4:55PM PST deployed by Kelly Becker
+==========================================================
+* 629277a: Kelly Becker - convert profile link to link
+* dcc0d9c: Kelly Becker - renamed profile_link to link
+
+v4.0.28 - Dec 21, 2012  2:59PM PST deployed by Kelly Becker
+===========================================================
+* 1ea698b: Kelly Becker - count videos properly
+* 87fd5be: Kelly Becker - minor cleanup
+
+v4.0.27 - Dec 21, 2012  2:21PM PST deployed by Kelly Becker
+===========================================================
+* 6dab31d: Kelly Becker - haproxy update
+
+v4.0.26 - Dec 21, 2012  1:49PM PST deployed by Kelly Becker
+===========================================================
+* c7a51f1: Kelly Becker - changed all find quieres to the accept rails 3.2 format which is faster since it does not have to recurse for things like counts.
+
+v4.0.25 - Dec 21, 2012 11:08AM PST deployed by Kelly Becker
+===========================================================
+* aaf45df: Kelly Becker - redirect user back to the last page they were on if applicable
+* dabbc61: Kelly Becker - cleaned up and documented some code and added some todos
+
 v4.0.24 - Dec 21, 2012 10:33AM PST deployed by Kelly Becker
 ===========================================================
 * 811f992: Kelly Becker - gitignore

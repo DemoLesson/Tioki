@@ -10,6 +10,16 @@ class Video < ActiveRecord::Base
   mount_uploader :video, VideoUploader
   
   scope :finished, :conditions => { :encoded_state => "finished" }
+
+	after_create :set_details
+
+	def set_details
+		if external?
+			self.thumbnail_url = details["thumbnail_url"]
+			self.name = details["title"]
+			self.save
+		end
+	end
   
   # Encode a new video
   def encode
@@ -169,10 +179,6 @@ class Video < ActiveRecord::Base
 
   # Get the name of the video
   def name(empty = "Untitled")
-
-    # If external video
-    return details["title"] if external?
-
     # Get the name
     name = super()
 
@@ -205,7 +211,7 @@ class Video < ActiveRecord::Base
       end
     end
 
-    details["thumbnail_url"]
+		self.thumbnail_url
   end
 
   # Get the embed code for the video

@@ -162,9 +162,10 @@ class User < ActiveRecord::Base
         UserMailer.user_welcome_email(self).deliver
     end
 
+  # @todo cleanup / deprecate
 	def all_jobs_for_schools
 		all_schools.each.inject([]) do |jobs, school|
-			jobs += Job.find(:all, :conditions => ['school_id = ? AND active = ?', school.id, true], :order => 'created_at DESC')
+			jobs += Job.where('school_id = ? AND active = ?', school.id, true).order('created_at DESC').all
 		end
 	end
 
@@ -196,10 +197,12 @@ class User < ActiveRecord::Base
 		end
 	end
 
+  # @todo can we optimize this a bit?
 	def cleanup
 
 		# Delete Schools
-		@schools = School.find(:all, :conditions => ['owned_by = ?', self.id])
+        # @todo is this still needed? / deprecate?
+		@schools = School.where('owned_by = ?', self.id).all
 		@schools.each do |school|
 			school.remove_associated_data
 		end
@@ -211,11 +214,13 @@ class User < ActiveRecord::Base
 		#@teachers.map(&:destroy)
 
 		# Delete Shared Users
-		@sharedusers = SharedUsers.find(:all, :conditions => ['user_id = ?', self.id])
+        # @todo is this still needed? / deprecate?
+		@sharedusers = SharedUsers.where('user_id = ?', self.id).all
 		@sharedusers.map(&:destroy)
 
 		# Delete Shared Schools
-		@sharedschools = SharedSchool.find(:all,:conditions => ['user_id = ?', self.id])
+        # @todo is this still needed? / deprecate?
+		@sharedschools = SharedSchool.where('user_id = ?', self.id).all
 		@sharedschools.map(&:destroy)
 
 		# Delete all Connections
@@ -338,28 +343,28 @@ class User < ActiveRecord::Base
 		end
 
 		#follow three discussions
-		if Follower.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
+		if Follower.where("user_id = ?", self.id).count >= 3
 			start_count += 1
 		end
 
 		#Join three groups
 
-		if User_Group.find(:all, :conditions => ["user_id = ?", self.id]).count >= 3
+		if User_Group.where("user_id = ?", self.id).count >= 3
 			start_count += 1
 		end
 
 		#Vouch 5 skills
-		if VouchedSkill.find(:all, :conditions => ["voucher_id = ?", self.id]).count >= 5
+		if VouchedSkill.where("voucher_id = ?", self.id).count >= 5
 			start_count += 1
 		end
 
 		#post to whiteboard
-		if Whiteboard.find(:first, :conditions => ["whiteboards.slug = ?", 'share'])
+		if Whiteboard.where("whiteboards.slug = ?", 'share').first
 			start_count += 1
 		end
 
 		#Post a reply to discussion
-		if Comment.find(:first, :conditions => ["commentable_type = 'Discussion' && comments.user_id = ?", self.id])
+		if Comment.where("commentable_type = 'Discussion' && comments.user_id = ?", self.id).first
 			start_count += 1
 		end
 
@@ -386,12 +391,12 @@ class User < ActiveRecord::Base
 
 	def job_allowance
 		if is_shared
-			@shared= SharedUsers.find(:first, :conditions => { :user_id => id})
-			o=Organization.find(:first, :conditions => { :owned_by => @shared.owned_by})
-			return(o.job_allowance)
+			@shared = SharedUsers.where(:user_id => id).first
+			o = Organization.where(:owned_by => @shared.owned_by).first
+			return o.job_allowance
 		else
-			o=Organization.find(:first, :conditions => { :owned_by => id})
-			return(o.job_allowance)
+			o = Organization.where(:owned_by => id).first
+			return o.job_allowance
 		end
 	end
 
@@ -404,12 +409,13 @@ class User < ActiveRecord::Base
 		return(jobs)
 	end
 
+  # @todo is this still required / deprecate?
 	def organization
 		if is_shared
-			s=SharedUsers.find(:first, :conditions => { :user_id => id })
-			return(Organization.find(:first, :conditions => { :owned_by => s.owned_by }))
+			s = SharedUsers.where(:user_id => id).first
+			return Organization.where(:owned_by => s.owned_by).first
 		else
-			return(Organization.find(:first, :conditions => { :owned_by => id }))
+			return Organization.where(:owned_by => id ).first
 		end
 	end
 
@@ -441,16 +447,18 @@ class User < ActiveRecord::Base
 		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL && created_at > ? && created_at < ?', self.id, "2012-10-22 20:00:00", TIOKI_BUCKS_START)
 	end
 
+  # @todo is this still needed / deprecate?
 	def school
-		return(School.find(:first, :conditions => {:owned_by => id}))
+		return(School.where(:owned_by => id).first)
 	end
 
+  # @todo is this still needed / deprecate?
 	def schools
 		if is_shared
-			s=SharedUsers.find(:first, :conditions => {:user_id => id})
-			return(School.find(:all, :conditions => {:owned_by => s.owned_by}))
+			s = SharedUsers.where(:user_id => id).first
+			return(School.where(:owned_by => s.owned_by).all)
 		else
-			return(School.find(:all, :conditions => {:owned_by => id}))
+			return(School.where(:owned_by => id).all)
 		end
 	end
 
@@ -534,18 +542,20 @@ class User < ActiveRecord::Base
 
 	end
 
+  # @todo deprecate?
 	def sharedschool
 		if is_limited == true
-			school = SharedSchool.find(:first, :conditions => { :user_id => id } )
+			school = SharedSchool.where(:user_id => id).first
 			return(School.find(school.school_id))
 		else
-			admin= SharedUsers.find(:first, :conditions => { :user_id => id})
-			return(School.find(:first, :conditions => {:owned_by => admin.owned_by}))
+			admin = SharedUsers.where(:user_id => id).first
+			return(School.where(:owned_by => admin.owned_by).first)
 		end
 	end
 
+  # @todo find a cleaner way to do this that does not involve recursively calling collect / deprecate?
 	def sharedschools
-		schools = SharedSchool.find(:all, :conditions => { :user_id => id }).collect(&:school_id)
+		schools = SharedSchool.where(:user_id => id).all.collect(&:school_id)
 		return(School.find(schools))
 	end
 
@@ -575,7 +585,7 @@ class User < ActiveRecord::Base
 			tioki_bucks += 1
 		end
 
-		invite_count = ConnectionInvite.find(:all, :conditions => ["user_id = ? && connection_invites.created_at > ?", self.id, TIOKI_BUCKS_START]).count
+		invite_count = ConnectionInvite.where("user_id = ? && connection_invites.created_at > ?", self.id, TIOKI_BUCKS_START).count
 
 		#two dollars per invite maxed at 42 dollars
 		if invite_count*2 > 42
@@ -622,12 +632,16 @@ class User < ActiveRecord::Base
 		end
 	end
 
+  # @todo is the all on the end required
 	def vouched_skill_groups
-		SkillGroup.joins(:skills => :vouched_skills).find(:all, :conditions => ["vouched_skills.user_id = ?",self.id])
+		SkillGroup.joins(:skills => :vouched_skills).where("vouched_skills.user_id = ?",self.id).all
 	end
+
+	# Profile URL
+	def url; "/profile/#{self.slug}"; end
     
-    # Migrated from teacher.rb
-    def profile_link(attrs = {})
+    # Profile Link
+    def link(attrs = {})
         # Parse attrs
         _attrs = []; attrs.each do |k,v|
             # Make sure not a symbol
@@ -638,8 +652,8 @@ class User < ActiveRecord::Base
         end; attrs = _attrs.join(' ')
         
         # Return the link to the profile
-        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
-    end
+        return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
+	end
     
     # Migrated from teacher.rb
     def has_social?
@@ -778,7 +792,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def snippet_watchvideo_button
-		@video = Video.find(:first, :conditions => ['user_id = ? AND is_snippet=?', self.id, true], :order => 'created_at DESC')
+		@video = Video.where('user_id = ? AND is_snippet=?', self.id, true).order('created_at DESC').first
 		if @video != nil
 			embedstring= "<a rel=\"shadowbox;width=;height=480;player=iframe\" href=\"/videos/#{@video.id}\" class='button'>Watch Snippet</a>"
 
@@ -878,7 +892,7 @@ class User < ActiveRecord::Base
 			user_invite = nil
 			generated_code = rand(36**7).to_s(36)
 			begin
-				user_invite = User.find(:first, :conditions => ['invite_code = ?', generated_code])
+				user_invite = User.where(:invite_code => generated_code).first
 			end while user_invite != nil
 			self.update_attribute(:invite_code,  generated_code)
 		end

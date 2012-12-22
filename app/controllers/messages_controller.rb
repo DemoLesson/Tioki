@@ -1,13 +1,17 @@
 class MessagesController < ApplicationController
   before_filter :login_required
-  TITLE = 'Messages'
-  TITLE_SENT = 'Sent Messages'
   
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.paginate(:include => [:sender, :receiver], :page => params[:page], :conditions => ['user_id_to = ?', self.current_user.id], :order => 'created_at DESC')
-    @title = TITLE
+    @messages = Message.paginate(
+			:joins => "LEFT JOIN `messages` `replied_messages` ON `replied_messages`.`replied_to_id` = `messages`.id",
+			:include => [:sender, :receiver, :replied_messages],
+			:page => params[:page], 
+			:conditions => ['(messages.user_id_to = ? && messages.replied_to_id is null) || replied_messages.user_id_to = ?',
+				self.current_user.id, self.current_user.id], 
+			:group => "messages.id",
+			:order => 'messages.replied_at DESC, messages.created_at DESC')
     
     respond_to do |format|
       format.html # index.html.erb
@@ -16,11 +20,17 @@ class MessagesController < ApplicationController
   end
   
   def sent
-    @messages = Message.paginate(:page => params[:page], :conditions => ['user_id_from = ?', self.current_user.id], :order => 'created_at DESC' )
-    @title = TITLE_SENT
-
+    @messages = Message.paginate(
+			:joins => "LEFT JOIN `messages` `replied_messages` ON `replied_messages`.`replied_to_id` = `messages`.id",
+			:include => [:sender, :receiver, :replied_messages],
+			:page => params[:page], 
+			:conditions => ['(messages.user_id_from = ? && messages.replied_to_id is null) || replied_messages.user_id_from = ?',
+				self.current_user.id, self.current_user.id], 
+			:group => "messages.id",
+			:order => 'messages.replied_at DESC, messages.created_at DESC')
+    
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @messages }
     end   
   end
@@ -30,11 +40,7 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
 
-		#Only mark read if the receiver was the one who viewed it
-		if self.current_user.id == @message.user_id_to
-			@message.mark_read
-		end
-    @title = @message.subject
+		@message.mark_read(self.current_user.id)
     
     respond_to do |format|
 			if self.current_user.id == @message.user_id_to || self.current_user.id == @message.user_id_from
@@ -50,6 +56,17 @@ class MessagesController < ApplicationController
   # GET /messages/new.xml
   def new
     @message = Message.new
+		if params[:replied_to_id]
+			@replied_to_message = Message.find(params[:replied_to_id])
+
+			#Check if this person is allowed to replied
+			#to reply and see these messages
+			if @replied_to_message.user_id_to != self.current_user.id &&
+				@replied_to_message.user_id_from != self.current_user.id
+				@replied_to_message = nil
+			end
+		end
+		@user = User.find(params[:user_id_to])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,17 +77,39 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.xml
   def create
-    @message = Message.create!(:subject => params[:message][:subject], :body => params[:message][:body], :user_id_from => self.current_user.id, :user_id_to => params[:message][:user_id_to], :read => false)
+    @message = Message.new(params[:message])
+		if params[:message][:replied_to_id]
+			replied_to_message = Message.find(params[:message][:replied_to_id])
+			@message.user_id_to = if replied_to_message.user_id_from == self.current_user.id
+														replied_to_message.user_id_to
+													else
+														replied_to_message.user_id_from
+													end
+			replied_to_message.update_attribute(:replied_at, Time.now)
+		end
+
+		@message.read = false
+		@message.user_id_from = self.current_user.id
     
     respond_to do |format|
-      UserMailer.message_notification(@message.user_id_to, @message.subject, @message.body, @message.id, self.current_user.name).deliver
+			if @message.save
+				UserMailer.message_notification(
+					@message.user_id_to, 
+					@message.subject, 
+					@message.body, 
+					@message.id, 
+					self.current_user.name).deliver
 
-      #Log in Analytics
-      self.log_analytic(:message_sent, "User to user message.", @message, [], :messages)
-      
-      format.html { redirect_to(:messages, :notice => 'Your message to '+User.find(@message.user_id_to).name+' was sent.') }
-      format.xml  { render :xml => @message, :status => :created, :location => @message }
-    end
+					#Log in Analytics
+					self.log_analytic(:message_sent, "User to user message.", @message, [], :messages)
+
+					format.html { redirect_to(:messages, 
+						:notice => 'Your message to '+User.find(@message.user_id_to).name+' was sent.') }
+					format.xml { render :xml => @message, :status => :created, :location => @message }
+			else
+					format.html { redirect_to(:back, :notice => @message.errors.full_messages.to_sentence) }
+			end
+		end
   end
 
   # DELETE /messages/1

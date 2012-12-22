@@ -15,14 +15,16 @@
 
 			<% if params[:user_connection] %>
 				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
 			<% elsif params[:vouchstring] %>
 				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
 			<% elsif params[:invitecode] %>
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
 			<% elsif params[:welcomecode] %>
 				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% elsif params[:facebookcode] %>
+				<%= hidden_field_tag :facebookcode, params[:facebookcode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :twittercode, params[:twittercode] %>
 			<% end %>
 
 			<div class="button_wrap">
@@ -43,14 +45,16 @@
 
 	<% if params[:user_connection] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitestring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
 	<% elsif params[:vouchstring] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
 	<% elsif params[:invitecode] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
 	<% elsif params[:welcomecode] %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+	<% elsif params[:facebookcode] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&facebookcode=<%= params[:facebookcode] %>">Skip Step &raquo;</a>
+	<% elsif params[:twittercode] %>
+		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&twittercode=<%= params[:twittercode] %>">Skip Step &raquo;</a>
 	<% else %>
 		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
 	<% end %>

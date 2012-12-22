@@ -7,7 +7,9 @@ class SkillsController < ApplicationController
 	    @skill = Skill.find(params[:id])
 
 	    # Load teachers that have claimed the above skill
-			@users = User.joins(:skill_claims).where("skill_claims.skill_id = ?", @skill.id).paginate(:page => params[:page], :per_page => 25, :order => "users.connections_count DESC")
+			@users = User.joins(:skill_claims).
+				where("skill_claims.skill_id = ?", @skill.id).
+				paginate(:page => params[:page], :per_page => 25, :order => "users.connections_count DESC")
 
 	    # Videos that claim the skill
 	    @videodb = @skill.videos.paginate(:page => params[:vpage], :per_page => 25)
@@ -20,7 +22,8 @@ class SkillsController < ApplicationController
 	    @my_connections = Array.new if self.current_user.nil?
 
 	    # Get a list of events
-	    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).order('`events`.`start_time` ASC').joins(:skills).limit(5)
+	    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).
+				order('`events`.`start_time` ASC').joins(:skills).limit(5)
 
 	    # Get the associated discussions
 	    @discussions = Discussion.joins(:skills).where("`skills`.`id` = ?", @skill.id)
