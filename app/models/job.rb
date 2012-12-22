@@ -15,8 +15,6 @@ class Job < ActiveRecord::Base
   scope :is_active, where(:status => 'running')
   
   #scope :dry_clean_only, joins(:washing_instructions).where('washing_instructions.dry_clean_only = ?', true)
-  
-  scoped_search :on => [:title, :description]
 
   #Don't show if user account is deactivated
 
@@ -24,16 +22,8 @@ class Job < ActiveRecord::Base
   
   self.per_page = 15
   
-  #searchable do 
-  #  text :description, :title
-  #end
-  
   def self.search(search)
-    if search
-      find(:all, :conditions => ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{search}%", "%#{search}%"])
-    else
-      find(:all)
-    end
+    where('jobs.title LIKE ? OR jobs.description LIKE ?', "%#{search}%", "%#{search}%")
   end
   
   def school
