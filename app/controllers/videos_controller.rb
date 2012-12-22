@@ -8,7 +8,7 @@ class VideosController < ApplicationController
 	def index
 
 		# Get all the videos
-		@videodb = Video.where("'1' = '1'").order("`created_at` DESC")
+		@videodb = Video.order("`created_at` DESC")
 
 		# Url to video list
 		@videolist = request.url
@@ -136,7 +136,7 @@ class VideosController < ApplicationController
 				@video.encode
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.profile_link} uploaded a new video.", @video, {"video" => "zencoder"})
+				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video.", @video, {"video" => "zencoder"})
 
 				format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
 			else
@@ -195,7 +195,7 @@ class VideosController < ApplicationController
 			if video.save
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.profile_link} linked a new video.", nil, {"video" => video.output_url})
+				Whiteboard.createActivity(:video_upload, "{user.link} linked a new video.", nil, {"video" => video.output_url})
 
 				if params[:session]
 					session[:video] = video.id

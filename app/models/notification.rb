@@ -101,17 +101,17 @@ class Notification < ActiveRecord::Base
 		ret = String.new
 		case _class
 		when 'Comment'
-			ret = "#{triggered.profile_link} replied to a discussion."
+			ret = "#{triggered.link} replied to a discussion."
 		when 'Discussion'
-			ret = "#{triggered.profile_link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
+			ret = "#{triggered.link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
 		when 'Favorite'
-			ret = "#{triggered.profile_link} favorited a post of yours."
+			ret = "#{triggered.link} favorited a post of yours."
 		when 'Application'
-			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.profile_link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
+			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
 		when 'Interview'
-			ret = "#{triggered.profile_link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.profile_link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
+			ret = "#{triggered.link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
+			ret = "#{triggered.link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
 		end	
 
 		ActionController::Base.helpers.sanitize(ret).html_safe

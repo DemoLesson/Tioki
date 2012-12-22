@@ -93,7 +93,7 @@ class DiscussionsController < ApplicationController
 
 				if @discussion.owner.nil?
 					# Tell the whiteboard about this new discussion
-					Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+					Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
 						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id)
@@ -101,7 +101,7 @@ class DiscussionsController < ApplicationController
 				end
 
 				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.profile_link} created a new discussion {tag.link}.", @discussion)
+				Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
 
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }

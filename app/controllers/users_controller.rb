@@ -262,7 +262,7 @@ class UsersController < ApplicationController
 		@user.update_attribute(:avatar, tmp_img)
 
 		# Log to the whiteboard that a user updated their profile picture
-		Whiteboard.createActivity(:avatar_update, "{user.profile_link} updated their profile picture.")
+		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		tmp_img.close
 		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
@@ -394,7 +394,7 @@ class UsersController < ApplicationController
 		@educatorcount = User.organization?.count
 
 		#count videos as 1 per user
-		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).group('`videos.user_id`').count
+		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
