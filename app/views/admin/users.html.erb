@@ -5,16 +5,16 @@
 		<li class="search">
 			<form>
 				<table>
-					<td><input type="text" name="search[text]" placeholder="Search by name and email" value="<%= params[:search][:text] %>" /></td>
+					<td><input type="text" name="search[text]" placeholder="Search by name and email" value="<%= params[:search][:text] rescue nil %>" /></td>
 					<td>
 						<label>
-							<input type="checkbox" name="search[applications]" value="1" <%= params[:search][:applications] ? 'checked' : '' %> />
+							<input type="checkbox" name="search[applications]" value="1" <%= params[:search][:applications] ? 'checked' : ''  rescue nil %> />
 							With applications
 						</label>
 					</td>
 					<td>
 						<label>
-							<input type="checkbox" name="search[videos]" value="1" <%= params[:search][:videos] ? 'checked' : '' %> />
+							<input type="checkbox" name="search[videos]" value="1" <%= params[:search][:videos] ? 'checked' : ''  rescue nil %> />
 							With videos
 						</label>
 					</td>
@@ -56,7 +56,7 @@
 					</tr>
 					<tr>
 						<td><%= link_to "Deactivate User", '#', :confirm => "Are you sure?" %></td>
-						<td><%= link_to "Destroy User", '#', :confirm => "Are you sure? This cannot be undone." %></td>
+						<td><%= link_to "Annihilate User", '#', :confirm => "Are you sure? This cannot be undone." %></td>
 					</tr>
 				</table>
 
