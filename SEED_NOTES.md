@@ -1,3 +1,9 @@
+v4.1.1 - Dec 22, 2012 12:17PM PST deployed by Kelly Becker
+==========================================================
+* ce9aabe: Elijah Green - Finih and varaibles in welcome wizard for tracking
+* c22b048: Elijah Green - Slightly change video rake task
+* 5e39370: Elijah Green - Store external tumbnail url and name in database
+
 v4.1.0 - Dec 21, 2012  4:55PM PST deployed by Kelly Becker
 ==========================================================
 * 629277a: Kelly Becker - convert profile link to link
