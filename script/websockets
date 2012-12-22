@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-require 'rubygems'
-require 'daemons'
-
-# Load the websocket daemon
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
-Daemons.run(File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'websocket.rb')))

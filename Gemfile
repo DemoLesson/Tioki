@@ -4,140 +4,89 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.3'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 
+# Database Handler
+gem 'mysql2'
+
+# Assets
 group :assets do
-	gem 'sprockets'
-
-	# Coffee Script Compiler
-	gem 'coffee-script'
-	gem 'tinymce-rails'
-	gem 'uglifier'
-
-	# CSS Engine's
-	gem 'sass-rails'
+	gem 'sprockets' # Assets pipeline
+	gem 'coffee-script' # Coffeescript
+	gem 'uglifier' # Minify JS
+	gem 'sass-rails' # SCSS Sheets
 end
 
-# jQuery needs to be outside the assets group
+# Tiny-MCE / jQuery need to be global
 gem 'jquery-rails'
+gem 'tinymce-rails'
 
-group :development do
-	# Debug tools
-	gem 'debugger'
-	gem 'debugger-ruby_core_source'
-end
+# @todo only have one of these
+# HTTP Clients
+gem 'httpclient'
+gem 'httparty'
+gem 'rest-client'
 
-# Ruby Extensions
-gem 'multimap'
-gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
-
-# Relative time engine
-gem 'chronic', :git => 'git://github.com/KellyLSB/chronic.git'
-
-
-# Cloudsponge and Contacts Junk
-gem "cloudsponge", "~> 0.9.9"
-gem "dnsruby"
-
-# Social Networking
+# Social Networks and oAuth
+gem 'oauth'
+gem 'linkedin'
 gem 'twitter'
+gem 'koala' # Facebook
 
-# Encryption
-gem 'gibberish'
+# General APIs
+gem 'cloudsponge', '~> 0.9.9'
+gem 'zencoder', '~> 2.4.0'
+# @todo build a new mailgun extension
+gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git' # Mailgun API Access
 
+# Ruby extenions
+gem 'multimap'
+gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git' # Bitwise Booleans
+gem 'kvpair', :git => 'git://github.com/KellyLSB/KVPair.git' # Rails 3.1 Key => Value Pairs
+gem 'dnsruby' # Provides DNS Record Details
+gem 'chronic' # Relative time engine
+gem 'gibberish' # Encryption
+gem 'delayed_job_active_record' # Delayed Jobs
+gem 'daemons' # Ruby Daemons / Delayed Job Dependency
+gem 'uuidtools' # Universal Unique ID Generator
+gem 'geocoder' # Geocoder / Reverse Geocoder
+gem 'os' # Users operating system information
+gem 'htmlentities' # HTML entities helper
+gem 'possessive' # Intelligent possesification
+gem 'rmagick', :require => 'RMagick' # ImageMagick
+gem 'acts_as_commentable_with_threading' # Threaded Comments
+gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
+# @todo deprecate smart_tuple replace with solr
+gem 'smart_tuple' # Tuple styled SQL Queries
+
+# @todo cleanup file upload process
 # File Uploading/Storage
 gem 'paperclip', '~> 3.3.0'
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave'
 gem 'carrierwave_direct'
-
-gem "remotipart", "~> 0.4.1"
-gem 'will_paginate', '~> 3.0.3'
-
-# Video Processing
-gem "zencoder", "~> 2.4.0"
-#gem 'viddler-ruby'
-
-# API Helpers
-gem 'httpclient'
-gem 'oauth'
-
-# Delayed_Job Dependencies
-gem 'daemons'
-
-# MySQL Database Access
-# Using Bleeding Edge (might be bad idea but lets see)
-gem 'mysql2'#, :git => 'git://github.com/brianmario/mysql2.git'
-
-gem 'uuidtools'
-gem "gmaps4rails", "~> 0.10.2"
-gem "geocoder"
-
-gem 'smart_tuple'
-
-# Bundle the extra gems:
-gem 'bj'
-gem 'nokogiri'
+gem 'remotipart', '~> 0.4.1'
 gem 'fog'
-gem 'httparty'
-gem 'linkedin'
 
-# Help detect the users current operating system
-gem "os", "~> 0.9.6"
-
-# Helper to convert html entities
-gem "htmlentities"
-
-# Mailgun and Rest
-gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git'
-# (DEVELOPMENT) gem 'mailgun-rails', :git => '/Users/kellylsb/Development/ruby/mailgun-rails'
-gem 'rest-client'
-
-# Use unicorn as the web server
+# Webserver
 gem 'unicorn'
-gem 'eventmachine'
-gem 'em-websocket'
 
-# Intelligent Possesification
-gem 'possessive'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19'
-
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
-
-gem 'linkedin'
-gem 'country_select'
-gem 'rmagick', :require => 'RMagick'
-gem 'delayed_job_active_record'
-gem 'acts_as_commentable_with_threading'
-
-#Facebook api gem
-gem 'koala'
-
-# This gem doesnot do anything
+# Deploy script notifications
 gem 'terminal-notifier'
 
-# Rubber files
+# Rubber deployments
 gem 'rubber'
 gem 'open4'
 
-# Graylog 2
+# Debug tools
+group :development do
+	gem 'debugger'
+	gem 'debugger-ruby_core_source'
+end
+
+# Graylog2
 gem 'gelf'
 gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
 gem 'graylog2-resque'
-
-gem "kvpair", :git => "git://github.com/KellyLSB/KVPair.git"
 
 # New Relic
 gem 'newrelic_rpm'

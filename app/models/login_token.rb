@@ -1,5 +1,3 @@
-require 'uuidtools'
-
 class LoginToken < ActiveRecord::Base
 	belongs_to :user
 

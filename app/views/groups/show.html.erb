@@ -10,7 +10,7 @@
 						Description
 					</h3>
 					<p style="width:auto">
-						<%=auto_link(sanitize @group.long_description) %>
+						<%= sanitize @group.long_description %>
 					</p>
 				<% end %>
 				<% misc = @group.misc %>
