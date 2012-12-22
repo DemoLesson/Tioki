@@ -36,14 +36,16 @@
 						Please enable pop-ups. It will help us help you find your friends.
 						<% if params[:user_connection] %>
 							<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-						<% elsif params[:invitestring] %>
-							<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
 						<% elsif params[:vouchstring] %>
 							<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
 						<% elsif params[:invitecode] %>
 							<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
 						<% elsif params[:welcomecode] %>
 							<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+						<% elsif params[:twittercode] %>
+							<a style="float:right" href="?x=step5&twittercode=<%= params[:twittercode] %>">Skip Step &raquo;</a>
+						<% elsif params[:facebookcode] %>
+							<a style="float:right" href="?x=step5&facebookcode=<%= params[:facebookcode] %>">Skip Step &raquo;</a>
 						<% else %>
 							<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
 						<% end %>
@@ -102,31 +104,27 @@
 			<div id="invite_footer" style="float:right;display:none">
 				<%= submit_tag "Invite" %> 
 				<% if params[:user_connection] %>
+					<%= hidden_field_tag :user_connection, params[:user_connection] %>
 					<a style="float:right" href="?x=step5&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-				<% elsif params[:invitestring] %>
-					<a style="float:right" href="?x=step5&invitestring=<%= params[:invitestring]%>">Skip Step &raquo;</a>
 				<% elsif params[:vouchstring] %>
+					<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
 					<a style="float:right" href="?x=step5&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
 				<% elsif params[:invitecode] %>
+					<%= hidden_field_tag :invitecode, params[:invitecode] %>
 					<a style="float:right" href="?x=step5&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
 				<% elsif params[:welcomecode] %>
+					<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
 					<a style="float:right" href="?x=step5&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
+				<% elsif params[:facebookcode] %>
+					<%= hidden_field_tag :facebookcode, params[:facebookcode] %>
+					<a style="float:right" href="?x=step5&facebookcode=<%= params[:facebookcode] %>">Skip Step &raquo;</a>
+				<% elsif params[:twittercode] %>
+					<%= hidden_field_tag :twittercode, params[:twittercode] %>
+					<a style="float:right" href="?x=step5&twittercode=<%= params[:twittercode] %>">Skip Step &raquo;</a>
 				<% else %>
 					<a style="float:right" href="?x=step5">Skip Step &raquo;</a>
 				<% end %>
 			</div>
-
-			<% if params[:user_connection] %>
-				<%= hidden_field_tag :user_connection, params[:user_connection] %>
-			<% elsif params[:invitestring] %>
-				<%= hidden_field_tag :invitestring, params[:invitestring] %>
-			<% elsif params[:vouchstring] %>
-				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
-			<% elsif params[:invitecode] %>
-				<%= hidden_field_tag :invitecode, params[:invitecode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
-			<% end %>
 		</form>
 	</div>
 
