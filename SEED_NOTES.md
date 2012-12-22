@@ -1,3 +1,16 @@
+v4.1.2 - Dec 22, 2012  3:36PM PST deployed by Kelly Becker
+==========================================================
+* 52ccdf8: Kelly Becker - removed old event machine websockets
+* 602ebe6: Aleks Stanisic - redesign changes to orgs
+* 3b0c3e4: Kelly Becker - gem cleanup so far
+* 513bb4d: Elijah Green - Change back some things that were changed to debug performance problems
+* cec0ce8: Elijah Green - Add number of messages in sent messages
+* 7d43746: Elijah Green - Fix order of messages
+* eca82e4: Elijah Green - Change up some text based on who is replying
+* 89dfc46: Elijah Green - Display last message info
+* 055c45e: Elijah Green - Index messages table, got a 5 second query down to well under a tenth of a second
+* 7ecd941: Elijah Green - Almost done with message replies
+
 v4.1.1 - Dec 22, 2012 12:17PM PST deployed by Kelly Becker
 ==========================================================
 * ce9aabe: Elijah Green - Finih and varaibles in welcome wizard for tracking
