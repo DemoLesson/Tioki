@@ -93,6 +93,17 @@ end
 # Hash cleaner
 class Hash
 	def clean!
+
+		self.each do |key, val|
+			if self[key].is_a?(Hash) && self[key].respond_to?('clean!')
+				if block_given?
+					self[key] = self[key].clean!(&Proc.new)
+				else
+					self[key] = self[key].clean!
+				end
+			end
+		end
+
 		self.delete_if do |key, val|
 			if block_given?
 				yield(key,val)
@@ -106,16 +117,6 @@ class Hash
 
 				# Were any of the tests true
 				test1 || test2 || test3 || test4 || test5
-			end
-		end
-
-		self.each do |key, val|
-			if self[key].is_a?(Hash) && self[key].respond_to?('clean!')
-				if block_given?
-					self[key] = self[key].clean!(&Proc.new)
-				else
-					self[key] = self[key].clean!
-				end
 			end
 		end
 

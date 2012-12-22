@@ -7,7 +7,28 @@ class AdminController < ApplicationController
 	end
 
 	def users
-		@users = User.unscoped
+		# This is for styling purposes
+		@id_size = User.limit(1).order('id DESC').first.id.to_s.length
+
+		# Load every user in our platform
+		users = User.unscoped.order('last_login DESC')
+
+		# Clean the parameters
+		params.clean!
+
+		# Filter the users down
+		if params[:search]
+			if params[:search][:text]
+				search = '%' + params[:search][:text] + '%'
+				users = users.where('users.name LIKE ? OR users.email LIKE ?', search, search)
+			end
+
+			users = users.joins(:applications).where('users.id = applications.user_id AND applications.submitted = ?', true).group('users.id') if params[:search][:applications]
+			users = users.joins(:videos).where('users.id = videos.user_id').group('users.id') if params[:search][:videos]
+		end
+
+		# Paginate the users list
+		@users = users.paginate(:per_page => 20, :page => params[:page])
 	end
 
 	private

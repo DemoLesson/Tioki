@@ -144,7 +144,7 @@ class Group < ActiveRecord::Base
 			end; attrs = _attrs.join(' ')
 
 			# Return the link to the profile
-			return "<a href=\"/group/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
+			return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
 		end
 
 	# Private Methods

@@ -1,12 +1,71 @@
 <section id="main-content" class="inner-content admin-panel">
 	<h1>Admin Panel &mdash; Users</h1>
 	<ul class="users">
+
+		<li class="search">
+			<form>
+				<table>
+					<td><input type="text" name="search[text]" placeholder="Search by name and email" value="<%= params[:search][:text] %>" /></td>
+					<td>
+						<label>
+							<input type="checkbox" name="search[applications]" value="1" <%= params[:search][:applications] ? 'checked' : '' %> />
+							With applications
+						</label>
+					</td>
+					<td>
+						<label>
+							<input type="checkbox" name="search[videos]" value="1" <%= params[:search][:videos] ? 'checked' : '' %> />
+							With videos
+						</label>
+					</td>
+					<td><input type="submit" value="Search" /></td>
+				</table>
+			</form>
+		</li>
+
+		<% if @users.count > 20 %>
+			<li class="pagination"><%= will_paginate @users %></li>
+		<% end %>
+
 		<% for user in @users %>
 			<li>
-				<span><%= user.id %></span>
-				<%= link_to user.name, user.url %>
-				<%= link_to user.email, user.email %>
+				<span class="fright">
+					Last Logged In:
+					<%= user.last_login.to_s(:datez) unless user.last_login.nil? %>
+					<%= 'Before January 15th, 2012' if user.last_login.nil? %>
+				</span>
+
+				<span class="title">
+					<span class="id"><%= user.id.to_s.rjust(@id_size, '0') %></span>
+					<%= link_to user.name, user.url %> &mdash;
+					<%= link_to user.email, 'mailto:' + user.email %>
+				</span>
+
+				<table class="data">
+					<tr>
+						<td>Member Since <%= user.created_at.to_s(:datez) %>.</td>
+						<td>Logged In <%= user.login_count %> times.</td>
+					</tr>
+					<tr>
+						<td>Uploaded / Attached <%= user.videos.count %> videos to profile.</td>
+						<td>Applied to <%= user.applications.where(:submitted => true).count %> jobs.</td>
+					</tr>
+					<tr>
+						<td>Is an administrator of <%= user.groups.organization.my_permissions(:administrator).count %> organizations.</td>
+						<td>Is a member of <%= user.groups.organization!.count %> groups.</td>
+					</tr>
+					<tr>
+						<td><%= link_to "Deactivate User", '#', :confirm => "Are you sure?" %></td>
+						<td><%= link_to "Destroy User", '#', :confirm => "Are you sure? This cannot be undone." %></td>
+					</tr>
+				</table>
+
+				<div class="clear"></div>
 			</li>
+		<% end %>
+
+		<% if @users.count > 20 %>
+			<li class="pagination"><%= will_paginate @users %></li>
 		<% end %>
 	</ul>
 </section>

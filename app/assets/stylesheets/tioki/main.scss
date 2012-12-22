@@ -1232,10 +1232,63 @@ form.gridded {
 			@include css3-border-box;
 
 			padding: 7px 10px;
+			font-size: 16px;
 			display: block;
+
+			border-bottom: solid 2px #e2e2e2;
 
 			&:last-child {
 				border: none;
+			}
+
+			&.pagination {
+				background: #e2e2e2;
+			}
+
+			&.search table td {
+				padding: 0px 5px;
+
+				&:first-child {
+					padding-left: 0px
+				}
+
+				&:last-child {
+					padding-right: 0px
+				}
+			}
+
+			span.fright {
+				float: right;
+			}
+
+			span.id {
+				margin: 0px 8px 6px 0px;
+				font-size: 2em;
+			}
+
+			span.title {
+				display: block;
+			}
+
+			table.data {
+				font-size: 14px;
+				width: 100%;
+
+				tr {
+			    	border-bottom: 1px dashed #e2e2e2;
+
+					&:last-child {
+						border: none;
+					}
+
+					td:last-child {
+						text-align: right;
+					}
+				}
+			}
+
+			div.clear {
+				clear:both;
 			}
 		}
     }
@@ -1246,7 +1299,6 @@ form.gridded {
 			display: inline-block;
 			background: #e2e2e2;
 			padding: 7px 10px;
-			font-size: 16px;
 			width: 311px;
 			margin: 3px;
 
@@ -1258,11 +1310,7 @@ form.gridded {
 
     ul.users {
 		li {
-			border-bottom: solid 1px #e2e2e2;
 
-			&:last-child {
-				border: none;
-			}
 		}
     }
 
