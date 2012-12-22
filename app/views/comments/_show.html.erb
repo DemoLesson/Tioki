@@ -1,7 +1,7 @@
 <li>
 	<%= link_to(image_tag(@comment.user.avatar.url(:tiny)), '/profile/' + @comment.user.slug) if @comment.user.avatar? %>
 	<%= link_to(image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/' + @comment.user.slug) unless @comment.user.avatar? %>
-	<h4><%= @comment.user.profile_link %> replied.</h4>
+	<h4><%= @comment.user.link %> replied.</h4>
 	<p><%= @comment.body %></p>
 	<div class="bar">
 		<span class="timestamp"><%= time_ago_in_words(@comment.created_at) %> ago</span>

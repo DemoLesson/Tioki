@@ -180,7 +180,7 @@ class ConnectionsController < ApplicationController
 		# If the connection saves
 		if @connect.save
 
-			Whiteboard.createActivity(:connection, "{user.profile_link} just connected with {tag.profile_link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
+			Whiteboard.createActivity(:connection, "{user.link} just connected with {tag.link} you should too!", User.find(a == @connect.user_id ? @connect.owned_by : @connect.user_id))
 			self.log_analytic(:user_connection_accepted, "Two users connection", @connect)
 
 			# Redirect to My Connections page
@@ -312,8 +312,8 @@ class ConnectionsController < ApplicationController
 
 						if ex.message == "There was an error sending your message: Whoops! You already said that."
 						else
-							break
 							notice = "An error occured while attempting to message followers"
+							break
 						end
 					rescue Twitter::Error::BadGateway
 						notice = "Twitter is down or being upgraded."
@@ -369,7 +369,7 @@ class ConnectionsController < ApplicationController
 					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
 
 					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+					UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
 					# Log an analytic
 					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", self.current_user)
@@ -405,7 +405,7 @@ class ConnectionsController < ApplicationController
 					url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
 
 					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+					UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
 					# Log an analytic
 					self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", self.current_user)
@@ -428,6 +428,24 @@ class ConnectionsController < ApplicationController
 		user = User.where('users.invite_code = ?', params[:url]).first
 		if user
 			redirect_to "/welcome_wizard?x=step1&welcomecode=#{user.invite_code}"
+		else 
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
+		end
+	end
+
+	def invite_from_twitter
+		user = User.where('users.invite_code = ?', params[:url]).first
+		if user
+			redirect_to "/welcome_wizard?x=step1&twittercode=#{user.invite_code}"
+		else 
+			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
+		end
+	end
+
+	def invite_from_facebook
+		user = User.where('users.invite_code = ?', params[:url]).first
+		if user
+			redirect_to "/welcome_wizard?x=step1&facebookcode=#{user.invite_code}"
 		else 
 			redirect_to "/welcome_wizard?x=step1", :notice => "Invalid invite code."
 		end

@@ -636,9 +636,12 @@ class User < ActiveRecord::Base
 	def vouched_skill_groups
 		SkillGroup.joins(:skills => :vouched_skills).where("vouched_skills.user_id = ?",self.id).all
 	end
+
+	# Profile URL
+	def url; "/profile/#{self.slug}"; end
     
-    # Migrated from teacher.rb
-    def profile_link(attrs = {})
+    # Profile Link
+    def link(attrs = {})
         # Parse attrs
         _attrs = []; attrs.each do |k,v|
             # Make sure not a symbol
@@ -649,8 +652,8 @@ class User < ActiveRecord::Base
         end; attrs = _attrs.join(' ')
         
         # Return the link to the profile
-        return "<a href=\"/profile/#{self.slug}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
-    end
+        return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
+	end
     
     # Migrated from teacher.rb
     def has_social?
