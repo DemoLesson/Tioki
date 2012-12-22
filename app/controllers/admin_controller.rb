@@ -3,7 +3,11 @@ class AdminController < ApplicationController
 	layout 'admin'
 
 	def index
+		# Get a list of all the stats
 		@stats = _getStats
+
+		# Get the length of the biggest stat
+		@id_size = @stats.values.max.to_s.length
 	end
 
 	def users

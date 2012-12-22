@@ -3,7 +3,7 @@
 	<ul class="stats">
 		<% for stat, num in @stats %>
 			<li>
-				<span><%= num %></span>
+				<span><%= num.to_s.rjust(@id_size, '0') %></span>
 				<%= stat.to_s.gsub('_', ' ').capitalize %>
 			</li>
 		<% end %>
