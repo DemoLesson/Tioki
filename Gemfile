@@ -1,11 +1,29 @@
 source 'http://rubygems.org'
 
-# Temporary gem for debugger-ruby_core_source
-gem 'debugger-ruby_core_source'#, :git => 'git://github.com/KellyLSB/debugger-ruby_core_source.git'
-
 # Rails Itself
 gem 'rails', '3.1.3'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
+
+group :assets do
+	gem 'sprockets'
+
+	# Coffee Script Compiler
+	gem 'coffee-script'
+	gem 'tinymce-rails'
+	gem 'uglifier'
+
+	# CSS Engine's
+	gem 'sass-rails'
+end
+
+# jQuery needs to be outside the assets group
+gem 'jquery-rails'
+
+group :development do
+	# Debug tools
+	gem 'debugger'
+	gem 'debugger-ruby_core_source'
+end
 
 # Ruby Extensions
 gem 'multimap'
@@ -14,15 +32,6 @@ gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
 # Relative time engine
 gem 'chronic', :git => 'git://github.com/KellyLSB/chronic.git'
 
-# Assets processing
-gem 'coffee-script'
-gem 'uglifier'
-gem 'sprockets'
-gem 'jquery-rails'
-
-# CSS Engine's
-gem 'less-rails'
-gem 'sass-rails'
 
 # Cloudsponge and Contacts Junk
 gem "cloudsponge", "~> 0.9.9"
@@ -52,9 +61,6 @@ gem "zencoder", "~> 2.4.0"
 gem 'httpclient'
 gem 'oauth'
 
-# XLSX Helper
-gem 'axlsx'
-
 # Delayed_Job Dependencies
 gem 'daemons'
 
@@ -62,35 +68,11 @@ gem 'daemons'
 # Using Bleeding Edge (might be bad idea but lets see)
 gem 'mysql2'#, :git => 'git://github.com/brianmario/mysql2.git'
 
-group :development do
-  gem 'brakeman'
-  gem "nifty-generators"
-  gem 'debugger'
-  gem 'ZenTest'
-  gem 'autotest-rails'
-end
-
-group :production, :staging do
-	gem 'therubyracer', '~> 0.9.3.beta1'
-	gem 'dalli'
-end
-
 gem 'uuidtools'
 gem "gmaps4rails", "~> 0.10.2"
 gem "geocoder"
 
-#gem 'arel', :git =>  'git://github.com/rails/arel.git', :branch => '2-2-stable'
-gem 'arel', '2.2.1'
-
-#gem "squeel", :git => "git://github.com/ernie/squeel.git"
-gem 'squeel', "0.8.9"
-#gem 'searchlogic'
 gem 'smart_tuple'
-
-gem "scoped_search"
-gem "sunspot_rails"
-gem 'rinku', '~> 1.5.1', :require => 'rails_rinku'
-gem 'tinymce-rails'
 
 # Bundle the extra gems:
 gem 'bj'
