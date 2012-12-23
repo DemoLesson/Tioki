@@ -1,3 +1,7 @@
+v4.1.3 - Dec 22, 2012  8:58PM PST deployed by Kelly Becker
+==========================================================
+* d49328d: Kelly Becker - readded therubyracer
+
 v4.1.2 - Dec 22, 2012  3:36PM PST deployed by Kelly Becker
 ==========================================================
 * 52ccdf8: Kelly Becker - removed old event machine websockets
