@@ -1,3 +1,7 @@
+v4.1.4 - Dec 23, 2012  2:28PM PST deployed by Kelly Becker
+==========================================================
+* f9bdbc8: Kelly Becker - fixed the message merge i did not know about
+
 v4.1.3 - Dec 22, 2012  8:58PM PST deployed by Kelly Becker
 ==========================================================
 * d49328d: Kelly Becker - readded therubyracer
