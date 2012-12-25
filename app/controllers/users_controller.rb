@@ -970,17 +970,19 @@ class UsersController < ApplicationController
 			@invite = ConnectionInvite.find(params[:invite_id])
 		end
 
-		if @user == nil
+		if @user.nil?
 			redirect_to :root
 			flash[:alert]  = "User was not found"
-		else 
-			respond_to do |format|
-				if currentUser.new_record?
-					format.html { redirect_to "/profile/#{@user.slug}/about"}
-					format.json  { render :json => @teacher } # profile.json
-				else
-					format.html # profile.html.erb
-					format.json  { render :json => @teacher } # profile.json
+		else
+			if whiteboard
+				respond_to do |format|
+					if currentUser.new_record?
+						format.html { redirect_to "/profile/#{@user.slug}/about"}
+						format.json  { render :json => @teacher } # profile.json
+					else
+						format.html # profile.html.erb
+						format.json  { render :json => @teacher } # profile.json
+					end
 				end
 			end
 		end
