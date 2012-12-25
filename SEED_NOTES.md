@@ -1,3 +1,7 @@
+v4.1.5 - Dec 24, 2012  8:51PM PST deployed by Kelly Becker
+==========================================================
+* b0c8e2a: Kelly Becker - fixed redirect loop of public profiles
+
 v4.1.4 - Dec 23, 2012  2:28PM PST deployed by Kelly Becker
 ==========================================================
 * f9bdbc8: Kelly Becker - fixed the message merge i did not know about
