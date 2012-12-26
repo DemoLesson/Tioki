@@ -147,12 +147,9 @@ class GroupsController < ApplicationController
 			@group.permissions = permissions
 		end
 
-		@group.name = params[:name]
-		@group.misc = params[:misc]
-		@group.description = params[:description]
-		@group.long_description = params[:long_description]
-		@group.social = params[:social]
-		@group.location = params[:location]
+		@group.misc = params[:group][:misc]
+		@group.social = params[:group][:social]
+		@group.location = params[:group][:location]
 
 		@group.update_attributes(params[:group])
 		if @group.save
