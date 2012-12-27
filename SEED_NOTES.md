@@ -1,3 +1,7 @@
+v4.1.6 - Dec 26, 2012  5:12PM PST deployed by Kelly Becker
+==========================================================
+* 3d51417: Elijah Green - Fix organizations not updating
+
 v4.1.5 - Dec 24, 2012  8:51PM PST deployed by Kelly Becker
 ==========================================================
 * b0c8e2a: Kelly Becker - fixed redirect loop of public profiles
