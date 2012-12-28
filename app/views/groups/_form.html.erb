@@ -26,8 +26,12 @@
 			<p>
 			Basic Information
 			</p>
-			<label>School Type</label>
+			School Type:
 			<%= select_tag('group[misc][school_type]', options_for_select([["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], :selected => @group.misc[:school_type])) %>
+			Grade Level:
+			<%= select_tag('group[misc][school_grades]', options_for_select([["Pre-K", "Pre-K"], ["Elementary","Elementary"], ["Middle", "Middle"], ["High School","High School"], ["Adult School","Adult School"], ["Other","Other"], ["K-6","K-6"], ["K-8","K-8"], ["6-12","6-12"], ["K-12","K-12"]], :selected => @group.misc[:school_grades])) %>
+			Calendar Type:
+			<%= select_tag('group[misc][school_calendar]', options_for_select([["Year-round", "Year-round"], ["Track","Track"], ["Semester", "Semester"], ["Traditional","Traditional"]], :selected => @group.misc[:school_calendar])) %>
 		</fieldset><br/>
 	<% end %>
 	<fieldset>
