@@ -13,12 +13,13 @@ group :production do
 end
 
 # Assets
-group :assets do
+# @todo remove these gems from running in development
+#group :assets do
 	gem 'sprockets' # Assets pipeline
 	gem 'coffee-script' # Coffeescript
 	gem 'uglifier' # Minify JS
 	gem 'sass-rails' # SCSS Sheets
-end
+#end
 
 # Tiny-MCE / jQuery need to be global
 gem 'jquery-rails'
