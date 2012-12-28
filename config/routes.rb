@@ -399,7 +399,6 @@ Preview::Application.routes.draw do
 	# Admin
 	match 'admin' => 'users#teacher_user_list'
 	match 'teachlist' => 'users#teacher_user_list'
-	match 'schoollist' => 'users#school_user_list'
 	match 'deactivatedlist' => 'users#deactivated_user_list'
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
