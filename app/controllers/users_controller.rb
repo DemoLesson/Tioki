@@ -220,8 +220,8 @@ class UsersController < ApplicationController
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			return redirect_to :back, :notice => "The file was not an image."
 		elsif params[:user]
-			#move tempoary file created by uploader 
-			#to a file that won't disapper after the completion of the request
+			# Move temporary file created by uploader
+			# To a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
 			path = File.join(directory, params[:user][:avatar].original_filename)
 			File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
@@ -238,33 +238,60 @@ class UsersController < ApplicationController
 
 	def crop_image_temp
 		@user = self.current_user
-		orig_img = Magick::ImageList.new(Rails.root.join('public'+@user.temp_img_name))
+
+		# Load in the existing image file
+		orig_img = MiniMagick::Image.open(Rails.root.join('public' + @user.temp_img_name))
+
 		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
-			args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
+			# Prepare the crop arguments
+			# @todo this may not be accurate. double check.
+			args = "#{params[:user][:crop_w].to_i}x#{params[:user][:crop_h].to_i}+#{params[:user][:crop_x].to_i}+#{params[:user][:crop_y].to_i}"
 
-			orig_img.crop!(*args)
-		else
-			#crop values have not been set, just resize to fit 1:1 aspect ratio
-			#the size of the image will be whatever side is smaller
-			if orig_img.rows > orig_img.columns
-				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns, Magick::NorthGravity)
-			else
-				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
-			end
+			# Crop the image
+			orig_img.crop(args)
+
+		# @todo figure out what we really want to do here
+		# WAIT! Why are we running this. It scales the image down to the largest side it does not make it square
+		#else
+		#	# Get the width and height from the image
+		#	width, height = orig_img['%w %h'].split
+		#
+		#	# Get the largest side
+		#	largest_side = width > height ? height : width
+		#
+		#	# Scale the image using MATH
+		#	if width > height
+		#		height = (height * (largest_side / width)).to_i
+		#		width = largest_side
+		#	else
+		#		width = (width * (largest_side / height)).to_i
+		#		height = largest_side
+		#	end
+		#
+		#	# Create the thumbnail
+		#	orig_image.thumbnail('#{width}x#{height}')
 		end
-		#Create temp file in order to save the cropped image for later saving to amazon s3
+
+		# Create temp file in order to save the cropped image for later saving to amazon s3
 		tmp_img = Tempfile.new(@user.original_name, Rails.root.join('tmp'))
 
-		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
+		# Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
 		tmp_img.binmode
+
+		# Write the image to the drive
 		tmp_img.write(orig_img.to_blob)
+
+		# Update the avatar with the tmp image
 		@user.update_attribute(:avatar, tmp_img)
+
+		# Delete the tmp file
+		tmp_img.close
 
 		# Log to the whiteboard that a user updated their profile picture
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
-		tmp_img.close
+		# Redirect to the file url
 		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
 	end
 

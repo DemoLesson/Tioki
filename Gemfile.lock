@@ -99,13 +99,13 @@ GEM
     columnize (0.3.6)
     curb (0.8.3)
     daemons (1.1.9)
-    debugger (1.2.2)
+    debugger (1.2.3)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
       debugger-ruby_core_source (~> 1.1.5)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.5)
+    debugger-ruby_core_source (1.1.6)
     delayed_job (3.0.4)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
@@ -131,7 +131,7 @@ GEM
     formatador (0.2.4)
     gelf (1.3.2)
       json
-    geocoder (1.1.5)
+    geocoder (1.1.6)
     gibberish (1.2.0)
     graylog2-resque (0.5.1)
       gelf
@@ -167,6 +167,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.19)
+    mini_magick (3.4)
+      subexec (~> 0.2.1)
     multi_json (1.5.0)
     multi_xml (0.5.1)
     multimap (1.1.2)
@@ -180,7 +182,7 @@ GEM
       jruby-pageant (>= 1.0.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    newrelic_rpm (3.5.4.33)
+    newrelic_rpm (3.5.4.34)
     nokogiri (1.5.6)
     oauth (0.4.7)
     open4 (1.3.0)
@@ -234,7 +236,6 @@ GEM
       vegas (~> 0.1.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rmagick (2.13.1)
     rubber (2.1.2)
       capistrano (~> 2.12)
       clamp
@@ -260,6 +261,7 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    subexec (0.2.2)
     systemu (2.5.2)
     terminal-notifier (1.4.2)
     therubyracer (0.9.10)
@@ -325,6 +327,7 @@ DEPENDENCIES
   kvpair!
   linkedin
   mailgun-rails!
+  mini_magick
   multimap
   mysql2
   newrelic_rpm
@@ -336,7 +339,6 @@ DEPENDENCIES
   rails (= 3.1.3)
   remotipart (~> 0.4.1)
   rest-client
-  rmagick
   rubber
   sass-rails
   smart_tuple

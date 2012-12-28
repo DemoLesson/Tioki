@@ -56,20 +56,21 @@ gem 'geocoder' # Geocoder / Reverse Geocoder
 gem 'os' # Users operating system information
 gem 'htmlentities' # HTML entities helper
 gem 'possessive' # Intelligent possesification
-gem 'rmagick', :require => 'RMagick' # ImageMagick
+gem 'mini_magick' # ImageMagick support
 gem 'acts_as_commentable_with_threading' # Threaded Comments
 gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
 # @todo deprecate smart_tuple replace with solr
 gem 'smart_tuple' # Tuple styled SQL Queries
 
 # @todo cleanup file upload process
+# @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 3.3.0'
+gem 'paperclip', '~> 3.3.0' # Depreciate
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
-gem 'carrierwave'
-gem 'carrierwave_direct'
-gem 'remotipart', '~> 0.4.1'
+gem 'carrierwave' # Use instead of paperclip
+gem 'carrierwave_direct' # Direct uploads to S3
+gem 'remotipart', '~> 0.4.1' # Do we actually need this
 gem 'fog'
 
 # Webserver
