@@ -1,3 +1,7 @@
+v4.1.8 - Dec 27, 2012  5:40PM PST deployed by Kelly Becker
+==========================================================
+* 81746c2: Kelly Becker - remove assets group
+
 v4.1.7 - Dec 27, 2012  5:19PM PST deployed by Kelly Becker
 ==========================================================
 * de6b91b: Kelly Becker - mini_magick instead of rmagick
