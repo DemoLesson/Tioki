@@ -1,3 +1,8 @@
+v4.1.9 - Dec 28, 2012 11:22AM PST deployed by Kelly Becker
+==========================================================
+* b91a3c8: Kelly Becker - switch current_user.nil? to currentUser.new_record?
+* 7f42f83: Kelly Becker - removed alternate http clients
+
 v4.1.8 - Dec 27, 2012  5:40PM PST deployed by Kelly Becker
 ==========================================================
 * 81746c2: Kelly Becker - remove assets group
