@@ -1,3 +1,4 @@
+# @todo review: is this required?
 class Zencoder
   include HTTParty
   headers "Accept" => "application/json", "Content-Type" => "application/json"

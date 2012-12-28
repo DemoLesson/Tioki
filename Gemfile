@@ -13,7 +13,7 @@ group :production do
 end
 
 # Assets
-# @todo remove these gems from running in development
+# @todo remove these gems from running in production
 #group :assets do
 	gem 'sprockets' # Assets pipeline
 	gem 'coffee-script' # Coffeescript
@@ -24,12 +24,6 @@ end
 # Tiny-MCE / jQuery need to be global
 gem 'jquery-rails'
 gem 'tinymce-rails'
-
-# @todo only have one of these
-# HTTP Clients
-gem 'httpclient'
-gem 'httparty'
-gem 'rest-client'
 
 # Social Networks and oAuth
 gem 'oauth'
@@ -44,12 +38,13 @@ gem 'zencoder', '~> 2.4.0'
 gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git' # Mailgun API Access
 
 # Ruby extenions
-gem 'multimap'
+gem 'multimap' # Ruby Multimapper
 gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git' # Bitwise Booleans
 gem 'kvpair', :git => 'git://github.com/KellyLSB/KVPair.git' # Rails 3.1 Key => Value Pairs
 gem 'dnsruby' # Provides DNS Record Details
 gem 'chronic' # Relative time engine
 gem 'gibberish' # Encryption
+gem 'httparty' # HTTP Client
 gem 'delayed_job_active_record' # Delayed Jobs
 gem 'daemons' # Ruby Daemons / Delayed Job Dependency
 gem 'uuidtools' # Universal Unique ID Generator

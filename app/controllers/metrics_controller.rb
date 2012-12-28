@@ -197,7 +197,7 @@ class MetricsController < ApplicationController
 
 			# Generate Query String and Call
 			query_string = url_params.collect {|k, v| "#{k.to_s}=#{CGI::escape(v.to_s)}"}.join("&")
-			stats = JSON.parse(RestClient.get "https://api:#{key}@api.mailgun.net/v2/#{domain}/stats?#{query_string}")
+			stats = JSON.parse(HTTParty.get "https://api:#{key}@api.mailgun.net/v2/#{domain}/stats?#{query_string}")
 
 			process = Hash.new
 			stats["items"].each do |x|

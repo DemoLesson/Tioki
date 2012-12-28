@@ -204,7 +204,7 @@ class Video < ActiveRecord::Base
     unless external?
       begin
         thumbnail_url = self.output_url[0...-4] + '/frame_0001.png'
-        raise StandardError unless RestClient.head(thumbnail_url).code == 200
+        raise StandardError unless HTTParty.get(thumbnail_url).code == 200
         return thumbnail_url 
       rescue
         return "tioki/icons/play-icon.png"
