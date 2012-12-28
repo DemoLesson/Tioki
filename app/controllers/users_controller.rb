@@ -431,58 +431,6 @@ class UsersController < ApplicationController
 		@users=@users.paginate :page => params[:page], :per_page => 100
 	end
 
-	def school_user_list
-		if request.post?
-			user = User.new(:first_name => params[:contact_first],
-							:last_name => params[:contact_last],
-							:email => params[:email],
-							:password => params[:pass])
-			if user.save
-				@school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-				if @school.save
-					o=Organization.create
-					o.update_attribute(:owned_by, user.id)
-
-					flash[:notice] = "The account was successfully created"
-				else
-					user.destroy
-					flash[:notice] = "The account school could not be created"
-				end
-			else
-				flash[:notice] = "The account could not be created."
-			end
-		end
-		if params[:orgname] || params[:contactname] || params[:emailaddress]
-			#The default scope for schools is currently joined with users
-			#so I can select rows from the users table
-      # @todo what uses this method and why are we getting an array?
-			@schools = School.where('schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%").order("created_at DESC").all
-    else
-      # @todo what uses this method and why are we getting an array?
-			@schools = School.order("created_at DESC").all
-		end
-		#number of shared users+admins that created the orginal accounts
-		#Full admins+Limited admins+organizations
-		@admincount = SharedUsers.count+Organization.count
-		@schools=@schools.paginate :per_page => 100, :page => params[:page]
-
-		#count the total of applicants and jobs instead of based on what is searched
-		@jobcount=0
-		@applicants = 0
-		School.all.each do |school|
-			user = User.find(school.owned_by) 
-			@jobcount+=school.jobs.count
-			school.jobs.each do |job| 
-				@applicants = @applicants + job.applications.where("applications.submitted = 1").count 
-			end
-		end
-
-		@stats = []
-		@stats.push({:name => 'Total Schools', :value => School.count})
-		@stats.push({:name => 'Total Jobs', :value => @jobcount})
-		@stats.push({:name => 'Total Applicants', :value => @applicants})
-	end
-
 	def donors_choose_list
     # @todo find a better way to do this
 		@users = User.joins(:connection_invites).where('connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', "2012-10-22 20:00:00").all.uniq.paginate(:per_page => 100, :page => params[:page])
@@ -553,6 +501,7 @@ class UsersController < ApplicationController
 		end
 	end
 
+	# @todo! verify usage
 	def new_member
 		@schools = self.current_user.schools 
 		if request.post?

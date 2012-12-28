@@ -366,17 +366,6 @@ class User < ActiveRecord::Base
 		self.is_limited
 	end
 
-	def job_allowance
-		if is_shared
-			@shared = SharedUsers.where(:user_id => id).first
-			o = Organization.where(:owned_by => @shared.owned_by).first
-			return o.job_allowance
-		else
-			o = Organization.where(:owned_by => id).first
-			return o.job_allowance
-		end
-	end
-
 	def jobcount
 		jobs=0
 		schools=self.schools
