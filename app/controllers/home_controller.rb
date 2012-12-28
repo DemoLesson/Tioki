@@ -73,7 +73,7 @@ class HomeController < ApplicationController
 	end
 	
 	def site_referral
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			name = self.current_user.name
 		else
 			name = "[name]"
@@ -184,7 +184,7 @@ class HomeController < ApplicationController
 		@message = @message.gsub("\n", '<br />');
 
 		# Get the current user if applicable
-		user = self.current_user unless self.current_user.nil?
+		user = self.current_user unless currentUser.new_record?
 
 		# Send out the email to the list of emails
 		UserMailer.refer_site_email(@teachername, @emails, @message, user).deliver
@@ -196,7 +196,7 @@ class HomeController < ApplicationController
 	end
 
 	def whiteboard_share
-		redirect_to :root if self.current_user.nil?
+		redirect_to :root if currentUser.new_record?
 		if params[:message].present?
 			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
@@ -229,7 +229,7 @@ class HomeController < ApplicationController
 
 	def whiteboard_rmv
 		w = Whiteboard.find(params[:post])
-		redirect_to :root if self.current_user.nil? || (w.user != self.current_user && !self.current_user.is_admin)
+		redirect_to :root if currentUser.new_record? || (w.user != self.current_user && !self.current_user.is_admin)
 		w.destroy
         redirect_to :root
 	end

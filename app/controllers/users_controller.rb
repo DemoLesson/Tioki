@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 	end
 
 	def login
-		return redirect_to :root unless self.current_user.nil?
+		return redirect_to :root unless currentUser.new_record?
 
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
@@ -292,7 +292,7 @@ class UsersController < ApplicationController
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		# Redirect to the file url
-		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
+		redirect_to(!currentUser.new_record? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
@@ -973,7 +973,7 @@ class UsersController < ApplicationController
 		raise ActiveRecord::RecordNotFound, "User profile could not found." if @user.nil?
 
 		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
-		if !self.current_user.nil? && !@user.me?
+		if !currentUser.new_record? && !@user.me?
 			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
 		end
 
@@ -1096,7 +1096,7 @@ class UsersController < ApplicationController
 	private
 
 	def authenticate
-		return true if !self.current_user.nil? && self.current_user.is_admin
+		return true if !currentUser.new_record? && self.current_user.is_admin
 
 		# If auth fail
 		render :text => "Access Denied"

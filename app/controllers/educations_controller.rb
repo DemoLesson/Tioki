@@ -8,7 +8,7 @@ class EducationsController < ApplicationController
 		@educations = self.current_user.educations
 
 		@education = Education.new
-		raise ActiveRecord::RecordNotFound, "User not found." if self.current_user.nil?
+		raise ActiveRecord::RecordNotFound, "User not found." if currentUser.new_record?
 	end
 	
 	def destroy

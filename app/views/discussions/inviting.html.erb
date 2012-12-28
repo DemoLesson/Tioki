@@ -24,7 +24,7 @@ var csPageOptions = {
 						<td style="width:40%;vertical-align:top;">
 							<div class="field">
 								<%= f.label :teachername, "Your Name" %>
-								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+								<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;margin:10px auto;", :class => "css3-border-box", :value => currentUser.new_record? ? '' : self.current_user.name %><br />
 							</div>
 						</td>
 						<td rowspan="2" style="width:60%;vertical-align:top;padding-left:20px">

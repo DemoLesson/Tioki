@@ -50,7 +50,7 @@ module EventsHelper
 	end
 
 	def rsvp_status(event)
-		!(!self.current_user.nil? && self.current_user.rsvp.index(event) == nil)
+		!(!currentUser.new_record? && self.current_user.rsvp.index(event) == nil)
 	end
 
 	def location(type = :physical, event)

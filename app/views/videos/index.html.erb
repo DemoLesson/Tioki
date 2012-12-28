@@ -8,7 +8,7 @@
 		<nav class="subpage" style="width: 635px;margin-left: 0px;margin-top: -15px; margin-bottom: 10px;">
 		<ul>
 			<li>
-				<% if !self.current_user.nil? && @self %>
+				<% if !currentUser.new_record? && @self %>
 					<a href="/me/profile">
 					<% else %>
 						<a href="/profile/<%= @user.slug %>">
@@ -35,7 +35,7 @@
 				</a>
 			</li>
 
-			<% if !self.current_user.nil? && @self %>
+			<% if !currentUser.new_record? && @self %>
 				<li>
 					<a href="/me/profile/stats">
 						Stats

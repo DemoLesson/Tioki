@@ -22,10 +22,10 @@ class EventsController < ApplicationController
 
 	def list
 		# Get only the events that I created
-		@events = Event.where("`events`.`user_id` = ?", self.current_user.id) if params.has_key?("mine") && !self.current_user.nil?
+		@events = Event.where("`events`.`user_id` = ?", self.current_user.id) if params.has_key?("mine") && !currentUser.new_record?
 
 		# Get all event unless we are requesting "Mine"
-		@events = Event.where("'1' = '1'") unless params.has_key?("mine") && !self.current_user.nil?
+		@events = Event.where("'1' = '1'") unless params.has_key?("mine") && !currentUser.new_record?
 
 		# Get events that span a specific date
 		if params.has_key?("date")
@@ -200,7 +200,7 @@ class EventsController < ApplicationController
 		@event = Event.find(params[:id])
 
 		# Load in the current users name
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			name = self.current_user.name
 		else
 			name = "[name]"
@@ -230,7 +230,7 @@ class EventsController < ApplicationController
 		@message = @message.gsub("\n", '<br />');
 
 		# Get the current user if applicable
-		user = self.current_user unless self.current_user.nil?
+		user = self.current_user unless currentUser.new_record?
 
 		# Send out the email to the list of emails
 		UserMailer.event_invite_email(@teachername, @emails, @message, @event, user).deliver

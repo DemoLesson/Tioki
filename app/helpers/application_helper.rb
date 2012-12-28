@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def ablang(slug, uc = true)
-    unless self.current_user.nil?
+    unless currentUser.new_record?
       ab = self.current_user.ab
       ab = ab.to_i if ab.is_a?(String) && ab.numeric?
     else

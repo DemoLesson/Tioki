@@ -69,8 +69,8 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Get a list of my connections
-		@my_connections = Connection.mine(:pending => false).collect { |connection| connection.not_me_id(@current_user.id) } unless self.current_user.nil?
-		@my_connections = Array.new if self.current_user.nil?
+		@my_connections = Connection.mine(:pending => false).collect { |connection| connection.not_me_id(@current_user.id) } unless currentUser.new_record?
+		@my_connections = Array.new if currentUser.new_record?
 	end
 
 	def discussions
@@ -203,7 +203,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Load in the current users name
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			name = self.current_user.name
 		else
 			name = "[name]"
@@ -233,7 +233,7 @@ class GroupsController < ApplicationController
 		@message = @message.gsub("\n", '<br />');
 
 		# Get the current user if applicable
-		user = self.current_user unless self.current_user.nil?
+		user = self.current_user unless currentUser.new_record?
 
 		# Send out the email to the list of emails
 		UserMailer.group_invite_email(@teachername, @emails, @message, @group, user).deliver

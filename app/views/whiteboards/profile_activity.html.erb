@@ -15,7 +15,7 @@
 				(<%= @post.getComments.count %>) Comments
 			</a>
 			<span class="icons">
-				<% if !self.current_user.nil? %>
+				<% if !currentUser.new_record? %>
 					<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
 						<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
 						<span class="iconic star"><%= favorites(@post) %></span>
@@ -73,7 +73,7 @@
 			</form>
 		</div>
 		<span class="icons">
-			<% if !self.current_user.nil? %>
+			<% if !currentUser.new_record? %>
 				<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
 					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="Favorite this post!">
 						<span class="iconic star"><%= favorites(@post) %></span>

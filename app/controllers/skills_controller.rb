@@ -18,8 +18,8 @@ class SkillsController < ApplicationController
 	    @technologies = @skill.technologies
 
 	    # Get a list of my connections
-	    @my_connections = Connection.mine(:pending => false) unless self.current_user.nil?
-	    @my_connections = Array.new if self.current_user.nil?
+	    @my_connections = Connection.mine(:pending => false) unless currentUser.new_record?
+	    @my_connections = Array.new if currentUser.new_record?
 
 	    # Get a list of events
 	    @events = Event.where("`events`.`end_time` >= CURDATE() && `skills`.`id` = ?", @skill.id).

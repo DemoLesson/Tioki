@@ -147,7 +147,7 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 		
 				<ul>
-					<%unless self.current_user.nil? %>
+					<%unless currentUser.new_record? %>
 					<li>
 						<% if @self %>
 						<a href="/me/profile">
@@ -170,14 +170,14 @@
 						Resume
 						</a>
 					</li>
-					<%unless self.current_user.nil? %>
+					<%unless currentUser.new_record? %>
 						<% if @user.videos.count > 0 %>
 						<li>
 							<a href="/profile/<%= @user.slug %>/videos">
 							Videos
 							</a>
 						</li>
-						<% elsif !self.current_user.nil? && @self %>
+						<% elsif !currentUser.new_record? && @self %>
 						<li>
 							<a href="/me/profile/edit/upload-video">
 							Upload Video
@@ -185,7 +185,7 @@
 						</li>
 						<% end %>
 					<% end %>
-					<% if !self.current_user.nil? && @self %>
+					<% if !currentUser.new_record? && @self %>
 					<li>
 						<a href="/me/profile/stats">
 						Stats
@@ -361,7 +361,7 @@
 				<% else %>
 					<section class="profile-info group">
 						<!-- Giving the profile owner the ability to edit -->
-						<% if !self.current_user.nil? && @self %>
+						<% if !currentUser.new_record? && @self %>
 							<h3 class="bottom-line">
 								<%= link_to "Groups", "/groups", :style => "color:#4D4D4D", :id => "groups" %>	
 								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/groups" %>
@@ -462,7 +462,7 @@
 				<% else %>
 					<section class="profile-info group">
 						<!-- Giving the profile owner the ability to edit -->
-						<% if !self.current_user.nil? && @self %>
+						<% if !currentUser.new_record? && @self %>
 							<h3 class="bottom-line">
 								<%= link_to "Technology", "/technologies", :style => "color:#4D4D4D", :id => "technology" %>	
 								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/technologies" %>

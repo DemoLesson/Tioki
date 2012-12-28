@@ -23,14 +23,14 @@ class WelcomeWizardController < ApplicationController
 		return self.send(params[:x]) unless params[:x].nil?
 
 		# Make sure the user is not logged in
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			return redirect_to :root
 		end
 	end
 
 	def step1
 		# Make sure the user is not logged in
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			flash[:notice] = "You cannot go to step 1 of the welcome wizard after you have joined the site."
 			return redirect_to :root
 		end
@@ -116,7 +116,7 @@ class WelcomeWizardController < ApplicationController
 	def step2
 
 		# Make sure the user is logged in
-		if self.current_user.nil?
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
@@ -183,7 +183,7 @@ class WelcomeWizardController < ApplicationController
 	def step3
 
 		# Make sure the user is logged in
-		if self.current_user.nil?
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
@@ -302,7 +302,7 @@ class WelcomeWizardController < ApplicationController
 
 	def step5
 
-		if self.current_user.nil? 
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end

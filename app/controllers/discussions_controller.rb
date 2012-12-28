@@ -276,7 +276,7 @@ class DiscussionsController < ApplicationController
 		@discussion = Discussion.find(params[:id])
 
 		# Load in the current users name
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			name = self.current_user.name
 		else
 			name = "[name]"
@@ -306,7 +306,7 @@ class DiscussionsController < ApplicationController
 		@message = @message.gsub("\n", '<br />');
 
 		# Get the current user if applicable
-		user = self.current_user unless self.current_user.nil?
+		user = self.current_user unless currentUser.new_record?
 
 		# Send out the email to the list of emails
 		UserMailer.discussion_invite_email(@name, @emails, @message, @discussion, user).deliver
