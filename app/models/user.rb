@@ -162,19 +162,14 @@ class User < ActiveRecord::Base
         UserMailer.user_welcome_email(self).deliver
     end
 
-  # @todo cleanup / deprecate
-	def all_jobs_for_schools
-		all_schools.each.inject([]) do |jobs, school|
-			jobs += Job.where('school_id = ? AND active = ?', school.id, true).order('created_at DESC').all
-		end
+	# Return jobs that I administrate
+	def my_jobs
+		organizations.map(&:jobs).flatten
 	end
 
-	def all_schools
-		if self.is_limited?
-			return self.sharedschools
-		else
-			return self.schools
-		end
+	# Return my organizations
+	def organizations(rank = :administrator)
+		groups.organization.my_permissions(rank)
 	end
 
 	def change_password(params)
@@ -265,24 +260,6 @@ class User < ActiveRecord::Base
 
 	def connections
 		Connection.where('`user_id` = ? || `owned_by` = ?', self.id, self.id)
-	end
-
-	def create_school
-		s = self.school
-		if s.nil?
-			s = School.create!(:user => self, :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :name => 'New School', :gmaps => 1)
-			s.owned_by = self.id
-			s.save!
-		end
-		return s
-		#@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer_schools.yml'))).result)[Rails.env]
-		#@message = Message.new
-		#@message.user_id_from = @mailer["from"].to_i
-		#@message.user_id_to = self.id
-		#@message.subject = @mailer["subject"]
-		#@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
-		#@message.read = false
-		#@message.save
 	end
 
 	def distance(find, level = 1, delve = false, scanned = [])
@@ -407,16 +384,6 @@ class User < ActiveRecord::Base
 			jobs=school.jobs.count+jobs
 		end
 		return(jobs)
-	end
-
-  # @todo is this still required / deprecate?
-	def organization
-		if is_shared
-			s = SharedUsers.where(:user_id => id).first
-			return Organization.where(:owned_by => s.owned_by).first
-		else
-			return Organization.where(:owned_by => id ).first
-		end
 	end
 
 	def password=(pass)

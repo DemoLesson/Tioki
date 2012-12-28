@@ -37,31 +37,6 @@ class UsersController < ApplicationController
 		redirect_to :root
 	end
 
-	# Deprecate
-	def create_admin
-		@user = User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
-		@success = ""
-		if @user.save
-			session[:user] = User.authenticate(@user.email, @user.password)
-			@school = School.new(:user => @user, :name=> params[:schoolname], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-			if @school.save
-				o=Organization.create
-				o.update_attribute(:owned_by, @user.id)
-				o.update_attribute(:name, params[:schoolname])
-				UserMailer.school_signup_email(params[:name], params[:schoolname], params[:email], params[:phonenumber], @school).deliver
-				self.current_user.default_home = school_path(self.current_user.school.id)
-				self.log_analytic(:organization_signup, "New organization signed up.", @user)
-				redirect_to :school_thankyou, :notice => "Signup successful!"
-			else
-				@user.destroy
-				flash[:notice] = "Signup unsuccessful."
-			end
-		else
-			flash[:notice] = "Signup unsuccessful."
-			redirect_to :root
-		end
-	end
-
 	def swap_dashboard
 		dashboard = params[:switch]
 
