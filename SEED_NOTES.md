@@ -1,3 +1,9 @@
+v4.1.10 - Dec 28, 2012 12:33PM PST deployed by Kelly Becker
+===========================================================
+* 2e1eff4: Kelly Becker - removed and replaced some outdated methods
+* 74d0384: Aleks Stanisic - removing connection vouch split test for now
+* 3954c60: Kelly Becker - removed unused zencoder class
+
 v4.1.9 - Dec 28, 2012 11:22AM PST deployed by Kelly Becker
 ==========================================================
 * b91a3c8: Kelly Becker - switch current_user.nil? to currentUser.new_record?
