@@ -38,7 +38,7 @@
 				<%= link_to "Add To My Profile", { :action => "add_technology", :id => @technology.id}, :class => "button", :style => "float:right" %>
 			<% end %>
 		<% end %>
-		<% if @technology.description? %><p><h3>Description</h3><%=raw auto_link(@technology.description).gsub(/\n/, '<br />') %></p><% end %>
+		<% if @technology.description? %><p><h3>Description</h3><%= @technology.description.gsub(/\n/, '<br />').html_safe %></p><% end %>
 
 		<section class="profile-content panel comments inline" style="margin:30px 0px;clear:none;">
 			<h3>Comments</h3>
