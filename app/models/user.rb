@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
 	kvpair :cache
 
 	# BitSwitches
+	bitswitch :privacy_public, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :privacy_connected, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :privacy_recruiter, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :email_permissions, APP_CONFIG['bitswitches']['email_permissions']
 
 	# Default scope of a user
 	default_scope where(:deleted_at => nil)
@@ -262,6 +266,7 @@ class User < ActiveRecord::Base
 		Connection.where('`user_id` = ? || `owned_by` = ?', self.id, self.id)
 	end
 
+	# @todo optimize and rebuild
 	def distance(find, level = 1, delve = false, scanned = [])
 
 		# Dont go to deep
@@ -301,10 +306,6 @@ class User < ActiveRecord::Base
 			return results.min if level == 1
 			return results
 		end
-	end
-
-	def email_permissions
-		super.to_switch(APP_CONFIG['bitswitches']['email_permissions'])
 	end
 
 	def facebook_auth?
@@ -389,10 +390,6 @@ class User < ActiveRecord::Base
 		Connection.mine(:user => self.id, :pending => true, :creator => false).count
 	end
 
-	def privacy
-		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
-	end
-
 	def rank?(type = false)
 		return !nil? unless type
 		return !nil? && is_admin if type == 'admin'
@@ -430,37 +427,6 @@ class User < ActiveRecord::Base
 
 	def self.avatar?(has = true)
 		where('`users`.`avatar_updated_at` IS ' + (has ? 'NOT ' : '') + 'NULL')
-	end
-
-	def self.email_permissions
-		# Get available bits and list of conditions
-		bits = APP_CONFIG['bitswitches']['email_permissions'].invert
-		conditions = Array.new
-
-		# Run bitwise conditions
-		conds[:slugs].each do |slug, tf|
-			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
-			conditions << "POW(2, #{bits[slug]}) & `users`.`email_permissions`" + (tf ? ' > 0' : ' <= 0')
-		end
-
-		# Add conditions
-		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
-	end
-
-	def self.privacy(conds = {})
-
-		# Get available bits and list of conditions
-		bits = APP_CONFIG['bitswitches']['user_privacy'].invert
-		conditions = Array.new
-
-		# Run bitwise conditions
-		conds[:slugs].each do |slug, tf|
-			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
-			conditions << "POW(2, #{bits[slug]}) & `users`.`privacy`" + (tf ? ' > 0' : ' <= 0')
-		end
-
-		# Add conditions
-		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
 	def send_new_password

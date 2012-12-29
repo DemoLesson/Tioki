@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221220830) do
+ActiveRecord::Schema.define(:version => 20121228214732) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -752,7 +752,7 @@ ActiveRecord::Schema.define(:version => 20121221220830) do
     t.string   "last_name"
     t.string   "original_name"
     t.string   "temp_img_name"
-    t.integer  "privacy",               :default => 0,     :null => false
+    t.integer  "privacy_public",        :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
@@ -771,6 +771,8 @@ ActiveRecord::Schema.define(:version => 20121221220830) do
     t.string   "state"
     t.string   "city"
     t.integer  "connections_count",     :default => 0
+    t.integer  "privacy_connected"
+    t.integer  "privacy_recruiter"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

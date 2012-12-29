@@ -331,7 +331,7 @@ class UsersController < ApplicationController
 		@user = User.find(self.current_user.id)
 
 		# Get BitSwitch
-		email_permissions = @user.email_permissions
+		@user.email_permissions = params[:permissions]
 
 		# Set the new values
 		params[:permissions].each do |slug, tf|
@@ -565,7 +565,7 @@ class UsersController < ApplicationController
 		if request.post?
 
 			# Get BitSwitch
-			privacy = @user.privacy
+			privacy = @user.public_privacy
 
 			# Set the new values
 			params[:public].each do |slug, tf|
@@ -964,67 +964,67 @@ class UsersController < ApplicationController
 
 	# Upgrade account
 
-		def upgrade
-			if request.post?
-				case params[:type]
-				when 'recruiter'
-					group = Group.new(params[:group])
+	def upgrade
+		if request.post?
+			case params[:type]
+			when 'recruiter'
+				group = Group.new(params[:group])
 
-					respond_to do |format|
-						if group.save
+				respond_to do |format|
+					if group.save
 
-							# Set permissions
-							group.permissions = {
-								:hidden => true,
-								:private => true,
-								:organization => true
-							}
+						# Set permissions
+						group.permissions = {
+							:hidden => true,
+							:private => true,
+							:organization => true
+						}
 
-							# Create join row for users -> groups
-							user_group = User_Group.new
-							user_group.user_id = currentUser.id
-							user_group.group_id = group.id
-							user_group.save
+						# Create join row for users -> groups
+						user_group = User_Group.new
+						user_group.user_id = currentUser.id
+						user_group.group_id = group.id
+						user_group.save
 
-							#Log into Analytics 
-							self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
-							
-							# Add the first administrator
-							user_group.permissions = {
-								:member => true,
-								:moderator => true,
-								:administrator => true,
-								:owner => true
-							}
+						#Log into Analytics
+						self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
 
-							JobPack.create(
-								:group => group,
-								:jobs => 1,
-								:expiration => Time.now + 60.days,
-								:inception => Time.now,
-								:refunded => 0,
-								:amount => 0,
-								:additional_data => {:freebie => true}.to_json)
+						# Add the first administrator
+						user_group.permissions = {
+							:member => true,
+							:moderator => true,
+							:administrator => true,
+							:owner => true
+						}
 
-							# Return HTML or JSON
-							format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
-						else
-							flash[:error] = "There was an error creating your organization"
-							redirect_to :back
-						end
+						JobPack.create(
+							:group => group,
+							:jobs => 1,
+							:expiration => Time.now + 60.days,
+							:inception => Time.now,
+							:refunded => 0,
+							:amount => 0,
+							:additional_data => {:freebie => true}.to_json)
+
+						# Return HTML or JSON
+						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
+					else
+						flash[:error] = "There was an error creating your organization"
+						redirect_to :back
 					end
 				end
 			end
 		end
+	end
 
 	private
 
-	def authenticate
-		return true if !currentUser.new_record? && self.current_user.is_admin
+		def authenticate
+			return true if !currentUser.new_record? && self.current_user.is_admin
 
-		# If auth fail
-		render :text => "Access Denied"
-		return 401
+			# If auth fail
+			render :text => "Access Denied"
+			return 401
 
-	end
+		end
 end

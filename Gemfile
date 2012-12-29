@@ -39,7 +39,7 @@ gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git' # Mai
 
 # Ruby extenions
 gem 'multimap' # Ruby Multimapper
-gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git' # Bitwise Booleans
+gem 'bitswitch', :path => '/Users/kbecker/Development/ruby/bitswitch'#, :git => 'git://github.com/KellyLSB/Bitswitch.git' # Bitwise Booleans
 gem 'kvpair', :git => 'git://github.com/KellyLSB/KVPair.git' # Rails 3.1 Key => Value Pairs
 gem 'dnsruby' # Provides DNS Record Details
 gem 'chronic' # Relative time engine
