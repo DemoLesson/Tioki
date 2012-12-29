@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
 
 	# Current User
 	# @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
-	def currentUser; User.find(session[:user]) rescue User.new; end
+	def currentUser
+		@currentUser ||= User.find(session[:user]) rescue @currentUser ||= User.new
+	end
 
 	# Sweep away old sessions
 	def sweep_session; Session.sweep("2 hours"); end
