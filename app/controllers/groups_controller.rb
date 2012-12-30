@@ -147,9 +147,9 @@ class GroupsController < ApplicationController
 			@group.permissions = permissions
 		end
 
-		@group.misc = params[:group][:misc]
-		@group.social = params[:group][:social]
-		@group.location = params[:group][:location]
+		@group.misc = params[:group][:misc] if params[:group][:misc]
+		@group.social = params[:group][:social] if params[:group][:social]
+		@group.location = params[:group][:location] if params[:group][:location]
 
 		@group.update_attributes(params[:group])
 		if @group.save
