@@ -1,3 +1,11 @@
+v4.1.12 - Dec 31, 2012 12:08PM PST deployed by Kelly Becker
+===========================================================
+* 2f4ea3e: Kelly Becker - gemlock
+* 76ca007: Kelly Becker - groundwork for new privacy
+* 4b355a9: Kelly Becker - new user privacy permissions
+
+Removed all outdated branches... If you have any branches that have been deleted remotely please push them back to origin
+
 v4.1.11 - Dec 31, 2012 10:33AM PST deployed by Kelly Becker
 ===========================================================
 * 899f6f6: Elijah Green - Fix pictures uploading for groups
