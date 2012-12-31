@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Get a list of my connections
-		@my_connections = Connection.mine(:pending => false).collect { |connection| connection.not_me_id(@current_user.id) } unless currentUser.new_record?
+		@my_connections = Connection.mine(:pending => false).collect { |connection| connection.not_me_id(currentUser.id) } unless currentUser.new_record?
 		@my_connections = Array.new if currentUser.new_record?
 	end
 
@@ -147,9 +147,9 @@ class GroupsController < ApplicationController
 			@group.permissions = permissions
 		end
 
-		@group.misc = params[:group][:misc]
-		@group.social = params[:group][:social]
-		@group.location = params[:group][:location]
+		@group.misc = params[:group][:misc] if params[:group][:misc]
+		@group.social = params[:group][:social] if params[:group][:social]
+		@group.location = params[:group][:location] if params[:group][:location]
 
 		@group.update_attributes(params[:group])
 		if @group.save

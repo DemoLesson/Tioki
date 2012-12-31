@@ -1,3 +1,15 @@
+v4.1.11 - Dec 31, 2012 10:33AM PST deployed by Kelly Becker
+===========================================================
+* 899f6f6: Elijah Green - Fix pictures uploading for groups
+* 10b39c5: Elijah Green - Fix group members page
+* 890a9ce: Elijah Green - Put currentUser in instance variable if loggined
+* 2d5db6c: Elijah Green - Remove auto_link from technologies/show
+* 7400ecb: Elijah Green - Render breaklines correctly
+* 5355d79: Elijah Green - Store currentUser result into a instance variable
+* e28575b: Aleks Stanisic - style changes to edit org page
+* a8c1592: Aleks Stanisic - added forms to org edit page
+* 462eaa3: Kelly Becker - stripping out old organizations
+
 v4.1.10 - Dec 28, 2012 12:33PM PST deployed by Kelly Becker
 ===========================================================
 * 2e1eff4: Kelly Becker - removed and replaced some outdated methods
