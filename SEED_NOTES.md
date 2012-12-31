@@ -1,3 +1,7 @@
+v4.1.13 - Dec 31, 2012 12:49PM PST deployed by Kelly Becker
+===========================================================
+* 7381d87: Kelly Becker - update user organization affiliation
+
 v4.1.12 - Dec 31, 2012 12:08PM PST deployed by Kelly Becker
 ===========================================================
 * 2f4ea3e: Kelly Becker - gemlock
