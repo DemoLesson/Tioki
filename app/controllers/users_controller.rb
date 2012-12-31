@@ -330,18 +330,13 @@ class UsersController < ApplicationController
 	def email_settings
 		@user = User.find(self.current_user.id)
 
-		# Get BitSwitch
-		@user.email_permissions = params[:permissions]
+		# Update BitSwitch with the new permissions
+		@user.email_permissions = params[:permissions], true
 
-		# Set the new values
-		params[:permissions].each do |slug, tf|
-			email_permissions[slug] = tf.to_i
-		end
+		# Update changed attributes
+		@user.update_attributes params[:user]
 
-		@user.update_attributes(params[:user])
-
-		@user.update_attribute(:email_permissions, email_permissions)
-
+		# Log this change
 		self.log_analytic(:user_changed_email_settings, "A user changed their email settings.")
 
 		respond_to do |format|
@@ -564,20 +559,8 @@ class UsersController < ApplicationController
 
 		if request.post?
 
-			# Get BitSwitch
-			privacy = @user.public_privacy
-
-			# Set the new values
-			params[:public].each do |slug, tf|
-				privacy[slug] = tf.to_i
-			end
-
-			# Update the attribute
-			if @user.update_attribute(:privacy, privacy)
-				flash[:success] = "Saved privacy settings"
-			else
-				flash[:success] = "Could not save privacy settings"
-			end
+			# Get and update BitSwitch
+			@user.privacy_public = params[:public], true
 
 			# Reload page
 			redirect_to :action => :privacy

@@ -135,7 +135,7 @@
 				<% if @self %>
 					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
 				<% end %>
-				<% if (@connected || @guest || !@user.privacy["avatar"]) && @user.avatar? %>
+				<% if (@connected || @guest || !@user.privacy_public["avatar"]) && @user.avatar? %>
 					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
 				<% else %>
 					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
@@ -215,7 +215,7 @@
 			</section>
 
 			<% if self.current_user %>
-				<% if @connected || @guest || !@user.privacy["contact_info"] %>
+				<% if @connected || @guest || !@user.privacy_public["contact_info"] %>
 					<!-- Contact Information-->
 					<section class="info">
 					<h5 class="bottom-line">
