@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
 
 				#Log into Analytics 
 				self.log_analytic(:group_creation, "New group was created.", group, [], :groups)
-				
+
 				# Add the first administrator
 				user_group.permissions = {:member => true, :moderator => true, :administrator => true, :owner => true}
 
@@ -55,7 +55,7 @@ class GroupsController < ApplicationController
 			end
 		end
 	end
- 
+
 	def show
 		# Load group
 		@group = Group.find(params[:id])
@@ -63,14 +63,14 @@ class GroupsController < ApplicationController
 		# Redirect to discussions if no long description
 		redirect_to group_path(@group) + '/discussions' if @group.long_description.nil?
 	end
-	
+
 	def members
 		# Load group
 		@group = Group.find(params[:id])
 
 		# Get a list of my connections
-		@my_connections = Connection.mine(:pending => false).collect{|connection| connection.not_me_id(@current_user.id)} unless self.current_user.nil?
-		@my_connections = Array.new if self.current_user.nil?
+		@my_connections = Connection.mine(:pending => false).collect { |connection| connection.not_me_id(currentUser.id) } unless currentUser.new_record?
+		@my_connections = Array.new if currentUser.new_record?
 	end
 
 	def discussions
@@ -116,6 +116,7 @@ class GroupsController < ApplicationController
 		# Is the current user an administrator
 		admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
 		raise HTTPStatus::Unauthorized unless admin
+
 	end
 
 	def update
@@ -140,15 +141,25 @@ class GroupsController < ApplicationController
 			if currentUser.is_admin
 				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
 			end
-			
+
 			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
-			params[:group].delete_if{|k,v|k.to_s == 'permissions'}
+			params[:group].delete_if { |k, v| k.to_s == 'permissions' }
 			@group.permissions = permissions
 		end
 
-		@group.update_attributes(params[:group])
+		@group.misc = params[:group][:misc] if params[:group][:misc]
+		@group.social = params[:group][:social] if params[:group][:social]
+		@group.location = params[:group][:location] if params[:group][:location]
 
-		redirect_to @group
+		@group.update_attributes(params[:group])
+		if @group.save
+			flash[:success] = "Successfully updated"
+			redirect_to @group
+		else
+			flash[:error] = "Did not update"
+			redirect_to @group
+		end
+
 	end
 
 	# Add a comment to an group
@@ -165,7 +176,7 @@ class GroupsController < ApplicationController
 
 		# save and get the proper message
 		if comment.save
-			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id} 
+			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
 			self.log_analytic(:user_comment_in_group, "User has commented in group.", comment, [], :groups)
 		else
 			message = {:type => :error, :message => "There was an error posting your comment."}
@@ -186,13 +197,13 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 	end
 
-	def inviting 
+	def inviting
 
 		# Load the group
 		@group = Group.find(params[:id])
 
 		# Load in the current users name
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			name = self.current_user.name
 		else
 			name = "[name]"
@@ -201,7 +212,7 @@ class GroupsController < ApplicationController
 		# What is the default message for the email
 		@default_message = "I thought you might be interested in joining the \"#{@group.name}\" group. Check it out on Tioki.\n\n-#{name}"
 	end
-	
+
 	def invite_email
 
 		# Load the event
@@ -222,7 +233,7 @@ class GroupsController < ApplicationController
 		@message = @message.gsub("\n", '<br />');
 
 		# Get the current user if applicable
-		user = self.current_user unless self.current_user.nil?
+		user = self.current_user unless currentUser.new_record?
 
 		# Send out the email to the list of emails
 		UserMailer.group_invite_email(@teachername, @emails, @message, @group, user).deliver
@@ -230,7 +241,7 @@ class GroupsController < ApplicationController
 		# Return user back to the home page 
 		redirect_to group_path(@group), :notice => 'Email Sent Successfully'
 	end
-	
+
 	def invite
 		return redirect_to :back unless request.post?
 		return redirect_to :back if User.current.nil?
@@ -290,18 +301,18 @@ class GroupsController < ApplicationController
 
 		# Check for permissions
 		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
-		
+
 		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
 		redirect_to :back
 	end
 
 	protected
 
-		def source_owner
-			if !params[:user_id].nil?
-				@source = User.find(params[:user_id]).groups
-			else
-				@source = Group.permissions('OR', :public => true, :private => true).permissions(:hidden => false)
-			end
+	def source_owner
+		if !params[:user_id].nil?
+			@source = User.find(params[:user_id]).groups
+		else
+			@source = Group.permissions('OR', :public => true, :private => true).permissions(:hidden => false)
 		end
+	end
 end

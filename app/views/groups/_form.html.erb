@@ -1,68 +1,121 @@
 <%= form_for(@group) do |f| %>
 	<fieldset>
 		<p>
-		<%= @group.type? %> Name (make it catchy)
+		<label><%= @group.type? %> Name </label>
 		</p>
 		<%= f.text_field :name, :placeholder => "Ex: EdTech Bloggers United", :style => "width:500px" %>
 	</fieldset><br/>
+	<% if @group.organization? %>
+		<fieldset>
+			<p>
+			<label>Location</label>
+			</p>
+			<p>
+			<span>Address</span>
+			<span style ="margin-left:177px">City</span>
+			<span style ="margin-left:207px">Region</span>
+			<span style ="margin-left:185px">Postal Code</span>
+			</p>
+			<%= text_field_tag 'group[location][address]', @group.location[:address], :placeholder => "Ex: 222 E. 4th St.", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][city]', @group.location[:city], :placeholder => "Ex: Oakland", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][region]', @group.location[:region], :placeholder => "Ex: CA", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][postal]', @group.location[:postal], :placeholder => "Ex: 92245", :style => "width:200px" %>
+		</fieldset><br/>
+		<fieldset>
+			<p>
+			<label>Stats</label>
+			</p>
+			<p>
+			<span>Api Score</span>
+			<span style ="margin-left:165px">Number of Students</span>
+			</p>
+			<%= text_field_tag 'group[misc][api_score]', @group.misc[:api_score], :placeholder => "API Score Ex: 1 Million", :style => "width:200px" %>
+			<%= text_field_tag 'group[misc][students_count]', @group.misc[:students_count], :placeholder => "Number of Students Ex: A Lot", :style => "width:200px" %>
+		</fieldset><br/>
+		<fieldset>
+			<p>
+			<label>Basic Information</label>
+			</p>
+			School Type:
+			<%= select_tag('group[misc][school_type]', options_for_select([["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], :selected => @group.misc[:school_type])) %>
+			Grade Level:
+			<%= select_tag('group[misc][school_grades]', options_for_select([["Pre-K", "Pre-K"], ["Elementary","Elementary"], ["Middle", "Middle"], ["High School","High School"], ["Adult School","Adult School"], ["Other","Other"], ["K-6","K-6"], ["K-8","K-8"], ["6-12","6-12"], ["K-12","K-12"]], :selected => @group.misc[:school_grades])) %>
+			Calendar Type:
+			<%= select_tag('group[misc][school_calendar]', options_for_select([["Year-round", "Year-round"], ["Track","Track"], ["Semester", "Semester"], ["Traditional","Traditional"]], :selected => @group.misc[:school_calendar])) %>
+		</fieldset><br/>
+	<% end %>
 	<fieldset>
 		<p>
-		Short <%= @group.type? %> Description (the key here is to be Short and Sweet)
+		<label>Short <%= @group.type? %> Description </label>(the key here is to be Short and Sweet)
 		</p>
 		<%= f.text_area :description, :style => "width:500px;height:100px", :placeholder => "Ex: People who have blogs that provide free resources for educators and parents. This vision is to help busy people looking for daily self-development." %>
 	</fieldset><br />
 	<fieldset>
 		<p>
-		Long <%= @group.type? %> Description
+		<label>Long <%= @group.type? %> Description</label>
 		</p>
 		<%= f.text_area :long_description, :style => "width:500px;height:150px", :class => 'tinymce' %>
 	</fieldset><br />
+	<% if @group.organization? %>
+		<fieldset>
+			<p>
+			<label>Mission Statement</label>
+			</p>
+			<%= text_area_tag 'group[misc][mission]', @group.misc[:mission], :style => "width:500px;height:150px", :class => 'tinymce' %>
+		</fieldset><br />
+	<% end %>
   	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/globe.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Website (if ya got it, flaunt it)
 		</p>
-		<%= f.text_field :site, :style => "width:500px" %>
+		<%= text_field_tag 'group[social][website]', @group.social[:website], :placeholder => "http://www.yourawesome.com", :style => "width:500px" %>
 	</fieldset><br/>
 	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/twitter2.png', :style => "margin-bottom:-5px") %> <%= @group.type? %> Twitter (educators love the little blue bird)
 		</p>
-    	<%= f.text_field :twitter, :placeholder => "http://twitter.com/", :style => "width:500px" %>
+    	<%= text_field_tag 'group[social][twitter]', @group.social[:twitter], :placeholder => "http://twitter.com/", :style => "width:500px" %>
   	</fieldset><br />
 	<fieldset>
 		<p>
 		<%= image_tag('tioki/icons/fb_button.png', :style => "margin-bottom:-5px") %> Facebook Page (show off your likes)
 		</p>
-    	<%= f.text_field :facebook, :placeholder => "http://facebook.com/yourgroupname", :style => "width:500px" %>
+    	<%= text_field_tag 'group[social][facebook]', @group.social[:facebook], :placeholder => "http://facebook.com/yourgroupname", :style => "width:500px" %>
   	</fieldset><br />
+	<% if @group.organization? %>
+		<fieldset>
+			<p>
+			<%= image_tag('tioki/icons/greatschools.png', :style => "margin-bottom:-5px") %> GreatSchools Page
+			</p>
+			<%= text_field_tag 'group[social][greatschools]', @group.social[:greatschools], :placeholder => "Your GreatSchools Link", :style => "width:500px" %>
+		</fieldset><br />
+	<% end %>
   	<fieldset>
 		<p>
 		<%= @group.type? %> settings
 		</p>
-		<% if !@group.permissions['organization'] %>
-	    	<label>
-	    		<%= check_box_tag 'group[permissions][public]', 'true', @group.permissions['public'] || @group.id.nil? %> 
-	    		Public <%= @group.type? %> (Anyone can join and discuss)
-	    	</label>
-    	<% end %>
-    	<label>
-    		<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %> 
-    		Hidden <%= @group.type? %> (Must either be a member or have the link)
-    	</label>
-    	<% if User.current.is_admin %>
-	    	<label>
-	    		<%= check_box_tag 'group[permissions][organization]', 'true', true %> 
-	    		is an Organization? (If you uncheck this the Organization will lose it's job postings and be converted to a group!)
-	    	</label>
-	    <% end %>
-	    <label>
-	    	<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %> 
-	    	Does this <%= @group.type? %> have a publiclically readable discussion board?
-	    </label>
+		<% if !@group.organization? %>
+			<label>
+				<%= check_box_tag 'group[permissions][public]', 'true', @group.permissions['public'] || @group.id.nil? %>
+				Public <%= @group.type? %> (Anyone can join and discuss)
+			</label>
+		<% end %>
+		<label>
+			<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %>
+			Hidden <%= @group.type? %> (Must either be a member or have the link)
+		</label>
+		<% if User.current.is_admin %>
+			<label>
+				<%= check_box_tag 'group[permissions][organization]', 'true', @group.permissions['organization'] %>
+				is an Organization? (If you uncheck this the Organization will lose it's job postings and be converted to a group!)
+			</label>
+		<% end %>
+		<label>
+			<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %>
+			Does this <%= @group.type? %> have a publiclically readable discussion board?
+		</label>
   	</fieldset><br />
-	<div class="actions">
-		<%= f.submit "Update #{@group.type?}" %>
-	</div>
+	<input type="submit" class="huge-button" value="Save Changes">
 <% end %>
 
 <%= tinymce :theme => "simple" %>

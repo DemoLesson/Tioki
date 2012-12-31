@@ -1,6 +1,117 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
-	<%= @group.long_description.html_safe rescue '' %>
+	<% if !@group.organization? %>
+		<%= @group.long_description.html_safe rescue '' %>
+	<% else %>
+		<section class="panels">
+			<section class="two-column left-side" style ="min-height:650px">
+				<% if @group.long_description? %>
+					<h3 class="bottom-line">
+						Description
+					</h3>
+					<p style="width:auto">
+						<%= sanitize @group.long_description %>
+					</p>
+				<% end %>
+				<% misc = @group.misc %>
+				<% if !misc['mission'].nil? %>
+					<h3 class="bottom-line">
+						Mission Statement
+					</h3>
+					<p style="width:auto">
+						<%= sanitize (misc['mission']).gsub(/\n/, '<br />') %>
+					</p>
+				<% end %>
+			</section>
+			<!--BASIC INFORMATION-->
+			<section id="list" class="panel one-column right-side" style ="border-radius:0px">
+				<h4 style="margin-left:10px">
+					Basic Information
+				</h4>
+				<section class="panel-actions">
+					<p style="width:auto">
+						<!-- SCHOOL TYPE -->
+					  	<% if !misc['school_type'].nil? %>
+							<strong style="color:#2AA99B">
+								School Type:
+							</strong> 
+							<%= misc['school_type'] %>,  
+						<% end %>
+					  	<% if !misc['school_grades'].nil? %>
+							<%= misc['school_grades'] %> <strong>| </strong>
+						<% end %>
+						<% if !misc['school_calendar'].nil? %>
+							<%= misc['school_calendar'] %> Calendar Year</br></br> 
+						<% end %>
+						
+						<!-- STATS -->
+					<% if !misc['api_score'].nil? && !misc['students_count'].nil? %>
+				  		<strong style="color:#2AA99B">
+							Stats: 
+						</strong>
+							<%= misc['students_count'] %> Students,
+							<%= misc['api_score'] %> API </br></br>
+					<% elsif !misc['students_count'].nil? %>
+						<strong style="color:#2AA99B">
+							Stats: 
+						</strong>
+							<%= misc['students_count'] %> Students </br></br>
+				  	<% elsif !misc['api_score'].nil? %>
+						<strong style="color:#2AA99B">
+							Stats: 
+						</strong>
+						API: <%= misc['api_score'] %></br></br>
+					<% end %>
+
+						<!-- LOCATION -->
+						<% location = @group.location %>
+						<strong style="color:#2AA99B">
+						Location: 
+						</strong>
+						<%= location['address'] %>, <%= location['city'] %>, 
+							<% if !location['region'].nil? %> 
+								<%= location['region'] %>,
+							<% end %> 
+						<%= location['postal'] %></br></br>
+
+						<!-- SOCIAL LINKS -->
+						<% social = @group.social %>
+						<% if !social['website'].nil? %>
+						  <% if social['website'].include? '//' %>
+						    <%= link_to image_tag('tioki/icons/globe.png'), social['website'], :target => "_blank" %>
+						  <% else %>
+						    <%= link_to image_tag('tioki/icons/globe.png'), '//' + social['website'], :target => "_blank" %>
+						  <% end %>
+						<% end %>
+
+						<% if !social['twitter'].nil? %>
+						  <% if social['twitter'].include? '//' %>
+						    <%= link_to image_tag('tioki/icons/twitter2.png'), social['twitter'], :target => "_blank" %>
+						  <% else %>
+						    <%= link_to image_tag('tioki/icons/twitter2.png'), '//' + social['twitter'], :target => "_blank" %>
+						  <% end %>
+						<% end %>
+						
+						<% if !social['facebook'].nil?  %>
+						  <% if social['facebook'].include? '//' %>
+						    <%= link_to image_tag('tioki/icons/fb_button.png'), social['facebook'], :target => "_blank" %>
+						  <% else %>
+						    <%= link_to image_tag('tioki/icons/fb_button.png'), '//' + social['facebook'], :target => "_blank" %>
+						  <% end %>
+						<% end %>
+						
+						<% if !social['greatschools'].nil? %>
+						  <% if social['greatschools'].include? '//' %>
+						    <%= link_to image_tag('tioki/icons/greatschools.png'), social['greatschools'], :target => "_blank", :style => "height:25px" %>
+						  <% else %>
+						    <%= link_to image_tag('tioki/icons/greatschools.png'), '//' + social['greatschools'], :target => "_blank" %>
+						  <% end %>
+						<% end %>
+					</p>	
+				</section>
+			</section>
+		</section>
+	<% end %>
 </section>
 
 <script type="text/javascript">

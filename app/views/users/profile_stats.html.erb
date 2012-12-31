@@ -31,7 +31,7 @@
 					Videos
 					</a>
 				</li>
-				<% elsif !self.current_user.nil? && @self %>
+				<% elsif !currentUser.new_record? && @self %>
 				<li>
 					<a href="/me/profile/edit/upload-video">
 					Upload Video

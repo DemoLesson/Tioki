@@ -42,7 +42,7 @@
 		<% end %>
 		<p style="margin-left:10px; width:500px">
 			<% if @group.description? %>
-				<%=raw auto_link(@group.description).more!(120) %>
+				<%= @group.description.more!(120) %>
 			<% end %>
 		</p>	
 	</section>

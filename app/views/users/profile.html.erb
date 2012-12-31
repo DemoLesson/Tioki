@@ -135,7 +135,7 @@
 				<% if @self %>
 					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
 				<% end %>
-				<% if (@connected || @guest || !@user.privacy["avatar"]) && @user.avatar? %>
+				<% if (@connected || @guest || !@user.privacy_public["avatar"]) && @user.avatar? %>
 					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
 				<% else %>
 					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
@@ -147,7 +147,7 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
 				<li class="current">
-					<% if !self.current_user.nil? && @self %>
+					<% if !currentUser.new_record? && @self %>
 					<a href="/me/profile">
 					<% else %>
 					<a href="/profile/<%= @user.slug %>">
@@ -174,7 +174,7 @@
 					Videos
 					</a>
 				</li>
-				<% elsif !self.current_user.nil? && @self %>
+				<% elsif !currentUser.new_record? && @self %>
 				<li>
 					<a href="/me/profile/edit/upload-video">
 					Upload Video
@@ -182,7 +182,7 @@
 				</li>
 				<% end %>
 				
-				<% if !self.current_user.nil? && @self %>
+				<% if !currentUser.new_record? && @self %>
 				<li>
 					<a href="/me/profile/stats">
 					Stats

@@ -26,37 +26,43 @@ class ApplicationController < ActionController::Base
 	around_filter :ensure_permission_to_destroy, :only => :destroy
 
 	skip_before_filter :verify_authenticity_token
-  before_filter :sweep_session
+	before_filter :sweep_session
 	before_filter :check_login_token
-  # Helper methods
+	# Helper methods
 	helper_method :currentHost
 	helper_method :currentPath
 	helper_method :currentUser
 	helper_method :currentURL
 
-  # Current host / url / path methods
-  # @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
+	# Current host / url / path methods
+	# @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
 	def currentHost; request.protocol + request.host_with_port; end
-  def currentURL; currentHost + currentPath; end
-  def currentPath; request.fullpath; end;
+	def currentURL; currentHost + currentPath; end
+	def currentPath; request.fullpath; end;
 
-  # Current User
-  # @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
-	def currentUser; User.find(session[:user]) rescue User.new; end
+	# Current User
+	# @todo make method names stricter: /[_a-z][_a-z0-9]*[!?=]?/
+	def currentUser
+		begin
+			@currentUser ||= User.find(session[:user])
+		rescue
+			User.new
+		end
+	end
 
-  # Sweep away old sessions
+	# Sweep away old sessions
 	def sweep_session; Session.sweep("2 hours"); end
 
-  # Require the user to login
-  # @todo change to an around_filter
+	# Require the user to login
+	# @todo change to an around_filter
 	def login_required
 		return true if session[:user] && session[:user].is_a?(User)
 
-    flash[:notice] = 'Please login to continue.'
-    session[:return_to] = currentPath
+		flash[:notice] = 'Please login to continue.'
+		session[:return_to] = currentPath
 
 		redirect_to :controller => "users", :action => "login"
-  end
+	end
 
   # Check to see if a user is logged in and set session level args
   # @todo cleanup, streamline, and rename method
@@ -98,8 +104,8 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-  # Check where the person may have been referred from
-  # @todo rethink and fix this
+	# Check where the person may have been referred from
+	# @todo rethink and fix this
 	def check_if_referer
 
 		# Check if we have a referer set anywhere
@@ -118,20 +124,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-  # Get the current user
-  # @todo deprecate
-  def current_user
-
+	# Get the current user
+	# @todo deprecate
+	def current_user
 		# Get the currently logged in user and set to Model Access
 		@current_user ||= User.find(session[:user]) unless session[:user].nil?
-	end
-
-  # @todo deprecate
-	def is_admin
-	end
-
-  # @todo deprecate
-	def belongs_to_me
 	end
 
 	# @todo deprecate?
@@ -140,7 +137,7 @@ class ApplicationController < ActionController::Base
 			return_to = session[:return_to]
 			session[:return_to] = nil
 			redirect_to(return_to)
-		elsif self.current_user.nil?
+		elsif currentUser.new_record?
 			redirect_to :controller => "users", :action => "login"
 		elsif self.current_user != nil
 			redirect_to :root
@@ -178,7 +175,7 @@ class ApplicationController < ActionController::Base
 		a.path = request.fullpath if request.fullpath.is_a?(String)
 
 		# Link up the currently active user
-		a.user = self.current_user unless self.current_user.nil?
+		a.user = self.current_user unless currentUser.new_record?
 
 		# Hook up the session
 		a.session_id = request.session_options[:id]

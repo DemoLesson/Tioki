@@ -351,12 +351,16 @@ Preview::Application.routes.draw do
 	match 'inviteconnections/yahoo' => 'connections#invite_yahoo'
 	match 'add_embed' => 'videos#add_embed'
 	match 'profileattachments' => 'attachments#profileattachments'
-	match 'dc/:url' => 'connections#linkinvite'
-	match 'ww/:url' => 'connections#welcome_wizard_invite'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
 	match 'tioki_bucks' => 'users#tioki_bucks'
 	match 'get_started' => 'users#get_started'
+
+	#Invite connection
+	match 'dc/:url' => 'connections#linkinvite'
+	match 'ww/:url' => 'connections#welcome_wizard_invite'
+	match 'tw/:url' => 'connections#invite_from_twitter'
+	match 'fb/:url' => 'connections#invite_from_facebook'
   
 	get "home/index"
 	match 'share_on_whiteboard' => 'home#whiteboard_share'
@@ -374,7 +378,6 @@ Preview::Application.routes.draw do
 	match 'site_referral' => 'home#site_referral'
 	match 'site_referral_email' => 'home#site_referral_email'
 	match 'school_signup' => 'home#school_signup'
-	match 'create_admin' => 'users#create_admin'
 	match 'my_jobs' => 'jobs#my_jobs'
 	match 'forschools' => 'home#school_splash'
 	match 'schoolpricing' => 'home#school_pricing'
@@ -402,7 +405,6 @@ Preview::Application.routes.draw do
 	# Admin
 	match 'oldadmin' => 'users#teacher_user_list'
 	match 'teachlist' => 'users#teacher_user_list'
-	match 'schoollist' => 'users#school_user_list'
 	match 'deactivatedlist' => 'users#deactivated_user_list'
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'

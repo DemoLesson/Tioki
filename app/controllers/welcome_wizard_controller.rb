@@ -7,12 +7,14 @@ class WelcomeWizardController < ApplicationController
 			@url = "&invitecode=#{params[:invitecode]}"
 		elsif params[:vouchstring].present?
 			@url = "&vouchstring=#{params[:vouchstring]}"
-		elsif params[:invitestring].present?
-			@url = "&invitestring=#{params[:invitestring]}"
 		elsif params[:user_connection].present?
 			@url = "&user_connection=#{params[:user_connection]}"
 		elsif params[:welcomecode].present?
 			@url = "&user_connection=#{params[:welcomecode]}"
+		elsif params[:twittercode].present?
+			@url = "&user_connection=#{params[:twittercode]}"
+		elsif params[:facebookcode].present?
+			@url = "&user_connection=#{params[:facebookcode]}"
 		else
 			@url = ""
 		end
@@ -21,41 +23,26 @@ class WelcomeWizardController < ApplicationController
 		return self.send(params[:x]) unless params[:x].nil?
 
 		# Make sure the user is not logged in
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			return redirect_to :root
 		end
 	end
 
 	def step1
 		# Make sure the user is not logged in
-		unless self.current_user.nil?
+		unless currentUser.new_record?
 			flash[:notice] = "You cannot go to step 1 of the welcome wizard after you have joined the site."
 			return redirect_to :root
 		end
 
-		#check if this account is part of a mass invite email
-		if params[:invitestring]
-			@invite = ConnectionInvite.where('url = ?', params[:invitestring]).first
-			if @invite == nil
-				params[:invitestring] = nil
-			end
 		#check if account is part of a vouchrequest
-		elsif params[:vouchstring]
+		if params[:vouchstring]
 			@vouch = Vouch.where('url = ?', params[:vouchstring]).first
-			if @vouch == nil
-				params[:vouchstring] = nil
-			end
 		#check if this account was part of a link to invite a user
 		elsif params[:invitecode]
 			@inviter = User.where('invite_code = ?', params[:invitecode]).first
-			if @inviter == nil
-				params[:invitecode] = nil
-			end
 		elsif params[:welcomecode]
 			@inviter = User.where('invite_code = ?', params[:welcomecode]).first
-			if @inviter == nil
-				params[:welcomecode] = nil
-			end
 		end
 		
 		# Detect post variables
@@ -71,34 +58,22 @@ class WelcomeWizardController < ApplicationController
 
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
-					return redirect_to :controller => :connections, :action => :add_connection, :user_id => params[:user_connection], :to_wizard => true
-				elsif params[:invitestring]
-					#Mass invite emails connections
 
-					@invite = ConnectionInvite.where('url = ?', params[:invitestring]).first
+					return redirect_to :controller => :connections,
+						:action => :add_connection,
+						:user_id => params[:user_connection],
+						:to_wizard => true
 
-					if @invite.pending
-						Connection.create(:owned_by => @user.id, :user_id => @invite.user_id, :pending => false)
-						@invite.update_attribute(:created_user_id, @user.id)
-						@invite.update_attribute(:pending, false)
+				elsif @inviter
 
-						session[:_ak] = "unlock_invite_link"
-					end
-				elsif params[:invitecode]
-					@inviter = User.where('invite_code = ?', params[:invitecode]).first
+					ConnectionInvite.create(:user_id => @inviter.id,
+																	:created_user_id => @user.id)
 
-					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id)
-					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
-
-				elsif params[:welcomecode]
-					@inviter = User.where('invite_code = ?', params[:welcomecode]).first
-
-					ConnectionInvite.create(:user_id => @inviter.id, :created_user_id => @user.id, :donors_choose => false)
-					Connection.create(:owned_by => @inviter.id, :user_id => @user.id, :pending => false)
+					Connection.create(:owned_by => @inviter.id,
+														:user_id => @user.id,
+														:pending => false)
 
 				elsif params[:vouchstring]
-					# Find a vouch matching urlstring
-					@vouch = Vouch.where('url = ?', params[:vouchstring]).first
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
@@ -141,7 +116,7 @@ class WelcomeWizardController < ApplicationController
 	def step2
 
 		# Make sure the user is logged in
-		if self.current_user.nil?
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
@@ -208,7 +183,7 @@ class WelcomeWizardController < ApplicationController
 	def step3
 
 		# Make sure the user is logged in
-		if self.current_user.nil?
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end
@@ -297,7 +272,7 @@ class WelcomeWizardController < ApplicationController
 						url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
 
 						# Send out the email
-						mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+						UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
 
 						# Don't bother notifying the user
 						# notice << "Your invite to " + demail + " has been sent."
@@ -327,7 +302,7 @@ class WelcomeWizardController < ApplicationController
 
 	def step5
 
-		if self.current_user.nil? 
+		if currentUser.new_record?
 			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
 			return redirect_to :root
 		end

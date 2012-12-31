@@ -186,7 +186,7 @@ class TechnologiesController < ApplicationController
 	
 	private
 	def authenticate
-		return true if !self.current_user.nil? && self.current_user.is_admin
+		return true if !currentUser.new_record? && self.current_user.is_admin
 
 		# If auth fail
 		render :text => "Access Denied"

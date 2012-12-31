@@ -47,13 +47,13 @@
 				Webinars, PLN Meetups, conferences...we have it all on our calendar! Search by location, topic, and organization to find the events that appeal to you. You can even add an event of your own.
 				</p>
 				
-				<% unless self.current_user.nil? %>
+				<% unless currentUser.new_record? %>
 					<%= link_to "Submit a new Event", new_event_path, :class => 'button', :style => "display:block;" %>
 				<% end %>
 
 				<div class="datepicker"></div>
 
-				<% unless self.current_user.nil? %>
+				<% unless currentUser.new_record? %>
 					<a href="#datepicker-showonlymine" class="button" style="display:block;">Show only my Events</a>
 				<% end %>
 				<a href="#datepicker-showall" class="button" style="display:block;margin-top:10px;">Show all Dates</a>

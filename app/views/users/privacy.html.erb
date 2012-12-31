@@ -7,7 +7,7 @@
 		<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>
 			<fieldset>
 				<input type="hidden" name="public[<%= name %>]" value="1" />
-				<input type="checkbox" name="public[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.privacy[name] %> value="0" />
+				<input type="checkbox" name="public[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.privacy_public[name] %> value="0" />
 				<%= name.gsub('_', ' ') %>
 			</fieldset>
 		<% end %>

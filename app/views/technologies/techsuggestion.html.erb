@@ -17,7 +17,7 @@
 		</div></br>
 		
 		<div class="field">
-			<%= f.text_field :user_id, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :type => "hidden", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.id %><br />
+			<%= f.text_field :user_id, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :type => "hidden", :class => "css3-border-box", :value => currentUser.new_record? ? '' : self.current_user.id %><br />
 		</div>
 	  <%= f.submit %>
 	<% end %>

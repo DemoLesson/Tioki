@@ -118,7 +118,7 @@ class ApplicationsController < ApplicationController
 	# Deprecate
 	def teacher_applications
 		@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
-    # @todo review is this still accuracte?
+		# @todo review is this still accuracte?
 		@interviews = Interview.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:interview_page], :per_page => 5
 		@applications = Application.paginate :conditions => ['user_id = ?', self.current_user.id], :order => 'created_at DESC', :page => params[:application_page], :per_page => 5
 		@pendingcount = Connection.where('user_id = ? AND pending = true', self.current_user.id).count

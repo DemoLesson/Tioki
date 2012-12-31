@@ -1,77 +1,88 @@
 class Message < ActiveRecord::Base
-  attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag
-  validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
+	attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id, :replied_at
+	validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
+
+	has_many :replied_messages, :class_name => "Message", :foreign_key => "replied_to_id", :dependent => :nullify
+	belongs_to :message, :foreign_key => :replied_to_id
 
 	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
 	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to
 
-  self.per_page = 15
+	after_create :set_replied_at
 
-  def mark_read
-    self.read = true
-    self.save
-  end
+	self.per_page = 15
 
-  def tag
-    _map!(read_attribute(:tag))
-  end
+	def set_replied_at
+		self.replied_at = self.created_at
+		self.save
+	end
 
-  def self.send!(to, opts = {})
+	def mark_read(user_id)
+		self.read = true
+		self.replied_messages.where("user_id_to = ?", user_id).update_all :read => true
+		self.save
+	end
 
-    # Return false if a subject and body were not provided
-    return false if opts[:subject].nil? || opts[:body].nil?
+	def tag
+		_map!(read_attribute(:tag))
+	end
 
-    # Make sure user is a user model
-    to = User.find(to) unless to.is_a?(User)
+	def self.send!(to, opts = {})
 
-    # Get from value from user.current unless one was specified
-    from = User.current if opts[:from].nil?
+		# Return false if a subject and body were not provided
+		return false if opts[:subject].nil? || opts[:body].nil?
 
-    # Get from value from the opts array
-    unless opts[:from].nil?
-      from = User.find(opts[:from]) unless opts[:from].is_a?(User)
-      from = opts[:from] if opts[:from].is_a?(User)
-    end
+		# Make sure user is a user model
+		to = User.find(to) unless to.is_a?(User)
 
-    # Get subject and body
-    subject = opts[:subject]
-    body = opts[:body]
+		# Get from value from user.current unless one was specified
+		from = User.current if opts[:from].nil?
 
-    # Allow setting if the message was read by default
-    read = opts[:read] unless opts[:read].nil?
-    read = false if opts[:read].nil?
+		# Get from value from the opts array
+		unless opts[:from].nil?
+			from = User.find(opts[:from]) unless opts[:from].is_a?(User)
+			from = opts[:from] if opts[:from].is_a?(User)
+		end
 
-    # Tag the message with an object
-    tag = opts[:tag] unless opts[:tag].nil?
+		# Get subject and body
+		subject = opts[:subject]
+		body = opts[:body]
 
-    # Create the message
-    msg = new
-    msg.user_id_to = to.id
-    msg.user_id_from = from.id
-    msg.subject = subject
-    msg.body = body
-    msg.read = read
-    msg.tag = tag
+		# Allow setting if the message was read by default
+		read = opts[:read] unless opts[:read].nil?
+		read = false if opts[:read].nil?
 
-    if msg.save
-      
-      # Notify the user of the message via email
-      UserMailer.message_notification(
-				msg.user_id_to, 
-				msg.subject, 
-				msg.body, 
-				msg.id, 
-				from.name, 
+		# Tag the message with an object
+		tag = opts[:tag] unless opts[:tag].nil?
+
+		# Create the message
+		msg = new
+		msg.user_id_to = to.id
+		msg.user_id_from = from.id
+		msg.subject = subject
+		msg.body = body
+		msg.read = read
+		msg.tag = tag
+
+		if msg.save
+
+			# Notify the user of the message via email
+			UserMailer.message_notification(
+				msg.user_id_to,
+				msg.subject,
+				msg.body,
+				msg.id,
+				from.name,
 				msg.tag).deliver
-      
-      # Return true on success
-      return true
-    else
 
-      # Return false on failure
-      return false
-    end
-    
-  end
- 
+			# Return true on success
+			return true
+		else
+
+			# Return false on failure
+			return false
+		end
+
+	end
+
 end

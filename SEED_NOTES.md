@@ -1,3 +1,82 @@
+v4.1.12 - Dec 31, 2012 12:08PM PST deployed by Kelly Becker
+===========================================================
+* 2f4ea3e: Kelly Becker - gemlock
+* 76ca007: Kelly Becker - groundwork for new privacy
+* 4b355a9: Kelly Becker - new user privacy permissions
+
+Removed all outdated branches... If you have any branches that have been deleted remotely please push them back to origin
+
+v4.1.11 - Dec 31, 2012 10:33AM PST deployed by Kelly Becker
+===========================================================
+* 899f6f6: Elijah Green - Fix pictures uploading for groups
+* 10b39c5: Elijah Green - Fix group members page
+* 890a9ce: Elijah Green - Put currentUser in instance variable if loggined
+* 2d5db6c: Elijah Green - Remove auto_link from technologies/show
+* 7400ecb: Elijah Green - Render breaklines correctly
+* 5355d79: Elijah Green - Store currentUser result into a instance variable
+* e28575b: Aleks Stanisic - style changes to edit org page
+* a8c1592: Aleks Stanisic - added forms to org edit page
+* 462eaa3: Kelly Becker - stripping out old organizations
+
+v4.1.10 - Dec 28, 2012 12:33PM PST deployed by Kelly Becker
+===========================================================
+* 2e1eff4: Kelly Becker - removed and replaced some outdated methods
+* 74d0384: Aleks Stanisic - removing connection vouch split test for now
+* 3954c60: Kelly Becker - removed unused zencoder class
+
+v4.1.9 - Dec 28, 2012 11:22AM PST deployed by Kelly Becker
+==========================================================
+* b91a3c8: Kelly Becker - switch current_user.nil? to currentUser.new_record?
+* 7f42f83: Kelly Becker - removed alternate http clients
+
+v4.1.8 - Dec 27, 2012  5:40PM PST deployed by Kelly Becker
+==========================================================
+* 81746c2: Kelly Becker - remove assets group
+
+v4.1.7 - Dec 27, 2012  5:19PM PST deployed by Kelly Becker
+==========================================================
+* de6b91b: Kelly Becker - mini_magick instead of rmagick
+
+v4.1.6 - Dec 26, 2012  5:12PM PST deployed by Kelly Becker
+==========================================================
+* 3d51417: Elijah Green - Fix organizations not updating
+
+v4.1.5 - Dec 24, 2012  8:51PM PST deployed by Kelly Becker
+==========================================================
+* b0c8e2a: Kelly Becker - fixed redirect loop of public profiles
+
+v4.1.4 - Dec 23, 2012  2:28PM PST deployed by Kelly Becker
+==========================================================
+* f9bdbc8: Kelly Becker - fixed the message merge i did not know about
+
+v4.1.3 - Dec 22, 2012  8:58PM PST deployed by Kelly Becker
+==========================================================
+* d49328d: Kelly Becker - readded therubyracer
+
+v4.1.2 - Dec 22, 2012  3:36PM PST deployed by Kelly Becker
+==========================================================
+* 52ccdf8: Kelly Becker - removed old event machine websockets
+* 602ebe6: Aleks Stanisic - redesign changes to orgs
+* 3b0c3e4: Kelly Becker - gem cleanup so far
+* 513bb4d: Elijah Green - Change back some things that were changed to debug performance problems
+* cec0ce8: Elijah Green - Add number of messages in sent messages
+* 7d43746: Elijah Green - Fix order of messages
+* eca82e4: Elijah Green - Change up some text based on who is replying
+* 89dfc46: Elijah Green - Display last message info
+* 055c45e: Elijah Green - Index messages table, got a 5 second query down to well under a tenth of a second
+* 7ecd941: Elijah Green - Almost done with message replies
+
+v4.1.1 - Dec 22, 2012 12:17PM PST deployed by Kelly Becker
+==========================================================
+* ce9aabe: Elijah Green - Finih and varaibles in welcome wizard for tracking
+* c22b048: Elijah Green - Slightly change video rake task
+* 5e39370: Elijah Green - Store external tumbnail url and name in database
+
+v4.1.0 - Dec 21, 2012  4:55PM PST deployed by Kelly Becker
+==========================================================
+* 629277a: Kelly Becker - convert profile link to link
+* dcc0d9c: Kelly Becker - renamed profile_link to link
+
 v4.0.28 - Dec 21, 2012  2:59PM PST deployed by Kelly Becker
 ===========================================================
 * 1ea698b: Kelly Becker - count videos properly

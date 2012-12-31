@@ -37,31 +37,6 @@ class UsersController < ApplicationController
 		redirect_to :root
 	end
 
-	# Deprecate
-	def create_admin
-		@user = User.new(:name => params[:name], :email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
-		@success = ""
-		if @user.save
-			session[:user] = User.authenticate(@user.email, @user.password)
-			@school = School.new(:user => @user, :name=> params[:schoolname], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-			if @school.save
-				o=Organization.create
-				o.update_attribute(:owned_by, @user.id)
-				o.update_attribute(:name, params[:schoolname])
-				UserMailer.school_signup_email(params[:name], params[:schoolname], params[:email], params[:phonenumber], @school).deliver
-				self.current_user.default_home = school_path(self.current_user.school.id)
-				self.log_analytic(:organization_signup, "New organization signed up.", @user)
-				redirect_to :school_thankyou, :notice => "Signup successful!"
-			else
-				@user.destroy
-				flash[:notice] = "Signup unsuccessful."
-			end
-		else
-			flash[:notice] = "Signup unsuccessful."
-			redirect_to :root
-		end
-	end
-
 	def swap_dashboard
 		dashboard = params[:switch]
 
@@ -77,7 +52,7 @@ class UsersController < ApplicationController
 	end
 
 	def login
-		return redirect_to :root unless self.current_user.nil?
+		return redirect_to :root unless currentUser.new_record?
 
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
@@ -220,8 +195,8 @@ class UsersController < ApplicationController
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			return redirect_to :back, :notice => "The file was not an image."
 		elsif params[:user]
-			#move tempoary file created by uploader 
-			#to a file that won't disapper after the completion of the request
+			# Move temporary file created by uploader
+			# To a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
 			path = File.join(directory, params[:user][:avatar].original_filename)
 			File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
@@ -238,34 +213,61 @@ class UsersController < ApplicationController
 
 	def crop_image_temp
 		@user = self.current_user
-		orig_img = Magick::ImageList.new(Rails.root.join('public'+@user.temp_img_name))
+
+		# Load in the existing image file
+		orig_img = MiniMagick::Image.open(Rails.root.join('public' + @user.temp_img_name))
+
 		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
-			args= [params[:user][:crop_x].to_i,params[:user][:crop_y].to_i,params[:user][:crop_w].to_i,params[:user][:crop_h].to_i]
+			# Prepare the crop arguments
+			# @todo this may not be accurate. double check.
+			args = "#{params[:user][:crop_w].to_i}x#{params[:user][:crop_h].to_i}+#{params[:user][:crop_x].to_i}+#{params[:user][:crop_y].to_i}"
 
-			orig_img.crop!(*args)
-		else
-			#crop values have not been set, just resize to fit 1:1 aspect ratio
-			#the size of the image will be whatever side is smaller
-			if orig_img.rows > orig_img.columns
-				orig_img.resize_to_fill!(orig_img.columns, orig_img.columns, Magick::NorthGravity)
-			else
-				orig_img.resize_to_fill!(orig_img.rows, orig_img.rows)
-			end
+			# Crop the image
+			orig_img.crop(args)
+
+		# @todo figure out what we really want to do here
+		# WAIT! Why are we running this. It scales the image down to the largest side it does not make it square
+		#else
+		#	# Get the width and height from the image
+		#	width, height = orig_img['%w %h'].split
+		#
+		#	# Get the largest side
+		#	largest_side = width > height ? height : width
+		#
+		#	# Scale the image using MATH
+		#	if width > height
+		#		height = (height * (largest_side / width)).to_i
+		#		width = largest_side
+		#	else
+		#		width = (width * (largest_side / height)).to_i
+		#		height = largest_side
+		#	end
+		#
+		#	# Create the thumbnail
+		#	orig_image.thumbnail('#{width}x#{height}')
 		end
-		#Create temp file in order to save the cropped image for later saving to amazon s3
+
+		# Create temp file in order to save the cropped image for later saving to amazon s3
 		tmp_img = Tempfile.new(@user.original_name, Rails.root.join('tmp'))
 
-		#Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
+		# Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
 		tmp_img.binmode
+
+		# Write the image to the drive
 		tmp_img.write(orig_img.to_blob)
+
+		# Update the avatar with the tmp image
 		@user.update_attribute(:avatar, tmp_img)
+
+		# Delete the tmp file
+		tmp_img.close
 
 		# Log to the whiteboard that a user updated their profile picture
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
-		tmp_img.close
-		redirect_to(!self.current_user.nil? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
+		# Redirect to the file url
+		redirect_to(!currentUser.new_record? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
 	end
 
 	def crop
@@ -328,18 +330,13 @@ class UsersController < ApplicationController
 	def email_settings
 		@user = User.find(self.current_user.id)
 
-		# Get BitSwitch
-		email_permissions = @user.email_permissions
+		# Update BitSwitch with the new permissions
+		@user.email_permissions = params[:permissions], true
 
-		# Set the new values
-		params[:permissions].each do |slug, tf|
-			email_permissions[slug] = tf.to_i
-		end
+		# Update changed attributes
+		@user.update_attributes params[:user]
 
-		@user.update_attributes(params[:user])
-
-		@user.update_attribute(:email_permissions, email_permissions)
-
+		# Log this change
 		self.log_analytic(:user_changed_email_settings, "A user changed their email settings.")
 
 		respond_to do |format|
@@ -429,58 +426,6 @@ class UsersController < ApplicationController
 		@users=@users.paginate :page => params[:page], :per_page => 100
 	end
 
-	def school_user_list
-		if request.post?
-			user = User.new(:first_name => params[:contact_first],
-							:last_name => params[:contact_last],
-							:email => params[:email],
-							:password => params[:pass])
-			if user.save
-				@school = School.new(:user => user, :name=> params[:name], :school_type=> params[:school_type], :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :gmaps => 1); 
-				if @school.save
-					o=Organization.create
-					o.update_attribute(:owned_by, user.id)
-
-					flash[:notice] = "The account was successfully created"
-				else
-					user.destroy
-					flash[:notice] = "The account school could not be created"
-				end
-			else
-				flash[:notice] = "The account could not be created."
-			end
-		end
-		if params[:orgname] || params[:contactname] || params[:emailaddress]
-			#The default scope for schools is currently joined with users
-			#so I can select rows from the users table
-      # @todo what uses this method and why are we getting an array?
-			@schools = School.where('schools.name LIKE ? AND users.name LIKE ? AND users.email LIKE ?', "%#{params[:orgname]}%", "%#{params[:contactname]}%", "%#{params[:emailaddress]}%").order("created_at DESC").all
-    else
-      # @todo what uses this method and why are we getting an array?
-			@schools = School.order("created_at DESC").all
-		end
-		#number of shared users+admins that created the orginal accounts
-		#Full admins+Limited admins+organizations
-		@admincount = SharedUsers.count+Organization.count
-		@schools=@schools.paginate :per_page => 100, :page => params[:page]
-
-		#count the total of applicants and jobs instead of based on what is searched
-		@jobcount=0
-		@applicants = 0
-		School.all.each do |school|
-			user = User.find(school.owned_by) 
-			@jobcount+=school.jobs.count
-			school.jobs.each do |job| 
-				@applicants = @applicants + job.applications.where("applications.submitted = 1").count 
-			end
-		end
-
-		@stats = []
-		@stats.push({:name => 'Total Schools', :value => School.count})
-		@stats.push({:name => 'Total Jobs', :value => @jobcount})
-		@stats.push({:name => 'Total Applicants', :value => @applicants})
-	end
-
 	def donors_choose_list
     # @todo find a better way to do this
 		@users = User.joins(:connection_invites).where('connection_invites.user_id = users.id && connection_invites.created_user_id IS NOT NULL && donors_choose = true AND connection_invites.created_at < ?', "2012-10-22 20:00:00").all.uniq.paginate(:per_page => 100, :page => params[:page])
@@ -551,6 +496,7 @@ class UsersController < ApplicationController
 		end
 	end
 
+	# @todo! verify usage
 	def new_member
 		@schools = self.current_user.schools 
 		if request.post?
@@ -613,20 +559,8 @@ class UsersController < ApplicationController
 
 		if request.post?
 
-			# Get BitSwitch
-			privacy = @user.privacy
-
-			# Set the new values
-			params[:public].each do |slug, tf|
-				privacy[slug] = tf.to_i
-			end
-
-			# Update the attribute
-			if @user.update_attribute(:privacy, privacy)
-				flash[:success] = "Saved privacy settings"
-			else
-				flash[:success] = "Could not save privacy settings"
-			end
+			# Get and update BitSwitch
+			@user.privacy_public = params[:public], true
 
 			# Reload page
 			redirect_to :action => :privacy
@@ -946,7 +880,7 @@ class UsersController < ApplicationController
 		raise ActiveRecord::RecordNotFound, "User profile could not found." if @user.nil?
 
 		# Log that someone viewed this profile unless there is no teacher associated with the user or you are viewing your own profile
-		if !self.current_user.nil? && !@user.me?
+		if !currentUser.new_record? && !@user.me?
 			self.log_analytic(:view_user_profile, "Someone viewed a user profile", @user)
 		end
 
@@ -970,17 +904,19 @@ class UsersController < ApplicationController
 			@invite = ConnectionInvite.find(params[:invite_id])
 		end
 
-		if @user == nil
+		if @user.nil?
 			redirect_to :root
 			flash[:alert]  = "User was not found"
-		else 
-			respond_to do |format|
-				if currentUser.new_record?
-					format.html { redirect_to "/profile/#{@user.slug}/about"}
-					format.json  { render :json => @teacher } # profile.json
-				else
-					format.html # profile.html.erb
-					format.json  { render :json => @teacher } # profile.json
+		else
+			if whiteboard
+				respond_to do |format|
+					if currentUser.new_record?
+						format.html { redirect_to "/profile/#{@user.slug}/about"}
+						format.json  { render :json => @teacher } # profile.json
+					else
+						format.html # profile.html.erb
+						format.json  { render :json => @teacher } # profile.json
+					end
 				end
 			end
 		end
@@ -1011,67 +947,67 @@ class UsersController < ApplicationController
 
 	# Upgrade account
 
-		def upgrade
-			if request.post?
-				case params[:type]
-				when 'recruiter'
-					group = Group.new(params[:group])
+	def upgrade
+		if request.post?
+			case params[:type]
+			when 'recruiter'
+				group = Group.new(params[:group])
 
-					respond_to do |format|
-						if group.save
+				respond_to do |format|
+					if group.save
 
-							# Set permissions
-							group.permissions = {
-								:hidden => true,
-								:private => true,
-								:organization => true
-							}
+						# Set permissions
+						group.permissions = {
+							:hidden => true,
+							:private => true,
+							:organization => true
+						}
 
-							# Create join row for users -> groups
-							user_group = User_Group.new
-							user_group.user_id = currentUser.id
-							user_group.group_id = group.id
-							user_group.save
+						# Create join row for users -> groups
+						user_group = User_Group.new
+						user_group.user_id = currentUser.id
+						user_group.group_id = group.id
+						user_group.save
 
-							#Log into Analytics 
-							self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
-							
-							# Add the first administrator
-							user_group.permissions = {
-								:member => true,
-								:moderator => true,
-								:administrator => true,
-								:owner => true
-							}
+						#Log into Analytics
+						self.log_analytic(:organization_creation, "New organization was created.", group, [], :groups)
 
-							JobPack.create(
-								:group => group,
-								:jobs => 1,
-								:expiration => Time.now + 60.days,
-								:inception => Time.now,
-								:refunded => 0,
-								:amount => 0,
-								:additional_data => {:freebie => true}.to_json)
+						# Add the first administrator
+						user_group.permissions = {
+							:member => true,
+							:moderator => true,
+							:administrator => true,
+							:owner => true
+						}
 
-							# Return HTML or JSON
-							format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
-						else
-							flash[:error] = "There was an error creating your organization"
-							redirect_to :back
-						end
+						JobPack.create(
+							:group => group,
+							:jobs => 1,
+							:expiration => Time.now + 60.days,
+							:inception => Time.now,
+							:refunded => 0,
+							:amount => 0,
+							:additional_data => {:freebie => true}.to_json)
+
+						# Return HTML or JSON
+						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
+					else
+						flash[:error] = "There was an error creating your organization"
+						redirect_to :back
 					end
 				end
 			end
 		end
+	end
 
 	private
 
-	def authenticate
-		return true if !self.current_user.nil? && self.current_user.is_admin
+		def authenticate
+			return true if !currentUser.new_record? && self.current_user.is_admin
 
-		# If auth fail
-		render :text => "Access Denied"
-		return 401
+			# If auth fail
+			render :text => "Access Denied"
+			return 401
 
-	end
+		end
 end

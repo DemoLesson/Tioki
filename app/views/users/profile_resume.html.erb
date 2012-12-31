@@ -135,7 +135,7 @@
 				<% if @self %>
 					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
 				<% end %>
-				<% if (@connected || @guest || !@user.privacy["avatar"]) && @user.avatar? %>
+				<% if (@connected || @guest || !@user.privacy_public["avatar"]) && @user.avatar? %>
 					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
 				<% else %>
 					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
@@ -146,7 +146,7 @@
 	<section class="profile group">
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
-				<%unless self.current_user.nil? %>
+				<%unless currentUser.new_record? %>
 					<li>
 						<% if @self %>
 						<a href="/me/profile">
@@ -168,14 +168,14 @@
 					Resume
 					</a>
 				</li>
-				<%unless self.current_user.nil? %>
+				<%unless currentUser.new_record? %>
 					<% if @user.videos.count > 0 %>
 					<li>
 						<a href="/profile/<%= @user.slug %>/videos">
 						Videos
 						</a>
 					</li>
-					<% elsif !self.current_user.nil? && @self %>
+					<% elsif !currentUser.new_record? && @self %>
 					<li>
 						<a href="/me/profile/edit/upload-video">
 						Upload Video
@@ -183,7 +183,7 @@
 					</li>
 					<% end %>
 				<% end %>
-				<% if !self.current_user.nil? && @self %>
+				<% if !currentUser.new_record? && @self %>
 				<li>
 					<a href="/me/profile/stats">
 					Stats
@@ -212,7 +212,7 @@
 			</section>
 
 			<% if self.current_user %>
-				<% if @connected || @guest || !@user.privacy["contact_info"] %>
+				<% if @connected || @guest || !@user.privacy_public["contact_info"] %>
 					<!-- Contact Information-->
 					<section class="info">
 					<h5 class="bottom-line">
@@ -272,7 +272,7 @@
 			<% end %>
 			
 			<!-- Video -->
-			<% if @connected || @guest || !@user.privacy["video"] %>
+			<% if @connected || @guest || !@user.privacy_public["video"] %>
 				<% unless @user.video.nil? %>
 					<div class="profile-video panel">
 						<%= @user.video.embed_code %>
@@ -327,7 +327,7 @@
 			<!-- If Educations aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
 				<section class="profile-info group">
-					<% if !self.current_user.nil? && @self %>
+					<% if !currentUser.new_record? && @self %>
 						<h3 class="bottom-line">
 							<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>	
 							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit/educations" %>
@@ -576,7 +576,7 @@
 			<% end %>
 			
 			<!-- START Attachments Section -->
-			<% if @connected || @guest || !@user.privacy["attachments"] %>
+			<% if @connected || @guest || !@user.privacy_public["attachments"] %>
 			
 				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
 				<% if @user.assets.empty? && @self %>

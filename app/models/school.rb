@@ -1,7 +1,4 @@
 class School < ActiveRecord::Base
-	acts_as_gmappable :msg => "You don't have a location set yet, or it is invalid."
-	acts_as_gmappable :check_process => false
-	
 	reverse_geocoded_by :latitude, :longitude
 
 	has_many :school_administrators, :dependent => :destroy
@@ -35,11 +32,7 @@ class School < ActiveRecord::Base
 										
 	validates_attachment_content_type :picture, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'
 	validates_attachment_size :picture, :less_than => 2.megabytes,
-																		 :message => 'Picture was too large, try scaling it down.'
-
-	def gmaps4rails_address
-		"#{self.map_address}, #{self.map_city}, #{self.map_state}, #{self.map_zip}"
-	end
+		:message => 'Picture was too large, try scaling it down.'
 	
 	def jobs
 		@jobs = Job.where('school_id = ? AND active = 1', self.id).all

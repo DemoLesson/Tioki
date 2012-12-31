@@ -15,7 +15,7 @@
 							
 							<!-- Telling the system whether there should be a "Connect" or a "Message" button -->
 							<span style="float:right;">
-								<% if !self.current_user.nil? %>	
+								<% if !currentUser.new_record? %>
 									<% unless self.current_user == user %>
 										<% if @my_connections.include? user.id %>
 											<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => user.id.to_s } %>

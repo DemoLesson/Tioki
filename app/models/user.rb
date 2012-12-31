@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
 	kvpair :cache
 
 	# BitSwitches
+	bitswitch :privacy_public, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :privacy_connected, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :privacy_recruiter, APP_CONFIG['bitswitches']['user_privacy']
+	bitswitch :email_permissions, APP_CONFIG['bitswitches']['email_permissions']
 
 	# Default scope of a user
 	default_scope where(:deleted_at => nil)
@@ -162,19 +166,14 @@ class User < ActiveRecord::Base
         UserMailer.user_welcome_email(self).deliver
     end
 
-  # @todo cleanup / deprecate
-	def all_jobs_for_schools
-		all_schools.each.inject([]) do |jobs, school|
-			jobs += Job.where('school_id = ? AND active = ?', school.id, true).order('created_at DESC').all
-		end
+	# Return jobs that I administrate
+	def my_jobs
+		organizations.map(&:jobs).flatten
 	end
 
-	def all_schools
-		if self.is_limited?
-			return self.sharedschools
-		else
-			return self.schools
-		end
+	# Return my organizations
+	def organizations(rank = :administrator)
+		groups.organization.my_permissions(rank)
 	end
 
 	def change_password(params)
@@ -267,24 +266,7 @@ class User < ActiveRecord::Base
 		Connection.where('`user_id` = ? || `owned_by` = ?', self.id, self.id)
 	end
 
-	def create_school
-		s = self.school
-		if s.nil?
-			s = School.create!(:user => self, :map_address => '100 W 1st St', :map_city => 'Los Angeles', :map_state => 5, :map_zip => '90012', :name => 'New School', :gmaps => 1)
-			s.owned_by = self.id
-			s.save!
-		end
-		return s
-		#@mailer = YAML::load(ERB.new(IO.read(File.join(Rails.root.to_s, 'config', 'mailer_schools.yml'))).result)[Rails.env]
-		#@message = Message.new
-		#@message.user_id_from = @mailer["from"].to_i
-		#@message.user_id_to = self.id
-		#@message.subject = @mailer["subject"]
-		#@message.body = "Hi "+self.name+","+@mailer["message"]+"Brian Martinez"
-		#@message.read = false
-		#@message.save
-	end
-
+	# @todo optimize and rebuild
 	def distance(find, level = 1, delve = false, scanned = [])
 
 		# Dont go to deep
@@ -324,10 +306,6 @@ class User < ActiveRecord::Base
 			return results.min if level == 1
 			return results
 		end
-	end
-
-	def email_permissions
-		super.to_switch(APP_CONFIG['bitswitches']['email_permissions'])
 	end
 
 	def facebook_auth?
@@ -389,17 +367,6 @@ class User < ActiveRecord::Base
 		self.is_limited
 	end
 
-	def job_allowance
-		if is_shared
-			@shared = SharedUsers.where(:user_id => id).first
-			o = Organization.where(:owned_by => @shared.owned_by).first
-			return o.job_allowance
-		else
-			o = Organization.where(:owned_by => id).first
-			return o.job_allowance
-		end
-	end
-
 	def jobcount
 		jobs=0
 		schools=self.schools
@@ -407,16 +374,6 @@ class User < ActiveRecord::Base
 			jobs=school.jobs.count+jobs
 		end
 		return(jobs)
-	end
-
-  # @todo is this still required / deprecate?
-	def organization
-		if is_shared
-			s = SharedUsers.where(:user_id => id).first
-			return Organization.where(:owned_by => s.owned_by).first
-		else
-			return Organization.where(:owned_by => id ).first
-		end
 	end
 
 	def password=(pass)
@@ -431,10 +388,6 @@ class User < ActiveRecord::Base
 
 	def pending_count
 		Connection.mine(:user => self.id, :pending => true, :creator => false).count
-	end
-
-	def privacy
-		super.to_switch(APP_CONFIG['bitswitches']['user_privacy'])
 	end
 
 	def rank?(type = false)
@@ -474,37 +427,6 @@ class User < ActiveRecord::Base
 
 	def self.avatar?(has = true)
 		where('`users`.`avatar_updated_at` IS ' + (has ? 'NOT ' : '') + 'NULL')
-	end
-
-	def self.email_permissions
-		# Get available bits and list of conditions
-		bits = APP_CONFIG['bitswitches']['email_permissions'].invert
-		conditions = Array.new
-
-		# Run bitwise conditions
-		conds[:slugs].each do |slug, tf|
-			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
-			conditions << "POW(2, #{bits[slug]}) & `users`.`email_permissions`" + (tf ? ' > 0' : ' <= 0')
-		end
-
-		# Add conditions
-		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
-	end
-
-	def self.privacy(conds = {})
-
-		# Get available bits and list of conditions
-		bits = APP_CONFIG['bitswitches']['user_privacy'].invert
-		conditions = Array.new
-
-		# Run bitwise conditions
-		conds[:slugs].each do |slug, tf|
-			tf = tf > 0 if tf.is_a?(Fixnum); slug = slug.to_s if slug.is_a?(Symbol)
-			conditions << "POW(2, #{bits[slug]}) & `users`.`privacy`" + (tf ? ' > 0' : ' <= 0')
-		end
-
-		# Add conditions
-		return where(conditions.join(' ' + (conds[:type].nil? ? '&&' : conds[:type]) + ' '))
 	end
 
 	def send_new_password

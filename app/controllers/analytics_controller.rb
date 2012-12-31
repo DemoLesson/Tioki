@@ -5,7 +5,7 @@ class AnalyticsController < ApplicationController
 	def auth
 
 		# If the user is not authorized to be here... error
-		unless !self.current_user.nil? && self.current_user.is_admin
+		unless !currentUser.new_record? && self.current_user.is_admin
 			raise HTTPStatus::Unauthorized
 		end
 	end

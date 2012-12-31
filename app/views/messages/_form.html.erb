@@ -1,4 +1,14 @@
-<h3>New message to <%= User.find_by_id(params[:user_id_to]).name %></h3>
+<h3>New Message To
+	<% if @replied_to_message %>
+		<% if @replied_to_message.user_id_to == self.current_user.id %>
+			<%= @replied_to_message.sender.name %>
+		<% else %>
+			<%= @replied_to_message.receiver.name %>
+		<% end %>
+	<% else %>
+		<%= @user.name %>
+	<% end %>
+</h3>
 
 <%= form_for(@message) do |f| %>
   <% if @message.errors.any? %>
@@ -13,26 +23,93 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.text_field :user_id_to, :value => params[:user_id_to], :type => :hidden %>
-  </div>
-
-  <fiedset>
-    <p>
-		Subject: 
-	</p>
-    <%= f.text_field :subject, :value => params[:subject], :style => "width:675px" %>
-  </fieldset>
+	<%= f.text_field :user_id_to, :value => params[:user_id_to], :type => :hidden %>
 
   <fieldset>
-    <p>
-		Message:
-	</p>
-    <%= f.text_area :body, :style => "width:675px" %>
-  </fieldset>
+		<p>
+			Subject: 
+		</p>
+		<% if @replied_to_message %>
+			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:675px" %>
+			<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
+		<% else %>
+			<%= f.text_field :subject, :style => "width:675px" %>
+		<% end %>
+	</fieldset>
 
-  <div class="actions">
-    <%= f.submit "Send Message" %>
-	<%= link_to "Cancel", :back %>
-  </div>
+	<fieldset>
+		<p>
+			Message:
+		</p>
+		<%= f.text_area :body, :style => "width:675px" %>
+	</fieldset>
+
+	<div class="actions">
+		<%= f.submit "Send Message" %>
+		<%= link_to "Cancel", :back %>
+	</div>
+<% end %>
+<% if @replied_to_message %>
+	<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
+		<!-- Pulling the Teachers Picture or the No Avatar-->
+		<% if @replied_to_message.sender.avatar? %>
+			<%= link_to image_tag(@replied_to_message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + @replied_to_message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+		<% else %>
+			<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+ @replied_to_message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+		<% end %>
+
+		<p style="margin:-50px 10px 0px 60px;width:auto">
+			<span style="float:right">
+				<%= @replied_to_message.created_at.to_s(:message_time)%>
+			</span>
+
+			<strong>
+				<% if @replied_to_message.sender %>
+					<%= link_to @replied_to_message.sender.name, '/profile/' + @replied_to_message.sender.slug %>
+				<% else %>
+					User no longer exists
+				<% end %>
+			</strong>
+		</p>
+		<p style="margin:5px 10px 0px 60px;width:auto">
+			Subject: <%= @replied_to_message.subject %>
+		</p>
+
+		<p style="margin:20px 10px 0px 10px;width:auto">
+			<%= sanitize(@replied_to_message.body) %>
+		</p>
+
+	</section>
+	<% @replied_to_message.replied_messages.each do |message| %>
+		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
+			<!-- Pulling the Teachers Picture or the No Avatar-->
+			<% if message.sender.avatar? %>
+				<%= link_to image_tag(message.sender.avatar(:thumb), :width => '45px', :height => '45px'), '/profile/' + message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+			<% else %>
+				<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), '/profile/'+ message.sender.slug, :style => "margin:0px 0px 0px 5px" %>
+			<% end %>
+
+			<p style="margin:-50px 10px 0px 60px;width:auto">
+				<span style="float:right">
+					<%= message.created_at.to_s(:message_time)%>
+				</span>
+
+				<strong>
+					<% if message.sender %>
+						<%= link_to message.sender.name, '/profile/' + message.sender.slug %>
+					<% else %>
+						User no longer exists
+					<% end %>
+				</strong>
+			</p>
+			<p style="margin:5px 10px 0px 60px;width:auto">
+				Subject: <%= message.subject %> 
+			</p>
+
+			<p style="margin:20px 10px 0px 10px;width:auto">
+				<%= sanitize(message.body) %>
+			</p>
+
+		</section>
+	<% end %>
 <% end %>

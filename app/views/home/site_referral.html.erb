@@ -19,7 +19,7 @@ var csPageOptions = {
 		<td style="width:40%;vertical-align:top;">
 			<div class="field">
 				<%= f.label :teachername, "Your Name" %><br />
-				<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :class => "css3-border-box", :value => self.current_user.nil? ? '' : self.current_user.name %><br />
+				<%= f.text_field :teachername, :placeholder => "Your Name", :size => 44, :style => "width:100%;", :class => "css3-border-box", :value => currentUser.new_record? ? '' : self.current_user.name %><br />
 			</div>
 			
 			<% if false %>	

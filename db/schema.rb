@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221010629) do
+ActiveRecord::Schema.define(:version => 20121228214732) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -456,12 +456,18 @@ ActiveRecord::Schema.define(:version => 20121221010629) do
     t.integer  "user_id_from"
     t.integer  "user_id_to"
     t.string   "subject"
-    t.string   "body",         :limit => 10000
+    t.string   "body",          :limit => 10000
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "read"
     t.string   "tag"
+    t.integer  "replied_to_id"
+    t.datetime "replied_at"
   end
+
+  add_index "messages", ["replied_to_id"], :name => "index_messages_on_replied_to_id"
+  add_index "messages", ["user_id_from"], :name => "index_messages_on_user_id_from"
+  add_index "messages", ["user_id_to"], :name => "index_messages_on_user_id_to"
 
   create_table "notifications", :force => true do |t|
     t.string   "notifiable_type"
@@ -746,7 +752,7 @@ ActiveRecord::Schema.define(:version => 20121221010629) do
     t.string   "last_name"
     t.string   "original_name"
     t.string   "temp_img_name"
-    t.integer  "privacy",               :default => 0,     :null => false
+    t.integer  "privacy_public",        :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
@@ -765,6 +771,8 @@ ActiveRecord::Schema.define(:version => 20121221010629) do
     t.string   "state"
     t.string   "city"
     t.integer  "connections_count",     :default => 0
+    t.integer  "privacy_connected"
+    t.integer  "privacy_recruiter"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -810,6 +818,7 @@ ActiveRecord::Schema.define(:version => 20121221010629) do
     t.string   "aspect_ratio"
     t.boolean  "is_snippet",             :default => false,       :null => false
     t.integer  "user_id"
+    t.string   "thumbnail_url"
   end
 
   create_table "videos_skills", :id => false, :force => true do |t|
