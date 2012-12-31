@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/KellyLSB/Bitswitch.git
+  revision: 658b2119ca2b0a8690549afcf1cf0fc4fe334479
+  specs:
+    bitswitch (1.0.5)
+
+GIT
   remote: git://github.com/KellyLSB/KVPair.git
   revision: 7320575d963fb2511ce8902e4fa9334dc998118f
   specs:
@@ -19,11 +25,6 @@ GIT
   specs:
     graylog2_exceptions (1.3.0)
       gelf (~> 1.3)
-
-PATH
-  remote: /Users/kbecker/Development/ruby/bitswitch
-  specs:
-    bitswitch (1.0.5)
 
 GEM
   remote: http://rubygems.org/
