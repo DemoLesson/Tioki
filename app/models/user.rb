@@ -140,12 +140,14 @@ class User < ActiveRecord::Base
 
     # Delete all connections associated with the user
     before_destroy :remove_connections
-    def remove_connections; Connection.mine(:user => self).map(&:destroy); end
+    def remove_connections; Connection.mine(:user => self).map(&:destroy) end
 
     def _isorg
 
+		_up = read_attribute(:updated_at)
+
     	# Cache organization value
-    	organization? if 1.day.ago > read_attribute(:updated_at)
+    	organization? if _up.nil? || 1.day.ago > _up
     end
 	#after_save :add_ab_test_data
     
