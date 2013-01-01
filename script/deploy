@@ -566,8 +566,9 @@ class DeployCLI
 
 		echo "This script will clean up any fully merge branches you have been warned!"
 		if confirm "Are you absolutely sure you want to cleanup fully merged branches?", nil, 10
-			system("git branch --merged develop | grep -v '\(develop\|master\)$' | xargs git branch -d")
-			system("git branch -r --merged develop | sed 's/ *origin\///' | grep -v '\(develop\|master\)$' | xargs -I% git push origin :%")
+			echo '... Working ...'
+			system("git branch --merged develop | grep -v '\\(develop\\|master\\)$' | xargs git branch -d")
+			system("git branch -r --merged develop | sed 's/ *origin\\///' | grep -v '\\(develop\\|master\\)$' | xargs -I% git push origin :%")
 		end
 
 	end
