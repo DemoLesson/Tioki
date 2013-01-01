@@ -562,6 +562,16 @@ class DeployCLI
 		ENV["RAILS_ENV"] = renvironment
 	end
 
+	def cleanup_branches
+
+		echo "This script will clean up any fully merge branches you have been warned!"
+		if confirm "Are you absolutely sure you want to cleanup fully merged branches?", nil, 10
+			system("git branch --merged develop | grep -v '\(develop\|master\)$' | xargs git branch -d")
+			system("git branch -r --merged develop | sed 's/ *origin\///' | grep -v '\(develop\|master\)$' | xargs -I% git push origin :%")
+		end
+
+	end
+
 	def show_cat
 		# Show cat
 		cat = <<-CAT
@@ -638,6 +648,7 @@ rescue => e
 	echo './script/deploy setup                                 # Installs / Updates Rubber and syncs /etc/hosts aliases', 'red'
 	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
 	echo './script/deploy memory <staging|production>           # Shows memory statistics about all servers', 'red'
+	echo './script/deploy cleanup_branches                      # !!!! RED FLAG !!!! Warning: removes completely merged branches', 'red'
 	puts "\n"
 end
 
