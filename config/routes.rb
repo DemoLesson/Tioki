@@ -172,10 +172,15 @@ Preview::Application.routes.draw do
 				root :to => 'users#profile_edit'
 			end
 
+			#profile Views
+			match 'resume' => 'users#profile_resume'
+			match 'about' => 'users#profile_about'
+
 			# Misc
 			match 'stats' => 'users#profile_stats'
 			root :to => 'users#profile'
 		end
+
 
 		# My settings
 		scope 'settings' do
