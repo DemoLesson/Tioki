@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121228214732) do
+ActiveRecord::Schema.define(:version => 20121231222030) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -476,6 +476,9 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.datetime "updated_at"
     t.string   "dashboard"
     t.string   "message"
+    t.string   "link"
+    t.text     "data"
+    t.integer  "triggered_id"
   end
 
   create_table "organizations", :force => true do |t|

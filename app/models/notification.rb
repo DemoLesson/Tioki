@@ -1,4 +1,5 @@
 class Notification < ActiveRecord::Base
+	belongs_to :triggered, :class_name => 'User'
 	belongs_to :user
 
 	default_scope where("`notifications`.`notifiable_type` != ?", 0.to_s)
@@ -7,8 +8,8 @@ class Notification < ActiveRecord::Base
 		# Return the object in question
 		begin; return mapTag!(self.notifiable_type)
 		
-		# If the object that was favorited does not exist delete the favorite
-		rescue ActiveRecord::RecordNotFound => e
+		# If the notifiable object does not exist destroy the notification
+		rescue ActiveRecord::RecordNotFound
 			self.destroy
 			return nil
 		end
@@ -87,45 +88,140 @@ class Notification < ActiveRecord::Base
 	end
 
 	def triggered
-		_class = notifiable_type.split(':').first
+		_triggered = read_attribute :triggered_id
 
-		case _class
-		when 'Comment', 'Discussion', 'Favorite', 'Application', 'Interview'
-			return map_tag.user
+		return User.find(_triggered) if !_triggered.nil?
+		update_attribute :triggered_id, map_tag.user_id
+	end
+
+	def getMessage(_message = nil)
+
+		# Get the data to query on
+		record = Hash.new
+		record["data"] = ActiveSupport::JSON.decode(self.data.nil? ? '{}' : self.data)
+		record["triggered"] = triggered
+		record["user"] = self.user
+		record["tag"] = self.map_tag
+
+		# Get the message unparsed
+		# and sanitize anything that isn't a link
+		m = ActionController::Base.helpers.sanitize(_message.nil? ? self.message : _message, :tags => %w(a))
+
+		# Get all the variables
+		vars = m.scan(/{[\w.(),]+}/)
+
+		# Get ready for the parsed data to go here
+		parsed_vars = {}
+
+		# Parse the variables
+		vars.each do |var|
+
+			# Save the name for later
+			var_name = var
+
+			# Go ahead and split the var
+			var = var.gsub(/[{}]/, '').split('.')
+
+			# Generate a scope and iterate through each var segment
+			scope = record
+			var.each_with_index do |var_seg, var_key|
+
+				# If this is the first key pick from the root hash
+				if var_key == 0
+					raise StandardError, var_seg + ' is not a root key' unless scope.has_key?(var_seg)
+					scope = scope[var_seg] if scope.has_key?(var_seg)
+					next
+				end
+
+				# Is this next is a hash then process
+				if scope.is_a?(Hash)
+					raise StandardError, var_seg + ' is not an avilable key' unless scope.has_key?(var_seg)
+					scope = scope[var_seg]
+					next
+				end
+
+				# If the next is a object then process
+				if scope.is_a?(Object)
+
+					# If there are arguments then seperate them and split
+					args = Array.new
+					if var_seg['(']
+						var_seg = var_seg.split('(')
+						args = var_seg[1].gsub(')', '').split(',')
+						var_seg = var_seg[0]
+					end
+
+					raise StandardError, var_seg + ' is not an avilable method' unless scope.respond_to?(var_seg)
+					scope = scope.send(var_seg, *args)
+					next
+				end
+
+				# Raise an error
+				raise StandardError, "Why are we here"
+			end
+
+			# Append to the parsed vars
+			parsed_vars[var_name] = scope
 		end
+
+		# Replace the var instances with the values
+		parsed_vars.each do |var,val|
+			m = m.gsub(var,val)
+		end
+
+		# Return the new message
+		return m.html_safe
 	end
 
 	def message
+
+		# @todo deprecate on Jan 31, 2013
+		_message = read_attribute(:message)
+		return getMessage(_message).html_safe if !_message.nil?
+
 		_class = notifiable_type.split(':').first
 
 		ret = String.new
 		case _class
 		when 'Comment'
-			ret = "#{triggered.link} replied to a discussion."
+			ret = "{triggered.link} replied to a discussion."
 		when 'Discussion'
-			ret = "#{triggered.link} created a discussion on #{map_tag.owner.link} go read #{map_tag.link}."
+			ret = "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}."
 		when 'Favorite'
-			ret = "#{triggered.link} favorited a post of yours."
+			ret = "{triggered.link} favorited a post of yours."
 		when 'Application'
-			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.link} updated a job application for #{map_tag.job.title}" if dashboard != 'recruiter'
+			ret = "{triggered.link} updated a job application for {tag.job.title}" if dashboard == 'recruiter'
+			ret = "{triggered.link} updated a job application for {tag.job.title}" if dashboard != 'recruiter'
 		when 'Interview'
-			ret = "#{triggered.link} responded to the interview request for #{map_tag.job.title}" if dashboard == 'recruiter'
-			ret = "#{triggered.link} updated a interview request for #{map_tag.job.title}" if dashboard != 'recruiter'
-		end	
+			ret = "{triggered.link} responded to the interview request for {tag.job.title}" if dashboard == 'recruiter'
+			ret = "{triggered.link} updated a interview request for {tag.job.title}" if dashboard != 'recruiter'
+		end
 
-		ActionController::Base.helpers.sanitize(ret).html_safe
+		# Write the message to the Database
+		update_attribute(:message, ActionController::Base.helpers.sanitize(ret))
+
+		# Return the message
+		getMessage(ret).html_safe
 	end
 
 	def link
+
+		# @todo deprecate on Jan 31, 2013
+		_link = read_attribute(:link)
+		return _link if !_link.nil?
+
 		_class = notifiable_type.split(':').first
 
 		case _class
 		when 'Comment', 'Favorite', 'Application', 'Interview'
-			map_tag.link rescue nil
+			ret = map_tag.link rescue nil
 		when 'Discussion'
-			map_tag.url rescue nil
+			ret = map_tag.url rescue nil
 		end
-		
+
+		# Write the link to the Database
+		update_attribute(:link, ret)
+
+		return ret
 	end
 end
