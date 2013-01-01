@@ -573,6 +573,14 @@ class DeployCLI
 
 	end
 
+	def uninstall_all_gems
+		echo "This script will uninstall every gem in your system!"
+		if confirm "Continue", nil, 10
+			echo '... Working ...'
+			system("gem list | cut -d\" \" -f1 | xargs gem uninstall -aIx")
+		end
+	end
+
 	def show_cat
 		# Show cat
 		cat = <<-CAT
@@ -650,6 +658,7 @@ rescue => e
 	echo './script/deploy prep                                  # Runs Bundle Install + Rake Assets and DB Migrate', 'red'
 	echo './script/deploy memory <staging|production>           # Shows memory statistics about all servers', 'red'
 	echo './script/deploy cleanup_branches                      # !!!! RED FLAG !!!! Warning: removes completely merged branches', 'red'
+	echo './script/deploy uninstall_all_gems                    # !!!! RED FLAG !!!! Warning: removes all system gems', 'red'
 	puts "\n"
 end
 
