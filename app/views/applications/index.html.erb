@@ -37,6 +37,12 @@
 									<%= f.submit "Update Status" %>
 								<% end %>
 							<% end %>
+							<% app.assets.each do |asset| %>
+								Attachments:<br />
+								<%= link_to asset.name, asset.file.url %><br />
+								Description:<br />
+								<%= asset.description %><br /><br />
+							<% end %>
 						</span>
 					</li>
 				<% end %>
