@@ -5,7 +5,7 @@ class Discussion < ActiveRecord::Base
 
 	has_many :followers, :dependent => :destroy
 	has_many :following, :through => :followers, :source => :user
-	
+
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 
@@ -18,8 +18,8 @@ class Discussion < ActiveRecord::Base
 	end
 
 	def before_destroy
-		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
-		Whiteboard.where(:tag => tag!).all.recurse{|n| n.destroy}
+		Notification.where(:notifiable_type => tag!).all.recurse { |n| n.destroy }
+		Whiteboard.where(:tag => tag!).all.recurse { |n| n.destroy }
 	end
 
 	def to_param
@@ -37,7 +37,7 @@ class Discussion < ActiveRecord::Base
 	def link(attrs = {})
 
 		# Parse attrs
-		_attrs = []; attrs.each do |k,v|
+		_attrs = []; attrs.each do |k, v|
 			# Make sure not a symbol
 			k = k.to_s if k.is_a?(Symbol)
 			next if k == 'href'

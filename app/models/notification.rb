@@ -91,17 +91,35 @@ class Notification < ActiveRecord::Base
 		_triggered = read_attribute :triggered_id
 
 		return User.find(_triggered) if !_triggered.nil?
-		update_attribute :triggered_id, map_tag.user_id
+
+		_class = notifiable_type.split(':').first
+
+		begin
+			_user = case _class
+			when 'Message'
+				update_attribute :triggered_id, map_tag.user_id_from
+				User.find(map_tag.user_id_from)
+			else
+				update_attribute :triggered_id, map_tag.user_id
+				User.find(map_tag.user_id)
+			end
+
+			return _user
+		rescue ActiveRecord::RecordNotFound
+			map_tag.destroy
+			destroy
+			return nil
+		end
 	end
 
 	def getMessage(_message = nil)
 
 		# Get the data to query on
 		record = Hash.new
-		record["data"] = ActiveSupport::JSON.decode(self.data.nil? ? '{}' : self.data)
+		record["data"] = ActiveSupport::JSON.decode(self.data.nil? ? '{}' : data)
 		record["triggered"] = triggered
-		record["user"] = self.user
-		record["tag"] = self.map_tag
+		record["user"] = user
+		record["tag"] = map_tag
 
 		# Get the message unparsed
 		# and sanitize anything that isn't a link
@@ -125,6 +143,8 @@ class Notification < ActiveRecord::Base
 			# Generate a scope and iterate through each var segment
 			scope = record
 			var.each_with_index do |var_seg, var_key|
+				# Debugger
+				#puts '@__['+var_seg+']: ' + scope.inspect
 
 				# If this is the first key pick from the root hash
 				if var_key == 0
@@ -151,7 +171,7 @@ class Notification < ActiveRecord::Base
 						var_seg = var_seg[0]
 					end
 
-					raise StandardError, var_seg + ' is not an avilable method' unless scope.respond_to?(var_seg)
+					raise NoMethodError, var_seg + ' is not an avilable method' unless scope.respond_to?(var_seg)
 					scope = scope.send(var_seg, *args)
 					next
 				end
@@ -177,7 +197,12 @@ class Notification < ActiveRecord::Base
 
 		# @todo deprecate on Jan 31, 2013
 		_message = read_attribute(:message)
-		return getMessage(_message).html_safe if !_message.nil?
+		begin
+			# Return the message
+			return getMessage(_message).html_safe if !_message.nil?
+		rescue NoMethodError
+		end
+
 
 		_class = notifiable_type.split(':').first
 
@@ -200,8 +225,11 @@ class Notification < ActiveRecord::Base
 		# Write the message to the Database
 		update_attribute(:message, ActionController::Base.helpers.sanitize(ret))
 
-		# Return the message
-		getMessage(ret).html_safe
+		begin
+			# Return the message
+			getMessage(ret).html_safe
+		rescue NoMethodError
+		end
 	end
 
 	def link
@@ -212,15 +240,18 @@ class Notification < ActiveRecord::Base
 
 		_class = notifiable_type.split(':').first
 
-		case _class
-		when 'Comment', 'Favorite', 'Application', 'Interview'
-			ret = map_tag.link rescue nil
-		when 'Discussion'
-			ret = map_tag.url rescue nil
-		end
+		begin
+			case _class
+			when 'Comment', 'Favorite', 'Application', 'Interview'
+				ret = map_tag.link rescue nil
+			when 'Discussion'
+				ret = map_tag.url rescue nil
+			end
 
-		# Write the link to the Database
-		update_attribute(:link, ret)
+			# Write the link to the Database
+			update_attribute(:link, ret)
+		rescue Exception
+		end
 
 		return ret
 	end
