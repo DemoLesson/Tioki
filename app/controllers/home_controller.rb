@@ -38,18 +38,12 @@ class HomeController < ApplicationController
 				@post = {:slug => 'connections', :data => connections}
 				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
-				# Get a list of all my skills and a list of all my connections
-				skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
-				skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
-				my_connections = @user.connections.collect{|x| x.not_me_id}
-
-				# Create / Run the Query
-				joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]
-				joins << 'LEFT JOIN `connections` ON `users`.`id` = `connections`.`user_id` OR `users`.`id` = `connections`.`owned_by`'
-				@suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
-				@suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
+				my_connections = @user.connections.collect{|x| x.not_me_id(currentUser.id)}
+				@suggested_connections = User.joins(:skill_claims).
+					where("users.avatar_file_size IS NOT NULL && skill_claims.skill_id IN (?) && users.id NOT IN (?)", currentUser.skills.collect(&:id), my_connections).
+					limit(3).
+					group("users.id").
+					order('(RAND() / COUNT(*) * 2)')
 
 				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 

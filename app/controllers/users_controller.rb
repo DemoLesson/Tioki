@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats]
+	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats, :get_started]
 	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list]
 
 	def create(*args)
