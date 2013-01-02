@@ -9,10 +9,10 @@
 			<% else %>
 				<% if @application == nil %>
 					<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>
-					<%= link_to "Refer a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button bg-green"} %>
 				<% end %>
 			<% end %>
 		<% end %>
+		<%= link_to "Refer a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button bg-green"} %>
 	</section>
 	<section class="info panel" style="width:635px;height:90px;background-color:#F0F0F0; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 		<section class="two-column left-side">

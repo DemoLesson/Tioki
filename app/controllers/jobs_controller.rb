@@ -127,7 +127,6 @@ class JobsController < ApplicationController
 		
 	end
 	
-	# Review
 	def job_referral_email
 		@job = Job.find(params[:id])
 		@referral = params[:referral]
@@ -135,10 +134,8 @@ class JobsController < ApplicationController
 	 if self.current_user == nil
 		 @teachername = @referral[:teachername]
 	 else
-		 @teacher_user = self.current_user.id
-		 @teacher = User.find(@teacher_user)
-		 @teacher_user = User.find(@teacher.user_id)  
-		 @teachername = @teacher_user.name 
+		 @user = self.current_user
+		 @teachername = @user.name 
 	 end 
 	 
 		@name = @referral[:name]
