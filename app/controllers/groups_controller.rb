@@ -191,6 +191,14 @@ class GroupsController < ApplicationController
 
 	def my_groups
 		@groups = self.current_user.groups
+
+		if params[:organization] == 'true'
+			@groups = @groups.organization
+			@type = 'Organization'
+		else
+			@groups = @groups.organization!
+			@type = 'Group'
+		end
 	end
 
 	def edit_picture
