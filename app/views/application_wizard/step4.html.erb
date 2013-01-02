@@ -81,7 +81,13 @@ tr.seeking, tr.student {
 		</form>
 	</div>
 	<div class="eleven columns">
-		<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% if @app.job.allow_attachments %>
+			<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% elsif @app.job.allow_videos %>
+			<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% else %>
+			<a href="step7" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% end %>
 		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">

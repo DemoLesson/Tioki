@@ -155,8 +155,8 @@
   <% end %>
   <br />
 
-	Allow applicants to attach videos
-	Allow applicants to attach other files
+	<%= f.check_box :allow_videos %> Allow applicants to attach videos<br />
+	<%= f.check_box :allow_attachments %>Allow applicants to attach other files<br />
 
   <div class="actions">
     <%= f.submit %>
