@@ -92,3 +92,6 @@ gem 'graylog2-resque'
 
 # New Relic
 gem 'newrelic_rpm'
+
+#give a source for json 1.7.6
+gem 'json', :git => 'git@github.com:flori/json.git'
