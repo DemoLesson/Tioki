@@ -1,3 +1,7 @@
+v4.1.17 - Jan 3, 2013  3:37PM PST deployed by Aleks Stanisic
+============================================================
+* 0cf70e1: Elijah Green - Server cannot find json 1.7.6, temporfily get gem from repository
+
 v4.1.16 - Jan 3, 2013  3:06PM PST deployed by Aleks Stanisic
 ============================================================
 
