@@ -1,3 +1,18 @@
+v4.1.14 - Jan 3, 2013  2:53PM PST deployed by Aleks Stanisic
+============================================================
+* 46ea365: Aleks Stanisic - re-design of account settings
+* 67bba21: Elijah Green - Cleanpup New User Flow
+* cd80985: Aleks Stanisic - added my organizations page
+* 43329d5: Elijah Green - Fix suggested connection find
+* 830b455: Elijah Green - Must be logged in to be on the get_started page
+* b6b13ef: Elijah Green - Fix job referrals
+* a4b7c01: Kelly Becker - installs the bleeding edge rubber dependencies and stuff
+* 8bed9fc: Kelly Becker - remove all system gems
+* 90f9b73: Kelly Becker - cleanup branches
+* cb533ab: Kelly Becker - update deploy script with handy method
+* fe4a9f1: Brian Martinez - gemlock
+* a906560: Brian Martinez - updated gitignore
+
 v4.1.13 - Dec 31, 2012 12:49PM PST deployed by Kelly Becker
 ===========================================================
 * 7381d87: Kelly Becker - update user organization affiliation
