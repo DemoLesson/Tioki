@@ -760,6 +760,10 @@ class User < ActiveRecord::Base
 		cache(:organization => 'true')
 	end
 
+	def submitted_application?
+		self.applications.where("applications.submitted = 1").count > 0
+	end
+
 	# Connections
 
 		def connected_to?(_user)
@@ -809,6 +813,7 @@ class User < ActiveRecord::Base
 
 			self == _user
 		end
+
 
 	protected
 

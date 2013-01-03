@@ -17,7 +17,8 @@ class ApplicationWizardController < ApplicationController
 
 		# Create a new application
 		@app = Application.new
-		@app.job_id = params[:job]
+		@job = Job.find(params[:job])
+		@app.job_id = @job.id
 
 		# Let the user know if we have an issue creation the application record
 		flash[:error] = "There was an error creating your application" unless @app.save
@@ -29,7 +30,21 @@ class ApplicationWizardController < ApplicationController
 			redirect_to :step1
 		else
 			@app.update_attribute(:user_id, User.current.id)
-			redirect_to :step2
+			if User.current.submitted_application?
+
+				if @job.allow_attachments
+					redirect_to :step5
+
+				elsif @job.allow_videos
+					redirect_to :step6
+
+				else
+					redirect_to :step7
+				end
+
+			else
+				redirect_to :step2
+			end
 		end
 	end
 
