@@ -106,11 +106,11 @@
 						</a>
 					</li>
 				<% end %>
-				<% if Application.mine(:status! => 'Deny Application').count > 0 %>
+				<% if User.current.applications.not_rejected.count > 0 %>
 					<li>
 						<a href="<%= user_applications_path(User.current) %>">
 							<div class="count applications">
-								<%= Application.mine(:status! => 'Deny Application').count %>
+								<%= User.current.applications.not_rejected.count %>
 							</div>
 							Job Applications
 						</a>

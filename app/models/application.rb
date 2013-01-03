@@ -8,6 +8,7 @@ class Application < ActiveRecord::Base
 
   scope :is_active, where(:status => 1)
 	scope :is_submitted, where(:submitted => 1)
+	scope :not_rejected, where("status is null || status != 'Deny Application'")
 
   def self.mine(args = {})
 

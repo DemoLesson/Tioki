@@ -16,20 +16,29 @@ class ApplicationWizardController < ApplicationController
 		redirect_to :root if params[:job].nil?
 
 		# Create a new application
-		@app = Application.new
 		@job = Job.find(params[:job])
-		@app.job_id = @job.id
-
-		# Let the user know if we have an issue creation the application record
-		flash[:error] = "There was an error creating your application" unless @app.save
-
-		# Add the application id to the session
-		session[:application] = @app.id
 
 		if User.current.nil?
+			# Let the user know if we have an issue creation the application record
+			@app = Application.new
+			@app.job_id = @job.id
+
+			@app.save!
+
+			# Add the application id to the session
+			session[:application] = @app.id
 			redirect_to :step1
 		else
-			@app.update_attribute(:user_id, User.current.id)
+			@app = Application.where("user_id = ? && job_id = ?", User.current.id, @job.id).first
+			if !@app
+				@app = Application.new
+				@app.job_id = @job.id
+				@app.user_id = User.current.id
+
+				@app.save!
+			end
+
+			session[:application] = @app.id
 			if User.current.submitted_application?
 
 				if @job.allow_attachments
