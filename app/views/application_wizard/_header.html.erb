@@ -2,6 +2,11 @@
 	<%= link_to "Experiences", action: 'step2' %> - 
 	<%= link_to "Education", action: 'step3' %> -
 	<%= link_to "Credentials", action: 'step4' %> -
-	<%= link_to "Attachments", action: 'step5' %> -
+	<% if @app.job.allow_attachments %>
+		<%= link_to "Attachments", action: 'step5' %> -
+	<% end %>
+	<% if @app.job.allow_videos %>
+		<%= link_to "Video", action: 'step6' %> -
+	<% end %>
 	<%= link_to "Submit", action: 'step7' %>
 </div>
