@@ -186,7 +186,7 @@ class ApplicationWizardController < ApplicationController
 			flash[:error] = "Unable to load the application in question."
 
 			# Add the application id to the session
-			redirect_to :root
+			redirect_to user_applications_path(User.current)
 		else
 
 			# Load the application from session
