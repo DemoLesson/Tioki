@@ -17,7 +17,11 @@
 					</li>
 				<% end %>
 				<li style="float:right;margin-top:0px;">
-					<%= link_to "Create A #{@type}", new_group_path %>
+					<% if @type == "Group" %>
+						<%= link_to "Create A #{@type}", new_group_path %>
+					<% else %>
+						<%= link_to "Create An #{@type}", new_group_path %>
+					<% end %>
 				</li>
 			<% else %>
 				<li style="float:right;margin-top:0px">
