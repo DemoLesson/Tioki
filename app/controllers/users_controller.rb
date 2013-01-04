@@ -215,7 +215,7 @@ class UsersController < ApplicationController
 		@user = self.current_user
 
 		# Load in the existing image file
-		orig_img = MiniMagick::Image.open(Rails.root.join('public' + @user.temp_img_name))
+		orig_img = MiniMagick::Image.new(Rails.root.join('public' + @user.temp_img_name))
 
 		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
@@ -226,26 +226,22 @@ class UsersController < ApplicationController
 			# Crop the image
 			orig_img.crop(args)
 
-		# @todo figure out what we really want to do here
-		# WAIT! Why are we running this. It scales the image down to the largest side it does not make it square
-		#else
-		#	# Get the width and height from the image
-		#	width, height = orig_img['%w %h'].split
-		#
-		#	# Get the largest side
-		#	largest_side = width > height ? height : width
-		#
-		#	# Scale the image using MATH
-		#	if width > height
-		#		height = (height * (largest_side / width)).to_i
-		#		width = largest_side
-		#	else
-		#		width = (width * (largest_side / height)).to_i
-		#		height = largest_side
-		#	end
-		#
-		#	# Create the thumbnail
-		#	orig_image.thumbnail('#{width}x#{height}')
+		else
+		
+			# Crop using the smallest side
+			if orig_img[:width] > orig_img[:height]
+				smallest_side = orig_img[:height]
+				offsetx = (orig_img[:width] - smallest_side)/2
+				offsety = 0
+			else
+				smallest_side = orig_img[:width]
+				offsetx = 0
+				offsety = 0
+			end
+
+			args = "#{smallest_side}x#{smallest_side}+#{offsetx}+#{offsety}"
+
+			orig_img.crop(args)
 		end
 
 		# Create temp file in order to save the cropped image for later saving to amazon s3
