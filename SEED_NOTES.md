@@ -1,3 +1,35 @@
+v4.1.18 - Jan 3, 2013  4:06PM PST deployed by Aleks Stanisic
+============================================================
+* 0810573: Elijah Green - Specify json in Gemfile
+* 8883c36: Elijah Green - Revert "Server cannot find json 1.7.6, temporfily get gem from repository"
+
+v4.1.17 - Jan 3, 2013  3:37PM PST deployed by Aleks Stanisic
+============================================================
+* 0cf70e1: Elijah Green - Server cannot find json 1.7.6, temporfily get gem from repository
+
+v4.1.16 - Jan 3, 2013  3:06PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.15 - Jan 3, 2013  2:56PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.14 - Jan 3, 2013  2:53PM PST deployed by Aleks Stanisic
+============================================================
+* 46ea365: Aleks Stanisic - re-design of account settings
+* 67bba21: Elijah Green - Cleanpup New User Flow
+* cd80985: Aleks Stanisic - added my organizations page
+* 43329d5: Elijah Green - Fix suggested connection find
+* 830b455: Elijah Green - Must be logged in to be on the get_started page
+* b6b13ef: Elijah Green - Fix job referrals
+* a4b7c01: Kelly Becker - installs the bleeding edge rubber dependencies and stuff
+* 8bed9fc: Kelly Becker - remove all system gems
+* 90f9b73: Kelly Becker - cleanup branches
+* cb533ab: Kelly Becker - update deploy script with handy method
+* fe4a9f1: Brian Martinez - gemlock
+* a906560: Brian Martinez - updated gitignore
+
 v4.1.13 - Dec 31, 2012 12:49PM PST deployed by Kelly Becker
 ===========================================================
 * 7381d87: Kelly Becker - update user organization affiliation

@@ -2,13 +2,19 @@
 	<section>
 		<nav class="subpage" style="padding-left:0px">
 			<ul>
-				<li>
-					<a href="/groups">
-					Groups
-					</a>
-				</li>
+				<% if @type == "Group" %>
+					<li>
+						<a href="/groups">
+						All <%= @type %>s
+						</a>
+					</li>
+				<% else %>
+					<li>
+						<%= link_to "AlL #{@type}s", groups_path(:organization => true) %>
+					</li>
+				<% end %>
 				<li class="current">
-						My Groups
+						My <%= @type %>s
 				</li>
 				<% if self.current_user %>
 					<div style="float:right;margin-top:0px">

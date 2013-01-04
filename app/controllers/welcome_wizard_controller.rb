@@ -166,6 +166,8 @@ class WelcomeWizardController < ApplicationController
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 2 of the welcome wizard.", self.current_user)
 
+				self.log_analytic("#{params[:current]}_step2", "User signed up as a #{params[:current]}", self.current_user)
+
 				# Notice and redirect
 				flash[:notice] = "Step 2 Completed"
 				return redirect_to "#{@buri}?x=step3#{@url}"
