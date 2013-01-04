@@ -1,9 +1,41 @@
 class Notification < ActiveRecord::Base
+
+	# By default ignore records with 0 as the type
+	default_scope where("`notifications`.`notifiable_type` != '0'")
+
+	# Relationships
 	belongs_to :triggered, :class_name => 'User'
 	belongs_to :user
 
-	default_scope where("`notifications`.`notifiable_type` != ?", 0.to_s)
+	# Cleanup of the db
+	after_find :remove_unused
+	def remove_unused
 
+		# Get the notifiable type
+		_class = notifiable_type.split(':').first
+
+		# Delete the record if it maps to nothing
+		destroy if map_tag if map_tag.nil?
+
+		# If the class is not destroyed consider destroying
+		if !destroyed?
+			begin
+				case _class
+					when 'Application'
+						destroy if map_tag.job.nil?
+					when '0'
+						destroy
+				end
+			rescue ActiveRecord::RecordNotFound
+				destroy
+			rescue Exception => e
+				puts e.message
+				raise e
+			end
+		end
+	end
+
+	# Mapped relationships
 	def map_tag
 		# Return the object in question
 		begin; return mapTag!(self.notifiable_type)
@@ -88,6 +120,8 @@ class Notification < ActiveRecord::Base
 	end
 
 	def triggered
+		return false if destroyed?
+
 		_triggered = read_attribute :triggered_id
 
 		return User.find(_triggered) if !_triggered.nil?
@@ -113,6 +147,7 @@ class Notification < ActiveRecord::Base
 	end
 
 	def getMessage(_message = nil)
+		return false if destroyed?
 
 		# Get the data to query on
 		record = Hash.new
@@ -123,7 +158,7 @@ class Notification < ActiveRecord::Base
 
 		# Get the message unparsed
 		# and sanitize anything that isn't a link
-		m = ActionController::Base.helpers.sanitize(_message.nil? ? self.message : _message, :tags => %w(a))
+		m = ActionController::Base.helpers.sanitize(_message.nil? ? read_attribute(:message) : _message, :tags => %w(a))
 
 		# Get all the variables
 		vars = m.scan(/{[\w.(),]+}/)
@@ -144,7 +179,7 @@ class Notification < ActiveRecord::Base
 			scope = record
 			var.each_with_index do |var_seg, var_key|
 				# Debugger
-				#puts '@__['+var_seg+']: ' + scope.inspect
+				puts '@__['+var_seg+']: ' + scope.inspect
 
 				# If this is the first key pick from the root hash
 				if var_key == 0
@@ -171,7 +206,7 @@ class Notification < ActiveRecord::Base
 						var_seg = var_seg[0]
 					end
 
-					raise NoMethodError, var_seg + ' is not an avilable method' unless scope.respond_to?(var_seg)
+					#raise NoMethodError, var_seg + ' is not an avilable method' unless scope.respond_to?(var_seg)
 					scope = scope.send(var_seg, *args)
 					next
 				end
@@ -194,15 +229,16 @@ class Notification < ActiveRecord::Base
 	end
 
 	def message
+		return false if destroyed?
 
 		# @todo deprecate on Jan 31, 2013
 		_message = read_attribute(:message)
 		begin
 			# Return the message
 			return getMessage(_message).html_safe if !_message.nil?
-		rescue NoMethodError
+		rescue NoMethodError => e
+			return e.message
 		end
-
 
 		_class = notifiable_type.split(':').first
 
@@ -220,6 +256,8 @@ class Notification < ActiveRecord::Base
 		when 'Interview'
 			ret = "{triggered.link} responded to the interview request for {tag.job.title}" if dashboard == 'recruiter'
 			ret = "{triggered.link} updated a interview request for {tag.job.title}" if dashboard != 'recruiter'
+		when 'Message'
+			ret = "{triggered.link} sent you a message."
 		end
 
 		# Write the message to the Database
@@ -227,12 +265,14 @@ class Notification < ActiveRecord::Base
 
 		begin
 			# Return the message
-			getMessage(ret).html_safe
+			return getMessage(ret).html_safe
 		rescue NoMethodError
+			return false
 		end
 	end
 
 	def link
+		return false if destroyed?
 
 		# @todo deprecate on Jan 31, 2013
 		_link = read_attribute(:link)
