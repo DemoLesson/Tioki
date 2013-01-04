@@ -402,6 +402,7 @@ Preview::Application.routes.draw do
 	match 'deactivatedlist' => 'users#deactivated_user_list'
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
+	match 'active_job_list' => 'users#active_job_list'
 	match 'referrallist' => 'users#referral_user_list'
 	match 'donorschoose' => 'users#donors_choose_list'
 	match 'technologylist' => 'technologies#technology_list'
