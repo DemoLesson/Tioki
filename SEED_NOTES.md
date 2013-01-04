@@ -1,3 +1,10 @@
+v4.1.20 - Jan 4, 2013 12:38PM PST deployed by Brian Martinez
+============================================================
+* f1286bc: Brian Martinez - rubber 2.1.2
+* 263dca4: Brian Martinez - reverting the last commit
+* f0506a6: Brian Martinez - Temporily use old rubber from repository
+* 7d28073: Kelly Becker - new instance
+
 v4.1.19 - Jan 4, 2013 11:01AM PST deployed by Kelly Becker
 ==========================================================
 * 68ca78a: Kelly Becker - fix to a heading
