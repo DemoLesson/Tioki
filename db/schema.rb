@@ -478,6 +478,9 @@ ActiveRecord::Schema.define(:version => 20130101220447) do
     t.datetime "updated_at"
     t.string   "dashboard"
     t.string   "message"
+    t.string   "link"
+    t.text     "data"
+    t.integer  "triggered_id"
   end
 
   create_table "organizations", :force => true do |t|
