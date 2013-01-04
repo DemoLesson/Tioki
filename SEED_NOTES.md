@@ -1,3 +1,13 @@
+v4.1.19 - Jan 4, 2013 11:01AM PST deployed by Kelly Becker
+==========================================================
+* 68ca78a: Kelly Becker - fix to a heading
+* 88f3d33: Kelly Becker - group permissions update
+* 3414599: Brian Martinez - major changes to navigation menu
+* 574db01: Aleks Stanisic - adding active job application list to admin page
+* bbf7895: Elijah Green - Fix cropping with no cropping values
+* 74c2713: Aleks Stanisic - adding ability for admins to esit any group and organization
+* 3b10a3a: Elijah Green - Revert last commit
+
 v4.1.18 - Jan 3, 2013  4:06PM PST deployed by Aleks Stanisic
 ============================================================
 * 0810573: Elijah Green - Specify json in Gemfile
