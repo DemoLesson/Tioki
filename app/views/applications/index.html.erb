@@ -40,11 +40,19 @@
 									<%= f.submit "Update Status" %>
 								<% end %>
 							<% end %>
-							<% app.assets.each do |asset| %>
-								Attachments:<br />
-								<%= link_to asset.name, asset.file.url %><br />
-								Description:<br />
-								<%= asset.description %><br /><br />
+							<% if !app.assets.empty? %>
+								<h5>Assets</h5>
+								<ul>
+									<% app.assets.each do |asset| %>
+									   <li>
+											<span class="iconic paperclip"> <%= link_to asset.name, asset.file.url %> (<%= asset.file.content_type %>)<%= " &mdash; #{asset.description}".html_safe if !asset.description.empty? %></span>
+									   </li>
+									<% end %>
+								</ul>
+							<% end %>
+							<% if !app.video.nil? %>
+								<h5>Video</h5>
+								<%= app.video.embed_code 445, nil, nil, false %>
 							<% end %>
 						</span>
 					</li>
