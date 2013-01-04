@@ -317,6 +317,7 @@ DEPENDENCIES
   htmlentities
   httparty
   jquery-rails
+  json (= 1.7.6)
   koala
   kvpair!
   linkedin
