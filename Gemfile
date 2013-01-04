@@ -92,4 +92,3 @@ gem 'graylog2-resque'
 
 # New Relic
 gem 'newrelic_rpm'
-gem 'json', '1.7.6'
