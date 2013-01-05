@@ -52,6 +52,10 @@ namespace :rubber do
         rm /etc/alternatives/ruby
         ln /usr/bin/ruby1.9.1 /etc/alternatives/ruby
 
+        # Link to the 1.9.1 gem binary as well
+        rm /etc/alternatives/gem
+        ln /usr/bin/gem1.9.1 /etc/alternatives/gem
+
         # Create the initial gemrc file
         echo 'gem: --no-ri --no-rdoc' > /etc/gemrc
 
