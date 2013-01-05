@@ -1,7 +1,11 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 
-	<%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag!, :style => 'float:right;', :class => 'large button' %>
+	<% if @group.member? %>
+		<%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag!, :style => 'float:right;', :class => 'large button' %>
+	<% else %>
+		<%= link_to "Join Group", { :action => "add_group", :id => @group.id }, :class => "button bg-salmon", :style => "float:right; margin-right:115px" if @group.permissions['public'] %>
+	<% end %>
 
 	<h2>Discussions</h4>
 
