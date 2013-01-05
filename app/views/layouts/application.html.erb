@@ -325,18 +325,12 @@
 							</ul>
 						</li>
 						<li>
-							<a href="/groups">
-							Orgs
-							</a>
+							<%= link_to "Orgs", groups_path(:organization => true) %>
 							<ul>
 								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
 								<li><%= link_to "My Organizations", my_groups_path(:organization => true) %></li>
 								<hr>
-									<% if currentUser.organization? %>
-										<li><a href="/me/settings/dashboard/recruiter">Create an Organization</a></li>
-									<% else %>
-										<li><a href="/me/settings/upgrade">Create an Organization</a></li>
-									<% end %>
+								<li><a href="/me/settings/upgrade">Create an Organization</a></li>
 							</ul>
 						</li>
 						<li>
