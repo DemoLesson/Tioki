@@ -1,16 +1,12 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 
-	<% if @group.member? %>
-		<%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag!, :style => 'float:right;', :class => 'large button' %>
-	<% else %>
-		<%= link_to "Join Group", { :action => "add_group", :id => @group.id }, :class => "button bg-salmon", :style => "float:right; margin-right:115px" if @group.permissions['public'] %>
-	<% end %>
+	<%= link_to "Start a discussion", new_discussion_path + '?owner=' + @group.tag!, :style => 'float:right;', :class => 'large button' %>
 
 	<h2>Discussions</h4>
 
 	<ul class="group-discussions">
-		<% if !@group.member? && !@group.permissions.public_discussions %>
+		<% if !@group.member? && !@group.permissions.public_discussions && !User.current.is_admin %>
 			<li>We apologize but the discussions on this group are not public. You must be a member before you can participate in these discussions.</li>
 		<% else %>
 			<% if @discussions.count < 1 %>
