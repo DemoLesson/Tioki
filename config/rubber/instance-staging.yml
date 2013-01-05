@@ -25,7 +25,7 @@
     name: db
     options:
       primary: true
-  instance_id: i-10df0622
+  instance_id: i-5ccb126e
   image_type: m1.medium
   image_id: ami-2add531a
   security_groups:
@@ -37,10 +37,10 @@
   - tioki_staging_haproxy
   - tioki_staging_app
   - tioki_staging_db
-  external_host: ec2-54-245-143-73.us-west-2.compute.amazonaws.com
-  external_ip: 54.245.143.73
-  internal_host: ip-10-244-18-25.us-west-2.compute.internal
-  internal_ip: 10.244.18.25
+  external_host: ec2-54-245-20-250.us-west-2.compute.amazonaws.com
+  external_ip: 54.245.20.250
+  internal_host: ip-10-244-23-79.us-west-2.compute.internal
+  internal_ip: 10.244.23.79
   zone: us-west-2c
   platform: linux
   root_device_type: instance-store

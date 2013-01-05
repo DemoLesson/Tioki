@@ -52,6 +52,9 @@ namespace :rubber do
         rm /etc/alternatives/ruby
         ln /usr/bin/ruby1.9.1 /etc/alternatives/ruby
 
+        # Create the initial gemrc file
+        echo 'gem: --no-ri --no-rdoc' > /etc/gemrc
+
         # Install bundler
         gem install bundler
       ENDSCRIPT
