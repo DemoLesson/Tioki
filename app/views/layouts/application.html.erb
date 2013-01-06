@@ -306,7 +306,7 @@
 							</a>
 							<ul>
 								<li><%= link_to "Browse Groups", groups_path %></li>
-								<li><%= link_to "My Groups", user_groups_path(currentUser) %></li>
+								<li><%= link_to "My Groups", my_groups_path %></li>
 								<hr>
 								<li><%= link_to "Create a Group", new_group_path %></li>
 							</ul>
@@ -318,7 +318,7 @@
 							<ul>
 								<li><a href="/jobs">Browse Jobs</a></li>
 									<% if currentUser.organization? %>
-										<li><a href="/me/settings/dashboard/recruiter">Post A Job</a></li>
+										<li><%= link_to "Post a Job", my_groups_path(:organization => true) %></li>
 									<% else %>
 										<li><a href="/me/settings/upgrade">Post a Job</a></li>
 									<% end %>
