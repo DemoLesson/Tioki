@@ -478,14 +478,8 @@ class DeployCLI
 	def setup
 
 		# Warn
-		echo "Ok were gonna install the latest rubber, bundle install, and then sync aliases ^_^"
+		echo "Ok were gonna install rubber, bundle install, and then sync aliases ^_^"
 		if confirm "Everything sound good?"
-
-			# Install specific install
-			system('gem install specific_install')
-
-			# Install Rubber
-			system('gem specific_install -l git://github.com/wr0ngway/rubber.git')
 
 			# Bundle Install
 			system('bundle install && bundle update')
