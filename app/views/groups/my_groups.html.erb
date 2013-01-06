@@ -17,9 +17,13 @@
 						My <%= @type %>s
 				</li>
 				<% if self.current_user %>
-					<div style="float:right;margin-top:0px">
-						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
-					</div>
+				<li style="float:right;margin-top:0px;">
+					<% if @type == "Group" %>
+						<%= link_to "Create A #{@type}", new_group_path %>
+					<% else %>
+						<%= link_to "Create An #{@type}", '/me/settings/upgrade' %>
+					<% end %>
+				</li>
 				<% end %>
 			</ul>
 		</nav>
