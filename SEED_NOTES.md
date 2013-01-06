@@ -1,3 +1,27 @@
+v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
+==========================================================
+* c170d09: Kelly Becker - remove www2
+* 8da406f: Kelly Becker - new production instance
+* ea2181d: Kelly Becker - deploy stuff and instances
+* 5920808: Kelly Becker - new configurations
+* ed2e21b: Kelly Becker - staging server
+* f082423: Elijah Green - Fix error on orgs page calling is_admin on a nil user
+* 0a496b0: Kelly Becker - updates to deploy script
+* 9c7472b: Kelly Becker - newrubber_profile
+
+v4.1.21 - Jan 5, 2013  1:53PM PST deployed by Kelly Becker
+==========================================================
+* c7291c2: Kelly Becker - removed the old production server
+* 4a740ee: Kelly Becker - fixed upcoming events ordering
+* 3834e80: Elijah Green - Allow site admins to have greater access to group discussions
+* 6fc78c7: Elijah Green - Instead of HTTPStatus Unauthorized for discussions redirect_to group
+* 64cd5d4: Elijah Green - Add join group button on groups/discussion
+* 2bf6645: Aleks Stanisic - changing add organization flow
+* c99440d: Elijah Green - Don't show current user in suggested connections
+* 7e22dfa: Aleks Stanisic - style fix header through firefox
+* a603802: Elijah Green - Comment on shared posts and move icons
+* a9b6996: Aleks Stanisic - fixed grammer error in create organizations
+
 v4.1.20 - Jan 4, 2013 12:38PM PST deployed by Brian Martinez
 ============================================================
 * f1286bc: Brian Martinez - rubber 2.1.2

@@ -20,8 +20,8 @@ class DiscussionsController < ApplicationController
     # Unauthorized
     if !@discussion.owner!.nil? && !@discussion.owner!.empty?
     	@owner = @discussion.owner
-    	if !@owner.member? && !@owner.permissions['public_discussions']
-    		raise HTTPStatus::Unauthorized
+    	if !@owner.member? && !@owner.permissions['public_discussions'] && !User.current.is_admin
+				return redirect_to @owner
     	end
     end
 
