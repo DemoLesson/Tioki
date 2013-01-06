@@ -35,7 +35,7 @@ class SkillsController < ApplicationController
 	end
 
 	def skillpage
-		skill = Skill.find(params[:topic])
+		skill = Skill.find(params[:skill])
 		redirect_to skill
 	end
 
