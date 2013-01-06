@@ -1,3 +1,14 @@
+v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
+==========================================================
+* c170d09: Kelly Becker - remove www2
+* 8da406f: Kelly Becker - new production instance
+* ea2181d: Kelly Becker - deploy stuff and instances
+* 5920808: Kelly Becker - new configurations
+* ed2e21b: Kelly Becker - staging server
+* f082423: Elijah Green - Fix error on orgs page calling is_admin on a nil user
+* 0a496b0: Kelly Becker - updates to deploy script
+* 9c7472b: Kelly Becker - newrubber_profile
+
 v4.1.21 - Jan 5, 2013  1:53PM PST deployed by Kelly Becker
 ==========================================================
 * c7291c2: Kelly Becker - removed the old production server
