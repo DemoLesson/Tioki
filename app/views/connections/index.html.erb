@@ -24,14 +24,48 @@
 			<h3>
 				Find <%= ablang('connection.plural', true) %>
 			</h3>
+			<!-- If a search for a skill that is in the database has been made -->
 			<% if @skills %>
-				<p style="padding-left:20px">
+				<p style="padding-left:15px; padding-right:10px;width:auto">
 				<% @skills.each do |skill| %>
-					<%= link_to skill.name, skill %><br />
+					These are some Tiokis that indicated "<strong><%= link_to skill.name, skill, :style => 'color:#F66C4C' %></strong>" as a skill.
+					<br /><br/>
+					Sorting for skill based searches is on it's way! 
 				<% end %>
 				</p>
 			<% end %>
-			<% if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'  %>
+			
+			<!-- If a search for a location has returned results -->
+			<% if params[:topic] == 'location' && params[:connectsearch].present? && @users.count >= 1 %>
+				<p style="padding-left:15px; padding-right:10px;width:auto"> 
+					Currently displaying results for: <strong style='color:#F66C4C'><%= params[:connectsearch] %></strong> 
+					<br/>
+					<br/>
+					Sorting for Location Based searches is on it's way! 
+					<br/>
+					<br/>
+					<strong>
+						Looking for someone not on Tioki yet?
+						<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+					</strong> 
+				</p>
+			<% end %>
+			
+			<!-- If a search for a email has returned results -->
+			<% if params[:topic] == 'email' && params[:connectsearch].present? && @users.count >= 1 %>
+				<p style="padding-left:15px; padding-right:10px;width:auto"> 
+					Currently displaying results for: <strong style='color:#F66C4C'><%= params[:connectsearch] %></strong> 
+					<br/>
+					<br/>
+					<strong>
+						Looking for someone not on Tioki yet?
+						<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+					</strong> 
+				</p>
+			<% end %>
+			
+			<!--If a search for a name has returned results, launch sorting -->
+			<% if params[:topic] == 'name' && params[:connectsearch].present?  %>
 				<div class="accordion filterconnections">
 					<h4 class="bottom-line" style="margin-top:0px">
 						Search Filters
@@ -91,32 +125,92 @@
 					<%= link_to image_tag('/assets/tioki/icons/fb_transparent.png', :style => "width:70px"), '/inviteconnections/facebook' %>
 				</p>
 			</section>
-		</section> <!-- END FIND NEW CONNECTIONS -->
+		</section> <!-- END CONNECTION SORTING -->
 		<section id="list" class="panel two-column right-side">
 			<div class="search-connections">	
 				<%= form_tag connections_path, :method => :get do %>
 					<fieldset>
-						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search" } %>
 						<select name="topic">
-							<option value="name">Name</option>
-							<option value="skill_string">Skill</option>
-							<option value="location">Location</option>
+							<option value="name">By Name</option>
+							<option value="email">By Email</option>
+							<option value="skill_string">By Skill</option>
+							<option value="location">By Location</option>
 						</select>
+						<%= text_field_tag :connectsearch, params[:connectsearch], { :placeholder => "Search New #{ablang('connection.plural', true)}", :class => "search", :style => 'width:360px;padding-left: 10px !important;border-left: none;border-top-left-radius: 0px;border-bottom-left-radius: 0px;' } %>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
 				<% end %>
 			</div>
 			<ul id="connection_list">
+				<!-- If the search has returned results, the page will render them -->
 				<% @users.each do |user| %>
 					<%= raw user %>
 				<% end %>
+				
+				<!-- Unless there are no results on the page, the more button will appear, even if there aren't any more -->
+				<% unless @users.count == 0 %>
 				<li class="viewmorelist">
 					<a href="#" class="viewmore">
-						View More
+						View More Tiokis
 					</a>
 				</li>
+				<% end %>
+				<!--Notice that will display before a search takes place -->
+				<% if params[:connectsearch].nil? && @users.count == 0 %>
+					<h4 style="padding-left:45px;width: 540px">
+						The journey is always better with good company, so go ahead and find some other awesome Tiokis to share with and learn from! 
+					</h4>
+				<% end %>
+				<!-- Notices for when a user searches for something, yet nothing is returned -->
+					<% if params[:topic] == 'name' && params[:connectsearch].present? && @users.count == 0 %>
+						<p style="padding-left:45px;width: 540px"> Uh-oh! It doesn't look like there are any Tiokis named 
+							<strong>
+								"<%= params[:connectsearch] %>"
+							</strong>
+							<br/>
+							<br/>
+							<strong>
+								Looking for someone not on Tioki yet?
+								<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+							</strong> 
+						</p>
+					<% end %>
+					
+					<% if params[:topic] == 'skill_string' && params[:connectsearch].present? && @users.count == 0 %>
+						<p style="padding-left:45px;width:540px"> Hmm...I'm not finding that skill in my database yet. Can you try another one?
+							<br/>
+							<br/>
+							<strong>
+								Looking for someone not on Tioki yet?
+								<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+							</strong> 
+						</p>
+					<% end %>
+					
+					<% if params[:topic] == 'location' && params[:connectsearch].present? && @users.count == 0 %>
+						<p style="padding-left:45px;width:540px"> It doesn't look like we have any Tiokis in <strong>"<%= params[:connectsearch] %>"</strong>. Maybe we can search for another area? 
+							<br/>
+							<br/>
+							<strong>
+								Looking for someone not on Tioki yet?
+								<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+							</strong> 
+						</p>
+					<% end %>
+					
+					<% if params[:topic] == 'email' && params[:connectsearch].present? && @users.count == 0 %>
+						<p style="padding-left:45px;width:540px"> That email address does not match any current Tiokis.
+							<br/>
+							<br/>
+							<strong>
+								Looking for someone not on Tioki yet?
+								<%= link_to 'Invite them to connect!', '/inviteconnections', :style => 'color:#F66C4C' %>
+							</strong> 
+						</p>
+					<% end %><!-- End Notices-->
 			</ul>
-		</section> <!-- END MY CONNECTIONS -->
+			
+		</section> <!-- END FIND NEW CONNECTIONS -->
 	</section>
 </section> <!-- End Main Content -->
 <script type="text/javascript">
