@@ -221,6 +221,13 @@ class DeployCLI
 			system("git push #{remote} #{branch}")
 		end
 
+		# Warning!
+		if commited && branch == 'develop'
+			unless confirm("Did you test this on the staging server?")
+				return echo "Then don't deploy to production!"
+			end
+		end
+
 		# If we are in develop ask if we would like to merge to master
 		if commited && branch == 'develop' && confirm("Would you like to tag and release?")
 
