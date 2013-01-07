@@ -53,8 +53,13 @@ class Discussion < ActiveRecord::Base
 		"/discussions/#{self.to_param}"
 	end
 
-	# Get the owner
 	def owner
+
+		# Is the owner set already?
+		_owner = read_attribute(:owner)
+		return nil if _owner.nil?
+
+		# Get the actual owning object
 		_class, _id = read_attribute(:owner).split(':')
 		_class.constantize.find(_id)
 	end
