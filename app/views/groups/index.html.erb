@@ -6,15 +6,9 @@
 			</li>
 			<% if self.current_user %>
 				<% if @type == "Group" %>
-					<li>
-						<a href="/my_groups">
-							My <%= @type %>s
-						</a>
-					</li>
+					<li><%= link_to "My #{@type}s", user_groups_path(currentUser) %></li>
 				<% else %>	
-					<li>
-						<%= link_to "My #{@type}s", my_groups_path(:organization => true) %>
-					</li>
+					<li><%= link_to "My #{@type}s", user_groups_path(currentUser, :organization => true) %></li>
 				<% end %>
 				<li style="float:right;margin-top:0px;">
 					<% if @type == "Group" %>
