@@ -1,3 +1,12 @@
+v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
+==========================================================
+* 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
+* 3916534: Aleks Stanisic - MAde it easier to create Job for orgs
+* 1ba6ce3: Aleks Stanisic - adding new create group/org link in my group/org pages
+* e552a97: Brian Martinez - changed to school pricing and to connections pages
+* a879cb4: Elijah Green - Fix width of select in jobs/_form
+* 6000f35: Kelly Becker - remove staging server
+
 v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
 ==========================================================
 * c170d09: Kelly Becker - remove www2
