@@ -6,18 +6,16 @@
 			</li>
 			<% if self.current_user %>
 				<% if @type == "Group" %>
-					<li>
-						<a href="/my_groups">
-							My <%= @type %>s
-						</a>
-					</li>
+					<li><%= link_to "My #{@type}s", user_groups_path(currentUser) %></li>
 				<% else %>	
-					<li>
-						<%= link_to "My #{@type}s", my_groups_path(:organization => true) %>
-					</li>
+					<li><%= link_to "My #{@type}s", user_groups_path(currentUser, :organization => true) %></li>
 				<% end %>
 				<li style="float:right;margin-top:0px;">
-					<%= link_to "Create A #{@type}", new_group_path %>
+					<% if @type == "Group" %>
+						<%= link_to "Create A #{@type}", new_group_path %>
+					<% else %>
+						<%= link_to "Create An #{@type}", '/me/settings/upgrade' %>
+					<% end %>
 				</li>
 			<% else %>
 				<li style="float:right;margin-top:0px">

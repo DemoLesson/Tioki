@@ -17,54 +17,69 @@
 						My <%= @type %>s
 				</li>
 				<% if self.current_user %>
-					<div style="float:right;margin-top:0px">
-						<%= link_to "Create A Group", new_group_path, :class => "action-button bg-green" %>
-					</div>
+				<li style="float:right;margin-top:0px;">
+					<% if @type == "Group" %>
+						<%= link_to "Create A #{@type}", new_group_path %>
+					<% else %>
+						<%= link_to "Create An #{@type}", '/me/settings/upgrade' %>
+					<% end %>
+				</li>
 				<% end %>
 			</ul>
 		</nav>
 	</section>
 	<section class="panels">
 		<section class="two-column left-side">
-			<% if @groups != nil %>
-		  		<% @groups.each do |group| %>
-					<div class="item_jobs" style="height:auto;">
-							<div class="item_picture">
-								<% if group.picture? %>
-									<%= link_to image_tag(group.picture.url(:thumb)), group %>
-								<% else %>
-									<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %>
-								<% end %>
-							</div>
-							<div class ="item_desc">
-								<p style="width:auto">
-									<h3 style="padding-left:122px">
-										<% if group.name.size > 65 %>
-											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..69]+'...').html_safe, group, :style => "color:#4D4D4D" %>
-										<% else %>
-											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#4D4D4D" %>
-										<% end %>
-									</h3>
-									<p style="margin-top:-15px; width:525px">
-										<% if group.description.size > 230 %>
-											<%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..234]+'...').html_safe %>
-										<% else %>
-											<%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
-										<% end %>
-									</p>
-									<% if self.current_user %>
-										<% unless self.current_user.groups.include? group %>
-											<%= link_to "Join Group", { :action => "add_group", :id => group.id }, :class => "action-button bg-salmon", :style => "float:right; margin:0px" if group.permissions['public'] %>
-										<% end %>
+	  		<% @groups.each do |group| %>
+				<div class="item_jobs" style="height:auto;">
+						<div class="item_picture">
+							<% if group.picture? %>
+								<%= link_to image_tag(group.picture.url(:thumb)), group %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), group %>
+							<% end %>
+						</div>
+						<div class ="item_desc">
+							<p style="width:auto">
+								<h3 style="padding-left:122px">
+									<% if group.name.size > 65 %>
+										<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..69]+'...').html_safe, group, :style => "color:#4D4D4D" %>
+									<% else %>
+										<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#4D4D4D" %>
 									<% end %>
-						
-									<div style="clear:both"></div>
+								</h3>
+								<p style="margin-top:-15px; width:525px">
+									<% if group.description.size > 230 %>
+										<%=h (group.description.gsub(%r{</?[^>]+?>}, '')[0..234]+'...').html_safe %>
+									<% else %>
+										<%=h group.description.gsub(%r{</?[^>]+?>}, '').html_safe %>
+									<% end %>
 								</p>
-							</div>
-					</div>
-		  		<% end %>
-			<% else @groups == nil %>
-			<p> You're not in any groups yet! Here are some you should join'</p>	
+								<% if @type == "Organization" %>
+									<a href="<%= new_group_job_path(group) %>" class = "action-button salmon" style="float:right; margin-bottom:-15px; margin-right:70px;">Add a Job</a>
+								<% end %>
+					
+								<div style="clear:both"></div>
+							</p>
+						</div>
+				</div>
+	  		<% end %>
+			<% if @groups.count == 0 %>
+				<% if @type == "Group" %>
+					<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+						<h3> You're not in any groups yet! Join or create a group! </h3>
+						<a href="/groups/new" class="action-button bg-salmon" style="float:right; margin-top:-65px; margin-right: 20px;">
+							Create A <%= @type %>
+						</a>
+					</section>
+				<% else %>	
+					<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+						<h3> You must create an organization first to post a Job!</h3>
+						<a href="/me/settings/upgrade" class="action-button bg-salmon" style="float:right; margin-top:-65px; margin-right: 20px;">
+							Create An <%= @type %>
+						</a>
+					</section>
+				<% end %>
 			<% end %>
 		</section>
 		<section class="panel one-column right-side" style ="width:276px;height:430px;border-radius:5px">

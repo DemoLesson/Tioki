@@ -337,10 +337,10 @@
 				</a>
 			</h3>
 			<ul>
-				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
-				<% if rsvp.empty? %>
+				<% rsvp = @user.rsvp.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC') %>
+				<% if rsvp.count < 1 %>
 					<li>You have no RSVP's. So here are some upcoming events.</li>
-					<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
+					<% Event.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC').limit(3).each do |event| %>
 						<li>
 							<div class="calendar-thumb">
 								<div class="cal-month">

@@ -81,14 +81,14 @@
 				</a>
 			</li>
 		<% end %>
-		<% if @group.user_permissions['administrator'] || self.current_user.is_admin %>
+		<% if @group.user_permissions['administrator'] || (self.current_user && self.current_user.is_admin) %>
 			<li style="float:right;">
 				<span>
-					Administration
+					Manage
 					<span class="iconic arrow_down"></span>
 				</span>
 				<ul>
-					<li><%= link_to @group.type?, [:edit, @group] %></li>
+					<li><%= link_to "Edit #{@group.type?}", [:edit, @group] %></li>
 					<li><%= link_to "Manage Job Postings", [@group, :jobs] if @group.organization? %></li>
 				</ul>
 			</li>

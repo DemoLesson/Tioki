@@ -39,6 +39,10 @@ class HomeController < ApplicationController
 				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
 				my_connections = @user.connections.collect{|x| x.not_me_id(currentUser.id)}
+
+				# Don't show the current user either
+				my_connections.push(currentUser.id)
+
 				@suggested_connections = User.joins(:skill_claims).
 					where("users.avatar_file_size IS NOT NULL && skill_claims.skill_id IN (?) && users.id NOT IN (?)", currentUser.skills.collect(&:id), my_connections).
 					limit(3).

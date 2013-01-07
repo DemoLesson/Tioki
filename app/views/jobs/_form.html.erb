@@ -24,7 +24,7 @@
   <fieldset>
     <p>
       Employment Type<br />
-      <%= select(:job, :employment_type, [ ["Full Time" , 0], ["Part Time", 1], ["Contract", 2], ["Other", 3] ], :style => "width:400px") %>
+			<%= select(:job, :employment_type, [ ["Full Time" , 0], ["Part Time", 1], ["Contract", 2], ["Other", 3] ], {}, {:style => "width:400px"}) %>
     </p>
   </fieldset>
 

@@ -28,25 +28,29 @@
     .connections-page .two-column .search-connections select[name="topic"] {
       font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
       -webkit-appearance: none;
-      width: 200px;
-      padding: 9px 12px 7px;
+      width: 100px;
+	  background: #F7896F;
+      padding: 10px 12px 7.4px;
       cursor: pointer;
       -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
       -moz-border-radius: 3px;
       border-radius: 3px;
       border: 1px solid #cfd4d5;
-      color: #4d4d4d;
-      margin: 0 5px; }
+      color: #fff;
+	  margin-right: -4px;
+	  border-bottom-right-radius: 0px;
+      border-top-right-radius: 0px;
+	  border-right: none;}
       .connections-page .two-column .search-connections select[name="topic"]:focus {
         outline: none;
         border: 1px solid #f66c4c; }
       .connections-page .two-column .search-connections select[name="topic"] option {
         color: #4d4d4d; }
     .connections-page .two-column .search-connections input[type="submit"] {
-      height: 32px; }
+      height: 36px; }
   .connections-page .two-column .search {
-    background: url("/assets/tioki/icons/search.png") 0 -4px no-repeat;
+    background: url("/assets/tioki/icons/search.png") 330px -4px no-repeat;
     padding-left: 45px !important; }
   .connections-page .two-column form#newconnections input[type="text"] {
     width: 80%;

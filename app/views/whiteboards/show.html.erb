@@ -115,7 +115,7 @@
 		<div class="clear"></div>
 	</li>
 <% else %>
-	<li <%= "class=\"has-actions\"".html_safe if @post.user == User.current || User.current.is_admin %> id="<%= @post.id %>">
+	<li class="new-style article" id="<%= @post.id %>">
 		<% i=0; @post.getModels.each do |x| %>
 			<% next if i>0; i+=1; %>
 			<% next unless x.is_a?(User) %>
@@ -125,8 +125,43 @@
 			</div>
 		<% end %>
 		<p><strong><%= time_ago_in_words(@post.created_at) %> ago <%= @post.user.link %> posted:</strong> <%= raw @post.getMessage %></p>
-		<div id="comment-wrapper" style="display:none;">
-			<ul id="comments" class="comments">
+		<div class="bar">
+			<% if @post.slug == 'share' %>
+				<a href="#" class="comments" whiteboard-action="show-comments" id="whiteboard_comments<%= @post.id %>">
+					(<%= @post.getComments.count %>) Comments
+				</a>
+			<% end %>
+			<span class="icons">
+				<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
+					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
+					<span class="iconic star"><%= favorites(@post) %></span>
+					</a>
+				<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
+					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
+					<span class="iconic star"><%= favorites(@post) %></span>
+					</a>
+				<% else %>
+					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
+					<span class="iconic star"><%= favorites(@post) %></span>
+					</a>
+				<% end %>
+				<% if @post.slug == 'share' %>
+					<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments" id="whiteboard_comments<%= @post.id %>">
+						<span class="iconic chat_alt_stroke"></span>
+					</a>
+				<% end %>
+				<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
+					<span class="iconic eye"></span>
+				</a>
+				<% if @post.user == User.current || User.current.is_admin %>
+					<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
+						<span class="iconic x_alt"></span>
+					</a>
+				<% end %>
+			</span>
+		</div>
+		<div class="comments">
+			<ul>
 				<% @post.getComments.each do |comment| %>
 					<% @comment = comment %>
 					<%= render 'comments/show' %>
@@ -137,28 +172,6 @@
 				<input type="submit" value="Post Comment" />
 			</form>
 		</div>
-		<div class="quick-actions">
-			<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
-				<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="Favorite this post!">
-					<span class="iconic star"><%= favorites(@post) %></span>
-				</a>
-			<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
-				<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-				</a>
-			<% else %>
-				<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-				</a>
-			<% end %>
-				<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
-					<span class="iconic eye"></span>
-				</a>
-			<% if @post.user == User.current || User.current.is_admin %>
-				<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
-					<span class="iconic x_alt"></span>
-				</a>
-			<% end %>
-		</div>
+		<div class="clear"></div>
 	</li>
 <% end %>

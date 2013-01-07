@@ -318,7 +318,7 @@
 							<ul>
 								<li><a href="/jobs">Browse Jobs</a></li>
 									<% if currentUser.organization? %>
-										<li><a href="/me/settings/dashboard/recruiter">Post A Job</a></li>
+										<li><%= link_to "Post a Job", user_groups_path(currentUser, :organization => true) %></li>
 									<% else %>
 										<li><a href="/me/settings/upgrade">Post a Job</a></li>
 									<% end %>
@@ -328,13 +328,9 @@
 							<%= link_to "Orgs", groups_path(:organization => true) %>
 							<ul>
 								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
-								<li><%= link_to "My Organizations", my_groups_path(:organization => true) %></li>
+								<li><%= link_to "My Organizations", user_groups_path(currentUser, :organization => true) %></li>
 								<hr>
-									<% if currentUser.organization? %>
-										<li><a href="/me/settings/dashboard/recruiter">Create an Organization</a></li>
-									<% else %>
-										<li><a href="/me/settings/upgrade">Create an Organization</a></li>
-									<% end %>
+								<li><a href="/me/settings/upgrade">Create an Organization</a></li>
 							</ul>
 						</li>
 						<li>

@@ -1,3 +1,57 @@
+v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
+==========================================================
+* c84bca3: Kelly Becker - new user records are returned on no user found for comments
+
+v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
+==========================================================
+* 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
+* 3916534: Aleks Stanisic - MAde it easier to create Job for orgs
+* 1ba6ce3: Aleks Stanisic - adding new create group/org link in my group/org pages
+* e552a97: Brian Martinez - changed to school pricing and to connections pages
+* a879cb4: Elijah Green - Fix width of select in jobs/_form
+* 6000f35: Kelly Becker - remove staging server
+
+v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
+==========================================================
+* c170d09: Kelly Becker - remove www2
+* 8da406f: Kelly Becker - new production instance
+* ea2181d: Kelly Becker - deploy stuff and instances
+* 5920808: Kelly Becker - new configurations
+* ed2e21b: Kelly Becker - staging server
+* f082423: Elijah Green - Fix error on orgs page calling is_admin on a nil user
+* 0a496b0: Kelly Becker - updates to deploy script
+* 9c7472b: Kelly Becker - newrubber_profile
+
+v4.1.21 - Jan 5, 2013  1:53PM PST deployed by Kelly Becker
+==========================================================
+* c7291c2: Kelly Becker - removed the old production server
+* 4a740ee: Kelly Becker - fixed upcoming events ordering
+* 3834e80: Elijah Green - Allow site admins to have greater access to group discussions
+* 6fc78c7: Elijah Green - Instead of HTTPStatus Unauthorized for discussions redirect_to group
+* 64cd5d4: Elijah Green - Add join group button on groups/discussion
+* 2bf6645: Aleks Stanisic - changing add organization flow
+* c99440d: Elijah Green - Don't show current user in suggested connections
+* 7e22dfa: Aleks Stanisic - style fix header through firefox
+* a603802: Elijah Green - Comment on shared posts and move icons
+* a9b6996: Aleks Stanisic - fixed grammer error in create organizations
+
+v4.1.20 - Jan 4, 2013 12:38PM PST deployed by Brian Martinez
+============================================================
+* f1286bc: Brian Martinez - rubber 2.1.2
+* 263dca4: Brian Martinez - reverting the last commit
+* f0506a6: Brian Martinez - Temporily use old rubber from repository
+* 7d28073: Kelly Becker - new instance
+
+v4.1.19 - Jan 4, 2013 11:01AM PST deployed by Kelly Becker
+==========================================================
+* 68ca78a: Kelly Becker - fix to a heading
+* 88f3d33: Kelly Becker - group permissions update
+* 3414599: Brian Martinez - major changes to navigation menu
+* 574db01: Aleks Stanisic - adding active job application list to admin page
+* bbf7895: Elijah Green - Fix cropping with no cropping values
+* 74c2713: Aleks Stanisic - adding ability for admins to esit any group and organization
+* 3b10a3a: Elijah Green - Revert last commit
+
 v4.1.18 - Jan 3, 2013  4:06PM PST deployed by Aleks Stanisic
 ============================================================
 * 0810573: Elijah Green - Specify json in Gemfile

@@ -466,6 +466,11 @@ class User < ActiveRecord::Base
 
 	end
 
+	def name
+		return 'Anonymous' if new_record? || !deleted_at.nil?
+		read_attribute(:name)
+	end
+
   # @todo deprecate?
 	def sharedschool
 		if is_limited == true
@@ -562,10 +567,15 @@ class User < ActiveRecord::Base
 	end
 
 	# Profile URL
-	def url; "/profile/#{self.slug}"; end
+	def url
+		return '#' if new_record? || !deleted_at.nil?
+		"/profile/#{self.slug}"
+	end
     
     # Profile Link
     def link(attrs = {})
+		return 'Anonymous' if new_record? || !deleted_at.nil?
+
         # Parse attrs
         _attrs = []; attrs.each do |k,v|
             # Make sure not a symbol

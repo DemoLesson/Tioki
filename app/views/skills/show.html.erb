@@ -37,7 +37,7 @@
 		
 		<%= form_tag "/skillpage", :method => :get do %>
 		<span style="float:right">
-		<%= select_tag :topic, options_from_collection_for_select(Skill.all, "id", "name"), {:style => "margin-top:10px", :prompt => "Want More Content?"} %>
+		<%= select_tag :skill, options_from_collection_for_select(Skill.all, "id", "name"), {:style => "margin-top:10px", :prompt => "Want More Content?"} %>
 		<input type="submit" value="GO" class="button" />
 		</span>
 		Discover → <%= @skill.name %>
