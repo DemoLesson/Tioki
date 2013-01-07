@@ -61,7 +61,12 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Redirect to discussions if no long description
-		redirect_to group_path(@group) + '/discussions' if @group.long_description.nil?
+		if @group.long_description.nil?
+			# If redirected to keep the flash from
+			# the last request
+			flash.keep
+			redirect_to group_path(@group) + '/discussions'
+		end
 	end
 
 	def members
