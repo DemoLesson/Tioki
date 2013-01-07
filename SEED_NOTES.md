@@ -1,3 +1,7 @@
+v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
+==========================================================
+* c84bca3: Kelly Becker - new user records are returned on no user found for comments
+
 v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
 ==========================================================
 * 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
