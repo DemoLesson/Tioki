@@ -1,3 +1,8 @@
+v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
+==========================================================
+* e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners
+* 5afc49c: Elijah Green - If a group is unauthorized redirect with a notice
+
 v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
 ==========================================================
 * c84bca3: Kelly Becker - new user records are returned on no user found for comments
