@@ -23,8 +23,6 @@ Preview::Application.routes.draw do
 		match 'linkedin_callback', :to => 'authentications#linkedin_callback'
 
 	# Groups
-		
-		match 'my_groups' => 'groups#my_groups'
 
 		match 'groups/:id/comment' => 'groups#comment'
 		match 'groups/:id/add_admin/:user' => 'groups#add_admin'
@@ -168,6 +166,7 @@ Preview::Application.routes.draw do
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
 				match 'slug_availability' => 'users#slug_availability'
+				match 'feature-video/:id' => 'videos#feature_video'
 				
 				root :to => 'users#profile_edit'
 			end

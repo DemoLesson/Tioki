@@ -1,3 +1,41 @@
+v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
+==========================================================
+* 18a109b: Elijah Green - Temporily revert discussions change
+
+v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
+==========================================================
+* cae7281: Elijah Green - Deleted user on educator dashboard
+
+v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
+==========================================================
+* 1eb72c8: Elijah Green - Gemfile.lock
+* 600ad70: Elijah Green - Allow editing of titles of external videos
+
+v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
+==========================================================
+* 6c22686: Elijah Green - Fix error where avatar? was called on nil
+* 91bbb1c: Elijah Green - Featured Videos
+* 4c3641b: Elijah Green - Add prompt requesting users to tag the discussion
+* 8ba13a4: Elijah Green - Use most popular discussions on educator dashboard
+
+v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
+==========================================================
+* e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners
+* 5afc49c: Elijah Green - If a group is unauthorized redirect with a notice
+
+v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
+==========================================================
+* c84bca3: Kelly Becker - new user records are returned on no user found for comments
+
+v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
+==========================================================
+* 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
+* 3916534: Aleks Stanisic - MAde it easier to create Job for orgs
+* 1ba6ce3: Aleks Stanisic - adding new create group/org link in my group/org pages
+* e552a97: Brian Martinez - changed to school pricing and to connections pages
+* a879cb4: Elijah Green - Fix width of select in jobs/_form
+* 6000f35: Kelly Becker - remove staging server
+
 v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
 ==========================================================
 * c170d09: Kelly Becker - remove www2

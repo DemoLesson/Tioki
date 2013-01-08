@@ -61,7 +61,12 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Redirect to discussions if no long description
-		redirect_to group_path(@group) + '/discussions' if @group.long_description.nil?
+		if @group.long_description.nil?
+			# If redirected to keep the flash from
+			# the last request
+			flash.keep
+			redirect_to group_path(@group) + '/discussions'
+		end
 	end
 
 	def members
@@ -186,18 +191,6 @@ class GroupsController < ApplicationController
 		respond_to do |format|
 			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
 			format.json { render :json => message }
-		end
-	end
-
-	def my_groups
-		@groups = self.current_user.groups
-
-		if params[:organization] == 'true'
-			@groups = @groups.organization
-			@type = 'Organization'
-		else
-			@groups = @groups.organization!
-			@type = 'Group'
 		end
 	end
 
