@@ -39,7 +39,7 @@
 		</section>
 	</section>
 	<section class="panels">
-		<section id="list" class="two-column left-side">
+		<section id="list" class="left-side" style="width:635px">
 
 		<!-- JOB DESCRIPTION -->
 			<% if @job.description? %>
@@ -68,7 +68,7 @@
 				Application Instructions
 			</h3>
 			<p style="width:auto">
-			<%= h(@job.instructions).gsub(/\n/, '<br/>').html_safe %>
+			<%= h(@job.instructions).gsub(/\n/, '<br/>').url2link %>
 			</p>
 		<% end %>	
 
