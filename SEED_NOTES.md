@@ -1,3 +1,10 @@
+v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
+==========================================================
+* 6c22686: Elijah Green - Fix error where avatar? was called on nil
+* 91bbb1c: Elijah Green - Featured Videos
+* 4c3641b: Elijah Green - Add prompt requesting users to tag the discussion
+* 8ba13a4: Elijah Green - Use most popular discussions on educator dashboard
+
 v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
 ==========================================================
 * e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners
