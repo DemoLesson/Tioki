@@ -312,15 +312,17 @@
 						</p>
 						<p style="width:240px;float:left;margin-left:10px">
 							<% discussion.participants.each do |user| %>
-								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
-								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
+								<% if user %>
+									<% if user.avatar? %>
+										<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
 								<% end %>
 							<% end %>
-						</p>
-					</li>
-				<% end %>
+						<% end %>
+					</p>
+				</li>
+			<% end %>
 				
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 					<%= link_to "View More Discussions →", "/discussions", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
