@@ -155,8 +155,8 @@
 						<% @discussions.each do |discuss| %>
 							<li>
 								<div class="profile-thumb-small" style="float:left;">
-									<%= image_tag(discuss.user.avatar.url(:medium), :width => '70px', :height => '70px') if discuss.user.avatar? %>
-									<%= image_tag("dl_icons/no_avatar_medium.jpg") unless discuss.user.avatar? %>
+									<%= image_tag(discuss.user.avatar.url(:medium), :width => '70px', :height => '70px') if discuss.user && discuss.user.avatar? %>
+									<%= image_tag("dl_icons/no_avatar_medium.jpg") if discuss.user.nil? || !discuss.user.avatar? %>
 								</div>
 								<p style="display:inline;">
 								<strong><%= link_to discuss.title, discussion_path(discuss) %></strong><br />
