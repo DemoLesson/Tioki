@@ -1,3 +1,7 @@
+v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
+==========================================================
+* 18a109b: Elijah Green - Temporily revert discussions change
+
 v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
 ==========================================================
 * cae7281: Elijah Green - Deleted user on educator dashboard
