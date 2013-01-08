@@ -1,3 +1,11 @@
+v4.1.30 - Jan 8, 2013  2:44PM PST deployed by Elijah Green
+==========================================================
+* 7c1a962: Brian Martinez - fixing the display issues on the job description caused by the two column and the tinymce
+* 0e50e2e: Brian Martinez - fixing errors with the social buttons on groups pages, as well as the About page on the groups (picture overlay on text)
+* d1b569c: Elijah Green - Deal with users with no account external applications
+* c68279f: Elijah Green - External jobs for logined in users
+* 2c7d048: Brian Martinez - bug fixes on job posting: double descrtiption, missing section closeout, button styling
+
 v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
 ==========================================================
 * 18a109b: Elijah Green - Temporily revert discussions change
