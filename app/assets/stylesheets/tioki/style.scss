@@ -46,6 +46,11 @@ h1 {
 
 h2 {
 	font-size: 24px;
+	&.bottom-line{
+		border-bottom: 1px solid $ltgray !important;
+		padding-bottom: 5px;
+		border-top: none;
+	}
 }
 
 h3 {
