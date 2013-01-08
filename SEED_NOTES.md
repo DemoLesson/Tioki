@@ -1,3 +1,8 @@
+v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
+==========================================================
+* 1eb72c8: Elijah Green - Gemfile.lock
+* 600ad70: Elijah Green - Allow editing of titles of external videos
+
 v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
 ==========================================================
 * 6c22686: Elijah Green - Fix error where avatar? was called on nil
