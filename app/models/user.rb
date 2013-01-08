@@ -608,7 +608,7 @@ class User < ActiveRecord::Base
     # Migrated from teacher.rb
     def video
         # Review
-        #v = videos.where(`featured` = ?, true).first
+        v = videos.where("featured = true").first
         v = videos.order('`created_at` DESC').first if v.nil?
         return v
     end

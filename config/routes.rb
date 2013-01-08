@@ -166,6 +166,7 @@ Preview::Application.routes.draw do
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
 				match 'slug_availability' => 'users#slug_availability'
+				match 'feature-video/:id' => 'videos#feature_video'
 				
 				root :to => 'users#profile_edit'
 			end
