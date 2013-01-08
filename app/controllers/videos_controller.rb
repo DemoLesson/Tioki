@@ -211,7 +211,7 @@ class VideosController < ApplicationController
 			end
 			
 			raise StandardError, 1
-		rescue => e
+		rescue
 
 			# Flash error and return
 			flash[:error] = 'Video could not be embeded, make sure you are using a valid url.'
@@ -234,6 +234,17 @@ class VideosController < ApplicationController
 				format.html { redirect_to :back, :notice => "Your snippet has been created and is currently encoding." }
 			end
 		end
+	end
+
+	def feature_video
+		video = currentUser.videos.where("id = ?", params[:id]).first
+		featured_video = currentUser.videos.where("featured = true").first
+		if featured_video
+			featured_video.update_attribute(:featured, false)
+		end
+
+		video.update_attribute(:featured, true)
+		redirect_to :back
 	end
 
 	# DELETE /videos/1
