@@ -1,3 +1,7 @@
+v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
+==========================================================
+* cae7281: Elijah Green - Deleted user on educator dashboard
+
 v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
 ==========================================================
 * 1eb72c8: Elijah Green - Gemfile.lock
