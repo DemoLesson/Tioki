@@ -9,9 +9,12 @@
 				<%= link_to "View Applicants", [@job.group, @job, :applications], {:class => "button bg-green"} %>
 				<%= link_to "Edit Posting", [:edit, @job.group, @job], :class => "button bg-green" %>
 			<% else %>
-				<% if @application == nil %>
-					<%= link_to "Or Refer A Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:style => "color:#2AA99B;float:right;margin-top:25px"} %>
-					<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>
+				<% if @job.external_url.present? %> 
+					<%= link_to "Apply Now", @job.external_url, {:class => "action-button bg-salmon"} %>
+				<% else %>
+					<% if @application == nil %>
+						<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>
+					<% end %>
 				<% end %>
 			<% end %>
 		<% end %>
