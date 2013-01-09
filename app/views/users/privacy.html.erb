@@ -11,6 +11,13 @@
 				<%= name.gsub('_', ' ') %>
 			</fieldset>
 		<% end %>
+		<strong>Resume Tab:</strong>  Who has access to the "resume" portion of your profile (i.e. Work experience, education, etc.)?
+		<fieldset>
+			<%= radio_button_tag 'resume', '1', true %> Everyone<br />
+		</fieldset>
+		<fieldset>
+			<%= radio_button_tag 'resume', '0' %> Only organizations to which I have applied.<br />
+		</fieldset>
 		<fieldset>
 			<%= submit_tag "Update Privacy", :class => "button huge-button" %>
 		</fieldset>
