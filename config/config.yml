@@ -15,6 +15,7 @@ default:
       3: "video"
       4: "current_job"
       5: "social_networks"
+      6: "resume"
     group_permissions:
       0: "public"
       1: "private"
