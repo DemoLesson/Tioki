@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108005134) do
+ActiveRecord::Schema.define(:version => 20130109025608) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -341,9 +341,9 @@ ActiveRecord::Schema.define(:version => 20130108005134) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                                :null => false
-    t.text     "description",                         :null => false
-    t.integer  "permissions",          :default => 0, :null => false
+    t.string   "name",                                    :null => false
+    t.text     "description",                             :null => false
+    t.integer  "permissions",          :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture_file_name"
@@ -356,6 +356,7 @@ ActiveRecord::Schema.define(:version => 20130108005134) do
     t.text     "long_description"
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "featured",             :default => false
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -417,6 +418,8 @@ ActiveRecord::Schema.define(:version => 20130108005134) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "allow_videos",        :default => true
+    t.boolean  "allow_attachments",   :default => true
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"

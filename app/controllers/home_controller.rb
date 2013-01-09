@@ -65,6 +65,7 @@ class HomeController < ApplicationController
 				#	order('comments_count DESC')
 				@discussions = Discussion.order("created_at DESC").limit(3)
 
+				@featured_groups = Group.where("featured = ?", true).limit(3)
 
 				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
 
