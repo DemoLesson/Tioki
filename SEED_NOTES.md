@@ -1,3 +1,7 @@
+v4.1.32 - Jan 9, 2013 11:06AM PST deployed by Elijah Green
+==========================================================
+* 1a3f771: Elijah Green - Add a (non-functional) privacy setting for tfa
+
 v4.1.31 - Jan 8, 2013 11:52PM PST deployed by Kelly Becker
 ==========================================================
 * 40dd3d9: Kelly Becker - added severity
