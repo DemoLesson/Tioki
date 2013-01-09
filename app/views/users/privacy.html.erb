@@ -1,25 +1,43 @@
 <section id="main-content" class="inner-content">
 	<h1>Privacy Settings</h1>
-	<p>Your Tioki connections have full access to your complete profile. However, you can control what the public sees on your profile by establishing your privacy settings below.</p>
-	<p>All items with a check mark are visible to the public</p>
+	
+	<h4>On this page, you can control who has access to your Tioki profile and activity</h4>
+	
+	<section id="panels">
+		<section class="panel two-column left-side" style="padding-left:10px">
+			<h4 class="bottom-line">Public Information</h4>
+			
+			<p style="width:auto">Your Tioki <a href="/my_connections" style="color:#F66C4C" target="_blank">connections</a> have full access to your complete profile. However, you can control what information is publicly available by establishing your privacy settings below.</p>
+			
+			<p>What information would you like to be available to non-connections?</p>
 
-	<%= form_tag :action => "privacy" do %>
-		<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>
+			<%= form_tag :action => "privacy" do %>
+				<% APP_CONFIG['bitswitches']['user_privacy'].each do |bit, name| %>
+					<fieldset>
+						<input type="hidden" name="public[<%= name %>]" value="1" />
+						<input type="checkbox" name="public[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.privacy_public[name] %> value="0" />
+						<%= name.gsub('_', ' ') %>
+					</fieldset>
+				<% end %>
+		</section>
+		<section class="panel two-column left-side" style="padding-left:10px">
+			<h4 class="bottom-line">Resume Information</h4>
+			<p style="width:auto">Your <a href="/profile/<%= self.current_user.slug %>/resume" style="color:#F66C4C" target="_blank">Resume Tab</a> houses all the information you would want a potential employer to see if you were job seeking, such as your work experience and educational background.</p>
+			
+			<p>Who should have access to your resume information?</p>
 			<fieldset>
-				<input type="hidden" name="public[<%= name %>]" value="1" />
-				<input type="checkbox" name="public[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.privacy_public[name] %> value="0" />
-				<%= name.gsub('_', ' ') %>
+				<%= radio_button_tag 'resume', '1', true %> Everyone<br />
 			</fieldset>
-		<% end %>
-		<strong>Resume Tab:</strong>  Who has access to the "resume" portion of your profile (i.e. Work experience, education, etc.)?
-		<fieldset>
-			<%= radio_button_tag 'resume', '1', true %> Everyone<br />
-		</fieldset>
-		<fieldset>
-			<%= radio_button_tag 'resume', '0' %> Only organizations to which I have applied.<br />
-		</fieldset>
-		<fieldset>
-			<%= submit_tag "Update Privacy", :class => "button huge-button" %>
-		</fieldset>
-	<% end %>
+			<fieldset>
+				<%= radio_button_tag 'resume', '0' %> Only organizations to which I have applied.<br />
+			</fieldset>
+		</section>
+		<section class="three-column left-side">
+			<fieldset>
+				<%= submit_tag "Update Privacy", :class => "button huge-button", :style => 'margin-left:175px' %>
+			</fieldset>
+			<% end %>
+		</section>
+	</section>
+	<div class="clearfloat"></div>
 </section>
