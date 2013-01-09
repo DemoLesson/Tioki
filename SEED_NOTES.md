@@ -1,3 +1,11 @@
+v4.1.31 - Jan 8, 2013 11:52PM PST deployed by Kelly Becker
+==========================================================
+* 40dd3d9: Kelly Becker - added severity
+* 8a1e084: Elijah Green - Featured groups on dashboard use a column
+* 8c08df4: Elijah Green - Add order discussions newest first
+* cefd181: Elijah Green - If user is deleted on discussion show them as deleted
+* e71d645: Elijah Green - Destroy comments connected to a discussion
+
 v4.1.30 - Jan 8, 2013  2:44PM PST deployed by Elijah Green
 ==========================================================
 * 7c1a962: Brian Martinez - fixing the display issues on the job description caused by the two column and the tinymce
