@@ -198,11 +198,11 @@ class DiscussionsController < ApplicationController
 	end
 
 	def followed_discussions
-		@discussions = self.current_user.followed_discussions
+		@discussions = self.current_user.followed_discussions.order("created_at DESC")
 	end
 
 	def my_discussions
-		@discussions = self.current_user.discussions
+		@discussions = self.current_user.discussions.order("created_at DESC")
 	end
 
 	def follow_discussion
