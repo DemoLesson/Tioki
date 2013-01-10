@@ -281,6 +281,10 @@ Preview::Application.routes.draw do
 
 		# Jobs routes
 		resources :jobs do
+			collection do
+				get 'request_credits'
+				post 'credit_request_email'
+			end
 
 			# Job Applications
 			resources :applications do

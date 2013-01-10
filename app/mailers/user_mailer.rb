@@ -533,4 +533,27 @@ class UserMailer < ActionMailer::Base
 
 		return mail
 	end
+
+	def credit_request_email(requested_number, credits_for_other_orgs, source, user)
+
+		# Set variables for use inside the email itself
+		@requested_number = requested_number
+		@credits_for_other_orgs = credits_for_other_orgs
+
+		# Source the org itself
+		@organization = source
+
+		# Get the User
+		@user = user
+
+		# Set the subject for the email
+		subject =  'Job Credit Request'
+
+		# Send out the email
+		mail = mail(:to => 'sales@tioki.com', :subject => subject) do |f|
+			f.html { render template }
+		end
+
+		return mail
+	end
 end
