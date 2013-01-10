@@ -959,7 +959,7 @@ class UsersController < ApplicationController
 
 						# Set permissions
 						group.permissions = {
-							:hidden => true,
+							:hidden => false,
 							:private => true,
 							:organization => true
 						}
