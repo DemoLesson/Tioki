@@ -1,3 +1,12 @@
+v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
+==========================================================
+* 436165c: Elijah Green - Whiteboard privacy
+* 8f04eda: Elijah Green - Don't show resume if privacy for it is set
+* 5821061: Aleks Stanisic - changing some toggle settings in the edit org form
+* 144e4d7: Elijah Green - Make the resume privac slightly more functional
+* a7e02cb: Aleks Stanisic - Fixing My groups/orgs pages
+* e0c4cab: Brian Martinez - changes to design and wording on the user privacy page for updated settings
+
 v4.1.32 - Jan 9, 2013 11:06AM PST deployed by Elijah Green
 ==========================================================
 * 1a3f771: Elijah Green - Add a (non-functional) privacy setting for tfa
