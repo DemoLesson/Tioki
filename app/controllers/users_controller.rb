@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats, :get_started]
+	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats, :get_started, :privacy]
 	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list, :active_job_list]
 
 	def create(*args)
@@ -911,7 +911,7 @@ class UsersController < ApplicationController
 		else
 			if whiteboard
 				respond_to do |format|
-					if currentUser.new_record?
+					if currentUser.new_record? || (!@self && !@connected && @user.privacy_public[:whiteboard])
 						format.html { redirect_to "/profile/#{@user.slug}/about"}
 						format.json  { render :json => @teacher } # profile.json
 					else
@@ -959,7 +959,7 @@ class UsersController < ApplicationController
 
 						# Set permissions
 						group.permissions = {
-							:hidden => true,
+							:hidden => false,
 							:private => true,
 							:organization => true
 						}
