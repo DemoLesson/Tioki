@@ -27,6 +27,7 @@ class Whiteboard < ActiveRecord::Base
 			return mapTag!(self.tag)
 		rescue
 			self.destroy
+			return nil
 		end
 	end
 
