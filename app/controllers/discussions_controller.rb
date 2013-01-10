@@ -20,7 +20,7 @@ class DiscussionsController < ApplicationController
     # Unauthorized
     if !@discussion.owner!.nil? && !@discussion.owner!.empty?
     	@owner = @discussion.owner
-    	if !@owner.member? && !@owner.permissions['public_discussions'] && !User.current.is_admin
+    	if !@owner.member? && !@owner.permissions['public_discussions'] && !currentUser.is_admin
 				flash[:notice] = "To see this dicussion you must join the \"#{@owner.name}\" group"
 				return redirect_to @owner
     	end
