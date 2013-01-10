@@ -16,6 +16,7 @@ default:
       4: "current_job"
       5: "social_networks"
       6: "resume"
+      7: "whiteboard"
     group_permissions:
       0: "public"
       1: "private"

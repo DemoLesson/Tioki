@@ -7,15 +7,17 @@
 	<% if @self || @user %>
 		<nav class="subpage" style="width: 635px;margin-left: 0px;margin-top: -15px; margin-bottom: 10px;">
 		<ul>
-			<li>
-				<% if !currentUser.new_record? && @self %>
-					<a href="/me/profile">
-					<% else %>
-						<a href="/profile/<%= @user.slug %>">
-					<% end %>
-					Activity
-				</a>
-			</li>
+			<% if @self || @connected || !@user.privacy_public[:whiteboard] %>
+				<li>
+					<% if !currentUser.new_record? && @self %>
+						<a href="/me/profile">
+						<% else %>
+							<a href="/profile/<%= @user.slug %>">
+						<% end %>
+						Activity
+					</a>
+				</li>
+			<% end %>
 
 			<li>
 				<a href="/profile/<%= @user.slug %>/about">
