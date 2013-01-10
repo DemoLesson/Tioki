@@ -1,3 +1,8 @@
+v4.1.35 - Jan 10, 2013  3:17PM PST deployed by Elijah Green
+===========================================================
+* c918e14: Elijah Green - Fix typo dealing with viewing discussions
+* 9e271da: Elijah Green - Fix job search drop down placement
+
 v4.1.34 - Jan 10, 2013 12:30PM PST deployed by Elijah Green
 ===========================================================
 * 7e72006: Elijah Green - return nil on whiteboard deletion as well
