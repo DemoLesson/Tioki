@@ -770,6 +770,10 @@ class User < ActiveRecord::Base
 		cache(:organization => 'true')
 	end
 
+	def application_for(user)
+		user.my_jobs.collect(&:id).any? { |job_id| self.applications.collect(&:job_id).include? job_id}
+	end
+
 	# Connections
 
 		def connected_to?(_user)

@@ -29,11 +29,13 @@
 				</a>
 			</li>
 
-			<li class="current">
-				<a href="/profile/<%= @user.slug %>/videos">
-					Videos
-				</a>
-			</li>
+			<% if @self || !@user.privacy_public[:resume] || @user.application_for(self.currentUser) %>
+				<li class="current">
+					<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+					</a>
+				</li>
+			<% end %>
 
 			<% if !currentUser.new_record? && @self %>
 				<li>

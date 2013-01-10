@@ -162,11 +162,13 @@
 					</a>
 				</li>
 				
-				<li>
-					<a href="/profile/<%= @user.slug %>/resume">
-					Resume
-					</a>
-				</li>
+				<% if @self || !@user.privacy_public[:resume] || @user.application_for(self.currentUser) %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/resume">
+							Resume
+						</a>
+					</li>
+				<% end %>
 				
 				<% if @user.videos.count > 0 %>
 				<li>
