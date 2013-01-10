@@ -16,14 +16,14 @@
 		<li class="<%= currentPath.split('/')[1..2] == ['jobs', 'manage'] ? 'current' : '' %>">
 			<%= link_to "Posting Management", [@source, :jobs] %> 
 		</li>
-		<li><%= link_to "New Job", [:new, @source, :job] %></li>
+		<li><%= link_to "Post A New Job", [:new, @source, :job] %></li>
 		<li style="float:right;">
 			<span>
-				Administration
+				Manage Org
 				<span class="iconic arrow_down"></span>
 			</span>
 			<ul>
-				<li><%= link_to @source.type?, [:edit, @source] %></li>
+				<li><%= link_to 'Edit '+@source.type?, [:edit, @source] %></li>
 				<li><%= link_to "Manage Job Postings", [@source, :jobs] %></li>
 			</ul>
 		</li>

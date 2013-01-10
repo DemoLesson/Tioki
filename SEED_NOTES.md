@@ -1,3 +1,143 @@
+v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
+==========================================================
+* 436165c: Elijah Green - Whiteboard privacy
+* 8f04eda: Elijah Green - Don't show resume if privacy for it is set
+* 5821061: Aleks Stanisic - changing some toggle settings in the edit org form
+* 144e4d7: Elijah Green - Make the resume privac slightly more functional
+* a7e02cb: Aleks Stanisic - Fixing My groups/orgs pages
+* e0c4cab: Brian Martinez - changes to design and wording on the user privacy page for updated settings
+
+v4.1.32 - Jan 9, 2013 11:06AM PST deployed by Elijah Green
+==========================================================
+* 1a3f771: Elijah Green - Add a (non-functional) privacy setting for tfa
+
+v4.1.31 - Jan 8, 2013 11:52PM PST deployed by Kelly Becker
+==========================================================
+* 40dd3d9: Kelly Becker - added severity
+* 8a1e084: Elijah Green - Featured groups on dashboard use a column
+* 8c08df4: Elijah Green - Add order discussions newest first
+* cefd181: Elijah Green - If user is deleted on discussion show them as deleted
+* e71d645: Elijah Green - Destroy comments connected to a discussion
+
+v4.1.30 - Jan 8, 2013  2:44PM PST deployed by Elijah Green
+==========================================================
+* 7c1a962: Brian Martinez - fixing the display issues on the job description caused by the two column and the tinymce
+* 0e50e2e: Brian Martinez - fixing errors with the social buttons on groups pages, as well as the About page on the groups (picture overlay on text)
+* d1b569c: Elijah Green - Deal with users with no account external applications
+* c68279f: Elijah Green - External jobs for logined in users
+* 2c7d048: Brian Martinez - bug fixes on job posting: double descrtiption, missing section closeout, button styling
+
+v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
+==========================================================
+* 18a109b: Elijah Green - Temporily revert discussions change
+
+v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
+==========================================================
+* cae7281: Elijah Green - Deleted user on educator dashboard
+
+v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
+==========================================================
+* 1eb72c8: Elijah Green - Gemfile.lock
+* 600ad70: Elijah Green - Allow editing of titles of external videos
+
+v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
+==========================================================
+* 6c22686: Elijah Green - Fix error where avatar? was called on nil
+* 91bbb1c: Elijah Green - Featured Videos
+* 4c3641b: Elijah Green - Add prompt requesting users to tag the discussion
+* 8ba13a4: Elijah Green - Use most popular discussions on educator dashboard
+
+v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
+==========================================================
+* e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners
+* 5afc49c: Elijah Green - If a group is unauthorized redirect with a notice
+
+v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
+==========================================================
+* c84bca3: Kelly Becker - new user records are returned on no user found for comments
+
+v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
+==========================================================
+* 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
+* 3916534: Aleks Stanisic - MAde it easier to create Job for orgs
+* 1ba6ce3: Aleks Stanisic - adding new create group/org link in my group/org pages
+* e552a97: Brian Martinez - changed to school pricing and to connections pages
+* a879cb4: Elijah Green - Fix width of select in jobs/_form
+* 6000f35: Kelly Becker - remove staging server
+
+v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
+==========================================================
+* c170d09: Kelly Becker - remove www2
+* 8da406f: Kelly Becker - new production instance
+* ea2181d: Kelly Becker - deploy stuff and instances
+* 5920808: Kelly Becker - new configurations
+* ed2e21b: Kelly Becker - staging server
+* f082423: Elijah Green - Fix error on orgs page calling is_admin on a nil user
+* 0a496b0: Kelly Becker - updates to deploy script
+* 9c7472b: Kelly Becker - newrubber_profile
+
+v4.1.21 - Jan 5, 2013  1:53PM PST deployed by Kelly Becker
+==========================================================
+* c7291c2: Kelly Becker - removed the old production server
+* 4a740ee: Kelly Becker - fixed upcoming events ordering
+* 3834e80: Elijah Green - Allow site admins to have greater access to group discussions
+* 6fc78c7: Elijah Green - Instead of HTTPStatus Unauthorized for discussions redirect_to group
+* 64cd5d4: Elijah Green - Add join group button on groups/discussion
+* 2bf6645: Aleks Stanisic - changing add organization flow
+* c99440d: Elijah Green - Don't show current user in suggested connections
+* 7e22dfa: Aleks Stanisic - style fix header through firefox
+* a603802: Elijah Green - Comment on shared posts and move icons
+* a9b6996: Aleks Stanisic - fixed grammer error in create organizations
+
+v4.1.20 - Jan 4, 2013 12:38PM PST deployed by Brian Martinez
+============================================================
+* f1286bc: Brian Martinez - rubber 2.1.2
+* 263dca4: Brian Martinez - reverting the last commit
+* f0506a6: Brian Martinez - Temporily use old rubber from repository
+* 7d28073: Kelly Becker - new instance
+
+v4.1.19 - Jan 4, 2013 11:01AM PST deployed by Kelly Becker
+==========================================================
+* 68ca78a: Kelly Becker - fix to a heading
+* 88f3d33: Kelly Becker - group permissions update
+* 3414599: Brian Martinez - major changes to navigation menu
+* 574db01: Aleks Stanisic - adding active job application list to admin page
+* bbf7895: Elijah Green - Fix cropping with no cropping values
+* 74c2713: Aleks Stanisic - adding ability for admins to esit any group and organization
+* 3b10a3a: Elijah Green - Revert last commit
+
+v4.1.18 - Jan 3, 2013  4:06PM PST deployed by Aleks Stanisic
+============================================================
+* 0810573: Elijah Green - Specify json in Gemfile
+* 8883c36: Elijah Green - Revert "Server cannot find json 1.7.6, temporfily get gem from repository"
+
+v4.1.17 - Jan 3, 2013  3:37PM PST deployed by Aleks Stanisic
+============================================================
+* 0cf70e1: Elijah Green - Server cannot find json 1.7.6, temporfily get gem from repository
+
+v4.1.16 - Jan 3, 2013  3:06PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.15 - Jan 3, 2013  2:56PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.14 - Jan 3, 2013  2:53PM PST deployed by Aleks Stanisic
+============================================================
+* 46ea365: Aleks Stanisic - re-design of account settings
+* 67bba21: Elijah Green - Cleanpup New User Flow
+* cd80985: Aleks Stanisic - added my organizations page
+* 43329d5: Elijah Green - Fix suggested connection find
+* 830b455: Elijah Green - Must be logged in to be on the get_started page
+* b6b13ef: Elijah Green - Fix job referrals
+* a4b7c01: Kelly Becker - installs the bleeding edge rubber dependencies and stuff
+* 8bed9fc: Kelly Becker - remove all system gems
+* 90f9b73: Kelly Becker - cleanup branches
+* cb533ab: Kelly Becker - update deploy script with handy method
+* fe4a9f1: Brian Martinez - gemlock
+* a906560: Brian Martinez - updated gitignore
+
 v4.1.13 - Dec 31, 2012 12:49PM PST deployed by Kelly Becker
 ===========================================================
 * 7381d87: Kelly Becker - update user organization affiliation

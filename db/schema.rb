@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231222030) do
+ActiveRecord::Schema.define(:version => 20130109025608) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -341,9 +341,9 @@ ActiveRecord::Schema.define(:version => 20121231222030) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                                :null => false
-    t.text     "description",                         :null => false
-    t.integer  "permissions",          :default => 0, :null => false
+    t.string   "name",                                    :null => false
+    t.text     "description",                             :null => false
+    t.integer  "permissions",          :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture_file_name"
@@ -356,6 +356,7 @@ ActiveRecord::Schema.define(:version => 20121231222030) do
     t.text     "long_description"
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "featured",             :default => false
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -822,6 +823,7 @@ ActiveRecord::Schema.define(:version => 20121231222030) do
     t.boolean  "is_snippet",             :default => false,       :null => false
     t.integer  "user_id"
     t.string   "thumbnail_url"
+    t.boolean  "featured",               :default => false
   end
 
   create_table "videos_skills", :id => false, :force => true do |t|

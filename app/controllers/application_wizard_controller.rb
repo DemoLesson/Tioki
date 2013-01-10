@@ -42,7 +42,18 @@ class ApplicationWizardController < ApplicationController
 			session[:user] = User.authenticate(user.email, user.password)
 			@app.update_attribute(:user_id, User.current.id)
 
-			return redirect_to :step2
+			if @app.job.external_url.present?
+				#For now redirect
+				#later have own page explaining
+				#that they are about to be redirected
+				
+				external_url = @app.job.external_url
+				@app.destroy
+
+				redirect_to external_url
+			else
+				return redirect_to :step2
+			end
 		end
 	end
 
@@ -113,8 +124,7 @@ class ApplicationWizardController < ApplicationController
 			params[:asset][:application_id] = @app.id
 			params[:asset][:user_id] = User.current.id
 
-			# Yes I am taking this opportunity to name this var "ass"
-			ass = Asset.create(params[:asset])
+			Asset.create(params[:asset])
 		end
 	end
 

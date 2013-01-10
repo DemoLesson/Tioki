@@ -1,23 +1,51 @@
 <section id="main-content" class="inner-content" style="margin-bottom: 60px;margin-top: 30px">
 	<nav class="subpage" style="padding-left:0px">
 		<ul>
-			<li class="current">
-				All <%= @type %>s
-			</li>
-			<% if self.current_user %>
-				<li>
-					<a href="/my_groups">
-						My <%= @type %>s
-					</a>
+			<% if current_page?(groups_path) %>
+				<li class="current">
+					All <%= @type %>s
 				</li>
 				<% if self.current_user %>
+					<% if @type == "Group" %>
+						<li><%= link_to "My #{@type}s", user_groups_path(currentUser) %></li>
+					<% else %>	
+						<li><%= link_to "My #{@type}s", user_groups_path(currentUser, :organization => true) %></li>
+					<% end %>
 					<li style="float:right;margin-top:0px;">
-						<%= link_to "Create A #{@type}", new_group_path %>
+						<% if @type == "Group" %>
+							<%= link_to "Create A #{@type}", new_group_path %>
+						<% else %>
+							<%= link_to "Create An #{@type}", '/me/settings/upgrade' %>
+						<% end %>
 					</li>
 				<% else %>
 					<li style="float:right;margin-top:0px">
 						<%= link_to "Get Started with Tioki", '/welcome_wizard?x=step1&group_index' %>
 					</li>
+				<% end %>
+			<% else %>
+				<% if @type == "Group" %>
+					<li>
+						<a href="/groups">
+						All <%= @type %>s
+						</a>
+					</li>
+				<% else %>
+					<li>
+						<%= link_to "AlL #{@type}s", groups_path(:organization => true) %>
+					</li>
+				<% end %>
+				<li class="current">
+						My <%= @type %>s
+				</li>
+				<% if self.current_user %>
+				<li style="float:right;margin-top:0px;">
+					<% if @type == "Group" %>
+						<%= link_to "Create A #{@type}", new_group_path %>
+					<% else %>
+						<%= link_to "Create An #{@type}", '/me/settings/upgrade' %>
+					<% end %>
+				</li>
 				<% end %>
 			<% end %>
 		</ul>
@@ -61,11 +89,30 @@
 						<% else %>
 								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin-right:115px", :target => "_blank" %>
 						<% end %>
-						
+							<% if current_page?(user_groups_path(currentUser)) && @type == "Organization"%>
+								<a href="<%= new_group_job_path(group) %>" class = "action-button salmon" style="float:right; margin-bottom:-15px; margin-right:70px;">Add a Job</a>
+							<% end %>
 						<div style="clear:both"></div>
 					</p>
 				</div>
 			</div>
+		<% end %>
+		<% if @groups.count == 0 %>
+			<% if @type == "Group" %>
+				<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+					<h3> You're not in any groups yet! Join or create a group! </h3>
+					<a href="/groups/new" class="action-button bg-salmon" style="float:right; margin-top:-65px; margin-right: 20px;">
+						Create A <%= @type %>
+					</a>
+				</section>
+			<% else %>	
+				<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+					<h3> You must create an organization first to post a Job!</h3>
+					<a href="/me/settings/upgrade" class="action-button bg-salmon" style="float:right; margin-top:-65px; margin-right: 20px;">
+						Create An <%= @type %>
+					</a>
+				</section>
+			<% end %>
 		<% end %>
 		</section>
 		<section class="panel one-column right-side" style ="width:276px;height:430px;border-radius:5px">

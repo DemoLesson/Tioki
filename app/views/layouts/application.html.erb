@@ -170,22 +170,6 @@
 								</a>
 								
 								<ul>
-									<!-- Admin Methods -->
-                                    <% # Review %>
-									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
-										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-									<% elsif self.current_user.is_admin? %>
-										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
-									<% end %>
-
-									<!-- Schools -->
-									<li>
-										<a href="/me/settings/upgrade">
-											Upgrade Account
-										</a>
-									</li>
-									<hr />
-									
 									<!-- Teacher Methods -->
 									<% unless currentUser.new_record? %>
 										<li>
@@ -226,6 +210,21 @@
 										Account Settings
 										</a> 
 									</li>
+									
+									<!-- Admin Methods -->
+                                    <% # Review %>
+									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
+										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+									<% elsif self.current_user.is_admin? %>
+										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+									<% end %>
+
+									<!-- Schools -->
+									<li>
+										<a href="/me/settings/upgrade">
+											Upgrade Account
+										</a>
+									</li>
 
 									
 									<!-- Logout -->
@@ -249,11 +248,12 @@
 					<li class="searchBox">
 						<form style="margin:0px;" action="/connections">
 							<select name="topic">
-								<option value="name">Name</option>
+								<option value="name">Name<span class="iconic paperclip"></span></option>
 								<option value="location">Location</option>
 								<option value="skill_string">Skill</option>
+								
 							</select>
-							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:150px" />
+							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:180px;border-left:none;border-bottom-left-radius: 0px;border-top-left-radius: 0px;" />
 						</form>
 					</li>
 					<li>
@@ -283,7 +283,10 @@
 							Profile
 							</a>
 							<ul>
-								<li><a href="/me/profile/edit">Edit My Profile</a></li>
+								<li><a href="/me/profile/edit">Edit Profile</a></li>
+								<hr>
+								<li><a href="/me/profile">View Profile</a></li>
+								<li><a href="/profile/<%= self.current_user.slug %>/resume">View Resume</a></li>
 								<li><a href="/me/profile/stats">Profile Stats</a></li>
 							</ul>
 						</li>
@@ -292,6 +295,7 @@
 							<%= ablang('connection.plural') %>
 							</a>
 							<ul>
+								<li><a href="/my_connections">My <%= ablang('connection.plural') %></a></li>
 								<li><a href="/connections">Find New <%= ablang('connection.plural', true) %></a></li>
 								<li><a href="/inviteconnections">Invite <%= ablang('connection.plural') %></a></li>
 							</ul>
@@ -302,28 +306,42 @@
 							</a>
 							<ul>
 								<li><%= link_to "Browse Groups", groups_path %></li>
-								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
 								<li><%= link_to "My Groups", user_groups_path(currentUser) %></li>
+								<hr>
+								<li><%= link_to "Create a Group", new_group_path %></li>
 							</ul>
 						</li>
 						<li>
-							<a href="/discussions">
-							Discussions
+							<a href="/jobs">
+							Jobs
 							</a>
 							<ul>
-								<li><a href="/discussions">Browse Discussions</a></li>
-								<li><a href="/discussions/new">Start a Discussion</a></li>
+								<li><a href="/jobs">Browse Jobs</a></li>
+									<% if currentUser.organization? %>
+										<li><%= link_to "Post a Job", user_groups_path(currentUser, :organization => true) %></li>
+									<% else %>
+										<li><a href="/me/settings/upgrade">Post a Job</a></li>
+									<% end %>
+							</ul>
+						</li>
+						<li>
+							<%= link_to "Orgs", groups_path(:organization => true) %>
+							<ul>
+								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
+								<li><%= link_to "My Organizations", user_groups_path(currentUser, :organization => true) %></li>
+								<hr>
+								<li><a href="/me/settings/upgrade">Create an Organization</a></li>
 							</ul>
 						</li>
 						<li>
 							<a href="/skill/671">
-							Discover
+							More
 							</a>
 							<ul>
-								<li><a href="/jobs">Jobs</a></li>
+								<li><a href="/discussions">Discussions</a></li>
+								<li><a href="/videos">Videos</a></li>
 								<li><a href="/technologies">EdTech</a></li>
 								<li><a href="/events">Events</a></li>
-								<li><a href="/videos">Videos</a></li>
 							</ul>
 						</li>
 					<% end %>

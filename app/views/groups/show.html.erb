@@ -1,7 +1,20 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 	<% if !@group.organization? %>
-		<%= @group.long_description.html_safe rescue '' %>
+		<section class="left-side" style ="min-height:650px;width:635px">
+			<h2 class="bottom-line">
+				About <%= @group.name %>
+			</h2>
+			<%= @group.long_description.html_safe rescue '' %>
+		</section>
+		<!-- Will Finish this later<section id="list" class="panel one-column right-side" style ="border-radius:0px;margin-top:25px">
+			<h4 style="margin-left:10px">
+				Group Snapshot
+			</h4>
+			<% if @group.users.count > 0 %>
+				<%= @group.users.count %> Members
+			<% end %>
+		</section>-->
 	<% else %>
 		<section class="panels">
 			<section class="two-column left-side" style ="min-height:650px">

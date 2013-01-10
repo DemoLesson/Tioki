@@ -38,7 +38,7 @@
 	<section id="panels">
 		<section id="list" class="one-column left-side">
 			<section class="panel">
-				<h3>Recruiting Updates</h3>
+				<h3>Recruiting Snapshot</h3>
 				<section class="panel-actions">
 					<% if @jobs.count > 0 %>
 						<a href="<%= user_jobs_path currentUser %>">
@@ -70,9 +70,9 @@
 				<h3>My Organizations</h3>
 				<ul>
 					<% currentUser.groups.organization.my_permissions(:administrator).each do |org| %>
-						<li>
-							<a href="<%= new_group_job_path(org) %>" style="float:right;">+ Job</a>
-							<%= link_to org.name, org %>
+						<li style="padding: 12px 10px 12px 15px !important;width: 285px;">
+							<a href="<%= new_group_job_path(org) %>" style="float:right;">+ Post Job</a>
+							<%= link_to org.name, org, :style => "color:#4D4D4D !important" %>
 						</li>
 					<% end %>
 				</ul>

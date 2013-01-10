@@ -257,6 +257,35 @@ span.connection_degree {
 							&:hover {
 								background: none;
 							}
+							
+							select[name="topic"] {
+							  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+							  -webkit-appearance: none;
+							  background: #54BAAF;
+							  max-width: 100px;
+							  padding: 4.7px 12px 4.4px;
+							  cursor: pointer;
+							  -webkit-border-radius: 3px;
+							  -moz-border-radius: 3px;
+							  -moz-border-radius: 3px;
+							  border-radius: 3px;
+							  border: 1px solid #CFD4D5;
+							  color: #fff;
+							  margin-right: -3.2px;
+						   	  border-right: none;
+							  border-top-right-radius: 0px;
+							  border-bottom-right-radius: 0px; }
+
+								.select[name="topic"]:focus {
+							      outline: none;
+							      border: 1px solid #f66c4c; }
+								.select[name="topic"] option {
+							        color: #4d4d4d; }
+
+							label {
+								display: block;
+								font-weight: bold;
+							}
 						}
 					}
 				}

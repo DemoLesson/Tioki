@@ -147,6 +147,7 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
 				<%unless currentUser.new_record? %>
+					<% @self || @connected || !@user.privacy_public[:whiteboard] %>
 					<li>
 						<% if @self %>
 						<a href="/me/profile">
@@ -157,6 +158,7 @@
 						</a>
 					</li>
 				<% end %>
+
 				<li>
 					<a href="/profile/<%= @user.slug %>/about">
 					About

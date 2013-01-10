@@ -38,18 +38,16 @@ class HomeController < ApplicationController
 				@post = {:slug => 'connections', :data => connections}
 				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
-				# Get a list of all my skills and a list of all my connections
-				skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
-				skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
-				my_connections = @user.connections.collect{|x| x.not_me_id}
+				my_connections = @user.connections.collect{|x| x.not_me_id(currentUser.id)}
 
-				# Create / Run the Query
-				joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]
-				joins << 'LEFT JOIN `connections` ON `users`.`id` = `connections`.`user_id` OR `users`.`id` = `connections`.`owned_by`'
-				@suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
-				@suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
+				# Don't show the current user either
+				my_connections.push(currentUser.id)
+
+				@suggested_connections = User.joins(:skill_claims).
+					where("users.avatar_file_size IS NOT NULL && skill_claims.skill_id IN (?) && users.id NOT IN (?)", currentUser.skills.collect(&:id), my_connections).
+					limit(3).
+					group("users.id").
+					order('(RAND() / COUNT(*) * 2)')
 
 				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
@@ -59,7 +57,15 @@ class HomeController < ApplicationController
 
 				@jobs = Job.where('active = ?', true).limit(4).order('created_at DESC').all
 
-				@discussions = Discussion.limit(3).order('created_at DESC').all
+				#@discussions = Discussion.joins(:comments).
+				#	select('discussions.*, count(comments.id) as comments_count').
+				#	where("discussions.owner IS NULL && discussions.created_at > ?", Time.now - 2.weeks).
+				#	group("discussions.id").
+				#	limit(3).
+				#	order('comments_count DESC')
+				@discussions = Discussion.order("created_at DESC").limit(3)
+
+				@featured_groups = Group.where("featured = ?", true).limit(3)
 
 				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
 

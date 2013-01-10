@@ -4,57 +4,92 @@
 	<table class="drops">
 		<tr>
 			<td colspan="3">
-				Available Credits Remaining: <span id="runningLimit">0</span>
+				Available Credits Remaining: <span id="runningLimit" style="color:#F66C4C">0</span> |
+				<span style="color:#F66C4C">Need more credits?</span>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<h4 class="title">Unpublished</h4>
+				
+				<!-- If there are no unpublished positions, our goals is to get you to create a new posting -->
+				<% if @jobs.where(:status => ['unpublished', nil]).count < 1 %>
+					<h5><span style="color:#2AA99B">TIP:</span> You currently have no unpublished positions.
+						<%= link_to "Click Here", [:new, @source, :job], :style => 'color:#F66C4C' %> to post now.
+					</h5>
+				<% end %>
 				<ul id="unpublished">
 					<li class="dropzone">
 					</li>
 					<% @jobs.where(:status => ['unpublished', nil]).each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
-							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @source.name %></p>
-							<span>Drag to relocate</span>
-							<%= link_to 'View', [@source, job] %> | 
-							<%= link_to 'Edit', [:edit, @source, job] %> | 
-							<%= link_to 'View Applicants', [@source, job, :applications] %>
+							<h5><%= job.title %></h5>
+							<p>	<% job.subjects.each do |subject| %>
+									<%= Subject.find(subject.subject_id).name %>, 
+								<% end %>
+								<br/><br/>
+								<%= link_to 'View Job', [@source, job] %> | 
+								<%= link_to 'Edit Job', [:edit, @source, job] %> | 
+								<%= link_to 'View Applicants', [@source, job, :applications] %>
+								<br/>
+								<span style="margin-left:50px">Drag to Activate  →</span>
+							</p>
 						</li>
 					<% end %>
 				</ul>
 			</td>
 			<td>
-				<h4 class="title">Running</h4>
+				<h4 class="title">Currently Running</h4>
+				
+				<!--If you have posted unpublished positions, we want you to start running them. If you can't run them, contact us for assistance -->
+				<% if @jobs.where(:status => 'running').count < 1 %>
+					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting here to start receiving applicants.</h5>
+					<p>Can't drag and drop? You likely need job credits. 
+						<%= link_to 'Contact us', 'mailto:support@tioki.com?subject=Need%20Job%20Credits%20To%20Run%20My%20Posting' %> for assistance.</p>
+				<% end %>
 				<ul id="running">
 					<li class="dropzone">
 					</li>
 					<% @jobs.where(:status => 'running').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
-							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @source.name %></p>
-							<span>Drag to relocate</span>
-							<%= link_to 'View', [@source, job] %> | 
-							<%= link_to 'Edit', [:edit, @source, job] %> | 
-							<%= link_to 'View Applicants', [@source, job, :applications] %>
+							<h5><%= job.title %></h5>
+							<p>	<% job.subjects.each do |subject| %>
+									<%= Subject.find(subject.subject_id).name %>, 
+								<% end %>
+								<br/><br/>
+								<%= link_to 'View Job', [@source, job] %> | 
+								<%= link_to 'Edit Job', [:edit, @source, job] %> | 
+								<%= link_to 'View Applicants', [@source, job, :applications] %>
+								<br/>
+								<span style="margin-left:50px">Drag to Complete  →</span>
+							</p>
 						</li>
 					<% end %>
 				</ul>
 			</td>
 			<td>
 				<h4 class="title">Completed</h4>
+				
+				<!--If you have don't have any positions in the completed pile, we let you know how to drag them here to complete the posting -->
+				<% if @jobs.where(:status => 'completed').count < 1 %>
+					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting here once applications are closed.</h5>
+				<% end %>
 				<ul id="completed">
 					<li class="dropzone">
 					</li>
 					<% @jobs.where(:status => 'completed').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
-							<h4><%= job.title %> - <%= job.salary %></h4>
-							<p><%= @source.name %></p>
-							<span>Drag to relocate</span>
-							<%= link_to 'View', [@source, job] %> | 
-							<%= link_to 'Edit', [:edit, @source, job] %> | 
-							<%= link_to 'View Applicants', [@source, job, :applications] %>
+							<h5><%= job.title %></h5>
+							<p>	<% job.subjects.each do |subject| %>
+									<%= Subject.find(subject.subject_id).name %>, 
+								<% end %>
+								<br/><br/>
+								<%= link_to 'View Job', [@source, job] %> | 
+								<%= link_to 'Edit Job', [:edit, @source, job] %> | 
+								<%= link_to 'View Applicants', [@source, job, :applications] %>
+								<br/>
+								<span style="margin-left:50px">←  Drag to Reactivate</span>
+							</p>
 						</li>
 					<% end %>
 				</ul>

@@ -1,15 +1,20 @@
 <section id="main-content" class="inner-content">
 	<section id="info" class="one-column right-side">
 		<% if self.current_user == nil %>
+			<%= link_to "Or Refer A Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:style => "color:#2AA99B;float:right;margin-top:25px"} %>
 			<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, :class => "action-button bg-salmon", :target => "_blank" %>
+		
 		<% else %>
 			<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user) %>
-				<%= link_to "View Applicants", [@job.group, @job, :applications], {:class => "button bg-salmon"} %>
-				<%= link_to "Edit Posting", [:edit, @job.group, @job], :class => "button bg-ltgray" %>
+				<%= link_to "View Applicants", [@job.group, @job, :applications], {:class => "button bg-green"} %>
+				<%= link_to "Edit Posting", [:edit, @job.group, @job], :class => "button bg-green" %>
 			<% else %>
-				<% if @application == nil %>
-					<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>
-					<%= link_to "Refer a Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:class => "button bg-green"} %>
+				<% if @job.external_url.present? %> 
+					<%= link_to "Apply Now", @job.external_url, {:class => "action-button bg-salmon"} %>
+				<% else %>
+					<% if @application == nil %>
+						<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, {:class => "action-button bg-salmon"} %>
+					<% end %>
 				<% end %>
 			<% end %>
 		<% end %>
@@ -34,27 +39,17 @@
 		</section>
 	</section>
 	<section class="panels">
-		<section id="list" class="two-column left-side">
+		<section id="list" class="left-side" style="width:635px">
 
-			<!-- JOB DESCRIPTION -->
+		<!-- JOB DESCRIPTION -->
 			<% if @job.description? %>
 				<h3 class="bottom-line">
 					Job Description
 				</h3>
-				<p style="width:auto">
-				<%= @job.description.html_safe %>
+				<p style="width:635px">
+				<%= sanitize @job.description %>
 				</p>
 			<% end %>
-
-			<!-- DESIRED SKILLS & EXPERTISE -->
-			<!--<% if @job.description? %>
-			<h3 class="bottom-line">
-				Desired Skills & Expertise
-			</h3>
-			<p style="width:auto">
-			<%= @job.description.html_safe %>
-			</p>
-		<% end %>-->
 
 		<!-- SCHOOL/COMPANY DESCRIPTION -->
 		
@@ -73,25 +68,28 @@
 				Application Instructions
 			</h3>
 			<p style="width:auto">
-			<%= h(@job.instructions).gsub(/\n/, '<br/>').html_safe %>
+			<%= h(@job.instructions).gsub(/\n/, '<br/>').url2link %>
 			</p>
 		<% end %>	
 
 		<!-- ATTACHMENTS -->
-		<h3 class="bottom-line">
-			Job Attachments
-		</h3>
-		<% for asset in @job.assets %>
-			<% if asset.assetType != 1 %>
-				<div class="item">
-					<p>
-					<img src="<%= asset_path 'file.png' %>" />
-					<%= link_to asset.name, asset.file.url %><br />
-					<%= asset.description %>
-					</p>
-				</div>
+		<% if @job.assets.count >= 1 %>
+			<h3 class="bottom-line">
+				Job Attachments
+			</h3>
+			<% for asset in @job.assets %>
+				<% if asset.assetType != 1 %>
+					<div class="item">
+						<p>
+							<img src="<%= asset_path 'file.png' %>" />
+							<%= link_to asset.name, asset.file.url %><br />
+							<%= asset.description %>
+						</p>
+					</div>
+				<% end %>
 			<% end %>
 		<% end %>
+		</section>
 	</section>
 	<section id="list" class="panel one-column right-side" style ="border-radius:0px;margin-top:20px">
 		<h4 style="margin-left:10px">
@@ -164,4 +162,5 @@
 			</p>
 		</section>
 	</section>
+	<div class="clearfloat"></div>
 </section>

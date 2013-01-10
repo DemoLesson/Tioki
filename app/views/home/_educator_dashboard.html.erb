@@ -257,38 +257,19 @@
 				Featured Groups
 			</h3>
 			<ul>
-				<!-- Featured Group 1-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:45px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Education Bloggers', 'http://tioki.com/groups/2-education-bloggers/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 2 }, :style => "float:right;color:#F66C4C" %>
-						<br />
-						43 Members<br/>
-					</p>
-				</li>
+				<% @featured_groups.each do |group| %>
+					<!-- Featured Group 1-->
+					<li style="padding:12px 15px 12px 15px !important;width:280px">
+						<%= link_to image_tag(group.picture(:thumb), :style => "width:45px"), group %>
+						<p style="margin:-40px 0px 0px 60px;width:220px">
+							<%= link_to group.name, group %>
+							<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => group.id }, :style => "float:right;color:#F66C4C" %>
+							<br />
+							<%= group.users.count %> Members<br/>
+						</p>
+					</li>
+				<% end %>
 			
-				<!-- Featured Group 2-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:45px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Beta Testing Teachers', 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 50 }, :style => "float:right;color:#F66C4C" %>	
-						<br />
-						32 Members<br/>
-					</p>
-				</li>
-				
-				<!-- Featured Group 3-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:45px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Educators on Twitter', 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 101 }, :style => "float:right;color:#F66C4C" %>
-						<br/>	
-						23 Members<br/>
-					</p>
-				</li>
 				
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 				<%= link_to "View More Groups →", "/groups", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
@@ -312,15 +293,17 @@
 						</p>
 						<p style="width:240px;float:left;margin-left:10px">
 							<% discussion.participants.each do |user| %>
-								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
-								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
+								<% if user %>
+									<% if user.avatar? %>
+										<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
 								<% end %>
 							<% end %>
-						</p>
-					</li>
-				<% end %>
+						<% end %>
+					</p>
+				</li>
+			<% end %>
 				
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 					<%= link_to "View More Discussions →", "/discussions", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
@@ -337,10 +320,10 @@
 				</a>
 			</h3>
 			<ul>
-				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
-				<% if rsvp.empty? %>
+				<% rsvp = @user.rsvp.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC') %>
+				<% if rsvp.count < 1 %>
 					<li>You have no RSVP's. So here are some upcoming events.</li>
-					<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
+					<% Event.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC').limit(3).each do |event| %>
 						<li>
 							<div class="calendar-thumb">
 								<div class="cal-month">

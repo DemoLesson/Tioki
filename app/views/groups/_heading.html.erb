@@ -5,11 +5,29 @@
 	<section class="title">
 		<h3 style="margin: 10px 0px -5px 10px;color:#000">
 			<%= @group.name %>
+			<!-- Old Group Site links that are still in the database -->
 			<% unless @group.site == nil || @group.site == "" %>
 				<a href="<%= @group.site %>" target="_blank">
 					<%= image_tag('tioki/icons/globe.png') %>
 				</a>
 			<% end %>
+			<!-- New Site Links that are being completed by new groups -->
+			<% unless @group.social[:website] == nil || @group.social[:website] == "" %>
+				<a href="<%= @group.social[:website] %>" target="_blank">
+					<%= image_tag('tioki/icons/globe.png') %>
+				</a>
+			<% end %>
+			<!-- Pulling Old Twitters that are still in the database-->
+			<% if @group.social[:twitter].present? %>
+				<% if @group.social[:twitter].include? '//' %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), @group.social[:twitter], :target => "_blank" %>
+				<% elsif @group.social[:twitter].include? 'com' %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), 'http://'+@group.social[:twitter], :target => "_blank" %>
+				<% else %>
+					<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@group.social[:twitter], :target => "_blank" %>
+				<% end %>
+			<% end %>
+			<!-- Pulling the new social twitter links that are being updated now -->
 			<% if @group.twitter.present? %>
 				<% if @group.twitter.include? '//' %>
 					<%= link_to image_tag('tioki/icons/twitter2.png'), @group.twitter, :target => "_blank" %>
@@ -19,6 +37,7 @@
 					<%= link_to image_tag('tioki/icons/twitter2.png'), '//twitter.com/'+@group.twitter, :target => "_blank" %>
 				<% end %>
 			<% end %>
+			<!-- Pulling Old Facebook links that are still in the database-->
 			<% if @group.facebook.present? %>
 				<% if @group.facebook.include? '//' %>
 					<%= link_to image_tag('tioki/icons/fb_button.png'), @group.facebook, :target => "_blank" %>
@@ -26,6 +45,16 @@
 					<%= link_to image_tag('tioki/icons/fb_button.png'), 'http://'+@group.facebook, :target => "_blank" %>
 				<% else %>
 					<%= link_to image_tag('tioki/icons/fb_button.png'), '//facebook.com/'+@group.facebook, :target => "_blank" %>
+				<% end %>
+			<% end %>
+			<!-- Pulling the new Facebook "Social" links that are being updated now -->
+			<% if @group.social[:facebook].present? %>
+				<% if @group.social[:facebook].include? '//' %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), @group.social[:facebook], :target => "_blank" %>
+				<% elsif @group.social[:facebook].include? 'com' %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), 'http://'+@group.social[:facebook], :target => "_blank" %>
+				<% else %>
+					<%= link_to image_tag('tioki/icons/fb_button.png'), '//facebook.com/'+@group.social[:facebook], :target => "_blank" %>
 				<% end %>
 			<% end %>
 		</h3>
@@ -81,14 +110,14 @@
 				</a>
 			</li>
 		<% end %>
-		<% if @group.user_permissions['administrator'] %>
+		<% if @group.user_permissions['administrator'] || (self.current_user && self.current_user.is_admin) %>
 			<li style="float:right;">
 				<span>
-					Administration
+					Manage
 					<span class="iconic arrow_down"></span>
 				</span>
 				<ul>
-					<li><%= link_to @group.type?, [:edit, @group] %></li>
+					<li><%= link_to "Edit #{@group.type?}", [:edit, @group] %></li>
 					<li><%= link_to "Manage Job Postings", [@group, :jobs] if @group.organization? %></li>
 				</ul>
 			</li>
@@ -170,10 +199,10 @@ $(document).ready(function() {
 	</p>
 	<section style="max-height:300px;overflow-y:scroll;">
 		<form method="post" action="/groups/<%= @group.id %>/invite">
-			<% Connection.mine(:pending => false).each do |connection| %>
+			<% self.current_user.connections.not_pending.includes(:user, :owner).each do |connection| %>
 			<% user = connection.not_me %>
 			<div class="user" style="width:220px;height:80px;overflow:hidden;float:left;padding:10px;margin:5px;border:solid 1px #DADADA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;">
-				<input style="float:right;width:15px;height:15px;" type="checkbox" name="connection[]" value="<%= user.id %>" />
+				<input style="float:right;width:15px;height:15px;display:none;" type="checkbox" name="connection[]" value="<%= user.id %>" />
 				<div class="profile-thumb-small" style="float:left;">
 					<%= link_to image_tag(user.avatar.url(:medium)), "/profile/#{user.slug}" if user.avatar? %>
 					<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg"), "/profile/#{user.slug}" unless user.avatar? %>
@@ -195,10 +224,12 @@ $(document).ready(function() {
 		if(check.prop('checked')) {
 			$(this).css('border-color', '#DADADA');
 			check.prop('checked', false);
+			check.hide();
 		}
 		else {
 			$(this).css('border-color', '#F66C4C');
 			check.prop('checked', true);
+			check.show();
 		}
 
 		return false;

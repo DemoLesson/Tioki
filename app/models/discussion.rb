@@ -8,6 +8,7 @@ class Discussion < ActiveRecord::Base
 
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
+	has_many :comments, :as => :commentable, :dependent => :destroy
 
 	# Callbacks
 	before_destroy :before_destroy
@@ -53,8 +54,13 @@ class Discussion < ActiveRecord::Base
 		"/discussions/#{self.to_param}"
 	end
 
-	# Get the owner
 	def owner
+
+		# Is the owner set already?
+		_owner = read_attribute(:owner)
+		return nil if _owner.nil?
+
+		# Get the actual owning object
 		_class, _id = read_attribute(:owner).split(':')
 		_class.constantize.find(_id)
 	end
