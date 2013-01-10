@@ -23,7 +23,11 @@ class Whiteboard < ActiveRecord::Base
 	end
 
 	def map_tag
-		mapTag!(self.tag)
+		begin
+			return mapTag!(self.tag)
+		rescue
+			self.destroy
+		end
 	end
 
 	def data!
