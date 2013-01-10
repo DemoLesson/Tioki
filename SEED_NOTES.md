@@ -1,3 +1,12 @@
+v4.1.34 - Jan 10, 2013 12:30PM PST deployed by Elijah Green
+===========================================================
+* 7e72006: Elijah Green - return nil on whiteboard deletion as well
+* 623eae5: Elijah Green - If whiteboard model is not found, destroy it
+* 14b21cf: Elijah Green - Fix not logged in users gettings an error on private group discussions
+* 21f80d0: Kelly Becker - reverting a bad commit. see notes @ https://github.com/DemoLesson/Tioki/commit/5821061dc2049282818507e1f122bdc487974323 if this is reverted back without reading the notes i made and discussing it with me I wont be happy. I apologize if I'm being a pain im sick and pissy at the moment and i can't afford to see a doctor
+* c39606e: Brian Martinez - replacing don brown with tyler on the splash page
+* 260db66: Brian Martinez - style changes to recruiter dashboard, changes to text on pricing page, changes to wording in recruiter heading, changes to UX on manage page
+
 v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
 ==========================================================
 * 436165c: Elijah Green - Whiteboard privacy
