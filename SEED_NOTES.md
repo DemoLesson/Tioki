@@ -1,3 +1,8 @@
+v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 7c827ca: Aleks Stanisic - fix to active job user list
+* 8648906: Elijah Green - Change jobs order from created_at to updated_at
+
 v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
 ===========================================================
 * 34ce835: Elijah Green - Resume privacy setting
