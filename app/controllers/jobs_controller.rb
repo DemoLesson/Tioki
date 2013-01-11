@@ -3,7 +3,7 @@ class JobsController < ApplicationController
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
 
 	# Source the owner if applicable
-	before_filter :source_owner, :only => :index
+	before_filter :source_owner, :only => [:index, :request_credits, :credit_request_email]
 	
 	# GET /jobs
 	# GET /jobs.xml
@@ -334,6 +334,32 @@ class JobsController < ApplicationController
 		else
 			return {:status => 'error'}
 		end
+	end
+
+	def request_credits
+		@organizations = User.current.groups.my_permissions('administrator').organization
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@source)
+		@jobs = @source.jobs
+	end
+
+	def credit_request_email
+		@organizations = User.current.groups.my_permissions('administrator').organization
+
+		# Get the post data key
+		@request = params[:request]
+
+		# Interpret the post data from the form
+		@requested_number = @request[:requested_number]
+		@credits_for_other_orgs = @request[:credits_for_other_orgs]
+
+		# Get the current user if applicable
+		@user = self.current_user 
+
+		# Send out the email to the list of emails
+		UserMailer.credit_request_email(@requested_number, @credits_for_other_orgs, @source, @user).deliver
+
+		# Return user back to the home page 
+		redirect_to :back, :notice => 'Request Sent. We will be in touch shortly!'
 	end
 
 	protected

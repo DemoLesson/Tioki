@@ -5,7 +5,7 @@
 		<tr>
 			<td colspan="3">
 				Available Credits Remaining: <span id="runningLimit" style="color:#F66C4C">0</span> |
-				<span style="color:#F66C4C">Need more credits?</span>
+				<%= link_to "Need more credits?", [:request_credits, @source, :jobs], :style => 'color:#F66C4C' %> 
 			</td>
 		</tr>
 		<tr>
