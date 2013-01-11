@@ -1,3 +1,10 @@
+v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
+===========================================================
+* 95485d3: Elijah Green - Slight change to featured jobs on orgs page
+* 0f034e7: Elijah Green - featured jobs
+* e3bba36: Elijah Green - Featured group on group/index
+* e1ebfa9: Aleks Stanisic - adding request for credits in org management view
+
 v4.1.35 - Jan 10, 2013  3:17PM PST deployed by Elijah Green
 ===========================================================
 * c918e14: Elijah Green - Fix typo dealing with viewing discussions

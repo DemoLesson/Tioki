@@ -6,9 +6,11 @@ class GroupsController < ApplicationController
 		if params[:organization] == 'true'
 			@groups = @source.organization
 			@type = 'Organization'
+			@featured_jobs = Job.where("featured = ?", true).limit(4)
 		else
 			@groups = @source.organization!
 			@type = 'Group'
+			@featured_groups = Group.where("featured = ?", true).limit(4)
 		end
 
 		if params[:group_search]
