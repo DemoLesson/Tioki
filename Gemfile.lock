@@ -169,7 +169,7 @@ GEM
     mini_magick (3.4)
       subexec (~> 0.2.1)
     multi_json (1.5.0)
-    multi_xml (0.5.1)
+    multi_xml (0.5.2)
     multimap (1.1.2)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
