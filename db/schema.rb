@@ -418,8 +418,6 @@ ActiveRecord::Schema.define(:version => 20130111011201) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
-    t.boolean  "allow_videos",        :default => true
-    t.boolean  "allow_attachments",   :default => true
     t.boolean  "featured",            :default => false
   end
 

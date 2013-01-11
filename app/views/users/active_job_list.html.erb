@@ -28,7 +28,9 @@
     <td><%= job.applications.is_submitted.count %></td>
     <td>
         <%- job.applications.is_submitted.each do |application| %>
-          <%= link_to application.user.name, "/profile/#{application.user.slug}" %>,
+          <% if application.user.try(:name) %>
+            <%= link_to application.user.name, "/profile/#{application.user.slug}" %>,
+          <% end %>
         <% end %>
     </td>
   </tr>
