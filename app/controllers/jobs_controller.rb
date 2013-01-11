@@ -52,26 +52,26 @@ class JobsController < ApplicationController
 
 					if @schools.size == 0
 						#will_paginate does not like nil objects or arrays so just giving it something it will not have an error on
-						@jobs = Job.unscoped.is_active.near(params[:location][:city], params[:radius]).paginate(:page => params[:page], :order => 'created_at DESC')
+						@jobs = Job.unscoped.is_active.near(params[:location][:city], params[:radius]).paginate(:page => params[:page], :order => 'updated_at DESC')
 					else
 						if params[:subject].present?
-							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => [:school, :subjects],:conditions => tup.compile, :order => 'created_at DESC')
+							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => [:school, :subjects],:conditions => tup.compile, :order => 'updated_at DESC')
 						else
-							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => :school,:conditions => tup.compile, :order => 'created_at DESC')
+							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => :school,:conditions => tup.compile, :order => 'updated_at DESC')
 						end
 					end
 				else
 					if params[:subject].present?
-						@jobs = Job.is_active.paginate(:page => params[:page], :joins => [:school, :subjects], :conditions => tup.compile, :order => 'created_at DESC')
+						@jobs = Job.is_active.paginate(:page => params[:page], :joins => [:school, :subjects], :conditions => tup.compile, :order => 'updated_at DESC')
 					else
-						@jobs = Job.is_active.paginate(:page => params[:page], :joins => :school, :conditions => tup.compile, :order => 'created_at DESC')
+						@jobs = Job.is_active.paginate(:page => params[:page], :joins => :school, :conditions => tup.compile, :order => 'updated_at DESC')
 					end
 				end
 			else
-				@jobs = Job.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
+				@jobs = Job.is_active.paginate(:page => params[:page], :order => 'updated_at DESC')
 			end
 		else
-			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
+			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'updated_at DESC')
 		end
 		
 		@title = "Jobs"
