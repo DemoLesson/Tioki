@@ -10,6 +10,7 @@ class GroupsController < ApplicationController
 			@groups = @source.organization!
 			@type = 'Group'
 		end
+		@featured = Group.where("featured = ?", true).limit(4)
 
 		if params[:group_search]
 			@groups = @groups.where("name like ?", "%#{params[:group_search]}%")
