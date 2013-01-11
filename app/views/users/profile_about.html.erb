@@ -148,15 +148,17 @@
 		
 				<ul>
 					<%unless currentUser.new_record? %>
-					<li>
-						<% if @self %>
-						<a href="/me/profile">
-						<% else %>
-						<a href="/profile/<%= @user.slug %>">
-						<% end %>
-							Activity
-						</a>
-					</li>
+						<% if @self  || @connected || !@user.privacy_public[:whiteboard] %>
+							<li>
+								<% if @self %>
+									<a href="/me/profile">
+									<% else %>
+										<a href="/profile/<%= @user.slug %>">
+										<% end %>
+										Activity
+									</a>
+								</li>
+							<% end %>
 					<% end %>
 
 					<li  class="current">
@@ -165,11 +167,14 @@
 						</a>
 					</li>
 
-					<li>
-						<a href="/profile/<%= @user.slug %>/resume">
-						Resume
-						</a>
-					</li>
+					<% if @self || !@user.privacy_public[:resume] || @user.application_for(self.currentUser)%>
+						<li>
+							<a href="/profile/<%= @user.slug %>/resume">
+								Resume
+							</a>
+						</li>
+					<% end %>
+
 					<%unless currentUser.new_record? %>
 						<% if @user.videos.count > 0 %>
 						<li>
@@ -185,6 +190,7 @@
 						</li>
 						<% end %>
 					<% end %>
+
 					<% if !currentUser.new_record? && @self %>
 					<li>
 						<a href="/me/profile/stats">

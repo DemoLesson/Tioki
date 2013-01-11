@@ -8,7 +8,7 @@ class Discussion < ActiveRecord::Base
 	
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
-	has_many :comments, :foreign_key => :commentable_id
+	has_many :comments, :as => :commentable, :dependent => :destroy
 
 	# Callbacks
 	before_destroy :before_destroy

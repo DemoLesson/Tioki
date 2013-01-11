@@ -1,3 +1,73 @@
+v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
+===========================================================
+* 95485d3: Elijah Green - Slight change to featured jobs on orgs page
+* 0f034e7: Elijah Green - featured jobs
+* e3bba36: Elijah Green - Featured group on group/index
+* e1ebfa9: Aleks Stanisic - adding request for credits in org management view
+
+v4.1.35 - Jan 10, 2013  3:17PM PST deployed by Elijah Green
+===========================================================
+* c918e14: Elijah Green - Fix typo dealing with viewing discussions
+* 9e271da: Elijah Green - Fix job search drop down placement
+
+v4.1.34 - Jan 10, 2013 12:30PM PST deployed by Elijah Green
+===========================================================
+* 7e72006: Elijah Green - return nil on whiteboard deletion as well
+* 623eae5: Elijah Green - If whiteboard model is not found, destroy it
+* 14b21cf: Elijah Green - Fix not logged in users gettings an error on private group discussions
+* 21f80d0: Kelly Becker - reverting a bad commit. see notes @ https://github.com/DemoLesson/Tioki/commit/5821061dc2049282818507e1f122bdc487974323 if this is reverted back without reading the notes i made and discussing it with me I wont be happy. I apologize if I'm being a pain im sick and pissy at the moment and i can't afford to see a doctor
+* c39606e: Brian Martinez - replacing don brown with tyler on the splash page
+* 260db66: Brian Martinez - style changes to recruiter dashboard, changes to text on pricing page, changes to wording in recruiter heading, changes to UX on manage page
+
+v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
+==========================================================
+* 436165c: Elijah Green - Whiteboard privacy
+* 8f04eda: Elijah Green - Don't show resume if privacy for it is set
+* 5821061: Aleks Stanisic - changing some toggle settings in the edit org form
+* 144e4d7: Elijah Green - Make the resume privac slightly more functional
+* a7e02cb: Aleks Stanisic - Fixing My groups/orgs pages
+* e0c4cab: Brian Martinez - changes to design and wording on the user privacy page for updated settings
+
+v4.1.32 - Jan 9, 2013 11:06AM PST deployed by Elijah Green
+==========================================================
+* 1a3f771: Elijah Green - Add a (non-functional) privacy setting for tfa
+
+v4.1.31 - Jan 8, 2013 11:52PM PST deployed by Kelly Becker
+==========================================================
+* 40dd3d9: Kelly Becker - added severity
+* 8a1e084: Elijah Green - Featured groups on dashboard use a column
+* 8c08df4: Elijah Green - Add order discussions newest first
+* cefd181: Elijah Green - If user is deleted on discussion show them as deleted
+* e71d645: Elijah Green - Destroy comments connected to a discussion
+
+v4.1.30 - Jan 8, 2013  2:44PM PST deployed by Elijah Green
+==========================================================
+* 7c1a962: Brian Martinez - fixing the display issues on the job description caused by the two column and the tinymce
+* 0e50e2e: Brian Martinez - fixing errors with the social buttons on groups pages, as well as the About page on the groups (picture overlay on text)
+* d1b569c: Elijah Green - Deal with users with no account external applications
+* c68279f: Elijah Green - External jobs for logined in users
+* 2c7d048: Brian Martinez - bug fixes on job posting: double descrtiption, missing section closeout, button styling
+
+v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
+==========================================================
+* 18a109b: Elijah Green - Temporily revert discussions change
+
+v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
+==========================================================
+* cae7281: Elijah Green - Deleted user on educator dashboard
+
+v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
+==========================================================
+* 1eb72c8: Elijah Green - Gemfile.lock
+* 600ad70: Elijah Green - Allow editing of titles of external videos
+
+v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
+==========================================================
+* 6c22686: Elijah Green - Fix error where avatar? was called on nil
+* 91bbb1c: Elijah Green - Featured Videos
+* 4c3641b: Elijah Green - Add prompt requesting users to tag the discussion
+* 8ba13a4: Elijah Green - Use most popular discussions on educator dashboard
+
 v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
 ==========================================================
 * e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners

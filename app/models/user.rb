@@ -774,6 +774,10 @@ class User < ActiveRecord::Base
 		self.applications.where("applications.submitted = 1").count > 0
 	end
 
+	def application_for(user)
+		user.my_jobs.collect(&:id).any? { |job_id| self.applications.collect(&:job_id).include? job_id}
+	end
+
 	# Connections
 
 		def connected_to?(_user)

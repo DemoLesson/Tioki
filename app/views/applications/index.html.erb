@@ -1,13 +1,16 @@
 <section id="main-content" class="inner-content">
-	<h1>
+	<h2>
 		<%= @source.name.possessive if @source.is_a?(User) %>
 		<%= @source.title.possessive if @source.is_a?(Job) %> 
 		Applications
-	</h1>
+	</h2>
 	<table style="width:100%;" class="applications">
 		<td class="left">
-			<h3>Applications</h3>
+			<h3>Applicants</h3>
 			<ul style="width:100%;">
+				<% if @applications.count < 1 %>
+					<li>Doesn't look like you have any applicants just yet. We'll email you as soon as you receive one.</li>
+				<% end %>
 				<% @applications.each do |app| %>
 					<li>
 						<% if @source.is_a?(User) %>
@@ -17,7 +20,7 @@
 
 						<% if @source.is_a?(Job) %>
 							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
-							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}", :class => :salmon %></h4>
+							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume", :class => :salmon %></h4>
 						<% end %>
 
 						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
@@ -63,7 +66,7 @@
 			<h3>Interviews</h3>
 			<ul style="width:100%;">
 				<% if @interviews.count < 1 %>
-					<li>You have no interviews scheduled</li>
+					<li>It doesn't look like you have scheduled any interviews with candidates just yet.</li>
 				<% end %>
 				<% @interviews.each do |int| %>
 					<li>

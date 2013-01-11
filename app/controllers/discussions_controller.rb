@@ -20,7 +20,7 @@ class DiscussionsController < ApplicationController
     # Unauthorized
     if !@discussion.owner!.nil? && !@discussion.owner!.empty?
     	@owner = @discussion.owner
-    	if !@owner.member? && !@owner.permissions['public_discussions'] && !User.current.is_admin
+    	if !@owner.member? && !@owner.permissions['public_discussions'] && !currentUser.is_admin
 				flash[:notice] = "To see this dicussion you must join the \"#{@owner.name}\" group"
 				return redirect_to @owner
     	end
@@ -198,11 +198,11 @@ class DiscussionsController < ApplicationController
 	end
 
 	def followed_discussions
-		@discussions = self.current_user.followed_discussions
+		@discussions = self.current_user.followed_discussions.order("created_at DESC")
 	end
 
 	def my_discussions
-		@discussions = self.current_user.discussions
+		@discussions = self.current_user.discussions.order("created_at DESC")
 	end
 
 	def follow_discussion

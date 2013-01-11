@@ -57,13 +57,15 @@ class HomeController < ApplicationController
 
 				@jobs = Job.where('active = ?', true).limit(4).order('created_at DESC').all
 
-				@discussions = Discussion.joins(:comments).
-					select('discussions.*, count(comments.id) as comments_count').
-					where("discussions.owner IS NULL && discussions.created_at > ?", Time.now - 2.weeks).
-					group("discussions.id").
-					limit(3).
-					order('comments_count DESC')
+				#@discussions = Discussion.joins(:comments).
+				#	select('discussions.*, count(comments.id) as comments_count').
+				#	where("discussions.owner IS NULL && discussions.created_at > ?", Time.now - 2.weeks).
+				#	group("discussions.id").
+				#	limit(3).
+				#	order('comments_count DESC')
+				@discussions = Discussion.order("created_at DESC").limit(3)
 
+				@featured_groups = Group.where("featured = ?", true).limit(3)
 
 				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
 
