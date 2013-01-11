@@ -128,6 +128,7 @@
 							<%= group.name %>
 						</h5>
 						<p style="margin:0 0px 0px 90px">
+							<%= group.users.count%> Members<br />
 							<%= link_to "Join +", { :action => "add_group", :id => group.id } %>
 						</p>
 						<br/>
@@ -143,6 +144,7 @@
 							<%= job.title %>
 						</h5>
 						<p style="margin:0 0px 0px 90px">
+							<%= job.group.name %><br />
 							<%= link_to "Apply +", job  %>
 						</p>
 						<br/>
