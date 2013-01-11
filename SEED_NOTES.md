@@ -1,3 +1,9 @@
+v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
+===========================================================
+* 34ce835: Elijah Green - Resume privacy setting
+* 9798401: Elijah Green - Fix a case on groups/index where it would try to route toa new_record
+* 4c70666: Aleks Stanisic - my gem lock file
+
 v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
 ===========================================================
 * 95485d3: Elijah Green - Slight change to featured jobs on orgs page
