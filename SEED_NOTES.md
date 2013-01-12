@@ -1,3 +1,14 @@
+v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 7c827ca: Aleks Stanisic - fix to active job user list
+* 8648906: Elijah Green - Change jobs order from created_at to updated_at
+
+v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
+===========================================================
+* 34ce835: Elijah Green - Resume privacy setting
+* 9798401: Elijah Green - Fix a case on groups/index where it would try to route toa new_record
+* 4c70666: Aleks Stanisic - my gem lock file
+
 v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
 ===========================================================
 * 95485d3: Elijah Green - Slight change to featured jobs on orgs page

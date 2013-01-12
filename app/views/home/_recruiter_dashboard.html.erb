@@ -44,9 +44,16 @@
 						<a href="<%= user_jobs_path currentUser %>">
 							<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
 							<div class="count_recruit">
-								<%= @jobs.count.to_s %>
+								<%= @jobs.select{|job| job.status == "running"}.count %>
 							</div>
 							Active Job Postings
+						</a></br>
+						<a href="<%= user_jobs_path currentUser %>">
+							<span class="iconic pin" style="color:#cdcdcf;font-size:26px;margin:-5px 0px 0px 15px"></span>
+							<div class="count_recruit">
+								<%= @jobs.select{|job| job.status != "running"}.count %>
+							</div>
+							Inactive Job Postings
 						</a>
 						<br />
 					<% end %>
@@ -72,7 +79,7 @@
 					<% currentUser.groups.organization.my_permissions(:administrator).each do |org| %>
 						<li style="padding: 12px 10px 12px 15px !important;width: 285px;">
 							<a href="<%= new_group_job_path(org) %>" style="float:right;">+ Post Job</a>
-							<%= link_to org.name, org, :style => "color:#4D4D4D !important" %>
+							<%= link_to org.name, group_jobs_path(org), :style => "color:#4D4D4D !important" %>
 						</li>
 					<% end %>
 				</ul>

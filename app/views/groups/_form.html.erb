@@ -115,10 +115,6 @@
 				Is an Organization (this type of group is capable of posting jobs for others to see)
 			</label>
 		<% end %>
-		<label>
-			<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %>
-			Does this <%= @group.type? %> have a publicly readable discussion board?
-		</label>
   	</fieldset><br />
 	<input type="submit" class="huge-button" value="Save Changes">
 <% end %>
