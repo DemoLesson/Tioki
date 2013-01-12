@@ -1,3 +1,11 @@
+v4.1.39 - Jan 11, 2013  5:52PM PST deployed by Elijah Green
+===========================================================
+* 0a25ec5: Aleks Stanisic - adding active and inactive jobs counter to recruiter dashboard, changing link of my organizations to link to manage jobs
+* 7d568ad: Aleks Stanisic - changed application nofication on recruiter dashboard and added new user welcome email
+* 5de1028: Elijah Green - Remove duplicate permission in groups/_form
+* f7940a1: Elijah Green - Gemfile.lock with updated multiXml gem
+* 9f08355: Elijah Green - Upgrade to rails 3.1.10
+
 v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
 =============================================================
 * 7c827ca: Aleks Stanisic - fix to active job user list
