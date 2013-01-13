@@ -9,15 +9,19 @@
 			<input type="hidden" name="people" />
 			<div class="detected" style="height:300px">
 				<section class="panels">
-					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
 						<% if is_gmail(self.current_user.email) %>
-							<%= link_to image_tag("/assets/tioki/icons/logo-gmail.png", :style => "width:225px;margin:3px auto 0px 245px;"), '#gmail', :id => "detected_email", "data-email-provider" => "GMAIL" %>
+							<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+								<%= link_to image_tag("/assets/tioki/icons/logo-gmail.png", :style => "width:225px;margin:3px auto 0px 245px;"), '#gmail', :id => "detected_email", "data-email-provider" => "GMAIL" %>
+							</section>
 						<% elsif /yahoo.com$/.match(self.current_user.email).present? %>
-							<%= link_to image_tag("/assets/tioki/icons/yahoo-logo.png", :style => "width:250px;margin:8px auto 0px 225px;"), '#gmail', :id => "detected_email", "data-email-provider" => "YAHOO" %>
+							<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+								<%= link_to image_tag("/assets/tioki/icons/yahoo-logo.png", :style => "width:250px;margin:8px auto 0px 225px;"), '#gmail', :id => "detected_email", "data-email-provider" => "YAHOO" %>
+							</section>
 						<% elsif /aol.com$/.match(self.current_user.email).present? %>
-							<%= link_to image_tag("/assets/tioki/icons/aol-logo.png", :style => "width:215px;margin:8px auto 0px 255px;"), '#gmail', :id => "detected_email", "data-email-provider" => "AOL" %>
+							<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
+								<%= link_to image_tag("/assets/tioki/icons/aol-logo.png", :style => "width:215px;margin:8px auto 0px 255px;"), '#gmail', :id => "detected_email", "data-email-provider" => "AOL" %>
+							</section>
 						<% end %>
-					</section>
 				
 					<section class="panel two-column left-side" style ="width:700px;height:75px;margin-left:88px;border-radius:5px">
 						<%= link_to image_tag("/assets/tioki/icons/facebook-logo.png", :style => "width:250px;margin:8px auto 0px 235px;"), '#facebook', :id => "facebook" %>
