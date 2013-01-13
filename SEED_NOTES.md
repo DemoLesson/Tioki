@@ -1,3 +1,13 @@
+v4.1.40 - Jan 12, 2013  5:42PM PST deployed by Elijah Green
+===========================================================
+* a3ca987: Aleks Stanisic - added My Video Library link in edit profile page and slight stykle fix to events index
+* 6a5b4a4: Elijah Green - Don't display deleted comments if they are a leaf node
+* c2c40d3: Elijah Green - Don't show whitebox if email sddress is not detected
+* e6e8060: Elijah Green - Only allow messages in messages/create if users are connected in some way
+* d791f21: Aleks Stanisic - erasing duplicate javasrcipt for sharing functions in groups to fix bugs
+* 939d0ab: Aleks Stanisic - changing wording on create groups form
+* de226b4: Aleks Stanisic - taking care of some Asana bug tasks
+
 v4.1.39 - Jan 11, 2013  5:52PM PST deployed by Elijah Green
 ===========================================================
 * 0a25ec5: Aleks Stanisic - adding active and inactive jobs counter to recruiter dashboard, changing link of my organizations to link to manage jobs
