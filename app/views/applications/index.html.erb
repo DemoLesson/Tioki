@@ -15,7 +15,9 @@
 					<li>
 						<% if @source.is_a?(User) %>
 							<%= app.job.group.picture? ? image_tag(app.job.group.picture.url(:medium)) : '' %>
-							<%= link_to "Delete", app, :method => :delete, :confirm => "Are you sure?", :style => "float:right" %>
+							<% if app.submitted == 0 %>
+								<%= link_to "Delete", app, :method => :delete, :confirm => "Are you sure?", :style => "float:right" %>
+							<% end %>
 							<h4><%= link_to app.job.group.name, app.job.group, :class => :salmon %></h4>
 						<% end %>
 
