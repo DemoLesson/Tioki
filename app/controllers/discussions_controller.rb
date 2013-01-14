@@ -339,7 +339,7 @@ BODY
 
 		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
 
-		flash[:success] = "Share successfull."
+		flash[:success] = "Successfully Shared"
 		return redirect_to :back
 	end
 

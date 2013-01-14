@@ -89,7 +89,7 @@
 						<% else %>
 								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin-right:115px", :target => "_blank" %>
 						<% end %>
-							<% if current_page?(user_groups_path(currentUser)) && @type == "Organization"%>
+							<% if !currentUser.new_record? && current_page?(user_groups_path(currentUser)) && @type == "Organization"%>
 								<a href="<%= new_group_job_path(group) %>" class = "action-button salmon" style="float:right; margin-bottom:-15px; margin-right:70px;">Add a Job</a>
 							<% end %>
 						<div style="clear:both"></div>

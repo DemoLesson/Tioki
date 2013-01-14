@@ -981,15 +981,6 @@ class UsersController < ApplicationController
 							:owner => true
 						}
 
-						JobPack.create(
-							:group => group,
-							:jobs => 1,
-							:expiration => Time.now + 60.days,
-							:inception => Time.now,
-							:refunded => 0,
-							:amount => 0,
-							:additional_data => {:freebie => true}.to_json)
-
 						# Return HTML or JSON
 						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
 					else

@@ -50,20 +50,20 @@
 			<div style="padding:12px 0px 12px 15px;">
 				<div class="profile-thumb-small">
 					<% if @discussion.user %>
-					<% if @discussion.user.avatar? %>
-					<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.slug}" %>
-					<% else %>
-					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.slug}" %>
-					<% end %>
+						<% if @discussion.user.avatar? %>
+							<%= link_to image_tag(@discussion.user.avatar.url(:tiny)), "/profile/#{@discussion.user.slug}" %>
+						<% else %>
+							<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{@discussion.user.slug}" %>
+						<% end %>
 					<% end %>
 				</div>
 				<% if @discussion.user %>
-				<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.slug}", :style => "color:#F66C4C" %></strong><br />
+					<strong><%= link_to @discussion.user.name, "/profile/#{@discussion.user.slug}", :style => "color:#F66C4C" %></strong><br />
 				<% else %>
-				[Deleted]
+					[Deleted]
 				<% end %>
 				<% if @discussion.deleted_at %>
-				[Message Deleted]
+					[Message Deleted]
 				<% else %>
 				<p style="width:675px;margin-left:65px">
 					<%= h(@discussion.message).url2link.gsub(/\n/, '<br/>').html_safe %>
@@ -87,65 +87,67 @@
 			<!-- Start of Replies to Discussion-->
 			<ul>
 				<% @discussion.comment_threads.includes(:user).order("lft").each do |comment| %>
-				<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
-					<a name="c<%= comment.id %>"></a>
+					<% unless comment.deleted_at && comment.leaf? %>
+						<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+							<a name="c<%= comment.id %>"></a>
 
-					<div <% if comment.child? %>style="margin-left:65px"<% end %> class="comments">
-						<div class="profile-thumb-small">
-							<% if comment.user %>
-							<% if comment.user.avatar? %>
-							<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.slug}" %>
-							<% else %>
-							<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.slug}" %>
-							<% end %>
-							<% end %>
-						</div>
-						<% if comment.user %>
-						<%= link_to comment.user.name, "/profile/#{comment.user.slug}" %>
-						<% else %>
-						[deleted]
-						<% end %><br />
+							<div <% if comment.child? %>style="margin-left:65px"<% end %> class="comments">
+								<div class="profile-thumb-small">
+									<% if comment.user %>
+										<% if comment.user.avatar? %>
+											<%= link_to image_tag(comment.user.avatar), "/profile/#{comment.user.slug}" %>
+										<% else %>
+											<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{comment.user.slug}" %>
+										<% end %>
+									<% end %>
+								</div>
+								<% if comment.user %>
+									<%= link_to comment.user.name, "/profile/#{comment.user.slug}" %>
+								<% else %>
+									[deleted]
+								<% end %><br />
 
-						<% if comment.deleted_at %>
-						[Message Deleted]
-						<% else %>
-						<p style="margin-left:65px;width:auto">
-							<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
-						</p>
-						<% end %>
-					</div><br/><br/>
-
-					<% if self.current_user %>
-					<p style="float:left;margin-left:65px">
-						<div class ="reply_to_comment">
-							<a>Reply</a>
-						</div>
-						<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
-						|
-						<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
-						|
-						<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
-						<% end %>
-					</p>
-					<% else %>
-					<p style="float:left;margin-left:65px">
-						<%= link_to 'Reply', "/welcome_wizard?x=step1&discussion_reply" %>
-					</p>
-					<% end %>
-
-					<% if self.current_user %>
-						<div class="bar">
-							<span class="icons">
-								<% if self.current_user %>
-									<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
-										<span class="iconic star"><%= favorites(comment) %></span>
-									</a>
+								<% if comment.deleted_at %>
+									[Message Deleted]
+								<% else %>
+									<p style="margin-left:65px;width:auto">
+										<%= h(comment.body).url2link.gsub(/\n/, '<br/>').html_safe %>
+									</p>
 								<% end %>
-							</span>
-						</div>
+							</div><br/><br/>
+
+							<% if self.current_user %>
+								<p style="float:left;margin-left:65px">
+									<div class ="reply_to_comment">
+										<a>Reply</a>
+									</div>
+									<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
+										|
+										<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
+										|
+										<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+									<% end %>
+								</p>
+							<% else %>
+								<p style="float:left;margin-left:65px">
+									<%= link_to 'Reply', "/welcome_wizard?x=step1&discussion_reply" %>
+								</p>
+							<% end %>
+
+							<% if self.current_user %>
+								<div class="bar">
+									<span class="icons">
+										<% if self.current_user %>
+											<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
+												<span class="iconic star"><%= favorites(comment) %></span>
+											</a>
+										<% end %>
+									</span>
+								</div>
+							<% end %>
+
+						</li>
 					<% end %>
-						
-				</li>
 				<% end %>
 				<li style="width:700px;padding:12px 0px 12px 15px !important">
 				<a id="discussion_reply">

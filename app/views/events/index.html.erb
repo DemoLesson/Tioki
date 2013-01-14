@@ -48,15 +48,15 @@
 				</p>
 				
 				<% unless currentUser.new_record? %>
-					<%= link_to "Submit a new Event", new_event_path, :class => 'button', :style => "display:block;" %>
+					<%= link_to "Submit a new Event", new_event_path, :class => 'button', :style => "display:block;" %></br>
 				<% end %>
 
 				<div class="datepicker"></div>
 
 				<% unless currentUser.new_record? %>
-					<a href="#datepicker-showonlymine" class="button" style="display:block;">Show only my Events</a>
+					<a href="#datepicker-showonlymine" class="button" style="display:block;">Show only my Events</a></br>
 				<% end %>
-				<a href="#datepicker-showall" class="button" style="display:block;margin-top:10px;">Show all Dates</a>
+				<a href="#datepicker-showall" class="button" style="display:block;">Show all Dates</a>
 			</section>
 		</section>
 	</section>

@@ -1,3 +1,32 @@
+v4.1.40 - Jan 12, 2013  5:42PM PST deployed by Elijah Green
+===========================================================
+* a3ca987: Aleks Stanisic - added My Video Library link in edit profile page and slight stykle fix to events index
+* 6a5b4a4: Elijah Green - Don't display deleted comments if they are a leaf node
+* c2c40d3: Elijah Green - Don't show whitebox if email sddress is not detected
+* e6e8060: Elijah Green - Only allow messages in messages/create if users are connected in some way
+* d791f21: Aleks Stanisic - erasing duplicate javasrcipt for sharing functions in groups to fix bugs
+* 939d0ab: Aleks Stanisic - changing wording on create groups form
+* de226b4: Aleks Stanisic - taking care of some Asana bug tasks
+
+v4.1.39 - Jan 11, 2013  5:52PM PST deployed by Elijah Green
+===========================================================
+* 0a25ec5: Aleks Stanisic - adding active and inactive jobs counter to recruiter dashboard, changing link of my organizations to link to manage jobs
+* 7d568ad: Aleks Stanisic - changed application nofication on recruiter dashboard and added new user welcome email
+* 5de1028: Elijah Green - Remove duplicate permission in groups/_form
+* f7940a1: Elijah Green - Gemfile.lock with updated multiXml gem
+* 9f08355: Elijah Green - Upgrade to rails 3.1.10
+
+v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 7c827ca: Aleks Stanisic - fix to active job user list
+* 8648906: Elijah Green - Change jobs order from created_at to updated_at
+
+v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
+===========================================================
+* 34ce835: Elijah Green - Resume privacy setting
+* 9798401: Elijah Green - Fix a case on groups/index where it would try to route toa new_record
+* 4c70666: Aleks Stanisic - my gem lock file
+
 v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
 ===========================================================
 * 95485d3: Elijah Green - Slight change to featured jobs on orgs page

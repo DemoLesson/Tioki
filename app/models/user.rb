@@ -775,7 +775,8 @@ class User < ActiveRecord::Base
 	end
 
 	def application_for(user)
-		user.my_jobs.collect(&:id).any? { |job_id| self.applications.collect(&:job_id).include? job_id}
+		job_ids = self.applications.collect(&:job_id)
+		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id}
 	end
 
 	# Connections
