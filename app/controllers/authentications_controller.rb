@@ -52,12 +52,13 @@ class AuthenticationsController < ApplicationController
 
 			return redirect_to "/me/settings", :notice => notice
 		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-			session[:twitter_action] = nil
-			session[:whiteboard_id] = nil
 
 			return redirect_to whiteboard_share_twitter_authentications_url(
-				:whiteboard_id => whiteboard.id
+				:whiteboard_id => session[:whiteboard_id]
 			)
+
+			session[:twitter_action] = nil
+			session[:whiteboard_id] = nil
 
 		elsif session[:twitter_action] == "get_contacts"
 			session[:twitter_action] = nil
