@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130109025608) do
+ActiveRecord::Schema.define(:version => 20130111011201) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -418,6 +418,7 @@ ActiveRecord::Schema.define(:version => 20130109025608) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"

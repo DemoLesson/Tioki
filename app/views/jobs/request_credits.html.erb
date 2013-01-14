@@ -1,0 +1,29 @@
+<section id="main-content" class="inner-content events-wrapper">
+	<%= render 'heading' %>
+	<section class="profile group">
+		<nav class="subpage">
+			<ul>
+				<li class="current">
+					Request Job Credits For <%= @source.name %>
+				</li>
+			</ul>
+		</nav>
+		<section style="margin:25px;">
+			<%= form_for :request, :url => { :controller => :jobs, :action => :credit_request_email} do |f| -%>
+
+					<span style="font-size:25px"> How many Job Credits do you need? </span>
+					<%= f.text_field :requested_number, :placeholder => "5", :size => 44, :style => "width:45px;margin:10px auto;", :class => "css3-border-box" %><br />
+
+					<span style="font-size:25px"> Do you need Job Credits for any other Orgs?</span>
+					<span style="font-size:25px; margin-left:10px;"> Yes: </span><%= f.radio_button :credits_for_other_orgs, "Yes" %> 
+					<span style="font-size:25px; margin-left:10px"> No: </span><%= f.radio_button :credits_for_other_orgs, "No" %>
+
+					<div style="margin-top:10px">
+						<%= f.submit "Submit Request", :class => "btn btn-success" %>
+						<a href="/schoolpricing" target="_blank" style="float:right;">Questions About Pricing?</a>
+					</div>
+
+			<% end %>
+		</section>
+	</section>
+</section>

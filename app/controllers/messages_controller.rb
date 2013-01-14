@@ -78,6 +78,7 @@ class MessagesController < ApplicationController
   # POST /messages.xml
   def create
     @message = Message.new(params[:message])
+
 		if params[:message][:replied_to_id]
 			replied_to_message = Message.find(params[:message][:replied_to_id])
 			@message.user_id_to = if replied_to_message.user_id_from == self.current_user.id
@@ -86,6 +87,16 @@ class MessagesController < ApplicationController
 														replied_to_message.user_id_from
 													end
 			replied_to_message.update_attribute(:replied_at, Time.now)
+		end
+
+		#Only allow messaging if they are connected,
+		#One person has an application with them
+		#Or an admin is messaging them
+		user = User.find(@message.user_id_to)
+		if !currentUser.connected_to?(user) && !currentUser.is_admin &&
+		 	!currentUser.application_for(user) && !user.application_for(currentUser)
+
+			return redirect_to :back, :notice => "You must be connected with this person in order to message them."
 		end
 
 		@message.read = false

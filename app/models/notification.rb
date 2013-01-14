@@ -251,8 +251,8 @@ class Notification < ActiveRecord::Base
 		when 'Favorite'
 			ret = "{triggered.link} favorited a post of yours."
 		when 'Application'
-			ret = "{triggered.link} updated a job application for {tag.job.title}" if dashboard == 'recruiter'
-			ret = "{triggered.link} updated a job application for {tag.job.title}" if dashboard != 'recruiter'
+			ret = "{triggered.link(resume)} has applied to {tag.job.title}" if dashboard == 'recruiter'
+			ret = "{triggered.link(resume)} has applied to {tag.job.title}" if dashboard != 'recruiter'
 		when 'Interview'
 			ret = "{triggered.link} responded to the interview request for {tag.job.title}" if dashboard == 'recruiter'
 			ret = "{triggered.link} updated a interview request for {tag.job.title}" if dashboard != 'recruiter'

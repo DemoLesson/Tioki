@@ -89,7 +89,7 @@
 						<% else %>
 								<%= link_to "Join Group +", '/welcome_wizard?x=step1&join_group_button' , :class => "button bg-salmon", :style => "float:right; margin-right:115px", :target => "_blank" %>
 						<% end %>
-							<% if current_page?(user_groups_path(currentUser)) && @type == "Organization"%>
+							<% if !currentUser.new_record? && current_page?(user_groups_path(currentUser)) && @type == "Organization"%>
 								<a href="<%= new_group_job_path(group) %>" class = "action-button salmon" style="float:right; margin-bottom:-15px; margin-right:70px;">Add a Job</a>
 							<% end %>
 						<div style="clear:both"></div>
@@ -117,50 +117,40 @@
 		</section>
 		<section class="panel one-column right-side" style ="width:276px;height:430px;border-radius:5px">
 			<section style="padding-left:10px;padding-right:10px">
-				<h4 class="bottom-line">
-					Featured Groups
-				</h4>
-				<!-- Featured Group 1-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:75px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
-				<h5 style="margin:-65px 0px 0px 90px">
-					Education Bloggers	
-				</h5>
-				<p style="margin:0 0px 0px 90px">
-					43 Members<br/>
-					<%= link_to "Join +", { :action => "add_group", :id => 2 } %>
-				</p>
-				<br/>
+				<% if @featured_groups %>
+					<h4 class="bottom-line">
+						Featured Groups
+					</h4>
+
+					<% @featured_groups.each do |group| %>
+						<%= link_to image_tag(group.picture.url(:thumb), :style => "width:75px"), group %>
+						<h5 style="margin:-65px 0px 0px 90px">
+							<%= group.name %>
+						</h5>
+						<p style="margin:0 0px 0px 90px">
+							<%= group.users.count%> Members<br />
+							<%= link_to "Join +", { :action => "add_group", :id => group.id } %>
+						</p>
+						<br/>
+					<% end %>
+				<% else %>
+					<h4 class="bottom-line">
+						Featured Jobs
+					</h4>
+
+					<% @featured_jobs.each do |job| %>
+						<%= link_to image_tag(job.group.picture.url(:thumb), :style => "width:75px"), job %>
+						<h5 style="margin:-65px 0px 0px 90px">
+							<%= job.title %>
+						</h5>
+						<p style="margin:0 0px 0px 90px">
+							<%= job.group.name %><br />
+							<%= link_to "Apply +", job  %>
+						</p>
+						<br/>
+					<% end %>
+				<% end %>
 			
-				<!-- Featured Group 2-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:75px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-				<h5 style="margin:-65px 0px 0px 90px">
-					Beta Testing Teachers	
-				</h5>
-				<p style="margin:0 0px 0px 90px">
-					30 Members<br/>
-					<%= link_to "Join +", { :action => "add_group", :id => 50 } %>
-				</p>
-				<br />
-				
-				<!-- Featured Group 3-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:75px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-				<h5 style="margin:-65px 0px 0px 90px">
-					Educators on Twitter	
-				</h5>
-				<p style="margin:0 0px 0px 90px">
-					18 Members<br/>
-					<%= link_to "Join +", { :action => "add_group", :id => 101 } %>
-				</p><br/>
-				
-				<!-- Featured Group 4-->
-				<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121111001202-20121111001200-20121111001159-entrepreneur.jpg?1352592718", :style => "width:75px"), 'http://tioki.com/groups/51-edtech-entrepreneurs/members' %>
-				<h5 style="margin:-65px 0px 0px 90px">
-					EdTech Entrepreneurs	
-				</h5>
-				<p style="margin:0 0px 0px 90px">
-					34 Members<br/>
-					<%= link_to "Join +", { :action => "add_group", :id => 51 } %>
-				</p><br/>
 			</section>
 		</section>
 	</section>

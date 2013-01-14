@@ -5,15 +5,15 @@ class UserMailer < ActionMailer::Base
 		@user = User.find(user_id)
 
 		# Get ab test number
-		ab = Abtests.use("email:user_welcome", 1).to_s
-		template "user_welcome_email_" + ab
+		#ab = Abtests.use("email:user_welcome", 1).to_s
+		#template "user_welcome_email_" + ab
 
 		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
 			f.html { render template }
 		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('user_welcome_email:ab-' + ab)
+			mail.delivery_method.tag('user_welcome_email')
 		end
 
 		return mail
@@ -529,6 +529,29 @@ class UserMailer < ActionMailer::Base
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('skill_vouched:ab-' + ab.to_s)
+		end
+
+		return mail
+	end
+
+	def credit_request_email(requested_number, credits_for_other_orgs, source, user)
+
+		# Set variables for use inside the email itself
+		@requested_number = requested_number
+		@credits_for_other_orgs = credits_for_other_orgs
+
+		# Source the org itself
+		@organization = source
+
+		# Get the User
+		@user = user
+
+		# Set the subject for the email
+		subject =  'Job Credit Request'
+
+		# Send out the email
+		mail = mail(:to => 'sales@tioki.com', :subject => subject) do |f|
+			f.html { render template }
 		end
 
 		return mail

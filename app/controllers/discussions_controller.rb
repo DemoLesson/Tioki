@@ -20,7 +20,7 @@ class DiscussionsController < ApplicationController
     # Unauthorized
     if !@discussion.owner!.nil? && !@discussion.owner!.empty?
     	@owner = @discussion.owner
-    	if !@owner.member? && !@owner.permissions['public_discussions'] && !User.current.is_admin
+    	if !@owner.member? && !@owner.permissions['public_discussions'] && !currentUser.is_admin
 				flash[:notice] = "To see this dicussion you must join the \"#{@owner.name}\" group"
 				return redirect_to @owner
     	end
@@ -339,7 +339,7 @@ BODY
 
 		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
 
-		flash[:success] = "Share successfull."
+		flash[:success] = "Successfully Shared"
 		return redirect_to :back
 	end
 

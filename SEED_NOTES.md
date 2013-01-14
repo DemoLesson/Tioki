@@ -1,3 +1,53 @@
+v4.1.40 - Jan 12, 2013  5:42PM PST deployed by Elijah Green
+===========================================================
+* a3ca987: Aleks Stanisic - added My Video Library link in edit profile page and slight stykle fix to events index
+* 6a5b4a4: Elijah Green - Don't display deleted comments if they are a leaf node
+* c2c40d3: Elijah Green - Don't show whitebox if email sddress is not detected
+* e6e8060: Elijah Green - Only allow messages in messages/create if users are connected in some way
+* d791f21: Aleks Stanisic - erasing duplicate javasrcipt for sharing functions in groups to fix bugs
+* 939d0ab: Aleks Stanisic - changing wording on create groups form
+* de226b4: Aleks Stanisic - taking care of some Asana bug tasks
+
+v4.1.39 - Jan 11, 2013  5:52PM PST deployed by Elijah Green
+===========================================================
+* 0a25ec5: Aleks Stanisic - adding active and inactive jobs counter to recruiter dashboard, changing link of my organizations to link to manage jobs
+* 7d568ad: Aleks Stanisic - changed application nofication on recruiter dashboard and added new user welcome email
+* 5de1028: Elijah Green - Remove duplicate permission in groups/_form
+* f7940a1: Elijah Green - Gemfile.lock with updated multiXml gem
+* 9f08355: Elijah Green - Upgrade to rails 3.1.10
+
+v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 7c827ca: Aleks Stanisic - fix to active job user list
+* 8648906: Elijah Green - Change jobs order from created_at to updated_at
+
+v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
+===========================================================
+* 34ce835: Elijah Green - Resume privacy setting
+* 9798401: Elijah Green - Fix a case on groups/index where it would try to route toa new_record
+* 4c70666: Aleks Stanisic - my gem lock file
+
+v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
+===========================================================
+* 95485d3: Elijah Green - Slight change to featured jobs on orgs page
+* 0f034e7: Elijah Green - featured jobs
+* e3bba36: Elijah Green - Featured group on group/index
+* e1ebfa9: Aleks Stanisic - adding request for credits in org management view
+
+v4.1.35 - Jan 10, 2013  3:17PM PST deployed by Elijah Green
+===========================================================
+* c918e14: Elijah Green - Fix typo dealing with viewing discussions
+* 9e271da: Elijah Green - Fix job search drop down placement
+
+v4.1.34 - Jan 10, 2013 12:30PM PST deployed by Elijah Green
+===========================================================
+* 7e72006: Elijah Green - return nil on whiteboard deletion as well
+* 623eae5: Elijah Green - If whiteboard model is not found, destroy it
+* 14b21cf: Elijah Green - Fix not logged in users gettings an error on private group discussions
+* 21f80d0: Kelly Becker - reverting a bad commit. see notes @ https://github.com/DemoLesson/Tioki/commit/5821061dc2049282818507e1f122bdc487974323 if this is reverted back without reading the notes i made and discussing it with me I wont be happy. I apologize if I'm being a pain im sick and pissy at the moment and i can't afford to see a doctor
+* c39606e: Brian Martinez - replacing don brown with tyler on the splash page
+* 260db66: Brian Martinez - style changes to recruiter dashboard, changes to text on pricing page, changes to wording in recruiter heading, changes to UX on manage page
+
 v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
 ==========================================================
 * 436165c: Elijah Green - Whiteboard privacy
