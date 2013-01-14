@@ -54,6 +54,10 @@ class Discussion < ActiveRecord::Base
 		"/discussions/#{self.to_param}"
 	end
 
+	def link
+		"/discussions/#{self.to_param}"
+	end
+
 	def owner
 
 		# Is the owner set already?

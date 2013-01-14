@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130111011201) do
+ActiveRecord::Schema.define(:version => 20130114190354) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -481,6 +481,7 @@ ActiveRecord::Schema.define(:version => 20130111011201) do
     t.string   "link"
     t.text     "data"
     t.integer  "triggered_id"
+    t.boolean  "emailed"
   end
 
   create_table "organizations", :force => true do |t|

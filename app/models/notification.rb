@@ -119,6 +119,37 @@ class Notification < ActiveRecord::Base
 		Notification.delay({:run_at => 1.hour.from_now}).notify_all
 	end
 
+	def self.notify
+
+		# If all the notifications have never been sent then dont send anything older then an hour
+		where('`created_at` < ?', 1.hour.ago).update_all(:emailed => true) if where(:emailed => true).count < 1
+
+		# Hash table for storing users notifications
+		user_notifications = Multimap.new
+
+		# Sort the unsent notifications
+		for notification in where(:emailed => false)
+			user_notifications[notification.user.id] = notification
+		end
+
+		# For every user determine whether or not to send notifications
+		user_notifications.each_association do |user, notifications|
+
+			# Get the user
+			user = User.find(user)
+
+			# @todo properly implement user set intervals
+			# if the user only want notifications every day then skip for now
+			# next if user.notification_interval == 1440
+
+			# Send new notification
+			NotificationMailer.default(user, notifications).deliver
+		end
+
+		# Return true
+		return true
+	end
+
 	def triggered
 		return false if destroyed?
 

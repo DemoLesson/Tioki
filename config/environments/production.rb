@@ -1,56 +1,63 @@
 Preview::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
+	# Settings specified here will take precedence over those in config/application.rb
 
-  # Code is not reloaded between requests
-  config.cache_classes = true
+	# Code is not reloaded between requests
+	config.cache_classes = true
 
-  # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+	# Full error reports are disabled and caching is turned on
+	config.consider_all_requests_local = false
+	config.action_controller.perform_caching = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = true
+	# Disable Rails's static asset server (Apache or nginx will already do this)
+	config.serve_static_assets = true
 
-  # Compress JavaScripts and CSS
-  config.assets.compress = false
+	# Compress JavaScripts and CSS
+	config.assets.compress = false
 
-  # Specify the default JavaScript compressor
-  config.assets.js_compressor  = :uglifier
+	# Specify the default JavaScript compressor
+	config.assets.js_compressor = :uglifier
 
-  # Specifies the header that your server uses for sending files
-  # (comment out if your front-end server doesn't support this)
-  config.action_dispatch.x_sendfile_header = "X-Sendfile" # Use 'X-Accel-Redirect' for nginx
+	# Specifies the header that your server uses for sending files
+	# (comment out if your front-end server doesn't support this)
+	config.action_dispatch.x_sendfile_header = "X-Sendfile" # Use 'X-Accel-Redirect' for nginx
 
-  config.time_zone = 'Pacific Time (US & Canada)'
-  
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+	config.time_zone = 'Pacific Time (US & Canada)'
 
-  # See everything in the log (default is :info)
-  # config.log_level = :debug
+	# Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+	# config.force_ssl = true
 
-  # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+	# See everything in the log (default is :info)
+	# config.log_level = :debug
 
-  # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+	# Use a different logger for distributed setups
+	# config.logger = SyslogLogger.new
 
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
+	# Use a different cache store in production
+	# config.cache_store = :mem_cache_store
 
-  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
+	# Enable serving of images, stylesheets, and JavaScripts from an asset server
+	# config.action_controller.asset_host = "http://assets.example.com"
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+	# config.assets.precompile += %w( search.js )
 
-  # Enable threaded mode
-  # config.threadsafe!
+	# Disable delivery errors, bad email addresses will be ignored
+	# config.action_mailer.raise_delivery_errors = false
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation can not be found)
-  config.i18n.fallbacks = true
+	# Enable threaded mode
+	# config.threadsafe!
 
-  # Send deprecation notices to registered listeners
-  config.active_support.deprecation = :notify
+	# Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+	# the I18n.default_locale when a translation can not be found)
+	config.i18n.fallbacks = true
+
+	# Send deprecation notices to registered listeners
+	config.active_support.deprecation = :notify
+
+	# Mailgun Settings
+	config.action_mailer.delivery_method = :mailgun
+	config.action_mailer.mailgun_settings = {
+		:api_key => "key-8xdgggqce58b-0wjv2d0jf9wvic6qet8",
+		:api_host => "demolesson.com.mailgun.org"
+	}
 end
