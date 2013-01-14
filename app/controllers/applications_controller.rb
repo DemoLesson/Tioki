@@ -123,7 +123,7 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 
 		# Only allow destruction of unsubmitted applications
-		@application.destroy if @pplication.submitted == 0
+		@application.destroy if @application.submitted == 0
 		redirect_to :back
 	end
 

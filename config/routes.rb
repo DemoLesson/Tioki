@@ -1,4 +1,5 @@
 Preview::Application.routes.draw do
+	resources :applications
 
 	# API
 		scope '/api' do
@@ -125,8 +126,8 @@ Preview::Application.routes.draw do
 			match 'welcome' => 'welcome_wizard#index'
 			match 'welcome/:action' => 'welcome_wizard#:action'
 
-			match 'application' => 'application_wizard#index'
 			match 'application/:action' => 'application_wizard#:action'
+			match 'application' => 'application_wizard#index'
 		end
 
 	# Whiteboard JSON Access
@@ -386,7 +387,6 @@ Preview::Application.routes.draw do
 	match 'my_jobs/:school_id' => 'jobs#my_jobs'
 	match 'my_schools' => 'schools#my_schools'
 	match 'add_school' => 'schools#add_school'
-	match 'applications/:id' => 'applications#index'
 	match 'applications/reject/:id' => 'applications#reject'
 	match 'applications/attachments/:id' => 'applications#attachments'
 	match 'about' => 'home#about'
@@ -444,7 +444,6 @@ Preview::Application.routes.draw do
 	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
 	resources :reviews
-	resources :applications
 	resources :review_permissions
 	resources :schools
 	resources :videos
