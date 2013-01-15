@@ -1,3 +1,7 @@
+v4.2.6 - Jan 15, 2013  1:06PM PST deployed by Kelly Becker
+==========================================================
+* 973824b: Kelly Becker - whiteboard migration for external links to open in popups. all local links will remain local
+
 v4.2.5 - Jan 15, 2013 12:26PM PST deployed by Kelly Becker
 ==========================================================
 * 92833a3: Kelly Becker - put notifications into buckets on creation
