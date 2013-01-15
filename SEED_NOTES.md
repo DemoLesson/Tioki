@@ -1,3 +1,9 @@
+v4.2.2 - Jan 14, 2013  6:36PM PST deployed by Kelly Becker
+==========================================================
+* 413e97b: Kelly Becker - notification intervals and daily digest
+* e18c4fa: Aleks Stanisic - fixing application counter
+* 1474d8c: Kelly Becker - cron eof
+
 v4.2.1 - Jan 14, 2013  5:29PM PST deployed by Kelly Becker
 ==========================================================
 * 5aceb39: Kelly Becker - cron the notifications
