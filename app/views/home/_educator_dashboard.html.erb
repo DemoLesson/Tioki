@@ -213,38 +213,19 @@
 				Featured Jobs
 			</h3>
 			<ul>
-				<!-- Featured Job 1 -->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121208212638-20121208212637-20121208212636-techbridge-logo.jpg?1355001996", :style => "width:45px"), 'http://tioki.com/jobs/114325' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Techbridge', 'http://tioki.com/jobs/114325' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114325', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						Girls "Go Techbridge" <br/>Program Coordinator
-					</p>
-				</li>
-				
-				<!-- Featured Job 2-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205195748-20121205195748-20121205195747-27531_105473479498305_4206_n.jpg?1354737467", :style => "width:45px"), 'http://tioki.com/jobs/114323' %>
-					<p style="margin:-35px 0px 0px 60px;width:220px">
-						<%= link_to 'KIPP Bay Area', 'http://tioki.com/jobs/114323' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114323', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						KIPP San Francisco College<br/> Prep Core Teacher
-					</p>
-				</li>
-				
-				<!-- Featured Job 3 -->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205224432-20121205224431-20121205224430-174829_143358642391657_3935380_n.jpg?1354747470", :style => "width:45px"), 'http://tioki.com/jobs/114324' %>
-					<p style="margin:-50px 0px 0px 60px;width:220px">
-						<%= link_to 'Rocketship Education', 'http://tioki.com/jobs/114324' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114324', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						2013-2014 Teacher in <br /> San Jose, CA<br/>
-					</p>
-				</li>
+
+				<% @featured_jobs.each do |job| %>
+					<li style="padding:12px 15px 12px 15px !important;width:280px">
+						<%= link_to image_tag(job.group.picture, :style => "width:45px"), job %>
+						<p style="margin:-40px 0px 0px 60px;width:220px">
+							<%= link_to job.group.name, job %>
+							<%= link_to "View", job, :style => "float:right;color:#F66C4C", :target => "_blank" %>
+							<br />
+							<%= job.title %>
+						</p>
+					</li>
+				<% end %>
+
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 					<%= link_to "View More Jobs →", "/jobs", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				</li>

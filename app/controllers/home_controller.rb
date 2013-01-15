@@ -55,8 +55,6 @@ class HomeController < ApplicationController
 
 				@profile_views = self.get_analytics(:view_user_profile, self.current_user, nil, nil, true).count
 
-				@jobs = Job.where('active = ?', true).limit(4).order('created_at DESC').all
-
 				#@discussions = Discussion.joins(:comments).
 				#	select('discussions.*, count(comments.id) as comments_count').
 				#	where("discussions.owner IS NULL && discussions.created_at > ?", Time.now - 2.weeks).
@@ -67,7 +65,7 @@ class HomeController < ApplicationController
 
 				@featured_groups = Group.where("featured = ?", true).limit(3)
 
-				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
+				@featured_jobs = Job.where("featured = ?", true).limit(3)
 
 				@interviews = self.current_user.interviews
 			end
