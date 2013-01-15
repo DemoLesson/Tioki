@@ -35,4 +35,9 @@ namespace :cron do
 	task :notifications => :environment do
 		Notification.notify!
 	end
+
+	desc "Send a daily digest."
+	task :digest_notifications => :environment do
+		Notification.notify!(true)
+	end
 end

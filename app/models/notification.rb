@@ -60,7 +60,7 @@ class Notification < ActiveRecord::Base
 		return query
 	end
 
-	def self.notify!
+	def self.notify!(digest = false, digestInterval = 86400)
 
 		# If all the notifications have never been sent then dont send anything older then an hour
 		where('`created_at` < ?', 1.day.ago).update_all(:emailed => true) if where(:emailed => true).count < 1
@@ -68,10 +68,21 @@ class Notification < ActiveRecord::Base
 		# Hash table for storing users notifications
 		user_notifications = Multimap.new
 
+		# If this is a digest get the items to digest
+		if digest
+			sql_query = where('`bucket` != ?', 'noemail').where('`created_at` BETWEEN ? AND ?', Time.now - digestInterval, Time.now)
+		else
+			sql_query = where(:emailed => false).where('`bucket` != ?', 'noemail')
+		end
+
+
 		# Sort out the unsent notifications
-		for notification in where(:emailed => false).where('`bucket` != ?', 'noemail')
+		for notification in sql_query
 			user_notifications[notification.user.id] = notification
 		end
+
+		# Deallocate memory
+		sql_query = nil
 
 		# For every user determine whether or not to send notifications
 		user_notifications.each_association do |user, notifications|
@@ -79,8 +90,16 @@ class Notification < ActiveRecord::Base
 			# Get the user
 			user = User.find(user)
 
-			# Acknowledge notification intervals
-			APP_CONFIG.notification_buckets.each do |bucket|
+			# If were digesting and the user is not subscribed skip it
+			if digest
+				_tmp = user.notification_intervals.daily
+				next if !_tmp.nil? && _tmp < 1
+			end
+
+			# Don't filter by buckets unless if were digesting
+			unless digest
+				# Acknowledge notification intervals
+				APP_CONFIG.notification_buckets.each do |bucket|
 
 				# Get the interval for this bucket of notifications
 				interval = user.notification_intervals[bucket] rescue nil
@@ -95,12 +114,13 @@ class Notification < ActiveRecord::Base
 				# Find out when the last email in this bucket was sent and remove
 				# any notifications that we should not send yet
 				_tmp = where(:emailed => true, :user_id => user.id, :bucket => bucket)
-				if _tmp.where('`emailed_at` > ?', Time.now - interval).count > 0
+				if interval == 0 || _tmp.where('`emailed_at` > ?', Time.now - interval).count > 0
 					notifications.delete_if{|n|n.bucket==bucket}
 				end
 
 				# Deallocate memory
 				_tmp = nil
+				end
 			end
 
 			# Send notifications unless we stripped them all out
