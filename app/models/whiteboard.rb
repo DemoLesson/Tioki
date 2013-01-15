@@ -248,7 +248,10 @@ class Whiteboard < ActiveRecord::Base
 		# Create links and screenshots
 		addData["screens"] = Hash.new
 		addData["urls"].each do |u|
-			message = message.gsub("#{u}", "<a href=\"#{u}\">#{u}</a>")
+
+			# If the url is not on tioki.com then add target _blank to the anchor
+			attrs = ''; attrs = "target=\"_blank\"" if u.match(Regexp.new("^(http|https)://(.*\.|)tioki\.com.*$")).nil?
+			message = message.gsub("#{u}", "<a href=\"#{u}\" #{attrs}>#{u}</a>")
 			addData["screens"].merge!({u => "http://api.snapito.com/web/2082a962d90ebd047fe4671d5146b73803c3e239/sc?url=#{u}"})
 
 			# Force to become an article
