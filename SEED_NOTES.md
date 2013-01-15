@@ -1,3 +1,11 @@
+v4.2.3 - Jan 15, 2013 11:00AM PST deployed by Kelly Becker
+==========================================================
+* 4bb6aa2: Kelly Becker - shows 2 comments by default now
+* 56bf5cc: Kelly Becker - white bg for group about page
+* 3fb8492: Aleks Stanisic - updated links to message and interview notifications
+* 81e713a: Elijah Green - Geocoding for groups
+* c4adc6e: Aleks Stanisic - db schema
+
 v4.2.2 - Jan 14, 2013  6:36PM PST deployed by Kelly Becker
 ==========================================================
 * 413e97b: Kelly Becker - notification intervals and daily digest
