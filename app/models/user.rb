@@ -790,6 +790,10 @@ class User < ActiveRecord::Base
 		cache(:organization => 'true')
 	end
 
+	def submitted_application?
+		self.applications.where("applications.submitted = 1").count > 0
+	end
+
 	def application_for(user)
 		job_ids = self.applications.collect(&:job_id)
 		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id }
@@ -844,6 +848,7 @@ class User < ActiveRecord::Base
 
 		self == _user
 	end
+
 
 	protected
 

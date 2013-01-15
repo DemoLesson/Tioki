@@ -16,20 +16,44 @@ class ApplicationWizardController < ApplicationController
 		redirect_to :root if params[:job].nil?
 
 		# Create a new application
-		@app = Application.new
-		@app.job_id = params[:job]
-
-		# Let the user know if we have an issue creation the application record
-		flash[:error] = "There was an error creating your application" unless @app.save
-
-		# Add the application id to the session
-		session[:application] = @app.id
+		@job = Job.find(params[:job])
 
 		if User.current.nil?
+			# Let the user know if we have an issue creation the application record
+			@app = Application.new
+			@app.job_id = @job.id
+
+			@app.save!
+
+			# Add the application id to the session
+			session[:application] = @app.id
 			redirect_to :step1
 		else
-			@app.update_attribute(:user_id, User.current.id)
-			redirect_to :step2
+			@app = Application.where("user_id = ? && job_id = ?", User.current.id, @job.id).first
+			if !@app
+				@app = Application.new
+				@app.job_id = @job.id
+				@app.user_id = User.current.id
+
+				@app.save!
+			end
+
+			session[:application] = @app.id
+			if User.current.submitted_application?
+
+				if @job.allow_attachments
+					redirect_to :step5
+
+				elsif @job.allow_videos
+					redirect_to :step6
+
+				else
+					redirect_to :step7
+				end
+
+			else
+				redirect_to :step2
+			end
 		end
 	end
 
@@ -173,7 +197,7 @@ class ApplicationWizardController < ApplicationController
 			flash[:error] = "Unable to load the application in question."
 
 			# Add the application id to the session
-			redirect_to :root
+			redirect_to user_applications_path(User.current)
 		else
 
 			# Load the application from session

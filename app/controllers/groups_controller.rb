@@ -139,20 +139,18 @@ class GroupsController < ApplicationController
 		raise HTTPStatus::Unauthorized unless admin
 
 		# Update permissions
-		if !params[:group][:permissions].nil?
-			permissions = Hash.new
-			permissions[:public] = params[:group][:permissions][:public] == 'true'
-			permissions[:private] = params[:group][:permissions][:public] != 'true'
-			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
+		permissions = Hash.new
+		permissions[:public] = params.group.permissions.try(:public) == 'true'
+		permissions[:private] = params.group.permissions.try(:public) != 'true'
+		permissions[:hidden] = params.group.permissions.try(:hidden) == 'true'
 
-			if currentUser.is_admin
-				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
-			end
-
-			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
-			params[:group].delete_if { |k, v| k.to_s == 'permissions' }
-			@group.permissions = permissions
+		if currentUser.is_admin
+			permissions[:organization] = params.group.permissions.try(:organization) == 'true'
 		end
+
+		permissions[:public_discussions] = params.group.permissions.try(:public_discussions) == 'true'
+		params[:group].delete_if { |k, v| k.to_s == 'permissions' }
+		@group.permissions = permissions
 
 		@group.misc = params[:group][:misc] if params[:group][:misc]
 		@group.social = params[:group][:social] if params[:group][:social]

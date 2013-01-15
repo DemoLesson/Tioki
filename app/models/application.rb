@@ -3,11 +3,12 @@ class Application < ActiveRecord::Base
 	belongs_to :job
 	belongs_to :user
 
-	has_one :video
-	has_one :interview
+	belongs_to :video
+	has_one :interview, :dependent => :destroy
 
 	scope :is_active, where(:status => 1)
 	scope :is_submitted, where(:submitted => 1)
+	scope :not_rejected, where("status is null || status != 'Deny Application'")
 
 	def self.mine(args = {})
 
@@ -59,5 +60,4 @@ class Application < ActiveRecord::Base
 	# Stub
 	def url
 	end
-
 end
