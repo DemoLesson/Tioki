@@ -1,7 +1,8 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 	<% if !@group.organization? %>
-		<section class="left-side" style ="min-height:650px;width:635px">
+		<!-- Temporarily set $960 -->
+		<section class="left-side group-bg" style ="min-width:960px;width:635px;">
 			<h2 class="bottom-line">
 				About <%= @group.name %>
 			</h2>
@@ -17,7 +18,7 @@
 		</section>-->
 	<% else %>
 		<section class="panels">
-			<section class="two-column left-side" style ="min-height:650px">
+			<section class="two-column left-side group-bg">
 				<% if @group.long_description? %>
 					<h3 class="bottom-line">
 						Description

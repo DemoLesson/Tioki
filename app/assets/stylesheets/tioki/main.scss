@@ -1099,6 +1099,26 @@ nav.subpage {
 	}
 }
 
+div.group-bg, section.group-bg {
+	@include css3-border-box;
+
+	// Math.floor(0.6 * 255).toString(16);
+	background: rgb(255, 255, 255);
+	background: rgba(255, 255, 255, 0.8);
+	// IE 7-
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
+	// IE 8+
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+
+	border: solid 1px #EFEFEF;
+	padding: 15px;
+	margin: 0px;
+
+	h1, h2, h3, h4, h5 {
+		margin: 0px;
+	}
+}
+
 ul.group-discussions, ul.group-jobs {
 	// Math.floor(0.6 * 255).toString(16); 
 	background: rgb(255, 255, 255);
