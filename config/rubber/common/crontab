@@ -1,7 +1,7 @@
 <%
   @read_cmd = 'crontab -l'
   @write_cmd = 'crontab -'
-
+  current_path = "/mnt/#{rubber_env.app_name}-#{Rubber.env}/current"
 %>
 
 # cron clears out environment variables. All we need is PATH.
@@ -14,3 +14,6 @@ RAILS_ENV=<%= Rubber.env %>
 
 # Roll all rails logs at midnight
 0 0 * * * <%= Rubber.root %>/script/rubber cron --task util:rotate_logs --directory=<%= Rubber.root %>/log
+
+# Site cron tasks
+* * * * * cd <%= current_path %> && RAILS_ENV=<%= Rubber.env %> bundle exec rake cron:notifications > <%= current_path %>/log/cron.log 2>&1
