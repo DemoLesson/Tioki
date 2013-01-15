@@ -180,7 +180,7 @@ class ApplicationWizardController < ApplicationController
 			# Application was submitted or updated
 			job.group.users(:administrator).each do |u|
 				# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-				Notification.create(:notifiable_type => @app.tag!, :user_id => u.id, :dashboard => 'recruiter', :message => "{triggered.link(resume)} has applied to {tag.job.title}", :link => @app.link)
+				Notification.create(:notifiable_type => @app.tag!, :user_id => u.id, :dashboard => 'recruiter', :message => "{triggered.link(resume)} has applied to {tag.job.title}", :link => @app.link, :bucket => :jobs)
 			end
 
 			flash[:success] = "Your application has been submitted"

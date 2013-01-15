@@ -98,7 +98,7 @@ class DiscussionsController < ApplicationController
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
 						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.link)
+						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.link, :bucket => :discussions)
 					end
 				end
 
@@ -157,7 +157,7 @@ class DiscussionsController < ApplicationController
 					if user
 						if self.current_user.id != user.id
 							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link)
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link, :bucket => :discussions)
 						end
 					end
 				end
@@ -181,7 +181,7 @@ class DiscussionsController < ApplicationController
 					if user
 						if self.current_user.id != user.id
 							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link)
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link, :bucket => :discussions)
 						end
 					end
 				end

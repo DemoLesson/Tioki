@@ -55,7 +55,7 @@ END
         @interview.job.group.users(:administrator).each do |to|
           Message.send!(to, :subject => "Re: Interview with #{@interview.user.name} for #{@interview.job.title} position",
             :body => params[:interview][:message], :tag => @interview.tag!)
-          Notification.create(:notifiable_type => @interview.tag!, :user_id => to.id, :dashboard => 'recruiter', :message => "{triggered.link} responded to the interview request for {tag.job.title}", :link => @interview.link)
+          Notification.create(:notifiable_type => @interview.tag!, :user_id => to.id, :dashboard => 'recruiter', :message => "{triggered.link} responded to the interview request for {tag.job.title}", :link => @interview.link, :bucket => :jobs)
         end
       end
     end
