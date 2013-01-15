@@ -102,9 +102,13 @@
 		</div>
 		<div class="comments">
 			<ul>
-				<% @post.getComments.each do |comment| %>
+				<% comments = @post.getComments %>
+				<% comments.each_with_index do |comment, i| %>
 					<% @comment = comment %>
 					<%= render 'comments/show' %>
+					<% if i == 1 && comments.count > 2 %>
+						<li style="text-align:center;" class="show-more"><a href="#" whiteboard-action="show-more-comments">Show more comments.</a></li>
+					<% end %>
 				<% end %>
 			</ul>
 			<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
@@ -162,9 +166,12 @@
 		</div>
 		<div class="comments">
 			<ul>
-				<% @post.getComments.each do |comment| %>
+				<% @post.getComments.each_with_index do |comment, i| %>
 					<% @comment = comment %>
 					<%= render 'comments/show' %>
+					<% if i == 1 %>
+						<li style="text-align:center;" class="show-more"><a href="#" whiteboard-action="show-more-comments" style="display:block;">Show more comments.</a></li>
+					<% end %>
 				<% end %>
 			</ul>
 			<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">

@@ -1,12 +1,14 @@
 <li>
-	<%= link_to image_tag(@comment.user!.avatar.url(:tiny)), @comment.user!.url if @comment.user!.avatar? %>
+	<%= link_to image_tag(@comment.user!.avatar.url(:tiny), :width => 20, :height => 20), @comment.user!.url if @comment.user!.avatar? %>
 	<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), @comment.user!.url unless @comment.user!.avatar? %>
-	<h4><%= @comment.user!.link %> replied.</h4>
-	<p><%= @comment.body %></p>
+	<p>
+		<strong><%= @comment.user!.link %>: </strong>
+		<%= @comment.body %>
+	</p>
 	<div class="bar">
 		<span class="timestamp"><%= time_ago_in_words(@comment.created_at) %> ago</span>
 		<span class="icons">
-			<% if self.current_user %>
+			<% unless currentUser.new_record? %>
 			<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
 				<span class="iconic star"><%= favorites(@comment) %></span>
 			</a>

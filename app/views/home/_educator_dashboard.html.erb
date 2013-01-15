@@ -445,7 +445,21 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		// Show the comments wrapper
-		$(this).closest('div.bar').next('div.comments').slideDown(500);
+		$ul = $(this).closest('div.bar').next('div.comments').children('ul')
+		$ul.children('li.show-more').remove();
+		$ul.children('li').slideDown(500);
+
+		return false;
+	});
+
+	// Show the comments
+	$('a[whiteboard-action="show-more-comments"]').live('click', function(e) {
+		e.preventDefault();
+
+		// Show the comments wrapper
+		$ul = $(this).closest('ul')
+		$ul.children('li.show-more').remove();
+		$ul.children('li').slideDown(500);
 
 		return false;
 	});
