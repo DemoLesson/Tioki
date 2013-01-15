@@ -61,7 +61,8 @@ gem 'smart_tuple' # Tuple styled SQL Queries
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 3.3.0' # Depreciate
+gem 'paperclip', '~> 2.8.0' # Depreciate
+gem 'cocaine', '~> 0.5.1'
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip
