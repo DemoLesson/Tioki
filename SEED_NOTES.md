@@ -1,3 +1,42 @@
+v4.2.0 - Jan 14, 2013  5:08PM PST deployed by Kelly Becker
+==========================================================
+* 86da4cc: Kelly Becker - notifications upgrade complete (except for the settings)
+* 55ca409: Elijah Green - Only show application delete button if unsubmitted
+* bec9c42: Elijah Green - Sites admins view the manage page instead of jobs/index for group
+* 9f8d885: Elijah Green - Adding some things in gorups/index for testing
+* 69b5273: Elijah Green - If no check boxes are selected, still update permissions hashj
+* 81b2edf: Elijah Green - Redirect from authentications with correct whiteboard id
+* 9c71d9a: Elijah Green - Change routes to get DELETE for applications to work
+* ec70404: Kelly Becker - working on new notifications sending engine also added mailcatcher for development use
+* 1ac76fb: Elijah Green - Slight change to user_welcome_email function
+* e2931e4: Elijah Green - No longer give a free job posting
+* d3f574e: Kelly Becker - gemlock
+* ff3dc52: Elijah Green - If there is no app_id in session redirect to applications/index
+* d9a15dc: Kelly Becker - application flow additions
+* 077ca41: Kelly Becker - db schema update
+* de17143: Kelly Becker - removed unused notifications
+* dff3fff: Elijah Green - Save unsubmitted applications
+* 37e3b9b: Elijah Green - Add header to other pages
+* 84888c2: Elijah Green - Add steps header to application_wizard
+* 507ca1d: Elijah Green - If user already submitted application skip step 1 to 4
+* 90ee6ea: Elijah Green - Applicants directly from jobs page
+* 4c0bdff: Elijah Green - Can now choose whether toallow job attachments
+* 8da5837: Elijah Green - Start defining allowed attachments on jobs
+* 06eaf02: Elijah Green - On step7 of application link to resume instead of profile
+* d69e7ad: Elijah Green - Show assets on application
+* e8de7ba: Kelly Becker - i wish we did this the right way the first time (pain migration scripts)
+* 114793f: Kelly Becker - upgrader for notifications
+* c38edbf: Kelly Becker - little memo
+* 1972338: Kelly Becker - added some deploy tools and stuff
+
+New! On your development environment you can now use mailcatcher.
+$ gem install mailcatcher
+$ mailcatcher -f
+==> smtp://127.0.0.1:1025
+==> http://127.0.0.1:1080
+
+Also all notifications are emailed out on a 2 hour cronjob
+
 v4.1.40 - Jan 12, 2013  5:42PM PST deployed by Elijah Green
 ===========================================================
 * a3ca987: Aleks Stanisic - added My Video Library link in edit profile page and slight stykle fix to events index
