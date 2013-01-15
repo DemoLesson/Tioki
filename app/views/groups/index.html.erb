@@ -140,9 +140,9 @@
 
 					<% @featured_jobs.each do |job| %>
 						<% if job.group.picture? %>
-							<%= link_to image_tag(job.group.picture.url(:thumb), :style => "width:75px"), job %>
+							<%= link_to image_tag(job.group.picture.url(:thumb), :style => "height:65px"), job %>
 						<% else %>
-							<%= link_to image_tag("dl_icons/no_avatar_medium.jpg"), job %>
+							<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :style => "height:65px"), job %>
 						<% end %>
 						<h5 style="margin:-65px 0px 0px 90px">
 							<%= job.title %>
