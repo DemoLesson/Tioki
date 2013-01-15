@@ -25,7 +25,12 @@ class Interview < ActiveRecord::Base
 		end
 	end
 
+	# Stub
 	def link
+	end
+
+	# Stub
+	def url
 	end
 
 end

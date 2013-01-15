@@ -27,6 +27,9 @@ class User < ActiveRecord::Base
 	kvpair :social_actions
 	kvpair :cache
 
+	# Serialized data
+	serialize :notification_intervals, Hash
+
 	# BitSwitches
 	bitswitch :privacy_public, APP_CONFIG['bitswitches']['user_privacy']
 	bitswitch :privacy_connected, APP_CONFIG['bitswitches']['user_privacy']

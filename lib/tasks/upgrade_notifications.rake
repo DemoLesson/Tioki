@@ -1,7 +1,6 @@
 desc "Upgrade the notifications."
 task :upgrade_notifications => :environment do
-	Notification.unscoped.where(:message => nil).all.each do |n|
-		puts n.inspect
+	Notification.unscoped.all.each do |n|
 		if n.notifiable_type == '0'
 			n.destroy
 			next
@@ -17,7 +16,11 @@ task :upgrade_notifications => :environment do
 			next
 		end
 
-		n.message
-		n.link
+		print n.message
+		print ' - '
+		print n.link
+		print ' - '
+		print n.bucket
+		print "\n"
 	end
 end

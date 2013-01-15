@@ -119,16 +119,16 @@ class Notification < ActiveRecord::Base
 		Notification.delay({:run_at => 1.hour.from_now}).notify_all
 	end
 
-	def self.notify
+	def self.notify!
 
 		# If all the notifications have never been sent then dont send anything older then an hour
-		where('`created_at` < ?', 1.hour.ago).update_all(:emailed => true) if where(:emailed => true).count < 1
+		where('`created_at` < ?', 1.day.ago).update_all(:emailed => true) if where(:emailed => true).count < 1
 
 		# Hash table for storing users notifications
 		user_notifications = Multimap.new
 
-		# Sort the unsent notifications
-		for notification in where(:emailed => false)
+		# Sort out the unsent notifications
+		for notification in where(:emailed => false).where('`bucket` != ?', 'noemail')
 			user_notifications[notification.user.id] = notification
 		end
 
@@ -138,16 +138,48 @@ class Notification < ActiveRecord::Base
 			# Get the user
 			user = User.find(user)
 
-			# @todo properly implement user set intervals
-			# if the user only want notifications every day then skip for now
-			# next if user.notification_interval == 1440
+			# Acknowledge notification intervals
+			APP_CONFIG.notification_buckets.each do |bucket|
 
-			# Send new notification
-			NotificationMailer.default(user, notifications).deliver
+				# Get the interval for this bucket of notifications
+				interval = user.notification_intervals[bucket] rescue nil
+				interval = 7200
+
+				# Set the default bucket interval
+				if interval.nil?
+					interval = 7200
+					user.notification_intervals[bucket] = interval
+				end
+
+				# Find out when the last email in this bucket was sent and remove
+				# any notifications that we should not send yet
+				_tmp = where(:emailed => true, :user_id => user.id, :bucket => bucket)
+				if _tmp.where('`emailed_at` > ?', Time.now - interval).count > 0
+					notifications.delete_if{|n|n.bucket==bucket}
+				end
+
+				# Deallocate memory
+				_tmp = nil
+			end
+
+			# Send notifications unless we stripped them all out
+			NotificationMailer.summary(user, notifications).deliver unless notifications.empty?
+
+			# Mark each notification as emailed out
+			notifications.collect(&:emailed!)
+
+			# Deallocate memory
+			notifications = nil
+			user = nil
 		end
 
 		# Return true
 		return true
+	end
+
+	def emailed!
+		# Set the email as emailed and set the time for reference
+		update_attributes(:emailed => true, :emailed_at => Time.now)
 	end
 
 	def triggered
@@ -210,7 +242,7 @@ class Notification < ActiveRecord::Base
 			scope = record
 			var.each_with_index do |var_seg, var_key|
 				# Debugger
-				puts '@__['+var_seg+']: ' + scope.inspect
+				#puts '@__['+var_seg+']: ' + scope.inspect
 
 				# If this is the first key pick from the root hash
 				if var_key == 0
@@ -252,6 +284,13 @@ class Notification < ActiveRecord::Base
 
 		# Replace the var instances with the values
 		parsed_vars.each do |var,val|
+
+			# Prepend tioki.com to links
+			if var.include?('.link')
+				val = val.gsub('href="/', 'href="http://tioki.com/')
+			end
+
+			# Replace the link
 			m = m.gsub(var,val)
 		end
 
@@ -282,11 +321,11 @@ class Notification < ActiveRecord::Base
 		when 'Favorite'
 			ret = "{triggered.link} favorited a post of yours."
 		when 'Application'
-			ret = "{triggered.link(resume)} has applied to {tag.job.title}" if dashboard == 'recruiter'
-			ret = "{triggered.link(resume)} has applied to {tag.job.title}" if dashboard != 'recruiter'
+			ret = "{triggered.link(resume)} has applied to {tag.job.link}" if dashboard == 'recruiter'
+			ret = "{triggered.link(resume)} has applied to {tag.job.link}" if dashboard != 'recruiter'
 		when 'Interview'
-			ret = "{triggered.link} responded to the interview request for {tag.job.title}" if dashboard == 'recruiter'
-			ret = "{triggered.link} updated a interview request for {tag.job.title}" if dashboard != 'recruiter'
+			ret = "{triggered.link} responded to the interview request for {tag.job.link}" if dashboard == 'recruiter'
+			ret = "{triggered.link} updated a interview request for {tag.job.link}" if dashboard != 'recruiter'
 		when 'Message'
 			ret = "{triggered.link} sent you a message."
 		end
@@ -302,22 +341,15 @@ class Notification < ActiveRecord::Base
 		end
 	end
 
-	def link
+	def link(absolute = true)
 		return false if destroyed?
 
 		# @todo deprecate on Jan 31, 2013
 		_link = read_attribute(:link)
 		return _link if !_link.nil?
 
-		_class = notifiable_type.split(':').first
-
 		begin
-			case _class
-			when 'Comment', 'Favorite', 'Application', 'Interview'
-				ret = map_tag.link rescue nil
-			when 'Discussion'
-				ret = map_tag.url rescue nil
-			end
+			ret = map_tag.url rescue nil
 
 			# Write the link to the Database
 			update_attribute(:link, ret)
@@ -325,5 +357,34 @@ class Notification < ActiveRecord::Base
 		end
 
 		return ret
+	end
+
+	def bucket
+		return false if destroyed?
+
+		# @todo deprecate on Jan 31, 2013
+		_bucket = read_attribute(:bucket)
+		return _bucket if !_bucket.nil?
+
+		_class = notifiable_type.split(':').first
+
+		begin
+			case _class
+			when 'Comment', 'Discussion'
+				ret = :discussions
+			when 'Application', 'Interview'
+				ret = :jobs
+			when 'Favorite'
+				ret = :favorites
+			when 'Message'
+				ret = :noemail
+			end
+
+			# Write the bucket to the DB
+		    update_attribute(:bucket, ret.to_s)
+		rescue Exception
+		end
+
+		return ret.to_s
 	end
 end
