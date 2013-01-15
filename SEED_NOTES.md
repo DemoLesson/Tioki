@@ -1,3 +1,8 @@
+v4.2.5 - Jan 15, 2013 12:26PM PST deployed by Kelly Becker
+==========================================================
+* 92833a3: Kelly Becker - put notifications into buckets on creation
+* 2e4e385: Elijah Green - Featured jobs on educator dashboard
+
 v4.2.4 - Jan 15, 2013 12:02PM PST deployed by Kelly Becker
 ==========================================================
 * 37453c4: Kelly Becker - add fake db column to users
