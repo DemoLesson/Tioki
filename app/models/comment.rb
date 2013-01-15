@@ -54,13 +54,35 @@ class Comment < ActiveRecord::Base
 		commentable_str.constantize.find(commentable_id)
 	end
 
+	# Does this comment belong to a discussion
+	def discussion?
+		read_attribute(:commentable_type) == 'Discussion'
+	end
+
 	#END automatically generated acts_as_commentable methods
 
 	def owner
 		Kernel.const_get(commentable_type).find(commentable_id)
 	end
 
-	def link
+	def link(attrs = {})
+		return "N/A" unless discussion?
+
+		# Parse attrs
+		_attrs = []; attrs.each do |k, v|
+			# Make sure not a symbol
+			k = k.to_s if k.is_a?(Symbol)
+			next if k == 'href'
+			# Add to attrs array
+			_attrs << "#{k}=\"#{v}\""
+		end; attrs = _attrs.join(' ')
+
+		# Return the link to the profile
+		return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.owner.title)}</a>".html_safe
+	end
+
+	def url
+		return "N/A" unless discussion?
 		"/discussions/#{owner.to_param}#c#{id}"
 	end
 end

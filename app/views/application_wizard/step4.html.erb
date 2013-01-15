@@ -6,6 +6,7 @@ tr.seeking, tr.student {
 
 <div class="row kRap">
 	<div class="twelve columns">
+		<%= render "header" %>
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, your about halfway done! Do you have any credentials?</h1>
 	</div>
 	<div class="clear"></div>
@@ -81,7 +82,13 @@ tr.seeking, tr.student {
 		</form>
 	</div>
 	<div class="eleven columns">
-		<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% if @app.job.allow_attachments %>
+			<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% elsif @app.job.allow_videos %>
+			<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% else %>
+			<a href="step7" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% end %>
 		<div style="clear:both;height:40px;"></div>
 	</div>
 	<div class="four columns">

@@ -97,7 +97,8 @@ class DiscussionsController < ApplicationController
 					Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
-						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id)
+						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.link)
 					end
 				end
 
@@ -155,7 +156,8 @@ class DiscussionsController < ApplicationController
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link)
 						end
 					end
 				end
@@ -178,7 +180,8 @@ class DiscussionsController < ApplicationController
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.link)
 						end
 					end
 				end
@@ -192,7 +195,7 @@ class DiscussionsController < ApplicationController
 
 	def reply_nologin
 		if self.current_user
-			return redirect_to :back, "You are already logined"
+			return redirect_to :back, "You are already logged in."
 		end
 		redirect_to "/welcome_wizard?x=step1&discussion_id=#{params[:id]}&body=#{CGI.escape(params[:comment][:body])}"
 	end

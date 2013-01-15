@@ -27,6 +27,9 @@ class User < ActiveRecord::Base
 	kvpair :social_actions
 	kvpair :cache
 
+	# Serialized data
+	serialize :notification_intervals, Hash
+
 	# BitSwitches
 	bitswitch :privacy_public, APP_CONFIG['bitswitches']['user_privacy']
 	bitswitch :privacy_connected, APP_CONFIG['bitswitches']['user_privacy']
@@ -40,8 +43,8 @@ class User < ActiveRecord::Base
 	attr_protected :id, :salt, :is_admin
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, 
-					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions, 
+	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
+					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
 					:location, :headline
 
 	# Has One Connections
@@ -106,67 +109,71 @@ class User < ActiveRecord::Base
 
 	# Handle avatar uploads to S3
 	has_attached_file :avatar,
-		:storage => :fog,
-		:styles => { :medium => "201x201>", :thumb => "100x100", :tiny => "45x45" },
-		:content_type => [ 'image/jpeg', 'image/png' ],
-		:fog_credentials => {
-			:provider => 'AWS',
-			:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-			:aws_secret_access_key  => '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',
-			:region => 'us-west-2'
-		},
-		:fog_public => true,
-		:fog_directory => 'tioki',
-		:path => 'avatars/:style/:basename.:extension',
-		:processors => [:thumbnail, :timestamper],
-		:date_format => "%Y%m%d%H%M%S"
-	
+					  :storage => :fog,
+					  :styles => {:medium => "201x201>", :thumb => "100x100", :tiny => "45x45"},
+					  :content_type => ['image/jpeg', 'image/png'],
+					  :fog_credentials => {
+						  :provider => 'AWS',
+						  :aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+						  :aws_secret_access_key => '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',
+						  :region => 'us-west-2'
+					  },
+					  :fog_public => true,
+					  :fog_directory => 'tioki',
+					  :path => 'avatars/:style/:basename.:extension',
+					  :processors => [:thumbnail, :timestamper],
+					  :date_format => "%Y%m%d%H%M%S"
+
 	# Validate that the image uplaoded was indeed an image
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'
 
 	# Validations
 	validates_length_of :password, :within => 5..40, :on => :create
-	validates_length_of :password, :within => 5..40, :on => :update, :unless => lambda {|user| user.password.blank? }
+	validates_length_of :password, :within => 5..40, :on => :update, :unless => lambda { |user| user.password.blank? }
 	validates_confirmation_of :password
 	validates_presence_of :first_name
 	validates_presence_of :last_name
 	validates_uniqueness_of :email
-	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."  
+	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."
 
 	# Callbacks in order or processing
-    after_create :after_create
-    before_save :before_save
-    after_find :_isorg
+	after_create :after_create
+	before_save :before_save
+	after_find :_isorg
 
-    # Delete all connections associated with the user
-    before_destroy :remove_connections
-    def remove_connections; Connection.mine(:user => self).map(&:destroy) end
+	# Delete all connections associated with the user
+	before_destroy :remove_connections
 
-    def _isorg
+	def remove_connections;
+		Connection.mine(:user => self).map(&:destroy)
+	end
+
+	def _isorg
 
 		_up = read_attribute(:updated_at)
 
-    	# Cache organization value
-    	organization? if _up.nil? || 1.day.ago > _up
-    end
+		# Cache organization value
+		organization? if _up.nil? || 1.day.ago > _up
+	end
+
 	#after_save :add_ab_test_data
-    
-    def after_create
-        # Create invite code
-        create_invite_code
 
-        # Create guest code
-        create_guest_code
+	def after_create
+		# Create invite code
+		create_invite_code
 
-        # Create slug for the url
-        self.update_attribute(:slug, "#{id}#{first_name}#{last_name}".downcase.parameterize)
-        
-        # Add to the Tioki technology
-        TechnologyUser.create(:user => self, :technology_id => 15)
-        
-        # Send out welcome email
-        UserMailer.user_welcome_email(self).deliver
-    end
+		# Create guest code
+		create_guest_code
+
+		# Create slug for the url
+		self.update_attribute(:slug, "#{id}#{first_name}#{last_name}".downcase.parameterize)
+
+		# Add to the Tioki technology
+		TechnologyUser.create(:user => self, :technology_id => 15)
+
+		# Send out welcome email
+		UserMailer.user_welcome_email(self).deliver
+	end
 
 	# Return jobs that I administrate
 	def my_jobs
@@ -180,8 +187,8 @@ class User < ActiveRecord::Base
 
 	def change_password(params)
 		@user = User.find(self.id)
-		
-		if User.authenticate(self.email, params[:current_password]) == @user 
+
+		if User.authenticate(self.email, params[:current_password]) == @user
 			new_pass = params[:password]
 			confirm_pass = params[:confirm_password]
 
@@ -192,17 +199,17 @@ class User < ActiveRecord::Base
 				else
 					return "Could not change your password."
 				end
-			end        
+			end
 		else
-			return "Your current password was incorrect." 
+			return "Your current password was incorrect."
 		end
 	end
 
-  # @todo can we optimize this a bit?
+	# @todo can we optimize this a bit?
 	def cleanup
 
 		# Delete Schools
-        # @todo is this still needed? / deprecate?
+		# @todo is this still needed? / deprecate?
 		@schools = School.where('owned_by = ?', self.id).all
 		@schools.each do |school|
 			school.remove_associated_data
@@ -215,12 +222,12 @@ class User < ActiveRecord::Base
 		#@teachers.map(&:destroy)
 
 		# Delete Shared Users
-        # @todo is this still needed? / deprecate?
+		# @todo is this still needed? / deprecate?
 		@sharedusers = SharedUsers.where('user_id = ?', self.id).all
 		@sharedusers.map(&:destroy)
 
 		# Delete Shared Schools
-        # @todo is this still needed? / deprecate?
+		# @todo is this still needed? / deprecate?
 		@sharedschools = SharedSchool.where('user_id = ?', self.id).all
 		@sharedschools.map(&:destroy)
 
@@ -304,7 +311,7 @@ class User < ActiveRecord::Base
 
 		# Return the results
 		unless results.nil?
-			results = results.flatten.delete_if{|x| x.nil?} 
+			results = results.flatten.delete_if { |x| x.nil? }
 			return results.min if level == 1
 			return results
 		end
@@ -402,12 +409,12 @@ class User < ActiveRecord::Base
 		ConnectionInvite.where('`user_id` = ? && created_user_id IS NOT NULL && created_at > ? && created_at < ?', self.id, "2012-10-22 20:00:00", TIOKI_BUCKS_START)
 	end
 
-  # @todo is this still needed / deprecate?
+	# @todo is this still needed / deprecate?
 	def school
 		return(School.where(:owned_by => id).first)
 	end
 
-  # @todo is this still needed / deprecate?
+	# @todo is this still needed / deprecate?
 	def schools
 		if is_shared
 			s = SharedUsers.where(:user_id => id).first
@@ -418,7 +425,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.authenticate(email, pass)
-		user = find(:first, :conditions=>["email = ?", email])
+		user = find(:first, :conditions => ["email = ?", email])
 
 		if user.nil? or User.encrypt(pass, user.salt) != user.hashed_password
 			return nil
@@ -451,12 +458,12 @@ class User < ActiveRecord::Base
 			end
 
 			# Split on
-			splits = ['mc','\'','-',' ']
+			splits = ['mc', '\'', '-', ' ']
 
 			# Properly Capitalize
-			splits = splits.collect{|x|(0..string.length-1).find_all{|i|string[i,x.length]==x}.collect{|i|i+x.length}}.flatten.uniq.<<(0).sort{|a,b|b<=>a}
-			fibers = splits.collect{|x|string.slice!(x..-1)}
-			string = fibers.collect{|x|x.capitalize}.reverse.join
+			splits = splits.collect { |x| (0..string.length-1).find_all { |i| string[i, x.length]==x }.collect { |i| i+x.length } }.flatten.uniq.<<(0).sort { |a, b| b<=>a }
+			fibers = splits.collect { |x| string.slice!(x..-1) }
+			string = fibers.collect { |x| x.capitalize }.reverse.join
 
 			# Set the user name
 			self.first_name = (names = string.split(' ')).first
@@ -471,7 +478,7 @@ class User < ActiveRecord::Base
 		read_attribute(:name)
 	end
 
-  # @todo deprecate?
+	# @todo deprecate?
 	def sharedschool
 		if is_limited == true
 			school = SharedSchool.where(:user_id => id).first
@@ -482,7 +489,7 @@ class User < ActiveRecord::Base
 		end
 	end
 
-  # @todo find a cleaner way to do this that does not involve recursively calling collect / deprecate?
+	# @todo find a cleaner way to do this that does not involve recursively calling collect / deprecate?
 	def sharedschools
 		schools = SharedSchool.where(:user_id => id).all.collect(&:school_id)
 		return(School.find(schools))
@@ -532,7 +539,7 @@ class User < ActiveRecord::Base
 
 	def update_login_count
 		puts "logincount update"
-		
+
 		u=User.find(self.id)
 		if u.login_count?
 			u.login_count = u.login_count+1
@@ -550,7 +557,7 @@ class User < ActiveRecord::Base
 			self.email = params[:email]
 			self.name = params[:name]
 			self.password = self.password_confirmation = params[:password]
-			
+
 			if self.save
 				return "Your settings have been updated!"
 			else
@@ -561,62 +568,75 @@ class User < ActiveRecord::Base
 		end
 	end
 
-  # @todo is the all on the end required
+	# @todo is the all on the end required
 	def vouched_skill_groups
-		SkillGroup.joins(:skills => :vouched_skills).where("vouched_skills.user_id = ?",self.id).all
+		SkillGroup.joins(:skills => :vouched_skills).where("vouched_skills.user_id = ?", self.id).all
 	end
 
 	# Profile URL
-	def url
+	def url(type = :default)
 		return '#' if new_record? || !deleted_at.nil?
-		"/profile/#{self.slug}"
+		"/profile/#{self.slug}" + (type.to_sym == :default ? '' : '/' + type.to_s)
 	end
-    
-    # Profile Link
-    def link(attrs = {})
-		return 'Anonymous' if new_record? || !deleted_at.nil?
 
-        # Parse attrs
-        _attrs = []; attrs.each do |k,v|
-            # Make sure not a symbol
-            k = k.to_s if k.is_a?(Symbol)
-            next if k == 'href'
-            # Add to attrs array
-            _attrs << "#{k}=\"#{v}\""
-        end; attrs = _attrs.join(' ')
-        
-        # Return the link to the profile
-        return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
+	# Profile Link
+	def link(*args)
+		return 'Anonymous' if new_record? || !deleted_at.nil?
+		raise ArgumentError, 'Expects no more then two args' if args.count > 2
+
+		attrs = {}
+		type = :default
+
+		# Get the type and attrs
+		args.each do |v|
+			if v.is_a?(Hash)
+				attrs = v
+			else
+				type = v
+			end
+		end
+
+		# Parse attrs
+		_attrs = []; attrs.each do |k, v|
+			# Make sure not a symbol
+			k = k.to_s if k.is_a?(Symbol)
+			next if k == 'href'
+			# Add to attrs array
+			_attrs << "#{k}=\"#{v}\""
+		end; attrs = _attrs.join(' ')
+
+		# Return the link to the profile
+		return "<a href=\"#{url(type)}\" #{attrs}>#{ERB::Util.html_escape(self.name)}</a>".html_safe
 	end
-    
-    # Migrated from teacher.rb
-    def has_social?
-        !self.social.empty?
-    end
-    
-    # Migrated from teacher.rb
-    def me?
-        !User.current.nil? && User.current == self
-    end
-    
-    # Migrated from teacher.rb
-    def create_guest_code
-        guest_code = rand(36**8).to_s(36)
-        self.update_attribute(:guest_code, guest_code)
-    end
-    
-    # Migrated from teacher.rb
-    def video
-        # Review
-        v = videos.where("featured = true").first
-        v = videos.order('`created_at` DESC').first if v.nil?
-        return v
-    end
-    
-    # Get my current job
-    def currentJob
-        experiences.where(:current => true).first
-    end
+
+	# Migrated from teacher.rb
+	def has_social?
+		!self.social.empty?
+	end
+
+	# Migrated from teacher.rb
+	def me?
+		!User.current.nil? && User.current == self
+	end
+
+	# Migrated from teacher.rb
+	def create_guest_code
+		guest_code = rand(36**8).to_s(36)
+		self.update_attribute(:guest_code, guest_code)
+	end
+
+	# Migrated from teacher.rb
+	def video
+		# Review
+		v = videos.where("featured = true").first
+		v = videos.order('`created_at` DESC').first if v.nil?
+		return v
+	end
+
+	# Get my current job
+	def currentJob
+		experiences.where(:current => true).first
+	end
 
 	def self.search(args = {})
 
@@ -643,7 +663,7 @@ class User < ActiveRecord::Base
 
 		if args[:name]
 			args[:name].split.each do |token|
-				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%","#{token}%"]
+				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%", "#{token}%"]
 			end
 		end
 
@@ -667,7 +687,7 @@ class User < ActiveRecord::Base
 		if args[:locations]
 			#Uses populated populated country, state, city
 			#fields as opposed to a geocoder search
-			
+
 			subtup = SmartTuple.new(" OR ")
 
 			params[:locations].each do |token|
@@ -695,10 +715,10 @@ class User < ActiveRecord::Base
 
 			if address
 				if address.geometry.bounds
-					coords = address.geometry.bounds.values.collect{|coord| [coord.lat, coord.lng] }
+					coords = address.geometry.bounds.values.collect { |coord| [coord.lat, coord.lng] }
 				else
 					#Some things do not have a bounding box given by google
-					coords = address.geometry.viewport.values.collect{|coord| [coord.lat, coord.lng] }
+					coords = address.geometry.viewport.values.collect { |coord| [coord.lat, coord.lng] }
 				end
 
 				#get distance for bounding box
@@ -715,16 +735,16 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	def new_asset_attributes=(asset_attributes) 
+	def new_asset_attributes=(asset_attributes)
 		assets.build(asset_attributes)
 	end
 
-	def save_assets 
-		assets.each do |asset| 
+	def save_assets
+		assets.each do |asset|
 			asset.save
 		end
 	end
-	
+
 	def snippet_watchvideo_button
 		@video = Video.where('user_id = ? AND is_snippet=?', self.id, true).order('created_at DESC').first
 		if @video != nil
@@ -741,7 +761,7 @@ class User < ActiveRecord::Base
 					else
 						return ""
 					end
-				else 
+				else
 					return embedstring
 				end
 			rescue
@@ -754,7 +774,7 @@ class User < ActiveRecord::Base
 
 	def current_job_string
 		if (current_job = self.experiences(:current => true).first)
-			return [current_job.position, current_job.company].delete_if{|x|x.empty?}.join(' at ')
+			return [current_job.position, current_job.company].delete_if { |x| x.empty? }.join(' at ')
 		else
 			return ""
 		end
@@ -770,95 +790,100 @@ class User < ActiveRecord::Base
 		cache(:organization => 'true')
 	end
 
+	def submitted_application?
+		self.applications.where("applications.submitted = 1").count > 0
+	end
+
 	def application_for(user)
 		job_ids = self.applications.collect(&:job_id)
-		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id}
+		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id }
 	end
 
 	# Connections
 
-		def connected_to?(_user)
-			not connection_to(_user).nil?
-		end
+	def connected_to?(_user)
+		not connection_to(_user).nil?
+	end
 
-		def connection_to(_user, pending = false)
-			Connection.mine(:user => self, :pending => pending).where('`owned_by` = ? || `user_id` = ?', _user.id, _user.id).first
-		end
+	def connection_to(_user, pending = false)
+		Connection.mine(:user => self, :pending => pending).where('`owned_by` = ? || `user_id` = ?', _user.id, _user.id).first
+	end
 
 	# Permissions
 
-		# Can resource be created
-		def can_create?(resource)
-			return true unless resource.respond_to?('can_be_created_by?')
-			resource.can_be_created_by?(self)
-		end
+	# Can resource be created
+	def can_create?(resource)
+		return true unless resource.respond_to?('can_be_created_by?')
+		resource.can_be_created_by?(self)
+	end
 
-		# Can resource be created
-		def can_update?(resource)
-			return true unless resource.respond_to?('can_be_updated_by?')
-			resource.can_be_updated_by?(self)
-		end
+	# Can resource be created
+	def can_update?(resource)
+		return true unless resource.respond_to?('can_be_updated_by?')
+		resource.can_be_updated_by?(self)
+	end
 
-		# Can resource be created
-		def can_destroy?(resource)
-			return true unless resource.respond_to?('can_be_destroyed_by?')
-			resource.can_be_destroyed_by?(self)
-		end
+	# Can resource be created
+	def can_destroy?(resource)
+		return true unless resource.respond_to?('can_be_destroyed_by?')
+		resource.can_be_destroyed_by?(self)
+	end
 
-		def can_be_created_by?(_user)
-			return true if _user.new_record?
-			return true if _user.is_admin
-			false
-		end
+	def can_be_created_by?(_user)
+		return true if _user.new_record?
+		return true if _user.is_admin
+		false
+	end
 
-		def can_be_destroyed_by?(_user)
-			return false if _user.new_record?
-			return true if _user.is_admin
+	def can_be_destroyed_by?(_user)
+		return false if _user.new_record?
+		return true if _user.is_admin
 
-			self == _user
-		end
+		self == _user
+	end
 
-		def can_be_updated_by?(_user)
-			return false if _user.new_record?
-			return true if _user.is_admin
+	def can_be_updated_by?(_user)
+		return false if _user.new_record?
+		return true if _user.is_admin
 
-			self == _user
-		end
+		self == _user
+	end
+
 
 	protected
 
-		def create_invite_code
-			user_invite = nil
-			generated_code = rand(36**7).to_s(36)
-			begin
-				user_invite = User.where(:invite_code => generated_code).first
-			end while user_invite != nil
-			self.update_attribute(:invite_code,  generated_code)
-		end
+	def create_invite_code
+		user_invite = nil
+		generated_code = rand(36**7).to_s(36)
+		begin
+			user_invite = User.where(:invite_code => generated_code).first
+		end while user_invite != nil
+		self.update_attribute(:invite_code, generated_code)
+	end
 
-		def self.current
-			User.find(session[:user]) unless session[:user].nil?
-		end
+	def self.current
+		User.find(session[:user]) unless session[:user].nil?
+	end
 
-		def self.encrypt(pass, salt)
-			Digest::SHA1.hexdigest(pass+salt)
-		end
+	def self.encrypt(pass, salt)
+		Digest::SHA1.hexdigest(pass+salt)
+	end
 
-		def self.random_string(len)
-			#generate a random password consisting of strings and digits
-			chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-			newpass = String.new
-			1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-			return newpass
-		end
+	def self.random_string(len)
+		#generate a random password consisting of strings and digits
+		chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+		newpass = String.new
+		1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+		return newpass
+	end
 
 	private
 
-		def add_ab_test_data
+	def add_ab_test_data
 
-			# If the user id is even then apple the B ab test
-			update_attribute(:ab, 'B') if id.even?
-			update_attribute(:ab, 'A') unless id.even?
-		end
+		# If the user id is even then apple the B ab test
+		update_attribute(:ab, 'B') if id.even?
+		update_attribute(:ab, 'A') unless id.even?
+	end
 end
  

@@ -4,13 +4,7 @@ class UserMailer < ActionMailer::Base
 	def user_welcome_email(user_id)
 		@user = User.find(user_id)
 
-		# Get ab test number
-		#ab = Abtests.use("email:user_welcome", 1).to_s
-		#template "user_welcome_email_" + ab
-
-		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
-			f.html { render template }
-		end
+		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!')
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('user_welcome_email')

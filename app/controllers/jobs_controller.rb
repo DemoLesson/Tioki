@@ -9,7 +9,7 @@ class JobsController < ApplicationController
 	# GET /jobs.xml
 	def index
 		if @source.is_a?(Group)
-			if @source.user_permissions.administrator
+			if @source.user_permissions.administrator || currentUser.is_admin
 				respond_to do |format|
 					format.html { manage; render :manage }
 					format.json  { render :json => manage_status }
@@ -320,7 +320,7 @@ class JobsController < ApplicationController
 
 	def manage
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@source)
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@source) || currentUser.is_admin
 		@jobs = @source.jobs
 	end
 

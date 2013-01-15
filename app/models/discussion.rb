@@ -5,7 +5,7 @@ class Discussion < ActiveRecord::Base
 
 	has_many :followers, :dependent => :destroy
 	has_many :following, :through => :followers, :source => :user
-	
+
 	has_many :discussion_tags, :dependent => :destroy
 	has_many :skills, :through => :discussion_tags
 	has_many :comments, :as => :commentable, :dependent => :destroy
@@ -19,8 +19,8 @@ class Discussion < ActiveRecord::Base
 	end
 
 	def before_destroy
-		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
-		Whiteboard.where(:tag => tag!).all.recurse{|n| n.destroy}
+		Notification.where(:notifiable_type => tag!).all.recurse { |n| n.destroy }
+		Whiteboard.where(:tag => tag!).all.recurse { |n| n.destroy }
 	end
 
 	def to_param
@@ -38,7 +38,7 @@ class Discussion < ActiveRecord::Base
 	def link(attrs = {})
 
 		# Parse attrs
-		_attrs = []; attrs.each do |k,v|
+		_attrs = []; attrs.each do |k, v|
 			# Make sure not a symbol
 			k = k.to_s if k.is_a?(Symbol)
 			next if k == 'href'
@@ -47,7 +47,7 @@ class Discussion < ActiveRecord::Base
 		end; attrs = _attrs.join(' ')
 
 		# Return the link to the profile
-		return "<a href=\"/discussions/#{self.id}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
+		return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
 	end
 
 	def url

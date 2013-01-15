@@ -195,9 +195,11 @@
 
 					<% if @org %>
 						<div style="float:right">
-							<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
-							<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
-							<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
+							<a href="<%= url_for([job.group, job, :applications])%>">
+								<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
+								<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
+								<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
+							</a>
 						</div>
 					<% end %>
 					

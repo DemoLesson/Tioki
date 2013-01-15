@@ -101,4 +101,20 @@ class NotificationMailer < ActionMailer::Base
 
 		return mail
 	end
+
+	def summary(user, notifications)
+		@user = user
+		@notifications = notifications
+
+		# Mail the user
+		mail = mail(:to => user.email, :subject => "While you were away from Tioki.")
+
+		# Tag the email with generic mailer
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('notification_generic_mailer')
+		end
+
+		# Return the mailer object
+		return mail
+	end
 end

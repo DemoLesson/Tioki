@@ -15,6 +15,9 @@
 					<li>
 						<% if @source.is_a?(User) %>
 							<%= app.job.group.picture? ? image_tag(app.job.group.picture.url(:medium)) : '' %>
+							<% if app.submitted == 0 %>
+								<%= link_to "Delete", app, :method => :delete, :confirm => "Are you sure?", :style => "float:right" %>
+							<% end %>
 							<h4><%= link_to app.job.group.name, app.job.group, :class => :salmon %></h4>
 						<% end %>
 
@@ -28,7 +31,10 @@
 						<span>
 							Application Status: 
 							<% if @source.is_a?(User) %>
-								<%= app.status %>
+									<%= app.status %>
+									<% if app.submitted == 0 %>
+										<%= link_to 'Unsubmitted', '/wizards/application?job=' + app.job.id.to_s %>
+									<% end %>
 							<% else %>
 								<%= form_for([@source.group, @source, app]) do |f| %>
 									<select name="application[status]">
@@ -39,6 +45,20 @@
 									</select><br /><br />
 									<%= f.submit "Update Status" %>
 								<% end %>
+							<% end %>
+							<% if !app.assets.empty? %>
+								<h5>Assets</h5>
+								<ul>
+									<% app.assets.each do |asset| %>
+									   <li>
+											<span class="iconic paperclip"> <%= link_to asset.name, asset.file.url %> (<%= asset.file.content_type %>)<%= " &mdash; #{asset.description}".html_safe if !asset.description.empty? %></span>
+									   </li>
+									<% end %>
+								</ul>
+							<% end %>
+							<% if !app.video.nil? %>
+								<h5>Video</h5>
+								<%= app.video.embed_code 445, nil, nil, false %>
 							<% end %>
 						</span>
 					</li>
