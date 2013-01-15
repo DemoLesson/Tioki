@@ -1,3 +1,9 @@
+v4.2.4 - Jan 15, 2013 12:02PM PST deployed by Kelly Becker
+==========================================================
+* 37453c4: Kelly Becker - add fake db column to users
+* 7b20c46: Kelly Becker - groups discussions count
+* e8d2dd4: Kelly Becker - new video linked message
+
 v4.2.3 - Jan 15, 2013 11:00AM PST deployed by Kelly Becker
 ==========================================================
 * 4bb6aa2: Kelly Becker - shows 2 comments by default now
