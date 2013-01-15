@@ -191,6 +191,35 @@ class UsersController < ApplicationController
 			return redirect_to :back, :notice => "Group notification settings have been updated."
 		end
 
+		# Email notification settings
+		if params[:email]
+
+			# Is all or none set
+			all = params[:email][:all] if params[:email][:all]
+			none = params[:email][:none] if params[:email][:none]
+
+			# Determine if we should set all to true or false
+			value = all && none ? false : (none ? false : true) if all || none
+
+			# Delete the all or none keys
+			save = params[:email].delete_if{|k,v|[:all, :none, :x, 'x'].include?(k)}
+
+			# Get the proper daily digest setting
+			save[:daily] = 0 if params[:email][:daily].nil?
+
+			# If follow all set everything to 2 hours
+			APP_CONFIG.notification_buckets.each{|key|save[key.to_sym] = 7200} if value == true
+
+			# Make sure were saving integers not string
+			save = save.collect{|k,v|value == false ? 0 : v.to_i}
+
+			# Set the value in the user settings
+			@user.update_attribute(:notification_intervals, save)
+
+			# Redirect back to the edit page
+			return redirect_to :back, :notice => "Email notification settings have been updated."
+		end
+
 		# Image upload
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			return redirect_to :back, :notice => "The file was not an image."
