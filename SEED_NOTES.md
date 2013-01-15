@@ -1,3 +1,7 @@
+v4.2.1 - Jan 14, 2013  5:29PM PST deployed by Kelly Becker
+==========================================================
+* 5aceb39: Kelly Becker - cron the notifications
+
 v4.2.0 - Jan 14, 2013  5:08PM PST deployed by Kelly Becker
 ==========================================================
 * 86da4cc: Kelly Becker - notifications upgrade complete (except for the settings)
