@@ -285,10 +285,10 @@ class Notification < ActiveRecord::Base
 			ret = "{triggered.link(resume)} has applied to {tag.job.link}" if dashboard == 'recruiter'
 			ret = "{triggered.link(resume)} has applied to {tag.job.link}" if dashboard != 'recruiter'
 		when 'Interview'
-			ret = "{triggered.link} responded to the interview request for {tag.job.link}" if dashboard == 'recruiter'
-			ret = "{triggered.link} updated a interview request for {tag.job.link}" if dashboard != 'recruiter'
+			ret = "{triggered.link(resume)} responded to the interview request for {tag.job.link}" if dashboard == 'recruiter'
+			ret = "{triggered.link(resume)} updated a interview request for {tag.job.link}" if dashboard != 'recruiter'
 		when 'Message'
-			ret = "{triggered.link} sent you a message."
+			ret = "{triggered.link(resume)} sent you a message."
 		end
 
 		# Write the message to the Database
