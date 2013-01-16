@@ -1,3 +1,12 @@
+v4.2.9 - Jan 16, 2013 11:54AM PST deployed by Kelly Becker
+==========================================================
+* 09180fb: Kelly Becker - application listing style fix
+
+v4.2.8 - Jan 15, 2013  6:47PM PST deployed by Elijah Green
+==========================================================
+* 06dd41f: Elijah Green - Site admins can now move jobs around
+* 497acb0: Elijah Green - Limit featured jobs to 3
+
 v4.2.7 - Jan 15, 2013  4:58PM PST deployed by Elijah Green
 ==========================================================
 * fddd74c: Elijah Green - Application Passcodes
