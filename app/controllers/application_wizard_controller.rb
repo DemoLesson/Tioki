@@ -170,6 +170,11 @@ class ApplicationWizardController < ApplicationController
 
 	def complete
 		_loadSession
+		if @app.job.passcode.present?
+			if params[:passcode] != @app.job.passcode
+				return redirect_to :back, :notice => "Invalid passcode"
+			end
+		end
 
 		if @app.update_attributes({:submitted => true, :status => 'Not Reviewed', :viewed => 0})
 
