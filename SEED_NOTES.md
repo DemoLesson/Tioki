@@ -1,3 +1,10 @@
+v4.2.7 - Jan 15, 2013  4:58PM PST deployed by Elijah Green
+==========================================================
+* fddd74c: Elijah Green - Application Passcodes
+* 966e1f2: Elijah Green - Site admins can edit any users job postings
+* 1b47705: Elijah Green - Slightly decrease size of featured jobs on organizations index
+* c906ff4: Elijah Green - Downgrade paperclip so another version of cocaine can be used
+
 v4.2.6 - Jan 15, 2013  1:06PM PST deployed by Kelly Becker
 ==========================================================
 * 973824b: Kelly Becker - whiteboard migration for external links to open in popups. all local links will remain local
