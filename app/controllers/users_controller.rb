@@ -881,6 +881,15 @@ class UsersController < ApplicationController
 
 	# Migrated from teacher_controller.rb
 	def profile(whiteboard = true)
+
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			if @application.belongs_to_me(self.current_user)
+			else
+				@application = nil
+			end
+		end
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
