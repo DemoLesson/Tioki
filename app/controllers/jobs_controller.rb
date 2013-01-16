@@ -186,7 +186,7 @@ class JobsController < ApplicationController
 	# GET /group/:group_id/jobs/:id/edit
 	def edit
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
 	end
 
@@ -239,7 +239,7 @@ class JobsController < ApplicationController
 
 		# Make sure we have permissions to update the job
 		raise SecurityTransgression if @job.group.to_param != params[:group_id]
-		raise SecurityTransgression if !@job.group.user_permissions.administrator
+		raise SecurityTransgression if !@job.group.user_permissions.administrator && !currentUser.is_admin
 
 		group = @job.group
 
