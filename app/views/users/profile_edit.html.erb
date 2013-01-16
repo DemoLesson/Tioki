@@ -25,6 +25,36 @@
 					</p>
 					<%= text_area_tag :headline, @user.headline, :maxlength => 140, :style => "width: 400px" %>
 					<p>
+						Subjects:
+						<input type="text" id="profile_subjects" name="user[subject]" />
+						 <script type="text/javascript">
+							 $(document).ready(function() {
+								 $('input[name="user[subject]"]').tokenInput("/api/subjects", {
+									 hintText: "Subjects...",
+									 theme: "facebook",
+									 resultsLimit: 10,
+									 prePopulate: 
+									 <%= @user.subjects.to_json(:only => [:id, :name] ).html_safe %>
+								 });
+							 });
+						 </script>
+					</p>
+					<p>
+						Grades:
+						<input type="text" id="profile_subjects" name="user[grade]" />
+						 <script type="text/javascript">
+							 $(document).ready(function() {
+								 $('input[name="user[grade]"]').tokenInput("/api/grades", {
+									 hintText: "Grades...",
+									 theme: "facebook",
+									 resultsLimit: 10,
+									 prePopulate: 
+									 <%= @user.grades.to_json(:only => [:id, :name] ).html_safe %>
+								 });
+							 });
+						 </script>
+					</p>
+					<p>
 					My location:
 					</p>
 					<%= text_field_tag :location, @user.location, :style => "width:400px" %>

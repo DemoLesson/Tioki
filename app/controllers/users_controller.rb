@@ -38,8 +38,6 @@ class UsersController < ApplicationController
 	end
 
 	def swap_dashboard
-		dashboard = params[:switch]
-
 		if currentUser.organization? && params[:switch] == 'recruiter'
 			currentUser.update_attribute(:dashboard, params[:switch])
 		end
@@ -127,6 +125,9 @@ class UsersController < ApplicationController
 		if request.post?
 			@user.social = params[:social]
 			@user.contact = params[:contact]
+			params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade'].include?(k)}
+			@user.subjects = params[:user][:subject].collect{|x| Subject.find(x)}
+			@user.grades = params[:user][:grade].collect{|x| Grade.find(x)}
 
 			@user.slug = params[:slug].parameterize
 			@user.headline = params[:headline]
