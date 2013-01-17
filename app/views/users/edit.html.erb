@@ -7,13 +7,14 @@
 
 		<%= render :partial => 'password_form' %>
 
-  		<%= render :partial => 'email_form' %>
-
 		<%= render :partial => "authenticate_form" %>
 
 	</section>
 
 	<section class="two-column right-side" style ="width:500px;" >
+
+		<%= render :partial => 'email_form' %>
+
 		<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 			<h2 style="margin-left:20px">Group Notification Settings</h2>
 			<%= form_for(@user) do |t| %>

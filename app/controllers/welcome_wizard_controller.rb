@@ -38,19 +38,19 @@ class WelcomeWizardController < ApplicationController
 		#check if account is part of a vouchrequest
 		if params[:vouchstring]
 			@vouch = Vouch.where('url = ?', params[:vouchstring]).first
-		#check if this account was part of a link to invite a user
+			#check if this account was part of a link to invite a user
 		elsif params[:invitecode]
 			@inviter = User.where('invite_code = ?', params[:invitecode]).first
 		elsif params[:welcomecode]
 			@inviter = User.where('invite_code = ?', params[:welcomecode]).first
 		end
-		
+
 		# Detect post variables
 		if request.post?
 
 			# Create a new user
 			@user = User.new(params[:user])
-			
+
 			# Attempt to save the user
 			if @user.save
 				# Authenticate the user
@@ -60,18 +60,18 @@ class WelcomeWizardController < ApplicationController
 				if params[:user_connection]
 
 					return redirect_to :controller => :connections,
-						:action => :add_connection,
-						:user_id => params[:user_connection],
-						:to_wizard => true
+									   :action => :add_connection,
+									   :user_id => params[:user_connection],
+									   :to_wizard => true
 
 				elsif @inviter
 
 					ConnectionInvite.create(:user_id => @inviter.id,
-																	:created_user_id => @user.id)
+											:created_user_id => @user.id)
 
 					Connection.create(:owned_by => @inviter.id,
-														:user_id => @user.id,
-														:pending => false)
+									  :user_id => @user.id,
+									  :pending => false)
 
 				elsif params[:vouchstring]
 
@@ -126,12 +126,12 @@ class WelcomeWizardController < ApplicationController
 
 			# Load the teach and update
 			@user = self.current_user
-            
+
 			# Handle Subjects and Grades
-			params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subjects','grades'].include?(k)}
-			@user.subjects = params[:user][:subjects].collect{|x| Subject.find(x)}
-			@user.grades = params[:user][:grades].collect{|x| Grade.find(x)}
-			params[:user] = params[:user].delete_if{|k,v| v.empty? || v.is_a?(Array)}
+			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['subjects', 'grades'].include?(k) }
+			@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
+			@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
 
 			# Save the updates attributes
 			@user.update_attributes(params[:user])
@@ -156,7 +156,7 @@ class WelcomeWizardController < ApplicationController
 				# Build the experience data
 				@user.experiences.build(params[:experience])
 			end
-			
+
 			# Attempt to save the user
 			if @user.save(:validate => false)
 
@@ -198,13 +198,13 @@ class WelcomeWizardController < ApplicationController
 
 			# Delete any preassociated skills
 			@user.skills.delete_all
-			
+
 			# Add the new skills
 			skills = Skill.where(:id => params[:skills].split(','))
 			skills.each do |skill|
 				SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
 			end
-			
+
 			# Wizard Key
 			wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
 
@@ -284,7 +284,7 @@ class WelcomeWizardController < ApplicationController
 					end
 				end
 			end
-			
+
 			# Wizard Key
 			wKey = "welcome_wizard_step4" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
 
@@ -313,17 +313,17 @@ class WelcomeWizardController < ApplicationController
 		@invite = ConnectionInvite.where("created_user_id = ?", self.current_user.id).first
 
 		render :step5
-	end	
+	end
 
 	# # # # # # # # # # # # # # # # # # # # # #
-	 # # # # # # # # # # # # # # # # # # # # #
+	# # # # # # # # # # # # # # # # # # # # #
 	# # # # # # # # # # # # # # # # # # # # # #
 
 	def update_aboutme
 		if params.has_key?("aboutme")
-        
+
 			@user= self.current_user
-            
+
 			if @user.update_attribute(:headline, params["aboutme"])
 				data = {"type" => 'success', "message" => 'Saved successfuly'}
 			else
@@ -367,7 +367,7 @@ class WelcomeWizardController < ApplicationController
 			cloudsponge = Cloudsponge::ContactImporter.new(csc["domainKey"], csc["domainPassword"])
 
 			# Loop until result
-			contacts=nil;i=0;loop do
+			contacts=nil; i=0; loop do
 				# Try and get the contacts
 				contacts = cloudsponge.get_contacts_raw(params["import_id"]) rescue nil
 
@@ -384,7 +384,7 @@ class WelcomeWizardController < ApplicationController
 
 			# If we never received any contact then display an error
 			if contacts.nil?
-				contacts = {"type" => 'error', "message" => 'Retrieving contacts timed out.', "data" => Array.new} 
+				contacts = {"type" => 'error', "message" => 'Retrieving contacts timed out.', "data" => Array.new}
 			else
 				select = []
 				pcontacts = []
@@ -442,7 +442,7 @@ class WelcomeWizardController < ApplicationController
 
 		users.each do |twitter_contact|
 			contact = Hash.new
-			
+
 			contact.name = twitter_contact.name
 			contact.id = twitter_contact.id
 			contact.picture = twitter_contact.profile_image_url
@@ -451,7 +451,7 @@ class WelcomeWizardController < ApplicationController
 			pcontacts << contact
 		end
 
-		contacts = { "type" => 'success', "data" => pcontacts}
+		contacts = {"type" => 'success', "data" => pcontacts}
 
 		return render :json => contacts
 	end

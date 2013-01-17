@@ -1,3 +1,16 @@
+v4.2.11 - Jan 17, 2013 11:26AM PST deployed by Kelly Becker
+===========================================================
+* 6de4b0f: Kelly Becker - allow more whiteboard items to everyone
+
+v4.2.10 - Jan 17, 2013 11:07AM PST deployed by Kelly Becker
+===========================================================
+* 0d03845: Kelly Becker - ability to turn off connection request emails
+* 94c7b67: Kelly Becker - add a customizable link text
+* fda13f6: Elijah Green - Tempoary disable of non-digest notification emails
+* 622b0d6: Elijah Green - Edit grades and subjects in edit profile
+* 0493e38: Aleks Stanisic - adding recruiter toold to profile resume page
+* 0ffd85c: Elijah Green - Remove unused subject actions
+
 v4.2.9 - Jan 16, 2013 11:54AM PST deployed by Kelly Becker
 ==========================================================
 * 09180fb: Kelly Becker - application listing style fix

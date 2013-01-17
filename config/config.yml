@@ -37,6 +37,7 @@ default:
       3: "event_reminder"
       4: "event_approved_notification"
       5: "email_subscription"
+      6: "connection_requests"
   notification_buckets:
     - jobs
     - favorites
