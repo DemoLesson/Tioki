@@ -83,7 +83,12 @@ class Connection < ActiveRecord::Base
 			if @connection.save
 				
 				# Notify the other user of my connection request
-				UserMailer.userconnect(current_user_id, user_id).deliver
+				# If the user has agreed to receive connection requests
+				# The email permissions tier is backwards false is true etc...
+				if !User.find(user_id).email_permissions.connection_requests
+					UserMailer.userconnect(current_user_id, user_id).deliver
+				end
+
 				return true
 			else
 				return false

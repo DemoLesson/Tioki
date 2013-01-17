@@ -1,4 +1,4 @@
-<section class="info panel" style="height:auto;width:400px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 	<div style="margin-left:20px">
 		<%= form_tag :action => "email_settings" do %>
 			<h2>Email settings</h2>
@@ -7,7 +7,7 @@
 				<fieldset>
 					<input type="hidden" name="permissions[<%= name %>]" value="1" />
 					<input type="checkbox" name="permissions[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.email_permissions[name] %> value="0" />
-					<%= name.gsub('_', ' ') %>
+					<%= name.gsub('_', ' ').capitalize %>
 				</fieldset>
 			<% end %>
 			<div class="actions">
