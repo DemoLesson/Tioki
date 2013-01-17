@@ -1,3 +1,7 @@
+v4.2.11 - Jan 17, 2013 11:26AM PST deployed by Kelly Becker
+===========================================================
+* 6de4b0f: Kelly Becker - allow more whiteboard items to everyone
+
 v4.2.10 - Jan 17, 2013 11:07AM PST deployed by Kelly Becker
 ===========================================================
 * 0d03845: Kelly Becker - ability to turn off connection request emails
