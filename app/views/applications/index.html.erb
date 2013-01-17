@@ -23,7 +23,7 @@
 
 						<% if @source.is_a?(Job) %>
 							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
-							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume", :class => :salmon %></h4>
+							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></h4>
 						<% end %>
 
 						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>

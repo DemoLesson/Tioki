@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114190354) do
+ActiveRecord::Schema.define(:version => 20130115200028) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -784,6 +784,7 @@ ActiveRecord::Schema.define(:version => 20130114190354) do
     t.integer  "privacy_connected"
     t.integer  "privacy_recruiter"
     t.text     "notification_intervals"
+    t.boolean  "fake",                   :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
