@@ -732,7 +732,7 @@ class User < ActiveRecord::Base
 			end
 
 		else
-			return query.group("users.id")
+			return query.select("DISTINCT(users.id), users.*")
 		end
 	end
 
