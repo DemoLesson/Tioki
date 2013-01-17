@@ -28,10 +28,9 @@
 			<% if @skills %>
 				<p style="padding-left:15px; padding-right:10px;width:auto">
 				<% @skills.each do |skill| %>
-					These are some Tiokis that indicated "<strong><%= link_to skill.name, skill, :style => 'color:#F66C4C' %></strong>" as a skill.
-					<br /><br/>
-					Sorting for skill based searches is on it's way! 
+					These are some Tiokis that indicated "<strong><%= link_to skill.name, skill, :style => 'color:#F66C4C' %></strong>" as a skill.<br /><br />
 				<% end %>
+					Sorting for skill based searches is on it's way! 
 				</p>
 			<% end %>
 			

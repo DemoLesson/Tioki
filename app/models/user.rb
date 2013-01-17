@@ -647,18 +647,12 @@ class User < ActiveRecord::Base
 
 		tup = SmartTuple.new(" AND ")
 
-		if args[:skill]
-			tup << ["skills.id = ?", args[:skill]]
-		end
-
 		if args[:skills]
 			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
 		end
 
-		if args[:skill_string]
-			args[:skill_string].split.each do |token|
-				tup << ["skill_claims.id = skills.id && (skills.name like ? || skills.name like ?)", "#{token}%", "% #{token}%"]
-			end
+		if args[:subjects]
+			tup << SmartTuple.new(" OR ").add_each(args[:subjects]) { |subject_id| ["subjects.id = ?", subject_id] }
 		end
 
 		if args[:name]
@@ -697,13 +691,14 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
-
-		if (args[:school] || args[:schools]) && (args[:skills] || args[:skill])
+		if (args[:school] || args[:schools]) && args[:skills]
 			query = joins(:skills, :experiences).where(tup.compile)
 		elsif args[:school] || args[:schools]
 			query = joins(:experiences).where(tup.compile)
-		elsif args[:skills] || args[:skill]
+		elsif args[:skills]
 			query = joins(:skills).where(tup.compile)
+		elsif args[:subjects]
+			query = joins(:subjects).where(tup.compile)
 		else
 			query = where(tup.compile)
 		end
@@ -731,7 +726,7 @@ class User < ActiveRecord::Base
 			end
 
 		else
-			return query
+			return query.group("users.id")
 		end
 	end
 
