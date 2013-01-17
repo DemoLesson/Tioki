@@ -28,8 +28,8 @@ class ConnectionsController < ApplicationController
 			else
 				users = User.none
 			end
-		elsif params[:topic] == 'subjects'
-			#Make sure this skill actually exists
+		elsif params[:topic] == 'subject_string'
+			#Make sure this subject actually exists
 			@subjects = Subject.where("subjects.name like ?", "#{params[:connectsearch]}%")
 			if @subjects.count > 0
 				users = User.search(:subjects => @subjects.collect(&:id))
@@ -487,6 +487,8 @@ class ConnectionsController < ApplicationController
 		search[:location] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'location'
 		search[:skills] = Skill.where("skills.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
 			params[:topic] == 'skill_string'
+		search[:skills] = Subject.where("subjects.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
+			params[:topic] == 'subject_string'
 		search[:locations] = params[:locations] if params[:locations]
 
 		unless search.empty?
