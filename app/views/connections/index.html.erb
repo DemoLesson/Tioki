@@ -114,6 +114,36 @@
 							<% end %>
 						</ul>
 					</div>
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						Subjects
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @subjects.each do |subject| %>
+								<li>
+									<%= check_box_tag "subjects[]", subject.id %>
+									<%= subject.name %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
+					<p class="bold caps head closed-arrow">
+					<a href="#">
+						Grades
+					</a>
+					</p>
+					<div>
+						<ul>
+							<% @grades.each do |grade| %>
+								<li>
+									<%= check_box_tag "grades[]", grade.id %>
+									<%= grade.name %>
+								</li>
+							<% end %>
+						</ul>
+					</div>
 				</div>
 			<% end %>
 			<hr>
@@ -230,6 +260,8 @@
 			var skillString = '';
 			var schoolString = '';
 			var locationString = '';
+			var subjectString = '';
+			var gradeString = '';
 			<% search_string = ""; params.each { |key, value| search_string << "&#{key}=#{value}"} %>
 			$("input:checkbox").click(function() {
 				//keep the viewmore
@@ -248,7 +280,14 @@
 				locationString = '';
 				$("input[name='locations[]']:checked").each(function(){locationString += "&locations[]=" + $(this).val();});
 
-				$.getJSON('/newconnections?page=1<%= search_string %>' + skillString + schoolString + locationString, function(data) {
+				subjectString = '';
+				$("input[name='subjects[]']:checked").each(function(){subjectString += "&subjects[]=" + $(this).val();});
+
+
+				gradeString = '';
+				$("input[name='grades[]']:checked").each(function(){gradeString += "&grades[]=" + $(this).val();});
+
+				$.getJSON('/newconnections?page=1<%= search_string %>' + skillString + schoolString + locationString + subjectString + gradeString, function(data) {
 
 					// For every element
 					for(var x in data) {
@@ -294,9 +333,4 @@
 				return false;
 			});
 		});
-</script>
-<script type="text/javascript">
-	$(document).ready(function() {
-			$("#skills").chosen();
-			});
 </script>

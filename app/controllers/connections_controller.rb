@@ -51,9 +51,14 @@ class ConnectionsController < ApplicationController
 		end
 
 		#Populate search options
-		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
-			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
-			@user_skills = Skill.joins(:skill_claims => :user).where("users.id IN (?)", users.collect(&:id)).all.uniq
+		if params[:topic] == 'name'
+			@companies = users.includes(:experiences).
+				collect{|x|x.experiences.collect{|y|y.company}}.
+				flatten.uniq.delete_if{|x|x.nil?||x.empty?}
+
+			@user_skills = users.includes(:skills).collect(&:skills).flatten.uniq
+			@subjects = users.includes(:subjects).collect(&:subjects).flatten.uniq
+			@grades = users.includes(:grades).collect(&:grades).flatten.uniq
 
 			#count returns a hash
 			@locations = users.geocoded.group("country").count
