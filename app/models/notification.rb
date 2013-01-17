@@ -102,8 +102,11 @@ class Notification < ActiveRecord::Base
 				APP_CONFIG.notification_buckets.each do |bucket|
 
 				# Get the interval for this bucket of notifications
-				interval = user.notification_intervals[bucket] rescue nil
-				interval = 7200
+				#interval = user.notification_intervals[bucket] rescue nil
+				#interval = 7200
+
+				# Tempoarily disable emails that are non-digest
+				interval = 0
 
 				# Set the default bucket interval
 				if interval.nil?
