@@ -1,17 +1,17 @@
 production:
   solr:
-    hostname: 107.22.199.136
+    hostname: localhost
     port: 8983
     log_level: WARNING
 
 development:
   solr:
     hostname: localhost
-    port: 8982
+    port: 8983
     log_level: INFO
 
 staging:
   solr:
     hostname: localhost
-    port: 8981
+    port: 8983
     log_level: WARNING
