@@ -493,6 +493,9 @@ class ConnectionsController < ApplicationController
 		search[:skills] = params[:skills] if params[:skills]
 		search[:school] = params[:school] if params[:school]
 		search[:schools] = params[:schools] if params[:schools]
+		search[:locations] = params[:locations] if params[:locations]
+		search[:subjects] = params[:subjects] if params[:subjects]
+		search[:grades] = params[:grades] if params[:grades]
 		search[:email] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'email'
 		search[:school] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'school'
 		search[:name] = params[:connectsearch] if params[:connectsearch] && 
@@ -504,7 +507,6 @@ class ConnectionsController < ApplicationController
 			params[:topic] == 'subject_string'
 		search[:grades] = Grade.where("grades.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
 			params[:topic] == 'grade_string'
-		search[:locations] = params[:locations] if params[:locations]
 
 		unless search.empty?
 			users = User.search(search)
