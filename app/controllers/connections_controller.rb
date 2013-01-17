@@ -36,6 +36,14 @@ class ConnectionsController < ApplicationController
 			else
 				users = User.none
 			end
+		elsif params[:topic] == 'grade_string'
+			#Make sure this grade actually exists
+			@grades = Grade.where("grades.name like ?", "#{params[:connectsearch]}%")
+			if @grades.count > 0
+				users = User.search(:grades => @grades.collect(&:id))
+			else
+				users = User.none
+			end
 		elsif params[:topic] == 'location'
 			users = User.search(:location => params[:connectsearch])
 		else
@@ -489,6 +497,8 @@ class ConnectionsController < ApplicationController
 			params[:topic] == 'skill_string'
 		search[:skills] = Subject.where("subjects.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
 			params[:topic] == 'subject_string'
+		search[:grades] = Grade.where("grades.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
+			params[:topic] == 'grade_string'
 		search[:locations] = params[:locations] if params[:locations]
 
 		unless search.empty?

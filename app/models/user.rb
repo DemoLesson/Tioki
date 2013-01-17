@@ -655,6 +655,10 @@ class User < ActiveRecord::Base
 			tup << SmartTuple.new(" OR ").add_each(args[:subjects]) { |subject_id| ["subjects.id = ?", subject_id] }
 		end
 
+		if args[:grades]
+			tup << SmartTuple.new(" OR ").add_each(args[:grades]) { |grade_id| ["grades.id = ?", grade_id] }
+		end
+
 		if args[:name]
 			args[:name].split.each do |token|
 				tup << ["(users.first_name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ?)", "#{token}%", "% #{token}%", "#{token}%"]
@@ -699,6 +703,8 @@ class User < ActiveRecord::Base
 			query = joins(:skills).where(tup.compile)
 		elsif args[:subjects]
 			query = joins(:subjects).where(tup.compile)
+		elsif args[:grades]
+			query = joins(:grades).where(tup.compile)
 		else
 			query = where(tup.compile)
 		end
