@@ -26,3 +26,10 @@ $ ->
 		theme: "facebook",
 		resultsLimit: 10
 	}
+
+	# Load the tokenizer for grades
+	$('input[name="user[skills]"]').tokenInput "/api/skills", {
+		hintText: "Skills...",
+		theme: "facebook",
+		resultsLimit: 10
+	}
