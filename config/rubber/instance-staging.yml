@@ -1,3 +1,48 @@
 ---
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: staging
+  domain: tioki.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: unicorn
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: nginx
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options:
+      primary: true
+  instance_id: i-5e1fb56c
+  image_type: m1.medium
+  image_id: ami-2add531a
+  security_groups:
+  - tioki_staging_default
+  - tioki_staging_web
+  - tioki_staging_staging
+  - tioki_staging_unicorn
+  - tioki_staging_nginx
+  - tioki_staging_haproxy
+  - tioki_staging_app
+  - tioki_staging_db
+  external_host: ec2-54-245-18-173.us-west-2.compute.amazonaws.com
+  external_ip: 54.245.18.173
+  internal_host: ip-10-244-15-196.us-west-2.compute.internal
+  internal_ip: 10.244.15.196
+  zone: us-west-2c
+  platform: linux
+  root_device_type: instance-store
 - volumes: {}
   static_ips: {}
