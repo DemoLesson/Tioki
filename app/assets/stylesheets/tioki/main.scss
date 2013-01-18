@@ -1204,6 +1204,10 @@ section.jobs-management {
 						border-color: $salmon;
 					}
 
+					&.ui-draggable-dragging {
+						width: 268px;
+					}
+
 					&.dropzone {
 						border-style: dashed;
 						display: none;
