@@ -25,6 +25,9 @@
     name: db
     options:
       primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: cramp
+    options: {}
   instance_id: i-5e1fb56c
   image_type: m1.medium
   image_id: ami-2add531a
