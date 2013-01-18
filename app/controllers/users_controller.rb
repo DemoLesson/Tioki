@@ -228,10 +228,10 @@ class UsersController < ApplicationController
 			# Move temporary file created by uploader
 			# To a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
-			path = File.join(directory, params[:user][:avatar].original_filename)
+			path = File.join(directory, params[:user][:avatar].original_filename.parameterize)
 			File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
-			@user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
-			@user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
+			@user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename.parameterize)
+			@user.update_attribute(:original_name,  params[:user][:avatar].original_filename.parameterize)
 			respond_to do |format|
 				format.js
 			end
