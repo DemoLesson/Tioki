@@ -3,7 +3,7 @@ namespace :rubber do
 
 		rubber.allow_optional_tasks(self)
 
-		after "rubber:install_packages", "rubber:solr:install"
+		after "rubber:install_gems", "rubber:solr:install"
 
 		task :install, :roles => :solr do
 			rsudo "sunspot-installer"
