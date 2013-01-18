@@ -305,7 +305,7 @@ class Notification < ActiveRecord::Base
 		end
 	end
 
-	def link(absolute = true)
+	def link
 		return false if destroyed?
 
 		# @todo deprecate on Jan 31, 2013
