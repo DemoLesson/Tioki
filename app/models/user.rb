@@ -646,19 +646,21 @@ class User < ActiveRecord::Base
 		end
 
 		tup = SmartTuple.new(" AND ")
-
-		if args[:skill]
-			tup << ["skills.id = ?", args[:skill]]
-		end
+		join_array = Array.new
 
 		if args[:skills]
 			tup << SmartTuple.new(" OR ").add_each(args[:skills]) { |skill_id| ["skills.id = ?", skill_id] }
+			join_array << :skills
 		end
 
-		if args[:skill_string]
-			args[:skill_string].split.each do |token|
-				tup << ["skill_claims.id = skills.id && (skills.name like ? || skills.name like ?)", "#{token}%", "% #{token}%"]
-			end
+		if args[:subjects]
+			tup << SmartTuple.new(" OR ").add_each(args[:subjects]) { |subject_id| ["subjects.id = ?", subject_id] }
+			join_array << :subjects
+		end
+
+		if args[:grades]
+			tup << SmartTuple.new(" OR ").add_each(args[:grades]) { |grade_id| ["grades.id = ?", grade_id] }
+			join_array << :grades
 		end
 
 		if args[:name]
@@ -667,11 +669,12 @@ class User < ActiveRecord::Base
 			end
 		end
 
-		if args[:school]
-			args[:school].split.each do |token|
-				tup << ["experiences.company LIKE ? OR experiences.company LIKE ?", "#{token}%", "% #{token}%"]
-			end
-		end
+		#if args[:school]
+		#	args[:school].split.each do |token|
+		#		tup << ["experiences.company LIKE ? OR experiences.company LIKE ?", "#{token}%", "% #{token}%"]
+		#	end
+		#	join_array << :experiences
+		#end
 
 		if args[:schools]
 			# Will be eact messages
@@ -682,6 +685,8 @@ class User < ActiveRecord::Base
 			end
 
 			tup << subtup
+
+			join_array << :experiences
 		end
 
 		if args[:locations]
@@ -697,13 +702,8 @@ class User < ActiveRecord::Base
 			tup << subtup
 		end
 
-
-		if (args[:school] || args[:schools]) && (args[:skills] || args[:skill])
-			query = joins(:skills, :experiences).where(tup.compile)
-		elsif args[:school] || args[:schools]
-			query = joins(:experiences).where(tup.compile)
-		elsif args[:skills] || args[:skill]
-			query = joins(:skills).where(tup.compile)
+		if args[:schools] || args[:skills] || args[:subjects] || args[:grades]
+			query = joins(join_array).where(tup.compile)
 		else
 			query = where(tup.compile)
 		end
@@ -731,7 +731,7 @@ class User < ActiveRecord::Base
 			end
 
 		else
-			return query
+			return query.select("DISTINCT(users.id), users.*")
 		end
 	end
 
