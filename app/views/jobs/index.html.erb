@@ -2,12 +2,14 @@
 	<% if @org %>
 		<h3> Active Jobs </h3>
 		<% @source.where(:status => 'running').each do |job| %>
-			<section class="info panel" style="height:90px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<section class="info panel" style="height:70px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 			<div class="item_jobs">
 				<div style="float:right; margin-right:10px">
 					<a style ="color:#2AA99B" href="<%= url_for([job.group, job, :applications])%>">
-						<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
-						<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
+						<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %> 
+						<span style="margin-left:5px; margin-right:5px"> | </span>
+						<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %>
+						<span style="margin-left:5px; margin-right:5px"> | </span>
 						<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
 					</a>
 				</div>
@@ -16,6 +18,9 @@
 					<p>
 						<strong>Job Title: <%= link_to job.title, job %></strong>
 						<br />
+						<span style="float:right; margin-right: -298px"><%= link_to 'Edit Job Posting', [:edit, job.group, job] %></span>
+						<span style="margin-left:0px; margin-right:-190px; float:right"> | </span>
+						<span style="float:right; margin-right:-180px"><%= link_to "Close Job Posting", group_jobs_path(job.group), :style => "color:#F66C4C !important" %></span>
 						Organization: <%= link_to job.group.name, job.group %> 
 					</p>
 				</div>

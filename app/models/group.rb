@@ -126,12 +126,6 @@ class Group < ActiveRecord::Base
 			job_packs.jobAllowance.first.jobs rescue 0
 		end
 
-		def job_expiration
-
-			# 100% SQL based aggregation
-			job_packs.expiration rescue 0
-		end
-
 		# Returns the still active jobs based on job packs
 		# Author: Kelly Lauren Summer Becker
 		def ajobs
