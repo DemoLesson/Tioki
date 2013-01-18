@@ -19,29 +19,30 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	# User searchable
-	searchable do
-		text :name, :first_name, :last_name, :email, :slug
-
-		time :last_login
-		time :created_at
-		time :updated_at
-
-		integer :login_count
-		integer :connections_count
-		integer :privacy_public
-		integer :privacy_connected
-		integer :privacy_recruiter
-
-		boolean :fake
-		boolean :is_admin
-
-		# For location search
-		# @todo Not available until SunSpot 2
-		#latlon :location do
-		#	Sunspot::Util::Coordinates.new latitude, longitude
-		#end
-	end
+	## User searchable
+	## Solr searchable template
+	#searchable do
+	#	text :name, :first_name, :last_name, :email, :slug
+	#
+	#	time :last_login
+	#	time :created_at
+	#	time :updated_at
+	#
+	#	integer :login_count
+	#	integer :connections_count
+	#	integer :privacy_public
+	#	integer :privacy_connected
+	#	integer :privacy_recruiter
+	#
+	#	boolean :fake
+	#	boolean :is_admin
+	#
+	#	# For location search
+	#	# @todo Not available until SunSpot 2
+	#	#latlon :location do
+	#	#	Sunspot::Util::Coordinates.new latitude, longitude
+	#	#end
+	#end
 
 	# Key Value Pairs
 	kvpair :social
