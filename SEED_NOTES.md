@@ -1,3 +1,13 @@
+v4.2.14 - Jan 18, 2013 12:29PM PST deployed by Kelly Becker
+===========================================================
+* d3550e4: Kelly Becker - this is a style fix which fixes some dragging issues
+
+v4.2.13 - Jan 17, 2013  6:59PM PST deployed by Elijah Green
+===========================================================
+* 37f8e74: Aleks Stanisic - myjobs rediesgn
+* b7b7680: Aleks Stanisic - fixing org links on school splash page
+* 771d10e: Aleks Stanisic - first steps of redesign
+
 v4.2.12 - Jan 17, 2013  4:21PM PST deployed by Kelly Becker
 ===========================================================
 * f1fd1d7: Kelly Becker - fix for notification links
