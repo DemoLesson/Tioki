@@ -1,3 +1,14 @@
+v4.2.12 - Jan 17, 2013  4:21PM PST deployed by Kelly Becker
+===========================================================
+* f1fd1d7: Kelly Becker - fix for notification links
+* 49d2e1f: Kelly Becker - fix for notification links
+* db85cb6: Elijah Green - Fix some join and pagination issues of search
+* 221cbb9: Elijah Green - Add checkbox search options
+* 8b656cb: Elijah Green - Make sure records are unique
+* 2c8db05: Elijah Green - Grade search works
+* d103cd2: Elijah Green - Subject search now works
+* afe4bf2: Elijah Green - Working on subject search
+
 v4.2.11 - Jan 17, 2013 11:26AM PST deployed by Kelly Becker
 ===========================================================
 * 6de4b0f: Kelly Becker - allow more whiteboard items to everyone
