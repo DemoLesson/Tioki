@@ -1,6 +1,7 @@
 role_dependencies:
   unicorn: [nginx]
-  web: [unicorn, nginx, haproxy, app]
+  # Consider having a second instance for solr
+  web: [unicorn, nginx, haproxy, app, solr]
 roles:
   unicorn:
     gems: [unicorn]
