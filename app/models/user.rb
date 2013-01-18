@@ -51,6 +51,9 @@ class User < ActiveRecord::Base
 	has_one :login_token
 	has_one :teacher
 
+	#User occupation constant
+	OCCUPATION = [ "teacher", "professor", "student", "staff", "administrator", "other" ]
+
 	# Migrated from teacher.rb
 	has_many :applications
 	has_many :videos, :dependent => :destroy
