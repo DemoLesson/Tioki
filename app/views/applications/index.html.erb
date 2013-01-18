@@ -22,7 +22,7 @@
 						<% end %>
 
 						<% if @source.is_a?(Job) %>
-							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:medium)) : '' %>
+							<%= app.user.avatar? ? image_tag(app.user.avatar.url(:tiny)) : '' %>
 							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></h4>
 						<% end %>
 
@@ -58,7 +58,7 @@
 							<% end %>
 							<% if !app.video.nil? %>
 								<h5>Video</h5>
-								<%= app.video.embed_code 445, nil, nil, false %>
+								<%= app.video.embed_code 445, nil, nil, false %></br>
 							<% end %>
 						</span>
 					</li>
