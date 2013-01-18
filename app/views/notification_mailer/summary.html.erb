@@ -98,7 +98,7 @@
 																			<span style="color: #6d6d6d; font: lighter 13px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">
 																				<strong>&middot; <%= notification.message.gsub('<a ', '<a style="color:#2AA99B;" ').html_safe %></strong>
 																				<% if !notification.link.nil? || !notification.link.empty? %>
-																					(<%= link_to (notification.link_text.nil? ? "Read More" : notification.link_text), notification.link, :style => 'color:#2AA99B;' %>)
+																					(<%= link_to (notification.link_text.nil? ? "Read More" : notification.link_text), 'http://tioki.com/' + notification.link, :style => 'color:#2AA99B;' %>)
 																				<% end  %>
 																			</span><br />
 																		<% end %>
