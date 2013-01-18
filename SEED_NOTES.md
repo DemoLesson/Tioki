@@ -1,3 +1,7 @@
+v4.2.16 - Jan 18, 2013  2:10PM PST deployed by Kelly Becker
+===========================================================
+* b4d0895: Elijah Green - Fix picture cropping issue
+
 v4.2.15 - Jan 18, 2013  1:50PM PST deployed by Kelly Becker
 ===========================================================
 * e4b708a: Kelly Becker - updated roles of production
