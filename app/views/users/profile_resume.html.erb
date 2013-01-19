@@ -612,9 +612,9 @@
 				<% if @user.assets.empty? && @self %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
-						<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>
+						<%= link_to "Attachments", attachments_path, :style => "color:#4D4D4D" %>
 							<span style="font-size:16px; margin-left:5px">
-								<a href="/profileattachments"> >> Upload your favorite teaching documents</a>
+								<a href="<%= attachments_path%>"> >> Upload your favorite teaching documents</a>
 							</span>
 						</h3>
 					</section>
@@ -627,8 +627,8 @@
 					<section class="profile-info group">
 						<% if @self %>
 							<h3 class="bottom-line">
-								<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/profileattachments" %>
+								<%= link_to "Attachments", attachments_path, :style => "color:#4D4D4D" %>	
+								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), attachments_path %>
 							</h3>
 						<% else %>
 							<h3 class="bottom-line">

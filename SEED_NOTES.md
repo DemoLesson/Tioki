@@ -1,3 +1,23 @@
+v4.2.16 - Jan 18, 2013  2:10PM PST deployed by Kelly Becker
+===========================================================
+* b4d0895: Elijah Green - Fix picture cropping issue
+
+v4.2.15 - Jan 18, 2013  1:50PM PST deployed by Kelly Becker
+===========================================================
+* e4b708a: Kelly Becker - updated roles of production
+* 1e11a2d: Kelly Becker - shuting down staging instance
+* 8981755: Kelly Becker - commented out user searchable method for solr as it has some issues
+* c0d4afa: Kelly Becker - command order
+* 84c092a: Kelly Becker - rubber config update for solr
+* bcee781: Kelly Becker - staging instance
+* d395895: Kelly Becker - solr installer
+* 223c803: Aleks Stanisic - fixing links in how it works for school
+* f542eb6: Kelly Becker - destroyed staging
+* b7ee92d: Kelly Becker - java 7
+* 79e5579: Kelly Becker - roles and java
+* 5d126dc: Kelly Becker - staging instance
+* 5d78123: Kelly Becker - removed sunspot config
+
 v4.2.14 - Jan 18, 2013 12:29PM PST deployed by Kelly Becker
 ===========================================================
 * d3550e4: Kelly Becker - this is a style fix which fixes some dragging issues
