@@ -1,15 +1,71 @@
 <div class="row kRap">
+	<div class="twelve columns">
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Add your personal info</h1>
+	</div>
+	<div class="clear"></div>
+
 	<div class="seven columns">
 		<form method="POST">
 			<table>
 				<tr>
 					<td>
 						<label>
-							<%= currentUser.name %>
+							<% if currentUser.avatar? %>
+								<%= image_tag(currentUser.avatar.url(:tiny), :width => "45", :style => "float:left") %>
+							<% else %>
+								<%= image_tag('dl_icons/no_avatar_tiny.jpg') %>
+							<% end %>
+							<div style="float:left">
+								<%= currentUser.name %><br />
+							</div>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Where do you work</span>
+							<input type="text"  placeholder="Employer" /> <input type="text"  placeholder="Job Title" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Where did you go to school?</span>
+							<input type="text"  placeholder="School name" /> <input type="Year"  placeholder="Job Title" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>What grade levels do you teacher?</span>
+							<input type="text" name="user[grades]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>What subjects do you teacher?</span>
+							<input type="text" name="user[subjects]" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>How many years of teaching experience do you have?</span>
+							<select name="years_of_teaching">
+							</select>
 						</label>
 					</td>
 				</tr>
 			</table>
+			<div class="button_wrap">
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Finish" />
+			</div>
 		</form>
 	</div>
 </div>

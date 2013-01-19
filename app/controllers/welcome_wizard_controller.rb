@@ -128,9 +128,8 @@ class WelcomeWizardController < ApplicationController
 			@user = self.current_user
 
 			# Handle Subjects and Grades
-			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['subjects', 'grades'].include?(k) }
-			@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
-			@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['skills'].include?(k) }
+			@user.skills = params[:user][:skills].collect { |x| Skill.find(x) }
 			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
 
 			# Save the updates attributes
@@ -138,24 +137,6 @@ class WelcomeWizardController < ApplicationController
 
 			# Clean empty results from the hash
 			params.clean!
-
-			unless params[:edu].nil? || params[:edu].empty?
-
-				# Build the education data
-				@user.educations.build(params[:edu])
-			end
-
-			unless params[:experience].nil? || params[:experience].empty?
-
-				# Current job is true
-				params[:experience][:current] = true
-
-				# Set position to a empty string if none was passed
-				params[:experience][:position] = params[:experience][:position] || String.new
-
-				# Build the experience data
-				@user.experiences.build(params[:experience])
-			end
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
@@ -193,33 +174,7 @@ class WelcomeWizardController < ApplicationController
 		# Detect post variables
 		if request.post?
 
-			# Load the current user
-			@user = User.current
-
-			# Delete any preassociated skills
-			@user.skills.delete_all
-
-			# Add the new skills
-			skills = Skill.where(:id => params[:skills].split(','))
-			skills.each do |skill|
-				SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
-			end
-
-			# Wizard Key
-			wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
-
-			# And create an analytic
-			self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
-
-			# Notice and redirect
-			session[:wizard] = true
-			flash[:notice] = "Step 3 Completed"
-			return redirect_to "#{@buri}?x=step4#{@url}"
 		end
-
-		# Get a list of existing skills
-		@existing_skills = '/profile/' + User.current.slug + '/skills'
-
 		render :step3
 	end
 
