@@ -193,7 +193,7 @@ class HomeController < ApplicationController
 	def whiteboard_share
 		redirect_to :root if currentUser.new_record?
 		if params[:message].present?
-			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
+			whiteboard = Whiteboard.createActivity('share', params[:message], '', nil, {"deleteable" => true})
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
 
 				if params[:share_on_facebook]

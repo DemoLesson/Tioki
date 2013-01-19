@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115200028) do
+ActiveRecord::Schema.define(:version => 20130119193413) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -81,6 +81,19 @@ ActiveRecord::Schema.define(:version => 20130115200028) do
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
     t.integer  "user_id"
+  end
+
+  create_table "attachments", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.integer  "video_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "awards", :force => true do |t|
@@ -486,6 +499,7 @@ ActiveRecord::Schema.define(:version => 20130115200028) do
     t.boolean  "emailed",         :default => false
     t.datetime "emailed_at"
     t.string   "bucket"
+    t.string   "link_text"
   end
 
   create_table "organizations", :force => true do |t|
@@ -742,6 +756,7 @@ ActiveRecord::Schema.define(:version => 20130115200028) do
   end
 
   create_table "users", :force => true do |t|
+    t.boolean  "fake",                   :default => false
     t.string   "email",                                     :null => false
     t.string   "hashed_password",                           :null => false
     t.string   "salt",                                      :null => false
@@ -784,7 +799,6 @@ ActiveRecord::Schema.define(:version => 20130115200028) do
     t.integer  "privacy_connected"
     t.integer  "privacy_recruiter"
     t.text     "notification_intervals"
-    t.boolean  "fake",                   :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
