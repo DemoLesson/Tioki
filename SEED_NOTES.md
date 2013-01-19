@@ -1,3 +1,11 @@
+v4.2.17 - Jan 18, 2013  7:06PM PST deployed by Elijah Green
+===========================================================
+* 6f1fc2a: Aleks Stanisic - changes to job seeker page
+* 64a620b: Aleks Stanisic - changes to job seekers static page
+* 0027b3b: Aleks Stanisic - updating uswer connect email and shutting down the ab test for it
+* 3ae0c92: Aleks Stanisic - updating static pages nav bar and adding new static page for job seekers
+* 2137cbf: Elijah Green - Link to the correct url to upload attachments on profile
+
 v4.2.16 - Jan 18, 2013  2:10PM PST deployed by Kelly Becker
 ===========================================================
 * b4d0895: Elijah Green - Fix picture cropping issue
