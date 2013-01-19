@@ -78,22 +78,11 @@ class UserMailer < ActionMailer::Base
 		@owner = User.find(owner_id)
 		@user = User.find(user_id)
 
-		# Get the proper AB Test string
-		ab = Abtests.use("email:userconnect", 1).to_s
-		template = "userconnect_" + ab
+		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
 
-		if ab == 0.to_s
-			mail = mail(:to => @user.email, :subject => 'You have a new connection!') do |t|
-				t.html { render template }
-			end
-		else
-			mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!") do |t|
-				t.html { render template }
-			end
-		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('userconnect:ab-' + ab)
+			mail.delivery_method.tag('userconnect')
 		end
 
 		return mail
