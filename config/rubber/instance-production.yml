@@ -25,6 +25,12 @@
   - !ruby/object:Rubber::Configuration::RoleItem
     name: cramp
     options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: solr
+    options: {}
   instance_id: i-12f92020
   image_type: m1.medium
   image_id: ami-2add531a

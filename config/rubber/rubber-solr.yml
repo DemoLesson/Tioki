@@ -1,0 +1,4 @@
+roles:
+  solr:
+    packages: [openjdk-7-jre-headless]
+    gems: [sunspot_solr]

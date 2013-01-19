@@ -58,6 +58,13 @@ gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
 # @todo deprecate smart_tuple replace with solr
 gem 'smart_tuple' # Tuple styled SQL Queries
 
+# Solr search
+# To install solr in a heartbeat run
+# $ gem install sunspot_solr
+# $ sunspot-installer
+# $ cd /path/to/Tioki; sunspot-solr run
+gem 'sunspot_rails'
+
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage

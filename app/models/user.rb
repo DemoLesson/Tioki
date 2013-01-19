@@ -19,6 +19,31 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	## User searchable
+	## Solr searchable template
+	#searchable do
+	#	text :name, :first_name, :last_name, :email, :slug
+	#
+	#	time :last_login
+	#	time :created_at
+	#	time :updated_at
+	#
+	#	integer :login_count
+	#	integer :connections_count
+	#	integer :privacy_public
+	#	integer :privacy_connected
+	#	integer :privacy_recruiter
+	#
+	#	boolean :fake
+	#	boolean :is_admin
+	#
+	#	# For location search
+	#	# @todo Not available until SunSpot 2
+	#	#latlon :location do
+	#	#	Sunspot::Util::Coordinates.new latitude, longitude
+	#	#end
+	#end
+
 	# Key Value Pairs
 	kvpair :social
 	kvpair :contact
@@ -540,13 +565,13 @@ class User < ActiveRecord::Base
 	def update_login_count
 		puts "logincount update"
 
-		u=User.find(self.id)
-		if u.login_count?
-			u.login_count = u.login_count+1
+		if login_count?
+			update_attribute(:login_count, login_count + 1)
 		else
-			u.login_count = 1
+			update_attribute(:login_count, 1)
 		end
-		u.update_attribute(:last_login, Time.now)
+
+		update_attribute(:last_login, Time.now)
 	end
 
 	def update_settings(params)

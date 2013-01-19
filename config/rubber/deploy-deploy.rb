@@ -75,4 +75,14 @@ namespace :deploy do
       uploads
     end
   end
+
+  namespace :solr do
+    task :start do
+      run "cd #{current_path};RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:start"
+    end
+
+    task :stop do
+      run "cd #{current_path};RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:stop"
+    end
+  end
 end
