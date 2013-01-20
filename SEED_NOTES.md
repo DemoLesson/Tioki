@@ -1,3 +1,9 @@
+v4.2.18 - Jan 19, 2013  4:29PM PST deployed by Aleks Stanisic
+=============================================================
+* 3c53d0a: Aleks Stanisic - adding job seekers to footer
+* 98aff2f: Aleks Stanisic - changing the contact info sections in the about and resume profile pages
+* 8a87fdf: Aleks Stanisic - making changes to MY Jobs page
+
 v4.2.17 - Jan 18, 2013  7:06PM PST deployed by Elijah Green
 ===========================================================
 * 6f1fc2a: Aleks Stanisic - changes to job seeker page
