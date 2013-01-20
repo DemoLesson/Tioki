@@ -1,3 +1,7 @@
+v4.2.19 - Jan 20, 2013 11:41AM PST deployed by Aleks Stanisic
+=============================================================
+* 30f6463: Aleks Stanisic - change to Job Seekers page
+
 v4.2.18 - Jan 19, 2013  4:29PM PST deployed by Aleks Stanisic
 =============================================================
 * 3c53d0a: Aleks Stanisic - adding job seekers to footer
