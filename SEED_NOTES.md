@@ -1,3 +1,7 @@
+v4.2.20 - Jan 20, 2013  1:53PM PST deployed by Aleks Stanisic
+=============================================================
+* 3ec9cf8: Aleks Stanisic - made a change to featured discussions on home dashboard to ensure no discussions from TFA get listed
+
 v4.2.19 - Jan 20, 2013 11:41AM PST deployed by Aleks Stanisic
 =============================================================
 * 30f6463: Aleks Stanisic - change to Job Seekers page
