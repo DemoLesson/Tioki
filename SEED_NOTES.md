@@ -1,3 +1,7 @@
+v4.2.23 - Jan 21, 2013 12:02PM PST deployed by Kelly Becker
+===========================================================
+* 8eb55f0: Kelly Becker - public filter for discussions (removes any non public discussions from the homepage discussions list)
+
 v4.2.22 - Jan 21, 2013 10:41AM PST deployed by Kelly Becker
 ===========================================================
 * 535ab24: Kelly Becker - change to what information is publically shared on the whiteboard.
