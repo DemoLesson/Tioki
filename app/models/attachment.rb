@@ -1,4 +1,4 @@
-class Attachment
+class Attachment < ActiveRecord::Base
 
 	# Polymorphic connection to owner
 	belongs_to :owner, :polymorphic => true

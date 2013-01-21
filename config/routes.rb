@@ -1,6 +1,8 @@
 Preview::Application.routes.draw do
 	resources :applications
 
+	match '/temp' => 'users#temp'
+
 	# API
 		scope '/api' do
 			match ':action/:id' => 'api#:action'

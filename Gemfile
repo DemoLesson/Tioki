@@ -68,8 +68,7 @@ gem 'sunspot_rails'
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 2.8.0' # Depreciate
-gem 'cocaine', '~> 0.5.1'
+gem 'paperclip', '~> 3.0' # Depreciate
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip

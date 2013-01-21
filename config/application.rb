@@ -54,7 +54,7 @@ module Preview
 			},
 			:fog_public => true,
 			:fog_directory => 'tioki',
-			:path => '#{Rails.env}/:class/:id/:style/:basename.:extension',
+			:path => "#{Rails.env}/:class/:id/:style/:basename.:extension",
 			:processors => [:timestamper],
 			:date_format => "%Y%m%d%H%M%S"
 		}
