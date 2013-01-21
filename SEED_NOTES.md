@@ -1,3 +1,7 @@
+v4.2.21 - Jan 21, 2013 10:34AM PST deployed by Kelly Becker
+===========================================================
+* 9b257ca: Kelly Becker - language change and don't show whiteboard posts for new discussions on whiteboard
+
 v4.2.20 - Jan 20, 2013  1:53PM PST deployed by Aleks Stanisic
 =============================================================
 * 3ec9cf8: Aleks Stanisic - made a change to featured discussions on home dashboard to ensure no discussions from TFA get listed
