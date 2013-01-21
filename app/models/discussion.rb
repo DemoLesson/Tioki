@@ -14,6 +14,18 @@ class Discussion < ActiveRecord::Base
 	before_destroy :before_destroy
 	before_save :before_save
 
+	def self.public
+
+		# At the moment only support group owners for the public check
+		query = select('`discussions`.`owner`').where('`discussions`.`owner` LIKE ?', 'Group:%')
+
+		# Remove any discussions that should be shown
+		query = query.collect(&:owner).delete_if{|g|g.permissions.public_discussions}.collect(&:tag!)
+
+		# Get everything except the ones we wanted to remove
+		where('`discussions`.`owner` NOT IN (?)', query).all
+	end
+
 	def before_save
 		self.owner = nil if read_attribute(:owner).nil? || read_attribute(:owner).empty?
 	end
