@@ -1,3 +1,7 @@
+v4.2.22 - Jan 21, 2013 10:41AM PST deployed by Kelly Becker
+===========================================================
+* 535ab24: Kelly Becker - change to what information is publically shared on the whiteboard.
+
 v4.2.21 - Jan 21, 2013 10:34AM PST deployed by Kelly Becker
 ===========================================================
 * 9b257ca: Kelly Becker - language change and don't show whiteboard posts for new discussions on whiteboard
