@@ -6,7 +6,11 @@
 	</h2>
 	<table style="width:100%;" class="applications">
 		<td class="left">
-			<h3>Applicants</h3>
+			<% if @source.is_a?(Job) %>
+				<h3>Applicants</h3>
+			<% else %>
+				<h3>Applications</h3>
+			<% end %>
 			<ul style="width:100%;">
 				<% if @applications.count < 1 %>
 					<li>Doesn't look like you have any applicants just yet. We'll email you as soon as you receive one.</li>
