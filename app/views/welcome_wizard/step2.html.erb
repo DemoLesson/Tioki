@@ -57,6 +57,22 @@
 			<div class="button_wrap">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
 			</div>
+			<% if params[:user_connection] %>
+				<%= hidden_field_tag :user_connection, params[:user_connection] %>
+			<% elsif params[:vouchstring] %>
+				<%= hidden_field_tag :vouchstring, params[:vouchstring] %>
+			<% elsif params[:invitecode] %>
+				<%= hidden_field_tag :invitecode, params[:invitecode] %>
+			<% elsif params[:welcomecode] %>
+				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% elsif params[:twittercode] %>
+				<%= hidden_field_tag :twittercode, params[:twittercode] %>
+			<% elsif params[:facebookcode] %>
+				<%= hidden_field_tag :facebookcode, params[:facebookcode] %>
+			<% elsif params[:discussion_id] %>
+				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
+				<%= hidden_field_tag :body, params[:body] %>
+			<% end %>
 		</form>
 	</div>
 	<div class="four columns">
