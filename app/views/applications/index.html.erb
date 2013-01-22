@@ -85,15 +85,15 @@
 							<h4><%= link_to int.user.name, "/profile/#{int.user.slug}", :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
-						<span>Applied on: <%= int.application.created_at.to_s(:date) %></span>
+						<span style="margin-left:80px">Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
+						<span style="margin-left:80px">Applied on: <%= int.application.created_at.to_s(:date) %></span>
 
 						<% if @source.is_a?(User) && int.intDate == 'Unscheduled' %>
-							<span><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
+							<span style="margin-left:80px"><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
 						<% elsif @source.is_a?(Job) && int.intDate == 'Reschedule Requested' %>
-							<span><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
+							<span style="margin-left:80px"><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
 						<% else %>
-							<span>Interview on: <%= int.intDate %></span>
+							<span style="margin-left:80px">Interview on: <%= int.intDate %></span>
 						<% end %>
 						<div style="clear:both;"></div>
 					</li>
