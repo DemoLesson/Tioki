@@ -1,3 +1,7 @@
+v4.2.24 - Jan 21, 2013  4:11PM PST deployed by Aleks Stanisic
+=============================================================
+* de138a6: Aleks Stanisic - adding browse more jobs link to jobs page
+
 v4.2.23 - Jan 21, 2013 12:02PM PST deployed by Kelly Becker
 ===========================================================
 * 8eb55f0: Kelly Becker - public filter for discussions (removes any non public discussions from the homepage discussions list)
