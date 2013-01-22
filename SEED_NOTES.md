@@ -1,3 +1,7 @@
+v4.2.27 - Jan 22, 2013  1:20PM PST deployed by Aleks Stanisic
+=============================================================
+* bdcee2e: Aleks Stanisic - displaying location of interview on applications page
+
 v4.2.26 - Jan 22, 2013 12:44PM PST deployed by Aleks Stanisic
 =============================================================
 * f5bfcc7: Aleks Stanisic - changes to request interviews page
