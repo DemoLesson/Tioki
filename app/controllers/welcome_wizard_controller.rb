@@ -121,13 +121,12 @@ class WelcomeWizardController < ApplicationController
 			return redirect_to :root
 		end
 
+		# Load the teach and update
+		@user = self.current_user
+
 		# Detect post variables
 		if request.post?
-
-			# Load the teach and update
-			@user = self.current_user
-
-			# Handle Subjects and Grades
+			# Handle Skills
 			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['skills'].include?(k) }
 			@user.skills = params[:user][:skills].collect { |x| Skill.find(x) }
 			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
@@ -146,8 +145,6 @@ class WelcomeWizardController < ApplicationController
 
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 2 of the welcome wizard.", self.current_user)
-
-				self.log_analytic("#{params[:current]}_step2", "User signed up as a #{params[:current]}", self.current_user)
 
 				# Notice and redirect
 				flash[:notice] = "Step 2 Completed"
@@ -171,10 +168,43 @@ class WelcomeWizardController < ApplicationController
 			return redirect_to :root
 		end
 
+		@user = currentUser
 		# Detect post variables
 		if request.post?
+			# Handle Subjects and Grades
+			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['grades', 'subjects'].include?(k) }
+			@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
+			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
+			# Clean empty results from the hash
+			params.clean!
+
+			params[:experience][:current] = true
+			params[:experience][:position] = params[:experience][:position]
+
+			@user.experiences.build(params[:experience])
+
+			@user.educations.build(params[:education])
+
+			# Attempt to save the user
+			if @user.save(:validate => false)
+
+				# Wizard Key
+				wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+
+				# And create an analytic
+				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
+
+				return redirect_to :root
+			else
+
+				# If the user save failed then notice and redirect
+				dump flash[:notice] = @user.errors.full_messages.to_sentence
+				return redirect_to "#{@buri}?x=step2#{@url}"
+			end
 
 		end
+
 		render :step3
 	end
 

@@ -23,18 +23,14 @@
 				</tr>
 				<tr>
 					<td>
-						<label>
-							<span>Where do you work</span>
-							<input type="text"  placeholder="Employer" /> <input type="text"  placeholder="Job Title" />
-						</label>
+						<span>Where do you work</span>
+						<input type="text" name="experience[company]" placeholder="Employer" /> <input type="text" name="experience[position]"  placeholder="Job Title" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label>
-							<span>Where did you go to school?</span>
-							<input type="text"  placeholder="School name" /> <input type="Year"  placeholder="Job Title" />
-						</label>
+						<span>Where did you go to school?</span>
+						<input type="text"  name="education[school]" placeholder="School name" /> <input type="Year" name="education[year]"  placeholder="Year" />
 					</td>
 				</tr>
 				<tr>
@@ -57,8 +53,7 @@
 					<td>
 						<label>
 							<span>How many years of teaching experience do you have?</span>
-							<select name="years_of_teaching">
-							</select>
+							<%= select_tag "user[years_teaching", options_for_select((1...100).to_a) %>
 						</label>
 					</td>
 				</tr>
@@ -69,3 +64,21 @@
 		</form>
 	</div>
 </div>
+<script type="text/coffeescript">
+	$ ->
+		# Load the tokenizer for subjects
+		$('input[name="user[subjects]"]').tokenInput "/api/subjects", {
+			hintText: "Subjects...",
+			theme: "facebook",
+			resultsLimit: 10
+			prePopulate: <%= currentUser.subjects.to_json(:only => [:id, :name]).html_safe %>
+		}
+
+		# Load the tokenizer for grades
+		$('input[name="user[grades]"]').tokenInput "/api/grades", {
+			hintText: "Grade Level...",
+			theme: "facebook",
+			resultsLimit: 10
+			prePopulate: <%= currentUser.grades.to_json(:only => [:id, :name]).html_safe %>
+		}
+</script>

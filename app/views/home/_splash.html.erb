@@ -32,8 +32,7 @@
 			</fieldset>
 			<fieldset>
 				Occupation<br />
-				<select name="occupation">
-				</select>
+				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
 			</fieldset>
 			<fieldset>
 				<input type="submit" class="button huge-button" value="Get Started Today" />

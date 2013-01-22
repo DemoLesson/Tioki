@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130119214358) do
+ActiveRecord::Schema.define(:version => 20130121204740) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -787,6 +787,7 @@ ActiveRecord::Schema.define(:version => 20130119214358) do
     t.text     "notification_intervals"
     t.boolean  "fake",                   :default => false
     t.string   "occupation"
+    t.integer  "years_teaching"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

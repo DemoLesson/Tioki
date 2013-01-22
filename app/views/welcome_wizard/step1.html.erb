@@ -60,8 +60,7 @@
 					<td>
 						<label>
 							<span>Occupation</span>
-							<select name="occupation">
-							</select>
+							<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
 						</label>
 					</td>
 				</tr>
