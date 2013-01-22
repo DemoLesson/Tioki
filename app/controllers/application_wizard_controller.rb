@@ -180,7 +180,6 @@ class ApplicationWizardController < ApplicationController
 
 			# Notify that owner(s) of the school that this application has been submitted
 			job = Job.find(@app.job_id)
-			UserMailer.teacher_applied(job.group, job, @app.user).deliver
 
 			# Application was submitted or updated
 			job.group.users(:administrator).each do |u|
