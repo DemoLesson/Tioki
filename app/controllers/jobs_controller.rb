@@ -30,7 +30,7 @@ class JobsController < ApplicationController
 				tup = SmartTuple.new(" AND ")
 
 
-				tup << ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
+				tup << ['jobs.title LIKE ? OR jobs.description LIKE ? OR groups.name', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
 
 				tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
 
@@ -60,7 +60,7 @@ class JobsController < ApplicationController
 								:order => 'updated_at DESC')
 					end
 				else
-					@jobs = Job.is_active.  paginate(
+					@jobs = Job.is_active.paginate(
 						:page => params[:page], 
 						:joins => :group, 
 						:conditions => tup.compile, 
