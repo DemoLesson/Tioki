@@ -214,6 +214,9 @@ class UsersController < ApplicationController
 			# Make sure were saving integers not string
 			save = save.collect{|k,v|value == false ? 0 : v.to_i}
 
+			# Remove any keys not defined in the config file (saves space)
+			save = save.delete_if{|k,v|!APP_CONFIG.notification_buckets.include?(k)}
+
 			# Set the value in the user settings
 			@user.update_attribute(:notification_intervals, save)
 

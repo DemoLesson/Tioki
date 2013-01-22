@@ -41,7 +41,6 @@ default:
   notification_buckets:
     - jobs
     - favorites
-    - discussions
     - daily
 development:
   cloudsponge:

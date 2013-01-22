@@ -87,23 +87,31 @@ class DiscussionsController < ApplicationController
 		respond_to do |format|
 			if @discussion.save
 				if params[:skills]
+
+					# Save skills that are tagged to the discussion
 					params[:skills].uniq.each do |skill_id|
 						DiscussionTag.create(:discussion => @discussion, :skill_id => skill_id)
 					end
 				end
 
 				if @discussion.owner.nil?
+
 					# Tell the whiteboard about this new discussion
 					Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
-						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.url, :bucket => :discussions)
 
-						# Tell the whiteboard about this new discussion if the discussions are public
-						if @discussion.owner.permissions.public_discussions
-							Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
-						end
+						# Send out a notification about the new discussions to the group users
+						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.url, :bucket => :noemail)
+
+						# Send email notification
+						DiscussionMailer.new_discussion(user, @discussion).deliver
+					end
+
+					# Tell the whiteboard about this new discussion if the discussions are public
+					if @discussion.owner.permissions.public_discussions
+						Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 					end
 				end
 
@@ -160,8 +168,12 @@ class DiscussionsController < ApplicationController
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
+
 							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :discussions)
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :noemail)
+
+							# Send email notification
+							DiscussionMailer.reply(user, @comment).deliver
 						end
 					end
 				end
@@ -185,7 +197,7 @@ class DiscussionsController < ApplicationController
 					if user
 						if self.current_user.id != user.id
 							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :discussions)
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :noemail)
 						end
 					end
 				end
