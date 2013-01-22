@@ -92,14 +92,10 @@
 																		</span><br />
 
 																		<span style="color: #6d6d6d; font: lighter 13px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;">
-																			<strong>&middot; <%= notification.message.gsub('<a ', '<a style="color:#2AA99B;" ').html_safe %></strong>
-																				<% if !notification.link.nil? || !notification.link.empty? %>
-																				(<%= link_to (notification.link_text.nil? ? "Read More" : notification.link_text), 'http://tioki.com/' + notification.link, :style => 'color:#2AA99B;' %>
-																						)
-																					<% end %>
-																				</span><br/>
+																			<strong><%= mail_link @discussion.user.link %> said: </strong>
+																			<%= @discussion.message %>
 																		<% end %>
-																		<br>
+																		<br />
 																	</td>
 																</tr>
 																<!--// Crazy Button Hoe-Down //-->
@@ -118,9 +114,13 @@
 																			<tbody style="text-decoration:none;">
 																			<tr style="text-decoration:none;">
 																				<td style="color:#FFFFFF;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold;white-space:nowrap;text-shadow:0px -1px 0px #666666; text-decoration:none;" align="center">
-
-																					<a style="text-decoration:none; color:#FFFFFF" href="http://www.tioki.com/" target="_blank"><span style="color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px"><strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px">See
-																						All Activity</strong></span></a>
+																					<%= mail_link "<a style=\"text-decoration:none;color:#FFFFFF\" href=\"#{@discussion.url('follow_discussion')}\" target=\"_blank\">
+																						<span style=\"color:#FFFFFF; text-decoration:none; padding-right:10px;padding-left:10px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:13px;font-weight:bold; text-decoration:none;padding-right:5px;padding-left:5px\">
+																							<strong style=\"color:#FFFFFF !important;text-decoration:none !important;padding-right:30px;padding-left:30px\">
+																								Follow Discussion
+																							</strong>
+																						</span>
+																					</a>", 'FFF' %>
 																				</td>
 
 																			</tr>

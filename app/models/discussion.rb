@@ -62,8 +62,8 @@ class Discussion < ActiveRecord::Base
 		return "<a href=\"#{url}\" #{attrs}>#{ERB::Util.html_escape(self.title)}</a>".html_safe
 	end
 
-	def url
-		"/discussions/#{self.to_param}"
+	def url(add = nil)
+		"/discussions/#{self.to_param}" + (add.nil? ? '' : '/' + add)
 	end
 
 	def owner
