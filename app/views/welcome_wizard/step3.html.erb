@@ -53,7 +53,7 @@
 					<tr>
 						<td>
 							<span>How many years of teaching experience do you have?</span>
-							<%= select_tag "user[years_teaching", options_for_select((1...100).to_a) %>
+							<%= select_tag "user[years_teaching]", options_for_select((0...100).to_a) %>
 						</td>
 					</tr>
 				<% end %>

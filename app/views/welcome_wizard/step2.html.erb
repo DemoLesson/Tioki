@@ -11,7 +11,7 @@
 					<% if currentUser.avatar? %>
 						<%= image_tag(currentUser.avatar.url(:medium), :width => "160", :style => "float:left", :id => "user_avatar" ) %>
 					<% else %>
-						<%= image_tag('dl_icons/no_avatar_large.jpg', :id => "user_avatar") %>
+						<%= image_tag('dl_icons/no_avatar_large.jpg', :style => "float:left", :id => "user_avatar") %>
 					<% end %>
 					<div style="float:left">
 						<%= currentUser.name %><br />
@@ -41,7 +41,7 @@
 					<td>
 						<label>
 							<span>Add a Headline (140 Char.)</span>
-							<%= text_area_tag "user[headline]", currentUser.headline ,:placeholder => "Ex: Waiter, actor, model, singer" %>
+							<%= text_area_tag "user[headline]", currentUser.headline, :maxlength => 140, :placeholder => "Ex: Waiter, actor, model, singer" %>
 						</label>
 					</td>
 				</tr>

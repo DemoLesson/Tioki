@@ -131,6 +131,7 @@ class WelcomeWizardController < ApplicationController
 
 		# Detect post variables
 		if request.post?
+
 			# Handle Skills
 			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['skills'].include?(k) }
 			@user.skills = params[:user][:skills].collect { |x| Skill.find(x) }
@@ -192,6 +193,8 @@ class WelcomeWizardController < ApplicationController
 			@user.educations.build(params[:education])
 
 			@user.job_seeking = params[:user][:job_seeking] == "yes"
+
+			@user.years_teaching = params[:years_teaching]
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
