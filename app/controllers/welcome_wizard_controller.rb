@@ -179,18 +179,24 @@ class WelcomeWizardController < ApplicationController
 		if request.post?
 			# Handle Subjects and Grades
 			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['grades', 'subjects'].include?(k) }
-			@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
-			@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
+			if params[:user][:grades]
+				@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			end
+			if params[:user][:subjects]
+				@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
+			end
 			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
 			# Clean empty results from the hash
 			params.clean!
 
-			params[:experience][:current] = true
-			params[:experience][:position] = params[:experience][:position]
+			if params[:experience][:position] && params[:experience][:company]
+				params[:experience][:current] = true
+				@user.experiences.build(params[:experience])
+			end
 
-			@user.experiences.build(params[:experience])
-
-			@user.educations.build(params[:education])
+			if params[:education][:school]
+				@user.educations.build(params[:education])
+			end
 
 			@user.job_seeking = params[:user][:job_seeking] == "yes"
 
@@ -205,7 +211,7 @@ class WelcomeWizardController < ApplicationController
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
 
-				return redirect_to :root
+				return redirect_to "/get_started"
 			else
 
 				# If the user save failed then notice and redirect
