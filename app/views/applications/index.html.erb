@@ -26,9 +26,9 @@
 							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
-						<span>Applied on: <%= app.created_at.to_s(:date) %></span>
-						<span>
+						<span style="margin-left:80px">Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
+						<span style="margin-left:80px">Applied on: <%= app.created_at.to_s(:date) %></span>
+						<span style="margin-left:80px">
 							Application Status: 
 							<% if @source.is_a?(User) %>
 									<%= app.status %>
@@ -46,6 +46,8 @@
 									<%= f.submit "Update Status" %>
 								<% end %>
 							<% end %>
+						</span>
+						<span>
 							<% if !app.assets.empty? %>
 								<h5>Assets</h5>
 								<ul>
