@@ -33,28 +33,37 @@
 						<input type="text"  name="education[school]" placeholder="School name" /> <input type="Year" name="education[year]"  placeholder="Year" />
 					</td>
 				</tr>
-				<tr>
-					<td>
-						<label>
-							<span>What grade levels do you teacher?</span>
-							<input type="text" name="user[grades]" />
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>
-							<span>What subjects do you teacher?</span>
-							<input type="text" name="user[subjects]" />
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>
+				<% if ['Teacher', 'Professor', 'Student'].include?(currentUser.occupation) %>
+					<tr>
+						<td>
+							<label>
+								<span>What grade levels do you teacher?</span>
+								<input type="text" name="user[grades]" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>
+								<span>What subjects do you teacher?</span>
+								<input type="text" name="user[subjects]" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<span>How many years of teaching experience do you have?</span>
 							<%= select_tag "user[years_teaching", options_for_select((1...100).to_a) %>
-						</label>
+						</td>
+					</tr>
+				<% end %>
+				<tr>
+					<td>
+						Are You currently seeking?
+						<select name="user[job_seeking]">
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
 					</td>
 				</tr>
 			</table>

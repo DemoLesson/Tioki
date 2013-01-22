@@ -66,18 +66,23 @@ class WelcomeWizardController < ApplicationController
 
 				elsif @inviter
 
-					ConnectionInvite.create(:user_id => @inviter.id,
-											:created_user_id => @user.id)
+					ConnectionInvite.create(
+						:user_id => @inviter.id,
+						:created_user_id => @user.id)
 
-					Connection.create(:owned_by => @inviter.id,
-									  :user_id => @user.id,
-									  :pending => false)
+					Connection.create(
+						:owned_by => @inviter.id,
+						:user_id => @user.id,
+						:pending => false)
 
 				elsif params[:vouchstring]
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id, :voucher_id => @vouch.vouchee_id)
+						VouchedSkill.create(
+							:user_id => @user.id, 
+							:skill_id => skill.skill_id, 
+							:voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end
@@ -185,6 +190,8 @@ class WelcomeWizardController < ApplicationController
 			@user.experiences.build(params[:experience])
 
 			@user.educations.build(params[:education])
+
+			@user.job_seeking = params[:user][:job_seeking] == "yes"
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
