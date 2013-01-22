@@ -1,3 +1,12 @@
+v4.2.27 - Jan 22, 2013  1:20PM PST deployed by Aleks Stanisic
+=============================================================
+* bdcee2e: Aleks Stanisic - displaying location of interview on applications page
+
+v4.2.26 - Jan 22, 2013 12:44PM PST deployed by Aleks Stanisic
+=============================================================
+* f5bfcc7: Aleks Stanisic - changes to request interviews page
+* 6d5fe01: Elijah Green - Don't send teacher applied email
+
 v4.2.25 - Jan 22, 2013 10:51AM PST deployed by Aleks Stanisic
 =============================================================
 * 32bc425: Aleks Stanisic - style changes to interview section of applications page
