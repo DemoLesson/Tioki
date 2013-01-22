@@ -102,7 +102,7 @@
 		<% end %>
 		<label>
 			<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %>
-			Closed <%= @group.type? %> or School (Must either be a member or have the link in order to access group)
+			Hidden <%= @group.type? %> (No one will be able to see this <%= @group.type? %>, unless they have the url link to it. If you want people to find you, do not select this option)
 		</label>
 		<label>
 			<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %>

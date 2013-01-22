@@ -99,11 +99,15 @@ class DiscussionsController < ApplicationController
 					for user in @discussion.owner.users(:discussion_notifications)
 						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
 						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.url, :bucket => :discussions)
+
+						# Tell the whiteboard about this new discussion if the discussions are public
+						if @discussion.owner.permissions.public_discussions
+							Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
+						end
 					end
 				end
 
-				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
+				# Log a analytic about the discussion creation
 				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
 
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
