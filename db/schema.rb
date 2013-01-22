@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115200028) do
+ActiveRecord::Schema.define(:version => 20130116214223) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -486,6 +486,7 @@ ActiveRecord::Schema.define(:version => 20130115200028) do
     t.boolean  "emailed",         :default => false
     t.datetime "emailed_at"
     t.string   "bucket"
+    t.string   "link_text"
   end
 
   create_table "organizations", :force => true do |t|

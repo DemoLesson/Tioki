@@ -262,17 +262,6 @@
 			<% if @jobs.size != 0 %>
 				<% @jobs.each do |job| %>
 					<div class="item_jobs">
-
-						<% if @org %>
-							<div style="float:right">
-								<a href="<%= url_for([job.group, job, :applications])%>">
-									<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
-									<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
-									<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
-								</a>
-							</div>
-						<% end %>
-						
 						<div class="item_picture">
 							<% if job.group.picture? %>
 								<%= link_to image_tag(job.group.picture.url(:thumb)), job %>
