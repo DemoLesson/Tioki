@@ -66,7 +66,7 @@ var skillStore = {
 
 $(document).ready(function() {
 	// Click on a skill and do something
-	$('a.skill').live('click', function(e) {
+	$('a.skill').on('click', function(e) {
 		e.preventDefault();
 
 		if($(this).hasClass('active')) {

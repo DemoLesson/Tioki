@@ -185,7 +185,7 @@
 			ref.parentNode.insertBefore(js, ref);
 		}(document, /*debug*/ false));
 
-		$('a[href="#facebook_contact"]').live('click', function(e) {
+		$('a[href="#facebook_contact"]').on('click', function(e) {
 			var facebook_id  = $(this).attr('data-contact-id');
 			var facebook_contact = $(this);
 
@@ -270,7 +270,7 @@
 
 		onload = contacts_after_reload;
 
-		$('a[href="#twitter_contact"]').live('click', function(e) {
+		$('a[href="#twitter_contact"]').on('click', function(e) {
 			e.preventDefault();
 			id = $(this).attr('data-contact-id');
 
@@ -416,7 +416,7 @@
 		});
 
 		// One someone click on a contact add it to the array to invite
-		$('a[href="#contact"]').live('click', function(e) {
+		$('a[href="#contact"]').on('click', function(e) {
 			e.preventDefault();
 
 			// If the button is not selected
@@ -464,7 +464,7 @@
 			return false;
 		});
 		
-		$('a[href="#deselect"]').live('click', function(e) {
+		$('a[href="#deselect"]').on('click', function(e) {
 			e.preventDefault();
 
 			var int1 = setInterval(function() {
@@ -480,7 +480,7 @@
 			return false;
 		});
 
-		$('a[href="#select"]').live('click', function(e) {
+		$('a[href="#select"]').on('click', function(e) {
 			e.preventDefault();
 
 			$('a[href="#contact"]').each(function() {

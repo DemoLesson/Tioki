@@ -165,7 +165,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$(".reply_to_comment").live("click", function () {
+	$(".reply_to_comment").on("click", function () {
 		var list = document.createElement('li');
 		var id = $(this).closest("li").attr('id').replace(/comment/, '');
 		list.innerHTML = '<form accept-charset=\"UTF-8\" action=\"/discussions/<%= @discussion.id %>/reply_to_comment?comment_id&comment_id=' + id + '\" class=\"new_comment\" id=\"new_comment\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" /><\/div>\n <strong>Add Your Reply<\/strong><br />\n <textarea cols=\"40\" id=\"comment_body\" name=\"comment[body]\" rows=\"20\" style=\"width:650px\"><\/textarea><br />\n <input name=\"commit\" type=\"submit\" value=\"Add Reply\" />\n<\/form>'

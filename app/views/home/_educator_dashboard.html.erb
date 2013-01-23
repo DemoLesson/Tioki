@@ -395,7 +395,7 @@ $(document).ready(function() {
 	});
 
 	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+	$('a[whiteboard-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -422,7 +422,7 @@ $(document).ready(function() {
 	});
 
 	// Show the comments
-	$('a[whiteboard-action="show-comments"]').live('click', function(e) {
+	$('a[whiteboard-action="show-comments"]').on('click', function(e) {
 		e.preventDefault();
 
 		// Show the comments wrapper
@@ -434,7 +434,7 @@ $(document).ready(function() {
 	});
 
 	// Show the comments
-	$('a[whiteboard-action="show-more-comments"]').live('click', function(e) {
+	$('a[whiteboard-action="show-more-comments"]').on('click', function(e) {
 		e.preventDefault();
 
 		// Show the comments wrapper
@@ -446,7 +446,7 @@ $(document).ready(function() {
 	});
 
 	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -490,7 +490,7 @@ $(document).ready(function() {
 	});
 
 	// Favorite a comment
-	$('a[comment-action="favorite"]').live('click', function(e) {
+	$('a[comment-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -517,7 +517,7 @@ $(document).ready(function() {
 	});
 
 	// Delete a comment
-	$('a[comment-action="delete"]').live('click', function(e) {
+	$('a[comment-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
