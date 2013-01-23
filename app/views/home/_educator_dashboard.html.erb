@@ -137,7 +137,7 @@
 					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @user.avatar? %>
 				</div>
 				<div id="submit-whiteboard" style="width:auto;">
-					<form action="/share_on_whiteboard" method="post">
+					<form action="/share_on_whiteboard" enctype="multipart/form-data" method="post">
 						<fieldset class="trigger">
 							<input type="text" placeholder="Write something on the whiteboard..." />
 						</fieldset>
@@ -159,7 +159,7 @@
 									<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
 								</div>
 								<div style="float:right;">
-									<input type="file" name="file" iconic="camera" style="font-size:1.5em;margin:0px 5px;" tip="Attach a Photo" />
+									<input type="file" name="file" iconic="camera" style="font-size:1.5em;margin:0px 5px;" tip="Attach a Photo" atip="Photo Attached (Click to Remove)" allowed-file-types="png,jpg,jpeg,gif" />
 									<input type="submit" value="Post" />
 								</div>
 							</div>

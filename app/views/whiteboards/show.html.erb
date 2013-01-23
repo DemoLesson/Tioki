@@ -68,6 +68,14 @@
 
 		<p><%= @post.getMessage.more!(266) %></p>
 
+		<% unless @post.attachments.empty? %>
+			<ul class="block-grid three-up" data-clearing>
+				<% for image in @post.attachments %>
+					<li><%= image_tag image.file %></li>
+				<% end %>
+			</ul>
+		<% end %>
+
 		<div class="bar">
 			<span class="timestamp"><%= time_ago_in_words(@post.created_at) %> ago...</span>
 			<a href="#" class="comments" whiteboard-action="show-comments" id="whiteboard_comments<%= @post.id %>">
@@ -129,6 +137,15 @@
 			</div>
 		<% end %>
 		<p><strong><%= time_ago_in_words(@post.created_at) %> ago <%= @post.user.link %> posted:</strong> <%= raw @post.getMessage %></p>
+
+		<% unless @post.attachments.empty? %>
+			<ul class="block-grid three-up" data-clearing>
+			<% for image in @post.attachments %>
+				<li><%= image_tag image.file %></li>
+			<% end %>
+			</ul>
+		<% end %>
+
 		<div class="bar">
 			<% if @post.slug == 'share' %>
 				<a href="#" class="comments" whiteboard-action="show-comments" id="whiteboard_comments<%= @post.id %>">
