@@ -198,7 +198,7 @@
 						plot("<%= zone_slug + '_' + g[:slug] %>", { xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }});
 					});
 
-					$("div#<%= zone_slug + '_' + g[:slug] %> a.reset").live('click', function() {
+					$("div#<%= zone_slug + '_' + g[:slug] %> a.reset").on('click', function() {
 						plot("<%= zone_slug + '_' + g[:slug] %>");
 					});
 
@@ -224,7 +224,7 @@
 			timer();
 
 			// Pause the timer
-			$("a.pause").live('click', function() {
+			$("a.pause").on('click', function() {
 				$(this).removeClass('pause');
 				$(this).addClass('resume');
 				$(this).text("Resume Auto Update");
@@ -234,7 +234,7 @@
 			});
 
 			// Resume the timer
-			$("a.resume").live('click', function() {
+			$("a.resume").on('click', function() {
 				$(this).removeClass('resume');
 				$(this).addClass('pause');
 				$(this).text("Pause Auto Update");

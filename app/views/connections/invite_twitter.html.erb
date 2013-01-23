@@ -82,7 +82,7 @@
 				twitterSearch = <%= @contacts.to_json.html_safe %>;
 		<% end %>
 
-		$('a[href="#twitter_contact"]').live('click', function(e) {
+		$('a[href="#twitter_contact"]').on('click', function(e) {
 			e.preventDefault();
 			id = $(this).attr('data-contact-id');
 

@@ -116,7 +116,7 @@
 			ref.parentNode.insertBefore(js, ref);
 		}(document, /*debug*/ false));
 
-		$('a[href="#facebook_contact"]').live('click', function(e) {
+		$('a[href="#facebook_contact"]').on('click', function(e) {
 			var facebook_id  = $(this).attr('data-contact-id');
 			var facebook_contact = $(this);
 
@@ -142,7 +142,7 @@
 			});
 		});
 
-		$('a[href="#facebook_login"]').live('click', function(e) {
+		$('a[href="#facebook_login"]').on('click', function(e) {
 			e.preventDefault();
 
 			$("#fb_nologin").hide();

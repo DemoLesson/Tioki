@@ -237,7 +237,7 @@ class String
 <a href="javascript:void(0);" ruby-more="#{random}" class="more">(More)</a>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('a[ruby-more]').live('click', function(e) {
+	$('a[ruby-more]').on('click', function(e) {
 		e.preventDefault();
 
 		var $link = $(this);
