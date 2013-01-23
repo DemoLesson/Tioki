@@ -1,3 +1,7 @@
+v4.2.29 - Jan 22, 2013  6:30PM PST deployed by Aleks Stanisic
+=============================================================
+* f3db157: Aleks Stanisic - removing links from step 1 wizard
+
 v4.2.28 - Jan 22, 2013  5:46PM PST deployed by Aleks Stanisic
 =============================================================
 * 03384a5: Aleks Stanisic - adding interview_type to intervews
