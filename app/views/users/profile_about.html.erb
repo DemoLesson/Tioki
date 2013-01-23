@@ -236,19 +236,12 @@
 						<%= @user.location %><br/>
 						</p>
 					<% end %>
-                    <% contact = @user.contact %>
-					<% if !@user.email.empty? %>
-						<p>
-						<span class="bold black">Email:</span>
-						<%= @user.email %><br/>
-						</p>
-					<% end %>
-					<% if !contact['phone'].nil? %>
-						<p>
-						<span class="bold black">Phone:</span>
-						<%= contact['phone'] %><br/>
-						</p>
-					<% end %>
+					<p>
+					<span class="bold black">Tioki URL:</span>
+					<span style="font-size:12px">
+							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/...</a>
+					</span>
+					</p>
 					</section>
 				<% end %>
 			<% end %>

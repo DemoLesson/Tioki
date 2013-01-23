@@ -3,7 +3,7 @@
 		<% if self.current_user == nil %>
 			<%= link_to "Or Refer A Friend", {:controller => :jobs, :action => :job_referral, :id => @job.id}, {:style => "color:#2AA99B;float:right;margin-top:25px"} %>
 			<%= link_to "Apply Now", '/wizards/application?job=' + @job.id.to_s, :class => "action-button bg-salmon", :target => "_blank" %>
-		
+			<%= link_to "Browse More Jobs", '/jobs', :target => "_blank", :style => "color:#2AA99B;float:left" %>
 		<% else %>
 			<% if @job.belongs_to_me(self.current_user) == true || @job.shared_to_me(self.current_user) %>
 				<%= link_to "View Applicants", [@job.group, @job, :applications], {:class => "button bg-green"} %>

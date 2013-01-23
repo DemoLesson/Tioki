@@ -1,68 +1,78 @@
 <section id="main-content" class="inner-content">
 	<% if @org %>
-		<h3> Active Jobs </h3>
-		<% @source.where(:status => 'running').each do |job| %>
-			<section class="info panel" style="height:70px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-			<div class="item_jobs">
-				<div style="float:right; margin-right:10px">
-					<a style ="color:#2AA99B" href="<%= url_for([job.group, job, :applications])%>">
-						<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %> 
-						<span style="margin-left:5px; margin-right:5px"> | </span>
-						<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %>
-						<span style="margin-left:5px; margin-right:5px"> | </span>
-						<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
-					</a>
-				</div>
+		<% if @source.where(:status => 'running').count != 0 %>
+			<h3> Active Jobs </h3>
+			<% @source.where(:status => 'running').each do |job| %>
+				<section class="info panel" style="height:70px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+				<div class="item_jobs">
+					<div style="float:right; margin-right:10px">
+						<a style ="color:#2AA99B" href="<%= url_for([job.group, job, :applications])%>">
+							<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %> 
+							<span style="margin-left:5px; margin-right:5px"> | </span>
+							<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %>
+							<span style="margin-left:5px; margin-right:5px"> | </span>
+							<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
+						</a>
+					</div>
 
-				<div class="item_desc" style="margin-left:-100px">
-					<p>
-						<strong>Job Title: <%= link_to job.title, job %></strong>
-						<br />
-						<span style="float:right; margin-right: -298px"><%= link_to 'Edit Job Posting', [:edit, job.group, job] %></span>
-						<span style="margin-left:0px; margin-right:-190px; float:right"> | </span>
-						<span style="float:right; margin-right:-180px"><%= link_to "Close Job Posting", group_jobs_path(job.group), :style => "color:#F66C4C !important" %></span>
-						Organization: <%= link_to job.group.name, job.group %> 
-					</p>
+					<div class="item_desc" style="margin-left:-100px">
+						<p>
+							<strong>Job Title: <%= link_to job.title, job %></strong>
+							<br />
+							<span style="float:right; margin-right: -298px"><%= link_to 'Edit Job Posting', [:edit, job.group, job] %></span>
+							<span style="margin-left:0px; margin-right:-190px; float:right"> | </span>
+							<span style="float:right; margin-right:-180px"><%= link_to "Close Job Posting", group_jobs_path(job.group), :style => "color:#F66C4C !important" %></span>
+							Organization: <%= link_to job.group.name, job.group %> 
+						</p>
+					</div>					
 				</div>
-				
-			</div>
+				</section>
+			<% end %>
+		<% else %>
+			<h3 style="margin-bottom:-10px"> You Currently have no Active Job posts. </h3>
+			<section class="info panel" style="height:30px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+				<span style="font-size:17px; margin-left:10px"> <%= link_to "Click Here", user_groups_path(currentUser, :organization => true), :style => "color:#F66C4C !important" %> to post a job for one of your organizations <strong>OR</strong> <%= link_to "Click Here", '/me/settings/upgrade', :style => "color:#F66C4C !important" %> to create an organization so you can start posting jobs!</span>
 			</section>
 		<% end %>
 
-		<section class="panel three-column">
-			<h3 style="margin-bottom:-10px"> Unpublished Jobs </h3>
-			<ul>
-				<% @source.where(:status => ['unpublished', nil]).each do |job| %>
-					<li style="padding:12px 20px 12px 15px !important">	
-						<strong>Job Title: <%= link_to job.title, job %></strong>
-						<span style="float:right;"><%= link_to "Reactivate Job Posting", group_jobs_path(job.group), :style => "color:#2AA99B !important" %></span></br>
-						<span style="float:right"><%= link_to 'Edit Job Posting', [:edit, job.group, job] %></span>
-						Organization: <%= link_to job.group.name, job.group %>
-					</li>
-				<% end %>
-			</ul>
-		</section>
+		<% if @source.where(:status => ['unpublished', nil]).count != 0 %>
+			<section class="panel three-column">
+				<h3 style="margin-bottom:-10px"> Unpublished Jobs </h3>
+				<ul>
+					<% @source.where(:status => ['unpublished', nil]).each do |job| %>
+						<li style="padding:12px 20px 12px 15px !important">	
+							<strong>Job Title: <%= link_to job.title, job %></strong>
+							<span style="float:right;"><%= link_to "Reactivate Job Posting", group_jobs_path(job.group), :style => "color:#2AA99B !important" %></span></br>
+							<span style="float:right"><%= link_to 'Edit Job Posting', [:edit, job.group, job] %></span>
+							Organization: <%= link_to job.group.name, job.group %>
+						</li>
+					<% end %>
+				</ul>
+			</section>
+		<% end %>
 
-		<section class="panel three-column">
-			<h3 style="margin-bottom:-10px; margin-top:0px"> Completed Jobs </h3>
-			<ul>
-				<% @source.where(:status => ['completed']).each do |job| %>
-					<li style="padding:12px 20px 12px 15px !important">	
-						<strong>Job Title: <%= link_to job.title, job %></strong>
-						<span style="float:right;"><%= link_to "Reactivate Job Posting", group_jobs_path(job.group), :style => "color:#2AA99B !important" %></span></br>
-						<a href="<%= url_for([job.group, job, :applications])%>" style="float:right"> View Applicants </a>
-						Organization: <%= link_to job.group.name, job.group %>
-					</li>
-				<% end %>
-			</ul>
-		</section>
+		<% if @source.where(:status => ['completed']).count != 0 %>
+			<section class="panel three-column">
+				<h3 style="margin-bottom:-10px; margin-top:0px"> Completed Jobs </h3>
+				<ul>
+					<% @source.where(:status => ['completed']).each do |job| %>
+						<li style="padding:12px 20px 12px 15px !important">	
+							<strong>Job Title: <%= link_to job.title, job %></strong>
+							<span style="float:right;"><%= link_to "Reactivate Job Posting", group_jobs_path(job.group), :style => "color:#2AA99B !important" %></span></br>
+							<a href="<%= url_for([job.group, job, :applications])%>" style="float:right"> View Applicants </a>
+							Organization: <%= link_to job.group.name, job.group %>
+						</li>
+					<% end %>
+				</ul>
+			</section>
+		<% end %>
 
 	<% else %>
 
 		<%= form_tag jobs_path, :method => :get do %>
 			<div id="search">
 				<!--<span style:"margin-top: 6px"><img src="/assets/magnifying_glass.png" alt="magnifying_glass.png" /></span>--><span style="font-size:18px; font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif; color:#4D4D4D; text-shadow:#ccc 1px 1px 2px; margin-left:5px;"> Search Jobs </span>
-				<%= text_field_tag :searchkey, params[:searchkey], :placeholder => 'Search Keyword (job title, subject)', :size => 40 %>
+				<%= text_field_tag :searchkey, params[:searchkey], :placeholder => 'Search Keyword (job title, org name)', :size => 40 %>
 				<%= text_field :location, 'city', :placeholder => "Type a city or address", :size => 40 %> 
 				<%= submit_tag "GO", :id => "go", :class => "btn btn-success" %>
 				<div id="advanced" style="color:#4D4D4D">Advanced</div>
@@ -252,17 +262,6 @@
 			<% if @jobs.size != 0 %>
 				<% @jobs.each do |job| %>
 					<div class="item_jobs">
-
-						<% if @org %>
-							<div style="float:right">
-								<a href="<%= url_for([job.group, job, :applications])%>">
-									<%= (ct = job.applications.where(:status => 'Not Reviewed').is_submitted.count).to_s + ' New ' + (ct == 1 ? 'Application' : 'Applications')  %><br />
-									<%= (ct = job.applications.is_submitted.count).to_s + (ct == 1 ? ' Application' : ' Applications')  %><br />
-									<%= (ct = job.interviews.count).to_s + (ct == 1 ? ' Interview' : ' Interviews')  %>
-								</a>
-							</div>
-						<% end %>
-						
 						<div class="item_picture">
 							<% if job.group.picture? %>
 								<%= link_to image_tag(job.group.picture.url(:thumb)), job %>

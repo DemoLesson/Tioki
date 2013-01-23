@@ -1,3 +1,49 @@
+v4.2.27 - Jan 22, 2013  1:20PM PST deployed by Aleks Stanisic
+=============================================================
+* bdcee2e: Aleks Stanisic - displaying location of interview on applications page
+
+v4.2.26 - Jan 22, 2013 12:44PM PST deployed by Aleks Stanisic
+=============================================================
+* f5bfcc7: Aleks Stanisic - changes to request interviews page
+* 6d5fe01: Elijah Green - Don't send teacher applied email
+
+v4.2.25 - Jan 22, 2013 10:51AM PST deployed by Aleks Stanisic
+=============================================================
+* 32bc425: Aleks Stanisic - style changes to interview section of applications page
+* 9bfd54d: Aleks Stanisic - style changes to applications page
+* b21da70: Elijah Green - Search on group name of jobs
+* 659fed6: Elijah Green - Fix some problems with search
+
+v4.2.24 - Jan 21, 2013  4:11PM PST deployed by Aleks Stanisic
+=============================================================
+* de138a6: Aleks Stanisic - adding browse more jobs link to jobs page
+
+v4.2.23 - Jan 21, 2013 12:02PM PST deployed by Kelly Becker
+===========================================================
+* 8eb55f0: Kelly Becker - public filter for discussions (removes any non public discussions from the homepage discussions list)
+
+v4.2.22 - Jan 21, 2013 10:41AM PST deployed by Kelly Becker
+===========================================================
+* 535ab24: Kelly Becker - change to what information is publically shared on the whiteboard.
+
+v4.2.21 - Jan 21, 2013 10:34AM PST deployed by Kelly Becker
+===========================================================
+* 9b257ca: Kelly Becker - language change and don't show whiteboard posts for new discussions on whiteboard
+
+v4.2.20 - Jan 20, 2013  1:53PM PST deployed by Aleks Stanisic
+=============================================================
+* 3ec9cf8: Aleks Stanisic - made a change to featured discussions on home dashboard to ensure no discussions from TFA get listed
+
+v4.2.19 - Jan 20, 2013 11:41AM PST deployed by Aleks Stanisic
+=============================================================
+* 30f6463: Aleks Stanisic - change to Job Seekers page
+
+v4.2.18 - Jan 19, 2013  4:29PM PST deployed by Aleks Stanisic
+=============================================================
+* 3c53d0a: Aleks Stanisic - adding job seekers to footer
+* 98aff2f: Aleks Stanisic - changing the contact info sections in the about and resume profile pages
+* 8a87fdf: Aleks Stanisic - making changes to MY Jobs page
+
 v4.2.17 - Jan 18, 2013  7:06PM PST deployed by Elijah Green
 ===========================================================
 * 6f1fc2a: Aleks Stanisic - changes to job seeker page

@@ -147,7 +147,7 @@ class Whiteboard < ActiveRecord::Base
 		connections = "'" + connections.uniq.join("','") + "'"
 
 		# Temporary slug allowance list
-		slugs = %w(share event_rsvp event_create article video_upload profile_update created_vouch created_discussion connection avatar_update)
+		slugs = %w(share event_rsvp event_create article created_discussion connection)
 		slugs = "'" + slugs.join("','") + "'"
 
 		# Temporary script

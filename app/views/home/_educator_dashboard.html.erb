@@ -262,7 +262,7 @@
 		<section id="list" class="panel one-column right-side">
 			<h3>Discussions</h3>
 			<ul>
-				<% @discussions.each do |discussion| %>
+				<% @discussions.public.each do |discussion| %>
 					<li style="padding:12px 15px 12px 5px !important;width:290px">
 					<%  if self.current_user %>
 						<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }, :style => "float:right" %>
