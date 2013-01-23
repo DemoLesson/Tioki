@@ -7,10 +7,7 @@ class AddAttachmentTable < ActiveRecord::Migration
 			t.string  :owner_type
 
 			# File Information
-			t.string :file_file_name
-			t.string :file_content_type
-			t.integer :file_file_size
-			t.datetime :file_updated_at
+			t.attachment :file
 
 			# Link to a video if applicable
 			t.integer :video_id

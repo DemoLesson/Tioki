@@ -98,13 +98,13 @@ GEM
     columnize (0.3.6)
     curb (0.8.3)
     daemons (1.1.9)
-    debugger (1.2.3)
+    debugger (1.2.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.5)
+      debugger-ruby_core_source (~> 1.1.7)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.6)
+    debugger-ruby_core_source (1.1.7)
     delayed_job (3.0.4)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
@@ -117,7 +117,7 @@ GEM
       multi_json (~> 1.0)
     faraday (0.8.4)
       multipart-post (~> 1.1)
-    fog (1.8.0)
+    fog (1.9.0)
       builder
       excon (~> 0.14)
       formatador (~> 0.2.0)
@@ -143,12 +143,12 @@ GEM
       multi_json (~> 1.0)
       multi_xml
     i18n (0.6.1)
-    jquery-rails (2.1.4)
+    jquery-rails (2.2.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     jruby-pageant (1.1.1)
     json (1.7.6)
-    kgio (2.7.4)
+    kgio (2.8.0)
     koala (1.1.0)
       multi_json (~> 1.0)
       multipart-post (~> 1.0)
@@ -244,7 +244,7 @@ GEM
       thor
     ruby-hmac (0.4.0)
     sass (3.2.5)
-    sass-rails (3.1.6)
+    sass-rails (3.1.7)
       actionpack (~> 3.1.0)
       railties (~> 3.1.0)
       sass (>= 3.1.10)
@@ -337,7 +337,7 @@ DEPENDENCIES
   oauth
   open4
   os
-  paperclip (~> 3.0)
+  paperclip
   possessive
   rails (= 3.1.10)
   remotipart (~> 0.4.1)
