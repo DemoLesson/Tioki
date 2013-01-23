@@ -33,10 +33,15 @@
 							<span>Interview Location</span>
 							<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
 						</label>
+						<label style="margin-left:300px; margin-top:-30px">
+							<span>Interview Type: </span>
+							<%= select(:interview, :interview_type, { "In-Person" => "In-Person", "Phone" => "Phone", "Skype" => "Skype", "Google Hangout" => "Google Hangout", "Other" => "Other"}) %>
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
+						<p>Use this preformatted message or create your own. </p>
 						<label>
 							<span>Message</span>
 							<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"><%= @message %></textarea>
@@ -45,7 +50,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<%= t.submit "Save Interview" %>
+						<%= t.submit "Schedule Interview" %>
 					</td>
 				</tr>
 			</table>
@@ -69,7 +74,8 @@
 								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
 							<% end %>
 							<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
-							Location: <%= @interview.location %>
+							Location: <%= @interview.location %><br />
+							Type: <%= @interview.interview_type %>
 						</label>
 					</td>
 					<td>
