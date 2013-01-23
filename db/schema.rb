@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130122195121) do
+ActiveRecord::Schema.define(:version => 20130122235129) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20130122195121) do
     t.integer  "user_id"
     t.integer  "number"
     t.integer  "application_id"
+    t.string   "interview_type"
   end
 
   create_table "job_packs", :force => true do |t|

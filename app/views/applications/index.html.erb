@@ -102,6 +102,10 @@
 						<% if int.location? %>
 							<span style="margin-left:80px">Location: <%= int.location %></span>
 						<% end %>
+						<% if int.interview_type? %>
+							<span style="margin-left:80px">Type: <%= int.interview_type %></span>
+						<% end %>
+
 						<div style="clear:both;"></div>
 					</li>
 				<% end %>
