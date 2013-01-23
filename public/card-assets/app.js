@@ -21,7 +21,7 @@ var DemoLesson;
 		/**
 		 * Add and remove skills.
 		 */
-		$(".skill-select .columns span").live('click', function(){
+		$(".skill-select .columns span").on('click', function(){
 			var item = $(this).parent();
 			if(item.hasClass('selected')) {
 				DemoLesson.removeSkill(item.data('skill'))

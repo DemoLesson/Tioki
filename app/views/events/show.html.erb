@@ -162,7 +162,7 @@
 					});
 
 					// Favorite a comment
-					$('a[comment-action="favorite"]').live('click', function(e) {
+					$('a[comment-action="favorite"]').on('click', function(e) {
 						e.preventDefault();
 
 						var link = $(this);
@@ -189,7 +189,7 @@
 					});
 
 					// Delete a comment
-					$('a[comment-action="delete"]').live('click', function(e) {
+					$('a[comment-action="delete"]').on('click', function(e) {
 						e.preventDefault();
 
 						var link = $(this);

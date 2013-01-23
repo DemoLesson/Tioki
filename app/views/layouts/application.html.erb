@@ -542,7 +542,7 @@
 				$('a[href="#notifications"]').removeClass('unread');
 			});
 
-			$('#notifications [href]').live('click', function() {
+			$('#notifications [href]').on('click', function() {
 				$link = $(this);
 				$.defercall(function() {
 					$('#notifications').kModal('hide');
@@ -572,14 +572,14 @@
 		$('<span class="x-placeholder" style="position:absolute;top:0px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
 		});
 
-		$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusin', function(e) {
+		$('span.x-input-wrap input, span.x-input-wrap textarea').on('focusin', function(e) {
 			$(this).next('span.x-placeholder').hide();
 		});
-		$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusout', function(e) {
+		$('span.x-input-wrap input, span.x-input-wrap textarea').on('focusout', function(e) {
 			if($(this).val().length == 0)
 			$(this).next('span.x-placeholder').show();
 		});
-		$('span.x-placeholder').live('click', function() {
+		$('span.x-placeholder').on('click', function() {
 			$(this).prev('input').focus();
 			$(this).hide();
 		});

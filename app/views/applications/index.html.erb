@@ -6,7 +6,11 @@
 	</h2>
 	<table style="width:100%;" class="applications">
 		<td class="left">
-			<h3>Applicants</h3>
+			<% if @source.is_a?(Job) %>
+				<h3>Applicants</h3>
+			<% else %>
+				<h3>Applications</h3>
+			<% end %>
 			<ul style="width:100%;">
 				<% if @applications.count < 1 %>
 					<li>Doesn't look like you have any applicants just yet. We'll email you as soon as you receive one.</li>
@@ -26,9 +30,9 @@
 							<h4><%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
-						<span>Applied on: <%= app.created_at.to_s(:date) %></span>
-						<span>
+						<span style="margin-left:80px">Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
+						<span style="margin-left:80px">Applied on: <%= app.created_at.to_s(:date) %></span>
+						<span style="margin-left:80px">
 							Application Status: 
 							<% if @source.is_a?(User) %>
 									<%= app.status %>
@@ -46,6 +50,8 @@
 									<%= f.submit "Update Status" %>
 								<% end %>
 							<% end %>
+						</span>
+						<span>
 							<% if !app.assets.empty? %>
 								<h5>Assets</h5>
 								<ul>
@@ -83,15 +89,18 @@
 							<h4><%= link_to int.user.name, "/profile/#{int.user.slug}", :class => :salmon %></h4>
 						<% end %>
 
-						<span>Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
-						<span>Applied on: <%= int.application.created_at.to_s(:date) %></span>
+						<span style="margin-left:80px">Applicant for: <%= link_to int.job.title, int.job, :class => :salmon %></span>
+						<span style="margin-left:80px">Applied on: <%= int.application.created_at.to_s(:date) %></span>
 
 						<% if @source.is_a?(User) && int.intDate == 'Unscheduled' %>
-							<span><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
+							<span style="margin-left:80px"><%= link_to 'Review Interview Request', [:edit, @source, int.application, int], :class => :salmon %></span>
 						<% elsif @source.is_a?(Job) && int.intDate == 'Reschedule Requested' %>
-							<span><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
+							<span style="margin-left:80px"><%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></span>
 						<% else %>
-							<span>Interview on: <%= int.intDate %></span>
+							<span style="margin-left:80px">Interview on: <%= int.intDate %></span>
+						<% end %>
+						<% if int.location? %>
+							<span style="margin-left:80px">Location: <%= int.location %></span>
 						<% end %>
 						<div style="clear:both;"></div>
 					</li>

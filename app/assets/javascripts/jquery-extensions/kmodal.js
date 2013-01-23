@@ -44,7 +44,7 @@
 			 * Do we want to bind to links
 			 */
 			if(settings['bind-link']) {
-				$('a[kmodal=1]').live('click', function(e) {
+				$('a[kmodal=1]').on('click', function(e) {
 					e.preventDefault();
 					var id = $(this).attr('href');
 
