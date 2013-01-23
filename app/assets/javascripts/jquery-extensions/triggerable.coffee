@@ -11,11 +11,11 @@ $ ->
 			# Get the triggerable element
 			$trig = $this.next '.triggerable'
 
-			# Focus the first editable input
-			do $trig.children('input, textarea').first.focus
-
 			# Fade in the new element
-			$trig.fadeIn 500
+			$trig.fadeIn 500, ->
+
+				# Focus the first editable input
+				do $trig.children('input, textarea').focus
 
 		# Additional action prevention
 		return false;
