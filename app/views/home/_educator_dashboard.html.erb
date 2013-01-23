@@ -123,6 +123,8 @@
 		</a>
 	</section>
 	<section id="panels">
+
+		<!-- START Whiteboard -->
 		<section class="panel two-column left-side">
 			<h3>
 				<a href="#">
@@ -136,34 +138,41 @@
 				</div>
 				<div id="submit-whiteboard" style="width:auto;">
 					<form action="/share_on_whiteboard" method="post">
-						<fieldset>
-							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
-							<input type="submit" class="button" />
+						<fieldset class="trigger">
+							<input type="text" placeholder="Write something on the whiteboard..." />
 						</fieldset>
-						<span style="float:right;margin-right:60px">
-							<% if self.current_user.twitter_auth? %>
-								<%= check_box_tag :share_on_twitter, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_twitter, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
-							<% if self.current_user.facebook_auth? %>
-								<%= check_box_tag :share_on_facebook, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_facebook, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
-						</span>
+						<fieldset class="triggerable">
+							<textarea name="message"></textarea>
+							<div>
+								<div style="float:left;">
+									<% if self.current_user.twitter_auth? %>
+										<%= check_box_tag :share_on_twitter, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_twitter, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
+									<% if self.current_user.facebook_auth? %>
+										<%= check_box_tag :share_on_facebook, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_facebook, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
+								</div>
+								<div style="float:right;">
+									<input type="submit" value="post" />
+								</div>
+							</div>
+						</fieldset>
 					</form>
 				</div>
 			</section>
 			<ul class="whiteboard">
-				<% @whiteboard.each do |post| %>
-					<%= raw post %>
-				<% end %>
+				<%= @whiteboard.join('').html_safe %>
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
-		</section> <!-- END WHITEBOARD -->
+		</section>
+
+		<!-- START Suggested educators to connect with -->
 		<section id="list" class="panel one-column right-side">
 			<h3 class="bottom-line">Suggested Educators</h3>
 			<div class="suggested-connections">
