@@ -1,0 +1,46 @@
+<h3>Tioki makes finding a job pretty freading easy!</h3>
+
+Since you indicated you are job seeking, why don't you let us know what you are looking for?  As positions become available that meet your needs, we'll email you.
+
+<%= form_tag "/jobs/preferences" do %>
+	<p>
+		Location<br />
+		<%= text_field_tag "user[seeking][location]" %> <%= check_box_tag "any_location" %> Any Location
+	</p>
+
+	<p>
+		Subject<br />
+		<input type="text" name="user[seeking][subjects]" />
+	</p>
+
+	<p>
+		Grade Level<br />
+		<input type="text" name="user[seeking][grades]" />
+	</p>
+
+	<p>
+		Organization Type<br />
+		<%= select_tag('user[seeking][school_type]', options_for_select([["All", "All"], ["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]])) %>
+	</p>
+
+	<p>
+		<%= submit_tag "Save" %>
+	</p>
+
+<% end %>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+	 $('input[name="user[seeking][subjects]"]').tokenInput("/api/subjects", {
+		 hintText: "Subjects...",
+		 theme: "facebook",
+		 resultsLimit: 10
+	 });
+	$('input[name="user[seeking][grades]"]').tokenInput("/api/grades", {
+		hintText: "Grades...",
+		theme: "facebook",
+		resultsLimit: 10
+	});
+ });
+</script>
+
