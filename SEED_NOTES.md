@@ -1,3 +1,7 @@
+v4.2.37 - Jan 24, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 68f76a4: Aleks Stanisic - gem fix
+
 v4.2.36 - Jan 24, 2013 12:51PM PST deployed by Aleks Stanisic
 =============================================================
 * 7be18e8: Aleks Stanisic - slight change to geography
