@@ -1,3 +1,7 @@
+v4.2.38 - Jan 24, 2013  3:21PM PST deployed by Aleks Stanisic
+=============================================================
+* 979045b: Aleks Stanisic - fixed design bug
+
 v4.2.37 - Jan 24, 2013  1:11PM PST deployed by Aleks Stanisic
 =============================================================
 * 68f76a4: Aleks Stanisic - gem fix
