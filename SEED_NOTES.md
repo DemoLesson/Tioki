@@ -1,3 +1,8 @@
+v4.2.33 - Jan 24, 2013 11:16AM PST deployed by Aleks Stanisic
+=============================================================
+* 293d5c3: Aleks Stanisic - replaces .on with .live to fix edit skillz page
+* ef494f4: Aleks Stanisic - adding geography tracker to admin
+
 v4.2.32 - Jan 23, 2013  7:26PM PST deployed by Elijah Green
 ===========================================================
 * 031902b: Elijah Green - Seperate labels on step3
