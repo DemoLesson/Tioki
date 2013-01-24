@@ -1,3 +1,7 @@
+v4.2.36 - Jan 24, 2013 12:51PM PST deployed by Aleks Stanisic
+=============================================================
+* 7be18e8: Aleks Stanisic - slight change to geography
+
 v4.2.35 - Jan 24, 2013 12:45PM PST deployed by Aleks Stanisic
 =============================================================
 * adffccb: Brian Martinez - moving the attachments button out of the edit profile blob
