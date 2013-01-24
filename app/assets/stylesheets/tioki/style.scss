@@ -1273,6 +1273,26 @@ ul.whiteboard {
 
 			}
 		}
+
+		ul.whiteboard-attachments {
+			background: #F1f1f1;
+			margin: 10px 0px !important;
+			text-align: center;
+			padding: 0px !important;
+
+			li {
+				@include css3-border-box;
+				padding: 6px !important;
+			}
+
+			img {
+				line-height: 0px;
+			}
+		}
+
+		& > div.budge {
+			margin-left: 60px;
+		}
 	}
 }
 
@@ -1302,7 +1322,7 @@ div.comments, section.comments {
 			padding: 10px 0px !important;
 			border-top: dashed 1px #CFD4D5;
 			position: relative;
-			display: none !important;
+			display: none;
 			width: 100%;
 
 			&:nth-child(1), &:nth-child(2), &:nth-child(3) {
@@ -1346,6 +1366,34 @@ div.comments, section.comments {
 					float: right;
 				}
 			}
+		}
+	}
+}
+
+form#post-comment {
+	@include css3-border-box;
+	margin-bottom: 12px;
+
+	fieldset {
+		margin: 0px;
+		margin-left: 40px;
+
+		// Hide the triggerable for now
+		&.triggerable {
+			display: none;
+		}
+
+		// Input/Textarea styles
+		input[type="text"], textarea {
+			@include css3-border-box;
+			width: 100%;
+			padding: 7px 12px;
+			font-size: 12px;
+		}
+
+		// Textarea additionals
+		textarea {
+			height: 70px;
 		}
 	}
 }

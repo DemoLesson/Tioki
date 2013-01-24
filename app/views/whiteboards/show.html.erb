@@ -64,67 +64,76 @@
 		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.slug unless @post.user.avatar? %>
 		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen' %>
 
-		<h3><span class="salmon"><%= @post.user.name %></span> shared an article.</h3>
-
-		<p><%= @post.getMessage.more!(266) %></p>
-
-		<% unless @post.attachments.empty? %>
-			<ul class="block-grid three-up" data-clearing>
-				<% for image in @post.attachments %>
-					<li><%= image_tag image.file %></li>
+		<div class="budge">
+			<div>
+				<strong><%= @post.user.link %></strong>&nbsp;&nbsp;<small style="color:#b6b5b4;"><%= time_ago_in_words(@post.created_at) %> ago</small>
+				<% unless currentUser.new_record? %>
+					<span class="icons" style="float:right;font-size:16px;">
+						<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% else %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% end %>
+						<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
+							<span class="iconic eye"></span>
+						</a>
+						<% if @post.user == User.current || User.current.is_admin %>
+							<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
+								<span class="iconic x_alt"></span>
+							</a>
+						<% end %>
+					</span>
 				<% end %>
-			</ul>
-		<% end %>
+			</div>
 
-		<div class="bar">
-			<span class="timestamp"><%= time_ago_in_words(@post.created_at) %> ago...</span>
-			<a href="#" class="comments" whiteboard-action="show-comments" id="whiteboard_comments<%= @post.id %>">
-				(<%= @post.getComments.count %>) Comments
-			</a>
-			<span class="icons">
-				<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% else %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% end %>
-				<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments" id="whiteboard_comments<%= @post.id %>">
-					<span class="iconic chat_alt_stroke"></span>
-				</a>
-				<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
-					<span class="iconic eye"></span>
-				</a>
-				<% if @post.user == User.current || User.current.is_admin %>
-					<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
-						<span class="iconic x_alt"></span>
-					</a>
-				<% end %>
-			</span>
-		</div>
-		<div class="comments">
-			<ul>
-				<% comments = @post.getComments %>
-				<% comments.each_with_index do |comment, i| %>
-					<% @comment = comment %>
-					<%= render 'comments/show' %>
-					<% if i == 1 && comments.count > 2 %>
-						<li style="text-align:center;" class="show-more"><a href="#" whiteboard-action="show-more-comments">Show more comments.</a></li>
+			<p><%= @post.getMessage.more!(266) %></p>
+
+			<% unless @post.attachments.empty? %>
+				<ul class="whiteboard-attachments">
+					<% for image in @post.attachments %>
+						<li><%= image_tag image.file %></li>
 					<% end %>
-				<% end %>
-			</ul>
-			<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
-				<textarea name="comment" style="height:25px;width:94%;padding:10px 3%;"></textarea>
-				<input type="submit" value="Post Comment" />
-			</form>
+				</ul>
+			<% end %>
+
+			<div class="comments">
+				<ul>
+					<% @post.getComments.each_with_index do |comment, i| %>
+						<% @comment = comment; @hide = i > 1 %>
+						<%= render 'comments/show' %>
+						<% if i == 1 && @post.getComments.count > 2 %>
+							<li style="text-align:center;display:block;" class="show-more"><a href="#" whiteboard-action="show-more-comments" style="display:block;float:none;">Show more comments.</a></li>
+						<% end %>
+					<% end %>
+				</ul>
+				<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
+					<div class="profile-thumb-small" style="float:left;width:30px;height:30px;">
+						<%= image_tag currentUser.avatar.url(:tiny), :style => 'width:30px;' if !currentUser.new_record? && currentUser.avatar? %>
+						<%= image_tag "dl_icons/no_avatar_tiny.jpg", :style => 'width:30px;' unless !currentUser.new_record? && currentUser.avatar? %>
+					</div>
+					<fieldset class="trigger">
+						<input type="text" placeholder="Share a comment" />
+					</fieldset>
+					<fieldset class="triggerable">
+						<textarea name="comment"></textarea>
+						<div>
+							<div style="float:right;">
+								<input type="submit" value="Post Comment" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="clear"></div>
 		</div>
-		<div class="clear"></div>
 	</li>
 <% else %>
 	<li class="new-style article" id="<%= @post.id %>">
@@ -136,66 +145,76 @@
 				<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{x.slug}" unless x.avatar? %>
 			</div>
 		<% end %>
-		<p><strong><%= time_ago_in_words(@post.created_at) %> ago <%= @post.user.link %> posted:</strong> <%= raw @post.getMessage %></p>
 
-		<% unless @post.attachments.empty? %>
-			<ul class="block-grid three-up" data-clearing>
-			<% for image in @post.attachments %>
-				<li><%= image_tag image.file %></li>
-			<% end %>
-			</ul>
-		<% end %>
+		<div class="budge">
+			<div>
+				<strong><%= @post.user.link %></strong>&nbsp;&nbsp;<small style="color:#b6b5b4;"><%= time_ago_in_words(@post.created_at) %> ago</small>
+				<% unless currentUser.new_record? %>
+					<span class="icons" style="float:right;font-size:16px;">
+						<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% else %>
+							<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
+								<span class="iconic star"><%= favorites(@post) %></span>
+							</a>
+						<% end %>
+						<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
+							<span class="iconic eye"></span>
+						</a>
+						<% if @post.user == User.current || User.current.is_admin %>
+							<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
+								<span class="iconic x_alt"></span>
+							</a>
+						<% end %>
+					</span>
+				<% end %>
+			</div>
 
-		<div class="bar">
-			<% if @post.slug == 'share' %>
-				<a href="#" class="comments" whiteboard-action="show-comments" id="whiteboard_comments<%= @post.id %>">
-					(<%= @post.getComments.count %>) Comments
-				</a>
-			<% end %>
-			<span class="icons">
-				<% if Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 0 %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title=" Favorite this post!">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% elsif Favorite.where(:model => @post.tag!).map{|n| n.user.name}.count == 1 %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> has favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% else %>
-					<a href="/whiteboard/favorite/<%= @post.id %>" whiteboard-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@post) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @post.tag!).map{|n| n.user.name}.to_sentence %> have favorited this post">
-					<span class="iconic star"><%= favorites(@post) %></span>
-					</a>
-				<% end %>
-				<% if @post.slug == 'share' %>
-					<a href="#" whiteboard-action="show-comments" class="has-tip no-tip-dots tip-left action" title="(<%= @post.getComments.count %>) Comments" id="whiteboard_comments<%= @post.id %>">
-						<span class="iconic chat_alt_stroke"></span>
-					</a>
-				<% end %>
-				<a href="/whiteboard/hide/<%= @post.id %>" whiteboard-action="hide" class="has-tip no-tip-dots tip-left action" title="Hide Post">
-					<span class="iconic eye"></span>
-				</a>
-				<% if @post.user == User.current || User.current.is_admin %>
-					<a href="/whiteboard/delete/<%= @post.id %>" whiteboard-action="delete" class="has-tip no-tip-dots tip-left action" title="Delete Post">
-						<span class="iconic x_alt"></span>
-					</a>
-				<% end %>
-			</span>
-		</div>
-		<div class="comments">
-			<ul>
-				<% @post.getComments.each_with_index do |comment, i| %>
-					<% @comment = comment %>
-					<%= render 'comments/show' %>
-					<% if i == 1 %>
-						<li style="text-align:center;" class="show-more"><a href="#" whiteboard-action="show-more-comments" style="display:block;">Show more comments.</a></li>
+			<p><%= raw @post.getMessage %></p>
+
+			<% unless @post.attachments.empty? %>
+				<ul class="whiteboard-attachments">
+					<% for image in @post.attachments %>
+						<li><%= image_tag image.file %></li>
 					<% end %>
-				<% end %>
-			</ul>
-			<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
-				<textarea name="comment" style="height:25px;width:94%;padding:10px 3%;"></textarea>
-				<input type="submit" value="Post Comment" />
-			</form>
+				</ul>
+			<% end %>
+
+			<div class="comments">
+				<ul>
+					<% @post.getComments.each_with_index do |comment, i| %>
+						<% @comment = comment; @hide = i > 1 %>
+						<%= render 'comments/show' %>
+						<% if i == 1 && @post.getComments.count > 2 %>
+							<li style="text-align:center;display:block;" class="show-more"><a href="#" whiteboard-action="show-more-comments" style="display:block;float:none;">Show more comments.</a></li>
+						<% end %>
+					<% end %>
+				</ul>
+				<form id="post-comment" action="<%= "/whiteboard/#{@post.id}/comment" %>" method="post">
+					<div class="profile-thumb-small" style="float:left;width:30px;height:30px;">
+						<%= image_tag currentUser.avatar.url(:tiny), :style => 'width:30px;' if !currentUser.new_record? && currentUser.avatar? %>
+						<%= image_tag "dl_icons/no_avatar_tiny.jpg", :style => 'width:30px;' unless !currentUser.new_record? && currentUser.avatar? %>
+					</div>
+					<fieldset class="trigger">
+						<input type="text" placeholder="Share a comment" />
+					</fieldset>
+					<fieldset class="triggerable">
+						<textarea name="comment"></textarea>
+						<div>
+							<div style="float:right;">
+								<input type="submit" value="Post Comment" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="clear"></div>
 		</div>
-		<div class="clear"></div>
 	</li>
 <% end %>

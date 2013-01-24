@@ -1,23 +1,24 @@
-<li>
-	<%= link_to image_tag(@comment.user!.avatar.url(:tiny), :width => 20, :height => 20), @comment.user!.url if @comment.user!.avatar? %>
-	<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), @comment.user!.url unless @comment.user!.avatar? %>
-	<p>
-		<strong><%= @comment.user!.link %>: </strong>
-		<%= @comment.body %>
-	</p>
-	<div class="bar">
-		<span class="timestamp"><%= time_ago_in_words(@comment.created_at) %> ago</span>
-		<span class="icons">
-			<% unless currentUser.new_record? %>
-			<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
-				<span class="iconic star"><%= favorites(@comment) %></span>
-			</a>
-			<% end %>
-			<% if @comment.user == User.current || (User.current && User.current.is_admin) %>
-				<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action salmon" title="Delete Comment">
-					<span class="iconic x_alt"></span>
+<li style="<%= @hide ? 'display:none;' : '' %>">
+	<div class="profile-thumb-small" style="float:left;width:30px;height:30px;">
+		<%= link_to image_tag(@comment.user!.avatar.url(:tiny), :width => 30, :height => 30), @comment.user!.url if @comment.user!.avatar? %>
+		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => 20, :height => 20), @comment.user!.url unless @comment.user!.avatar? %>
+	</div>
+	<div class="budge" style="margin-left:40px;">
+		<div>
+			<strong><%= @comment.user!.link %></strong>&nbsp;&nbsp;<small style="color:#b6b5b4;"><%= time_ago_in_words(@comment.created_at) %> ago</small>
+			<span class="icons" style="float:right;">
+				<% unless currentUser.new_record? %>
+				<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
+					<span class="iconic star"><%= favorites(@comment) %></span>
 				</a>
-			<% end %>
-		</span>
+				<% end %>
+				<% if @comment.user == User.current || (User.current && User.current.is_admin) %>
+					<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action salmon" title="Delete Comment">
+						<span class="iconic x_alt"></span>
+					</a>
+				<% end %>
+			</span>
+		</div>
+		<p><%= @comment.body %></p>
 	</div>
 </li>

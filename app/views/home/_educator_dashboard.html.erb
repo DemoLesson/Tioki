@@ -477,9 +477,11 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+		data = form.serialize();
+		form.find('textarea').val('Posting...').prop('disabled', true);
+		$.post(form.attr('action') + '.json', data, function(r) {
+			form.find('textarea').val(r.message).prop('disabled', true);
 			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
 				$.get('/comments/' + r.id, function(d) {
 					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
 					form.prev('ul').append(comment);
@@ -494,7 +496,7 @@ $(document).ready(function() {
 					});
 				});
 			}
-		})
+		});
 
 		return false;
 	});
