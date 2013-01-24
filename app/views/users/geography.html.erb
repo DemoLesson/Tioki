@@ -7,6 +7,7 @@
   <li>Geography</li>
 </ul>
 
+<%= render :partial => "admin_stats", :locals => { :stats => @stats } %>
 <%= render :partial => "admin_menu" %>
 
 <div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
@@ -17,6 +18,26 @@
 
 <p style="font-size: 20px"><strong>Where in the World Are Our Users?</strong></p>
 <table cellpadding="5" style="width:100%;">
+  <strong style="color:#2AA99B">Sampled from: <%= @users.count %> Users</strong></br>
+  <tr>
+    <td>
+    <Strong> Notable Countries </strong></br>
+    Australia: <%= @users.select{|user| user.country == "Australia"}.count %></br>
+    Canada: <%= @users.select{|user| user.country == "Canada"}.count %></br>
+    United Kingdom: <%= @users.select{|user| user.country == "United Kingdom"}.count %></br>
+    United States: <%= @users.select{|user| user.country == "United States"}.count %></br>
+   </td>
+    <td>
+    <Strong> Notable Cities </strong></br>
+    Chicago: <%= @users.select{|user| user.city == "Chicago"}.count %></br>
+    Dallas: <%= @users.select{|user| user.city == "Dallas"}.count %></br>
+    Los Angeles: <%= @users.select{|user| user.city == "Los Angeles"}.count %></br>
+    New Orleans: <%= @users.select{|user| user.city == "New Orleans"}.count %></br>
+    New York: <%= @users.select{|user| user.city == "New York"}.count %></br>
+    Oakland: <%= @users.select{|user| user.city == "Oakland"}.count %></br>
+    San Francisco: <%= @users.select{|user| user.city == "San Francisco"}.count %></br>
+   </td>
+  </tr>
   <tr>
     <th>State</th>
     <th># of Users</th>
@@ -52,6 +73,10 @@
   <tr>
     <td ><span style="float:right">Delaware:</span></td>
     <td><%= @users.select{|user| user.state == "Delaware"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">District of Columbia:</span></td>
+    <td><%= @users.select{|user| user.state == "District of Columbia"}.count %></td>
   </tr>
   <tr>
     <td ><span style="float:right">Florida:</span></td>

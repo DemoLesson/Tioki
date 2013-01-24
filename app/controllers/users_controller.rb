@@ -482,7 +482,10 @@ class UsersController < ApplicationController
 	end
 
 	def geography
-		@users = User.where('state = ?', false).all
+		@users = User.where('country = ?', false).all
+
+		@stats = []
+		@stats.push({:name => 'Registered Users', :value => User.count})
 	end
 
 	def manage
