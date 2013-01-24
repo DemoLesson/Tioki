@@ -1,0 +1,254 @@
+
+<section id="main-content" class="inner-content">
+<h1>Administration</h1>
+
+<ul id="breadcrumbs">
+  <li><%= link_to 'Home', :admin %></li>
+  <li>Geography</li>
+</ul>
+
+<%= render :partial => "admin_stats", :locals => { :stats => @stats } %>
+<%= render :partial => "admin_menu" %>
+
+<div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
+
+<div id="wrapper" style="margin-top: 0">
+
+<div id="left" style="width: 905px"align="left">
+
+<p style="font-size: 20px"><strong>Where in the World Are Our Users?</strong></p>
+<table cellpadding="5" style="width:100%;">
+  <strong style="color:#2AA99B">Sampled from: <%= @users.count %> Users</strong></br>
+  <tr>
+    <td>
+    <Strong> Notable Countries </strong></br>
+    Australia: <%= @users.select{|user| user.country == "Australia"}.count %></br>
+    Canada: <%= @users.select{|user| user.country == "Canada"}.count %></br>
+    United Kingdom: <%= @users.select{|user| user.country == "United Kingdom"}.count %></br>
+    United States: <%= @users.select{|user| user.country == "United States"}.count %></br>
+   </td>
+    <td>
+    <Strong> Notable Cities </strong></br>
+    Chicago: <%= @users.select{|user| user.city == "Chicago"}.count %></br>
+    Dallas: <%= @users.select{|user| user.city == "Dallas"}.count %></br>
+    Los Angeles: <%= @users.select{|user| user.city == "Los Angeles"}.count %></br>
+    New Orleans: <%= @users.select{|user| user.city == "New Orleans"}.count %></br>
+    New York: <%= @users.select{|user| user.city == "New York"}.count %></br>
+    Oakland: <%= @users.select{|user| user.city == "Oakland"}.count %></br>
+    San Francisco: <%= @users.select{|user| user.city == "San Francisco"}.count %></br>
+   </td>
+  </tr>
+  <tr>
+    <th>State</th>
+    <th># of Users</th>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Alabama:</span></td>
+    <td><%= @users.select{|user| user.state == "Alabama"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Alaska:</span></td>
+    <td><%= @users.select{|user| user.state == "Alaska"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Arizona:</span></td>
+    <td><%= @users.select{|user| user.state == "Arizona"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Arkansas:</span></td>
+    <td><%= @users.select{|user| user.state == "Arkansas"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">California:</span></td>
+    <td><%= @users.select{|user| user.state == "California"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Colorado:</span></td>
+    <td><%= @users.select{|user| user.state == "Colorado"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Connecticut:</span></td>
+    <td><%= @users.select{|user| user.state == "Connecticut"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Delaware:</span></td>
+    <td><%= @users.select{|user| user.state == "Delaware"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">District of Columbia:</span></td>
+    <td><%= @users.select{|user| user.state == "District of Columbia"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Florida:</span></td>
+    <td><%= @users.select{|user| user.state == "Florida"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Georgia:</span></td>
+    <td><%= @users.select{|user| user.state == "Georgia"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Hawaii:</span></td>
+    <td><%= @users.select{|user| user.state == "Hawaii"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Idaho:</span></td>
+    <td><%= @users.select{|user| user.state == "Idaho"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Illinois:</span></td>
+    <td><%= @users.select{|user| user.state == "Illinois"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Indiana:</span></td>
+    <td><%= @users.select{|user| user.state == "Indiana"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Iowa:</span></td>
+    <td><%= @users.select{|user| user.state == "Iowa"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Kansas:</span></td>
+    <td><%= @users.select{|user| user.state == "Kansas"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Kentucky:</span></td>
+    <td><%= @users.select{|user| user.state == "Kentucky"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Louisiana:</span></td>
+    <td><%= @users.select{|user| user.state == "Louisiana"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Maine:</span></td>
+    <td><%= @users.select{|user| user.state == "Maine"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Maryland:</span></td>
+    <td><%= @users.select{|user| user.state == "Maryland"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Massachuetts:</span></td>
+    <td><%= @users.select{|user| user.state == "Massachuetts"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Michigan:</span></td>
+    <td><%= @users.select{|user| user.state == "Michigan"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Minnesota:</span></td>
+    <td><%= @users.select{|user| user.state == "Minnesota"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Mississippi:</span></td>
+    <td><%= @users.select{|user| user.state == "Mississippi"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Missouri:</span></td>
+    <td><%= @users.select{|user| user.state == "Missouri"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Montana:</span></td>
+    <td><%= @users.select{|user| user.state == "Montana"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Nebraska:</span></td>
+    <td><%= @users.select{|user| user.state == "Nebraska"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Nevada:</span></td>
+    <td><%= @users.select{|user| user.state == "Nevada"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">New Hampshire:</span></td>
+    <td><%= @users.select{|user| user.state == "New Hampshire"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">NewJersey:</span></td>
+    <td><%= @users.select{|user| user.state == "NewJersey"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">New Mexico:</span></td>
+    <td><%= @users.select{|user| user.state == "New Mexico"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">New York:</span></td>
+    <td><%= @users.select{|user| user.state == "New York"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">North Carolina:</span></td>
+    <td><%= @users.select{|user| user.state == "North Carolina"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">North Dakota:</span></td>
+    <td><%= @users.select{|user| user.state == "North Dakota"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Ohio:</span></td>
+    <td><%= @users.select{|user| user.state == "Ohio"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Olkahoma:</span></td>
+    <td><%= @users.select{|user| user.state == "Olkahoma"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Oregon:</span></td>
+    <td><%= @users.select{|user| user.state == "Oregon"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Pennsylvania:</span></td>
+    <td><%= @users.select{|user| user.state == "Pennsylvania"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Rhode Island:</span></td>
+    <td><%= @users.select{|user| user.state == "Rhode Island"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">South Carolina:</span></td>
+    <td><%= @users.select{|user| user.state == "South Carolina"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">South Dakota:</span></td>
+    <td><%= @users.select{|user| user.state == "South Dakota"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Tennssee:</span></td>
+    <td><%= @users.select{|user| user.state == "Tennssee"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Texas:</span></td>
+    <td><%= @users.select{|user| user.state == "Texas"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Utah:</span></td>
+    <td><%= @users.select{|user| user.state == "Utah"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Vermont:</span></td>
+    <td><%= @users.select{|user| user.state == "Vermont"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Virginia:</span></td>
+    <td><%= @users.select{|user| user.state == "Virginia"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Washington:</span></td>
+    <td><%= @users.select{|user| user.state == "Washington"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">West Virginia:</span></td>
+    <td><%= @users.select{|user| user.state == "West Virginia"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Wisconson:</span></td>
+    <td><%= @users.select{|user| user.state == "Wisconson"}.count %></td>
+  </tr>
+  <tr>
+    <td ><span style="float:right">Wyoming:</span></td>
+    <td><%= @users.select{|user| user.state == "Wyoming"}.count %></td>
+  </tr>
+</table>
+
+</div>
+
+</div>
+</section>

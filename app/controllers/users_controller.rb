@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats, :get_started, :privacy]
-	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list, :active_job_list]
+	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list, :active_job_list, :geography]
 
 	def create(*args)
 		if request.post?
@@ -479,6 +479,13 @@ class UsersController < ApplicationController
 	def active_job_list
 		@jobs = Job.is_active
 
+	end
+
+	def geography
+		@users = User.where('country = ?', false).all
+
+		@stats = []
+		@stats.push({:name => 'Registered Users', :value => User.count})
 	end
 
 	def manage

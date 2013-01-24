@@ -432,9 +432,9 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
     t.boolean  "allow_videos",        :default => true
     t.boolean  "allow_attachments",   :default => true
-    t.boolean  "featured",            :default => false
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
