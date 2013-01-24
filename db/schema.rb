@@ -83,6 +83,19 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
     t.integer  "user_id"
   end
 
+  create_table "attachments", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.integer  "video_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "awards", :force => true do |t|
     t.string   "title"
     t.string   "issuer"
