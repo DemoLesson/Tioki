@@ -1,3 +1,7 @@
+v4.2.32 - Jan 23, 2013  7:26PM PST deployed by Elijah Green
+===========================================================
+* 031902b: Elijah Green - Seperate labels on step3
+
 v4.2.31 - Jan 23, 2013  7:10PM PST deployed by Elijah Green
 ===========================================================
 * 6da3ce8: Elijah Green - ajax loading of picture on step2
