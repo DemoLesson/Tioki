@@ -1,3 +1,7 @@
+v4.2.34 - Jan 24, 2013 12:36PM PST deployed by Aleks Stanisic
+=============================================================
+* 99884c0: Aleks Stanisic - changes to geography tracker
+
 v4.2.33 - Jan 24, 2013 11:16AM PST deployed by Aleks Stanisic
 =============================================================
 * 293d5c3: Aleks Stanisic - replaces .on with .live to fix edit skillz page
