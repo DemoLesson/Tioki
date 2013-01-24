@@ -13,10 +13,19 @@
 					<% else %>
 						<%= image_tag('dl_icons/no_avatar_large.jpg', :style => "float:left", :id => "user_avatar") %>
 					<% end %>
-					<div style="float:left">
-						<%= currentUser.name %><br />
+					<div style="float:left;margin-left:20px">
+						<h4 style="color:#000;margin-top:5px">
+						<%= currentUser.name %>
+						</h4>
 						<div id="add_photo">
-							Add a photo
+							<a class="button">
+								<span class="iconic camera" style="font:16px"></span>
+								UPLOAD A PHOTO
+							</a>
+							<br/>
+							<span class="smalltext">
+								Help your friends recognize you. 
+							</span>
 						</div>
 					</div><br />
 					<div style="float:left">
@@ -40,22 +49,33 @@
 				<tr>
 					<td>
 						<label>
-							<span>Add a Headline (140 Char.)</span>
-							<%= text_area_tag "user[headline]", currentUser.headline, :maxlength => 140, :placeholder => "Ex: Waiter, actor, model, singer" %>
+							<span>Add a Headline (limit 140 characters)</span>
+							<%= text_area_tag "user[headline]", currentUser.headline, :maxlength => 140, :placeholder => "Educator, Writer, Blogger, Student, Wife, & Soccer Mom. Wonder Woman, essentially!", :style => "height:80px" %>
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<span>Add a few skills (i.e. Ipad, Classromm Management)</span>
+							<span>Add a few skills (i.e. Ipad, Classroom Management, Lesson Planning)</span>
 							<input type="text" name="user[skills]" />
 						</label>
 					</td>
 				</tr>
 			</table>
-			<div class="button_wrap">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
+		</div>
+		<div class="four columns">
+			<div class="fyi" style=" border:solid 1px #2AA99B">
+				<h3><span class="green bold">A Tioki profile helps you</span></h3>
+				<ul>
+					<li>Showcase your talents using video, pictures, & skills tags</li>
+					<li>Establish your online presence as an educator</li>
+					<li>Promote your skills & increase your opportunities</li>
+				</ul>
+			</div>
+		
+			<div class="button_wrap" style="margin-top:320px">
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Final Step" />
 			</div>
 			<% if params[:user_connection] %>
 				<%= hidden_field_tag :user_connection, params[:user_connection] %>
@@ -75,16 +95,7 @@
 			<% end %>
 		</form>
 	</div>
-	<div class="four columns">
-		<div class="fyi">
-			<h3><span class="green bold">A Tioki profile helps you</span></h3>
-			<ul>
-				<li>Showcase your talents using video, pictures, & skills tags</li>
-				<li>Establish your online presence as an educator</li>
-				<li>Promote your skills & increase your opportunities</li>
-			</ul>
-		</div>
-	</div>
+	
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {

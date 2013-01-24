@@ -1,6 +1,6 @@
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Add your personal info</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Your Professional Info</h1>
 	</div>
 	<div class="clear"></div>
 
@@ -16,21 +16,29 @@
 								<%= image_tag('dl_icons/no_avatar_tiny.jpg') %>
 							<% end %>
 							<div style="float:left">
-								<%= currentUser.name %><br />
+								<h4 style="color:#000;margin-top:5px;margin-left:10px">
+								<%= currentUser.name %>
+								</h4>
 							</div>
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<span>Where do you work</span>
-						<input type="text" name="experience[company]" placeholder="Employer" /> <input type="text" name="experience[position]"  placeholder="Job Title" />
+						<label>
+							<span>Where do you work?</span>
+							<input type="text" name="experience[company]" placeholder="Employer" style="width:270px;float:left;margin-right:10px;"/>
+							<input type="text" name="experience[position]"  placeholder="Job Title" style="width:270px;margin-left:20px" />
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<span>Where did you go to school?</span>
-						<input type="text"  name="education[school]" placeholder="School name" /> <input type="Year" name="education[year]"  placeholder="Year" />
+						<label>
+							<span>Where did you go to school?</span>
+							<input type="text"  name="education[school]" placeholder="School Name" style="width:370px;float:left;margin-right:10px;" /> 
+							<input type="text" name="education[year]"  placeholder="Graduation Year" style="width:170px;margin-left:20px" />
+						</label>
 					</td>
 				</tr>
 				<% if ['Teacher', 'Professor', 'Student'].include?(currentUser.occupation) %>
@@ -52,22 +60,37 @@
 					</tr>
 					<tr>
 						<td>
-							<span>How many years of teaching experience do you have?</span>
-							<%= select_tag "user[years_teaching]", options_for_select((0...100).to_a) %>
+							<label style="margin-top:10px">
+								How many years of teaching experience do you have?
+								<%= select_tag "user[years_teaching]", options_for_select((0...61).to_a), :style => "width:100px;margin-left:21px" %>
+							</label>
 						</td>
 					</tr>
 				<% end %>
 				<tr>
 					<td>
-						Are You currently seeking?
-						<select name="user[job_seeking]">
-							<option value="yes">Yes</option>
-							<option value="no">No</option>
-						</select>
+						<label style="margin-top:10px">
+							Are you currently seeking employment?
+							<select name="user[job_seeking]" style="width:100px;margin-left:120px">
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</label>
 					</td>
 				</tr>
 			</table>
-			<div class="button_wrap">
+		</div>
+		<div class="four columns">
+			<div class="fyi" style=" border:solid 1px #2AA99B">
+				<h3><span class="green bold">Almost done!</span></h3>
+				<ul>
+					Filling out this information will help you: <br/><br/>
+					<li>Find your friends on Tioki</li>
+					<li>Find your Alumni groups</li>
+					<li>Find more value in the site</li>
+				</ul>
+			</div>
+			<div class="button_wrap" style="margin-top:270px;">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Finish" />
 			</div>
 			<% if params[:user_connection] %>
