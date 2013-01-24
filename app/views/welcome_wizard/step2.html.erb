@@ -1,126 +1,82 @@
-<style>
-tr.seeking, tr.student {
-	display:none;
-}
-</style>
-
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, let's get your professional profile started.</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Add your personal info</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="seven columns">
+		<table>
+			<tr>
+				<td>
+					<% if currentUser.avatar? %>
+						<%= image_tag(currentUser.avatar.url(:medium), :width => "160", :style => "float:left", :id => "user_avatar" ) %>
+					<% else %>
+						<%= image_tag('dl_icons/no_avatar_large.jpg', :style => "float:left", :id => "user_avatar") %>
+					<% end %>
+					<div style="float:left;margin-left:20px">
+						<h4 style="color:#000;margin-top:5px">
+						<%= currentUser.name %>
+						</h4>
+						<div id="add_photo">
+							<a class="button">
+								<span class="iconic camera" style="font:16px"></span>
+								UPLOAD A PHOTO
+							</a>
+							<br/>
+							<span class="smalltext">
+								Help your friends recognize you. 
+							</span>
+						</div>
+					</div><br />
+					<div style="float:left">
+						<div id="add_photo_form" style="display:none">
+							<%= render :template => "users/_picture_form" %>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
 		<form method="POST">
 			<table>
 				<tr>
 					<td>
 						<label>
-							<span>I live in</span>
-							<input type="text" name="user[location]" placeholder="(Los Angeles, CA)" />
+							<span>Where do you live?</span>
+							<%= text_field_tag :locatiom, currentUser.location, :placeholder => "(Los Angeles, CA)" %>
 						</label>
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: solid 1px #DADADA;padding:3px inherit;">
+					<td>
 						<label>
-							<span>I am currently a</span>
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="teacher" checked="checked" /> Teacher
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="job_seeker" /> Job Seeker
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="student" /> Student
-						</label>
-						<label class="radio inline">
-							<input type="radio" name="current" value="administrator" /> Other
+							<span>Add a Headline (limit 140 characters)</span>
+							<%= text_area_tag "user[headline]", currentUser.headline, :maxlength => 140, :placeholder => "Educator, Writer, Blogger, Student, Wife, & Soccer Mom. Wonder Woman, essentially!", :style => "height:80px" %>
 						</label>
 					</td>
 				</tr>
-				<tr data-who="teacher,job_seeker">
+				<tr>
 					<td>
 						<label>
-							<span>Subjects</span>
-							<input type="text" name="user[subjects]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,job_seeker">
-					<td>
-						<label>
-							<span>Grade Levels</span>
-							<input type="text" name="user[grades]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="administrator" style="display:none;">
-					<td>
-						<label>
-							<span>Current Position</span>
-							<input type="text" name="experience[position]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="teacher,administrator">
-					<td>
-						<label>
-							<span>Place of Employment</span>
-							<input type="text" name="experience[company]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>College / University</span>
-							<input type="text" name="edu[school]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Degree</span>
-							<input type="text" name="edu[degree]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Major</span>
-							<input type="text" name="edu[concentrations]" />
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>Start Date</span>
-						</label>
-						<%= select("edu", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label>
-							<span>End Date</span>
-							<%= select("edu", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-						</label>
-					</td>
-				</tr>
-				<tr data-who="student" style="display:none;">
-					<td>
-						<label class="checkbox">
-							<%= check_box_tag "edu[current]" %>
-							<span>Currently Attending</span>
+							<span>Add a few skills (i.e. Ipad, Classroom Management, Lesson Planning)</span>
+							<input type="text" name="user[skills]" />
 						</label>
 					</td>
 				</tr>
 			</table>
+		</div>
+		<div class="four columns">
+			<div class="fyi" style=" border:solid 1px #2AA99B">
+				<h3><span class="green bold">A Tioki profile helps you</span></h3>
+				<ul>
+					<li>Showcase your talents using video, pictures, & skills tags</li>
+					<li>Establish your online presence as an educator</li>
+					<li>Promote your skills & increase your opportunities</li>
+				</ul>
+			</div>
+		
+			<div class="button_wrap" style="margin-top:320px">
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Final Step" />
+			</div>
 			<% if params[:user_connection] %>
 				<%= hidden_field_tag :user_connection, params[:user_connection] %>
 			<% elsif params[:vouchstring] %>
@@ -133,21 +89,27 @@ tr.seeking, tr.student {
 				<%= hidden_field_tag :twittercode, params[:twittercode] %>
 			<% elsif params[:facebookcode] %>
 				<%= hidden_field_tag :facebookcode, params[:facebookcode] %>
+			<% elsif params[:discussion_id] %>
+				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
+				<%= hidden_field_tag :body, params[:body] %>
 			<% end %>
-
-			<div class="button_wrap">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
-			</div>
 		</form>
 	</div>
-	<div class="four columns">
-		<div class="fyi">
-			<h3><span class="green bold">A Tioki profile helps you</span></h3>
-			<ul>
-				<li>Showcase your talents using video, pictures, & skills tags</li>
-				<li>Establish your online presence as an educator</li>
-				<li>Promote your skills & increase your opportunities</li>
-			</ul>
-		</div>
-	</div>
+	
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#add_photo").click(function() {
+			$("#add_photo_form").toggle();
+		});
+	});
+</script>
+<script type="text/coffeescript">
+	$ ->
+		$('input[name="user[skills]"]').tokenInput "/api/skills", {
+			hintText: "Skills...",
+			theme: "facebook",
+			resultsLimit: 10,
+			prePopulate: <%= currentUser.skills.to_json(:only => [:id, :name]).html_safe %>
+		}
+</script>

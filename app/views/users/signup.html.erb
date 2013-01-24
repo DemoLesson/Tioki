@@ -21,6 +21,10 @@
 				<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
 			</fieldset>
 			<fieldset>
+				Occupation<br />
+				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+			</fieldset>
+			<fieldset>
 				<input type="submit" class="button huge-button" value="Get Started" />
 			</fieldset>
 			<p class="smalltext" style="width:auto">

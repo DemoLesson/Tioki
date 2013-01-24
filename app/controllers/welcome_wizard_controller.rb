@@ -66,18 +66,23 @@ class WelcomeWizardController < ApplicationController
 
 				elsif @inviter
 
-					ConnectionInvite.create(:user_id => @inviter.id,
-											:created_user_id => @user.id)
+					ConnectionInvite.create(
+						:user_id => @inviter.id,
+						:created_user_id => @user.id)
 
-					Connection.create(:owned_by => @inviter.id,
-									  :user_id => @user.id,
-									  :pending => false)
+					Connection.create(
+						:owned_by => @inviter.id,
+						:user_id => @user.id,
+						:pending => false)
 
 				elsif params[:vouchstring]
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(:user_id => @user.id, :skill_id => skill.skill_id, :voucher_id => @vouch.vouchee_id)
+						VouchedSkill.create(
+							:user_id => @user.id, 
+							:skill_id => skill.skill_id, 
+							:voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end
@@ -121,16 +126,15 @@ class WelcomeWizardController < ApplicationController
 			return redirect_to :root
 		end
 
+		# Load the teach and update
+		@user = self.current_user
+
 		# Detect post variables
 		if request.post?
 
-			# Load the teach and update
-			@user = self.current_user
-
-			# Handle Subjects and Grades
-			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['subjects', 'grades'].include?(k) }
-			@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
-			@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			# Handle Skills
+			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['skills'].include?(k) }
+			@user.skills = params[:user][:skills].collect { |x| Skill.find(x) }
 			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
 
 			# Save the updates attributes
@@ -138,24 +142,6 @@ class WelcomeWizardController < ApplicationController
 
 			# Clean empty results from the hash
 			params.clean!
-
-			unless params[:edu].nil? || params[:edu].empty?
-
-				# Build the education data
-				@user.educations.build(params[:edu])
-			end
-
-			unless params[:experience].nil? || params[:experience].empty?
-
-				# Current job is true
-				params[:experience][:current] = true
-
-				# Set position to a empty string if none was passed
-				params[:experience][:position] = params[:experience][:position] || String.new
-
-				# Build the experience data
-				@user.experiences.build(params[:experience])
-			end
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
@@ -165,8 +151,6 @@ class WelcomeWizardController < ApplicationController
 
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 2 of the welcome wizard.", self.current_user)
-
-				self.log_analytic("#{params[:current]}_step2", "User signed up as a #{params[:current]}", self.current_user)
 
 				# Notice and redirect
 				flash[:notice] = "Step 2 Completed"
@@ -190,129 +174,54 @@ class WelcomeWizardController < ApplicationController
 			return redirect_to :root
 		end
 
+		@user = currentUser
 		# Detect post variables
 		if request.post?
+			# Handle Subjects and Grades
+			params[:user].collect! { |k, v| v.split(',').collect { |x| x.to_i } if ['grades', 'subjects'].include?(k) }
+			if params[:user][:grades]
+				@user.grades = params[:user][:grades].collect { |x| Grade.find(x) }
+			end
+			if params[:user][:subjects]
+				@user.subjects = params[:user][:subjects].collect { |x| Subject.find(x) }
+			end
+			params[:user] = params[:user].delete_if { |k, v| v.empty? || v.is_a?(Array) }
+			# Clean empty results from the hash
+			params.clean!
 
-			# Load the current user
-			@user = User.current
-
-			# Delete any preassociated skills
-			@user.skills.delete_all
-
-			# Add the new skills
-			skills = Skill.where(:id => params[:skills].split(','))
-			skills.each do |skill|
-				SkillClaim.create(:user_id => @user.id, :skill_id => skill.id, :skill_group_id => skill.skill_group_id)
+			if params[:experience][:position] && params[:experience][:company]
+				params[:experience][:current] = true
+				@user.experiences.build(params[:experience])
 			end
 
-			# Wizard Key
-			wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+			if params[:education][:school]
+				@user.educations.build(params[:education])
+			end
 
-			# And create an analytic
-			self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
+			@user.job_seeking = params[:user][:job_seeking] == "yes"
 
-			# Notice and redirect
-			session[:wizard] = true
-			flash[:notice] = "Step 3 Completed"
-			return redirect_to "#{@buri}?x=step4#{@url}"
+			@user.years_teaching = params[:years_teaching]
+
+			# Attempt to save the user
+			if @user.save(:validate => false)
+
+				# Wizard Key
+				wKey = "welcome_wizard_step3" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
+
+				# And create an analytic
+				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
+
+				return redirect_to "/get_started"
+			else
+
+				# If the user save failed then notice and redirect
+				dump flash[:notice] = @user.errors.full_messages.to_sentence
+				return redirect_to "#{@buri}?x=step2#{@url}"
+			end
+
 		end
-
-		# Get a list of existing skills
-		@existing_skills = '/profile/' + User.current.slug + '/skills'
 
 		render :step3
-	end
-
-	def step4
-
-		# Make sure the user is logged in
-		if User.current.nil?
-			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
-			return redirect_to :root
-		end
-
-		# Detect post variables
-		if request.post? && !params[:people].nil?
-
-			if params[:twitter]
-				client = Twitter::Client.new(
-					:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
-					:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
-				)
-
-				params.people.split(',').each do |twitter_contact|
-					begin
-						client.direct_message_create(twitter_contact.to_i, "I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
-					rescue Twitter::Error::Forbidden => ex
-						if ex.message == "There was an error sending your message: Whoops! You already said that."
-						else
-							break
-						end
-					end
-				end
-			else
-				# Split people to invite and loop
-				params.people.split(',').each do |email|
-
-					# Parse the email to make sure its valid
-					email = Mail::Address.new(email.strip)
-
-					# Get the user
-					user = User.where({"email" => email.address}).first
-
-					# If the user exists
-					unless user.nil?
-						# Try and add a connection
-						if Connection.add_connect(self.current_user.id, user.id)
-							# We don't really neeed to notify the user about this
-							# notice << "Your connection request to " + email.address + " has been sent."
-						end
-
-						# If the user does not exist
-					else
-						# Generate the invitation url to be added to the email
-						url = "http://#{request.host_with_port}/ww/#{self.current_user.invite_code}"
-
-						# Send out the email
-						UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
-
-						# Don't bother notifying the user
-						# notice << "Your invite to " + demail + " has been sent."
-
-						# Log an analytic
-						self.log_analytic(:connection_invite_sent, "User invited people to the site to connect.", @user)
-					end
-				end
-			end
-
-			# Wizard Key
-			wKey = "welcome_wizard_step4" + (session[:_ak].nil? ? '' : '_[' + session[:_ak] + ']')
-
-			# And create an analytic
-			self.log_analytic(wKey, "User completed step 4 of the welcome wizard.", self.current_user)
-
-			# Notice and redirect
-			session[:wizard] = true
-			flash[:notice] = "Step 4 Completed"
-			return redirect_to "#{@buri}?x=step5#{@url}"
-		end
-
-		@user = self.current_user
-
-		render :step4
-	end
-
-	def step5
-
-		if currentUser.new_record?
-			flash[:notice] = "You must be logged in to continue in the wizard. If you believe you received this message in error please contact support."
-			return redirect_to :root
-		end
-
-		@user = self.current_user
-		@invite = ConnectionInvite.where("created_user_id = ?", self.current_user.id).first
-
-		render :step5
 	end
 
 	# # # # # # # # # # # # # # # # # # # # # #

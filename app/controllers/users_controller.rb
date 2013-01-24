@@ -293,7 +293,10 @@ class UsersController < ApplicationController
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		# Redirect to the file url
-		redirect_to(!currentUser.new_record? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
+		respond_to do |format|
+			format.html {redirect_to(!currentUser.new_record? ? :back : :root, :notice => "Image changed successfully.") }
+			format.js
+		end
 	end
 
 	def crop

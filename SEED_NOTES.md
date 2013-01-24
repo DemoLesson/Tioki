@@ -1,3 +1,28 @@
+v4.2.32 - Jan 23, 2013  7:26PM PST deployed by Elijah Green
+===========================================================
+* 031902b: Elijah Green - Seperate labels on step3
+
+v4.2.31 - Jan 23, 2013  7:10PM PST deployed by Elijah Green
+===========================================================
+* 6da3ce8: Elijah Green - ajax loading of picture on step2
+* bc92b02: Elijah Green - Fix conflict
+* b6623f5: Brian Martinez - changes to the welcome flow
+* fba3c2e: Elijah Green - Add start year start month
+* 3ed7253: Elijah Green - Remove an older mailer
+* 1d72469: Elijah Green - Tracking information
+* cd63885: Elijah Green - Don't create empty education or experience
+* 38f10cb: Elijah Green - Fix some eerrors with the new flow
+* b11d776: Elijah Green - A few more changes to the flow
+* cd13598: Elijah Green - Job seeking
+* e831c72: Elijah Green - Set crop ratios
+* 826eb06: Elijah Green - Use medium image size (201x201) for croppped images
+* dafc3a6: Elijah Green - Nearly done, just need to fix crop_image temp styling
+* 4fa36f0: Elijah Green - Step 2 done except for picture
+* c2e3170: Elijah Green - delete old welcome wizard views
+* 2d18722: Elijah Green - Done with front end
+* 2182a32: Elijah Green - Add user constants
+* 71e1015: Elijah Green - Page 1, 2, splash
+
 v4.2.30 - Jan 23, 2013 12:25PM PST deployed by Aleks Stanisic
 =============================================================
 * 7f44a9a: Aleks Stanisic - changes to interview page

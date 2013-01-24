@@ -70,11 +70,14 @@ class User < ActiveRecord::Base
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
 					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
-					:location, :headline
+					:location, :headline, :occupation, :years_teaching, :job_seeking
 
 	# Has One Connections
 	has_one :login_token
 	has_one :teacher
+
+	#User occupation constant
+	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student", "Entrepreneur", "Staff", "Other" ]
 
 	# Migrated from teacher.rb
 	has_many :applications

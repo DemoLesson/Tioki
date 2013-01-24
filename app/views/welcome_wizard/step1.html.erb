@@ -18,18 +18,18 @@
 			<table>
 				<tr>
 					<td>
-						<label>
-							<span>First Name</span>
-							<input type="text" name="user[first_name]" />
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>
-							<span>Last Name</span>
-							<input type="text" name="user[last_name]" />
-						</label>
+						<div style= "float:left">
+							<label>
+								<span>First Name</span>
+								<input type="text" name="user[first_name]" />
+							</label>
+						</div>
+						<div style= "float:right">
+							<label>
+								<span>Last Name</span>
+								<input type="text" name="user[last_name]"/>
+							</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -42,17 +42,25 @@
 				</tr>
 				<tr>
 					<td>
-						<label>
-							<span>Password</span>
-							<input type="password" name="user[password]" />
-						</label>
+						<div style= "float:left">
+							<label>
+								<span>Password</span>
+								<input type="password" name="user[password]" />
+							</label>
+						</div>
+						<div style= "float:right">
+							<label>
+								<span>Confirm Password</span>
+								<input type="password" name="user[confirmation_password]" />
+							</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<span>Confirm Password</span>
-							<input type="password" name="user[confirmation_password]" />
+							<span>Occupation</span>
+							<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
 						</label>
 					</td>
 				</tr>
