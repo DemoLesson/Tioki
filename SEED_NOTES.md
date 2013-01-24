@@ -1,3 +1,7 @@
+v4.2.39 - Jan 24, 2013  3:33PM PST deployed by Aleks Stanisic
+=============================================================
+* 2b3078c: Aleks Stanisic - re directing updating groups tot he edit page: Per Pete's request
+
 v4.2.38 - Jan 24, 2013  3:21PM PST deployed by Aleks Stanisic
 =============================================================
 * 979045b: Aleks Stanisic - fixed design bug
