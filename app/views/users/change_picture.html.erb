@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 <h2>Change Profile Picture</h2>
 
-<% if @user.avatar? %><p>Current picture<br /><div class="bordered_image"><%= image_tag @user.avatar.url(:medium) %></div></p><% else %><p>No picture uploaded yet.</p><% end %>
+<% if @user.avatar? %><p>Current picture<br /><div class="bordered_image"><%= image_tag @user.avatar.url(:medium), :id => "user_avatar" %></div></p><% else %><p>No picture uploaded yet.</p><% end %>
 
 
 <%= form_for @user, :as => :user, :url => "/users/"+@user.id.to_s, :html => { :multipart => true }, :remote => true do |f| %>
