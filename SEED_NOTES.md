@@ -1,3 +1,7 @@
+v4.2.42 - Jan 25, 2013  1:33PM PST deployed by Aleks Stanisic
+=============================================================
+* c3d0ebb: Aleks Stanisic - changing .on to .live on facebook invite
+
 v4.2.41 - Jan 24, 2013  7:40PM PST deployed by Aleks Stanisic
 =============================================================
 * fd7c536: Aleks Stanisic - dditional avatar fix:
