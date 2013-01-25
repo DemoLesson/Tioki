@@ -1,3 +1,8 @@
+v4.2.40 - Jan 24, 2013  7:19PM PST deployed by Aleks Stanisic
+=============================================================
+* a731fff: Aleks Stanisic - adding link in interview message
+* c53b856: Elijah Green - Fix bug where empty dates would fail on experiences
+
 v4.2.39 - Jan 24, 2013  3:33PM PST deployed by Aleks Stanisic
 =============================================================
 * 2b3078c: Aleks Stanisic - re directing updating groups tot he edit page: Per Pete's request
