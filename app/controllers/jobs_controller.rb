@@ -211,12 +211,15 @@ class JobsController < ApplicationController
 			return redirect_to [group, :jobs]
 		end
 
+
 		# Attemp to save and return
 		respond_to do |format|
 			if @job.save
 
 				# Update the subjects with new parameters
 				@job.update_subjects(params[:subjects]) if params[:subjects]
+
+				@job.notify_educators
 
 				format.html {
 					flash[:success] = "New job was successfully created."
@@ -250,6 +253,10 @@ class JobsController < ApplicationController
 		# Attemp to save and return
 		respond_to do |format|
 			if @job.update_attributes(params[:job])
+
+				if params[:job][:status] == "running"
+					@job.notify_educators
+				end
 
 				# Update the subjects with new parameters
 				@job.update_subjects(params[:subjects]) if params[:subjects]
