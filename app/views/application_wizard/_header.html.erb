@@ -1,4 +1,11 @@
 <div style="text-align:center;">
+	<!-- Display Notices -->
+	<% flash.each do |type, message| %>
+		<% next unless message.is_a?(String) %>
+		<section class="notice <%= type %>">
+			<%= message %>
+		</section>
+		<% end unless flash.empty? %>
 	<%= link_to "Experiences", action: 'step2' %> - 
 	<%= link_to "Education", action: 'step3' %> -
 	<%= link_to "Credentials", action: 'step4' %> -
