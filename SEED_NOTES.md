@@ -1,3 +1,8 @@
+v4.2.41 - Jan 24, 2013  7:40PM PST deployed by Aleks Stanisic
+=============================================================
+* fd7c536: Aleks Stanisic - dditional avatar fix:
+* 76db0d4: Aleks Stanisic - Picture Fix
+
 v4.2.40 - Jan 24, 2013  7:19PM PST deployed by Aleks Stanisic
 =============================================================
 * a731fff: Aleks Stanisic - adding link in interview message
