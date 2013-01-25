@@ -361,6 +361,16 @@ class JobsController < ApplicationController
 		redirect_to :back, :notice => 'Request Sent. We will be in touch shortly!'
 	end
 
+	def preferences
+		if request.post?
+			if params[:any_location]
+				params[:user][:seeking][:location] = "any"
+			end
+
+			currentUser.seeking = params[:user][:seeking]
+		end
+	end
+
 	protected
 
 		# Jobs source
