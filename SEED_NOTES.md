@@ -1,3 +1,33 @@
+v4.2.41 - Jan 24, 2013  7:40PM PST deployed by Aleks Stanisic
+=============================================================
+* fd7c536: Aleks Stanisic - dditional avatar fix:
+* 76db0d4: Aleks Stanisic - Picture Fix
+
+v4.2.40 - Jan 24, 2013  7:19PM PST deployed by Aleks Stanisic
+=============================================================
+* a731fff: Aleks Stanisic - adding link in interview message
+* c53b856: Elijah Green - Fix bug where empty dates would fail on experiences
+
+v4.2.39 - Jan 24, 2013  3:33PM PST deployed by Aleks Stanisic
+=============================================================
+* 2b3078c: Aleks Stanisic - re directing updating groups tot he edit page: Per Pete's request
+
+v4.2.38 - Jan 24, 2013  3:21PM PST deployed by Aleks Stanisic
+=============================================================
+* 979045b: Aleks Stanisic - fixed design bug
+
+v4.2.37 - Jan 24, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 68f76a4: Aleks Stanisic - gem fix
+
+v4.2.36 - Jan 24, 2013 12:51PM PST deployed by Aleks Stanisic
+=============================================================
+* 7be18e8: Aleks Stanisic - slight change to geography
+
+v4.2.35 - Jan 24, 2013 12:45PM PST deployed by Aleks Stanisic
+=============================================================
+* adffccb: Brian Martinez - moving the attachments button out of the edit profile blob
+
 v4.2.34 - Jan 24, 2013 12:36PM PST deployed by Aleks Stanisic
 =============================================================
 * 99884c0: Aleks Stanisic - changes to geography tracker

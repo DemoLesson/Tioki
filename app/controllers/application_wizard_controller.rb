@@ -93,8 +93,18 @@ class ApplicationWizardController < ApplicationController
 				params[:experience][:current] = false
 			end
 
-			end_date = Time.strptime(params[:date][:end_date], "%m/%d/%Y")
-			start_date = Time.strptime(params[:date][:start_date], "%m/%d/%Y")
+			begin
+				end_date = Time.strptime(params[:date][:end_date], "%m/%d/%Y")
+			rescue
+				return redirect_to :back, notice: "Invliad End Date"
+			end
+
+			begin
+				start_date = Time.strptime(params[:date][:start_date], "%m/%d/%Y")
+			rescue
+				return redirect_to :back, notice: "Invalid Start Date"
+			end
+
 			params[:experience][:startMonth] = start_date.strftime("%m")
 			params[:experience][:startYear] = start_date.strftime("%Y")
 			params[:experience][:endMonth] = end_date.strftime("%m")

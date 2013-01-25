@@ -22,7 +22,7 @@ END
       @message = <<-END
 Dear #{@interview.user.name},
 
-After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@interview.job.title} position available at #{@interview.job.group.name}. Please confirm if any of these dates and times work for you. We look forward to meeting with you!
+After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@interview.job.title} position available at #{@interview.job.group.name}. Please <a href="http://tioki.com/users/#{@interview.user.id}/applications">Click Here</a> to confirm if any of these dates and times work for you. We look forward to meeting with you!
 
 Kind Regards,
 #{currentUser.name}

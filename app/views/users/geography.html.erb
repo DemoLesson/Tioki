@@ -36,6 +36,7 @@
     New York: <%= @users.select{|user| user.city == "New York"}.count %></br>
     Oakland: <%= @users.select{|user| user.city == "Oakland"}.count %></br>
     San Francisco: <%= @users.select{|user| user.city == "San Francisco"}.count %></br>
+    Washington DC: <%= @users.select{|user| user.state == "District of Columbia"}.count %>
    </td>
   </tr>
   <tr>
