@@ -159,7 +159,7 @@ class GroupsController < ApplicationController
 		@group.update_attributes(params[:group])
 		if @group.save
 			flash[:success] = "Successfully updated"
-			redirect_to @group
+			redirect_to [:edit, @group]
 		else
 			flash[:error] = "Did not update"
 			redirect_to @group

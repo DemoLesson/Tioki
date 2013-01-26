@@ -126,14 +126,26 @@
 				</section>
 			</section> <!-- End Sidebar -->
 			<section class="right-sidebar">
-				<div class="profile-thumb-medium">
-					<%= image_tag(@user.avatar(:medium)) if @user.avatar? %>
-					<%= image_tag('dl_icons/no_avatar_medium.jpg') unless @user.avatar? %>
+				<h3>
+				MY UPLOADS
+				</h3>
+				<div class="profile-thumb-large">
+					<%= image_tag(@user.avatar(:medium), :width => "160") if @user.avatar? %>
+					<%= image_tag('dl_icons/no_avatar_large.jpg') unless @user.avatar? %>
 				</div>
+				<a href="/me/profile/edit/upload-avatar" class="button2 bg-ltgray big-button" style="float: right;width: 192px !important;margin-top: -163px;margin-right: 30px;">
+					<span class="iconic camera"></span>
+					Change Profile Picture
+				</a>
 				</br>
-				<%= link_to 'Change Profile Picture', '/me/profile/edit/upload-avatar', :class => "button2 bg-ltgray big-button" %>	
+					<span>
+						<a href="/me/profile/edit/attachments" class="button2 bg-ltgray big-button">
+							<span class="iconic book_alt" style="color:#2AA99B;font-size: 24px !important;"></span>
+							Upload / View Docs
+						</a>
+					</span>
 					<span style="margin-left:15px">
-						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'  Upload Video', '/me/profile/edit/upload-video', :class => "button2 bg-ltgray med-button" %>
+						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'Upload / View Videos', "/profile/"+@user.slug+"/videos", :class => "button2 bg-ltgray big-button" %>
 					</span>
 
 				<section>
@@ -159,14 +171,9 @@
 					</span></br></br>
 						<%= link_to 'Technologies', technologies_path, :class => "button2 bg-ltgray big-button" %>
 					<span style="margin-left:15px">
-						<%= link_to 'Attachments', attachments_path, :class => "button2 bg-ltgray big-button" %>
-					</span>
-					<span style="margin-left:15px">
 						<%= link_to 'Verify Skills', '/requestvouch', :class => "button2 bg-ltgray big-button" %>
 					</span></br></br>
-					<span>
-						<%= link_to 'My Video Library', "/profile/"+@user.slug+"/videos", :class => "button2 bg-ltgray big-button" %>
-					</span>
+					
 					<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;")+'   Import from LinkedIn', '/linkedinprofile', :class => "button2 bg-ltgray med-button"%>
 				</section>
 			</section>

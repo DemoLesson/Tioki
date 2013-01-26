@@ -1,6 +1,6 @@
 <section id="main-contant" class="inner-content">
 	<h1>
-		Edit Interview with 
+		Schedule Interview with 
 		<%= link_to @interview.user.name, @interview.user if @source.is_a?(Job) %>
 		<%= link_to @interview.job.group.name, @interview.job.group if @source.is_a?(User) %>
 	</h1>
@@ -12,16 +12,17 @@
 			<table style="width:100%;" class="applications">
 				<tr>
 					<td style ="width:100%">
+						<p>Input the 3 dates AND times(PST) that work best for you. </p>
 						<label>
-							<span>First Date</span>
+							<span>First Date and Time</span>
 							<input type="text" name="interview[datetime_1]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_1.to_s(:datetimez) if @interview.datetime_1 %>" />
 						</label>
 						<label style="margin-left:300px; margin-top:-52px">
-							<span>Second Potential Interview Date</span>
+							<span>Second Date and Time</span>
 							<input type="text" name="interview[datetime_2]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_2.to_s(:datetimez) if @interview.datetime_2 %>" />
 						</label>
 						<label style="margin-left:600px; margin-top:-52px">
-							<span>Third Potential Interview Date</span>
+							<span>Third Date and Time</span>
 							<input type="text" name="interview[datetime_3]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_3.to_s(:datetimez) if @interview.datetime_3 %>" />
 						</label>
 					</td>
@@ -33,10 +34,15 @@
 							<span>Interview Location</span>
 							<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
 						</label>
+						<label style="margin-left:300px; margin-top:-30px">
+							<span>Interview Type: </span>
+							<%= select(:interview, :interview_type, { "In-Person" => "In-Person", "Phone" => "Phone", "Skype" => "Skype", "Google Hangout" => "Google Hangout", "Other" => "Other"}) %>
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
+						<p>Use this preformatted message or create your own. </p>
 						<label>
 							<span>Message</span>
 							<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"><%= @message %></textarea>
@@ -45,7 +51,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<%= t.submit "Save Interview" %>
+						<%= t.submit "Schedule Interview" %>
 					</td>
 				</tr>
 			</table>
@@ -69,7 +75,8 @@
 								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
 							<% end %>
 							<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
-							Location: <%= @interview.location %>
+							Location: <%= @interview.location %><br />
+							Type: <%= @interview.interview_type %>
 						</label>
 					</td>
 					<td>

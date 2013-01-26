@@ -1,18 +1,102 @@
-<div class="row kRap" style="position:relative;">
+<div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 0px 0px">What skills do you have?</h1>
-		<h4 class="green" style="margin: 0px 0px 0px 3px">Don't be shy. Select a minimum of 5 skills.</h4>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Your Professional Info</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="seven columns">
-		<form class="skills_form" method="POST">
-			<input type="hidden" name="skills" />
-
-			<div class="skill_cloud">
-				<div class="clear"></div>
+		<form method="POST">
+			<table>
+				<tr>
+					<td>
+						<label>
+							<% if currentUser.avatar? %>
+								<%= image_tag(currentUser.avatar.url(:tiny), :width => "45", :style => "float:left") %>
+							<% else %>
+								<%= image_tag('dl_icons/no_avatar_tiny.jpg') %>
+							<% end %>
+							<div style="float:left">
+								<h4 style="color:#000;margin-top:5px;margin-left:10px">
+								<%= currentUser.name %>
+								</h4>
+							</div>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Where do you work?</span>
+							<input type="text" name="experience[company]" placeholder="Employer" style="width:270px;float:left;margin-right:10px;"/>
+						</label>
+						<label>
+							<input type="text" name="experience[position]"  placeholder="Job Title" style="width:270px;margin-left:20px" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Where did you go to school?</span>
+							<input type="text"  name="education[school]" placeholder="School Name" style="width:370px;float:left;margin-right:10px;" /> 
+						</label>
+						<label>
+							<input type="text" name="education[year]"  placeholder="Graduation Year" style="width:170px;margin-left:20px" />
+						</label>
+					</td>
+				</tr>
+				<% if ['Teacher', 'Professor', 'Student'].include?(currentUser.occupation) %>
+					<tr>
+						<td>
+							<label>
+								<span>What grade levels do you teacher?</span>
+								<input type="text" name="user[grades]" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>
+								<span>What subjects do you teacher?</span>
+								<input type="text" name="user[subjects]" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="margin-top:10px">
+								How many years of teaching experience do you have?
+								<%= select_tag "user[years_teaching]", options_for_select((0...61).to_a), :style => "width:100px;margin-left:21px" %>
+							</label>
+						</td>
+					</tr>
+				<% end %>
+				<tr>
+					<td>
+						<label style="margin-top:10px">
+							Are you currently seeking employment?
+							<select name="user[job_seeking]" style="width:100px;margin-left:120px">
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="four columns">
+			<div class="fyi" style=" border:solid 1px #2AA99B">
+				<h3><span class="green bold">Almost done!</span></h3>
+				<ul>
+					Filling out this information will help you: <br/><br/>
+					<li>Find your friends on Tioki</li>
+					<li>Find your Alumni groups</li>
+					<li>Find more value in the site</li>
+				</ul>
 			</div>
-
+			<div class="button_wrap" style="margin-top:270px;">
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Finish" />
+			</div>
 			<% if params[:user_connection] %>
 				<%= hidden_field_tag :user_connection, params[:user_connection] %>
 			<% elsif params[:vouchstring] %>
@@ -21,176 +105,32 @@
 				<%= hidden_field_tag :invitecode, params[:invitecode] %>
 			<% elsif params[:welcomecode] %>
 				<%= hidden_field_tag :welcomecode, params[:welcomecode] %>
+			<% elsif params[:twittercode] %>
+				<%= hidden_field_tag :twittercode, params[:twittercode] %>
 			<% elsif params[:facebookcode] %>
 				<%= hidden_field_tag :facebookcode, params[:facebookcode] %>
-			<% elsif params[:welcomecode] %>
-				<%= hidden_field_tag :twittercode, params[:twittercode] %>
+			<% elsif params[:discussion_id] %>
+				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
+				<%= hidden_field_tag :body, params[:body] %>
 			<% end %>
-
-			<div class="button_wrap">
-				<input type="submit" disabled="disabled" class="secondary large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
-			</div>
 		</form>
 	</div>
-	<div class="four columns">
-		<div class="fyi" style="margin-top: 15px">
-			<h3 class="green bold">We'll use these skills to:</h3>
-			<ul>
-				<li>Suggest events that match your interests.</li>
-				<li>Connect you to others that share your skills.</li>
-				<li>Showcase your talents to your network.</li>
-			</ul>
-		</div>
-	</div>
-
-	<% if params[:user_connection] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&user_connection=<%= params[:user_connection] %>">Skip Step &raquo;</a>
-	<% elsif params[:vouchstring] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&vouchstring=<%= params[:vouchstring] %>">Skip Step &raquo;</a>
-	<% elsif params[:invitecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&invitecode=<%= params[:invitecode] %>">Skip Step &raquo;</a>
-	<% elsif params[:welcomecode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&welcomecode=<%= params[:welcomecode] %>">Skip Step &raquo;</a>
-	<% elsif params[:facebookcode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&facebookcode=<%= params[:facebookcode] %>">Skip Step &raquo;</a>
-	<% elsif params[:twittercode] %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4&twittercode=<%= params[:twittercode] %>">Skip Step &raquo;</a>
-	<% else %>
-		<a style="position:absolute;padding:7px 50px;display:inline;width:auto;bottom:40px;right:10px;" href="?x=step4">Skip Step &raquo;</a>
-	<% end %>
 </div>
-
-<script type="text/javascript">
-// Storage object for skills
-var skillStore = {
-
-	// This will be the container
-	"storage": new Object,
-
-	// This will be the addition method
-	"add": function(skillId, name) {
-
-		// If the id exists in the array then return false
-		if(this.storage[skillId] !== undefined)
-			return false;
-
-		// If the id does not go ahead and add it
-		else {
-
-			// Append to the list
-			this.storage[skillId] = name;
-
-			// If there are five select then enable submit
-			if(Object.keys(this.storage).length >= 5)
-				$('input[type="submit"]').removeClass('secondary').prop('disabled', false);
-
-			return true;
-		}
-	},
-
-	// This will be the removal method
-	"remove": function(skillId) {
-
-		// If a key was not found return false
-		if(this.storage[skillId] === undefined)
-			return false;
-
-		// Otherwise remove the item from the array
-		else {
-			delete this.storage[skillId]
-
-			// If ther are less then 5 keys then disable the submit
-			if(Object.keys(this.storage).length < 5)
-				$('input[type="submit"]').addClass('secondary').prop('disabled', true);
-
-			return true;
-		}
-	},
-
-	// This will return an array of ids
-	"get": function() {
-		return this.storage;
-	}
-};
-
-$(document).ready(function() {
-
-	// Get a list of only the current skills the user has
-	$.getJSON("<%= @existing_skills %>", function(existingSkills) {
-		//console.log(existingSkills);
-
-		// Get a list of all the skills
-		$.getJSON("<%= skills_path %>.json?tokenizer=true", function(allSkills) {
-			var featuredSkills = ['Technology', 'Assessment', 'Lesson Plans & Materials','Culture Building'];
-
-			sub = new Array;
-			for(var skillGroup in allSkills) {
-
-				// Show only the featured skill groups
-				if($.inArray(skillGroup, featuredSkills) === -1)
-					continue;
-
-				// Create the skill group rapper
-				if(!(skillGroup in sub)) {
-					sub[skillGroup] = $('<div id="'+skillGroup+'"><div class="clear"></div>');
-					$('div.skill_cloud').append(sub[skillGroup]);	
-				}
-				
-				// Add the skills to the skill group
-				for(var i in allSkills[skillGroup]) {
-					skill = $("<a class=\"skill\" href=\"#\" />");
-					skill.attr('name', allSkills[skillGroup][i].name);
-					skill.attr('id', allSkills[skillGroup][i].id);
-					skill.text(allSkills[skillGroup][i].name);
-					sub[skillGroup].prepend(skill);
-				}
-
-				// Add the title to the skill group
-				sub[skillGroup].prepend($("<h3 style=\"font-weight:normal;font-size:18px;\">" + skillGroup + "</h3>"));
-			}
-                        $("div[id='Lesson Plans & Materials']").appendTo("#Technology");
-                        $("div[id='Culture Building']").appendTo("#Assessment")
-		});
-	});
-
-
-	// Click on a skill and do something
-	$('a.skill').on('click', function(e) {
-		e.preventDefault();
-
-		if($(this).hasClass('active')) {
-			$(this).removeClass('active');
-			var x = $(this).attr('id');
-			var y = $(this).attr('name');
-			skillStore.remove(x);
-		}
-		else {
-			$(this).addClass('active');
-			var x = $(this).attr('id');
-			var y = $(this).attr('name');
-			skillStore.add(x, y);
+<script type="text/coffeescript">
+	$ ->
+		# Load the tokenizer for subjects
+		$('input[name="user[subjects]"]').tokenInput "/api/subjects", {
+			hintText: "Subjects...",
+			theme: "facebook",
+			resultsLimit: 10
+			prePopulate: <%= currentUser.subjects.to_json(:only => [:id, :name]).html_safe %>
 		}
 
-		return false;
-	});
-
-	$('form.skills_form').submit(function(e) {
-		e.preventDefault();
-
-		var skill = new Array;
-		var skills = skillStore.get();
-		for(var i in skills) {
-			skill.push(i);
+		# Load the tokenizer for grades
+		$('input[name="user[grades]"]').tokenInput "/api/grades", {
+			hintText: "Grade Level...",
+			theme: "facebook",
+			resultsLimit: 10
+			prePopulate: <%= currentUser.grades.to_json(:only => [:id, :name]).html_safe %>
 		}
-
-		
-		$('input[name="skills"]').val(skill.join(','));
-
-		var $form = $(this);
-		setTimeout(function() { $form.get(0).submit(); }, 500);
-
-		return false;
-	});
-
-});
 </script>

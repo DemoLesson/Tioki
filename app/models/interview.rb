@@ -1,5 +1,5 @@
 class Interview < ActiveRecord::Base
-	attr_accessible :location, :message, :number,
+	attr_accessible :location, :message, :number, :interview_type,
 					:datetime_1, :datetime_2, :datetime_3, :datetime_selected,
 					:job_id, :user_id, :application_id,
 					:job, :user, :application

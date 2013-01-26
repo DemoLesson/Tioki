@@ -1,3 +1,85 @@
+v4.2.42 - Jan 25, 2013  1:33PM PST deployed by Aleks Stanisic
+=============================================================
+* c3d0ebb: Aleks Stanisic - changing .on to .live on facebook invite
+
+v4.2.41 - Jan 24, 2013  7:40PM PST deployed by Aleks Stanisic
+=============================================================
+* fd7c536: Aleks Stanisic - dditional avatar fix:
+* 76db0d4: Aleks Stanisic - Picture Fix
+
+v4.2.40 - Jan 24, 2013  7:19PM PST deployed by Aleks Stanisic
+=============================================================
+* a731fff: Aleks Stanisic - adding link in interview message
+* c53b856: Elijah Green - Fix bug where empty dates would fail on experiences
+
+v4.2.39 - Jan 24, 2013  3:33PM PST deployed by Aleks Stanisic
+=============================================================
+* 2b3078c: Aleks Stanisic - re directing updating groups tot he edit page: Per Pete's request
+
+v4.2.38 - Jan 24, 2013  3:21PM PST deployed by Aleks Stanisic
+=============================================================
+* 979045b: Aleks Stanisic - fixed design bug
+
+v4.2.37 - Jan 24, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 68f76a4: Aleks Stanisic - gem fix
+
+v4.2.36 - Jan 24, 2013 12:51PM PST deployed by Aleks Stanisic
+=============================================================
+* 7be18e8: Aleks Stanisic - slight change to geography
+
+v4.2.35 - Jan 24, 2013 12:45PM PST deployed by Aleks Stanisic
+=============================================================
+* adffccb: Brian Martinez - moving the attachments button out of the edit profile blob
+
+v4.2.34 - Jan 24, 2013 12:36PM PST deployed by Aleks Stanisic
+=============================================================
+* 99884c0: Aleks Stanisic - changes to geography tracker
+
+v4.2.33 - Jan 24, 2013 11:16AM PST deployed by Aleks Stanisic
+=============================================================
+* 293d5c3: Aleks Stanisic - replaces .on with .live to fix edit skillz page
+* ef494f4: Aleks Stanisic - adding geography tracker to admin
+
+v4.2.32 - Jan 23, 2013  7:26PM PST deployed by Elijah Green
+===========================================================
+* 031902b: Elijah Green - Seperate labels on step3
+
+v4.2.31 - Jan 23, 2013  7:10PM PST deployed by Elijah Green
+===========================================================
+* 6da3ce8: Elijah Green - ajax loading of picture on step2
+* bc92b02: Elijah Green - Fix conflict
+* b6623f5: Brian Martinez - changes to the welcome flow
+* fba3c2e: Elijah Green - Add start year start month
+* 3ed7253: Elijah Green - Remove an older mailer
+* 1d72469: Elijah Green - Tracking information
+* cd63885: Elijah Green - Don't create empty education or experience
+* 38f10cb: Elijah Green - Fix some eerrors with the new flow
+* b11d776: Elijah Green - A few more changes to the flow
+* cd13598: Elijah Green - Job seeking
+* e831c72: Elijah Green - Set crop ratios
+* 826eb06: Elijah Green - Use medium image size (201x201) for croppped images
+* dafc3a6: Elijah Green - Nearly done, just need to fix crop_image temp styling
+* 4fa36f0: Elijah Green - Step 2 done except for picture
+* c2e3170: Elijah Green - delete old welcome wizard views
+* 2d18722: Elijah Green - Done with front end
+* 2182a32: Elijah Green - Add user constants
+* 71e1015: Elijah Green - Page 1, 2, splash
+
+v4.2.30 - Jan 23, 2013 12:25PM PST deployed by Aleks Stanisic
+=============================================================
+* 7f44a9a: Aleks Stanisic - changes to interview page
+
+v4.2.29 - Jan 22, 2013  6:30PM PST deployed by Aleks Stanisic
+=============================================================
+* f3db157: Aleks Stanisic - removing links from step 1 wizard
+
+v4.2.28 - Jan 22, 2013  5:46PM PST deployed by Aleks Stanisic
+=============================================================
+* 03384a5: Aleks Stanisic - adding interview_type to intervews
+* a418220: Kelly Becker - replaced .live() with .on()
+* 80e5fbe: Aleks Stanisic - changes to applications page
+
 v4.2.27 - Jan 22, 2013  1:20PM PST deployed by Aleks Stanisic
 =============================================================
 * bdcee2e: Aleks Stanisic - displaying location of interview on applications page

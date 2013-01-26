@@ -413,6 +413,7 @@ Preview::Application.routes.draw do
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
 	match 'active_job_list' => 'users#active_job_list'
+	match 'geography' => 'users#geography'
 	match 'referrallist' => 'users#referral_user_list'
 	match 'donorschoose' => 'users#donors_choose_list'
 	match 'technologylist' => 'technologies#technology_list'

@@ -98,6 +98,13 @@ p {
 	}
 }
 
+.smalltext {
+	font-size: 12px;
+	margin: 0 0 10px 0;
+	text-align: left;
+	text-transform: none;
+}
+
 .bold {
 	font-weight: bold;
 }
@@ -636,6 +643,30 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 					margin: 0 0 10px 0;
 					text-align: left;
 					text-transform: none;
+				}
+				.select[name="user_occupation"] {
+				  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+				  -webkit-appearance: none;
+				  width: 200px;
+				  padding: 9px 12px 7px;
+				  cursor: pointer;
+				  -webkit-border-radius: 3px;
+				  -moz-border-radius: 3px;
+				  -moz-border-radius: 3px;
+				  border-radius: 3px;
+				  border: 1px solid #cfd4d5;
+				  color: #4d4d4d;
+				  margin: 0 5px; }
+
+					.search-connections select[name="user_occupation"]:focus {
+				      outline: none;
+				      border: 1px solid #f66c4c; }
+					.search-connections select[name="user_occupation"] option {
+				        color: #4d4d4d; }
+
+				label {
+					display: block;
+					font-weight: bold;
 				}
 			}
 			.facepile {
