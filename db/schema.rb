@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130122235129) do
+ActiveRecord::Schema.define(:version => 20130125233914) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -81,19 +81,6 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
     t.integer  "user_id"
-  end
-
-  create_table "attachments", :force => true do |t|
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "file_file_name"
-    t.string   "file_content_type"
-    t.integer  "file_file_size"
-    t.datetime "file_updated_at"
-    t.integer  "video_id"
-    t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "awards", :force => true do |t|
@@ -432,9 +419,10 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
-    t.boolean  "featured",            :default => false
     t.boolean  "allow_videos",        :default => true
     t.boolean  "allow_attachments",   :default => true
+    t.boolean  "featured",            :default => false
+    t.boolean  "notification_sent",   :default => false
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"

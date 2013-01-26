@@ -192,20 +192,20 @@ class Job < ActiveRecord::Base
 	end
 
 	def notify_educators
-		user_ids = Kvpair.where("kvpair.namepsace = ? && kvpair.key = ? && kvpair.value = ?", "seeking", "location", "any").collect(&:map_id)
+		user_ids = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ? && kvpairs.value = ?", "seeking", "location", "any").collect(&:map_id)
 
-		subject_ids = job.subjects.collect(&:id)
+		subject_ids = self.subjects.collect(&:id)
 
-		#grade_ids = job.grades.collect(&:id)
+		#grade_ids = self.grades.collect(&:id)
 
-		if subject_ids > 0
+		if subject_ids.count > 0
 			users = User.joins(:subjects).where(:id => user_ids)
 		else
 			users = User.where(:id => user_ids)
 		end
 
 		users.each do |user|
-			NotificationMailer.job_alert.deliver
+			NotificationMailer.job_alert(user, self).deliver
 		end
 
 	end

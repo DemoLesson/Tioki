@@ -93,7 +93,7 @@
 																			<% if @job.group.picture? %>
 																				<img src="<%= @job.group.picture.url(:thumb) %>" style="border-width:2px;border-style:solid;border-color:#666666;width:100px; height:100px;">
 																			<% else %>
-																				<img src="https://tioki.s3.amazonaws.com/groups/medium/20130105010953-20130105010953-20130105010952-Edtech_noredink_200.png?1357348192" style="border-width:2px;border-style:solid;border-color:#666666;width:100px; height:100px;">
+																				<img src="http://www.tioki.com/assets/tioki/icons/jobs.png"" style="border-width:2px;border-style:solid;border-color:#666666;width:100px; height:100px;">
 																			<% end %>
 																		</a>
 																	</td>
@@ -148,7 +148,8 @@
 																			<tr>
 																				<td style="padding-top:20px" align="left" valign="top"> 
 																						<span style="color:#4D4D4D; font-size:14px; font-family:Oswald, sans-serif;font-weight: normal;">
-																							"We're looking for a former teacher who's smart, organized, energetic, and highly productive - and who wants to play a key role in empowering millions of... <a href="<%= @job.url %>" style="color:#f66c4d" target="_blank">(more)</a>"
+																							<%= @job.description[0..150] %>...
+																							<a href="<%= @job.url %>" style="color:#f66c4d" target="_blank">(more)</a>"
 																						</span>
 																				</td>
 																			</tr>
