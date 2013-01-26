@@ -1,3 +1,7 @@
+v4.2.43 - Jan 26, 2013  2:20PM PST deployed by Aleks Stanisic
+=============================================================
+* 03b08ba: Aleks Stanisic - adding user analytics oage
+
 v4.2.42 - Jan 25, 2013  1:33PM PST deployed by Aleks Stanisic
 =============================================================
 * c3d0ebb: Aleks Stanisic - changing .on to .live on facebook invite
