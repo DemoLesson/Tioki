@@ -62,9 +62,7 @@
 	<li class="new-style article">
 		<%= link_to image_tag(@post.user.avatar.url(:thumb), :width => '45px', :height => '45px'), '/profile/' + @post.user.slug if @post.user.avatar? %>
 		<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '45px', :height => '45px'), '/profile/' + @post.user.slug unless @post.user.avatar? %>
-		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen' %>
-
-		<div class="budge">
+		<div class="budge" style="margin-bottom:7px;">
 			<div>
 				<strong><%= @post.user.link %></strong>&nbsp;&nbsp;<small style="color:#b6b5b4;"><%= time_ago_in_words(@post.created_at) %> ago</small>
 				<% unless currentUser.new_record? %>
@@ -93,7 +91,10 @@
 					</span>
 				<% end %>
 			</div>
+		</div>
+		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen', :style => "margin-left:12px;" %>
 
+		<div class="budge">
 			<p><%= @post.getMessage.more!(266) %></p>
 
 			<% unless @post.attachments.empty? %>

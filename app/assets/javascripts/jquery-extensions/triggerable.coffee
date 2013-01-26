@@ -31,8 +31,12 @@ $ ->
 		# Get the style of the ele (before the hide)
 		style = $this.attr 'style'
 
+		# Get the tip states
 		tip = $this.attr 'tip'
 		atip = $this.attr 'atip'
+
+		# Is tip text next to element
+		tipside = $this.attr 'tip-side'
 
 		# Hide the input
 		$this.css
@@ -45,7 +49,7 @@ $ ->
 		iconic = $ '<span class="iconic ' + $this.attr('iconic') + '"></span>'
 
 		# Add tooltip
-		if tip
+		if tip && !tipside
 			iconic.addClass 'has-tip no-tip-dots tip-top'
 			iconic.attr 'title', tip
 
@@ -75,12 +79,19 @@ $ ->
 						$this.trigger 'change'
 						return false
 
-				if atip
+				if atip && !tipside
 					iconic.attr 'title', atip
+
+				if atip && tipside
+					iconic.next('span.tip').text atip
 				iconic.addClass 'salmon'
 			else
-				if tip
+				if tip && !tipside
 					iconic.attr 'title', tip
+
+				if tip && tipside
+					iconic.next('span.tip').text tip
+
 				iconic.removeClass 'salmon'
 
 		# Go ahead and add the icon to the DOM and click track
@@ -95,3 +106,8 @@ $ ->
 				do $this.click
 
 			return false
+
+		# Insert tip as text
+		if tip && tipside
+			tipspan = $ '<span class="tip">' + tip + '</span>'
+			tipspan.insertAfter iconic
