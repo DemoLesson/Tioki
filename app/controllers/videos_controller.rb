@@ -136,7 +136,7 @@ class VideosController < ApplicationController
 				@video.encode
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video.", @video, {"video" => "zencoder"})
+				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video.", @video, nil, {"video" => "zencoder"})
 
 				format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
 			else
@@ -195,7 +195,7 @@ class VideosController < ApplicationController
 			if video.save
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video: {tag.link}.", video, {"video" => video.output_url})
+				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video: {tag.link}.", video, nil, {"video" => video.output_url})
 
 				if params[:session]
 					session[:video] = video.id

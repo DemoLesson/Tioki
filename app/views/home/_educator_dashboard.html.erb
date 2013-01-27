@@ -123,6 +123,8 @@
 		</a>
 	</section>
 	<section id="panels">
+
+		<!-- START Whiteboard -->
 		<section class="panel two-column left-side">
 			<h3>
 				<a href="#">
@@ -135,35 +137,43 @@
 					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @user.avatar? %>
 				</div>
 				<div id="submit-whiteboard" style="width:auto;">
-					<form action="/share_on_whiteboard" method="post">
-						<fieldset>
-							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
-							<input type="submit" class="button" />
+					<form action="/share_on_whiteboard" enctype="multipart/form-data" method="post">
+						<fieldset class="trigger">
+							<input type="text" placeholder="Write something on the whiteboard..." />
 						</fieldset>
-						<span style="float:right;margin-right:60px">
-							<% if self.current_user.twitter_auth? %>
-								<%= check_box_tag :share_on_twitter, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_twitter, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
-							<% if self.current_user.facebook_auth? %>
-								<%= check_box_tag :share_on_facebook, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_facebook, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
-						</span>
+						<fieldset class="triggerable">
+							<textarea name="message"></textarea>
+							<div>
+								<div style="float:left;">
+									<% if self.current_user.twitter_auth? %>
+										<%= check_box_tag :share_on_twitter, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_twitter, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
+									<% if self.current_user.facebook_auth? %>
+										<%= check_box_tag :share_on_facebook, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_facebook, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
+								</div>
+								<div style="float:right;">
+									<input type="file" name="file" iconic="camera" style="font-size:1.5em;margin:0px 5px;" tip="Attach a Photo" atip="Photo Attached (Click to Remove)" tip-side="true" allowed-file-types="png,jpg,jpeg,gif" />
+									<input type="submit" value="Post" />
+								</div>
+							</div>
+						</fieldset>
 					</form>
 				</div>
 			</section>
 			<ul class="whiteboard">
-				<% @whiteboard.each do |post| %>
-					<%= raw post %>
-				<% end %>
+				<%= @whiteboard.join('').html_safe %>
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
-		</section> <!-- END WHITEBOARD -->
+		</section>
+
+		<!-- START Suggested educators to connect with -->
 		<section id="list" class="panel one-column right-side">
 			<h3 class="bottom-line">Suggested Educators</h3>
 			<div class="suggested-connections">
@@ -467,9 +477,11 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+		data = form.serialize();
+		form.find('textarea').val('Posting...').prop('disabled', true);
+		$.post(form.attr('action') + '.json', data, function(r) {
+			form.find('textarea').val(r.message).prop('disabled', true);
 			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
 				$.get('/comments/' + r.id, function(d) {
 					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
 					form.prev('ul').append(comment);
@@ -484,7 +496,18 @@ $(document).ready(function() {
 					});
 				});
 			}
-		})
+		});
+
+		return false;
+	});
+
+	$('form[action="/share_on_whiteboard"]').submit(function(e) {
+		e.preventDefault();
+
+		if($(this).find('textarea').val() == '')
+			alert('You cannot have an empty message');
+		else
+			return $(this).get(0).submit();
 
 		return false;
 	});

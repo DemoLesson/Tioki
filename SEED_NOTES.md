@@ -1,3 +1,26 @@
+v4.3.0 - Jan 26, 2013  5:09PM PST deployed by Aleks Stanisic
+============================================================
+* 31b0bae: Aleks Stanisic - schema
+* 43af24e: Kelly Becker - removed some items
+* 8022341: Kelly Becker - made some alternations as per conversation with brian
+* 8623153: Kelly Becker - amazing progress
+* 0074625: Kelly Becker - progress
+* 04758da: Kelly Becker - upload file now available on the whiteboard
+* e9d1ba3: Kelly Becker - whiteboard new post
+* e9d1608: Kelly Becker - new styles for the whiteboard
+* e70c554: Kelly Becker - upgrading paperclip farther
+* 032b0f8: Kelly Becker - whiteboard attachment progress
+* 55e28b0: Kelly Becker - basic attachment support for whiteboards (untested)
+* c71e08a: Kelly Becker - default paperclip options
+
+v4.2.44 - Jan 26, 2013  4:02PM PST deployed by Aleks Stanisic
+=============================================================
+* 7325200: Elijah Green - Allow site admins to create jobs for any org
+
+v4.2.43 - Jan 26, 2013  2:20PM PST deployed by Aleks Stanisic
+=============================================================
+* 03b08ba: Aleks Stanisic - adding user analytics oage
+
 v4.2.42 - Jan 25, 2013  1:33PM PST deployed by Aleks Stanisic
 =============================================================
 * c3d0ebb: Aleks Stanisic - changing .on to .live on facebook invite

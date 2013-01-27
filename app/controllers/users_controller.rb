@@ -1041,6 +1041,12 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def temp
+		if request.post?
+			Whiteboard.createActivity('file', "testing uploading of files", '', params[:file])
+		end
+	end
+
 	private
 
 		def authenticate

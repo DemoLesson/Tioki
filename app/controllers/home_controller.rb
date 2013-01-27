@@ -191,9 +191,20 @@ class HomeController < ApplicationController
 	end
 
 	def whiteboard_share
+
+		# Make sure a user is logged in
 		redirect_to :root if currentUser.new_record?
+
+		# Make sure a message was passed to be posted
 		if params[:message].present?
-			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
+
+			# Were any files uploaded?
+			files = params[:file].present? ? params[:file] : nil
+
+			# Create the new whiteboard activity
+			whiteboard = Whiteboard.createActivity('share', params[:message], '', files, {"deleteable" => true})
+
+			# If we were asked to share to twitter then check if were authorized
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
 
 				if params[:share_on_facebook]
@@ -202,23 +213,34 @@ class HomeController < ApplicationController
 					# through a callback, so just can't pass as params
 					session[:share_on_facebook] = true
 				end
-				
+
+				# Make sure we have permissions to share on twitter
 				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
+
+			# Otherwise prepare the twitter authorization
 			elsif params[:share_on_twitter]
 
+				# Store the whiteboard id in the session and redirect to auth page
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
+
+			# If we were asked to share the whiteboard post on facebook check if were authorized
 			elsif self.current_user.facebook_auth? && params[:share_on_facebook]
 
+				# Go ahead and redirect to the post action
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+
+			# Otherwise prepare the facebook authorization
 			elsif params[:share_on_facebook]
 
+				# Store the whiteboard id in the session and redirect to the auth page
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 			end
 		end
 
+		# If nothing is taking place redirect back
 		redirect_to :back
 	end
 

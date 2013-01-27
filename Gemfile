@@ -22,7 +22,7 @@ end
 #end
 
 # Tiny-MCE / jQuery need to be global
-gem 'jquery-rails', "2.1.4"
+gem 'jquery-rails', '2.1.4'
 gem 'tinymce-rails'
 
 # Social Networks and oAuth
@@ -68,8 +68,7 @@ gem 'sunspot_rails'
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 2.8.0' # Depreciate
-gem 'cocaine', '~> 0.5.1'
+gem 'paperclip' # Depreciate
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip

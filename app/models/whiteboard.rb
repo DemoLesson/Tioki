@@ -3,6 +3,10 @@ class Whiteboard < ActiveRecord::Base
 	belongs_to :user
 	has_and_belongs_to_many :whiteboard_hidden, :class_name => 'User', :join_table => 'whiteboards_hidden'
 
+	# Whiteboard attachments and videos
+	has_many :attachments, :as => :owner, :dependent => :destroy
+	has_many :videos, :through => :attachments
+
 	# Comments integration
 	acts_as_commentable
 
@@ -201,7 +205,7 @@ class Whiteboard < ActiveRecord::Base
 		self.where("`user_id` = ? || `tag` = ?", currentUser.id, currentUser.tag!)
 	end
 
-	def self.createActivity(slug, message, tag = '', data = {})
+	def self.createActivity(slug, message, tag = '', file = nil, data = {})
 
 		# If a string was passed in then post always
 		if slug.is_a?(Symbol)
@@ -269,6 +273,15 @@ class Whiteboard < ActiveRecord::Base
 		w.tag = tag
 		w.data = ActiveSupport::JSON.encode(data)
 		w.save
+
+		# Create a method for adding files to the whiteboard instance
+		add_file = Proc.new{|file| Attachment.create(:owner => w, :file => file)}
+
+		# @todo verify proper file value
+		# Handle file upload process based on
+		add_file.call(file) if !file.nil? && !file.is_a?(Array)
+		file.map{|x|add_file.call(x)} if file.is_a?(Array)
+
 		return w
 	end
 end

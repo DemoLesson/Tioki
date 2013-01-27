@@ -43,6 +43,22 @@ module Preview
 		config.assets.enabled = true
 		config.action_controller.allow_forgery_protection = false
 
+		# Paperclip Amazon S3 Connect
+		config.paperclip_defaults = {
+			:storage => :fog,
+			:fog_credentials => {
+				:provider => 'AWS',
+				:aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+				:aws_secret_access_key  => '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',
+				:region => 'us-west-2'
+			},
+			:fog_public => true,
+			:fog_directory => 'tioki',
+			:path => "#{Rails.env}/:class/:id/:style/:basename.:extension",
+			:processors => [:timestamper],
+			:date_format => "%Y%m%d%H%M%S"
+		}
+
 	end
 end
 

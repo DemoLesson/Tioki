@@ -834,32 +834,31 @@ span.connection_degree {
 			border: 1px dashed $ltgray;
 		}
 		#submit-whiteboard {
+			margin-left: 60px;
 			position: relative;
 			width: 540px;
 			form {
+				margin: 0px;
+
 				fieldset {
-					margin: 0;
-					input[type="text"] {
-						width: 458px;
+					margin: 0px;
+
+					// Hide the triggerable for now
+					&.triggerable {
+						display: none;
+					}
+
+					// Input/Textarea styles
+					input[type="text"], textarea {
+						@include css3-border-box;
+						width: 100%;
 						padding: 12px 15px;
 						font-size: 16px;
 					}
-					.button {
-						position: absolute;
-						right: 0;
-						top: 5px;
-						width: 35px;
-						height: 35px;
-						border: 3px solid $salmon;
-						padding: 0;
-						background-color: #fff;
-						background: url(image_path('tioki/icons/pencil.png')) 6px 4px no-repeat;
-						color: $salmon;
-						text-indent: -999em;
-						-moz-border-radius: 	0;
-						-webkit-border-radius: 	0;
-						border-radius: 			0;
-						
+
+					// Textarea additionals
+					textarea {
+						height: 100px;
 					}
 				}
 			}
