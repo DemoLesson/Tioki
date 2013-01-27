@@ -1,3 +1,11 @@
+v4.3.1 - Jan 26, 2013  6:53PM PST deployed by Aleks Stanisic
+============================================================
+* 0415ace: Elijah Green - Revert "Add file to system in order to keep it in repository"
+* 91285c3: Elijah Green - Ignore files uploaded to system
+* 452663a: Elijah Green - Add file to system in order to keep it in repository
+* 7efb212: Aleks Stanisic - fixing style issue with featured jobs on dashboard
+* 384e5d6: Elijah Green - Remove skill_group reference on profile_about
+
 v4.3.0 - Jan 26, 2013  5:09PM PST deployed by Aleks Stanisic
 ============================================================
 * 31b0bae: Aleks Stanisic - schema
