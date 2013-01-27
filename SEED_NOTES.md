@@ -1,3 +1,7 @@
+v4.2.44 - Jan 26, 2013  4:02PM PST deployed by Aleks Stanisic
+=============================================================
+* 7325200: Elijah Green - Allow site admins to create jobs for any org
+
 v4.2.43 - Jan 26, 2013  2:20PM PST deployed by Aleks Stanisic
 =============================================================
 * 03b08ba: Aleks Stanisic - adding user analytics oage
