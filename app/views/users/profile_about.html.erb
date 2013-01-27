@@ -276,7 +276,7 @@
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
-			<% if @user.skill_groups.empty? && @self %>
+			<% if @user.skills.empty? && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 						<%= link_to "Skills", "/me/profile/edit/skills", :style => "color:#4D4D4D" %>
@@ -288,7 +288,7 @@
 				</section><br />
 			
 			<!-- If Skills are blank and you do not own the profile, you will see nothing. -->
-			<% elsif @user.skill_groups.empty? %>
+			<% elsif @user.skills.empty? %>
 			
 			<!-- If Skills aren't nil, no matter who you are, you will see them suckers. -->
 			<% else %>
@@ -314,32 +314,30 @@
 						</h3> 
 					<% end %>
 
-					<% @user.skill_groups.each do |skill_group| %>
-						<% @user.skills.select{ |skill| skill.skill_group_id == skill_group.id }.each do |skill| %>
-							<div style="border-bottom: 1px dashed #CFD4D5;padding-top:5px">
-								<%= link_to skill.name, "/skill/#{skill.id}", :style => "font-size:15px" %>
-								<% if @user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
-									<%= @user.vouched_skills.collect(&:skill_id).count(skill.id) %>
+					<% @user.skills.each do |skill| %>
+						<div style="border-bottom: 1px dashed #CFD4D5;padding-top:5px">
+							<%= link_to skill.name, "/skill/#{skill.id}", :style => "font-size:15px" %>
+							<% if @user.vouched_skills.collect(&:skill_id).count(skill.id) > 0 %>
+								<%= @user.vouched_skills.collect(&:skill_id).count(skill.id) %>
+							<% end %>
+							<div style="float:right">
+								<% @user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
+									<% if vouched_skill.voucher.avatar? %>
+										<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "/profile/#{vouched_skill.voucher.slug}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "/profile/#{vouched_skill.voucher.slug}" %>
+									<% end %>
 								<% end %>
-								<div style="float:right">
-									<% @user.vouched_skills.select{|vouched_skill| vouched_skill.skill_id == skill.id && vouched_skill.voucher }[0..3].each do |vouched_skill| %>
-										<% if vouched_skill.voucher.avatar? %>
-											<%= link_to image_tag(vouched_skill.voucher.avatar(:tiny), :style => 'max-height:20 px;max-width:20px;'), "/profile/#{vouched_skill.voucher.slug}" %>
-										<% else %>
-											<%= link_to image_tag("/assets/dl_icons/no_avatar_medium.jpg", :style => 'max-height:20px;max-width:20px;'), "/profile/#{vouched_skill.voucher.slug}" %>
-										<% end %>
-									<% end %>
-									<% if self.current_user && !@self %>
-										<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @user.id, :skill_id => skill.id } %>
-									<% end %>
-								</div>
-								<br />
+								<% if self.current_user && !@self %>
+									<%= link_to "+", { :controller => "vouches", :action => "addvouch", :user_id => @user.id, :skill_id => skill.id } %>
+								<% end %>
 							</div>
-						<% end %>
+							<br />
+						</div>
 					<% end %>
-					</section>
-					</br>
-				<% end %>
+				</section>
+				</br>
+			<% end %>
 				
 				<!-- START Group Tag Section-->
 				<!-- If Group is blank and you do own the profile, we encourage you to complete it.--> 
