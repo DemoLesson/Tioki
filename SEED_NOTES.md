@@ -1,3 +1,7 @@
+v4.3.7 - Jan 28, 2013 12:17PM PST deployed by Aleks Stanisic
+============================================================
+* 1f47fd2: Aleks Stanisic - style changes to featured jobs and profile views
+
 v4.3.6 - Jan 28, 2013 12:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 915f4fd: Aleks Stanisic - styling fixes to featured jobs in dashboard and browse orgs
