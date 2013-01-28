@@ -201,6 +201,12 @@ class Job < ActiveRecord::Base
 	def notify_educators
 		user_ids = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ? && kvpairs.value = ?", "seeking", "location", "any").collect(&:map_id)
 
+		kvpairs = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ? && kvpairs.value = ?", "seeking", "location")
+
+		kvpairs.select!{ |kvpair| kvpair.value == "any" || kvpair.job_within?(self) }
+
+		users = kvpair.collect(&:map_id)
+
 		subject_ids = self.subjects.collect(&:id)
 
 		grade_ids = self.grades.collect(&:id)
