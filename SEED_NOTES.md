@@ -1,3 +1,7 @@
+v4.3.5 - Jan 28, 2013 11:18AM PST deployed by Aleks Stanisic
+============================================================
+* 14c9e45: Aleks Stanisic - styling fix to featured job on browsing orgs page part 3
+
 v4.3.4 - Jan 28, 2013 10:55AM PST deployed by Aleks Stanisic
 ============================================================
 * ccf7caa: Aleks Stanisic - possible fix to featured job in browse orgs part 2
