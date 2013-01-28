@@ -227,7 +227,7 @@
 				<% @featured_jobs.each do |job| %>
 					<li style="padding:12px 15px 12px 15px !important;width:280px">
 						<%= link_to image_tag(job.group.picture, :style => "width:45px"), job %>
-						<p style="margin:-40px 0px 0px 60px;width:220px">
+						<p style="margin:-30px 0px 0px 60px;width:220px">
 							<% if job.group.name.length < 21 %>
 								<%= link_to job.group.name[0..23], job %>
 							<% else %>
