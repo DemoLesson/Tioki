@@ -1,3 +1,8 @@
+v4.3.6 - Jan 28, 2013 12:05PM PST deployed by Aleks Stanisic
+============================================================
+* 915f4fd: Aleks Stanisic - styling fixes to featured jobs in dashboard and browse orgs
+* e37f002: Elijah Green - Fix settings location welcome wizard step 1
+
 v4.3.5 - Jan 28, 2013 11:18AM PST deployed by Aleks Stanisic
 ============================================================
 * 14c9e45: Aleks Stanisic - styling fix to featured job on browsing orgs page part 3
