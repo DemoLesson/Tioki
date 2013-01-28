@@ -43,6 +43,17 @@ class Job < ActiveRecord::Base
 		end
 	end
 
+	def update_grades(grades)
+		GradesJobs.delete_all(["job_id = ?", self.id])
+
+		grades.each do |grade|
+			@grades_jobs = GradesJobs.new
+			@grades_jobs.job_id = self.id
+			@grades_jobs.grade_id = grade.to_i
+			@grades_jobs.save
+		end
+	end
+
 	def zipcode
 		return self.school.map_zip
 	end
