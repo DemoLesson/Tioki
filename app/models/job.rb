@@ -4,6 +4,7 @@ class Job < ActiveRecord::Base
 
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
+	has_and_belongs_to_many :grades
 
 	has_many :applications
 	has_many :winks
@@ -29,11 +30,6 @@ class Job < ActiveRecord::Base
 	def school
 		@school = School.find(self.school_id)
 		return @school
-	end
-
-	def subjects
-		@subjects = JobsSubjects.where('job_id = ?', self.id).all
-		return @subjects
 	end
 
 	def update_subjects(subjects)

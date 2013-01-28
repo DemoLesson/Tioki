@@ -216,10 +216,8 @@ class JobsController < ApplicationController
 		respond_to do |format|
 			if @job.save
 
-				# Update the subjects with new parameters
-				@job.update_subjects(params[:subjects]) if params[:subjects]
-
-				@job.notify_educators
+				@job.subjects = params[:subjects]
+				@job.grades = params[:grades]
 
 				format.html {
 					flash[:success] = "New job was successfully created."

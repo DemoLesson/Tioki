@@ -25,7 +25,7 @@
 						<li class="job" data-job-id="<%= job.id %>">
 							<h5><%= job.title %></h5>
 							<p>	<% job.subjects.each do |subject| %>
-									<%= Subject.find(subject.subject_id).name %>, 
+									<%= subject.name %>, 
 								<% end %>
 								<br/><br/>
 								<%= link_to 'View Job', [@source, job] %> | 
@@ -54,7 +54,7 @@
 						<li class="job" data-job-id="<%= job.id %>">
 							<h5><%= job.title %></h5>
 							<p>	<% job.subjects.each do |subject| %>
-									<%= Subject.find(subject.subject_id).name %>, 
+									<%= subject.name %>, 
 								<% end %>
 								<br/><br/>
 								<%= link_to 'View Job', [@source, job] %> | 
@@ -81,7 +81,7 @@
 						<li class="job" data-job-id="<%= job.id %>">
 							<h5><%= job.title %></h5>
 							<p>	<% job.subjects.each do |subject| %>
-									<%= Subject.find(subject.subject_id).name %>, 
+									<%=subject.name %>, 
 								<% end %>
 								<br/><br/>
 								<%= link_to 'View Job', [@source, job] %> | 

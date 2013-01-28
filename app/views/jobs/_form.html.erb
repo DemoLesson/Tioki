@@ -39,7 +39,17 @@
       <% if controller.action_name == "edit" %>
         <span style="color:#999">(Leave blank if you do not want to change)</span>
       <% end %><br />
-      <%= select_tag 'subjects', options_from_collection_for_select(Subject.all, :id, :name), :multiple => true, :value => "Subjects", :style => "width:400px" %>
+			<%= select_tag 'subjects', options_from_collection_for_select(Subject.all, :id, :name, @job.subjects.collect(&:id)), :multiple => true, :value => "Subjects", :style => "width:400px", :id => "job_subjects" %>
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <p> 
+      Grades
+      <% if controller.action_name == "edit" %>
+        <span style="color:#999">(Leave blank if you do not want to change)</span>
+      <% end %><br />
+			<%= select_tag 'grades', options_from_collection_for_select(Grade.all, :id, :name, @job.grades.collect(&:id)), :multiple => true, :value => "Subjects", :style => "width:400px", :id => "job_grades" %>
     </p>
   </fieldset>
       
@@ -161,6 +171,7 @@
 <script type="text/coffeescript">
 $ ->
   $('.datePicker').datepicker numberOfMonths: 2
-  do $('select').chosen
+	do $('#job_subjects').chosen
+	do $('#job_grades').chosen
 </script>
 <%= tinymce :theme => "simple" %>
