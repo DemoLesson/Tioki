@@ -123,7 +123,7 @@
 					</h4>
 
 					<% @featured_groups.each do |group| %>
-						<%= link_to image_tag(group.picture.url(:thumb), :style => "width:75px"), group %>
+						<%= link_to image_tag(group.picture(:thumb), :style => "width:45px"), group %>
 						<h5 style="margin:-65px 0px 0px 90px">
 							<%= group.name %>
 						</h5>
