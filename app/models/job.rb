@@ -203,10 +203,14 @@ class Job < ActiveRecord::Base
 
 		subject_ids = self.subjects.collect(&:id)
 
-		#grade_ids = self.grades.collect(&:id)
+		grade_ids = self.grades.collect(&:id)
 
-		if subject_ids.count > 0
+		if subject_ids.count > 0 && grade_ids.count > 0
+			users = User.joins(:subjects, :grades).where(:id => user_ids)
+		elsif subject_ids.count > 0
 			users = User.joins(:subjects).where(:id => user_ids)
+		elsif grade_ids.count > 0
+			users = User.joins(:grades).where(:id => user_ids)
 		else
 			users = User.where(:id => user_ids)
 		end

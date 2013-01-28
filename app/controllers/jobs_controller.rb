@@ -153,12 +153,8 @@ class JobsController < ApplicationController
 	# GET /jobs/:id
 	def show
 		@job = Job.find(params[:id])
-		if self.current_user == nil
-			# do nothing
-		else
-			if self.current_user != nil
-				@application = Application.where('job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id).first
-			end
+		if self.current_user
+			@application = Application.where('job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id).first
 		end
 		
 		respond_to do |format|
