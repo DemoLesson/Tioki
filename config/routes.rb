@@ -461,6 +461,7 @@ Preview::Application.routes.draw do
 	resources :subjects
 	resources :messages
 	resources :vouches
+	resources :assets
 	
 
 	resources :skills

@@ -228,10 +228,18 @@
 					<li style="padding:12px 15px 12px 15px !important;width:280px">
 						<%= link_to image_tag(job.group.picture, :style => "width:45px"), job %>
 						<p style="margin:-40px 0px 0px 60px;width:220px">
-							<%= link_to job.group.name, job %>
+							<% if job.group.name.length < 21 %>
+								<%= link_to job.group.name[0..23], job %>
+							<% else %>
+								<%= link_to job.group.name[0..23]+"...", job %>
+							<% end %>
 							<%= link_to "View", job, :style => "float:right;color:#F66C4C", :target => "_blank" %>
 							<br />
-							<%= job.title %>
+							<% if job.title.length < 21 %>
+								<%= job.title[0..23] %>
+							<% else %>
+								<%= job.title[0..23]+"..." %>
+							<% end %>
 						</p>
 					</li>
 				<% end %>

@@ -12,6 +12,7 @@ script/deploy_logs
 
 # Ignore uploads
 public/uploads/*
+public/system/*
 
 # Ignore Misc
 *.swp
