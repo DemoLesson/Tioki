@@ -1,3 +1,8 @@
+v4.3.3 - Jan 28, 2013 10:39AM PST deployed by Aleks Stanisic
+============================================================
+* d9bb8ec: Aleks Stanisic - possible fix to featured jobs styling issue
+* ae3c534: Aleks Stanisic - adding name search to analytics page
+
 v4.3.2 - Jan 27, 2013  8:48PM PST deployed by Aleks Stanisic
 ============================================================
 * 553d98b: Elijah Green - Destroy assets in the assets_controller
