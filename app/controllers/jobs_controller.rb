@@ -249,7 +249,10 @@ class JobsController < ApplicationController
 			if @job.update_attributes(params[:job])
 
 				if params[:job][:status] == "running"
-					@job.notify_educators
+					if !@job.notification_sent
+						@job.notify_educators
+					end
+					@job.update_attribute(:notification_sent, true)
 				end
 
 				@job.update_subjects(params[:subjects]) if params[:subjects]
