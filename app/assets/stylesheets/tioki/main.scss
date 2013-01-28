@@ -567,6 +567,40 @@ span.connection_degree {
 	.applications {
 		background: url(image_path('tioki/icons/jobs.png')) no-repeat;
 		padding-left: 40px;
+		&.sidebar {
+			float: left;
+			width: 210px;
+			ul {
+				list-style-type: none;
+				margin: 0 0 35px -30px;
+				li {
+					position: relative;
+					height: 22px;
+					padding: 6px 0 6px 30px;
+					margin: 0 0 5px 0;
+					font: 18px/1.2 $oswald;
+					a {
+						color: $dkgray;
+						&:hover {
+							color: lighten( $dkgray,12% );	
+						}
+					}
+					&.current {
+						color: #fff;
+						background: $salmon;
+						&:after {
+							position: absolute;
+							right: -17px;
+							top:0px;
+							content: " ";
+							border-top: 17px solid transparent;
+							border-bottom: 17px solid transparent;
+							border-left: 17px solid $salmon;
+						}
+					}
+				}
+			}
+		}
 	}
 	.favorites {
 		background: url(image_path('tioki/icons/star-gold.png')) 0 4px no-repeat;
