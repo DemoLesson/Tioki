@@ -1,3 +1,7 @@
+v4.3.2 - Jan 27, 2013  8:48PM PST deployed by Aleks Stanisic
+============================================================
+* 553d98b: Elijah Green - Destroy assets in the assets_controller
+
 v4.3.1 - Jan 26, 2013  6:53PM PST deployed by Aleks Stanisic
 ============================================================
 * 0415ace: Elijah Green - Revert "Add file to system in order to keep it in repository"
