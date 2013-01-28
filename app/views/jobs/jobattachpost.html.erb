@@ -1,7 +1,6 @@
 
 <% @assets.each do |asset| %>
     <p class="attached">
-    <img src="<%= asset_path 'file.png' %>" />
     <%= link_to asset.name, asset.file.url %> <span class="purge"><%= link_to 'Remove?', '/jobattachpurge/'+asset.id.to_s, :confirm => 'Are you sure you want to remove "'+asset.name+'" from your profile? The file will be permanently deleted.' %></span><br />
     <%= asset.description %>
     </p>
@@ -27,10 +26,6 @@
 
     <div>
       <input name="commit" type="submit" value="Upload File" onclick="$('#loader').show('fast');" class="btn btn-success" />
-    </div>
-
-    <div id="loader" style="display: none">
-      <img src="<%= asset_path 'loader.gif' %>" />
     </div>
 
   <% end %>
