@@ -1,3 +1,34 @@
+v4.3.9 - Jan 28, 2013  3:44PM PST deployed by Aleks Stanisic
+============================================================
+* 703a759: Elijah Green - Center job attachments page
+* 99a091a: Elijah Green - remove some references to asset_path
+
+v4.3.8 - Jan 28, 2013  1:33PM PST deployed by Aleks Stanisic
+============================================================
+* 382ed41: Aleks Stanisic - design change to request interview page
+
+v4.3.7 - Jan 28, 2013 12:17PM PST deployed by Aleks Stanisic
+============================================================
+* 1f47fd2: Aleks Stanisic - style changes to featured jobs and profile views
+
+v4.3.6 - Jan 28, 2013 12:05PM PST deployed by Aleks Stanisic
+============================================================
+* 915f4fd: Aleks Stanisic - styling fixes to featured jobs in dashboard and browse orgs
+* e37f002: Elijah Green - Fix settings location welcome wizard step 1
+
+v4.3.5 - Jan 28, 2013 11:18AM PST deployed by Aleks Stanisic
+============================================================
+* 14c9e45: Aleks Stanisic - styling fix to featured job on browsing orgs page part 3
+
+v4.3.4 - Jan 28, 2013 10:55AM PST deployed by Aleks Stanisic
+============================================================
+* ccf7caa: Aleks Stanisic - possible fix to featured job in browse orgs part 2
+
+v4.3.3 - Jan 28, 2013 10:39AM PST deployed by Aleks Stanisic
+============================================================
+* d9bb8ec: Aleks Stanisic - possible fix to featured jobs styling issue
+* ae3c534: Aleks Stanisic - adding name search to analytics page
+
 v4.3.2 - Jan 27, 2013  8:48PM PST deployed by Aleks Stanisic
 ============================================================
 * 553d98b: Elijah Green - Destroy assets in the assets_controller

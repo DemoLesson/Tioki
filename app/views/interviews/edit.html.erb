@@ -30,13 +30,13 @@
 				<tr>
 					<td>
 						<p>Type in a physical address, phone number, online video chat username, etc. </p>
-						<label>
-							<span>Interview Location</span>
-							<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
-						</label>
-						<label style="margin-left:300px; margin-top:-30px">
+						<label style=" margin-top:30px">
 							<span>Interview Type: </span>
 							<%= select(:interview, :interview_type, { "In-Person" => "In-Person", "Phone" => "Phone", "Skype" => "Skype", "Google Hangout" => "Google Hangout", "Other" => "Other"}) %>
+						</label>
+						<label style="margin-left:250px; margin-top: -45px">
+							<span>Interview Location</span>
+							<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
 						</label>
 					</td>
 				</tr>
