@@ -369,9 +369,20 @@ class JobsController < ApplicationController
 		if request.post?
 			if params[:any_location]
 				params[:user][:seeking][:location] = "any"
+			else
+				box = Kvpair.seeking_location_box(params[:user][:seeking][:location])
+
+				if box
+					location = "#{params[:user][:seeking][:location]}:#{box.joins(",")}"
+					params[:user][:seeking][:location] = location
+				else
+					redirect_to :back, "Could not identify location."
+				end
 			end
 
 			currentUser.seeking = params[:user][:seeking]
+
+			redirect_to jobs_url
 		end
 	end
 
