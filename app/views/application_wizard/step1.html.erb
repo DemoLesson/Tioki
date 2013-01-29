@@ -48,6 +48,14 @@
 						</label>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Occupation</span>
+							<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+						</label>
+					</td>
+				</tr>
 			</table>
 
 			<div class="button_wrap" style="text-align:left">

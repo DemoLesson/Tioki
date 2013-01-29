@@ -6,9 +6,11 @@ class GroupsController < ApplicationController
 		if params[:organization] == 'true'
 			@groups = @source.organization
 			@type = 'Organization'
+			@featured_jobs = Job.where("featured = ?", true).limit(3)
 		else
 			@groups = @source.organization!
 			@type = 'Group'
+			@featured_groups = Group.where("featured = ?", true).limit(4)
 		end
 
 		if params[:group_search]
@@ -61,7 +63,12 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Redirect to discussions if no long description
-		redirect_to group_path(@group) + '/discussions' if @group.long_description.nil?
+		if @group.long_description.nil?
+			# If redirected to keep the flash from
+			# the last request
+			flash.keep
+			redirect_to group_path(@group) + '/discussions'
+		end
 	end
 
 	def members
@@ -132,20 +139,18 @@ class GroupsController < ApplicationController
 		raise HTTPStatus::Unauthorized unless admin
 
 		# Update permissions
-		if !params[:group][:permissions].nil?
-			permissions = Hash.new
-			permissions[:public] = params[:group][:permissions][:public] == 'true'
-			permissions[:private] = params[:group][:permissions][:public] != 'true'
-			permissions[:hidden] = params[:group][:permissions][:hidden] == 'true'
+		permissions = Hash.new
+		permissions[:public] = params.group.permissions.try(:public) == 'true'
+		permissions[:private] = params.group.permissions.try(:public) != 'true'
+		permissions[:hidden] = params.group.permissions.try(:hidden) == 'true'
 
-			if currentUser.is_admin
-				permissions[:organization] = params[:group][:permissions][:organization] == 'true'
-			end
-
-			permissions[:public_discussions] = params[:group][:permissions][:public_discussions] == 'true'
-			params[:group].delete_if { |k, v| k.to_s == 'permissions' }
-			@group.permissions = permissions
+		if currentUser.is_admin
+			permissions[:organization] = params.group.permissions.try(:organization) == 'true'
 		end
+
+		permissions[:public_discussions] = params.group.permissions.try(:public_discussions) == 'true'
+		params[:group].delete_if { |k, v| k.to_s == 'permissions' }
+		@group.permissions = permissions
 
 		@group.misc = params[:group][:misc] if params[:group][:misc]
 		@group.social = params[:group][:social] if params[:group][:social]
@@ -154,7 +159,7 @@ class GroupsController < ApplicationController
 		@group.update_attributes(params[:group])
 		if @group.save
 			flash[:success] = "Successfully updated"
-			redirect_to @group
+			redirect_to [:edit, @group]
 		else
 			flash[:error] = "Did not update"
 			redirect_to @group
@@ -187,10 +192,6 @@ class GroupsController < ApplicationController
 			format.html { flash[message[:type]] = message[:message]; redirect_to :back }
 			format.json { render :json => message }
 		end
-	end
-
-	def my_groups
-		@groups = self.current_user.groups
 	end
 
 	def edit_picture

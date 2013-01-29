@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Rails Itself
-gem 'rails', '3.1.3'
+gem 'rails', '3.1.10'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 
 # Database Handler
@@ -22,7 +22,7 @@ end
 #end
 
 # Tiny-MCE / jQuery need to be global
-gem 'jquery-rails'
+gem 'jquery-rails', '2.1.4'
 gem 'tinymce-rails'
 
 # Social Networks and oAuth
@@ -58,10 +58,17 @@ gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
 # @todo deprecate smart_tuple replace with solr
 gem 'smart_tuple' # Tuple styled SQL Queries
 
+# Solr search
+# To install solr in a heartbeat run
+# $ gem install sunspot_solr
+# $ sunspot-installer
+# $ cd /path/to/Tioki; sunspot-solr run
+gem 'sunspot_rails'
+
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 3.3.0' # Depreciate
+gem 'paperclip' # Depreciate
 gem 'aws-sdk', '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip

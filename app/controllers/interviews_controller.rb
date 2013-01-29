@@ -22,7 +22,7 @@ END
       @message = <<-END
 Dear #{@interview.user.name},
 
-After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@interview.job.title} position available at #{@interview.job.group.name}. Please confirm if any of these dates and times work for you. We look forward to meeting with you!
+After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@interview.job.title} position available at #{@interview.job.group.name}. Please <a href="http://tioki.com/users/#{@interview.user.id}/applications">Click Here</a> to confirm if any of these dates and times work for you. We look forward to meeting with you!
 
 Kind Regards,
 #{currentUser.name}
@@ -55,7 +55,7 @@ END
         @interview.job.group.users(:administrator).each do |to|
           Message.send!(to, :subject => "Re: Interview with #{@interview.user.name} for #{@interview.job.title} position",
             :body => params[:interview][:message], :tag => @interview.tag!)
-          Notification.create(:notifiable_type => @interview.tag!, :user_id => to.id, :dashboard => 'recruiter')
+          Notification.create(:notifiable_type => @interview.tag!, :user_id => to.id, :dashboard => 'recruiter', :message => "{triggered.link} responded to the interview request for {tag.job.title}", :link => @interview.url, :bucket => :jobs)
         end
       end
     end

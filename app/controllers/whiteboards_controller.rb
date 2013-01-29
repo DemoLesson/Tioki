@@ -30,7 +30,7 @@ class WhiteboardsController < ApplicationController
 			# Save the favorite
 			if fav.save
 				message = {:type => :success, :message => "Whiteboard post was successfully favorited.", :new => 1}
-				Notification.create(:user_id => w.user_id, :notifiable_type => fav.tag!)
+				Notification.create(:user_id => w.user_id, :notifiable_type => fav.tag!, :message => "{triggered.link} favorited a post of yours.", :link => '', :bucket => :favorites)
 			else
 				message = {:type => :error, :message => "There was an error favoriting the specified post.", :new => 1}
 			end
@@ -66,9 +66,9 @@ class WhiteboardsController < ApplicationController
 		if comment.save
 			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
 			if self.current_user.id != whiteboard.user_id
-				Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user_id)
+				Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user_id, :message => "{triggered.link} commented on a item you shared.", :link => '', :bucket => :discussions)
 
-				#email_permissions
+				# email_permissions
 				if !whiteboard.user.email_permissions["whiteboard_post"]
 					NotificationMailer.comment(whiteboard.user, comment, whiteboard).deliver
 				end

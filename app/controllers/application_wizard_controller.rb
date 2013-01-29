@@ -16,20 +16,44 @@ class ApplicationWizardController < ApplicationController
 		redirect_to :root if params[:job].nil?
 
 		# Create a new application
-		@app = Application.new
-		@app.job_id = params[:job]
-
-		# Let the user know if we have an issue creation the application record
-		flash[:error] = "There was an error creating your application" unless @app.save
-
-		# Add the application id to the session
-		session[:application] = @app.id
+		@job = Job.find(params[:job])
 
 		if User.current.nil?
+			# Let the user know if we have an issue creation the application record
+			@app = Application.new
+			@app.job_id = @job.id
+
+			@app.save!
+
+			# Add the application id to the session
+			session[:application] = @app.id
 			redirect_to :step1
 		else
-			@app.update_attribute(:user_id, User.current.id)
-			redirect_to :step2
+			@app = Application.where("user_id = ? && job_id = ?", User.current.id, @job.id).first
+			if !@app
+				@app = Application.new
+				@app.job_id = @job.id
+				@app.user_id = User.current.id
+
+				@app.save!
+			end
+
+			session[:application] = @app.id
+			if User.current.submitted_application?
+
+				if @job.allow_attachments
+					redirect_to :step5
+
+				elsif @job.allow_videos
+					redirect_to :step6
+
+				else
+					redirect_to :step7
+				end
+
+			else
+				redirect_to :step2
+			end
 		end
 	end
 
@@ -42,7 +66,18 @@ class ApplicationWizardController < ApplicationController
 			session[:user] = User.authenticate(user.email, user.password)
 			@app.update_attribute(:user_id, User.current.id)
 
-			return redirect_to :step2
+			if @app.job.external_url.present?
+				#For now redirect
+				#later have own page explaining
+				#that they are about to be redirected
+				
+				external_url = @app.job.external_url
+				@app.destroy
+
+				redirect_to external_url
+			else
+				return redirect_to :step2
+			end
 		end
 	end
 
@@ -58,8 +93,18 @@ class ApplicationWizardController < ApplicationController
 				params[:experience][:current] = false
 			end
 
-			end_date = Time.strptime(params[:date][:end_date], "%m/%d/%Y")
-			start_date = Time.strptime(params[:date][:start_date], "%m/%d/%Y")
+			begin
+				end_date = Time.strptime(params[:date][:end_date], "%m/%d/%Y")
+			rescue
+				return redirect_to :back, notice: "Invliad End Date"
+			end
+
+			begin
+				start_date = Time.strptime(params[:date][:start_date], "%m/%d/%Y")
+			rescue
+				return redirect_to :back, notice: "Invalid Start Date"
+			end
+
 			params[:experience][:startMonth] = start_date.strftime("%m")
 			params[:experience][:startYear] = start_date.strftime("%Y")
 			params[:experience][:endMonth] = end_date.strftime("%m")
@@ -113,8 +158,7 @@ class ApplicationWizardController < ApplicationController
 			params[:asset][:application_id] = @app.id
 			params[:asset][:user_id] = User.current.id
 
-			# Yes I am taking this opportunity to name this var "ass"
-			ass = Asset.create(params[:asset])
+			Asset.create(params[:asset])
 		end
 	end
 
@@ -136,16 +180,21 @@ class ApplicationWizardController < ApplicationController
 
 	def complete
 		_loadSession
+		if @app.job.passcode.present?
+			if params[:passcode] != @app.job.passcode
+				return redirect_to :back, :notice => "Invalid passcode"
+			end
+		end
 
 		if @app.update_attributes({:submitted => true, :status => 'Not Reviewed', :viewed => 0})
 
 			# Notify that owner(s) of the school that this application has been submitted
 			job = Job.find(@app.job_id)
-			UserMailer.teacher_applied(job.group, job, @app.user).deliver
 
 			# Application was submitted or updated
 			job.group.users(:administrator).each do |u|
-				Notification.create(:notifiable_type => @app.tag!, :user_id => u.id, :dashboard => 'recruiter')
+				# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+				Notification.create(:notifiable_type => @app.tag!, :user_id => u.id, :dashboard => 'recruiter', :message => "{triggered.link(resume)} has applied to {tag.job.title}", :link => @app.url, :bucket => :jobs)
 			end
 
 			flash[:success] = "Your application has been submitted"
@@ -162,7 +211,7 @@ class ApplicationWizardController < ApplicationController
 			flash[:error] = "Unable to load the application in question."
 
 			# Add the application id to the session
-			redirect_to :root
+			redirect_to user_applications_path(User.current)
 		else
 
 			# Load the application from session

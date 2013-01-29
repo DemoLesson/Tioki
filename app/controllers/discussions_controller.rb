@@ -20,8 +20,9 @@ class DiscussionsController < ApplicationController
     # Unauthorized
     if !@discussion.owner!.nil? && !@discussion.owner!.empty?
     	@owner = @discussion.owner
-    	if !@owner.member? && !@owner.permissions['public_discussions']
-    		raise HTTPStatus::Unauthorized
+    	if !@owner.member? && !@owner.permissions['public_discussions'] && !currentUser.is_admin
+				flash[:notice] = "To see this dicussion you must join the \"#{@owner.name}\" group"
+				return redirect_to @owner
     	end
     end
 
@@ -96,12 +97,17 @@ class DiscussionsController < ApplicationController
 					Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
 				elsif @discussion.owner.is_a?(Group)
 					for user in @discussion.owner.users(:discussion_notifications)
-						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id)
+						# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+						Notification.create(:notifiable_type => @discussion.tag!, :user_id => user.id, :message => "{triggered.link} created a discussion on {tag.owner.link} go read {tag.link}.", :link => @discussion.url, :bucket => :discussions)
+
+						# Tell the whiteboard about this new discussion if the discussions are public
+						if @discussion.owner.permissions.public_discussions
+							Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
+						end
 					end
 				end
 
-				# Tell the whiteboard about this new discussion
-				Whiteboard.createActivity(:created_discussion, "{user.link} created a new discussion {tag.link}.", @discussion)
+				# Log a analytic about the discussion creation
 				self.log_analytic(:discussion_creation, "New discussion was created.", @discussion, [], :discussions)
 
 				format.html { redirect_to @discussion, notice: 'Discussion was successfully created.' }
@@ -154,7 +160,8 @@ class DiscussionsController < ApplicationController
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :discussions)
 						end
 					end
 				end
@@ -177,7 +184,8 @@ class DiscussionsController < ApplicationController
 				@discussion.following_and_participants.each do |user|
 					if user
 						if self.current_user.id != user.id
-							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id)
+							# @todo I know it was my idea but lets switch to rails 3 polymorphic instead of tag!
+							Notification.create(:notifiable_type => @comment.tag!, :user_id => user.id, :message => "{triggered.link} replied to a discussion.", :link => @comment.url, :bucket => :discussions)
 						end
 					end
 				end
@@ -191,17 +199,17 @@ class DiscussionsController < ApplicationController
 
 	def reply_nologin
 		if self.current_user
-			return redirect_to :back, "You are already logined"
+			return redirect_to :back, "You are already logged in."
 		end
 		redirect_to "/welcome_wizard?x=step1&discussion_id=#{params[:id]}&body=#{CGI.escape(params[:comment][:body])}"
 	end
 
 	def followed_discussions
-		@discussions = self.current_user.followed_discussions
+		@discussions = self.current_user.followed_discussions.order("created_at DESC")
 	end
 
 	def my_discussions
-		@discussions = self.current_user.discussions
+		@discussions = self.current_user.discussions.order("created_at DESC")
 	end
 
 	def follow_discussion
@@ -338,7 +346,7 @@ BODY
 
 		self.log_analytic(:discussion_message_invite, "User message invite to discussion.", d, [], :discussions)
 
-		flash[:success] = "Share successfull."
+		flash[:success] = "Successfully Shared"
 		return redirect_to :back
 	end
 

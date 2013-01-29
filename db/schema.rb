@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121228214732) do
+ActiveRecord::Schema.define(:version => 20130122235129) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -81,6 +81,19 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
     t.integer  "user_id"
+  end
+
+  create_table "attachments", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.integer  "video_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "awards", :force => true do |t|
@@ -341,9 +354,9 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name",                                :null => false
-    t.text     "description",                         :null => false
-    t.integer  "permissions",          :default => 0, :null => false
+    t.string   "name",                                    :null => false
+    t.text     "description",                             :null => false
+    t.integer  "permissions",          :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture_file_name"
@@ -356,6 +369,7 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.text     "long_description"
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "featured",             :default => false
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -375,6 +389,7 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.integer  "user_id"
     t.integer  "number"
     t.integer  "application_id"
+    t.string   "interview_type"
   end
 
   create_table "job_packs", :force => true do |t|
@@ -417,6 +432,9 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
+    t.boolean  "allow_videos",        :default => true
+    t.boolean  "allow_attachments",   :default => true
   end
 
   add_index "jobs", ["school_id"], :name => "index_jobs_on_school_id"
@@ -476,6 +494,13 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.datetime "updated_at"
     t.string   "dashboard"
     t.string   "message"
+    t.string   "link"
+    t.text     "data"
+    t.integer  "triggered_id"
+    t.boolean  "emailed",         :default => false
+    t.datetime "emailed_at"
+    t.string   "bucket"
+    t.string   "link_text"
   end
 
   create_table "organizations", :force => true do |t|
@@ -732,31 +757,31 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                    :null => false
-    t.string   "hashed_password",                          :null => false
-    t.string   "salt",                                     :null => false
+    t.string   "email",                                     :null => false
+    t.string   "hashed_password",                           :null => false
+    t.string   "salt",                                      :null => false
     t.string   "name"
-    t.boolean  "is_admin",              :default => false, :null => false
+    t.boolean  "is_admin",               :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.integer  "login_count",           :default => 0
+    t.integer  "login_count",            :default => 0
     t.datetime "last_login"
     t.datetime "deleted_at"
-    t.boolean  "is_shared",             :default => false, :null => false
-    t.boolean  "is_limited",            :default => false, :null => false
+    t.boolean  "is_shared",              :default => false, :null => false
+    t.boolean  "is_limited",             :default => false, :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "original_name"
     t.string   "temp_img_name"
-    t.integer  "privacy_public",        :default => 0,     :null => false
+    t.integer  "privacy_public",         :default => 0,     :null => false
     t.string   "invite_code"
     t.string   "ab"
     t.integer  "completion"
-    t.integer  "email_permissions",     :default => 0
+    t.integer  "email_permissions",      :default => 0
     t.string   "twitter_oauth_token"
     t.string   "twitter_oauth_secret"
     t.string   "facebook_access_token"
@@ -770,9 +795,14 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.string   "country"
     t.string   "state"
     t.string   "city"
-    t.integer  "connections_count",     :default => 0
+    t.integer  "connections_count",      :default => 0
     t.integer  "privacy_connected"
     t.integer  "privacy_recruiter"
+    t.text     "notification_intervals"
+    t.boolean  "fake",                   :default => false
+    t.string   "occupation"
+    t.integer  "years_teaching"
+    t.boolean  "job_seeking",            :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -819,6 +849,7 @@ ActiveRecord::Schema.define(:version => 20121228214732) do
     t.boolean  "is_snippet",             :default => false,       :null => false
     t.integer  "user_id"
     t.string   "thumbnail_url"
+    t.boolean  "featured",               :default => false
   end
 
   create_table "videos_skills", :id => false, :force => true do |t|

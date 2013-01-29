@@ -1,0 +1,19 @@
+<div style="text-align:center;">
+	<!-- Display Notices -->
+	<% flash.each do |type, message| %>
+		<% next unless message.is_a?(String) %>
+		<section class="notice <%= type %>">
+			<%= message %>
+		</section>
+		<% end unless flash.empty? %>
+	<%= link_to "Experiences", action: 'step2' %> - 
+	<%= link_to "Education", action: 'step3' %> -
+	<%= link_to "Credentials", action: 'step4' %> -
+	<% if @app.job.allow_attachments %>
+		<%= link_to "Attachments", action: 'step5' %> -
+	<% end %>
+	<% if @app.job.allow_videos %>
+		<%= link_to "Video", action: 'step6' %> -
+	<% end %>
+	<%= link_to "Submit", action: 'step7' %>
+</div>

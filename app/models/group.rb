@@ -1,5 +1,4 @@
 class Group < ActiveRecord::Base
-
 	def to_param
 		"#{id}-#{name.parameterize}"
 	end
@@ -12,6 +11,13 @@ class Group < ActiveRecord::Base
 	kvpair :location
 	kvpair :contact
 	kvpair :misc
+
+	after_validation :geocode
+	geocoded_by :address
+
+	def address
+		[self.location[:address], self.location[:city], self.location[:region], self.location[:postal]].compact.join(', ')
+	end
 
 	# Connected to users through users_groups
 	has_and_belongs_to_many :users, :join_table => 'users_groups'

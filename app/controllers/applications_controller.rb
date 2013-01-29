@@ -7,7 +7,11 @@ class ApplicationsController < ApplicationController
 	# GET /user/:user_id/applications
 	# GET /groups/:group_id/jobs/:job_id/applications
 	def index
-		@applications = @source.applications.is_submitted
+		if @source.is_a?(User)
+			@applications = @source.applications
+		else
+			@applications = @source.applications.is_submitted
+		end
 		@interviews = @source.interviews
 
 		respond_to do |format|
@@ -114,6 +118,14 @@ class ApplicationsController < ApplicationController
 			format.html { redirect_to :my_jobs }
 		end
 	end  
+
+	def destroy
+		@application = Application.find(params[:id])
+
+		# Only allow destruction of unsubmitted applications
+		@application.destroy if @application.submitted == 0
+		redirect_to :back
+	end
 
 	# Deprecate
 	def teacher_applications

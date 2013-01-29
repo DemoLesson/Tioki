@@ -136,7 +136,7 @@ class VideosController < ApplicationController
 				@video.encode
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video.", @video, {"video" => "zencoder"})
+				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video.", @video, nil, {"video" => "zencoder"})
 
 				format.html { redirect_to(:root, :notice => 'Video was successfully uploaded.') }
 			else
@@ -195,7 +195,7 @@ class VideosController < ApplicationController
 			if video.save
 
 				# Let users know about the new video that was uploaded
-				Whiteboard.createActivity(:video_upload, "{user.link} linked a new video.", nil, {"video" => video.output_url})
+				Whiteboard.createActivity(:video_upload, "{user.link} uploaded a new video: {tag.link}.", video, nil, {"video" => video.output_url})
 
 				if params[:session]
 					session[:video] = video.id
@@ -211,7 +211,7 @@ class VideosController < ApplicationController
 			end
 			
 			raise StandardError, 1
-		rescue => e
+		rescue
 
 			# Flash error and return
 			flash[:error] = 'Video could not be embeded, make sure you are using a valid url.'
@@ -234,6 +234,17 @@ class VideosController < ApplicationController
 				format.html { redirect_to :back, :notice => "Your snippet has been created and is currently encoding." }
 			end
 		end
+	end
+
+	def feature_video
+		video = currentUser.videos.where("id = ?", params[:id]).first
+		featured_video = currentUser.videos.where("featured = true").first
+		if featured_video
+			featured_video.update_attribute(:featured, false)
+		end
+
+		video.update_attribute(:featured, true)
+		redirect_to :back
 	end
 
 	# DELETE /videos/1

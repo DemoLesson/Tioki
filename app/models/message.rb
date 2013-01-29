@@ -85,4 +85,23 @@ class Message < ActiveRecord::Base
 
 	end
 
+	def link(attrs = {})
+
+		# Parse attrs
+		_attrs = []; attrs.each do |k, v|
+			# Make sure not a symbol
+			k = k.to_s if k.is_a?(Symbol)
+			next if k == 'href'
+			# Add to attrs array
+			_attrs << "#{k}=\"#{v}\""
+		end; attrs = _attrs.join(' ')
+
+		# Return the link to the profile
+		return "<a href=\"#{url}\" #{attrs}>Message: #{subject}</a>".html_safe
+	end
+
+	def url
+		"/messages/#{id}"
+	end
+
 end

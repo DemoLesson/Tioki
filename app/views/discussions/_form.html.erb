@@ -35,8 +35,9 @@
 		</span>	
 		</p>	
   </div><br/>
+	<span style="margin-left:60px">You want your discussion to be found, right?  Tag it with topics so people can easily find it.</span>
 
-  <div class="field" style="margin-left:60px">
+  <div class="field" style="margin-left:60px;margin-top:20px">
 		<%= select "skill", 'skillList', Skill.all.collect { |skill| [skill.name, skill.id] } %>
 		<a id="addSkill" class="button bg-green" >Add Topic</a>
 		
@@ -65,7 +66,7 @@
 					$(tab).append(' - <a href="#" id="remove" style="color:#892A38;font-weight:bold">x</a>');
 					$('#current_skills').append(tab);
 				});
-				$("#remove").live("click", function (e) {
+				$("#remove").on("click", function (e) {
 					e.preventDefault();
 					$(this).closest("div.skilldiv").remove();
 				});

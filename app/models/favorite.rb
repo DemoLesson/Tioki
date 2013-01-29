@@ -42,4 +42,12 @@ class Favorite < ActiveRecord::Base
 	def cleanup!
 		Notification.where(:notifiable_type => tag!).all.recurse{|n| n.destroy}
 	end
+
+	# Stub
+	def link
+	end
+
+	# Stub
+	def url
+	end
 end

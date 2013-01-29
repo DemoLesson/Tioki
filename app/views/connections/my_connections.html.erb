@@ -93,6 +93,7 @@
 			<h3>
 				My <%= ablang('connection.plural', true) %>
 			</h3>
+			<!-- Elijah, I am commenting this out for now. 
 			<div class="search-connections">	
 				<%= form_tag connections_path, :method => :get do %>
 					<fieldset>
@@ -102,13 +103,12 @@
 							<option value="name">Name</option>
 							<option value="email">Email</option>
 							<option value="school">School</option>
-							<!--<option>Subject</option>-->
 							<option value="location">Location</option>
 						</select>
 						<input type="submit" value="GO" class="button" />
 					</fieldset>
 				<% end %>
-			</div>
+			</div>-->
 			<ul>
 				<% @connections.each do |connection| %>
 					<%= raw connection %>

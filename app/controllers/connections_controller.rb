@@ -28,6 +28,22 @@ class ConnectionsController < ApplicationController
 			else
 				users = User.none
 			end
+		elsif params[:topic] == 'subject_string'
+			#Make sure this subject actually exists
+			@subjects = Subject.where("subjects.name like ?", "#{params[:connectsearch]}%")
+			if @subjects.count > 0
+				users = User.search(:subjects => @subjects.collect(&:id))
+			else
+				users = User.none
+			end
+		elsif params[:topic] == 'grade_string'
+			#Make sure this grade actually exists
+			@grades = Grade.where("grades.name like ?", "#{params[:connectsearch]}%")
+			if @grades.count > 0
+				users = User.search(:grades => @grades.collect(&:id))
+			else
+				users = User.none
+			end
 		elsif params[:topic] == 'location'
 			users = User.search(:location => params[:connectsearch])
 		else
@@ -35,9 +51,14 @@ class ConnectionsController < ApplicationController
 		end
 
 		#Populate search options
-		if (params[:topic].empty? && !params[:skill]) || params[:topic] == 'name'
-			@companies = users.collect{|x|x.experiences.collect{|y|y.company}}.flatten.uniq.delete_if{|x|x.nil?||x.empty?}
-			@user_skills = Skill.joins(:skill_claims => :user).where("users.id IN (?)", users.collect(&:id)).all.uniq
+		if params[:topic] == 'name'
+			@companies = users.includes(:experiences).
+				collect{|x|x.experiences.collect{|y|y.company}}.
+				flatten.uniq.delete_if{|x|x.nil?||x.empty?}
+
+			@user_skills = users.includes(:skills).collect(&:skills).flatten.uniq
+			@subjects = users.includes(:subjects).collect(&:subjects).flatten.uniq
+			@grades = users.includes(:grades).collect(&:grades).flatten.uniq
 
 			#count returns a hash
 			@locations = users.geocoded.group("country").count
@@ -472,6 +493,9 @@ class ConnectionsController < ApplicationController
 		search[:skills] = params[:skills] if params[:skills]
 		search[:school] = params[:school] if params[:school]
 		search[:schools] = params[:schools] if params[:schools]
+		search[:locations] = params[:locations] if params[:locations]
+		search[:subjects] = params[:subjects] if params[:subjects]
+		search[:grades] = params[:grades] if params[:grades]
 		search[:email] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'email'
 		search[:school] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'school'
 		search[:name] = params[:connectsearch] if params[:connectsearch] && 
@@ -479,7 +503,10 @@ class ConnectionsController < ApplicationController
 		search[:location] = params[:connectsearch] if params[:connectsearch] && params[:topic] == 'location'
 		search[:skills] = Skill.where("skills.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
 			params[:topic] == 'skill_string'
-		search[:locations] = params[:locations] if params[:locations]
+		search[:skills] = Subject.where("subjects.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
+			params[:topic] == 'subject_string'
+		search[:grades] = Grade.where("grades.name like ?", "#{params[:connectsearch]}%").collect(&:id) if params[:connectsearch] &&
+			params[:topic] == 'grade_string'
 
 		unless search.empty?
 			users = User.search(search)

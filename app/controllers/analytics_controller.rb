@@ -19,7 +19,6 @@ class AnalyticsController < ApplicationController
 	def users
 		@fields = ['ID', 'Name', 'Email', 'RSVPs', 'Vouches', 'Skills', 'Videos', 'Connections', 'Completion', 'Triggered Analytics']
 		@users = User.order('`last_login` DESC').paginate(:page => params[:page], :per_page => 20)
-
 		@totals = Hash.new
 		@totals[:events_rsvps] = EventsRsvps.where("'1' = '1'")
 		@totals[:vouched_skills] = VouchedSkill.where("'1' = '1'")
@@ -32,6 +31,15 @@ class AnalyticsController < ApplicationController
 
 		# Store the joined tables
 		joined_tables = Multimap.new
+
+		if params[:tname]
+			#is it a valid integer?
+			if params[:tname].numeric?
+				@users = User.where('id = ?', params[:tname]).order('users.created_at DESC').paginate(:page => params[:page], :per_page => 20)
+			else
+				@users = User.where('name LIKE ?', "%#{params[:tname]}%").order('users.created_at DESC').paginate(:page => params[:page], :per_page => 20)
+			end
+		end
 
 		if request.post?
 

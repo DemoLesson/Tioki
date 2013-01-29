@@ -102,18 +102,19 @@
 		<% end %>
 		<label>
 			<%= check_box_tag 'group[permissions][hidden]', 'true', @group.permissions['hidden'] %>
-			Hidden <%= @group.type? %> (Must either be a member or have the link)
+			Hidden <%= @group.type? %> (No one will be able to see this <%= @group.type? %>, unless they have the url link to it. If you want people to find you, do not select this option)
 		</label>
-		<% if User.current.is_admin %>
-			<label>
-				<%= check_box_tag 'group[permissions][organization]', 'true', @group.permissions['organization'] %>
-				is an Organization? (If you uncheck this the Organization will lose it's job postings and be converted to a group!)
-			</label>
-		<% end %>
 		<label>
 			<%= check_box_tag 'group[permissions][public_discussions]', 'true', @group.permissions['public_discussions'] || @group.id.nil? %>
-			Does this <%= @group.type? %> have a publiclically readable discussion board?
+			Make Discussions Publicly Readable.
 		</label>
+		<% if User.current.is_admin %>
+			<!-- You don't need to hide an administrator only function. Also visibilty: hidden is a bad CSS use display:none; instead -->
+			<label>
+				<%= check_box_tag 'group[permissions][organization]', 'true', @group.permissions['organization'] %>
+				Is an Organization (this type of group is capable of posting jobs for others to see)
+			</label>
+		<% end %>
   	</fieldset><br />
 	<input type="submit" class="huge-button" value="Save Changes">
 <% end %>

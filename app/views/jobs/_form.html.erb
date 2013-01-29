@@ -24,7 +24,7 @@
   <fieldset>
     <p>
       Employment Type<br />
-      <%= select(:job, :employment_type, [ ["Full Time" , 0], ["Part Time", 1], ["Contract", 2], ["Other", 3] ], :style => "width:400px") %>
+			<%= select(:job, :employment_type, [ ["Full Time" , 0], ["Part Time", 1], ["Contract", 2], ["Other", 3] ], {}, {:style => "width:400px"}) %>
     </p>
   </fieldset>
 
@@ -123,11 +123,6 @@
   <h3 class="bottom-line">
     Additional Options
   </h3>
-    
-  <fieldset>
-    <%= f.check_box :special_needs %> 
-    <span style="color:#F66C4C">Check here if this is a special needs position</span>
-  </fieldset>
 
   <fieldset>
     <%= f.label :external_url %>
@@ -154,6 +149,9 @@
     </fieldset>
   <% end %>
   <br />
+
+	<%= f.check_box :allow_videos %> Allow applicants to attach videos<br />
+	<%= f.check_box :allow_attachments %>Allow applicants to attach other files<br />
 
   <div class="actions">
     <%= f.submit %>

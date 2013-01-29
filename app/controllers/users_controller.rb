@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats]
-	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list]
+	before_filter :login_required, :only=>[:welcome, :change_password, :choose_stored, :edit, :profile_stats, :get_started, :privacy]
+	before_filter :authenticate, :only => [:fetch_code, :user_list, :school_user_list, :teacher_user_list, :deactivated_user_list, :organization_user_list,:manage, :referral_user_list, :donors_choose_list, :active_job_list, :geography]
 
 	def create(*args)
 		if request.post?
@@ -38,8 +38,6 @@ class UsersController < ApplicationController
 	end
 
 	def swap_dashboard
-		dashboard = params[:switch]
-
 		if currentUser.organization? && params[:switch] == 'recruiter'
 			currentUser.update_attribute(:dashboard, params[:switch])
 		end
@@ -127,6 +125,9 @@ class UsersController < ApplicationController
 		if request.post?
 			@user.social = params[:social]
 			@user.contact = params[:contact]
+			params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade'].include?(k)}
+			@user.subjects = params[:user][:subject].collect{|x| Subject.find(x)}
+			@user.grades = params[:user][:grade].collect{|x| Grade.find(x)}
 
 			@user.slug = params[:slug].parameterize
 			@user.headline = params[:headline]
@@ -191,6 +192,35 @@ class UsersController < ApplicationController
 			return redirect_to :back, :notice => "Group notification settings have been updated."
 		end
 
+		# Email notification settings
+		if params[:email]
+
+			# Is all or none set
+			all = params[:email][:all] if params[:email][:all]
+			none = params[:email][:none] if params[:email][:none]
+
+			# Determine if we should set all to true or false
+			value = all && none ? false : (none ? false : true) if all || none
+
+			# Delete the all or none keys
+			save = params[:email].delete_if{|k,v|[:all, :none, :x, 'x'].include?(k)}
+
+			# Get the proper daily digest setting
+			save[:daily] = 0 if params[:email][:daily].nil?
+
+			# If follow all set everything to 2 hours
+			APP_CONFIG.notification_buckets.each{|key|save[key.to_sym] = 7200} if value == true
+
+			# Make sure were saving integers not string
+			save = save.collect{|k,v|value == false ? 0 : v.to_i}
+
+			# Set the value in the user settings
+			@user.update_attribute(:notification_intervals, save)
+
+			# Redirect back to the edit page
+			return redirect_to :back, :notice => "Email notification settings have been updated."
+		end
+
 		# Image upload
 		if params[:user] && !(params[:user][:avatar].content_type.include? "image")
 			return redirect_to :back, :notice => "The file was not an image."
@@ -198,10 +228,10 @@ class UsersController < ApplicationController
 			# Move temporary file created by uploader
 			# To a file that won't disapper after the completion of the request
 			directory = Rails.root.join('public/uploads')
-			path = File.join(directory, params[:user][:avatar].original_filename)
+			path = File.join(directory, params[:user][:avatar].original_filename.parameterize)
 			File.open(path, "w+b") {|f| f.write(params[:user][:avatar].read) }
-			@user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename)
-			@user.update_attribute(:original_name,  params[:user][:avatar].original_filename)
+			@user.update_attribute(:temp_img_name, '/uploads/'+params[:user][:avatar].original_filename.parameterize)
+			@user.update_attribute(:original_name,  params[:user][:avatar].original_filename.parameterize)
 			respond_to do |format|
 				format.js
 			end
@@ -215,7 +245,7 @@ class UsersController < ApplicationController
 		@user = self.current_user
 
 		# Load in the existing image file
-		orig_img = MiniMagick::Image.open(Rails.root.join('public' + @user.temp_img_name))
+		orig_img = MiniMagick::Image.new(Rails.root.join('public' + @user.temp_img_name))
 
 		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
@@ -226,26 +256,22 @@ class UsersController < ApplicationController
 			# Crop the image
 			orig_img.crop(args)
 
-		# @todo figure out what we really want to do here
-		# WAIT! Why are we running this. It scales the image down to the largest side it does not make it square
-		#else
-		#	# Get the width and height from the image
-		#	width, height = orig_img['%w %h'].split
-		#
-		#	# Get the largest side
-		#	largest_side = width > height ? height : width
-		#
-		#	# Scale the image using MATH
-		#	if width > height
-		#		height = (height * (largest_side / width)).to_i
-		#		width = largest_side
-		#	else
-		#		width = (width * (largest_side / height)).to_i
-		#		height = largest_side
-		#	end
-		#
-		#	# Create the thumbnail
-		#	orig_image.thumbnail('#{width}x#{height}')
+		else
+		
+			# Crop using the smallest side
+			if orig_img[:width] > orig_img[:height]
+				smallest_side = orig_img[:height]
+				offsetx = (orig_img[:width] - smallest_side)/2
+				offsety = 0
+			else
+				smallest_side = orig_img[:width]
+				offsetx = 0
+				offsety = 0
+			end
+
+			args = "#{smallest_side}x#{smallest_side}+#{offsetx}+#{offsety}"
+
+			orig_img.crop(args)
 		end
 
 		# Create temp file in order to save the cropped image for later saving to amazon s3
@@ -267,7 +293,10 @@ class UsersController < ApplicationController
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")
 
 		# Redirect to the file url
-		redirect_to(!currentUser.new_record? ? "/profile/#{self.current_user.slug}" : :root, :notice => "Image changed successfully.")
+		respond_to do |format|
+			format.html {redirect_to(!currentUser.new_record? ? :back : :root, :notice => "Image changed successfully.") }
+			format.js
+		end
 	end
 
 	def crop
@@ -445,6 +474,18 @@ class UsersController < ApplicationController
 		@stats = []
 		@stats.push({:name => 'Organizations', :value => @organizations.count})
 		@stats.push({:name => 'Administrators', :value => User_Group.permissions(:administrator).count })
+	end
+
+	def active_job_list
+		@jobs = Job.is_active
+
+	end
+
+	def geography
+		@users = User.where('country = ?', false).all
+
+		@stats = []
+		@stats.push({:name => 'Registered Users', :value => User.count})
 	end
 
 	def manage
@@ -851,6 +892,15 @@ class UsersController < ApplicationController
 
 	# Migrated from teacher_controller.rb
 	def profile(whiteboard = true)
+
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			if @application.belongs_to_me(self.current_user)
+			else
+				@application = nil
+			end
+		end
 		# Figure out whether to load a profile by slug or the current user.
 		if !params[:slug].nil? && !params[:slug].empty?
 			@user = User.find_by_slug(params[:slug])
@@ -910,7 +960,7 @@ class UsersController < ApplicationController
 		else
 			if whiteboard
 				respond_to do |format|
-					if currentUser.new_record?
+					if currentUser.new_record? || (!@self && !@connected && @user.privacy_public[:whiteboard])
 						format.html { redirect_to "/profile/#{@user.slug}/about"}
 						format.json  { render :json => @teacher } # profile.json
 					else
@@ -980,15 +1030,6 @@ class UsersController < ApplicationController
 							:owner => true
 						}
 
-						JobPack.create(
-							:group => group,
-							:jobs => 1,
-							:expiration => Time.now + 60.days,
-							:inception => Time.now,
-							:refunded => 0,
-							:amount => 0,
-							:additional_data => {:freebie => true}.to_json)
-
 						# Return HTML or JSON
 						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
 					else
@@ -997,6 +1038,12 @@ class UsersController < ApplicationController
 					end
 				end
 			end
+		end
+	end
+
+	def temp
+		if request.post?
+			Whiteboard.createActivity('file', "testing uploading of files", '', params[:file])
 		end
 	end
 

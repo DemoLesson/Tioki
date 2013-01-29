@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+# # # # # # # # # # # # #
+# Rubber Install Script #
+#  Author: Kelly Becker #
+# # # # # # # # # # # # #
+
+# Bundle Install
+system('bundle install && bundle update')

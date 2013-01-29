@@ -1,15 +1,18 @@
-<%= form_tag :action => "email_settings" do %>
-	<h2>Email settings</h2>
-	Receive an email when the following event occur
-	<% APP_CONFIG['bitswitches']['email_permissions'].each do |bit, name| %>
-		<fieldset>
-			<input type="hidden" name="permissions[<%= name %>]" value="1" />
-			<input type="checkbox" name="permissions[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.email_permissions[name] %> value="0" />
-			<%= name.gsub('_', ' ') %>
-		</fieldset>
-	<% end %>
-	<div class="actions">
-		<%= submit_tag "Update Email settings" %>
+<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+	<div style="margin-left:20px">
+		<%= form_tag :action => "email_settings" do %>
+			<h2>Email settings</h2>
+			Receive an email when the following event occur
+			<% APP_CONFIG['bitswitches']['email_permissions'].each do |bit, name| %>
+				<fieldset>
+					<input type="hidden" name="permissions[<%= name %>]" value="1" />
+					<input type="checkbox" name="permissions[<%= name %>]" <%= raw "checked=\"checked\"" unless @user.email_permissions[name] %> value="0" />
+					<%= name.gsub('_', ' ').capitalize %>
+				</fieldset>
+			<% end %>
+			<div class="actions">
+				<%= submit_tag "Update Email settings" %>
+			</div>
+		<% end %>
 	</div>
-<% end %>
-<%= render :partial => "authenticate_form" %>
+</section>

@@ -3,6 +3,10 @@ class Whiteboard < ActiveRecord::Base
 	belongs_to :user
 	has_and_belongs_to_many :whiteboard_hidden, :class_name => 'User', :join_table => 'whiteboards_hidden'
 
+	# Whiteboard attachments and videos
+	has_many :attachments, :as => :owner, :dependent => :destroy
+	has_many :videos, :through => :attachments
+
 	# Comments integration
 	acts_as_commentable
 
@@ -23,7 +27,12 @@ class Whiteboard < ActiveRecord::Base
 	end
 
 	def map_tag
-		mapTag!(self.tag)
+		begin
+			return mapTag!(self.tag)
+		rescue
+			self.destroy
+			return nil
+		end
 	end
 
 	def data!
@@ -138,7 +147,7 @@ class Whiteboard < ActiveRecord::Base
 		connections = "'" + connections.uniq.join("','") + "'"
 
 		# Temporary slug allowance list
-		slugs = ['share','event_rsvp','event_create']
+		slugs = %w(share event_rsvp event_create article created_discussion connection)
 		slugs = "'" + slugs.join("','") + "'"
 
 		# Temporary script
@@ -196,7 +205,7 @@ class Whiteboard < ActiveRecord::Base
 		self.where("`user_id` = ? || `tag` = ?", currentUser.id, currentUser.tag!)
 	end
 
-	def self.createActivity(slug, message, tag = '', data = {})
+	def self.createActivity(slug, message, tag = '', file = nil, data = {})
 
 		# If a string was passed in then post always
 		if slug.is_a?(Symbol)
@@ -243,7 +252,10 @@ class Whiteboard < ActiveRecord::Base
 		# Create links and screenshots
 		addData["screens"] = Hash.new
 		addData["urls"].each do |u|
-			message = message.gsub("#{u}", "<a href=\"#{u}\">#{u}</a>")
+
+			# If the url is not on tioki.com then add target _blank to the anchor
+			attrs = ''; attrs = "target=\"_blank\"" if u.match(Regexp.new("^(http|https)://(.*\.|)tioki\.com.*$")).nil?
+			message = message.gsub("#{u}", "<a href=\"#{u}\" #{attrs}>#{u}</a>")
 			addData["screens"].merge!({u => "http://api.snapito.com/web/2082a962d90ebd047fe4671d5146b73803c3e239/sc?url=#{u}"})
 
 			# Force to become an article
@@ -261,6 +273,15 @@ class Whiteboard < ActiveRecord::Base
 		w.tag = tag
 		w.data = ActiveSupport::JSON.encode(data)
 		w.save
+
+		# Create a method for adding files to the whiteboard instance
+		add_file = Proc.new{|file| Attachment.create(:owner => w, :file => file)}
+
+		# @todo verify proper file value
+		# Handle file upload process based on
+		add_file.call(file) if !file.nil? && !file.is_a?(Array)
+		file.map{|x|add_file.call(x)} if file.is_a?(Array)
+
 		return w
 	end
 end

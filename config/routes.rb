@@ -1,4 +1,7 @@
 Preview::Application.routes.draw do
+	resources :applications
+
+	match '/temp' => 'users#temp'
 
 	# API
 		scope '/api' do
@@ -23,8 +26,6 @@ Preview::Application.routes.draw do
 		match 'linkedin_callback', :to => 'authentications#linkedin_callback'
 
 	# Groups
-		
-		match 'my_groups' => 'groups#my_groups'
 
 		match 'groups/:id/comment' => 'groups#comment'
 		match 'groups/:id/add_admin/:user' => 'groups#add_admin'
@@ -127,8 +128,8 @@ Preview::Application.routes.draw do
 			match 'welcome' => 'welcome_wizard#index'
 			match 'welcome/:action' => 'welcome_wizard#:action'
 
-			match 'application' => 'application_wizard#index'
 			match 'application/:action' => 'application_wizard#:action'
+			match 'application' => 'application_wizard#index'
 		end
 
 	# Whiteboard JSON Access
@@ -168,14 +169,20 @@ Preview::Application.routes.draw do
 				match 'upload-video' => 'videos#new'
 				match 'create-video-snippet/:id' => 'videos#myvideo'
 				match 'slug_availability' => 'users#slug_availability'
+				match 'feature-video/:id' => 'videos#feature_video'
 				
 				root :to => 'users#profile_edit'
 			end
+
+			#profile Views
+			match 'resume' => 'users#profile_resume'
+			match 'about' => 'users#profile_about'
 
 			# Misc
 			match 'stats' => 'users#profile_stats'
 			root :to => 'users#profile'
 		end
+
 
 		# My settings
 		scope 'settings' do
@@ -282,6 +289,10 @@ Preview::Application.routes.draw do
 
 		# Jobs routes
 		resources :jobs do
+			collection do
+				get 'request_credits'
+				post 'credit_request_email'
+			end
 
 			# Job Applications
 			resources :applications do
@@ -384,7 +395,6 @@ Preview::Application.routes.draw do
 	match 'my_jobs/:school_id' => 'jobs#my_jobs'
 	match 'my_schools' => 'schools#my_schools'
 	match 'add_school' => 'schools#add_school'
-	match 'applications/:id' => 'applications#index'
 	match 'applications/reject/:id' => 'applications#reject'
 	match 'applications/attachments/:id' => 'applications#attachments'
 	match 'about' => 'home#about'
@@ -408,6 +418,8 @@ Preview::Application.routes.draw do
 	match 'deactivatedlist' => 'users#deactivated_user_list'
 	match 'pendingevents' => 'events#admin_events'
 	match 'organizationlist' => 'users#organization_user_list'
+	match 'active_job_list' => 'users#active_job_list'
+	match 'geography' => 'users#geography'
 	match 'referrallist' => 'users#referral_user_list'
 	match 'donorschoose' => 'users#donors_choose_list'
 	match 'technologylist' => 'technologies#technology_list'
@@ -441,7 +453,6 @@ Preview::Application.routes.draw do
 	match 'vouch_connection_skills' => 'vouches#vouch_connection_skills'
 
 	resources :reviews
-	resources :applications
 	resources :review_permissions
 	resources :schools
 	resources :videos
@@ -450,6 +461,7 @@ Preview::Application.routes.draw do
 	resources :subjects
 	resources :messages
 	resources :vouches
+	resources :assets
 	
 
 	resources :skills

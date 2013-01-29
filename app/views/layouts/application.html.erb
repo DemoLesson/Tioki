@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="google-site-verification" content="vdOuKNS9C3_oMeymSIacHL1Y89hL_0RHFav8bgGg6Jg" />
 	
 	<title>Tioki &mdash; Be Seen. Be Heard. Be Connected.</title>
 
@@ -170,22 +171,6 @@
 								</a>
 								
 								<ul>
-									<!-- Admin Methods -->
-                                    <% # Review %>
-									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
-										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-									<% elsif self.current_user.is_admin? %>
-										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
-									<% end %>
-
-									<!-- Schools -->
-									<li>
-										<a href="/me/settings/upgrade">
-											Upgrade Account
-										</a>
-									</li>
-									<hr />
-									
 									<!-- Teacher Methods -->
 									<% unless currentUser.new_record? %>
 										<li>
@@ -226,6 +211,21 @@
 										Account Settings
 										</a> 
 									</li>
+									
+									<!-- Admin Methods -->
+                                    <% # Review %>
+									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
+										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+									<% elsif self.current_user.is_admin? %>
+										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+									<% end %>
+
+									<!-- Schools -->
+									<li>
+										<a href="/me/settings/upgrade">
+											Upgrade Account
+										</a>
+									</li>
 
 									
 									<!-- Logout -->
@@ -249,11 +249,13 @@
 					<li class="searchBox">
 						<form style="margin:0px;" action="/connections">
 							<select name="topic">
-								<option value="name">Name</option>
+								<option value="name">Name<span class="iconic paperclip"></span></option>
 								<option value="location">Location</option>
 								<option value="skill_string">Skill</option>
+								<option value="subject_string">Subject</option>
+								<option value="grade_string">Grade</option>
 							</select>
-							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:150px" />
+							<input type="text" name="connectsearch" value="<%= params[:connectsearch] %>" placeholder="Search <%= ablang('connection.plural', true) %>" style="width:180px;border-left:none;border-bottom-left-radius: 0px;border-top-left-radius: 0px;" />
 						</form>
 					</li>
 					<li>
@@ -283,7 +285,10 @@
 							Profile
 							</a>
 							<ul>
-								<li><a href="/me/profile/edit">Edit My Profile</a></li>
+								<li><a href="/me/profile/edit">Edit Profile</a></li>
+								<hr>
+								<li><a href="/me/profile">View Profile</a></li>
+								<li><a href="/profile/<%= self.current_user.slug %>/resume">View Resume</a></li>
 								<li><a href="/me/profile/stats">Profile Stats</a></li>
 							</ul>
 						</li>
@@ -292,6 +297,7 @@
 							<%= ablang('connection.plural') %>
 							</a>
 							<ul>
+								<li><a href="/my_connections">My <%= ablang('connection.plural') %></a></li>
 								<li><a href="/connections">Find New <%= ablang('connection.plural', true) %></a></li>
 								<li><a href="/inviteconnections">Invite <%= ablang('connection.plural') %></a></li>
 							</ul>
@@ -302,28 +308,42 @@
 							</a>
 							<ul>
 								<li><%= link_to "Browse Groups", groups_path %></li>
-								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
 								<li><%= link_to "My Groups", user_groups_path(currentUser) %></li>
+								<hr>
+								<li><%= link_to "Create a Group", new_group_path %></li>
 							</ul>
 						</li>
 						<li>
-							<a href="/discussions">
-							Discussions
+							<a href="/jobs">
+							Jobs
 							</a>
 							<ul>
-								<li><a href="/discussions">Browse Discussions</a></li>
-								<li><a href="/discussions/new">Start a Discussion</a></li>
+								<li><a href="/jobs">Browse Jobs</a></li>
+									<% if currentUser.organization? %>
+										<li><%= link_to "Post a Job", user_groups_path(currentUser, :organization => true) %></li>
+									<% else %>
+										<li><a href="/me/settings/upgrade">Post a Job</a></li>
+									<% end %>
+							</ul>
+						</li>
+						<li>
+							<%= link_to "Orgs", groups_path(:organization => true) %>
+							<ul>
+								<li><%= link_to "Browse Organizations", groups_path(:organization => true) %></li>
+								<li><%= link_to "My Organizations", user_groups_path(currentUser, :organization => true) %></li>
+								<hr>
+								<li><a href="/me/settings/upgrade">Create an Organization</a></li>
 							</ul>
 						</li>
 						<li>
 							<a href="/skill/671">
-							Discover
+							More
 							</a>
 							<ul>
-								<li><a href="/jobs">Jobs</a></li>
+								<li><a href="/discussions">Discussions</a></li>
+								<li><a href="/videos">Videos</a></li>
 								<li><a href="/technologies">EdTech</a></li>
 								<li><a href="/events">Events</a></li>
-								<li><a href="/videos">Videos</a></li>
 							</ul>
 						</li>
 					<% end %>
@@ -435,6 +455,11 @@
 						</p>
 						<ul>
 							<li>
+								<a href="/static/job_seekers">
+								Job Seekers
+								</a>
+							</li>
+							<li>
 								<a href="/forschools">
 								Schools & Companies
 								</a>
@@ -518,7 +543,7 @@
 				$('a[href="#notifications"]').removeClass('unread');
 			});
 
-			$('#notifications [href]').live('click', function() {
+			$('#notifications [href]').on('click', function() {
 				$link = $(this);
 				$.defercall(function() {
 					$('#notifications').kModal('hide');
@@ -548,14 +573,14 @@
 		$('<span class="x-placeholder" style="position:absolute;top:0px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
 		});
 
-		$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusin', function(e) {
+		$('span.x-input-wrap input, span.x-input-wrap textarea').on('focusin', function(e) {
 			$(this).next('span.x-placeholder').hide();
 		});
-		$('span.x-input-wrap input, span.x-input-wrap textarea').live('focusout', function(e) {
+		$('span.x-input-wrap input, span.x-input-wrap textarea').on('focusout', function(e) {
 			if($(this).val().length == 0)
 			$(this).next('span.x-placeholder').show();
 		});
-		$('span.x-placeholder').live('click', function() {
+		$('span.x-placeholder').on('click', function() {
 			$(this).prev('input').focus();
 			$(this).hide();
 		});

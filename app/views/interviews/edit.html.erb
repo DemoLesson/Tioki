@@ -1,83 +1,57 @@
 <section id="main-contant" class="inner-content">
 	<h1>
-		Edit Interview with 
+		Schedule Interview with 
 		<%= link_to @interview.user.name, @interview.user if @source.is_a?(Job) %>
 		<%= link_to @interview.job.group.name, @interview.job.group if @source.is_a?(User) %>
 	</h1>
 
 	<% if @source.is_a?(Job) %>
-		<p>Yay! Looks like you scheduling an interview with a prospective educator. Please select 3 potential interview dates and we will let the applicant know right away. If the dates don't work out for the applicant we will notify you again.</p>
+		<p>Yay! Looks like you're ready to meet one of our amazing Tioki canidates. Simply select the 3 dates and times(PST) that work best for you, and we will let the candidiate know immediately. Once the candidate selects the interview date and time, you will be instantly notified on Tioki and via email.</p>
 
 		<%= form_for([@source.group, @source, @interview.application, @interview], :html => { :class => :gridded }) do |t| %>
 			<table style="width:100%;" class="applications">
 				<tr>
-					<td>
+					<td style ="width:100%">
+						<p>Input the 3 dates AND times(PST) that work best for you. </p>
 						<label>
-							<span>First Date</span>
-							<input type="text" name="interview[datetime_1]" value="<%= @interview.datetime_1.to_s(:datetimez) if @interview.datetime_1 %>" />
+							<span>First Date and Time</span>
+							<input type="text" name="interview[datetime_1]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_1.to_s(:datetimez) if @interview.datetime_1 %>" />
 						</label>
-					</td>
-					<td>
-						<p>
-							<span style="font-weight:bold;">First Potential Interview Date: </span> This is the first date you would like to interview with your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
-						</p>
+						<label style="margin-left:300px; margin-top:-52px">
+							<span>Second Date and Time</span>
+							<input type="text" name="interview[datetime_2]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_2.to_s(:datetimez) if @interview.datetime_2 %>" />
+						</label>
+						<label style="margin-left:600px; margin-top:-52px">
+							<span>Third Date and Time</span>
+							<input type="text" name="interview[datetime_3]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_3.to_s(:datetimez) if @interview.datetime_3 %>" />
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label>
-							<span>Second Potential Interview Date</span>
-							<input type="text" name="interview[datetime_2]" value="<%= @interview.datetime_2.to_s(:datetimez) if @interview.datetime_2 %>" />
+						<p>Type in a physical address, phone number, online video chat username, etc. </p>
+						<label style=" margin-top:30px">
+							<span>Interview Type: </span>
+							<%= select(:interview, :interview_type, { "In-Person" => "In-Person", "Phone" => "Phone", "Skype" => "Skype", "Google Hangout" => "Google Hangout", "Other" => "Other"}) %>
 						</label>
-					</td>
-					<td>
-						<p>
-							<span style="font-weight:bold;">First Date: </span> This is the second date you would like to use when interviewing your applicant. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>
-							<span>Third Potential Interview Date</span>
-							<input type="text" name="interview[datetime_3]" value="<%= @interview.datetime_3.to_s(:datetimez) if @interview.datetime_3 %>" />
-						</label>
-					</td>
-					<td>
-						<p>
-							<span style="font-weight:bold;">Third Date: </span> This is your third choice interview date. The dates are relative. Feel free to type in things like "Next Thursday at 2pm", "2 weeks from now at 6pm", or the classic "MM/DD/YYYY 12:00am" all times are relative to the <%= Chronic.parse('now').strftime('%Z') %> time zone.
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>
+						<label style="margin-left:250px; margin-top: -45px">
 							<span>Interview Location</span>
-							<input type="text" name="interview[location]" value="<%= @interview.location.nil? || @interview.location.empty? ? @interview.job.group.location : @interview.location %>" />
+							<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
 						</label>
-					</td>
-					<td>
-						<p>
-							<span style="font-weight:bold;">Interview Location: </span> Where is the interview going to be held. We recomend entering the address of the organization, skype address, phone mumber, or wherever/however your organization generally conducts interviews. If you do choose skype or another other online communication program don't forget to include the name of the software and the username or address of your account.
-						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
+						<p>Use this preformatted message or create your own. </p>
 						<label>
 							<span>Message</span>
 							<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"><%= @message %></textarea>
 						</label>
 					</td>
-					<td>
-						<p>
-							<span style="font-weight:bold;">Message: </span> This is the fun part go ahead and tell your applicant that they have been accepted for an interview. We have provided a generic template for you but feel free to change it in anyway that you see fit.
-						</p>
-					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<%= t.submit "Save Interview" %>
+						<%= t.submit "Schedule Interview" %>
 					</td>
 				</tr>
 			</table>
@@ -101,7 +75,8 @@
 								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
 							<% end %>
 							<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
-							Location: <%= @interview.location %>
+							Location: <%= @interview.location %><br />
+							Type: <%= @interview.interview_type %>
 						</label>
 					</td>
 					<td>

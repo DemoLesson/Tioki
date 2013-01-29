@@ -1,3 +1,541 @@
+v4.3.9 - Jan 28, 2013  3:44PM PST deployed by Aleks Stanisic
+============================================================
+* 703a759: Elijah Green - Center job attachments page
+* 99a091a: Elijah Green - remove some references to asset_path
+
+v4.3.8 - Jan 28, 2013  1:33PM PST deployed by Aleks Stanisic
+============================================================
+* 382ed41: Aleks Stanisic - design change to request interview page
+
+v4.3.7 - Jan 28, 2013 12:17PM PST deployed by Aleks Stanisic
+============================================================
+* 1f47fd2: Aleks Stanisic - style changes to featured jobs and profile views
+
+v4.3.6 - Jan 28, 2013 12:05PM PST deployed by Aleks Stanisic
+============================================================
+* 915f4fd: Aleks Stanisic - styling fixes to featured jobs in dashboard and browse orgs
+* e37f002: Elijah Green - Fix settings location welcome wizard step 1
+
+v4.3.5 - Jan 28, 2013 11:18AM PST deployed by Aleks Stanisic
+============================================================
+* 14c9e45: Aleks Stanisic - styling fix to featured job on browsing orgs page part 3
+
+v4.3.4 - Jan 28, 2013 10:55AM PST deployed by Aleks Stanisic
+============================================================
+* ccf7caa: Aleks Stanisic - possible fix to featured job in browse orgs part 2
+
+v4.3.3 - Jan 28, 2013 10:39AM PST deployed by Aleks Stanisic
+============================================================
+* d9bb8ec: Aleks Stanisic - possible fix to featured jobs styling issue
+* ae3c534: Aleks Stanisic - adding name search to analytics page
+
+v4.3.2 - Jan 27, 2013  8:48PM PST deployed by Aleks Stanisic
+============================================================
+* 553d98b: Elijah Green - Destroy assets in the assets_controller
+
+v4.3.1 - Jan 26, 2013  6:53PM PST deployed by Aleks Stanisic
+============================================================
+* 0415ace: Elijah Green - Revert "Add file to system in order to keep it in repository"
+* 91285c3: Elijah Green - Ignore files uploaded to system
+* 452663a: Elijah Green - Add file to system in order to keep it in repository
+* 7efb212: Aleks Stanisic - fixing style issue with featured jobs on dashboard
+* 384e5d6: Elijah Green - Remove skill_group reference on profile_about
+
+v4.3.0 - Jan 26, 2013  5:09PM PST deployed by Aleks Stanisic
+============================================================
+* 31b0bae: Aleks Stanisic - schema
+* 43af24e: Kelly Becker - removed some items
+* 8022341: Kelly Becker - made some alternations as per conversation with brian
+* 8623153: Kelly Becker - amazing progress
+* 0074625: Kelly Becker - progress
+* 04758da: Kelly Becker - upload file now available on the whiteboard
+* e9d1ba3: Kelly Becker - whiteboard new post
+* e9d1608: Kelly Becker - new styles for the whiteboard
+* e70c554: Kelly Becker - upgrading paperclip farther
+* 032b0f8: Kelly Becker - whiteboard attachment progress
+* 55e28b0: Kelly Becker - basic attachment support for whiteboards (untested)
+* c71e08a: Kelly Becker - default paperclip options
+
+v4.2.44 - Jan 26, 2013  4:02PM PST deployed by Aleks Stanisic
+=============================================================
+* 7325200: Elijah Green - Allow site admins to create jobs for any org
+
+v4.2.43 - Jan 26, 2013  2:20PM PST deployed by Aleks Stanisic
+=============================================================
+* 03b08ba: Aleks Stanisic - adding user analytics oage
+
+v4.2.42 - Jan 25, 2013  1:33PM PST deployed by Aleks Stanisic
+=============================================================
+* c3d0ebb: Aleks Stanisic - changing .on to .live on facebook invite
+
+v4.2.41 - Jan 24, 2013  7:40PM PST deployed by Aleks Stanisic
+=============================================================
+* fd7c536: Aleks Stanisic - dditional avatar fix:
+* 76db0d4: Aleks Stanisic - Picture Fix
+
+v4.2.40 - Jan 24, 2013  7:19PM PST deployed by Aleks Stanisic
+=============================================================
+* a731fff: Aleks Stanisic - adding link in interview message
+* c53b856: Elijah Green - Fix bug where empty dates would fail on experiences
+
+v4.2.39 - Jan 24, 2013  3:33PM PST deployed by Aleks Stanisic
+=============================================================
+* 2b3078c: Aleks Stanisic - re directing updating groups tot he edit page: Per Pete's request
+
+v4.2.38 - Jan 24, 2013  3:21PM PST deployed by Aleks Stanisic
+=============================================================
+* 979045b: Aleks Stanisic - fixed design bug
+
+v4.2.37 - Jan 24, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 68f76a4: Aleks Stanisic - gem fix
+
+v4.2.36 - Jan 24, 2013 12:51PM PST deployed by Aleks Stanisic
+=============================================================
+* 7be18e8: Aleks Stanisic - slight change to geography
+
+v4.2.35 - Jan 24, 2013 12:45PM PST deployed by Aleks Stanisic
+=============================================================
+* adffccb: Brian Martinez - moving the attachments button out of the edit profile blob
+
+v4.2.34 - Jan 24, 2013 12:36PM PST deployed by Aleks Stanisic
+=============================================================
+* 99884c0: Aleks Stanisic - changes to geography tracker
+
+v4.2.33 - Jan 24, 2013 11:16AM PST deployed by Aleks Stanisic
+=============================================================
+* 293d5c3: Aleks Stanisic - replaces .on with .live to fix edit skillz page
+* ef494f4: Aleks Stanisic - adding geography tracker to admin
+
+v4.2.32 - Jan 23, 2013  7:26PM PST deployed by Elijah Green
+===========================================================
+* 031902b: Elijah Green - Seperate labels on step3
+
+v4.2.31 - Jan 23, 2013  7:10PM PST deployed by Elijah Green
+===========================================================
+* 6da3ce8: Elijah Green - ajax loading of picture on step2
+* bc92b02: Elijah Green - Fix conflict
+* b6623f5: Brian Martinez - changes to the welcome flow
+* fba3c2e: Elijah Green - Add start year start month
+* 3ed7253: Elijah Green - Remove an older mailer
+* 1d72469: Elijah Green - Tracking information
+* cd63885: Elijah Green - Don't create empty education or experience
+* 38f10cb: Elijah Green - Fix some eerrors with the new flow
+* b11d776: Elijah Green - A few more changes to the flow
+* cd13598: Elijah Green - Job seeking
+* e831c72: Elijah Green - Set crop ratios
+* 826eb06: Elijah Green - Use medium image size (201x201) for croppped images
+* dafc3a6: Elijah Green - Nearly done, just need to fix crop_image temp styling
+* 4fa36f0: Elijah Green - Step 2 done except for picture
+* c2e3170: Elijah Green - delete old welcome wizard views
+* 2d18722: Elijah Green - Done with front end
+* 2182a32: Elijah Green - Add user constants
+* 71e1015: Elijah Green - Page 1, 2, splash
+
+v4.2.30 - Jan 23, 2013 12:25PM PST deployed by Aleks Stanisic
+=============================================================
+* 7f44a9a: Aleks Stanisic - changes to interview page
+
+v4.2.29 - Jan 22, 2013  6:30PM PST deployed by Aleks Stanisic
+=============================================================
+* f3db157: Aleks Stanisic - removing links from step 1 wizard
+
+v4.2.28 - Jan 22, 2013  5:46PM PST deployed by Aleks Stanisic
+=============================================================
+* 03384a5: Aleks Stanisic - adding interview_type to intervews
+* a418220: Kelly Becker - replaced .live() with .on()
+* 80e5fbe: Aleks Stanisic - changes to applications page
+
+v4.2.27 - Jan 22, 2013  1:20PM PST deployed by Aleks Stanisic
+=============================================================
+* bdcee2e: Aleks Stanisic - displaying location of interview on applications page
+
+v4.2.26 - Jan 22, 2013 12:44PM PST deployed by Aleks Stanisic
+=============================================================
+* f5bfcc7: Aleks Stanisic - changes to request interviews page
+* 6d5fe01: Elijah Green - Don't send teacher applied email
+
+v4.2.25 - Jan 22, 2013 10:51AM PST deployed by Aleks Stanisic
+=============================================================
+* 32bc425: Aleks Stanisic - style changes to interview section of applications page
+* 9bfd54d: Aleks Stanisic - style changes to applications page
+* b21da70: Elijah Green - Search on group name of jobs
+* 659fed6: Elijah Green - Fix some problems with search
+
+v4.2.24 - Jan 21, 2013  4:11PM PST deployed by Aleks Stanisic
+=============================================================
+* de138a6: Aleks Stanisic - adding browse more jobs link to jobs page
+
+v4.2.23 - Jan 21, 2013 12:02PM PST deployed by Kelly Becker
+===========================================================
+* 8eb55f0: Kelly Becker - public filter for discussions (removes any non public discussions from the homepage discussions list)
+
+v4.2.22 - Jan 21, 2013 10:41AM PST deployed by Kelly Becker
+===========================================================
+* 535ab24: Kelly Becker - change to what information is publically shared on the whiteboard.
+
+v4.2.21 - Jan 21, 2013 10:34AM PST deployed by Kelly Becker
+===========================================================
+* 9b257ca: Kelly Becker - language change and don't show whiteboard posts for new discussions on whiteboard
+
+v4.2.20 - Jan 20, 2013  1:53PM PST deployed by Aleks Stanisic
+=============================================================
+* 3ec9cf8: Aleks Stanisic - made a change to featured discussions on home dashboard to ensure no discussions from TFA get listed
+
+v4.2.19 - Jan 20, 2013 11:41AM PST deployed by Aleks Stanisic
+=============================================================
+* 30f6463: Aleks Stanisic - change to Job Seekers page
+
+v4.2.18 - Jan 19, 2013  4:29PM PST deployed by Aleks Stanisic
+=============================================================
+* 3c53d0a: Aleks Stanisic - adding job seekers to footer
+* 98aff2f: Aleks Stanisic - changing the contact info sections in the about and resume profile pages
+* 8a87fdf: Aleks Stanisic - making changes to MY Jobs page
+
+v4.2.17 - Jan 18, 2013  7:06PM PST deployed by Elijah Green
+===========================================================
+* 6f1fc2a: Aleks Stanisic - changes to job seeker page
+* 64a620b: Aleks Stanisic - changes to job seekers static page
+* 0027b3b: Aleks Stanisic - updating uswer connect email and shutting down the ab test for it
+* 3ae0c92: Aleks Stanisic - updating static pages nav bar and adding new static page for job seekers
+* 2137cbf: Elijah Green - Link to the correct url to upload attachments on profile
+
+v4.2.16 - Jan 18, 2013  2:10PM PST deployed by Kelly Becker
+===========================================================
+* b4d0895: Elijah Green - Fix picture cropping issue
+
+v4.2.15 - Jan 18, 2013  1:50PM PST deployed by Kelly Becker
+===========================================================
+* e4b708a: Kelly Becker - updated roles of production
+* 1e11a2d: Kelly Becker - shuting down staging instance
+* 8981755: Kelly Becker - commented out user searchable method for solr as it has some issues
+* c0d4afa: Kelly Becker - command order
+* 84c092a: Kelly Becker - rubber config update for solr
+* bcee781: Kelly Becker - staging instance
+* d395895: Kelly Becker - solr installer
+* 223c803: Aleks Stanisic - fixing links in how it works for school
+* f542eb6: Kelly Becker - destroyed staging
+* b7ee92d: Kelly Becker - java 7
+* 79e5579: Kelly Becker - roles and java
+* 5d126dc: Kelly Becker - staging instance
+* 5d78123: Kelly Becker - removed sunspot config
+
+v4.2.14 - Jan 18, 2013 12:29PM PST deployed by Kelly Becker
+===========================================================
+* d3550e4: Kelly Becker - this is a style fix which fixes some dragging issues
+
+v4.2.13 - Jan 17, 2013  6:59PM PST deployed by Elijah Green
+===========================================================
+* 37f8e74: Aleks Stanisic - myjobs rediesgn
+* b7b7680: Aleks Stanisic - fixing org links on school splash page
+* 771d10e: Aleks Stanisic - first steps of redesign
+
+v4.2.12 - Jan 17, 2013  4:21PM PST deployed by Kelly Becker
+===========================================================
+* f1fd1d7: Kelly Becker - fix for notification links
+* 49d2e1f: Kelly Becker - fix for notification links
+* db85cb6: Elijah Green - Fix some join and pagination issues of search
+* 221cbb9: Elijah Green - Add checkbox search options
+* 8b656cb: Elijah Green - Make sure records are unique
+* 2c8db05: Elijah Green - Grade search works
+* d103cd2: Elijah Green - Subject search now works
+* afe4bf2: Elijah Green - Working on subject search
+
+v4.2.11 - Jan 17, 2013 11:26AM PST deployed by Kelly Becker
+===========================================================
+* 6de4b0f: Kelly Becker - allow more whiteboard items to everyone
+
+v4.2.10 - Jan 17, 2013 11:07AM PST deployed by Kelly Becker
+===========================================================
+* 0d03845: Kelly Becker - ability to turn off connection request emails
+* 94c7b67: Kelly Becker - add a customizable link text
+* fda13f6: Elijah Green - Tempoary disable of non-digest notification emails
+* 622b0d6: Elijah Green - Edit grades and subjects in edit profile
+* 0493e38: Aleks Stanisic - adding recruiter toold to profile resume page
+* 0ffd85c: Elijah Green - Remove unused subject actions
+
+v4.2.9 - Jan 16, 2013 11:54AM PST deployed by Kelly Becker
+==========================================================
+* 09180fb: Kelly Becker - application listing style fix
+
+v4.2.8 - Jan 15, 2013  6:47PM PST deployed by Elijah Green
+==========================================================
+* 06dd41f: Elijah Green - Site admins can now move jobs around
+* 497acb0: Elijah Green - Limit featured jobs to 3
+
+v4.2.7 - Jan 15, 2013  4:58PM PST deployed by Elijah Green
+==========================================================
+* fddd74c: Elijah Green - Application Passcodes
+* 966e1f2: Elijah Green - Site admins can edit any users job postings
+* 1b47705: Elijah Green - Slightly decrease size of featured jobs on organizations index
+* c906ff4: Elijah Green - Downgrade paperclip so another version of cocaine can be used
+
+v4.2.6 - Jan 15, 2013  1:06PM PST deployed by Kelly Becker
+==========================================================
+* 973824b: Kelly Becker - whiteboard migration for external links to open in popups. all local links will remain local
+
+v4.2.5 - Jan 15, 2013 12:26PM PST deployed by Kelly Becker
+==========================================================
+* 92833a3: Kelly Becker - put notifications into buckets on creation
+* 2e4e385: Elijah Green - Featured jobs on educator dashboard
+
+v4.2.4 - Jan 15, 2013 12:02PM PST deployed by Kelly Becker
+==========================================================
+* 37453c4: Kelly Becker - add fake db column to users
+* 7b20c46: Kelly Becker - groups discussions count
+* e8d2dd4: Kelly Becker - new video linked message
+
+v4.2.3 - Jan 15, 2013 11:00AM PST deployed by Kelly Becker
+==========================================================
+* 4bb6aa2: Kelly Becker - shows 2 comments by default now
+* 56bf5cc: Kelly Becker - white bg for group about page
+* 3fb8492: Aleks Stanisic - updated links to message and interview notifications
+* 81e713a: Elijah Green - Geocoding for groups
+* c4adc6e: Aleks Stanisic - db schema
+
+v4.2.2 - Jan 14, 2013  6:36PM PST deployed by Kelly Becker
+==========================================================
+* 413e97b: Kelly Becker - notification intervals and daily digest
+* e18c4fa: Aleks Stanisic - fixing application counter
+* 1474d8c: Kelly Becker - cron eof
+
+v4.2.1 - Jan 14, 2013  5:29PM PST deployed by Kelly Becker
+==========================================================
+* 5aceb39: Kelly Becker - cron the notifications
+
+v4.2.0 - Jan 14, 2013  5:08PM PST deployed by Kelly Becker
+==========================================================
+* 86da4cc: Kelly Becker - notifications upgrade complete (except for the settings)
+* 55ca409: Elijah Green - Only show application delete button if unsubmitted
+* bec9c42: Elijah Green - Sites admins view the manage page instead of jobs/index for group
+* 9f8d885: Elijah Green - Adding some things in gorups/index for testing
+* 69b5273: Elijah Green - If no check boxes are selected, still update permissions hashj
+* 81b2edf: Elijah Green - Redirect from authentications with correct whiteboard id
+* 9c71d9a: Elijah Green - Change routes to get DELETE for applications to work
+* ec70404: Kelly Becker - working on new notifications sending engine also added mailcatcher for development use
+* 1ac76fb: Elijah Green - Slight change to user_welcome_email function
+* e2931e4: Elijah Green - No longer give a free job posting
+* d3f574e: Kelly Becker - gemlock
+* ff3dc52: Elijah Green - If there is no app_id in session redirect to applications/index
+* d9a15dc: Kelly Becker - application flow additions
+* 077ca41: Kelly Becker - db schema update
+* de17143: Kelly Becker - removed unused notifications
+* dff3fff: Elijah Green - Save unsubmitted applications
+* 37e3b9b: Elijah Green - Add header to other pages
+* 84888c2: Elijah Green - Add steps header to application_wizard
+* 507ca1d: Elijah Green - If user already submitted application skip step 1 to 4
+* 90ee6ea: Elijah Green - Applicants directly from jobs page
+* 4c0bdff: Elijah Green - Can now choose whether toallow job attachments
+* 8da5837: Elijah Green - Start defining allowed attachments on jobs
+* 06eaf02: Elijah Green - On step7 of application link to resume instead of profile
+* d69e7ad: Elijah Green - Show assets on application
+* e8de7ba: Kelly Becker - i wish we did this the right way the first time (pain migration scripts)
+* 114793f: Kelly Becker - upgrader for notifications
+* c38edbf: Kelly Becker - little memo
+* 1972338: Kelly Becker - added some deploy tools and stuff
+
+New! On your development environment you can now use mailcatcher.
+$ gem install mailcatcher
+$ mailcatcher -f
+==> smtp://127.0.0.1:1025
+==> http://127.0.0.1:1080
+
+Also all notifications are emailed out on a 2 hour cronjob
+
+v4.1.40 - Jan 12, 2013  5:42PM PST deployed by Elijah Green
+===========================================================
+* a3ca987: Aleks Stanisic - added My Video Library link in edit profile page and slight stykle fix to events index
+* 6a5b4a4: Elijah Green - Don't display deleted comments if they are a leaf node
+* c2c40d3: Elijah Green - Don't show whitebox if email sddress is not detected
+* e6e8060: Elijah Green - Only allow messages in messages/create if users are connected in some way
+* d791f21: Aleks Stanisic - erasing duplicate javasrcipt for sharing functions in groups to fix bugs
+* 939d0ab: Aleks Stanisic - changing wording on create groups form
+* de226b4: Aleks Stanisic - taking care of some Asana bug tasks
+
+v4.1.39 - Jan 11, 2013  5:52PM PST deployed by Elijah Green
+===========================================================
+* 0a25ec5: Aleks Stanisic - adding active and inactive jobs counter to recruiter dashboard, changing link of my organizations to link to manage jobs
+* 7d568ad: Aleks Stanisic - changed application nofication on recruiter dashboard and added new user welcome email
+* 5de1028: Elijah Green - Remove duplicate permission in groups/_form
+* f7940a1: Elijah Green - Gemfile.lock with updated multiXml gem
+* 9f08355: Elijah Green - Upgrade to rails 3.1.10
+
+v4.1.38 - Jan 11, 2013 12:30PM PST deployed by Aleks Stanisic
+=============================================================
+* 7c827ca: Aleks Stanisic - fix to active job user list
+* 8648906: Elijah Green - Change jobs order from created_at to updated_at
+
+v4.1.37 - Jan 11, 2013 11:59AM PST deployed by Elijah Green
+===========================================================
+* 34ce835: Elijah Green - Resume privacy setting
+* 9798401: Elijah Green - Fix a case on groups/index where it would try to route toa new_record
+* 4c70666: Aleks Stanisic - my gem lock file
+
+v4.1.36 - Jan 10, 2013  7:34PM PST deployed by Elijah Green
+===========================================================
+* 95485d3: Elijah Green - Slight change to featured jobs on orgs page
+* 0f034e7: Elijah Green - featured jobs
+* e3bba36: Elijah Green - Featured group on group/index
+* e1ebfa9: Aleks Stanisic - adding request for credits in org management view
+
+v4.1.35 - Jan 10, 2013  3:17PM PST deployed by Elijah Green
+===========================================================
+* c918e14: Elijah Green - Fix typo dealing with viewing discussions
+* 9e271da: Elijah Green - Fix job search drop down placement
+
+v4.1.34 - Jan 10, 2013 12:30PM PST deployed by Elijah Green
+===========================================================
+* 7e72006: Elijah Green - return nil on whiteboard deletion as well
+* 623eae5: Elijah Green - If whiteboard model is not found, destroy it
+* 14b21cf: Elijah Green - Fix not logged in users gettings an error on private group discussions
+* 21f80d0: Kelly Becker - reverting a bad commit. see notes @ https://github.com/DemoLesson/Tioki/commit/5821061dc2049282818507e1f122bdc487974323 if this is reverted back without reading the notes i made and discussing it with me I wont be happy. I apologize if I'm being a pain im sick and pissy at the moment and i can't afford to see a doctor
+* c39606e: Brian Martinez - replacing don brown with tyler on the splash page
+* 260db66: Brian Martinez - style changes to recruiter dashboard, changes to text on pricing page, changes to wording in recruiter heading, changes to UX on manage page
+
+v4.1.33 - Jan 9, 2013  6:31PM PST deployed by Elijah Green
+==========================================================
+* 436165c: Elijah Green - Whiteboard privacy
+* 8f04eda: Elijah Green - Don't show resume if privacy for it is set
+* 5821061: Aleks Stanisic - changing some toggle settings in the edit org form
+* 144e4d7: Elijah Green - Make the resume privac slightly more functional
+* a7e02cb: Aleks Stanisic - Fixing My groups/orgs pages
+* e0c4cab: Brian Martinez - changes to design and wording on the user privacy page for updated settings
+
+v4.1.32 - Jan 9, 2013 11:06AM PST deployed by Elijah Green
+==========================================================
+* 1a3f771: Elijah Green - Add a (non-functional) privacy setting for tfa
+
+v4.1.31 - Jan 8, 2013 11:52PM PST deployed by Kelly Becker
+==========================================================
+* 40dd3d9: Kelly Becker - added severity
+* 8a1e084: Elijah Green - Featured groups on dashboard use a column
+* 8c08df4: Elijah Green - Add order discussions newest first
+* cefd181: Elijah Green - If user is deleted on discussion show them as deleted
+* e71d645: Elijah Green - Destroy comments connected to a discussion
+
+v4.1.30 - Jan 8, 2013  2:44PM PST deployed by Elijah Green
+==========================================================
+* 7c1a962: Brian Martinez - fixing the display issues on the job description caused by the two column and the tinymce
+* 0e50e2e: Brian Martinez - fixing errors with the social buttons on groups pages, as well as the About page on the groups (picture overlay on text)
+* d1b569c: Elijah Green - Deal with users with no account external applications
+* c68279f: Elijah Green - External jobs for logined in users
+* 2c7d048: Brian Martinez - bug fixes on job posting: double descrtiption, missing section closeout, button styling
+
+v4.1.29 - Jan 8, 2013 11:56AM PST deployed by Elijah Green
+==========================================================
+* 18a109b: Elijah Green - Temporily revert discussions change
+
+v4.1.28 - Jan 8, 2013 11:43AM PST deployed by Elijah Green
+==========================================================
+* cae7281: Elijah Green - Deleted user on educator dashboard
+
+v4.1.27 - Jan 8, 2013 11:29AM PST deployed by Elijah Green
+==========================================================
+* 1eb72c8: Elijah Green - Gemfile.lock
+* 600ad70: Elijah Green - Allow editing of titles of external videos
+
+v4.1.26 - Jan 7, 2013  6:07PM PST deployed by Elijah Green
+==========================================================
+* 6c22686: Elijah Green - Fix error where avatar? was called on nil
+* 91bbb1c: Elijah Green - Featured Videos
+* 4c3641b: Elijah Green - Add prompt requesting users to tag the discussion
+* 8ba13a4: Elijah Green - Use most popular discussions on educator dashboard
+
+v4.1.25 - Jan 7, 2013 12:24PM PST deployed by Kelly Becker
+==========================================================
+* e28214c: Kelly Becker - fixed an issue with creating discussions and nil owners
+* 5afc49c: Elijah Green - If a group is unauthorized redirect with a notice
+
+v4.1.24 - Jan 7, 2013 11:22AM PST deployed by Kelly Becker
+==========================================================
+* c84bca3: Kelly Becker - new user records are returned on no user found for comments
+
+v4.1.23 - Jan 7, 2013 10:28AM PST deployed by Kelly Becker
+==========================================================
+* 26da93c: Kelly Becker - removed non resourceful route for "my groups" @astanisic always use resourceful routing when possible
+* 3916534: Aleks Stanisic - MAde it easier to create Job for orgs
+* 1ba6ce3: Aleks Stanisic - adding new create group/org link in my group/org pages
+* e552a97: Brian Martinez - changed to school pricing and to connections pages
+* a879cb4: Elijah Green - Fix width of select in jobs/_form
+* 6000f35: Kelly Becker - remove staging server
+
+v4.1.22 - Jan 5, 2013  5:01PM PST deployed by Kelly Becker
+==========================================================
+* c170d09: Kelly Becker - remove www2
+* 8da406f: Kelly Becker - new production instance
+* ea2181d: Kelly Becker - deploy stuff and instances
+* 5920808: Kelly Becker - new configurations
+* ed2e21b: Kelly Becker - staging server
+* f082423: Elijah Green - Fix error on orgs page calling is_admin on a nil user
+* 0a496b0: Kelly Becker - updates to deploy script
+* 9c7472b: Kelly Becker - newrubber_profile
+
+v4.1.21 - Jan 5, 2013  1:53PM PST deployed by Kelly Becker
+==========================================================
+* c7291c2: Kelly Becker - removed the old production server
+* 4a740ee: Kelly Becker - fixed upcoming events ordering
+* 3834e80: Elijah Green - Allow site admins to have greater access to group discussions
+* 6fc78c7: Elijah Green - Instead of HTTPStatus Unauthorized for discussions redirect_to group
+* 64cd5d4: Elijah Green - Add join group button on groups/discussion
+* 2bf6645: Aleks Stanisic - changing add organization flow
+* c99440d: Elijah Green - Don't show current user in suggested connections
+* 7e22dfa: Aleks Stanisic - style fix header through firefox
+* a603802: Elijah Green - Comment on shared posts and move icons
+* a9b6996: Aleks Stanisic - fixed grammer error in create organizations
+
+v4.1.20 - Jan 4, 2013 12:38PM PST deployed by Brian Martinez
+============================================================
+* f1286bc: Brian Martinez - rubber 2.1.2
+* 263dca4: Brian Martinez - reverting the last commit
+* f0506a6: Brian Martinez - Temporily use old rubber from repository
+* 7d28073: Kelly Becker - new instance
+
+v4.1.19 - Jan 4, 2013 11:01AM PST deployed by Kelly Becker
+==========================================================
+* 68ca78a: Kelly Becker - fix to a heading
+* 88f3d33: Kelly Becker - group permissions update
+* 3414599: Brian Martinez - major changes to navigation menu
+* 574db01: Aleks Stanisic - adding active job application list to admin page
+* bbf7895: Elijah Green - Fix cropping with no cropping values
+* 74c2713: Aleks Stanisic - adding ability for admins to esit any group and organization
+* 3b10a3a: Elijah Green - Revert last commit
+
+v4.1.18 - Jan 3, 2013  4:06PM PST deployed by Aleks Stanisic
+============================================================
+* 0810573: Elijah Green - Specify json in Gemfile
+* 8883c36: Elijah Green - Revert "Server cannot find json 1.7.6, temporfily get gem from repository"
+
+v4.1.17 - Jan 3, 2013  3:37PM PST deployed by Aleks Stanisic
+============================================================
+* 0cf70e1: Elijah Green - Server cannot find json 1.7.6, temporfily get gem from repository
+
+v4.1.16 - Jan 3, 2013  3:06PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.15 - Jan 3, 2013  2:56PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.1.14 - Jan 3, 2013  2:53PM PST deployed by Aleks Stanisic
+============================================================
+* 46ea365: Aleks Stanisic - re-design of account settings
+* 67bba21: Elijah Green - Cleanpup New User Flow
+* cd80985: Aleks Stanisic - added my organizations page
+* 43329d5: Elijah Green - Fix suggested connection find
+* 830b455: Elijah Green - Must be logged in to be on the get_started page
+* b6b13ef: Elijah Green - Fix job referrals
+* a4b7c01: Kelly Becker - installs the bleeding edge rubber dependencies and stuff
+* 8bed9fc: Kelly Becker - remove all system gems
+* 90f9b73: Kelly Becker - cleanup branches
+* cb533ab: Kelly Becker - update deploy script with handy method
+* fe4a9f1: Brian Martinez - gemlock
+* a906560: Brian Martinez - updated gitignore
+
+v4.1.13 - Dec 31, 2012 12:49PM PST deployed by Kelly Becker
+===========================================================
+* 7381d87: Kelly Becker - update user organization affiliation
+
 v4.1.12 - Dec 31, 2012 12:08PM PST deployed by Kelly Becker
 ===========================================================
 * 2f4ea3e: Kelly Becker - gemlock

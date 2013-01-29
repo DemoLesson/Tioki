@@ -1,34 +1,93 @@
 <section id="main-content" class="inner-content">
+	
 	<h1>Account Settings</h1>
+	<section class="one-column left-side">
 
-	<div class="notice">On this page you can change your registered name, email address, and password.</div>
+		<%= render 'form' %>
 
-	<%= render 'form' %>
+		<%= render :partial => 'password_form' %>
 
-	<h1>Group Notification Settings</h1>
-	<%= form_for(@user) do |t| %>
-		<input type="hidden" name="group[discussions][x]" value="1" />
-		<fieldset>
-			<label>
-				<%= check_box_tag("group[discussions][none]") %> 
-				Do not receive any discussion notifications from groups.
-			</label>
-		</fieldset>
-		<fieldset>
-			<label>
-				<%= check_box_tag("group[discussions][all]") %> 
-				Receive discussion notifications from all groups.
-			</label>
-		</fieldset>
-		<hr /><br />
-		<% for group in @user.groups do %>
-			<fieldset>
-				<label>
-					<%= check_box_tag("group[discussions][#{group.id}]", 1, group.user_permissions.discussion_notifications) %> 
-					Receive discussion notifications from <%= group.name %>.
-				</label>
-			</fieldset>
-		<% end %>
-		<%= t.submit "Save Group Notification Settings" %>
-	<% end %>
+		<%= render :partial => "authenticate_form" %>
+
+	</section>
+
+	<section class="two-column right-side" style ="width:500px;" >
+
+		<%= render :partial => 'email_form' %>
+
+		<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<h2 style="margin-left:20px">Group Notification Settings</h2>
+			<%= form_for(@user) do |t| %>
+				<div style="margin-left:20px">
+				<input type="hidden" name="group[discussions][x]" value="1" />
+				<fieldset>
+					<label>
+						<%= check_box_tag("group[discussions][none]") %> 
+						Do not receive any discussion notifications from groups.
+					</label>
+				</fieldset>
+				<fieldset>
+					<label>
+						<%= check_box_tag("group[discussions][all]") %> 
+						Receive discussion notifications from all groups.
+					</label>
+				</fieldset>
+				</div></br><hr/><br />
+				<% for group in @user.groups do %>
+					<div style="margin-left:20px">
+					<fieldset>
+						<label>
+							<%= check_box_tag("group[discussions][#{group.id}]", 1, group.user_permissions.discussion_notifications) %> 
+							Receive discussion notifications from <%= group.name %>.
+						</label>
+					</fieldset>
+					</div>
+				<% end %>
+				<div style="margin-left:20px">
+				<%= t.submit "Save Group Notification Settings" %>
+				</div>
+			<% end %>
+		</section>
+		<section class="info panel" style="height:auto;width:auto;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
+			<h2 style="margin-left:20px">"While you were away..." Notifications</h2>
+			<%= form_for(@user) do |t| %>
+				<div style="margin-left:20px">
+					<input type="hidden" name="email[x]" value="1" />
+					<fieldset>
+						<label>
+							<%= check_box_tag("email[none]") %>
+							Do not receive any email notifications.
+						</label>
+					</fieldset>
+					<fieldset>
+						<label>
+							<%= check_box_tag("email[all]") %>
+							Receive all email notifications.
+						</label>
+					</fieldset>
+					<fieldset>
+						<label>
+							<%= check_box_tag("email[daily]", 1, (@user.notification_intervals.daily > 0 rescue true)) %>
+							Receive a daily digest of the days events.
+						</label>
+					</fieldset>
+				</div></br><hr/><br />
+				<table style="width:100%;">
+					<% for bucket in APP_CONFIG.notification_buckets %>
+						<% next if bucket == 'daily' %>
+						<tr>
+							<td style="padding: 5px 0px 5px 20px;"><%= bucket.capitalize %> notifications</td>
+							<td style="padding: 5px 0px;"><%= radio_button_tag("email[#{bucket}]", 7200, [7200, nil].include?(@user.notification_intervals[bucket])) %> frequent</td>
+							<td style="padding: 5px 0px;"><%= radio_button_tag("email[#{bucket}]", 14400, @user.notification_intervals[bucket] == 14400) %> less frequent</td>
+							<td style="padding: 5px 10px 0px 0px;"><%= radio_button_tag("email[#{bucket}]", 0, @user.notification_intervals[bucket] == 0) %> never</td>
+						</tr>
+					<% end %>
+				</table><br />
+				<div style="margin-left:20px">
+					<%= t.submit "Save Email Notification Settings" %>
+				</div>
+			<% end %>
+		</section>
+	</section>
+
 </section>

@@ -147,6 +147,7 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
 				<%unless currentUser.new_record? %>
+					<% @self || @connected || !@user.privacy_public[:whiteboard] %>
 					<li>
 						<% if @self %>
 						<a href="/me/profile">
@@ -157,6 +158,7 @@
 						</a>
 					</li>
 				<% end %>
+
 				<li>
 					<a href="/profile/<%= @user.slug %>/about">
 					About
@@ -194,7 +196,35 @@
 			</ul>
 		</nav>
 		
-		<section class="sidebar" style="float:right;margin-top:-17px" >
+		<section class="sidebar" style="float:right;margin-top:-17px;" >
+			<% if @application != nil %>
+				<!-- START Recruitor Tools -->
+				<section id="info" class="panel one-column right-side" style="width:230px; background-color:#FBEFD5; margin-top:18px">
+					<h5 class="bottom-line" style="margin-left:5px">
+						Recruiter Tools 
+					</h5>
+					<div style ="margin-left:5px">
+						Application Status:</br>
+						<%= form_for([@application]) do |f| %>
+							<select name="application[status]">
+								<option <%= @application.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+								<option <%= @application.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+								<option <%= @application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+								<option <%= @application.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+							</select><br /></br>
+							<%= hidden_field_tag :job_id, @application.job_id %> 
+							<%= f.submit "Update Status" %>
+						<% end %>
+					</div>
+					<div style ="float:right; margin-top:-68px; margin-right:-30px">
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button green"} %>
+					</div>
+					<div style="margin-left:5px">
+						<%= link_to "Back to Applicants", :back %>
+					</div>
+				</section> <!-- END RECRUITOR TOOLS -->
+			<% end %>
+
 			<!-- Connection Information -->
 			<section class="info">
 				<a href="/profile/<%= @user.slug %>/connections" style="float:right;color:#2AA99B;margin:17px 5px 0 0">View All</a>
@@ -227,19 +257,12 @@
 						<%= @user.location %><br/>
 						</p>
 					<% end %>
-                    <% contact = @user.contact %>
-					<% if !@user.email.empty? %>
-						<p>
-						<span class="bold black">Email:</span>
-						<%= @user.email %><br/>
-						</p>
-					<% end %>
-					<% if !contact['phone'].nil? %>
-						<p>
-						<span class="bold black">Phone:</span>
-						<%= contact['phone'] %><br/>
-						</p>
-					<% end %>
+					<p>
+					<span class="bold black">Tioki URL:</span>
+					<span style="font-size:12px">
+							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/...</a>
+					</span>
+					</p>
 					</section>
 				<% end %>
 			<% end %>
@@ -582,9 +605,9 @@
 				<% if @user.assets.empty? && @self %>
 					<section class="profile-info group">
 						<h3 class="bottom-line">
-						<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>
+						<%= link_to "Attachments", attachments_path, :style => "color:#4D4D4D" %>
 							<span style="font-size:16px; margin-left:5px">
-								<a href="/profileattachments"> >> Upload your favorite teaching documents</a>
+								<a href="<%= attachments_path%>"> >> Upload your favorite teaching documents</a>
 							</span>
 						</h3>
 					</section>
@@ -597,8 +620,8 @@
 					<section class="profile-info group">
 						<% if @self %>
 							<h3 class="bottom-line">
-								<%= link_to "Attachments", "/profileattachments", :style => "color:#4D4D4D" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/profileattachments" %>
+								<%= link_to "Attachments", attachments_path, :style => "color:#4D4D4D" %>	
+								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), attachments_path %>
 							</h3>
 						<% else %>
 							<h3 class="bottom-line">
@@ -652,7 +675,7 @@ $(document).ready(function() {
 
 	var arr = new Array;
 	// Click on a skill and do something
-	$('a.skill').live('click', function(e) {
+	$('a.skill').on('click', function(e) {
 		e.preventDefault();
 
 		if($(this).hasClass('active')) {
@@ -744,7 +767,7 @@ $(document).ready(function() {
 	});
 
 	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+	$('a[whiteboard-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -771,7 +794,7 @@ $(document).ready(function() {
 	});
 
 	// Show the comments
-	$('a[whiteboard-action="show-comments"]').live('click', function(e) {
+	$('a[whiteboard-action="show-comments"]').on('click', function(e) {
 		e.preventDefault();
 
 		// Show the comments wrapper
@@ -781,7 +804,7 @@ $(document).ready(function() {
 	});
 
 	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -825,7 +848,7 @@ $(document).ready(function() {
 	});
 
 	// Favorite a comment
-	$('a[comment-action="favorite"]').live('click', function(e) {
+	$('a[comment-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -852,7 +875,7 @@ $(document).ready(function() {
 	});
 
 	// Delete a comment
-	$('a[comment-action="delete"]').live('click', function(e) {
+	$('a[comment-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);

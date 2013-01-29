@@ -358,10 +358,10 @@ class ApplicationController < ActionController::Base
 			error << "\n " + Rails.backtrace_cleaner.clean(exception.backtrace).join("\n ")
 
 			file, line, method = exception.backtrace.first.split(':')
-			method = method [4..-2]
+			method = method[4..-2]
 
-			unless NOTIFY.nil?
-				NOTIFY.notify!(:short_message => short, :full_message => error, :level => severity, :file => file, :line => line, :method => method)
+			unless (defined? ::NOTIFY).nil?
+				::NOTIFY.notify!(:short_message => short, :full_message => error, :level => severity, :file => file, :line => line, :method => method)
 			else
 				Rails.logger.error(error) if severity == 4
 				Rails.logger.fatal(error) if severity == 3

@@ -6,16 +6,23 @@ tr.seeking, tr.student {
 
 <div class="row kRap">
 	<div class="twelve columns">
+		<%= render "header" %>
 		<h1 class="smaller" style="margin: 14px 0px 14px 0px"><span><%= self.current_user.first_name %></span>, your application is ready to submit.</h1>
 	</div>
 	<div class="clear"></div>
 
 	<div class="twelve columns">
-		<p>One you click submit, <%= @app.job.group.name %> will be able to view your profile, video, and attachments. Do you wish to proceed?</p>
-		<a href="complete" class="large button" style="padding:9px 50px;width:auto;">Submit</a>
-		<a href="/me/profile" target="_blank" style="padding:9px 50px;width:auto;color:#F66C4C">View my Profile</a>
-		
-		<div style="clear:both;height:40px;"></div>
+		<%= form_tag "complete" do %>
+			<% if @app.job.passcode.present? %>
+				This application requires a passcode:
+				<%= text_field_tag :passcode, nil, :placeholder => "Passcode" %>
+			<% end %>
+			<p>One you click submit, <%= @app.job.group.name %> will be able to view your profile, video, and attachments. Do you wish to proceed?</p>
+			<%= submit_tag "Submit", :style => "padding:9px 50px;width:auto;" %>
+			<a href="/me/profile/resume" target="_blank" style="padding:9px 50px;width:auto;color:#F66C4C">View my Profile</a>
+
+			<div style="clear:both;height:40px;"></div>
+		<% end %>
 	</div>
 	<div class="four columns">
 	</div>

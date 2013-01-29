@@ -38,18 +38,16 @@ class HomeController < ApplicationController
 				@post = {:slug => 'connections', :data => connections}
 				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 
-				# Get a list of all my skills and a list of all my connections
-				skill_claims = Skill.where('`skills`.`id` IN (?)', self.current_user.skill_claims.collect!{|x| x.skill_id})
-				skill_claims = skill_claims.select('`skill_claims`.*').joins(:skill_claims).to_sql
-				my_connections = @user.connections.collect{|x| x.not_me_id}
+				my_connections = @user.connections.collect{|x| x.not_me_id(currentUser.id)}
 
-				# Create / Run the Query
-				joins = ["RIGHT JOIN (#{skill_claims}) as `tmp` ON `users`.`id` = `tmp`.`user_id`"]
-				joins << 'LEFT JOIN `connections` ON `users`.`id` = `connections`.`user_id` OR `users`.`id` = `connections`.`owned_by`'
-				@suggested_connections = User.joins(joins.join(" ")).where("`users`.`avatar_file_size` IS NOT NULL")
-				@suggested_connections = @suggested_connections.where("`connections`.`owned_by` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.where("`connections`.`user_id` NOT IN (?)", my_connections)
-				@suggested_connections = @suggested_connections.select('`users`.*').group('`users`.`id`').limit(3).order('(RAND() / COUNT(*) * 2)')
+				# Don't show the current user either
+				my_connections.push(currentUser.id)
+
+				@suggested_connections = User.joins(:skill_claims).
+					where("users.avatar_file_size IS NOT NULL && skill_claims.skill_id IN (?) && users.id NOT IN (?)", currentUser.skills.collect(&:id), my_connections).
+					limit(3).
+					group("users.id").
+					order('(RAND() / COUNT(*) * 2)')
 
 				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
@@ -57,11 +55,17 @@ class HomeController < ApplicationController
 
 				@profile_views = self.get_analytics(:view_user_profile, self.current_user, nil, nil, true).count
 
-				@jobs = Job.where('active = ?', true).limit(4).order('created_at DESC').all
+				#@discussions = Discussion.joins(:comments).
+				#	select('discussions.*, count(comments.id) as comments_count').
+				#	where("discussions.owner IS NULL && discussions.created_at > ?", Time.now - 2.weeks).
+				#	group("discussions.id").
+				#	limit(3).
+				#	order('comments_count DESC')
+				@discussions = Discussion.order("created_at DESC").limit(3)
 
-				@discussions = Discussion.limit(3).order('created_at DESC').all
+				@featured_groups = Group.where("featured = ?", true).limit(3)
 
-				@featuredjobs = Job.where('active = ?', true).order('created_at DESC').all
+				@featured_jobs = Job.where("featured = ?", true).limit(3)
 
 				@interviews = self.current_user.interviews
 			end
@@ -124,15 +128,6 @@ class HomeController < ApplicationController
 						:administrator => true,
 						:owner => true
 					}
-
-					JobPack.create(
-						:group => group,
-						:jobs => 1,
-						:expiration => Time.now + 60.days,
-						:inception => Time.now,
-						:refunded => 0,
-						:amount => 0,
-						:additional_data => {:freebie => true}.to_json)
 					respond_to do |format|
 						format.html { redirect_to edit_group_path(group), notice: 'Organization was successfully created.' }
 					end
@@ -196,9 +191,20 @@ class HomeController < ApplicationController
 	end
 
 	def whiteboard_share
+
+		# Make sure a user is logged in
 		redirect_to :root if currentUser.new_record?
+
+		# Make sure a message was passed to be posted
 		if params[:message].present?
-			whiteboard = Whiteboard.createActivity('share', params[:message], '', {"deleteable" => true})
+
+			# Were any files uploaded?
+			files = params[:file].present? ? params[:file] : nil
+
+			# Create the new whiteboard activity
+			whiteboard = Whiteboard.createActivity('share', params[:message], '', files, {"deleteable" => true})
+
+			# If we were asked to share to twitter then check if were authorized
 			if self.current_user.twitter_auth? && params[:share_on_twitter]
 
 				if params[:share_on_facebook]
@@ -207,23 +213,34 @@ class HomeController < ApplicationController
 					# through a callback, so just can't pass as params
 					session[:share_on_facebook] = true
 				end
-				
+
+				# Make sure we have permissions to share on twitter
 				return redirect_to whiteboard_share_twitter_authentications_url(:whiteboard_id => whiteboard.id)
+
+			# Otherwise prepare the twitter authorization
 			elsif params[:share_on_twitter]
 
+				# Store the whiteboard id in the session and redirect to auth page
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
+
+			# If we were asked to share the whiteboard post on facebook check if were authorized
 			elsif self.current_user.facebook_auth? && params[:share_on_facebook]
 
+				# Go ahead and redirect to the post action
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
+
+			# Otherwise prepare the facebook authorization
 			elsif params[:share_on_facebook]
 
+				# Store the whiteboard id in the session and redirect to the auth page
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 			end
 		end
 
+		# If nothing is taking place redirect back
 		redirect_to :back
 	end
 

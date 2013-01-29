@@ -106,11 +106,11 @@
 						</a>
 					</li>
 				<% end %>
-				<% if Application.mine(:status! => 'Deny Application').count > 0 %>
+				<% if User.current.applications.not_rejected.count > 0 %>
 					<li>
 						<a href="<%= user_applications_path(User.current) %>">
 							<div class="count applications">
-								<%= Application.mine(:status! => 'Deny Application').count %>
+								<%= User.current.applications.not_rejected.count %>
 							</div>
 							Job Applications
 						</a>
@@ -123,6 +123,8 @@
 		</a>
 	</section>
 	<section id="panels">
+
+		<!-- START Whiteboard -->
 		<section class="panel two-column left-side">
 			<h3>
 				<a href="#">
@@ -135,35 +137,43 @@
 					<%= image_tag("dl_icons/no_avatar_tiny.jpg") unless @user.avatar? %>
 				</div>
 				<div id="submit-whiteboard" style="width:auto;">
-					<form action="/share_on_whiteboard" method="post">
-						<fieldset>
-							<input name="message" type="text" placeholder="Write something on the whiteboard..." />
-							<input type="submit" class="button" />
+					<form action="/share_on_whiteboard" enctype="multipart/form-data" method="post">
+						<fieldset class="trigger">
+							<input type="text" placeholder="Write something on the whiteboard..." />
 						</fieldset>
-						<span style="float:right;margin-right:60px">
-							<% if self.current_user.twitter_auth? %>
-								<%= check_box_tag :share_on_twitter, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_twitter, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
-							<% if self.current_user.facebook_auth? %>
-								<%= check_box_tag :share_on_facebook, 'yes', true %>
-							<% else %>
-								<%= check_box_tag :share_on_facebook, 'yes', false %>
-							<% end %>
-							<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
-						</span>
+						<fieldset class="triggerable">
+							<textarea name="message"></textarea>
+							<div>
+								<div style="float:left;">
+									<% if self.current_user.twitter_auth? %>
+										<%= check_box_tag :share_on_twitter, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_twitter, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/twitter2.png'), :style => "height:20px;margin-bottom:-5px" %>
+									<% if self.current_user.facebook_auth? %>
+										<%= check_box_tag :share_on_facebook, 'yes', true %>
+									<% else %>
+										<%= check_box_tag :share_on_facebook, 'yes', false %>
+									<% end %>
+									<%= image_tag ('tioki/icons/fb_button.png'), :style => "height:20px;margin-bottom:-5px" %>
+								</div>
+								<div style="float:right;">
+									<input type="file" name="file" iconic="camera" style="font-size:1.5em;margin:0px 5px;" tip="Attach a Photo" atip="Photo Attached (Click to Remove)" tip-side="true" allowed-file-types="png,jpg,jpeg,gif" />
+									<input type="submit" value="Post" />
+								</div>
+							</div>
+						</fieldset>
 					</form>
 				</div>
 			</section>
 			<ul class="whiteboard">
-				<% @whiteboard.each do |post| %>
-					<%= raw post %>
-				<% end %>
+				<%= @whiteboard.join('').html_safe %>
 				<li><a href="#whiteboard-more" style="text-align:center;display:block;">Show More</a></li>
 			</ul>
-		</section> <!-- END WHITEBOARD -->
+		</section>
+
+		<!-- START Suggested educators to connect with -->
 		<section id="list" class="panel one-column right-side">
 			<h3 class="bottom-line">Suggested Educators</h3>
 			<div class="suggested-connections">
@@ -198,7 +208,7 @@
 			<ul>
 				<li style="padding:12px 15px 12px 15px !important;width:280px">
 					<div class="video-thumb-small" style="background-color:#fff;margin-right:0px;text-align:center">
-						<a href="/me/profile/stats" style="font-size:32px"><%= @profile_views %></a>
+						<a href="/me/profile/stats" style="font-size:30px"><%= @profile_views %></a>
 					</div>
 					<p style="width:230px;margin-top:5px">
 						<a href="me/profile/stats">Your profile has been viewed by <%= @profile_views %> fellow educators.</a>
@@ -213,38 +223,27 @@
 				Featured Jobs
 			</h3>
 			<ul>
-				<!-- Featured Job 1 -->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121208212638-20121208212637-20121208212636-techbridge-logo.jpg?1355001996", :style => "width:45px"), 'http://tioki.com/jobs/114325' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Techbridge', 'http://tioki.com/jobs/114325' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114325', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						Girls "Go Techbridge" <br/>Program Coordinator
-					</p>
-				</li>
-				
-				<!-- Featured Job 2-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205195748-20121205195748-20121205195747-27531_105473479498305_4206_n.jpg?1354737467", :style => "width:45px"), 'http://tioki.com/jobs/114323' %>
-					<p style="margin:-35px 0px 0px 60px;width:220px">
-						<%= link_to 'KIPP Bay Area', 'http://tioki.com/jobs/114323' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114323', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						KIPP San Francisco College<br/> Prep Core Teacher
-					</p>
-				</li>
-				
-				<!-- Featured Job 3 -->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/schools/medium/20121205224432-20121205224431-20121205224430-174829_143358642391657_3935380_n.jpg?1354747470", :style => "width:45px"), 'http://tioki.com/jobs/114324' %>
-					<p style="margin:-50px 0px 0px 60px;width:220px">
-						<%= link_to 'Rocketship Education', 'http://tioki.com/jobs/114324' %>
-						<%= link_to "View", 'http://tioki.com/jobs/114324', :style => "float:right;color:#F66C4C", :target => "_blank" %>
-						<br />
-						2013-2014 Teacher in <br /> San Jose, CA<br/>
-					</p>
-				</li>
+
+				<% @featured_jobs.each do |job| %>
+					<li style="padding:12px 15px 12px 15px !important;width:280px">
+						<%= link_to image_tag(job.group.picture, :style => "width:45px"), job %>
+						<p style="margin:-30px 0px 0px 60px;width:220px">
+							<% if job.group.name.length < 21 %>
+								<%= link_to job.group.name[0..23], job %>
+							<% else %>
+								<%= link_to job.group.name[0..23]+"...", job %>
+							<% end %>
+							<%= link_to "View", job, :style => "float:right;color:#F66C4C", :target => "_blank" %>
+							<br />
+							<% if job.title.length < 21 %>
+								<%= job.title[0..23] %>
+							<% else %>
+								<%= job.title[0..23]+"..." %>
+							<% end %>
+						</p>
+					</li>
+				<% end %>
+
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 					<%= link_to "View More Jobs →", "/jobs", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				</li>
@@ -257,38 +256,19 @@
 				Featured Groups
 			</h3>
 			<ul>
-				<!-- Featured Group 1-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/thumb/20121031142659-20121031142658-20121031142657-Tioke_Group_Pic.png?1351693617", :style => "width:45px"), 'http://tioki.com/groups/2-education-bloggers/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Education Bloggers', 'http://tioki.com/groups/2-education-bloggers/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 2 }, :style => "float:right;color:#F66C4C" %>
-						<br />
-						43 Members<br/>
-					</p>
-				</li>
+				<% @featured_groups.each do |group| %>
+					<!-- Featured Group 1-->
+					<li style="padding:12px 15px 12px 15px !important;width:280px">
+						<%= link_to image_tag(group.picture(:thumb), :style => "width:45px"), group %>
+						<p style="margin:-40px 0px 0px 60px;width:220px">
+							<%= link_to group.name, group %>
+							<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => group.id }, :style => "float:right;color:#F66C4C" %>
+							<br />
+							<%= group.users.count %> Members<br/>
+						</p>
+					</li>
+				<% end %>
 			
-				<!-- Featured Group 2-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121110235636-20121110235635-20121110235634-beta-test.jpg?1352591793", :style => "width:45px"), 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Beta Testing Teachers', 'http://tioki.com/groups/50-beta-testing-teachers/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 50 }, :style => "float:right;color:#F66C4C" %>	
-						<br />
-						32 Members<br/>
-					</p>
-				</li>
-				
-				<!-- Featured Group 3-->
-				<li style="padding:12px 15px 12px 15px !important;width:280px">
-					<%= link_to image_tag("https://tioki.s3.amazonaws.com/groups/medium/20121119223902-20121119223901-20121119223900-twitter-bird-light-bgs.png?1353364739", :style => "width:45px"), 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-					<p style="margin:-40px 0px 0px 60px;width:220px">
-						<%= link_to 'Educators on Twitter', 'http://tioki.com/groups/101-educators-on-twitter/members' %>
-						<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => 101 }, :style => "float:right;color:#F66C4C" %>
-						<br/>	
-						23 Members<br/>
-					</p>
-				</li>
 				
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 				<%= link_to "View More Groups →", "/groups", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
@@ -300,7 +280,7 @@
 		<section id="list" class="panel one-column right-side">
 			<h3>Discussions</h3>
 			<ul>
-				<% @discussions.each do |discussion| %>
+				<% @discussions.public.each do |discussion| %>
 					<li style="padding:12px 15px 12px 5px !important;width:290px">
 					<%  if self.current_user %>
 						<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }, :style => "float:right" %>
@@ -312,15 +292,17 @@
 						</p>
 						<p style="width:240px;float:left;margin-left:10px">
 							<% discussion.participants.each do |user| %>
-								<% if user.avatar? %>
-									<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
-								<% else %>
-									<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
+								<% if user %>
+									<% if user.avatar? %>
+										<%= link_to image_tag(user.avatar.url(:tiny), :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}" %>
+									<% else %>
+										<%= link_to image_tag("/assets/dl_icons/no_avatar_tiny.jpg", :style => "max-height:20px;max-width:20px;"), "/profile/#{user.slug}"  %>
 								<% end %>
 							<% end %>
-						</p>
-					</li>
-				<% end %>
+						<% end %>
+					</p>
+				</li>
+			<% end %>
 				
 				<li style="padding:12px 15px 12px 15px !important;width:280px;height:8px">
 					<%= link_to "View More Discussions →", "/discussions", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
@@ -337,10 +319,10 @@
 				</a>
 			</h3>
 			<ul>
-				<% rsvp = @user.rsvp.where("`end_time` >= CURDATE()").all %>
-				<% if rsvp.empty? %>
+				<% rsvp = @user.rsvp.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC') %>
+				<% if rsvp.count < 1 %>
 					<li>You have no RSVP's. So here are some upcoming events.</li>
-					<% Event.where("`end_time` >= CURDATE()").limit(3).each do |event| %>
+					<% Event.where('`events`.`end_time` >= ?', Time.now).order('`events`.`end_time` ASC').limit(3).each do |event| %>
 						<li>
 							<div class="calendar-thumb">
 								<div class="cal-month">
@@ -431,7 +413,7 @@ $(document).ready(function() {
 	});
 
 	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').live('click', function(e) {
+	$('a[whiteboard-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -458,17 +440,31 @@ $(document).ready(function() {
 	});
 
 	// Show the comments
-	$('a[whiteboard-action="show-comments"]').live('click', function(e) {
+	$('a[whiteboard-action="show-comments"]').on('click', function(e) {
 		e.preventDefault();
 
 		// Show the comments wrapper
-		$(this).closest('div.bar').next('div.comments').slideDown(500);
+		$ul = $(this).closest('div.bar').next('div.comments').children('ul')
+		$ul.children('li.show-more').remove();
+		$ul.children('li').slideDown(500);
+
+		return false;
+	});
+
+	// Show the comments
+	$('a[whiteboard-action="show-more-comments"]').on('click', function(e) {
+		e.preventDefault();
+
+		// Show the comments wrapper
+		$ul = $(this).closest('ul')
+		$ul.children('li.show-more').remove();
+		$ul.children('li').slideDown(500);
 
 		return false;
 	});
 
 	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').live('click', function(e) {
+	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -489,9 +485,11 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
+		data = form.serialize();
+		form.find('textarea').val('Posting...').prop('disabled', true);
+		$.post(form.attr('action') + '.json', data, function(r) {
+			form.find('textarea').val(r.message).prop('disabled', true);
 			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
 				$.get('/comments/' + r.id, function(d) {
 					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
 					form.prev('ul').append(comment);
@@ -506,13 +504,24 @@ $(document).ready(function() {
 					});
 				});
 			}
-		})
+		});
+
+		return false;
+	});
+
+	$('form[action="/share_on_whiteboard"]').submit(function(e) {
+		e.preventDefault();
+
+		if($(this).find('textarea').val() == '')
+			alert('You cannot have an empty message');
+		else
+			return $(this).get(0).submit();
 
 		return false;
 	});
 
 	// Favorite a comment
-	$('a[comment-action="favorite"]').live('click', function(e) {
+	$('a[comment-action="favorite"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);
@@ -539,7 +548,7 @@ $(document).ready(function() {
 	});
 
 	// Delete a comment
-	$('a[comment-action="delete"]').live('click', function(e) {
+	$('a[comment-action="delete"]').on('click', function(e) {
 		e.preventDefault();
 
 		var link = $(this);

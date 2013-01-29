@@ -29,3 +29,15 @@ task :normalize => :environment do
 		puts "=> Finished (#{string})"
 	end
 end
+
+namespace :cron do
+	desc "Send all new notifications."
+	task :notifications => :environment do
+		Notification.notify!
+	end
+
+	desc "Send a daily digest."
+	task :digest_notifications => :environment do
+		Notification.notify!(true)
+	end
+end

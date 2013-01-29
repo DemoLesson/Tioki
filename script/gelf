@@ -8,4 +8,4 @@ notify = GELF::Notifier.new('graylog.tioki.com',
 	'host' => `hostname`
 )
 
-notify.notify!(:short_message => ARGV.shift, :full_message => ARGV.shift)
+notify.notify!(:short_message => ARGV.shift, :full_message => ARGV.shift, :severity => 4)

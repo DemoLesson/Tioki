@@ -4,16 +4,10 @@ class UserMailer < ActionMailer::Base
 	def user_welcome_email(user_id)
 		@user = User.find(user_id)
 
-		# Get ab test number
-		ab = Abtests.use("email:user_welcome", 1).to_s
-		template "user_welcome_email_" + ab
-
-		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!') do |f|
-			f.html { render template }
-		end
+		mail = mail(:to => @user.email, :subject => 'Welcome to Tioki!')
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('user_welcome_email:ab-' + ab)
+			mail.delivery_method.tag('user_welcome_email')
 		end
 
 		return mail
@@ -84,22 +78,11 @@ class UserMailer < ActionMailer::Base
 		@owner = User.find(owner_id)
 		@user = User.find(user_id)
 
-		# Get the proper AB Test string
-		ab = Abtests.use("email:userconnect", 1).to_s
-		template = "userconnect_" + ab
+		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
 
-		if ab == 0.to_s
-			mail = mail(:to => @user.email, :subject => 'You have a new connection!') do |t|
-				t.html { render template }
-			end
-		else
-			mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!") do |t|
-				t.html { render template }
-			end
-		end
 
 		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('userconnect:ab-' + ab)
+			mail.delivery_method.tag('userconnect')
 		end
 
 		return mail
@@ -364,92 +347,6 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def weeklyemail(user)
-		@user=user
-		#keywords for finding grades
-		gradestring=["K","1","2","3","4","5","6","7","8","9","10","11","12", "elementary", "middle", "high","pre", "adult"]
-
-		#must have emails enabled, be currently teacher
-		#Still testing so emails are going to elijahgreen@gmail.com only
-		tup = SmartTuple.new(" AND ")
-		tup << ["jobs.created_at > ?", Date.today- 7.days]
-
-		if !user.seeking['location'].nil?
-			#A loaction is a specific point in that location so a radius is needed.
-			#Currently a 25 miles radius
-			schools = School.near( user.seeking['location'], 25).collect(&:id)
-
-			#if no schools go to next teacher
-			if schools.size == 0
-				return
-			else
-				@jobs = Job.is_active.where(:school_id => schools).where(tup.compile).all
-			end
-		else
-			@jobs = Job.is_active.where(tup.compile).all
-		end
-
-		if !user.seeking['grade'].nil?
-			jobarray = []
-
-			#Elementary grades, K-6
-			if gradestring[0..6].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("elementary")
-				#2=elementary,7=K-6,8=K-8,10=K-12
-				jobarray+=@jobs.select { |job| job.school.grades == 2 || job.school.grades == 8 || job.school.grades == 10 }
-			end
-
-			#Middle grades, 6-8 
-			if gradestring[6..8].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("middle")
-				#3=middle,8=K-8,9=6-12, 10=K-12
-				jobarray+=@jobs.select { |job| job.school.grades == 3 || job.school.grades == 8 || job.school.grades == 9 || job.school.grades == 10 }
-			end
-
-			#High school grades, K-12
-			if gradestring[9..12].any? { |str| user.seeking['grade'].include? str } || user.seeking['grade'].downcase.include?("high")
-				#10=K-12, 9=6-12, 4 = high school
-				jobarray+=@jobs.select { |job| job.school.grades == 9 || job.school.grades == 10 || job.school.grades == 4 }
-			end
-
-			#Pre-school
-			if user.seeking['grade'].downcase.include?("pre")
-				#1=pre-K
-				jobarray+=@jobs.select { |job| job.school.grades == 1 }
-			end
-
-			#Adult School
-			if user.seeking['grade'].downcase.include?("adult")
-				jobarray+=@jobs.select { |job| job.school.grades == 5 }
-			end
-
-			@jobs=jobarray.uniq
-		end
-
-		if user.seeking['subject'].present?
-			#select subjects whose names is in seeking_subject
-			@subjects=Subject.all.select { |subject| user.seeking['subject'].include? subject.name }
-
-			jobarray = []
-
-			#any jobs with a particular subject is added to the array, because of this there are possibly duplicates
-      # @todo review this. There is definately a better way to do this
-			@subjects.each do |subject|
-				jobarray += @jobs.select{ |job| JobsSubjects.where("job_id = ? AND subject_id = ?", job.id, subject.id).first != nil }
-			end
-			#make sure that every job of the jobs array is unique
-			@jobs=jobarray.uniq
-		end
-
-		if @jobs.size > 0
-			mail = mail(:to => user.email, :subject => "New job postings at tioki.com")
-		end
-
-		if mail.delivery_method.respond_to?('tag')
-			mail.delivery_method.tag('weeklyemail')
-		end
-
-		return mail
-	end
-
 	def vouch_request(voucheename, vouchername, emails, url)
 		@url = url
 		@teachername = voucheename
@@ -529,6 +426,29 @@ class UserMailer < ActionMailer::Base
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('skill_vouched:ab-' + ab.to_s)
+		end
+
+		return mail
+	end
+
+	def credit_request_email(requested_number, credits_for_other_orgs, source, user)
+
+		# Set variables for use inside the email itself
+		@requested_number = requested_number
+		@credits_for_other_orgs = credits_for_other_orgs
+
+		# Source the org itself
+		@organization = source
+
+		# Get the User
+		@user = user
+
+		# Set the subject for the email
+		subject =  'Job Credit Request'
+
+		# Send out the email
+		mail = mail(:to => 'sales@tioki.com', :subject => subject) do |f|
+			f.html { render template }
 		end
 
 		return mail

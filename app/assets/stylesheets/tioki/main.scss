@@ -257,6 +257,35 @@ span.connection_degree {
 							&:hover {
 								background: none;
 							}
+							
+							select[name="topic"] {
+							  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+							  -webkit-appearance: none;
+							  background: #54BAAF;
+							  max-width: 100px;
+							  padding: 4.7px 12px 4.4px;
+							  cursor: pointer;
+							  -webkit-border-radius: 3px;
+							  -moz-border-radius: 3px;
+							  -moz-border-radius: 3px;
+							  border-radius: 3px;
+							  border: 1px solid #CFD4D5;
+							  color: #fff;
+							  margin-right: -3.2px;
+						   	  border-right: none;
+							  border-top-right-radius: 0px;
+							  border-bottom-right-radius: 0px; }
+
+								.select[name="topic"]:focus {
+							      outline: none;
+							      border: 1px solid #f66c4c; }
+								.select[name="topic"] option {
+							        color: #4d4d4d; }
+
+							label {
+								display: block;
+								font-weight: bold;
+							}
 						}
 					}
 				}
@@ -805,32 +834,31 @@ span.connection_degree {
 			border: 1px dashed $ltgray;
 		}
 		#submit-whiteboard {
+			margin-left: 60px;
 			position: relative;
 			width: 540px;
 			form {
+				margin: 0px;
+
 				fieldset {
-					margin: 0;
-					input[type="text"] {
-						width: 458px;
+					margin: 0px;
+
+					// Hide the triggerable for now
+					&.triggerable {
+						display: none;
+					}
+
+					// Input/Textarea styles
+					input[type="text"], textarea {
+						@include css3-border-box;
+						width: 100%;
 						padding: 12px 15px;
 						font-size: 16px;
 					}
-					.button {
-						position: absolute;
-						right: 0;
-						top: 5px;
-						width: 35px;
-						height: 35px;
-						border: 3px solid $salmon;
-						padding: 0;
-						background-color: #fff;
-						background: url(image_path('tioki/icons/pencil.png')) 6px 4px no-repeat;
-						color: $salmon;
-						text-indent: -999em;
-						-moz-border-radius: 	0;
-						-webkit-border-radius: 	0;
-						border-radius: 			0;
-						
+
+					// Textarea additionals
+					textarea {
+						height: 100px;
 					}
 				}
 			}
@@ -1070,6 +1098,26 @@ nav.subpage {
 	}
 }
 
+div.group-bg, section.group-bg {
+	@include css3-border-box;
+
+	// Math.floor(0.6 * 255).toString(16);
+	background: rgb(255, 255, 255);
+	background: rgba(255, 255, 255, 0.8);
+	// IE 7-
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
+	// IE 8+
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+
+	border: solid 1px #EFEFEF;
+	padding: 15px;
+	margin: 0px;
+
+	h1, h2, h3, h4, h5 {
+		margin: 0px;
+	}
+}
+
 ul.group-discussions, ul.group-jobs {
 	// Math.floor(0.6 * 255).toString(16); 
 	background: rgb(255, 255, 255);
@@ -1155,6 +1203,10 @@ section.jobs-management {
 						border-color: $salmon;
 					}
 
+					&.ui-draggable-dragging {
+						width: 268px;
+					}
+
 					&.dropzone {
 						border-style: dashed;
 						display: none;
@@ -1203,7 +1255,7 @@ table.applications {
 				img {
 					margin-bottom: 10px;
 					margin-right: 10px;
-					width: 175px;
+					width: 65px;
 					float: left;
 				}
 

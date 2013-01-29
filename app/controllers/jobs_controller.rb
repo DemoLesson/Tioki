@@ -3,13 +3,13 @@ class JobsController < ApplicationController
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
 
 	# Source the owner if applicable
-	before_filter :source_owner, :only => :index
+	before_filter :source_owner, :only => [:index, :request_credits, :credit_request_email]
 	
 	# GET /jobs
 	# GET /jobs.xml
 	def index
 		if @source.is_a?(Group)
-			if @source.user_permissions.administrator
+			if @source.user_permissions.administrator || currentUser.is_admin
 				respond_to do |format|
 					format.html { manage; render :manage }
 					format.json  { render :json => manage_status }
@@ -26,54 +26,53 @@ class JobsController < ApplicationController
 		if @source.nil?
 			# Deprecate job filter needs a replacement
 			@subjects = Subject.all
-			if params[:subject].present? || params[:school_type].present? || params[:grade_level].present? || params[:calendar].present? || params[:employment].present? || params[:special_needs].present? || params[:searchkey].present? || params[:location].present?
+			if params[:searchkey].present? || params[:location].present? || params[:employment] || params[:posttime]
 				tup = SmartTuple.new(" AND ")
 
-				#tup << ["schools.map_zip = ?", params[:zipcode][:code]] if params[:zipcode][:code].present?
 
-				tup << ['jobs.title LIKE ? OR jobs.description LIKE ?', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
+				tup << ['jobs.title LIKE ? OR jobs.description LIKE ? OR groups.name', "%#{params[:searchkey]}%", "%#{params[:searchkey]}%"] if params[:searchkey].present?
 
 				tup << ["jobs_subjects.subject_id = ?", params[:subject]] if params[:subject].present?
 
-				# On KVPairs Now
-				# Review
-				#tup << ["schools.school_type = ?", params[:school_type]] if params[:school_type].present?
-				#tup << ["schools.grades = ?", params[:grade_level]] if params[:grade_level].present?
-				#tup << ["schools.calendar = ?", params[:calendar]] if params[:calendar].present?
-
 				tup << ["employment_type = ?", params[:employment]] if params[:employment].present?
-
-				tup << ["special_needs = ?", params[:special_needs]] if params[:special_needs].present?
 
 				tup << ["jobs.created_at > ?", Date.today- params[:posttime].to_f.days] if params[:posttime].present?
 
 				if params[:location].present? && params[:location][:city].length > 0
-					@schools = School.near(params[:location][:city], params[:radius]).collect(&:id)
+					@groups = Group.near(params[:location][:city], params[:radius]).collect(&:id)
 
-					if @schools.size == 0
-						#will_paginate does not like nil objects or arrays so just giving it something it will not have an error on
-						@jobs = Job.unscoped.is_active.near(params[:location][:city], params[:radius]).paginate(:page => params[:page], :order => 'created_at DESC')
+					if @groups.size == 0
+						#will_paginate does not like nil objects or arrays so just 
+						#giving it something it will not have an error on
+						@groups = Job.unscoped.
+							is_active.near(
+								params[:location][:city], 
+								params[:radius]).
+							paginate(
+								:page => params[:page], 
+								:order => 'updated_at DESC')
 					else
-						if params[:subject].present?
-							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => [:school, :subjects],:conditions => tup.compile, :order => 'created_at DESC')
-						else
-							@jobs = Job.where(:school_id => @schools).is_active.paginate(:page => params[:page], :joins => :school,:conditions => tup.compile, :order => 'created_at DESC')
-						end
+						@jobs = Job.where(:group_id => @groups).
+							is_active.paginate(
+								:page => params[:page],
+								:joins => :group,
+								:conditions => tup.compile,
+								:order => 'updated_at DESC')
 					end
 				else
-					if params[:subject].present?
-						@jobs = Job.is_active.paginate(:page => params[:page], :joins => [:school, :subjects], :conditions => tup.compile, :order => 'created_at DESC')
-					else
-						@jobs = Job.is_active.paginate(:page => params[:page], :joins => :school, :conditions => tup.compile, :order => 'created_at DESC')
-					end
+					@jobs = Job.is_active.paginate(
+						:page => params[:page], 
+						:joins => :group, 
+						:conditions => tup.compile, 
+						:order => 'updated_at DESC')
 				end
 			else
-				@jobs = Job.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
+				@jobs = Job.is_active.paginate(:page => params[:page], :order => 'updated_at DESC')
 			end
 		else
-			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'created_at DESC')
+			@jobs = @source.is_active.paginate(:page => params[:page], :order => 'updated_at DESC')
 		end
-		
+
 		@title = "Jobs"
 
 		respond_to do |format|
@@ -127,7 +126,6 @@ class JobsController < ApplicationController
 		
 	end
 	
-	# Review
 	def job_referral_email
 		@job = Job.find(params[:id])
 		@referral = params[:referral]
@@ -135,10 +133,8 @@ class JobsController < ApplicationController
 	 if self.current_user == nil
 		 @teachername = @referral[:teachername]
 	 else
-		 @teacher_user = self.current_user.id
-		 @teacher = User.find(@teacher_user)
-		 @teacher_user = User.find(@teacher.user_id)  
-		 @teachername = @teacher_user.name 
+		 @user = self.current_user
+		 @teachername = @user.name 
 	 end 
 	 
 		@name = @referral[:name]
@@ -180,7 +176,7 @@ class JobsController < ApplicationController
 	# GET /group/:group_id/jobs/new
 	def new
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@job = Job.new
 	end
 
@@ -189,7 +185,7 @@ class JobsController < ApplicationController
 	# GET /group/:group_id/jobs/:id/edit
 	def edit
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
 	end
 
@@ -200,7 +196,7 @@ class JobsController < ApplicationController
 
 		# Make sure we have permissions to create the job
 		group = Group.find(params[:group_id])
-		raise SecurityTransgression if !group.user_permissions.administrator
+		raise SecurityTransgression if !group.user_permissions.administrator && !currentUser.is_admin
 
 		@job = Job.new(params[:job])
 
@@ -242,7 +238,7 @@ class JobsController < ApplicationController
 
 		# Make sure we have permissions to update the job
 		raise SecurityTransgression if @job.group.to_param != params[:group_id]
-		raise SecurityTransgression if !@job.group.user_permissions.administrator
+		raise SecurityTransgression if !@job.group.user_permissions.administrator && !currentUser.is_admin
 
 		group = @job.group
 
@@ -323,13 +319,13 @@ class JobsController < ApplicationController
 
 	def manage
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@source)
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@source) || currentUser.is_admin
 		@jobs = @source.jobs
 	end
 
 	def manage_status
 		@organizations = User.current.groups.my_permissions('administrator').organization
-		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id]))
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:job]))
 
 		if @job.update_attribute(:status, params[:status])
@@ -337,6 +333,32 @@ class JobsController < ApplicationController
 		else
 			return {:status => 'error'}
 		end
+	end
+
+	def request_credits
+		@organizations = User.current.groups.my_permissions('administrator').organization
+		raise HTTPStatus::Unauthorized unless @organizations.include?(@source)
+		@jobs = @source.jobs
+	end
+
+	def credit_request_email
+		@organizations = User.current.groups.my_permissions('administrator').organization
+
+		# Get the post data key
+		@request = params[:request]
+
+		# Interpret the post data from the form
+		@requested_number = @request[:requested_number]
+		@credits_for_other_orgs = @request[:credits_for_other_orgs]
+
+		# Get the current user if applicable
+		@user = self.current_user 
+
+		# Send out the email to the list of emails
+		UserMailer.credit_request_email(@requested_number, @credits_for_other_orgs, @source, @user).deliver
+
+		# Return user back to the home page 
+		redirect_to :back, :notice => 'Request Sent. We will be in touch shortly!'
 	end
 
 	protected

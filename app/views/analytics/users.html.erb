@@ -47,6 +47,14 @@
 		</label>
 	</fieldset>
 	<input type="submit" value="Filter" />
+	<div class="form-wrap">
+		<%= form_tag '/anayltics/users' , :action => 'search', :method => 'get' do %>
+		  <p>
+		  <strong>Find User:</strong> <%= text_field_tag :tname, params[:tname] %>
+		  <%= submit_tag "Search", :name => nil %>
+		  </p>
+		<% end %>
+	</div>
 </form>
 
 <div class="clear"></div>

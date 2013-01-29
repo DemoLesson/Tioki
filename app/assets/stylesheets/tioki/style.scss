@@ -46,6 +46,11 @@ h1 {
 
 h2 {
 	font-size: 24px;
+	&.bottom-line{
+		border-bottom: 1px solid $ltgray !important;
+		padding-bottom: 5px;
+		border-top: none;
+	}
 }
 
 h3 {
@@ -91,6 +96,13 @@ p {
 			color: lighten( $salmon,12% );
 		}
 	}
+}
+
+.smalltext {
+	font-size: 12px;
+	margin: 0 0 10px 0;
+	text-align: left;
+	text-transform: none;
 }
 
 .bold {
@@ -631,6 +643,30 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 					margin: 0 0 10px 0;
 					text-align: left;
 					text-transform: none;
+				}
+				.select[name="user_occupation"] {
+				  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+				  -webkit-appearance: none;
+				  width: 200px;
+				  padding: 9px 12px 7px;
+				  cursor: pointer;
+				  -webkit-border-radius: 3px;
+				  -moz-border-radius: 3px;
+				  -moz-border-radius: 3px;
+				  border-radius: 3px;
+				  border: 1px solid #cfd4d5;
+				  color: #4d4d4d;
+				  margin: 0 5px; }
+
+					.search-connections select[name="user_occupation"]:focus {
+				      outline: none;
+				      border: 1px solid #f66c4c; }
+					.search-connections select[name="user_occupation"] option {
+				        color: #4d4d4d; }
+
+				label {
+					display: block;
+					font-weight: bold;
 				}
 			}
 			.facepile {
@@ -1268,13 +1304,34 @@ ul.whiteboard {
 
 			}
 		}
+
+		ul.whiteboard-attachments {
+			background: #F1f1f1;
+			margin: 10px 0px !important;
+			text-align: center;
+			padding: 0px !important;
+
+			li {
+				@include css3-border-box;
+				padding: 6px !important;
+			}
+
+			img {
+				line-height: 0px;
+				max-width: 452px;
+			}
+		}
+
+		& > div.budge {
+			margin-left: 60px;
+		}
 	}
 }
 
 /** Comments Styles **/
 div.comments, section.comments {
 	margin-bottom: -15px;
-	display: none;
+	display: block;
 	width: auto;
 	clear: both;
 
@@ -1292,19 +1349,21 @@ div.comments, section.comments {
 		margin: 0px;
 
 		li {
+			@include css3-border-box;
+
 			padding: 10px 0px !important;
 			border-top: dashed 1px #CFD4D5;
 			position: relative;
-			display: block;
+			display: none;
 			width: 100%;
 
-			box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			-webkit-box-sizing: border-box;
+			&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+				display:block !important;
+			}
 
 			& > a {
-				margin-bottom: 15px;
-				margin-right: 15px;
+				margin-bottom: 5px;
+				margin-right: 7px;
 				float: left;
 			}
 
@@ -1322,7 +1381,6 @@ div.comments, section.comments {
 
 			div.bar {
 				display: block !important;
-				//margin-bottom: -35px;
 				width: auto;
 				height: 35px;
 				clear: both;
@@ -1340,6 +1398,34 @@ div.comments, section.comments {
 					float: right;
 				}
 			}
+		}
+	}
+}
+
+form#post-comment {
+	@include css3-border-box;
+	margin-bottom: 12px;
+
+	fieldset {
+		margin: 0px;
+		margin-left: 40px;
+
+		// Hide the triggerable for now
+		&.triggerable {
+			display: none;
+		}
+
+		// Input/Textarea styles
+		input[type="text"], textarea {
+			@include css3-border-box;
+			width: 100%;
+			padding: 7px 12px;
+			font-size: 12px;
+		}
+
+		// Textarea additionals
+		textarea {
+			height: 70px;
 		}
 	}
 }

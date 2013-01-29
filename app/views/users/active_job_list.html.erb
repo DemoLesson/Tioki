@@ -1,0 +1,43 @@
+
+<section id="main-content" class="inner-content">
+<h1>Administration</h1>
+
+<ul id="breadcrumbs">
+  <li><%= link_to 'Home', :admin %></li>
+  <li>Organization List</li>
+</ul>
+
+<%= render :partial => "admin_menu" %>
+
+<div class="clear" style="margin-bottom: 1em; margin-top: 0em; padding-bottom: 1em; border-bottom: 1px solid #ccc"></div>
+
+<div id="wrapper" style="margin-top: 0">
+
+<div id="left" style="width: 905px"align="left">
+
+<p style="font-size: 20px"><strong>Organizations</strong></p>
+<table cellpadding="5" style="width:100%;">
+  <tr>
+    <th>Job Name</th>
+    <th># of Applicants</th>
+    <th>Applicants</th>
+  </tr>
+<%- @jobs.each do |job| %>
+  <tr>
+    <td><%= link_to job.title, "/jobs/#{job.id}" %></td>
+    <td><%= job.applications.is_submitted.count %></td>
+    <td>
+        <%- job.applications.is_submitted.each do |application| %>
+          <% if application.user.try(:name) %>
+            <%= link_to application.user.name, "/profile/#{application.user.slug}" %>,
+          <% end %>
+        <% end %>
+    </td>
+  </tr>
+<% end -%>
+</table>
+
+</div>
+
+</div>
+</section>

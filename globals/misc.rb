@@ -238,7 +238,7 @@ class String
 <a href="javascript:void(0);" ruby-more="#{random}" class="more">(More)</a>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('a[ruby-more]').live('click', function(e) {
+	$('a[ruby-more]').on('click', function(e) {
 		e.preventDefault();
 
 		var $link = $(this);
@@ -323,8 +323,13 @@ def is_gmail(check)
 	return true if match == 'gmail.com'
 	return true if match == 'googlemail.com'
 
-	# Go ahead and get the mx records
-	result = Dnsruby::Resolver.new.query(match, 15)
+	begin
+		# Go ahead and get the mx records
+		result = Dnsruby::Resolver.new.query(match, 15)
+	rescue
+		# most likely means this email address is non-existant
+		return false
+	end
 	result = result.answer.collect {|x| x.to_s.split(" ").last }
 
 	# If any of these records match a google mx record return true
