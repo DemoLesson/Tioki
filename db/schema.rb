@@ -757,6 +757,7 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
   end
 
   create_table "users", :force => true do |t|
+    t.boolean  "fake",                   :default => false
     t.string   "email",                                     :null => false
     t.string   "hashed_password",                           :null => false
     t.string   "salt",                                      :null => false
@@ -799,7 +800,6 @@ ActiveRecord::Schema.define(:version => 20130122235129) do
     t.integer  "privacy_connected"
     t.integer  "privacy_recruiter"
     t.text     "notification_intervals"
-    t.boolean  "fake",                   :default => false
     t.string   "occupation"
     t.integer  "years_teaching"
     t.boolean  "job_seeking",            :default => false

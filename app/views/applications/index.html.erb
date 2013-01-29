@@ -32,6 +32,11 @@
 
 						<span style="margin-left:80px">Applicant for: <%= link_to app.job.title, app.job, :class => :salmon %></span>
 						<span style="margin-left:80px">Applied on: <%= app.created_at.to_s(:date) %></span>
+						<% unless app.interviews.empty? || @source.is_a?(User) %>
+							<span style="margin-left:80px">
+								<%= link_to "Manage Interviews", [@source.group, @source, app, :interviews] if @source.is_a?(Job) %>
+							</span>
+						<% end %>
 						<span style="margin-left:80px">
 							Application Status: 
 							<% if @source.is_a?(User) %>

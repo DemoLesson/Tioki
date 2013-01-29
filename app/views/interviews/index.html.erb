@@ -1,0 +1,21 @@
+<section id="main-content" class="inner-content">
+	<%= link_to "Add Interview", [:new, @source.group, @source, @application, :interview], :style => "float:right;", :class => 'button' %>
+	<h1><%= link_to "<-- Back", [@source.group, @source, :applications] %> :: Interviews for <%= @application.job.link %> with <%= @application.user.link %></h1>
+	<table style="width:100%;" class="applications">
+		<% if @interviews.empty? %>
+			<tr>
+				<td>You have not scheduled interviews for <%= @application.job.link %> with <%= @application.user.link %></td>
+			</tr>
+		<% end %>
+		<% for int in @interviews %>
+			<tr>
+				<td>
+					<%= link_to("Interview @ #{int.intDate}", [:edit, @source.group, @source, @application, int]) %>
+				</td>
+				<td>
+					<%= link_to "<span class=\"iconic x_alt\"></span>".html_safe, [@source.group, @source, @application, int], :method => :delete, :confirm => "Are you sure you want to cancel this interview." %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</section>

@@ -29,7 +29,7 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 
 		# If an interview was requested go ahead and create the interview
-		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interview.nil?
+		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interviews.empty?
 			interview = Interview.create(
 				:application_id => @application.id,
 				:user_id => @application.user_id,
