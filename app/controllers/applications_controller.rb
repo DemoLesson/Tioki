@@ -141,6 +141,15 @@ class ApplicationsController < ApplicationController
 		@user = self.current_user
 	end
 
+	def reviewed_applicants
+		if @source.is_a?(User)
+			@applications = @source.applications
+		else
+			@applications = @source.applications.is_submitted
+		end
+		@interviews = @source.interviews
+	end
+
 	protected
 
 		def source_owner
