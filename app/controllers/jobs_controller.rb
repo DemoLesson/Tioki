@@ -248,12 +248,6 @@ class JobsController < ApplicationController
 		respond_to do |format|
 			if @job.update_attributes(params[:job])
 
-				if params[:job][:status] == "running"
-					if !@job.notification_sent
-						@job.notify_educators
-					end
-					@job.update_attribute(:notification_sent, true)
-				end
 
 				@job.update_subjects(params[:subjects]) if params[:subjects]
 				@job.update_grades(params[:grades]) if params[:grades]
@@ -333,6 +327,12 @@ class JobsController < ApplicationController
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:job]))
 
 		if @job.update_attribute(:status, params[:status])
+			if params[:status] == "running"
+				if !@job.notification_sent
+					@job.notify_educators
+					@job.update_attribute(:notification_sent, true)
+				end
+			end
 			return {:status => 'success'}
 		else
 			return {:status => 'error'}
@@ -373,7 +373,7 @@ class JobsController < ApplicationController
 				box = Kvpair.seeking_location_box(params[:user][:seeking][:location])
 
 				if box
-					location = "#{params[:user][:seeking][:location]}:#{box.joins(",")}"
+					location = "#{params[:user][:seeking][:location]}:#{box.join(",")}"
 					params[:user][:seeking][:location] = location
 				else
 					redirect_to :back, "Could not identify location."
