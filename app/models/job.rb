@@ -199,29 +199,29 @@ class Job < ActiveRecord::Base
 	end
 
 	def notify_educators
+		#location
 		kvpairs = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ?", "seeking", "location")
-
 		kvpairs.select!{ |kvpair| kvpair.value == "any" || kvpair.job_within?(self) }
 
 		user_ids = kvpairs.collect(&:map_id)
 
-		subject_ids = self.subjects.collect(&:id)
+		users = User.where(:id => user_ids)
 
-		grade_ids = self.grades.collect(&:id)
+		#subjects
+		#Only users seeking subjects and those specific ones
+		jobs_subjects_ids = self.subjects.collect(&:id)
+		users = users.select{|user| user.seeking[:subjects] && user.seeking[:subjects].split(",").any?{|subject_id| jobs_subjects_ids.include?(subject_id.to_i) } }
 
-		if subject_ids.count > 0 && grade_ids.count > 0
-			users = User.joins(:subjects, :grades).where(:id => user_ids)
-		elsif subject_ids.count > 0
-			users = User.joins(:subjects).where(:id => user_ids)
-		elsif grade_ids.count > 0
-			users = User.joins(:grades).where(:id => user_ids)
-		else
-			users = User.where(:id => user_ids)
-		end
+		#grades
+		#Only users seeking grades and those specific ones
+		jobs_grades_ids = self.grades.collect(&:id)
+		users = users.select{|user| user.seeking[:grades] && user.seeking[:grades].split(",").any?{|grade_id| jobs_grades_ids.include?(grade_id.to_i) } }
+
+		#School type
+		users = users.select{|user| user.seeking[:school_type] && (user.seeking[:school_type] == "All" || user.seeking[:school_type] == self.group.misc[:school_type])}
 
 		users.each do |user|
 			NotificationMailer.job_alert(user, self).deliver
 		end
-
 	end
 end
