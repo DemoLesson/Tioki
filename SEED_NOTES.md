@@ -1,3 +1,8 @@
+v4.4.2 - Jan 30, 2013 12:42PM PST deployed by Aleks Stanisic
+============================================================
+* 0c43597: Elijah Green - Fix some application_wizard deletion
+* 8eb6d85: Aleks Stanisic - style changes to attachments in applications pages
+
 v4.4.1 - Jan 29, 2013  6:30PM PST deployed by Aleks Stanisic
 ============================================================
 * e502c8b: Aleks Stanisic - design fix to applications
