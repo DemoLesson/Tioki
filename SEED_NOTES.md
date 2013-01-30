@@ -1,3 +1,12 @@
+v4.4.0 - Jan 29, 2013  6:04PM PST deployed by Aleks Stanisic
+============================================================
+* 31d3afc: Aleks Stanisic - finishing touches to applications re design
+* 47dd03f: Aleks Stanisic - added interviews and decline applications pages
+* f898c4f: Elijah Green - Fix experience deletion on application wizard
+* 9e64c8c: Aleks Stanisic - starting to add the other views starting with reviewed
+* 9c78f62: Aleks Stanisic - style changes part 2
+* 3e6d32e: Aleks Stanisic - first steps of application re design
+
 v4.3.9 - Jan 28, 2013  3:44PM PST deployed by Aleks Stanisic
 ============================================================
 * 703a759: Elijah Green - Center job attachments page
