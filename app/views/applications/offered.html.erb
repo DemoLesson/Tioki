@@ -10,19 +10,17 @@
 					</a>
 				</li>
 				<li>
-					<a  href= "reviewed_applicants" >
+					<a href="reviewed_applicants">
 						Reviewed Applicants
 					</a>
 				</li>
 				<li>
-					<a  href= "interviews" >
+					<a href="interviews">
 						Interviews
 					</a>
 				</li>
-				<li>
-					<a href="offered">
+				<li class="current">
 					Offered
-					</a>
 				</li>
 				<li>
 					<a href="accepted">
@@ -34,17 +32,19 @@
 					Hired
 					</a>
 				</li>
-				<li class="current">
+				<li>
+					<a href="declined">
 					Declined
+					</a>
 				</li>
 			</ul>
 	</section>
 	<section id="list" class="panel two-column right-side">
-		<h3 style="margin-top:-10px;margin-bottom:-20px"><%= (ct = @source.applications.where(:status => 'Deny Application').is_submitted.count).to_s + ' Declined ' + (ct == 1 ? 'Applicant' : 'Applicants')  %> </h3>
+		<h3 style="margin-top:-10px;margin-bottom:-20px"><%= (ct = @source.applications.where(:status => 'Offered').is_submitted.count).to_s + ' ' + (ct == 1 ? 'Offer' : 'Offers')  %> </h3>
 		<% if ct == 0 %>
 			</br>
 		<% end %>
-		<% @applications.where(:status => 'Deny Application').each do |app| %>
+		<% @applications.where(:status => 'Offered').each do |app| %>
 		<ul>
 			<li style="padding:12px 20px 12px 15px !important">
 				<div class="profile-thumb-big" style="max-width: 60px; max-height:60px">
@@ -66,10 +66,10 @@
 				</div>
 				<div style="margin-left:80px; margin-top:-40px">
 					<% if app.user.current_job_string != nil && app.user.current_job_string != "" %>
-						<% if app.user.current_job_string.length < 53 %>
+						<% if app.user.current_job_string.length < 50 %>
 							<%= app.user.current_job_string %></br>
 						<% else %>
-							<%= app.user.current_job_string[0..53]+"..."%></br>
+							<%= app.user.current_job_string[0..52]+"..."%></br>
 						<% end %>
 					<% end %>
 					Applied on: <%= app.created_at.to_s(:date) %>
