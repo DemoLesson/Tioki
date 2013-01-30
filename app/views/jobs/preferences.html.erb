@@ -1,34 +1,48 @@
 <section id="main-content" class="inner-content">
-<h3>Tioki makes finding a job pretty freaking easy!</h3>
+	<h3>
+		Tioki makes finding a job pretty freaking easy!
+	</h3>
 
-Since you indicated you are job seeking, why don't you let us know what you are looking for?  As positions become available that meet your needs, we'll email you.
+	<p>
+		Since you indicated you are job seeking, why don't you let us know what you are looking for? <br/>
+		As positions become available that meet your needs, we'll email you. Easy Peasy!
+	</p>
+	
+<section class="one-column left-side" style="width:450px;margin-top:20px">
 
 <%= form_tag "/jobs/preferences" do %>
-	<p>
-		Location<br />
-		<%= text_field_tag "user[seeking][location]" %> <%= check_box_tag "any_location" %> Any Location
+	<p style="width:auto">
+		Where would you ideally like to work?<br />
+		<%= text_field_tag "user[seeking][location]", nil,:placeholder => "e.g. Brooklyn, NY" %> 
+		<span style="margin-left:15px;margin-right:15px"><em>or</em></span> 
+		<%= check_box_tag "any_location" %> ANY LOCATION
 	</p>
 
-	<p>
-		Subject<br />
-		<input type="text" name="user[seeking][subjects]" />
+	<p style="width:auto">
+		What Subject(s) are you seeking employment for?<br />
+		<input type="text" name="user[seeking][subjects]" placeholder="Algebra I, Geometry, Algebra II" />
 	</p>
 
-	<p>
-		Grade Level<br />
+	<p style="width:auto">
+		Which Grade Level(s) do you prefer?<br />
 		<input type="text" name="user[seeking][grades]" />
 	</p>
 
-	<p>
-		Organization Type<br />
+	<p style="width:auto">
+		<span style="margin-right:15px">What Organization Type?</span>
 		<%= select_tag('user[seeking][school_type]', options_for_select([["All", "All"], ["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]])) %>
 	</p>
 
 	<p>
-		<%= submit_tag "Save" %>
+		<%= submit_tag "Save 'em" %>
 	</p>
 
 <% end %>
+</section>
+<section class="one-column right-side" style="width:450px" >
+	<%= image_tag '/assets/tioki/job_hunt_green.png', :style => "width:350px" %>
+</section>
+<div class="clearfloat"></div>
 
 <script type="text/javascript">
  $(document).ready(function() {
