@@ -367,13 +367,19 @@ class JobsController < ApplicationController
 	end
 
 	def preferences
-		@location = currentUser.seeking[:location].split(":").first unless currentUser.seeking[:location] == "any"
+		if currentUser.seeking[:location]
+			@location = currentUser.seeking[:location].split(":").first unless currentUser.seeking[:location] == "any"
+		end
 
-		subject_ids = currentUser.seeking[:subjects].split(",")
-		@subjects = Subject.where(:id => subject_ids)
+		if currentUser.seeking[:subjects]
+			subject_ids = currentUser.seeking[:subjects].split(",")
+			@subjects = Subject.where(:id => subject_ids)
+		end
 
-		grades_ids = currentUser.seeking[:grades].split(",")
-		@grades = Grade.where(:id => grades_ids)
+		if currentUser.seeking[:grades]
+			grades_ids = currentUser.seeking[:grades].split(",")
+			@grades = Grade.where(:id => grades_ids)
+		end
 
 		if request.post?
 			if params[:any_location]
