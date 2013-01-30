@@ -2,7 +2,7 @@
 	<h1><%= @technology.name %></h1>
 	<div id="sidebar">
 
-		<div class="bordered_image"><% if @technology.picture? %><%= image_tag @technology.picture.url(:medium) %><% else %><img src="<%= asset_path 'placeholder.png' %>" /><% end %></div><br />
+		<div class="bordered_image"><% if @technology.picture? %><%= image_tag @technology.picture.url(:medium) %><% else %><% end %></div><br />
 		<p>
 		<% unless @technology.site == nil || @technology.site == "" %>
 			<a href="<%= @technology.site %>" target="_blank">

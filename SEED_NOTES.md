@@ -1,3 +1,8 @@
+v4.3.9 - Jan 28, 2013  3:44PM PST deployed by Aleks Stanisic
+============================================================
+* 703a759: Elijah Green - Center job attachments page
+* 99a091a: Elijah Green - remove some references to asset_path
+
 v4.3.8 - Jan 28, 2013  1:33PM PST deployed by Aleks Stanisic
 ============================================================
 * 382ed41: Aleks Stanisic - design change to request interview page
