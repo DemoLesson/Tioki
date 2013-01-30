@@ -65,7 +65,7 @@
 						<% end %>
 				</div>
 				<div style="margin-left:80px; margin-top:-40px">
-					<% if app.user.current_job_string != nil %>
+					<% if app.user.current_job_string != nil && app.user.current_job_string != "" %>
 						<% if app.user.current_job_string.length < 50 %>
 							<%= app.user.current_job_string %></br>
 						<% else %>
