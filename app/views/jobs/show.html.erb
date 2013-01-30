@@ -155,7 +155,7 @@
 			</strong>
 			<span style="padding-left:17px;">
 				<% @job.subjects.each do |subject| %>
-					<%= Subject.find(subject.subject_id).name %>, 
+					<%= subject.name %>, 
 				<% end %>
 			</span>
 			</p>
