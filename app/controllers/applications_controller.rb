@@ -142,6 +142,20 @@ class ApplicationsController < ApplicationController
 	end
 
 	def reviewed_applicants
+		@applications = @source.applications.is_submitted
+		@interviews = @source.interviews
+	end
+
+	def interviews
+		if @source.is_a?(User)
+			@applications = @source.applications
+		else
+			@applications = @source.applications.is_submitted
+		end
+		@interviews = @source.interviews
+	end
+
+	def declined
 		if @source.is_a?(User)
 			@applications = @source.applications
 		else

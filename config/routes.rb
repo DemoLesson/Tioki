@@ -299,6 +299,8 @@ Preview::Application.routes.draw do
 				get 'message', :on => :member
 				collection do
 					get 'reviewed_applicants'
+					get 'interviews'
+					get 'declined'
 				end
 				# Interviews
 				resources :interviews
