@@ -78,8 +78,14 @@
 					<span style="margin-left:80px">Assets:</span>
 					<div style="margin-top:-18px; margin-left:130px">
 						<% app.assets.each do |asset| %>
-								<span style="float:left">
-								<%= link_to asset.name, asset.file.url %> (<%= asset.file.content_type %>)</span></br>
+							<span style="float:left">
+							<%= link_to asset.name, asset.file.url %>
+							<% if asset.file.content_type.length < 30 %>
+								(<%= asset.file.content_type %>)
+							<% else %>
+								(<%= asset.file.content_type[0..32]+"..."%>)</br>
+							<% end %>
+							</span></br>
 						<% end %>
 					</div>
 				<% end %>
