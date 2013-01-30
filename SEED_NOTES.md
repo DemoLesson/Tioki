@@ -1,3 +1,7 @@
+v4.4.1 - Jan 29, 2013  6:30PM PST deployed by Aleks Stanisic
+============================================================
+* e502c8b: Aleks Stanisic - design fix to applications
+
 v4.4.0 - Jan 29, 2013  6:04PM PST deployed by Aleks Stanisic
 ============================================================
 * 31d3afc: Aleks Stanisic - finishing touches to applications re design
