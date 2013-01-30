@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
  	# Deprecate
-	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
+	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email', 'preferences']
+	before_filter :login_required_signup, :only => ['preferences']
 
 	# Source the owner if applicable
 	before_filter :source_owner, :only => [:index, :request_credits, :credit_request_email]
