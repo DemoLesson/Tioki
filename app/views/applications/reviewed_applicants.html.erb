@@ -41,6 +41,9 @@
 	</section>
 	<section id="list" class="panel two-column right-side">
 		<h3 style="margin-top:-10px;margin-bottom:-20px"><%= (ct = @source.applications.where(:status => ['Profile Reviewed', 'Request An Interview']).is_submitted.count).to_s + ' Reviewed ' + (ct == 1 ? 'Applicant' : 'Applicants')  %> </h3>
+		<% if ct == 0 %>
+			</br>
+		<% end %>
 		<% @applications.where(:status => ['Profile Reviewed', 'Request An Interview']).each do |app| %>
 		<ul>
 			<li style="padding:12px 20px 12px 15px !important">
@@ -63,7 +66,11 @@
 				</div>
 				<div style="margin-left:80px; margin-top:-40px">
 					<% if app.user.current_job_string != nil %>
-						<%= app.user.current_job_string %></br>
+						<% if app.user.current_job_string.length < 50 %>
+							<%= app.user.current_job_string %></br>
+						<% else %>
+							<%= app.user.current_job_string[0..52]+"..."%></br>
+						<% end %>
 					<% end %>
 					Applied on: <%= app.created_at.to_s(:date) %>
 				</div>

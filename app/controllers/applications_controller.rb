@@ -138,30 +138,19 @@ class ApplicationsController < ApplicationController
 
 	def appattachments
 		@application = Application.find(params[:id])
-		@user = self.current_user
 	end
 
 	def reviewed_applicants
 		@applications = @source.applications.is_submitted
-		@interviews = @source.interviews
 	end
 
 	def interviews
-		if @source.is_a?(User)
-			@applications = @source.applications
-		else
-			@applications = @source.applications.is_submitted
-		end
+		@applications = @source.applications.is_submitted
 		@interviews = @source.interviews
 	end
 
 	def declined
-		if @source.is_a?(User)
-			@applications = @source.applications
-		else
-			@applications = @source.applications.is_submitted
-		end
-		@interviews = @source.interviews
+		@applications = @source.applications.is_submitted
 	end
 
 	protected
