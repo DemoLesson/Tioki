@@ -1,0 +1,88 @@
+<section id="main-content" class=" inner-content">
+	<h2><%= @source.title.possessive %> Applications </h2>
+	<span style="float:right; margin-top:-50px"><%= link_to 'Manage Job', group_jobs_path(@source.group), :style => " font-size:20px;color:#2AA99B !important" %></span>
+
+	<section class="applications sidebar" style="margin-left:32px">
+			<ul>
+				<li>
+					<a  href="<%= url_for([@source.group, @source, :applications]) %>">
+						New Applicants
+					</a>
+				</li>
+				<li>
+					<a  href= "reviewed_applicants" >
+						Reviewed Applicants
+					</a>
+				</li>
+				<li class="current">
+						Interviews
+				</li>
+				<!--<li>
+					<a href="#">
+					Offered
+					</a>
+				</li>
+				<li>
+					<a href="#">
+					Accepted
+					</a>
+				</li>
+				<li>
+					<a href="#">
+					Hired
+					</a>
+				</li>-->
+				<li>
+					<a href="declined">
+					Declined
+					</a>
+				</li>
+			</ul>
+	</section>
+	<section id="list" class="panel two-column right-side">
+		<h3 style="margin-top:-10px;margin-bottom:-20px"><%= (ct = @source.applications.where(:status => 'Request An Interview').is_submitted.count).to_s + ' ' +(ct == 1 ? 'Interview' : 'Interviews')  %> </h3>
+		<% if ct == 0 %>
+			</br>
+		<% end %>
+		<% @interviews.each do |int| %>
+		<ul>
+			<li style="padding:12px 20px 12px 15px !important">
+				<div class="profile-thumb-big" style="max-width: 60px; max-height:60px">
+					<%= int.user.avatar? ? image_tag(int.user.avatar.url(:thumb)) : '' %>
+				</div>
+				<div style="margin-left:80px;margin-top:-60px">
+					<%= link_to int.user.name, "/profile/#{int.user.slug}/resume?application="+int.application.id.to_s(), :class => :salmon %></br>
+				</div>
+				<div style="margin-left:448px;margin-top:-20px">
+						<%= form_for([@source.group, @source, int.application]) do |f| %>
+							<select name="application[status]">
+								<option <%= int.application.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+								<option <%= int.application.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+								<option <%= int.application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+								<option <%= int.application.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+							</select><br /><br />
+							<%= f.submit "Update Status", :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; margin-top:-10px" %>
+						<% end %>
+
+				</div>
+				<div style="margin-left:80px; margin-top:-40px">
+					<% if int.intDate == 'Reschedule Requested' %>
+						<%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></br>
+					<% elsif int.intDate == 'Unscheduled' %>
+						Interview on: <%= int.intDate %> <%= link_to 'Edit Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></br>
+					<% else %>
+						Interview on: <%= int.intDate %></br>
+					<% end %>
+					<% if int.location? %>
+						Location: <%= int.location %></br>
+					<% end %>
+					<% if int.interview_type? %>
+						Type: <%= int.interview_type %>
+					<% end %>
+				</div>
+			</li>
+		</ul>
+		<% end %>
+	</section>
+	<div style="clear:both;"></div>
+</section>

@@ -16,7 +16,7 @@ tr.seeking, tr.student {
 			<% User.current.credentials.each do |cred| %>
 				<tr>
 					<td>
-						<%= link_to 'Remove', credential_path(cred) + '?redirect=' + currentURL, method: :delete, :class => 'button', :style => 'float:right;margin-top:20px;' %>
+						<%= link_to 'Remove', cred, :method => :delete, :class => 'button', :style => "float:right;margin-top:20px" %>
 						<h3><%= cred.credentialType %></h3>
 						<span><%= cred.name.capitalize %></span><br />
 						<span>Issued by: <%= cred.issuer.capitalize %></span><br />

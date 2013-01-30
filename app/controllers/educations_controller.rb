@@ -1,10 +1,10 @@
 class EducationsController < ApplicationController
   before_filter :login_required
 
-  	# Educations URL
-  	def educations_url; '/me/profile/edit/educations'; end
-  
-    def index
+	# Educations URL
+	def educations_url; '/me/profile/edit/educations'; end
+
+	def index
 		@educations = self.current_user.educations
 
 		@education = Education.new
@@ -12,15 +12,11 @@ class EducationsController < ApplicationController
 	end
 	
 	def destroy
-		@education = Education.find_by_id(params[:id], :limit => 1)
+		@education = Education.find(params[:id])
 		@education.destroy
-
-		unless params[:redirect].nil?
-			return redirect_to params[:redirect]
-		end
 		
 		respond_to do |format|
-			format.html { redirect_to :educations }
+			format.html { redirect_to :back }
 		end
 	end
 	
