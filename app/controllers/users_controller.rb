@@ -273,11 +273,6 @@ class UsersController < ApplicationController
 			orig_img.crop(args)
 		end
 
-		# This functionality is broken
-		# It sub! is called on the path, however
-		# there is no such function
-		# @todo use something other than minimagick
-		orig_img.format "png" rescue
 		# Create temp file in order to save the cropped image for later saving to amazon s3
 		tmp_img = File.new(orig_img.path)
 
