@@ -250,7 +250,6 @@ class UsersController < ApplicationController
 		if(params[:user][:crop_x].present? && params[:user][:crop_y].present? && params[:user][:crop_w].present? && params[:user][:crop_h].present?)
 
 			# Prepare the crop arguments
-			# @todo this may not be accurate. double check.
 			args = "#{params[:user][:crop_w].to_i}x#{params[:user][:crop_h].to_i}+#{params[:user][:crop_x].to_i}+#{params[:user][:crop_y].to_i}"
 
 			# Crop the image
@@ -274,20 +273,16 @@ class UsersController < ApplicationController
 			orig_img.crop(args)
 		end
 
+		# This functionality is broken
+		# It sub! is called on the path, however
+		# there is no such function
+		# @todo use something other than minimagick
+		orig_img.format "png" rescue
 		# Create temp file in order to save the cropped image for later saving to amazon s3
-		tmp_img = Tempfile.new(@user.original_name, Rails.root.join('tmp'))
-
-		# Set file to binary write, otherwise an attempt to convert from ascii 8-bit to UTF-8 will occur
-		tmp_img.binmode
-
-		# Write the image to the drive
-		tmp_img.write(orig_img.to_blob)
+		tmp_img = File.new(orig_img.path)
 
 		# Update the avatar with the tmp image
 		@user.update_attribute(:avatar, tmp_img)
-
-		# Delete the tmp file
-		tmp_img.close
 
 		# Log to the whiteboard that a user updated their profile picture
 		Whiteboard.createActivity(:avatar_update, "{user.link} updated their profile picture.")

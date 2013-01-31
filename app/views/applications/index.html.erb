@@ -18,21 +18,21 @@
 							Interviews
 						</a>
 					</li>
-					<!--<li>
-						<a href="#">
+					<li>
+						<a href="applications/offered">
 						Offered
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="applications/accepted">
 						Accepted
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="applications/hired">
 						Hired
 						</a>
-					</li>-->
+					</li>
 					<li>
 						<a href="applications/declined">
 						Declined
@@ -59,8 +59,11 @@
 								<select name="application[status]">
 									<option <%= app.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
 									<option <%= app.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
-									<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
 									<option <%= app.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+									<option <%= app.status == 'Offer Given' ? 'selected' : '' %>>Offer Given</option>
+									<option <%= app.status == 'Offer Accepted' ? 'selected' : '' %>>Offer Accepted</option>
+									<option <%= app.status == 'Applicant Hired' ? 'selected' : '' %>>Applicant Hired</option>
+									<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
 								</select><br /><br />
 								<%= f.submit "Update Status", :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; margin-top:-10px" %>
 							<% end %>

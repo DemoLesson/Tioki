@@ -307,6 +307,9 @@ Preview::Application.routes.draw do
 					get 'reviewed_applicants'
 					get 'interviews'
 					get 'declined'
+					get 'offered'
+					get 'accepted'
+					get 'hired'
 				end
 				# Interviews
 				resources :interviews

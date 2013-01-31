@@ -1,3 +1,9 @@
+v4.4.3 - Jan 30, 2013  6:37PM PST deployed by Aleks Stanisic
+============================================================
+* 27b24a3: Aleks Stanisic - fix to edit technology skillz
+* aefac6e: Elijah Green - Have all avatar uploads convert to png
+* 90f6eea: Aleks Stanisic - adding offered, accepted, and hired pages to applications
+
 v4.4.2 - Jan 30, 2013 12:42PM PST deployed by Aleks Stanisic
 ============================================================
 * 0c43597: Elijah Green - Fix some application_wizard deletion

@@ -149,6 +149,18 @@ class ApplicationsController < ApplicationController
 		@interviews = @source.interviews
 	end
 
+	def offered
+		@applications = @source.applications.is_submitted
+	end
+
+	def accepted
+		@applications = @source.applications.is_submitted
+	end
+
+	def hired
+		@applications = @source.applications.is_submitted
+	end
+
 	def declined
 		@applications = @source.applications.is_submitted
 	end

@@ -17,21 +17,21 @@
 						Interviews
 					</a>
 				</li>
-				<!--<li>
-					<a href="#">
+				<li>
+					<a href="offered">
 					Offered
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="accepted">
 					Accepted
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="hired">
 					Hired
 					</a>
-				</li>-->
+				</li>
 				<li>
 					<a href="declined">
 					Declined
@@ -54,15 +54,18 @@
 					<%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></br>
 				</div>
 				<div style="margin-left:448px;margin-top:-20px">
-						<%= form_for([@source.group, @source, app]) do |f| %>
-							<select name="application[status]">
-								<option <%= app.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
-								<option <%= app.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
-								<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
-								<option <%= app.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
-							</select><br /><br />
-							<%= f.submit "Update Status", :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; margin-top:-10px" %>
-						<% end %>
+					<%= form_for([@source.group, @source, app]) do |f| %>
+						<select name="application[status]">
+							<option <%= app.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+							<option <%= app.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+							<option <%= app.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+							<option <%= app.status == 'Offer Given' ? 'selected' : '' %>>Offer Given</option>
+							<option <%= app.status == 'Offer Accepted' ? 'selected' : '' %>>Offer Accepted</option>
+							<option <%= app.status == 'Applicant Hired' ? 'selected' : '' %>>Applicant Hired</option>
+							<option <%= app.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+						</select><br /><br />
+						<%= f.submit "Update Status", :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; margin-top:-10px" %>
+					<% end %>
 				</div>
 				<div style="margin-left:80px; margin-top:-40px">
 					<% if app.user.current_job_string != nil && app.user.current_job_string != "" %>
