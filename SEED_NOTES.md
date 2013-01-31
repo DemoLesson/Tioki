@@ -1,3 +1,7 @@
+v4.4.5 - Jan 30, 2013  8:14PM PST deployed by Aleks Stanisic
+============================================================
+* 12c36c9: Elijah Green - delay emails
+
 v4.4.4 - Jan 30, 2013  7:56PM PST deployed by Aleks Stanisic
 ============================================================
 * 2601d46: Aleks Stanisic - final changes to offered, accepted, hired application settings
