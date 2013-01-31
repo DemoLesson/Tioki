@@ -330,7 +330,7 @@ class JobsController < ApplicationController
 		if @job.update_attribute(:status, params[:status])
 			if params[:status] == "running"
 				if !@job.notification_sent
-					@job.notify_educators
+					@job.delay.notify_educators
 					@job.update_attribute(:notification_sent, true)
 				end
 			end
