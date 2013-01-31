@@ -1,3 +1,7 @@
+v4.4.7 - Jan 31, 2013  1:00PM PST deployed by Aleks Stanisic
+============================================================
+* 6f456f1: Elijah Green - Downgrade paperclip to 2.7.5
+
 v4.4.6 - Jan 31, 2013 12:39PM PST deployed by Aleks Stanisic
 ============================================================
 
