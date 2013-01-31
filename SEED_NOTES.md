@@ -1,3 +1,7 @@
+v4.4.8 - Jan 31, 2013  1:28PM PST deployed by Aleks Stanisic
+============================================================
+* 28f8410: Aleks Stanisic - adding new options to recruitor window on profile resume
+
 v4.4.7 - Jan 31, 2013  1:00PM PST deployed by Aleks Stanisic
 ============================================================
 * 6f456f1: Elijah Green - Downgrade paperclip to 2.7.5
