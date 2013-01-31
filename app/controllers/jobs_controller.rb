@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
  	# Deprecate
-	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email']
+	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email', 'preferences']
+	before_filter :login_required_signup, :only => ['preferences']
 
 	# Source the owner if applicable
 	before_filter :source_owner, :only => [:index, :request_credits, :credit_request_email]
@@ -153,12 +154,8 @@ class JobsController < ApplicationController
 	# GET /jobs/:id
 	def show
 		@job = Job.find(params[:id])
-		if self.current_user == nil
-			# do nothing
-		else
-			if self.current_user != nil
-				@application = Application.where('job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id).first
-			end
+		if self.current_user
+			@application = Application.where('job_id = ? AND user_id = ? AND submitted = 1', @job.id, self.current_user.id).first
 		end
 		
 		respond_to do |format|
@@ -211,12 +208,13 @@ class JobsController < ApplicationController
 			return redirect_to [group, :jobs]
 		end
 
+
 		# Attemp to save and return
 		respond_to do |format|
 			if @job.save
 
-				# Update the subjects with new parameters
 				@job.update_subjects(params[:subjects]) if params[:subjects]
+				@job.update_grades(params[:grades]) if params[:grades]
 
 				format.html {
 					flash[:success] = "New job was successfully created."
@@ -251,8 +249,9 @@ class JobsController < ApplicationController
 		respond_to do |format|
 			if @job.update_attributes(params[:job])
 
-				# Update the subjects with new parameters
+
 				@job.update_subjects(params[:subjects]) if params[:subjects]
+				@job.update_grades(params[:grades]) if params[:grades]
 
 				format.html {
 					flash[:success] = "New job was successfully updates."
@@ -329,6 +328,12 @@ class JobsController < ApplicationController
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:job]))
 
 		if @job.update_attribute(:status, params[:status])
+			if params[:status] == "running"
+				if !@job.notification_sent
+					@job.delay.notify_educators
+					@job.update_attribute(:notification_sent, true)
+				end
+			end
 			return {:status => 'success'}
 		else
 			return {:status => 'error'}
@@ -359,6 +364,41 @@ class JobsController < ApplicationController
 
 		# Return user back to the home page 
 		redirect_to :back, :notice => 'Request Sent. We will be in touch shortly!'
+	end
+
+	def preferences
+		if currentUser.seeking[:location]
+			@location = currentUser.seeking[:location].split(":").first unless currentUser.seeking[:location] == "any"
+		end
+
+		if currentUser.seeking[:subjects]
+			subject_ids = currentUser.seeking[:subjects].split(",")
+			@subjects = Subject.where(:id => subject_ids)
+		end
+
+		if currentUser.seeking[:grades]
+			grades_ids = currentUser.seeking[:grades].split(",")
+			@grades = Grade.where(:id => grades_ids)
+		end
+
+		if request.post?
+			if params[:any_location]
+				params[:user][:seeking][:location] = "any"
+			else
+				box = Kvpair.seeking_location_box(params[:user][:seeking][:location])
+
+				if box
+					location = "#{params[:user][:seeking][:location]}:#{box.join(",")}"
+					params[:user][:seeking][:location] = location
+				else
+					redirect_to :back, "Could not identify location."
+				end
+			end
+
+			currentUser.seeking = params[:user][:seeking]
+
+			redirect_to jobs_url
+		end
 	end
 
 	protected

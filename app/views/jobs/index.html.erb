@@ -260,6 +260,19 @@
 		<!--BEGIN Job Search Results-->
 		<div style="margin-top: 10px">
 			<% if @jobs.size != 0 %>
+				<!--Trying to get them to fill out their job preferences AKA signup-->
+				<section class="panel one-column" style="float:right;border-radius:0px;width:200px;text-align:center;padding-bottom: 8px;">
+					<h5 style="margin-top:3px">
+						Want an easier job hunt?
+					</h5>
+					<p style="width:auto;margin-top: -5px;">
+					Get email alerts when the<br/>
+					jobs you want are posted.
+					</p>
+					<a style ="color:#fff" href="/jobs/preferences/?jobs_side_button" class="button">
+						Set Me Up
+					</a>
+				</section>
 				<% @jobs.each do |job| %>
 					<div class="item_jobs">
 						<div class="item_picture">
@@ -288,8 +301,26 @@
 					</div>
 				<% end %>
 			<% else %>
-				<h3 style="text-align:center;">No Results</h3>
+				<!-- IF no results come up -->
+				<h3 style="text-align:center;">BUMMER: No Job Results</h3>
 				<p style="text-align:center;">Try modifying your criteria.</p>
+				
+				<!-- Getting a user to fill out their job preferences -->
+				<section class="panel two-column left-side" style="margin-left:175px">
+					<%= image_tag '/assets/tioki/job_hunt_green.png', :style => "width:125px;margin-top:30px" %>
+					
+					<section style="float:right;margin-left:110px;margin-top:-130px">
+						<h4 style="margin-top:0px">
+							Want an easier job hunt?
+						</h4>
+						<p>
+							Let us know your job preferences and we'll email you when a job that matches your needs is posted.
+								<br/>
+								<br/>
+							<a href="/jobs/preferences/?no_search_results" class="button med-button" style="color:#fff">Set Me Up</a>
+						</p>
+					</section>
+				</section>
 			<% end %>
 		</div>
 
@@ -297,6 +328,7 @@
 			<p><%= will_paginate @jobs, :container => false %></p>
 		</div>
 	<% end %>
+	<div class="clearfloat"></div>
 </section>
 <!--END Job Search Results-->
 

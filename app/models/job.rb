@@ -4,6 +4,7 @@ class Job < ActiveRecord::Base
 
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
+	has_and_belongs_to_many :grades
 
 	has_many :applications
 	has_many :winks
@@ -31,11 +32,6 @@ class Job < ActiveRecord::Base
 		return @school
 	end
 
-	def subjects
-		@subjects = JobsSubjects.where('job_id = ?', self.id).all
-		return @subjects
-	end
-
 	def update_subjects(subjects)
 		JobsSubjects.delete_all(["job_id = ?", self.id])
 
@@ -44,6 +40,17 @@ class Job < ActiveRecord::Base
 			@jobs_subjects.job_id = self.id
 			@jobs_subjects.subject_id = subject.to_i
 			@jobs_subjects.save
+		end
+	end
+
+	def update_grades(grades)
+		GradesJobs.delete_all(["job_id = ?", self.id])
+
+		grades.each do |grade|
+			@grades_jobs = GradesJobs.new
+			@grades_jobs.job_id = self.id
+			@grades_jobs.grade_id = grade.to_i
+			@grades_jobs.save
 		end
 	end
 
@@ -191,4 +198,30 @@ class Job < ActiveRecord::Base
 		"/jobs/#{id}"
 	end
 
+	def notify_educators
+		#location
+		kvpairs = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ?", "seeking", "location")
+		kvpairs.select!{ |kvpair| kvpair.value == "any" || kvpair.job_within?(self) }
+
+		user_ids = kvpairs.collect(&:map_id)
+
+		users = User.where(:id => user_ids)
+
+		#subjects
+		#Only users seeking subjects and those specific ones
+		jobs_subjects_ids = self.subjects.collect(&:id)
+		users = users.select{|user| user.seeking[:subjects] && user.seeking[:subjects].split(",").any?{|subject_id| jobs_subjects_ids.include?(subject_id.to_i) } }
+
+		#grades
+		#Only users seeking grades and those specific ones
+		jobs_grades_ids = self.grades.collect(&:id)
+		users = users.select{|user| user.seeking[:grades] && user.seeking[:grades].split(",").any?{|grade_id| jobs_grades_ids.include?(grade_id.to_i) } }
+
+		#School type
+		users = users.select{|user| user.seeking[:school_type] && (user.seeking[:school_type] == "All" || user.seeking[:school_type] == self.group.misc[:school_type])}
+
+		users.each do |user|
+			NotificationMailer.job_alert(user, self).deliver
+		end
+	end
 end

@@ -1,3 +1,45 @@
+v4.4.7 - Jan 31, 2013  1:00PM PST deployed by Aleks Stanisic
+============================================================
+* 6f456f1: Elijah Green - Downgrade paperclip to 2.7.5
+
+v4.4.6 - Jan 31, 2013 12:39PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.4.5 - Jan 30, 2013  8:14PM PST deployed by Aleks Stanisic
+============================================================
+* 12c36c9: Elijah Green - delay emails
+
+v4.4.4 - Jan 30, 2013  7:56PM PST deployed by Aleks Stanisic
+============================================================
+* 2601d46: Aleks Stanisic - final changes to offered, accepted, hired application settings
+* 273e628: Elijah Green - Fix problem with nil subjects
+* 176a4c8: Elijah Green - Fix errors caused by change to job.subjects
+* d7a6c4c: Elijah Green - prepopulate preference fields
+* 483a075: Elijah Green - If not logged in go to welcome_wizard step1
+* fa2ec2e: Brian Martinez - slight changes to button wording on job preference submits
+* f69333d: Brian Martinez - design changes to job preference page and prompts on jobs page
+* db2a608: Elijah Green - Add link to jobs page
+* 52f26e5: Elijah Green - Redirect to job preferences page if job seeking
+* 662a53c: Elijah Green - Job preferences is working
+* 5c00c71: Elijah Green - location preference done
+* 9c8d862: Elijah Green - Format location correctly
+* 3b7832c: Elijah Green - Add location preferences
+* 3550462: Elijah Green - Send notifications once
+* 8aa7046: Elijah Green - Notify people with jobd ealing with certain grades
+* de1c2c2: Elijah Green - Correctly set grades and subjects
+* dfd58e6: Elijah Green - Prepopulate subjects of jobs and add grades
+* d850859: Elijah Green - sceham
+* 5e1ce50: Elijah Green - Notifier is working
+* 9057532: Elijah Green - Emails send out
+* e4d9b5f: Elijah Green - Job preference page info
+
+v4.4.3 - Jan 30, 2013  6:37PM PST deployed by Aleks Stanisic
+============================================================
+* 27b24a3: Aleks Stanisic - fix to edit technology skillz
+* aefac6e: Elijah Green - Have all avatar uploads convert to png
+* 90f6eea: Aleks Stanisic - adding offered, accepted, and hired pages to applications
+
 v4.4.2 - Jan 30, 2013 12:42PM PST deployed by Aleks Stanisic
 ============================================================
 * 0c43597: Elijah Green - Fix some application_wizard deletion

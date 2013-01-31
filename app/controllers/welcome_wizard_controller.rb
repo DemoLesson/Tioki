@@ -211,12 +211,16 @@ class WelcomeWizardController < ApplicationController
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
 
-				return redirect_to "/get_started"
+				if @user.job_seeking
+					return redirect_to "/jobs/preferences"
+				else
+					return redirect_to "/get_started"
+				end
 			else
 
 				# If the user save failed then notice and redirect
 				dump flash[:notice] = @user.errors.full_messages.to_sentence
-				return redirect_to "#{@buri}?x=step2#{@url}"
+				return redirect_to "#{@buri}?x=step3#{@url}"
 			end
 
 		end

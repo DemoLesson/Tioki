@@ -117,4 +117,19 @@ class NotificationMailer < ActionMailer::Base
 		# Return the mailer object
 		return mail
 	end
+
+	def job_alert(user, job)
+		@job = job
+
+		# Mail the user
+		mail = mail(:to => user.email, :subject => "#{job.group.name} has posted a job")
+
+		# Tag the email with generic mailer
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('job_alert')
+		end
+
+		# Return the mailer object
+		return mail
+	end
 end

@@ -64,6 +64,11 @@ class ApplicationController < ActionController::Base
 		redirect_to :controller => "users", :action => "login"
 	end
 
+	def login_required_signup
+		return true if session[:user] && session[:user].is_a?(User)
+		redirect_to :controller => "welcome_wizard", :action => "step1"
+	end
+
   # Check to see if a user is logged in and set session level args
   # @todo cleanup, streamline, and rename method
 	def check_login_token

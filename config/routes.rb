@@ -111,7 +111,13 @@ Preview::Application.routes.draw do
 	resources :metrics
 
 	# Jobs
-		resources :jobs
+		resources :jobs do
+			collection do
+				get 'preferences'
+				post 'preferences'
+			end
+		end
+
 
 	# Analytics Controller
 		match 'analytics/slugs' => 'analytics#slugs'
