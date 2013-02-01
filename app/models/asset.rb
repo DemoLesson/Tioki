@@ -24,8 +24,9 @@ class Asset < ActiveRecord::Base
 	private
 
 		def randomize_file_name
-			extension = File.extname(file_file_name).downcase
-			self.file.instance_write(:file_name, "#{ActiveSupport::SecureRandom.hex(16)}_#{file_file_name}")
+			extension = File.extname(file_file_name)
+			basename = File.basename(file_file_name, extension)
+			self.file.instance_write(:file_name, "#{basename}_#{ActiveSupport::SecureRandom.hex(16)}#{extension}")
 		end
 
 		# Delete file off S3
