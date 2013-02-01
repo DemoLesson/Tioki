@@ -1,3 +1,8 @@
+v4.4.9 - Jan 31, 2013  7:12PM PST deployed by Aleks Stanisic
+============================================================
+* 9fa5a60: Aleks Stanisic - adding anayltics for favoriting
+* d57c8a2: Elijah Green - Switch serial for assets from front to back of filename
+
 v4.4.8 - Jan 31, 2013  1:28PM PST deployed by Aleks Stanisic
 ============================================================
 * 28f8410: Aleks Stanisic - adding new options to recruitor window on profile resume
