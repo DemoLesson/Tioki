@@ -1,3 +1,7 @@
+v4.4.10 - Jan 31, 2013  8:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 5e8f32d: Aleks Stanisic - adding analytics for comments
+
 v4.4.9 - Jan 31, 2013  7:12PM PST deployed by Aleks Stanisic
 ============================================================
 * 9fa5a60: Aleks Stanisic - adding anayltics for favoriting
