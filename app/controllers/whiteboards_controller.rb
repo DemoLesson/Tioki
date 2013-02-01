@@ -66,9 +66,9 @@ class WhiteboardsController < ApplicationController
 		# save and get the proper message
 		if comment.save
 			message = {:type => :success, :message => "Successfully added comment.", :id => comment.id}
+			self.log_analytic(:whiteboard_comment, "User commented on whiteboard post", comment, [], :whiteboard)
 			if self.current_user.id != whiteboard.user_id
 				Notification.create(:notifiable_type => comment.tag!, :user_id => whiteboard.user_id, :message => "{triggered.link} commented on a item you shared.", :link => '', :bucket => :discussions)
-
 				# email_permissions
 				if !whiteboard.user.email_permissions["whiteboard_post"]
 					NotificationMailer.comment(whiteboard.user, comment, whiteboard).deliver
