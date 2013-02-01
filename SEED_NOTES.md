@@ -1,3 +1,7 @@
+v4.4.11 - Feb 1, 2013  2:09PM PST deployed by Aleks Stanisic
+============================================================
+* 7755ea6: Elijah Green - Change kvpair value to text
+
 v4.4.10 - Jan 31, 2013  8:11PM PST deployed by Aleks Stanisic
 =============================================================
 * 5e8f32d: Aleks Stanisic - adding analytics for comments
