@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130125233914) do
+ActiveRecord::Schema.define(:version => 20130201194241) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -454,7 +454,7 @@ ActiveRecord::Schema.define(:version => 20130125233914) do
     t.string "owner"
     t.string "namespace"
     t.string "key"
-    t.string "value"
+    t.text   "value"
   end
 
   add_index "kvpairs", ["key"], :name => "index_kvpairs_on_key"

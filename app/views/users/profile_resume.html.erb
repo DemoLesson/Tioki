@@ -209,8 +209,11 @@
 							<select name="application[status]">
 								<option <%= @application.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
 								<option <%= @application.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
-								<option <%= @application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
 								<option <%= @application.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+								<option <%= @application.status == 'Offer Given' ? 'selected' : '' %>>Offer Given</option>
+								<option <%= @application.status == 'Offer Accepted' ? 'selected' : '' %>>Offer Accepted</option>
+								<option <%= @application.status == 'Applicant Hired' ? 'selected' : '' %>>Applicant Hired</option>
+								<option <%= @application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
 							</select><br /></br>
 							<%= hidden_field_tag :job_id, @application.job_id %> 
 							<%= f.submit "Update Status" %>

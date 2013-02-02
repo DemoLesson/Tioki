@@ -239,6 +239,11 @@ class HomeController < ApplicationController
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 			end
 		end
+		if files != nil
+			self.log_analytic(:picture_shared_on_whiteboard, "Picture shared on Whiteboard", whiteboard, [], :whiteboard)
+		else
+			self.log_analytic(:User_shared_on_whiteboard, "User shared on the Whiteboard", whiteboard, [], :whiteboard)
+		end
 
 		# If nothing is taking place redirect back
 		redirect_to :back

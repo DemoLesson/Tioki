@@ -1,3 +1,24 @@
+v4.4.12 - Feb 1, 2013  5:53PM PST deployed by Aleks Stanisic
+============================================================
+* 796f7cd: Aleks Stanisic - adding analytics for sharing on whiteboard and sharing pics
+
+v4.4.11 - Feb 1, 2013  2:09PM PST deployed by Aleks Stanisic
+============================================================
+* 7755ea6: Elijah Green - Change kvpair value to text
+
+v4.4.10 - Jan 31, 2013  8:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 5e8f32d: Aleks Stanisic - adding analytics for comments
+
+v4.4.9 - Jan 31, 2013  7:12PM PST deployed by Aleks Stanisic
+============================================================
+* 9fa5a60: Aleks Stanisic - adding anayltics for favoriting
+* d57c8a2: Elijah Green - Switch serial for assets from front to back of filename
+
+v4.4.8 - Jan 31, 2013  1:28PM PST deployed by Aleks Stanisic
+============================================================
+* 28f8410: Aleks Stanisic - adding new options to recruitor window on profile resume
+
 v4.4.7 - Jan 31, 2013  1:00PM PST deployed by Aleks Stanisic
 ============================================================
 * 6f456f1: Elijah Green - Downgrade paperclip to 2.7.5
