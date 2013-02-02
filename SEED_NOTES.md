@@ -1,3 +1,8 @@
+v4.4.14 - Feb 2, 2013  2:56PM PST deployed by Aleks Stanisic
+============================================================
+* 6032963: Aleks Stanisic - fixing video upload link error
+* 8fb957c: Elijah Green - Don't parameterize when looking for slug.
+
 v4.4.13 - Feb 2, 2013 12:30PM PST deployed by Aleks Stanisic
 ============================================================
 * 143b915: Aleks Stanisic - fixes to geography page
