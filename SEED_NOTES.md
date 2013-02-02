@@ -1,3 +1,7 @@
+v4.4.15 - Feb 2, 2013  3:31PM PST deployed by Aleks Stanisic
+============================================================
+* bf8c973: Aleks Stanisic - bug fixes to video skills and style changes to edit education
+
 v4.4.14 - Feb 2, 2013  2:56PM PST deployed by Aleks Stanisic
 ============================================================
 * 6032963: Aleks Stanisic - fixing video upload link error
