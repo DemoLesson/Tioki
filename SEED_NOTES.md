@@ -1,3 +1,7 @@
+v4.4.13 - Feb 2, 2013 12:30PM PST deployed by Aleks Stanisic
+============================================================
+* 143b915: Aleks Stanisic - fixes to geography page
+
 v4.4.12 - Feb 1, 2013  5:53PM PST deployed by Aleks Stanisic
 ============================================================
 * 796f7cd: Aleks Stanisic - adding analytics for sharing on whiteboard and sharing pics
