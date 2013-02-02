@@ -215,6 +215,7 @@ class JobsController < ApplicationController
 
 				@job.update_subjects(params[:subjects]) if params[:subjects]
 				@job.update_grades(params[:grades]) if params[:grades]
+				@job.update_job_questions[:job_questions] if params[:job_questions]
 
 				format.html {
 					flash[:success] = "New job was successfully created."

@@ -92,6 +92,18 @@
       <% end %>
     </p>
   </fieldset>
+
+  <h3 class="bottom-line">
+  Applicant Questions
+  </h3>
+
+  <%= f.fields_for :job_questions do |question| %>
+    <p>
+      Question<br />
+      <%= question.text_field :question, :style => "width:375px" %>
+    </p>
+
+  <% end %>
     
   <h3 class="bottom-line">
     Attachments <span style="font-size:15px">(optional)</span>

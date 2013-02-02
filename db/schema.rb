@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201194241) do
+ActiveRecord::Schema.define(:version => 20130202204546) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -404,6 +404,13 @@ ActiveRecord::Schema.define(:version => 20130201194241) do
     t.text     "additional_data"
   end
 
+  create_table "job_questions", :force => true do |t|
+    t.integer  "job_id"
+    t.text     "question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "jobs", :force => true do |t|
     t.integer  "school_id"
     t.text     "description"
@@ -432,9 +439,9 @@ ActiveRecord::Schema.define(:version => 20130201194241) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
     t.boolean  "allow_videos",        :default => true
     t.boolean  "allow_attachments",   :default => true
-    t.boolean  "featured",            :default => false
     t.boolean  "notification_sent",   :default => false
   end
 
