@@ -144,9 +144,15 @@
 							Upload / View Docs
 						</a>
 					</span>
-					<span style="margin-left:15px">
-						<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'Upload / View Videos', "/profile/"+@user.slug+"/videos", :class => "button2 bg-ltgray big-button" %>
-					</span>
+					<% if @user.videos.count > 0 %>
+						<span style="margin-left:15px">
+							<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'Upload / View Videos', "/profile/"+@user.slug+"/videos", :class => "button2 bg-ltgray big-button" %>
+						</span>
+					<% else %>
+						<span style="margin-left:15px">
+							<%= link_to image_tag('tioki/icons/play-icon.png', :border => 0, :style=>"margin-bottom:-7px;")+'Upload / View Videos', "/me/profile/edit/upload-video", :class => "button2 bg-ltgray big-button" %>
+						</span>
+					<% end %>
 
 				<section>
 					<h3 class="top-line">
