@@ -1,3 +1,7 @@
+v4.4.12 - Feb 1, 2013  5:53PM PST deployed by Aleks Stanisic
+============================================================
+* 796f7cd: Aleks Stanisic - adding analytics for sharing on whiteboard and sharing pics
+
 v4.4.11 - Feb 1, 2013  2:09PM PST deployed by Aleks Stanisic
 ============================================================
 * 7755ea6: Elijah Green - Change kvpair value to text
