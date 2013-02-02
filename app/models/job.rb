@@ -5,7 +5,7 @@ class Job < ActiveRecord::Base
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
-	has_many :job_questions, :dependent => :destroy
+	has_many :job_questions
 
 	has_many :applications
 	has_many :winks
@@ -55,11 +55,11 @@ class Job < ActiveRecord::Base
 		end
 	end
 
-	def update_job_questions(job_questions)
-		JobQuestions.delete_all(["job_id = ?", self.id])
+	def update_question(job_question)
+		JobQuestion.delete_all(["job_id = ?", self.id])
 
 		job_questions.each do |question|
-			@job_questions = JobQuestions.new
+			@job_questions = JobQuestion.new
 			@job_questions.job_id = self.id
 			@job_questions.question = question
 			@job_questions.save
