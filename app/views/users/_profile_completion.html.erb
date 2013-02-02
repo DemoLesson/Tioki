@@ -1,23 +1,72 @@
+<div id="completion_right" style="float:right">
+	right
+</div>
+<div id="completion_left" style="float:right">
+	left
+</div>
 <p>
-	Complete Your Profile
+	<h5>Complete Your Profile</h5>
 </p>
 
 <%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
-<%= image_tag "/assets/completion_icons/completion-bar.png", :width => 183, :height => 12, :style => "position:absolute" %>
+<%= image_tag "/assets/completion_icons/completion-bar.png", :width => 90, :height => 12, :style => "position:absolute" %>
+<div style="float:right;font-size:8px">
+	50% Complete
+</div>
 
 <br />
 <div id="location">
 	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you
 </div>
-<div id="photo">
-	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you
+<div id="headline" style="display:none">
+	<%= image_tag "/assets/completion_icons/headline_grey.png", :width => 20  %>Tell us a bit about yourself
 </div>
-<div id="occupation">
-	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you
+<div id="social" style="display:none">
+	<%= image_tag "/assets/completion_icons/social_grey.png", :width => 20  %>Connect your social networks for better sharing
 </div>
-<div id="social_networks">
-	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you
+<div id="skills" style="display:none">
+	<%= image_tag "/assets/completion_icons/skills_grey.png", :width => 20  %>Skills make us uniquqe.  What are some of your?
 </div>
-<div id="social_networks">
-	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you
+<div id="picture" style="display:none">
+	<%= image_tag "/assets/completion_icons/picture_grey.png", :width => 20  %>Help the Tioki Network recognize you
 </div>
+<div id="education" style="display:none">
+	<%= image_tag "/assets/completion_icons/education_grey.png", :width => 20  %>Find your classmates and school networks
+</div>
+<div id="subjects" style="display:none">
+	<%= image_tag "/assets/completion_icons/subjects_grey.png", :width => 20  %>Let the world know what subjects you specialize in
+</div>
+<div id="occupation" style="display:none">
+	<%= image_tag "/assets/completion_icons/occupation_grey.png", :width => 20  %>Are you a teacher, admin, professor?
+</div>
+<div id="experience" style="display:none">
+	<%= image_tag "/assets/completion_icons/experience_grey.png", :width => 20  %>You're a professional.  Tell us where you practice
+</div>
+<div id="video" style="display:none">
+	<%= image_tag "/assets/completion_icons/video_grey.png", :width => 20  %>Add a video of you in the classroom
+</div>
+
+<script type="text/javascript">
+	$(document).ready( function () {
+			var completions = ["location", "headline", "social", "picture", "education", "subjects", "occupation", "experience", "video"];
+			var completionsIndex = 0;
+			$("#completion_right").click( function () {
+				$("#"+completions[completionsIndex]).hide();
+				if(completionsIndex < completions.length - 1) {
+					completionsIndex++;
+				} else {
+					completionsIndex = 0;
+				}
+				$("#"+completions[completionsIndex]).fadeIn();
+			});
+			$("#completion_left").click( function () {
+				$("#"+completions[completionsIndex]).hide();
+				if(completionsIndex > 0) {
+					completionsIndex--;
+				} else {
+					completionsIndex = completions.length - 1;
+				}
+				$("#"+completions[completionsIndex]).fadeIn();
+			});
+	});
+</script>
