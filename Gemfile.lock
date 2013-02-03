@@ -353,5 +353,5 @@ DEPENDENCIES
   uglifier
   unicorn
   uuidtools
-  will_paginate (~> 3.0.3)
+  will_paginate
   zencoder (~> 2.4.0)
