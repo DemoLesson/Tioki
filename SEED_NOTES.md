@@ -1,3 +1,7 @@
+v4.4.17 - Feb 2, 2013  4:16PM PST deployed by Aleks Stanisic
+============================================================
+* 746e645: Aleks Stanisic - .live fix for tags when creating discussions
+
 v4.4.16 - Feb 2, 2013  3:36PM PST deployed by Aleks Stanisic
 ============================================================
 
