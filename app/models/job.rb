@@ -55,7 +55,7 @@ class Job < ActiveRecord::Base
 		end
 	end
 
-	def update_question(job_question)
+	def update_question(job_questions)
 		JobQuestion.delete_all(["job_id = ?", self.id])
 
 		job_questions.each do |question|
