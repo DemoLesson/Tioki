@@ -1,7 +1,32 @@
-<div id="intro">
-	<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
-	Welcome to your Discover page!
-	</h2>
+<div id="completion">
+	<div id="completionHeader">
+		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
+		Add your location to your profile
+		</h3>
+		<div id="completionIcons">
+			<p style="font-size:17px;color:#fff;margin-top:0px">
+			<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/location_selected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			</p>
+		</div>
+	</div>
 	<p style="margin:0;">
 	Here are a few tips on how to get the most out of Tioki.
 	</p>
@@ -200,25 +225,25 @@
 	</section>
 </section>
 
-<% if !cookies[:discovery_viewed] %>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('body').introOverlay({
-			introLength: 10000, // anything numeric no quotes
+		$('body').completionOverlay({
+			completionLength: 10000, // anything numeric no quotes
 			transitionSpeed: 400, // ditto
-			introAutoFade: false, //timed fade on overlay...true or false
-			introCloseBtn: true, //btn to close overlay...true or false
-			introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+			completionAutoFade: false, //timed fade on overlay...true or false
+			completionCloseBtn: true, //btn to close overlay...true or false
+			completionTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
 			openAnimation: true, //opening animation...true or false
-			introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
+			completionContent: '#completion', //where the content is at, uses css selector # for id, and . for class
 			cookieActive : false,
 			/* also you can use 'href' to load content for a seperate page..
 			when using href it also uses the class of the clicked element to find the content...
 			it goes like this .load(href class); check source for use */ 
-			introTemplate: 'full', // either 'full' or 'module'
-			introTurnOffLights: false, //turn off and on lights...true or false
+			completionTemplate: 'full', // either 'full' or 'module'
+			completionTurnOffLights: false, //turn off and on lights...true or false
 		});
 	});
 </script>
 	<% cookies[:discovery_viewed] = { :value => true, :expires => 1.month.from_now } %>
-<% end %>
+
