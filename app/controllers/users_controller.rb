@@ -963,7 +963,7 @@ class UsersController < ApplicationController
 	end
 
 	def more_groups
-		@user = User.find_by_slug(params[:slug].parameterize)
+		@user = User.find_by_slug(params[:slug])
 		group = render_to_string("users/more_groups", :layout => false)
 		return render :json => group.to_json
 
