@@ -1,3 +1,20 @@
+v4.4.17 - Feb 2, 2013  4:16PM PST deployed by Aleks Stanisic
+============================================================
+* 746e645: Aleks Stanisic - .live fix for tags when creating discussions
+
+v4.4.16 - Feb 2, 2013  3:36PM PST deployed by Aleks Stanisic
+============================================================
+
+
+v4.4.15 - Feb 2, 2013  3:31PM PST deployed by Aleks Stanisic
+============================================================
+* bf8c973: Aleks Stanisic - bug fixes to video skills and style changes to edit education
+
+v4.4.14 - Feb 2, 2013  2:56PM PST deployed by Aleks Stanisic
+============================================================
+* 6032963: Aleks Stanisic - fixing video upload link error
+* 8fb957c: Elijah Green - Don't parameterize when looking for slug.
+
 v4.4.13 - Feb 2, 2013 12:30PM PST deployed by Aleks Stanisic
 ============================================================
 * 143b915: Aleks Stanisic - fixes to geography page

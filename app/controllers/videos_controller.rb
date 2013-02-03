@@ -206,7 +206,7 @@ class VideosController < ApplicationController
 				end
 
 				# Flash success and return
-				flash[:success] = 'Video was successfully embeded.'
+				flash[:success] = 'Video was successfully embedded.'
 				return redirect_to video_path(video) + '/edit'
 			end
 			
@@ -214,7 +214,7 @@ class VideosController < ApplicationController
 		rescue
 
 			# Flash error and return
-			flash[:error] = 'Video could not be embeded, make sure you are using a valid url.'
+			flash[:error] = 'Video could not be embedded, make sure you are using a valid url.'
 			return redirect_to :back
 		end
 	end
