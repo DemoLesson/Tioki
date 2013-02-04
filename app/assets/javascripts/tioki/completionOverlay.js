@@ -156,7 +156,7 @@ jQuery.fn.completionOverlay = function(options){
                 
             }else{
                 
-                $('#completionContent').append('<div id="completionClose">Start Connecting</div>');
+                $('#completionContent').append('<div id="completionClose"><img src="/assets/tioki/icons/close.png" style="width:20px"></div>');
               //  $('#completionClose').css('top', '10px').css('left', '10px');
                 
             }
