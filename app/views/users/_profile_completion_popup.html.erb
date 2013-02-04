@@ -1,0 +1,100 @@
+<div id="completion">
+	<div id="completionHeader">
+		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
+		Add your location to your profile
+		</h3>
+		<div id="completionIcons">
+			<p style="font-size:17px;color:#fff;margin-top:0px">
+				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#', :id => "occupation" %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/location_selected.png', :style => "width:30px;margin-bottom:-10px;"), '#', :id => "location" %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			&middot;
+			<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :style => "width:30px;margin-bottom:-10px;"), '#' %>
+			</p>
+		</div>
+	</div>
+
+	<section id="occupation" style="display:none">
+	</section>
+
+	<section id="location" style="display:none">
+		<p>
+		I currently live in... <input placeholder="Los Angeles, CA" type="text" style="width:350px">
+		</p>
+	</section>
+
+	<section id="heeadline" style="display:none">
+	</section>
+
+	<section id="picture" style="display:none">
+		<p>
+		Help connections and the rest of the Tioki community recognize you. 
+		</p>
+		<div style="text-align:center">
+			<% if currentUser.avatar? %>
+				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% else %>
+				<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% end %>
+			<br/>
+			<%= link_to 'Upload Picture', '#', :style => 'color:#F66C4C' %>
+		</div>
+	</section>
+
+	<section>
+		<%= link_to '<<Previous', '#', :class => "completionPrevious" %>
+		<%= link_to 'Skip', '#', :class => "completionPrevious skip"%>
+		<%= link_to 'Save & continue>>', '#', :class => "completionContinue" %>
+	</section>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#profile_complete").click(function () {
+			$('body').completionOverlay({
+				completionLength: 10000, // anything numeric no quotes
+				transitionSpeed: 400, // ditto
+				completionAutoFade: false, //timed fade on overlay...true or false
+				completionCloseBtn: true, //btn to close overlay...true or false
+				completionTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+				openAnimation: true, //opening animation...true or false
+				completionSwitch: true,
+				completionContent: '#completion', //where the content is at, uses css selector # for id, and . for class
+				cookieActive : false,
+				/* also you can use 'href' to load content for a seperate page..
+				when using href it also uses the class of the clicked element to find the content...
+				it goes like this .load(href class); check source for use */ 
+				completionTemplate: 'full', // either 'full' or 'module'
+				completionTurnOffLights: false, //turn off and on lights...true or false
+			});
+		});
+
+		var completions = ["location", "location", "headline", "picture", "social", "subjects", "skills", "education", "experience", "video"];
+		var completionsIndex = 0;
+
+		$(".skip").click( function () {
+			$("#"+completions[completionsIndex]).hide();
+			if(completionsIndex < completions.length - 1) {
+				completionsIndex++;
+			} else {
+				completionsIndex = 0;
+			}
+			$("#"+completions[completionsIndex]).show();
+		});
+	});
+</script>
+
