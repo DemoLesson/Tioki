@@ -1,3 +1,15 @@
+v4.4.19 - Feb 4, 2013  1:54PM PST deployed by Aleks Stanisic
+============================================================
+* 03e41ed: Elijah Green - Don't show page number on technologies/show
+
+v4.4.18 - Feb 4, 2013 11:22AM PST deployed by Aleks Stanisic
+============================================================
+* 9da9078: Elijah Green - Comment out unfinished sections of skills/show
+* df0d20a: Brian Martinez - changes to new profile completion popups
+* b8b111a: Elijah Green - For now don't show intro on discovery page
+* 472f408: Brian Martinez - in-site profile completion sytle sheet and assets
+* b7a3d67: Elijah Green - Delay discussions controller invites
+
 v4.4.17 - Feb 2, 2013  4:16PM PST deployed by Aleks Stanisic
 ============================================================
 * 746e645: Aleks Stanisic - .live fix for tags when creating discussions
