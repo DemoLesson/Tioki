@@ -5,8 +5,9 @@ class Job < ActiveRecord::Base
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
-	has_many :job_questions
-
+	
+	has_many :job_questions, :dependent => :destroy
+	accepts_nested_attributes_for :job_questions, :reject_if => lambda { |a| a[:question].blank? }
 	has_many :applications
 	has_many :winks
 	has_many :interviews, :dependent => :destroy
