@@ -1,4 +1,4 @@
-<!--div id="completion">
+<div id="completion">
 	<div id="completionHeader">
 		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
 		Add your location to your profile
@@ -27,16 +27,25 @@
 			</p>
 		</div>
 	</div>
-	<p style="margin:0;">
-	Here are a few tips on how to get the most out of Tioki.
-	</p>
+	<!--section>
+		<p>
+		I currently live in... <input placeholder="Los Angeles, CA" type="text" style="width:350px">
+		</p>
+	</section-->
 	<section>
 		<p>
-		<span class="bold caps">Find New Skills</span><br />
-		Use the drop down menu to find new skills.
+		Help connections and the rest of the Tioki community recognize you. 
 		</p>
+		<div style="text-align:center">
+			<!-- IF their profile picture has been uploaded, display that one. Otherwise, display this blank-->
+			<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<br/>
+			<%= link_to 'Upload Picture', '#', :style => 'color:#F66C4C' %>
+		</div>
+		
+		
 	</section>
-	<section>
+	<!--section>
 		<p>
 		<span class="bold caps">Explore Technologies</span><br />
 		Explore all the new classroom tech associated with that skill.  
@@ -53,8 +62,13 @@
 		<span class="bold caps">Watch Videos</span><br />
 		There are many videos related to the variuos skills. Watch and learn!
 		</p>
+	</section-->
+	<section>
+		<%= link_to '<<Previous', '#', :class => "completionPrevious" %>
+		<%= link_to 'Skip', '#', :class => "completionPrevious skip"%>
+		<%= link_to 'Save & continue>>', '#', :class => "completionContinue" %>
 	</section>
-</div-->
+</div>
 
 <section id="main-content" class="inner-content">
 	<fieldset class="search-connections">
@@ -226,7 +240,7 @@
 </section>
 
 
-<!--script type="text/javascript">
+<script type="text/javascript">
 	$(document).ready(function() {
 		$('body').completionOverlay({
 			completionLength: 10000, // anything numeric no quotes
@@ -235,6 +249,7 @@
 			completionCloseBtn: true, //btn to close overlay...true or false
 			completionTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
 			openAnimation: true, //opening animation...true or false
+			completionSwitch: true,
 			completionContent: '#completion', //where the content is at, uses css selector # for id, and . for class
 			cookieActive : false,
 			/* also you can use 'href' to load content for a seperate page..
@@ -244,6 +259,6 @@
 			completionTurnOffLights: false, //turn off and on lights...true or false
 		});
 	});
-</script-->
+</script>
 
 
