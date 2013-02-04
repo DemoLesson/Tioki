@@ -38,7 +38,11 @@
 		</p>
 		<div style="text-align:center">
 			<!-- IF their profile picture has been uploaded, display that one. Otherwise, display this blank-->
-			<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% if currentUser.avatar? %>
+				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% else %>
+				<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% end %>
 			<br/>
 			<%= link_to 'Upload Picture', '#', :style => 'color:#F66C4C' %>
 		</div>

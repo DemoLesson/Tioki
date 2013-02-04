@@ -188,6 +188,9 @@ jQuery.fn.completionOverlay = function(options){
                 
             });
             
+            $('#completionContainer').bind('click', function(){
+                $('#completionClose').click();
+            });
             
         }
         
