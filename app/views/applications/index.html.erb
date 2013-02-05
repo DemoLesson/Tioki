@@ -145,7 +145,7 @@
 								<% if @source.is_a?(User) %>
 										<%= app.status %>
 										<% if app.submitted == 0 %>
-											<%= link_to 'Unsubmitted', '/wizards/application?job=' + app.job.id.to_s %>
+											<%= link_to 'Unsubmitted', '/wizards/application?job=' + app.job.id.to_s, :style => "color:#F66C4C !important" %>
 										<% end %>
 								<% else %>
 									<%= form_for([@source.group, @source, app]) do |f| %>
