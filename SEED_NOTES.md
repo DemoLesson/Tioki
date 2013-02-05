@@ -1,3 +1,7 @@
+v4.4.20 - Feb 4, 2013  6:28PM PST deployed by Aleks Stanisic
+============================================================
+* 9a400dc: Aleks Stanisic - changing link color of unsubmitted button in appliacations page
+
 v4.4.19 - Feb 4, 2013  1:54PM PST deployed by Aleks Stanisic
 ============================================================
 * 03e41ed: Elijah Green - Don't show page number on technologies/show
