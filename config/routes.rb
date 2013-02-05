@@ -178,6 +178,7 @@ Preview::Application.routes.draw do
 				match 'feature-video/:id' => 'videos#feature_video'
 				
 				root :to => 'users#profile_edit'
+				match 'complete' => 'users#profile_complete'
 			end
 
 			#profile Views

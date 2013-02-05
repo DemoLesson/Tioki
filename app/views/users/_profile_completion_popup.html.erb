@@ -34,36 +34,40 @@
 		</h3>
 		<div id="completionIcons">
 			<p style="font-size:17px;color:#fff;margin-top:0px">
-				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_selected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_selected.png', :class => "popup_occupation image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture image_link" ,:style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video image_link",:style => "width:30px;margin-bottom:-10px;"), '#' %>
 			</p>
 		</div>
 	</div>
 
 	<section class="section_occupation" style="display:none">
+		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+		<% end %>
 	</section>
 
 	<section class="section_location" style="display:none">
-		<p>
-		I currently live in... <input placeholder="Los Angeles, CA" type="text" style="width:350px">
-		</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+			<p>
+				I currently live in... <input name="user[location]" placeholder="Los Angeles, CA" type="text" style="width:350px">
+			</p>
+		<% end %>
 	</section>
 
 	<section class="section_headline" style="display:none">
@@ -111,6 +115,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var completions = ["occupation", "location", "headline", "picture", "social", "subjects", "skills", "education", "experience", "video"];
+		var completionsIndex = 0;
 		$("#profile_complete").click(function () {
 			$('body').completionOverlay({
 				completionLength: 10000, // anything numeric no quotes
@@ -128,8 +134,6 @@
 				completionTemplate: 'full', // either 'full' or 'module'
 				completionTurnOffLights: false, //turn off and on lights...true or false
 			});
-			var completions = ["occupation", "location", "headline", "picture", "social", "subjects", "skills", "education", "experience", "video"];
-			var completionsIndex = 0;
 
 			$(".previous").on("click", function () {
 				$(".section_"+completions[completionsIndex]).hide();
@@ -157,6 +161,15 @@
 				$(".section_"+completions[completionsIndex]).show();
 				$(".text_"+completions[completionsIndex]).show();
 				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+			});
+			
+			$(".completionContinue").on("click", function () {
+				$("."+completions[completionsIndex]+"_form").submit();
+				$(".skip").click();
+			});
+
+			$(".image_link").on("click", function () {
+				
 			});
 		});
 
