@@ -1,7 +1,7 @@
 <div id="completion">
 	<div id="completionHeader">
 		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
-			<div class="text_occupation" style="display:none">
+			<div class="text_occupation">
 				Are you a teacher, admin, or professor?
 			</div>
 			<div class="text_location" style="display:none">
@@ -57,8 +57,10 @@
 		</div>
 	</div>
 
-	<section class="section_occupation" style="display:none">
+	<section class="section_occupation">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+				Occupation<br />
+				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
 		<% end %>
 	</section>
 
@@ -71,6 +73,10 @@
 	</section>
 
 	<section class="section_headline" style="display:none">
+		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+				Headline<br />
+				<%= text_area_tag "user[headline]" %>
+		<% end %>
 	</section>
 
 	<section class="section_picture" style="display:none">
