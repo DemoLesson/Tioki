@@ -377,6 +377,7 @@ class AnalyticsController < ApplicationController
 
 			# Get slugs only for this user
 			s = s.where('`user_id` = ?', params[:id])
+			@slug_count = s.count
 			s = s.paginate(:page => params[:page], :per_page => 20)
 			s = s.order('`created_at` DESC')
 		end
