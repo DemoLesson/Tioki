@@ -75,6 +75,108 @@
 		<%= @slug_count %>
 	</li>
 </ul>
+<ul class="info-boxes">
+	<li>
+		<legend>user_logged_in</legend>
+		<%= @user.analytics.where(:slug => 'user_logged_in').count %>
+	</li>
+	<li>
+		<legend>administrator_step2</legend>
+		<%= @user.analytics.where(:slug => 'administrator_step2').count %>
+	</li>
+	<li>
+		<legend>job_seeker_step2</legend>
+		<%= @user.analytics.where(:slug => 'job_seeker_step2').count %>
+	</li>
+	<li>
+		<legend>teacher_step2</legend>
+		<%= @user.analytics.where(:slug => 'teacher_step2').count %>
+	</li>
+	<li>
+		<legend>student_step2</legend>
+		<%= @user.analytics.where(:slug => 'student_step2').count %>
+	</li>
+	<li>
+		<legend>connection_invite_sent</legend>
+		<%= @user.analytics.where(:slug => 'connection_invite_sent').count %>
+	</li>
+	<li>
+		<legend>connection_request</legend>
+		<%= @user.analytics.where(:slug => 'connection_request').count %>
+	</li>
+	<li>
+		<legend>user_connection_accepted</legend>
+		<%= @user.analytics.where(:slug => 'user_connection_accepted').count %>
+	</li>
+	<li>
+		<legend>created_vouch</legend>
+		<%= @user.analytics.where(:slug => 'created_vouch').count %>
+	</li>
+</ul>
+<ul class="info-boxes">
+	<li>
+		<legend>discussion_comment</legend>
+		<%= @user.analytics.where(:slug => 'discussion_comment').count %>
+	</li>
+	<li>
+		<legend>discussion_comment_reply</legend>
+		<%= @user.analytics.where(:slug => 'discussion_comment_reply').count %>
+	</li>
+	<li>
+		<legend>discussion_creation</legend>
+		<%= @user.analytics.where(:slug => 'discussion_creation').count %>
+	</li>
+	<li>
+		<legend>discussion_follow</legend>
+		<%= @user.analytics.where(:slug => 'discussion_follow').count %>
+	</li>
+	<li>
+		<legend>event_creation</legend>
+		<%= @user.analytics.where(:slug => 'event_creation').count %>
+	</li>
+	<li>
+		<legend>message_sent</legend>
+		<%= @user.analytics.where(:slug => 'message_sent').count %>
+	</li>
+	<li>
+		<legend>organization_created</legend>
+		<%= @user.analytics.where(:slug => 'organization_created').count %>
+	</li>
+	<li>
+		<legend>post_favorited</legend>
+		<%= @user.analytics.where(:slug => 'post_favorited').count %>
+	</li>
+	<li>
+		<legend>suggested_connection_created</legend>
+		<%= @user.analytics.where(:slug => 'suggested_connection_created').count %>
+	</li>
+</ul>
+<ul class="info-boxes">
+	<li>
+		<legend>user_added_technology</legend>
+		<%= @user.analytics.where(:slug => 'user_added_technology').count %>
+	</li>
+	<li>
+		<legend>user_joined_group</legend>
+		<%= @user.analytics.where(:slug => 'user_joined_group').count %>
+	</li>
+	<li>
+		<legend>user_changed_email_settings</legend>
+		<%= @user.analytics.where(:slug => 'user_changed_email_settings').count %>
+	</li>
+	<li>
+		<legend>user_shared_on_whiteboard</legend>
+		<%= @user.analytics.where(:slug => 'user_shared_on_whiteboard').count %>
+	</li>
+	<li>
+		<legend>view_user_profile</legend>
+		<%= @user.analytics.where(:slug => 'view_user_profile').count %>
+	</li>
+	<li>
+		<legend>white_board_comment</legend>
+		<%= @user.analytics.where(:slug => 'white_board_comment').count %>
+	</li>
+</ul>
 <table>
 	<tr>
 		<% @fields.each do |field| %>
