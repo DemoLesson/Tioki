@@ -1,3 +1,7 @@
+v4.4.21 - Feb 5, 2013  7:06PM PST deployed by Aleks Stanisic
+============================================================
+* ea46519: Elijah Green - Add slug count to analytics
+
 v4.4.20 - Feb 4, 2013  6:28PM PST deployed by Aleks Stanisic
 ============================================================
 * 9a400dc: Aleks Stanisic - changing link color of unsubmitted button in appliacations page
