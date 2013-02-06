@@ -1,3 +1,7 @@
+v4.4.23 - Feb 6, 2013  2:18PM PST deployed by Aleks Stanisic
+============================================================
+* a82b04f: Aleks Stanisic - adding slug totals in user analytics
+
 v4.4.22 - Feb 6, 2013 12:09PM PST deployed by Aleks Stanisic
 ============================================================
 * 50ae83b: Aleks Stanisic - changing featured discussions on dashboard
