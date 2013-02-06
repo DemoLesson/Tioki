@@ -1,3 +1,7 @@
+v4.4.24 - Feb 6, 2013  3:13PM PST deployed by Aleks Stanisic
+============================================================
+* 036cb7a: Aleks Stanisic - redesign of anayltics tables in user view
+
 v4.4.23 - Feb 6, 2013  2:18PM PST deployed by Aleks Stanisic
 ============================================================
 * a82b04f: Aleks Stanisic - adding slug totals in user analytics
