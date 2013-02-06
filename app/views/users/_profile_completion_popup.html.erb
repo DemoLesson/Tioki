@@ -34,25 +34,25 @@
 		</h3>
 		<div id="completionIcons">
 			<p style="font-size:17px;color:#fff;margin-top:0px">
-				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_selected.png', :class => "popup_occupation image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_selected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "0"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "1"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "2"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture image_link" ,:style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "3"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "4"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link",:data => {:complete => "5"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "6"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "7"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience image_link", :style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "8"} %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video image_link",:style => "width:30px;margin-bottom:-10px;"), '#' %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => "9"} %>
 			</p>
 		</div>
 	</div>
@@ -169,7 +169,13 @@
 			});
 
 			$(".image_link").on("click", function () {
-				
+				$(".section_"+completions[completionsIndex]).hide();
+				$(".text_"+completions[completionsIndex]).hide();
+				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+				completionsIndex = parseInt($(this).attr('data-complete'));
+				$(".section_"+completions[completionsIndex]).show();
+				$(".text_"+completions[completionsIndex]).show();
+				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 			});
 		});
 
