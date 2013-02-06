@@ -176,7 +176,8 @@ class JobsController < ApplicationController
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@job = Job.new
 		JobQuestion.new
-		5.times { @job.job_questions.build }
+		1.times { @job.job_questions.build }
+		@counter = 1 
 
 	end
 
@@ -187,6 +188,11 @@ class JobsController < ApplicationController
 		@organizations = User.current.groups.my_permissions('administrator').organization
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
+		@counter = @job.job_questions.count
+		if @counter == 0
+			1.times { @job.job_questions.build }
+			@counter = 1
+		end
 	end
 
 	# create a new job posting
