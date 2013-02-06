@@ -1,7 +1,7 @@
 <div id="completion">
 	<div id="completionHeader">
 		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
-			<div class="text_occupation">
+			<div class="text_occupation" style="display:none">
 				Are you a teacher, admin, or professor?
 			</div>
 			<div class="text_location" style="display:none">
@@ -34,7 +34,7 @@
 		</h3>
 		<div id="completionIcons">
 			<p style="font-size:17px;color:#fff;margin-top:0px">
-				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_selected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "0"} %>
+				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "0"} %>
 				&middot;
 				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "1"} %>
 				&middot;
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<section class="section_occupation">
+	<section class="section_occupation" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
 				Occupation<br />
 				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
@@ -123,7 +123,7 @@
 	$(document).ready(function() {
 		var completions = ["occupation", "location", "headline", "picture", "social", "subjects", "skills", "education", "experience", "video"];
 		var completionsIndex = 0;
-		$("#profile_complete").click(function () {
+		$(".complete_popup").click(function () {
 			$('body').completionOverlay({
 				completionLength: 10000, // anything numeric no quotes
 				transitionSpeed: 400, // ditto
@@ -140,33 +140,28 @@
 				completionTemplate: 'full', // either 'full' or 'module'
 				completionTurnOffLights: false, //turn off and on lights...true or false
 			});
+			unselect();
+			completionsIndex = parseInt($(this).attr('data-completionid'));
+			select();
 
 			$(".previous").on("click", function () {
-				$(".section_"+completions[completionsIndex]).hide();
-				$(".text_"+completions[completionsIndex]).hide();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+				unselect();
 				if(completionsIndex > 0) {
 					completionsIndex--;
 				} else {
 					completionsIndex = completions.length - 1;
 				}
-				$(".section_"+completions[completionsIndex]).fadeIn();
-				$(".text_"+completions[completionsIndex]).fadeIn();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+				select();
 			});
 
 			$(".skip").on("click", function () {
-				$(".section_"+completions[completionsIndex]).hide();
-				$(".text_"+completions[completionsIndex]).hide();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+				unselect();
 				if(completionsIndex < completions.length - 1) {
 					completionsIndex++;
 				} else {
 					completionsIndex = 0;
 				}
-				$(".section_"+completions[completionsIndex]).show();
-				$(".text_"+completions[completionsIndex]).show();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+				select();
 			});
 			
 			$(".completionContinue").on("click", function () {
@@ -184,7 +179,46 @@
 				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 			});
 		});
-
+		$(".complete_popup").click(function (e) {
+			e.preventDefault();
+			//completionIndex = completions.indexOf($(this).attr('id'));
+			$("#profile_complete").click();
+		});
+		function unselect()
+		{
+			$(".section_"+completions[completionsIndex]).hide();
+			$(".text_"+completions[completionsIndex]).hide();
+			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+		}
+		function select()
+		{
+			$(".section_"+completions[completionsIndex]).show();
+			$(".text_"+completions[completionsIndex]).show();
+			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+		}
+		
+		$("#completion_right").click( function () {
+			unselect();
+			$("#"+completions[completionsIndex]+"_select").hide();
+			if(completionsIndex < completions.length - 1) {
+				completionsIndex++;
+			} else {
+				completionsIndex = 0;
+			}
+			$("#"+completions[completionsIndex]+"_select").fadeIn();
+			select();
+		});
+		$("#completion_left").click( function () {
+			unselect();
+			$("#"+completions[completionsIndex]+"_select").hide();
+			if(completionsIndex > 0) {
+				completionsIndex--;
+			} else {
+				completionsIndex = completions.length - 1;
+			}
+			select();
+			$("#"+completions[completionsIndex]+"_select").fadeIn();
+		});
 	});
 </script>
 
