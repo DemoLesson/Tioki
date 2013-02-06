@@ -1,3 +1,7 @@
+v4.4.22 - Feb 6, 2013 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 50ae83b: Aleks Stanisic - changing featured discussions on dashboard
+
 v4.4.21 - Feb 5, 2013  7:06PM PST deployed by Aleks Stanisic
 ============================================================
 * ea46519: Elijah Green - Add slug count to analytics
