@@ -1,3 +1,7 @@
+v4.4.25 - Feb 6, 2013  4:23PM PST deployed by Aleks Stanisic
+============================================================
+* 0abd042: Aleks Stanisic - changing interview request message
+
 v4.4.24 - Feb 6, 2013  3:13PM PST deployed by Aleks Stanisic
 ============================================================
 * 036cb7a: Aleks Stanisic - redesign of anayltics tables in user view
