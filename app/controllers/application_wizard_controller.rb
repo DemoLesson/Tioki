@@ -41,7 +41,10 @@ class ApplicationWizardController < ApplicationController
 			session[:application] = @app.id
 			if User.current.submitted_application?
 
-				if @job.allow_attachments
+				if @job.job_questions.count > 0
+					redirect_to :question
+
+				elsif @job.allow_attachments
 					redirect_to :step5
 
 				elsif @job.allow_videos
@@ -139,6 +142,16 @@ class ApplicationWizardController < ApplicationController
 
 			cred = Credential.create(params[:credential])
 			user.credentials << cred
+		end
+	end
+
+	def question
+		_loadSession
+		@job = Job.find_by_id(@app.job_id)
+		if request.post?
+
+			answer = JobAnswer.create(params[:job_answer])
+			@app.job_answers << answer
 		end
 	end
 
