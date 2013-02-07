@@ -70,7 +70,113 @@
 		<legend>Completion - <%= @user.completion %>%</legend>
 		<div class="bar" style="width:<%= @user.completion %>%;">&nbsp;</div>
 	</li>
+	<li>
+		<legend>Number of slugs</legend>
+		<%= @slug_count %>
+	</li>
 </ul>
+<table>
+	<tr>
+		<th>Slug</th>
+		<th>Total</th>
+	</tr>
+	<tr>
+		<td>user_logged_in</td>
+		<td><%= @user.analytics.where(:slug => 'user_logged_in').count %></td>
+	</tr>
+	<tr>
+		<td>administrator_step2</td>
+		<td><%= @user.analytics.where(:slug => 'administrator_step2').count %></td>
+	</tr>
+	<tr>
+		<td>job_seeker_step2</td>
+		<td><%= @user.analytics.where(:slug => 'job_seeker_step2').count %></td>
+	</tr>
+	<tr>
+		<td>teacher_step2</td>
+		<td><%= @user.analytics.where(:slug => 'teacher_step2').count %></td>
+	</tr>
+	<tr>
+		<td>student_step2</td>
+		<td><%= @user.analytics.where(:slug => 'student_step2').count %></td>
+	</tr>
+	<tr>
+		<td>connection_invite_sent</td>
+		<td><%= @user.analytics.where(:slug => 'connection_invite_sent').count %></td>
+	</tr>
+	<tr>
+		<td>connection_request</td>
+		<td><%= @user.analytics.where(:slug => 'connection_request').count %></td>
+	</tr>
+	<tr>
+		<td>user_connection_accepted</td>
+		<td><%= @user.analytics.where(:slug => 'user_connection_accepted').count %></td>
+	</tr>
+	<tr>
+		<td>created_vouch</td>
+		<td><%= @user.analytics.where(:slug => 'created_vouch').count %></td>
+	</tr>
+	<tr>
+		<td>discussion_comment</td>
+		<td><%= @user.analytics.where(:slug => 'discussion_comment').count %></td>
+	</tr>
+	<tr>
+		<td>discussion_comment_reply</td>
+		<td><%= @user.analytics.where(:slug => 'discussion_comment_reply').count %></td>
+	</tr>
+	<tr>
+		<td>discussion_creation</td>
+		<td><%= @user.analytics.where(:slug => 'discussion_creation').count %></td>
+	</tr>
+	<tr>
+		<td>discussion_follow</td>
+		<td><%= @user.analytics.where(:slug => 'discussion_follow').count %></td>
+	</tr>
+	<tr>
+		<td>event_creation</td>
+		<td><%= @user.analytics.where(:slug => 'event_creation').count %></td>
+	</tr>
+	<tr>
+		<td>message_sent</td>
+		<td><%= @user.analytics.where(:slug => 'message_sent').count %></td>
+	</tr>
+	<tr>
+		<td>organization_created</td>
+		<td><%= @user.analytics.where(:slug => 'organization_created').count %></td>
+	</tr>
+	<tr>
+		<td>post_favorited</td>
+		<td><%= @user.analytics.where(:slug => 'post_favorited').count %></td>
+	</tr>
+	<tr>
+		<td>suggested_connection_created</td>
+		<td><%= @user.analytics.where(:slug => 'suggested_connection_created').count %></td>
+	</tr>
+	<tr>
+		<td>user_added_technology</td>
+		<td><%= @user.analytics.where(:slug => 'user_added_technology').count %></td>
+	</tr>
+	<tr>
+		<td>user_joined_group</td>
+		<td><%= @user.analytics.where(:slug => 'user_joined_group').count %></td>
+	</tr>
+	<tr>
+		<td>user_changed_email_settings</td>
+		<td><%= @user.analytics.where(:slug => 'user_changed_email_settings').count %></td>
+	</tr>
+	<tr>
+		<td>user_shared_on_whiteboard</td>
+		<td><%= @user.analytics.where(:slug => 'user_shared_on_whiteboard').count %></td>
+	</tr>
+	<tr>
+		<td>view_user_profile</td>
+		<td><%= @user.analytics.where(:slug => 'view_user_profile').count %></td>
+	</tr>
+	<tr>
+		<td>white_board_comment</td>
+		<td><%= @user.analytics.where(:slug => 'white_board_comment').count %></td>
+	</tr>
+</table>
 <table>
 	<tr>
 		<% @fields.each do |field| %>

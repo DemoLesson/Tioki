@@ -1,3 +1,39 @@
+v4.4.25 - Feb 6, 2013  4:23PM PST deployed by Aleks Stanisic
+============================================================
+* 0abd042: Aleks Stanisic - changing interview request message
+
+v4.4.24 - Feb 6, 2013  3:13PM PST deployed by Aleks Stanisic
+============================================================
+* 036cb7a: Aleks Stanisic - redesign of anayltics tables in user view
+
+v4.4.23 - Feb 6, 2013  2:18PM PST deployed by Aleks Stanisic
+============================================================
+* a82b04f: Aleks Stanisic - adding slug totals in user analytics
+
+v4.4.22 - Feb 6, 2013 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 50ae83b: Aleks Stanisic - changing featured discussions on dashboard
+
+v4.4.21 - Feb 5, 2013  7:06PM PST deployed by Aleks Stanisic
+============================================================
+* ea46519: Elijah Green - Add slug count to analytics
+
+v4.4.20 - Feb 4, 2013  6:28PM PST deployed by Aleks Stanisic
+============================================================
+* 9a400dc: Aleks Stanisic - changing link color of unsubmitted button in appliacations page
+
+v4.4.19 - Feb 4, 2013  1:54PM PST deployed by Aleks Stanisic
+============================================================
+* 03e41ed: Elijah Green - Don't show page number on technologies/show
+
+v4.4.18 - Feb 4, 2013 11:22AM PST deployed by Aleks Stanisic
+============================================================
+* 9da9078: Elijah Green - Comment out unfinished sections of skills/show
+* df0d20a: Brian Martinez - changes to new profile completion popups
+* b8b111a: Elijah Green - For now don't show intro on discovery page
+* 472f408: Brian Martinez - in-site profile completion sytle sheet and assets
+* b7a3d67: Elijah Green - Delay discussions controller invites
+
 v4.4.17 - Feb 2, 2013  4:16PM PST deployed by Aleks Stanisic
 ============================================================
 * 746e645: Aleks Stanisic - .live fix for tags when creating discussions
