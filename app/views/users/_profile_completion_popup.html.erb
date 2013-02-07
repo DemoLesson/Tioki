@@ -72,7 +72,7 @@
 	<section class="section_location" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
 			<p>
-				I currently live in... <input name="user[location]" placeholder="Los Angeles, CA" type="text" style="width:350px">
+				I currently live in... <%= text_field_tag "user[location]", currentUser.location, :placeholder => "Los Angeles, CA", :style => ":width:250px" %>
 			</p>
 		<% end %>
 	</section>
@@ -127,18 +127,111 @@
 	</section>
 
 	<section class="section_subjects" style="display:none">
+		<p>
+			Subjects:
+			<%= select_tag 'subjects', options_from_collection_for_select(Subject.all, :id, :name), :multiple => true, :value => "Subjects", :style => "width:400px", :class => "job_subjects" %>
+		</p>
 	</section>
 
 	<section class="section_skills" style="display:none">
 	</section>
 
 	<section class="section_education" style="display:none">
+		<%= form_for :education do |f| %>
+			<fieldset>
+				<p>
+				School/University
+				</p>
+				<%= f.text_field :school %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Degree
+				</p>
+				<%= f.text_field :degree, :placeholder => "(e.g. B.A, Masters, etc.)" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Major
+				</p>
+				<%= f.text_field :concentrations, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Year: 
+				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+				</p>	
+			</fielset>
+			<fieldset>
+				<p>
+				Graduation Year: 
+				<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
+				</p>
+			</fieldset>	
+			<fieldset>
+				<label>
+					<%= f.check_box :current %> 
+					I am currently attending here
+				</label>
+			</fieldset>
+		<% end %>
+
 	</section>
 
 	<section class="section_experience" style="display:none">
+		<%= form_for :experience do |f| %>
+			<fieldset>
+				<p>
+				Company, District or School
+				</p>
+				<%= f.text_field :company %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Date: 
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
+				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+				End Date:
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
+				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<label>
+					<%= check_box_tag 'current', 'yes', false, :class => 'current' %> 
+					I currently work here
+				</label>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position
+				</p>
+				<%= f.text_field :position %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Description (optional)
+				</p>
+				<%= f.text_area :description %>
+			</fieldset>
+			<fieldset>
+				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
+				<%= link_to 'Cancel', "/me/profile" %>
+			</fieldset>
+
+			<div id="loader" style="display: none">
+				<%= image_tag('tioki/icons/loader.gif') %>
+			</div>
+		<% end %>
+
 	</section>
 
 	<section class="section_video" style="display:none">
+
 	</section>
 
 	<section>
@@ -267,6 +360,7 @@
 			select();
 			$("#"+completions[completionsIndex]+"_select").fadeIn();
 		});
+		$('.job_subjects').chosen();
 	});
 </script>
 
