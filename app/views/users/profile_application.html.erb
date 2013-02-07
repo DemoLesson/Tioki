@@ -342,7 +342,7 @@
 			
 			<!-- START Education Section-->
 			<!-- If Education is blank and you do own the profile, we encourage you to complete it.--> 
-			<% if @user.educations.empty? && @self %>
+			<% if @u && @self %>
 				<section class="profile-info group">
 					<h3 class="bottom-line">
 					<%= link_to "Education", "/me/profile/edit/educations", :style => "color:#4D4D4D" %>
