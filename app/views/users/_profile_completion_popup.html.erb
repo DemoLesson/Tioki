@@ -60,7 +60,12 @@
 	<section class="section_occupation" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
 				Occupation<br />
-				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %><br />
+				Are you currently seeking employment?<br />
+				<select name="user[job_seeking]">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</select>
 		<% end %>
 	</section>
 
@@ -75,7 +80,7 @@
 	<section class="section_headline" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
 				Headline<br />
-				<%= text_area_tag "user[headline]" %>
+				<%= text_area_tag "user[headline]", currentUser.headline %>
 		<% end %>
 	</section>
 
@@ -95,6 +100,30 @@
 	</section>
 
 	<section class="section_social" style="display:none">
+		<p>
+			<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+			<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "http://www.linkedin.com/" %>
+		</p>
+		<p>
+			<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+			<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "http://twitter.com/" %>
+		</p>
+		<p>
+			<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+			<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "http://www.pinterest.com/" %>
+		</p>
+		<p>
+			<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+			<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "http://www.edmodo.com/" %>
+		</p>
+		<p>
+			<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+			<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "http://betterlesson.com/" %>
+		</p>
+		<p>
+			<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+			<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "http://www.teachingchannel.org/" %>
+		</p>
 	</section>
 
 	<section class="section_subjects" style="display:none">
@@ -196,9 +225,27 @@
 			$(".text_"+completions[completionsIndex]).show();
 			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 		}
-		
+		function unselectpopupAll()
+		{
+			temp = completionsIndex;
+			for(var i = 0; i < completions.length; i++){
+				completionsIndex = i;
+				unselect();
+			}
+			completionsIndex = temp;
+		}
+		function unselectcompleteAll()
+		{
+			temp = completionsIndex;
+			for(var i = 0; i < completions.length; i++){
+				completionsIndex = i;
+				$("#"+completions[completionsIndex]+"_select").hide();
+			}
+			completionsIndex = temp;
+		}
 		$("#completion_right").click( function () {
 			unselect();
+			unselectcompleteAll();
 			$("#"+completions[completionsIndex]+"_select").hide();
 			if(completionsIndex < completions.length - 1) {
 				completionsIndex++;
@@ -210,6 +257,7 @@
 		});
 		$("#completion_left").click( function () {
 			unselect();
+			unselectcompleteAll();
 			$("#"+completions[completionsIndex]+"_select").hide();
 			if(completionsIndex > 0) {
 				completionsIndex--;
