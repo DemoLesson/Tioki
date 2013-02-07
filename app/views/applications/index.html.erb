@@ -52,7 +52,7 @@
 						<%= app.user.avatar? ? image_tag(app.user.avatar.url(:thumb)) : '' %>
 					</div>
 					<div style="margin-left:80px;margin-top:-60px">
-						<%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></br>
+						<%= link_to app.user.name, "/profile/#{app.user.slug}/application?application="+app.id.to_s(), :class => :salmon %></br>
 					</div>
 					<div style="margin-left:448px;margin-top:-20px">
 							<%= form_for([@source.group, @source, app]) do |f| %>

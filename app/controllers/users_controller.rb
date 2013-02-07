@@ -880,6 +880,8 @@ class UsersController < ApplicationController
 	# Profile Resume 
 	def profile_resume; profile(false); end
 
+	def profile_application; profile(false); end
+
 	# Migrated from teacher_controller.rb
 	def profile(whiteboard = true)
 
