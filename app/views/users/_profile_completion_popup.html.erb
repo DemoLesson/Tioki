@@ -127,10 +127,7 @@
 	</section>
 
 	<section class="section_subjects" style="display:none">
-		<p>
-			Subjects:
-			<%= select_tag 'subjects', options_from_collection_for_select(Subject.all, :id, :name), :multiple => true, :value => "Subjects", :style => "width:400px", :class => "job_subjects" %>
-		</p>
+		<input type="text" id="profile_subjects" name="user[subject]" />
 	</section>
 
 	<section class="section_skills" style="display:none">
@@ -300,6 +297,13 @@
 				$(".text_"+completions[completionsIndex]).show();
 				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 			});
+			 $('input[name="user[subject]"]').tokenInput("/api/subjects", {
+				 hintText: "Subjects...",
+				 theme: "facebook",
+				 resultsLimit: 10,
+				 prePopulate: 
+				 <%= @user.subjects.to_json(:only => [:id, :name] ).html_safe %>
+			 });
 		});
 		$(".complete_popup").click(function (e) {
 			e.preventDefault();
@@ -360,7 +364,6 @@
 			select();
 			$("#"+completions[completionsIndex]+"_select").fadeIn();
 		});
-		$('.job_subjects').chosen();
 	});
 </script>
 
