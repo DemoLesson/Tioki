@@ -166,21 +166,21 @@ jQuery.fn.completionOverlay = function(options){
             //transition on click
             
             $('#completionClose').bind('click', function(){
-                
-                transition();
-                
-                timer(function(){
-                    
-                    $(completionEverything).remove();
-                    
-                    if(options.completionAutoFade == true){
+							window.location.reload();
+                //transition();
+                //
+                //timer(function(){
+                //    
+                //    $(completionEverything).remove();
+                //    
+                //    if(options.completionAutoFade == true){
     
-                        clearTimeout(autoTimer);
-                        
-                    }
+                //        clearTimeout(autoTimer);
+                //        
+                //    }
 
-                
-                },options.transitionSpeed);
+                //
+                //},options.transitionSpeed);
                 
                  
                 
