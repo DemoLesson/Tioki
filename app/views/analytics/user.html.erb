@@ -176,6 +176,10 @@
 		<td>white_board_comment</td>
 		<td><%= @user.analytics.where(:slug => 'white_board_comment').count %></td>
 	</tr>
+	<tr>
+		<td>user_job_preferences</td>
+		<td><%= @user.analytics.where(:slug => 'user_job_preferences').count %></td>
+	</tr>
 </table>
 <table>
 	<tr>
