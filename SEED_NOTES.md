@@ -1,3 +1,11 @@
+v4.4.27 - Feb 7, 2013  1:05PM PST deployed by Aleks Stanisic
+============================================================
+* 49170b6: Aleks Stanisic - adding analytics for job preferences
+
+v4.4.26 - Feb 7, 2013 12:36PM PST deployed by Aleks Stanisic
+============================================================
+* 2e19816: Elijah Green - Make sure person is logged in before going to attachments page
+
 v4.4.25 - Feb 6, 2013  4:23PM PST deployed by Aleks Stanisic
 ============================================================
 * 0abd042: Aleks Stanisic - changing interview request message
