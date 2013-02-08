@@ -1,3 +1,10 @@
+v4.4.28 - Feb 8, 2013  2:41PM PST deployed by Aleks Stanisic
+============================================================
+* ef20614: Aleks Stanisic - possible groups picture styling fix
+* 23f3d04: Aleks Stanisic - changing DemoLesson to Tioki
+* f1fe6f6: Aleks Stanisic - new video upload change
+* 91885d7: Aleks Stanisic - adding file types to video upload page and fixing some styling
+
 v4.4.27 - Feb 7, 2013  1:05PM PST deployed by Aleks Stanisic
 ============================================================
 * 49170b6: Aleks Stanisic - adding analytics for job preferences
