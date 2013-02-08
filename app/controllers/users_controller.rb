@@ -149,7 +149,23 @@ class UsersController < ApplicationController
 	end
 	
 	def profile_complete
-		currentUser.update_attributes(params[:user])
+		params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade','skills'].include?(k)} if params[:user]
+		currentUser.subjects = params[:user][:subject].collect{|x| Subject.find(x)} if params.user.try(:subject)
+		currentUser.grades = params[:user][:grade].collect{|x| Grade.find(x)} if params.user.try(:grade)
+		currentUser.skills = params[:user][:skill].collect{|x| Skill.find(x)} if params.user.try(:skill)
+
+		if params[:education]
+			currentUser.educations.build(params[:education])
+		end
+
+		if params[:experience]
+			currentUser.experiences.build(params[:experience])
+		end
+
+		currentUser.update_attributes(params[:user]) if params[:user]
+		currentUser.social = params[:social] if params[:social]
+		currentUser.save
+
 		respond_to do |format|
 			format.js {render :nothing => true}
 		end

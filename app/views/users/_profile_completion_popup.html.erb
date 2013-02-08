@@ -58,7 +58,7 @@
 	</div>
 
 	<section class="section_occupation" style="display:none">
-		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+		<%= form_tag "/me/profile/edit/complete", :class => "occupation_form", :remote => true do %>
 				Occupation<br />
 				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %><br />
 				Are you currently seeking employment?<br />
@@ -78,7 +78,7 @@
 	</section>
 
 	<section class="section_headline" style="display:none">
-		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+		<%= form_tag "/me/profile/edit/complete", :class => "headline_form", :remote => true do %>
 				Headline<br />
 				<%= text_area_tag "user[headline]", currentUser.headline %>
 		<% end %>
@@ -100,41 +100,52 @@
 	</section>
 
 	<section class="section_social" style="display:none">
-		<p>
-			<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-			<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "http://www.linkedin.com/" %>
-		</p>
-		<p>
-			<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-			<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "http://twitter.com/" %>
-		</p>
-		<p>
-			<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-			<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "http://www.pinterest.com/" %>
-		</p>
-		<p>
-			<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-			<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "http://www.edmodo.com/" %>
-		</p>
-		<p>
-			<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-			<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "http://betterlesson.com/" %>
-		</p>
-		<p>
-			<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
-			<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "http://www.teachingchannel.org/" %>
-		</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "social_form", :remote => true do %>
+			<p>
+				<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "http://www.linkedin.com/" %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "http://twitter.com/" %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "http://www.pinterest.com/" %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "http://www.edmodo.com/" %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "http://betterlesson.com/" %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "http://www.teachingchannel.org/" %>
+			</p>
+		<% end %>
 	</section>
 
 	<section class="section_subjects" style="display:none">
-		<input type="text" id="profile_subjects" name="user[subject]" />
+		<%= form_tag "/me/profile/edit/complete", :class => "subjects_form", :remote => true do %>
+			Subjects:
+			<input type="text" id="profile_subjects" name="user[subject]" />
+			Grades:
+			<input type="text" id="profile_subjects" name="user[grade]" />
+		<% end %>
 	</section>
 
 	<section class="section_skills" style="display:none">
+		<%= form_tag "/me/profile/edit/complete", :class => "skills_form", :remote => true do %>
+			Skills:
+			<input type="text" name="user[skill]" />
+		<% end %>
 	</section>
 
 	<section class="section_education" style="display:none">
-		<%= form_for :education do |f| %>
+		<%= form_for :education, :class => "education_form" do |f| %>
 			<fieldset>
 				<p>
 				School/University
@@ -176,7 +187,7 @@
 	</section>
 
 	<section class="section_experience" style="display:none">
-		<%= form_for :experience do |f| %>
+		<%= form_for :experience, :class => "experience_form" do |f| %>
 			<fieldset>
 				<p>
 				Company, District or School
@@ -209,25 +220,24 @@
 				</p>
 				<%= f.text_field :position %>
 			</fieldset>
-			<fieldset>
-				<p>
-				Description (optional)
-				</p>
-				<%= f.text_area :description %>
-			</fieldset>
-			<fieldset>
-				<input name="commit" type="submit" value="Submit" onclick="$('#loader').show('fast');" class="button" />
-				<%= link_to 'Cancel', "/me/profile" %>
-			</fieldset>
-
-			<div id="loader" style="display: none">
-				<%= image_tag('tioki/icons/loader.gif') %>
-			</div>
 		<% end %>
 
 	</section>
 
 	<section class="section_video" style="display:none">
+		Videos:<br />
+		<%= link_to "Upload video", new_video_path %>
+
+		<em>or</em>
+
+		<div class="field" style="margin-top: 10px">
+			<strong>Youtube or Vimeo URL</strong>
+			<%= form_tag '/add_embed', :remote => true, :id => "video_form" do %>
+				<div class="field" style="margin-top: 10px">
+					<%= text_field_tag :video_embed_url, nil, { :placeholder => "http://www.youtube.com/watch?v=RagS0Rt2BMY&feature=youtu.be", :size => 36.5 } %>
+				</div>
+			<% end %>
+		</div>
 
 	</section>
 
@@ -284,8 +294,8 @@
 			});
 			
 			$(".completionContinue").on("click", function () {
-				$("."+completions[completionsIndex]+"_form").submit();
-				$(".skip").click();
+				$("."+completions[completionsIndex]+"_form").last().submit();
+				$(".skip").last().click();
 			});
 
 			$(".image_link").on("click", function () {
@@ -297,14 +307,28 @@
 				$(".text_"+completions[completionsIndex]).show();
 				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 			});
+
 			 $('input[name="user[subject]"]').tokenInput("/api/subjects", {
 				 hintText: "Subjects...",
 				 theme: "facebook",
 				 resultsLimit: 10,
 				 prePopulate: 
-				 <%= @user.subjects.to_json(:only => [:id, :name] ).html_safe %>
+				 <%= currentUser.subjects.to_json(:only => [:id, :name] ).html_safe %>
 			 });
-		});
+			 $('input[name="user[grade]"]').tokenInput("/api/grades", {
+				 hintText: "Grades...",
+				 theme: "facebook",
+				 resultsLimit: 10,
+				 prePopulate: 
+				 <%= currentUser.grades.to_json(:only => [:id, :name] ).html_safe %>
+			 });
+				$('input[name="user[skill]"]').tokenInput("/api/skills", {
+					hintText: "Skills...",
+					theme: "facebook",
+					resultsLimit: 10,
+					prePopulate: <%= currentUser.skills.to_json(:only => [:id, :name]).html_safe %>
+				});
+			});
 		$(".complete_popup").click(function (e) {
 			e.preventDefault();
 			//completionIndex = completions.indexOf($(this).attr('id'));
