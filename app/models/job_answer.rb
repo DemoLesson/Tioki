@@ -1,3 +1,4 @@
 class JobAnswer < ActiveRecord::Base
-	has_one :job_question
+	belongs_to :job_question
+	belongs_to :application
 end

@@ -144,57 +144,96 @@
 	</section>
 	
 	<section class="profile group">
-		<nav class="subpage" style="width: 660px;margin-left: 15px;">
-			<ul>
-				<%unless currentUser.new_record? %>
-					<% @self || @connected || !@user.privacy_public[:whiteboard] %>
+		<% if @application != nil %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
+				<ul>
 					<li>
-						<% if @self %>
-						<a href="/me/profile">
-						<% else %>
-						<a href="/profile/<%= @user.slug %>">
-						<% end %>
+						<a href="/profile/<%= @user.slug %>?application=<%= @application.id.to_s() %>">
 							Activity
 						</a>
 					</li>
-				<% end %>
-
-				<li>
-					<a href="/profile/<%= @user.slug %>/about">
-					About
-					</a>
-				</li>
-
-				<li class="current">
-					<a href="/profile/<%= @user.slug %>/resume">
-					Resume
-					</a>
-				</li>
-				<%unless currentUser.new_record? %>
-					<% if @user.videos.count > 0 %>
 					<li>
-						<a href="/profile/<%= @user.slug %>/videos">
-						Videos
+						<a href="/profile/<%= @user.slug %>/about?application=<%= @application.id.to_s() %>">
+						About
 						</a>
 					</li>
-					<% elsif !currentUser.new_record? && @self %>
+
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/resume?application=<%= @application.id.to_s() %>">
+						Resume
+						</a>
+					</li>
+					<% if @application.job.job_questions.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/application?application=<%= @application.id.to_s() %>">
+							Application
+							</a>
+						</li>
+					<% end %>
+					<%unless currentUser.new_record? %>
+						<% if @user.videos.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/videos?application=<%= @application.id.to_s() %>">
+							Videos
+							</a>
+						</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</nav>
+		<% else %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
+				<ul>
+					<%unless currentUser.new_record? %>
+						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
+						<li>
+							<% if @self %>
+							<a href="/me/profile">
+							<% else %>
+							<a href="/profile/<%= @user.slug %>">
+							<% end %>
+								Activity
+							</a>
+						</li>
+					<% end %>
+
 					<li>
-						<a href="/me/profile/edit/upload-video">
-						Upload Video
+						<a href="/profile/<%= @user.slug %>/about">
+						About
+						</a>
+					</li>
+
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/resume">
+						Resume
+						</a>
+					</li>
+					<%unless currentUser.new_record? %>
+						<% if @user.videos.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/videos">
+							Videos
+							</a>
+						</li>
+						<% elsif !currentUser.new_record? && @self %>
+						<li>
+							<a href="/me/profile/edit/upload-video">
+							Upload Video
+							</a>
+						</li>
+						<% end %>
+					<% end %>
+					<% if !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/stats">
+						Stats
 						</a>
 					</li>
 					<% end %>
-				<% end %>
-				<% if !currentUser.new_record? && @self %>
-				<li>
-					<a href="/me/profile/stats">
-					Stats
-					</a>
-				</li>
-				<% end %>
 
-			</ul>
-		</nav>
+				</ul>
+			</nav>
+		<% end %>
 		
 		<section class="sidebar" style="float:right;margin-top:-17px;" >
 			<% if @application != nil %>
