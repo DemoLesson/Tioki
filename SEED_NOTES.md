@@ -1,3 +1,34 @@
+v4.4.28 - Feb 8, 2013  2:41PM PST deployed by Aleks Stanisic
+============================================================
+* ef20614: Aleks Stanisic - possible groups picture styling fix
+* 23f3d04: Aleks Stanisic - changing DemoLesson to Tioki
+* f1fe6f6: Aleks Stanisic - new video upload change
+* 91885d7: Aleks Stanisic - adding file types to video upload page and fixing some styling
+
+v4.4.27 - Feb 7, 2013  1:05PM PST deployed by Aleks Stanisic
+============================================================
+* 49170b6: Aleks Stanisic - adding analytics for job preferences
+
+v4.4.26 - Feb 7, 2013 12:36PM PST deployed by Aleks Stanisic
+============================================================
+* 2e19816: Elijah Green - Make sure person is logged in before going to attachments page
+
+v4.4.25 - Feb 6, 2013  4:23PM PST deployed by Aleks Stanisic
+============================================================
+* 0abd042: Aleks Stanisic - changing interview request message
+
+v4.4.24 - Feb 6, 2013  3:13PM PST deployed by Aleks Stanisic
+============================================================
+* 036cb7a: Aleks Stanisic - redesign of anayltics tables in user view
+
+v4.4.23 - Feb 6, 2013  2:18PM PST deployed by Aleks Stanisic
+============================================================
+* a82b04f: Aleks Stanisic - adding slug totals in user analytics
+
+v4.4.22 - Feb 6, 2013 12:09PM PST deployed by Aleks Stanisic
+============================================================
+* 50ae83b: Aleks Stanisic - changing featured discussions on dashboard
+
 v4.4.21 - Feb 5, 2013  7:06PM PST deployed by Aleks Stanisic
 ============================================================
 * ea46519: Elijah Green - Add slug count to analytics

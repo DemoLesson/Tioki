@@ -405,6 +405,7 @@ class JobsController < ApplicationController
 				end
 			end
 
+			self.log_analytic(:user_job_preferences, "User used job preferences", currentUser, [], :jobs)
 			currentUser.seeking = params[:user][:seeking]
 
 			redirect_to jobs_url

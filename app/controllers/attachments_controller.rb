@@ -1,4 +1,5 @@
 class AttachmentsController < ApplicationController
+	before_filter :login_required
 
 	def attachments_path; '/me/profile/edit/attachments'; end
 
