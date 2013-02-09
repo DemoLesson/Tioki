@@ -149,7 +149,7 @@ class UsersController < ApplicationController
 	end
 	
 	def profile_complete
-		params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade','skills'].include?(k)} if params[:user]
+		params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade','skill'].include?(k)} if params[:user]
 		currentUser.subjects = params[:user][:subject].collect{|x| Subject.find(x)} if params.user.try(:subject)
 		currentUser.grades = params[:user][:grade].collect{|x| Grade.find(x)} if params.user.try(:grade)
 		currentUser.skills = params[:user][:skill].collect{|x| Skill.find(x)} if params.user.try(:skill)
@@ -159,6 +159,11 @@ class UsersController < ApplicationController
 		end
 
 		if params[:experience]
+			params[:experience][:startMonth]= params[:date][:startMonth]
+			params[:experience][:startYear] = params[:date][:startYear]
+			params[:experience][:endMonth] = params[:date][:endMonth]
+			params[:experience][:endYear] = params[:date][:endYear]
+
 			currentUser.experiences.build(params[:experience])
 		end
 

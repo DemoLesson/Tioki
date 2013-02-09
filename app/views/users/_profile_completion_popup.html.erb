@@ -68,11 +68,11 @@
 				<% end %>
 				&middot;
 				<% if @completions.include?("experience") %>
-					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "8"} %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
 					&middot;
 				<% end %>
 				<% if @completions.include?("video") %>
-					<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => "9"} %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => ctr += 1} %>
 				<% end %>
 
 			</p>
@@ -117,7 +117,7 @@
 				<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
 			<% end %>
 			<br/>
-			<%= link_to 'Upload Picture', '#', :style => 'color:#F66C4C' %>
+			<%= link_to 'Upload Picture', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
 		</div>
 	</section>
 
@@ -167,24 +167,24 @@
 	</section>
 
 	<section class="section_education" style="display:none">
-		<%= form_for :education, :class => "education_form" do |f| %>
+		<%= form_tag "/me/profile/edit/complete", :class => "education_form", :remote => true do |f| %>
 			<fieldset>
 				<p>
 				School/University
 				</p>
-				<%= f.text_field :school %>
+				<%= text_field_tag "education[school]" %>
 			</fieldset>
 			<fieldset>
 				<p>
 				Degree
 				</p>
-				<%= f.text_field :degree, :placeholder => "(e.g. B.A, Masters, etc.)" %>
+				<%= text_field_tag "education[degree]", nil, :placeholder => "(e.g. B.A, Masters, etc.)" %>
 			</fieldset>
 			<fieldset>
 				<p>
 				Major
 				</p>
-				<%= f.text_field :concentrations, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
+				<%= text_field_tag "education[concentrations]", nil, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
 			</fieldset>
 			<fieldset>
 				<p>
@@ -200,7 +200,7 @@
 			</fieldset>	
 			<fieldset>
 				<label>
-					<%= f.check_box :current %> 
+					<%= check_box_tag "education[current]" %> 
 					I am currently attending here
 				</label>
 			</fieldset>
@@ -209,30 +209,30 @@
 	</section>
 
 	<section class="section_experience" style="display:none">
-		<%= form_for :experience, :class => "experience_form" do |f| %>
+		<%= form_tag "/me/profile/edit/complete", :class => "experience_form", :remote => true do |f| %>
 			<fieldset>
 				<p>
 				Company, District or School
 				</p>
-				<%= f.text_field :company %>
+				<%= text_field_tag "experience[company]" %>
 			</fieldset>
 			<fieldset>
 				<p>
 				Start Date: 
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
-				<%= select_year(Date.today, :field_name => :startYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				<%= select_year(Date.today, :field_name => "startYear", :start_year => 1940, :end_year => Time.now.year+1) %>
 				</p>
 			</fieldset>
 			<fieldset>
 				<p>
 				End Date:
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
-				<%= select_year(Date.today, :field_name => :endYear, :start_year => 1940, :end_year => Time.now.year+1) %>
+				<%= select_year(Date.today, :field_name => "endYear", :start_year => 1940, :end_year => Time.now.year+1) %>
 				</p>
 			</fieldset>
 			<fieldset>
 				<label>
-					<%= check_box_tag 'current', 'yes', false, :class => 'current' %> 
+					<%= check_box_tag 'experience[current]', 'yes', false, :class => 'current' %> 
 					I currently work here
 				</label>
 			</fieldset>
@@ -240,7 +240,7 @@
 				<p>
 				Title/Position
 				</p>
-				<%= f.text_field :position %>
+				<%= text_field_tag "experience[position]" %>
 			</fieldset>
 		<% end %>
 
