@@ -34,25 +34,47 @@
 		</h3>
 		<div id="completionIcons">
 			<p style="font-size:17px;color:#fff;margin-top:0px">
-				<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "0"} %>
+				<% ctr = -1 %>
+				<% if @completions.include?("occupation") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("location") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("headline") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("picture") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("social") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("subjects") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link",:data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("skills") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("education") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+				<% end %>
 				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "1"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "2"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "3"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "4"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link",:data => {:complete => "5"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "6"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "7"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "8"} %>
-				&middot;
-				<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => "9"} %>
+				<% if @completions.include?("experience") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => "8"} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("video") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => "9"} %>
+				<% end %>
+
 			</p>
 		</div>
 	</div>
@@ -250,8 +272,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		var completions = ["occupation", "location", "headline", "picture", "social", "subjects", "skills", "education", "experience", "video"];
+		var completions = <%= @completions.to_json.html_safe %>;
 		var completionsIndex = 0;
+		$("#"+completions[completionsIndex]+"_select").show();
 		$(".complete_popup").click(function () {
 			$('body').completionOverlay({
 				completionLength: 10000, // anything numeric no quotes
@@ -329,6 +352,7 @@
 					prePopulate: <%= currentUser.skills.to_json(:only => [:id, :name]).html_safe %>
 				});
 			});
+
 		$(".complete_popup").click(function (e) {
 			e.preventDefault();
 			//completionIndex = completions.indexOf($(this).attr('id'));

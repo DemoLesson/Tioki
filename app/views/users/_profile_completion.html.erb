@@ -9,49 +9,50 @@
 </p>
 
 <%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
-<%= image_tag "/assets/completion_icons/completion-bar.png", :width => 90, :height => 12, :style => "position:absolute" %>
+<%= image_tag "/assets/completion_icons/completion-bar.png", :width => (currentUser.completion/100.0)*183, :height => 12, :style => "position:absolute" %>
 <div id="profile_complete" style="float:right;font-size:8px">
-	50% Complete
+	<%= currentUser.completion %>% Complete
 </div>
 
 <br />
-<div id="occupation_select">
+
+<div id="occupation_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/occupation_grey.png", :width => 20  %>Are you a teacher, admin, professor?<br />
-	<%= link_to "Update Occupation", "#", :id => "occupation", :data => {:completionid => "0"},:class => "button complete_popup" %>
+	<%= link_to "Update Occupation", "#", :id => "occupation", :data => {:completionid => @completions.index("occupation")},:class => "button complete_popup" %>
 </div>
 <div id="location_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 20  %>Help your friends find you<br />
-	<%= link_to "Update Occupation", "#", :id => "occupation", :data => {:completionid => "1"},:class => "button complete_popup" %>
+	<%= link_to "Update Occupation", "#", :id => "occupation", :data => {:completionid => @completions.index("location")},:class => "button complete_popup" %>
 </div>
 <div id="headline_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/headline_grey.png", :width => 20  %>Tell us a bit about yourself<br />
-	<%= link_to "Update Headline", "#", :id => "occupation", :data => {:completionid => "2"},:class => "button complete_popup" %>
+	<%= link_to "Update Headline", "#", :id => "occupation", :data => {:completionid => @completions.index("headline")},:class => "button complete_popup" %>
 </div>
 <div id="picture_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/picture_grey.png", :width => 20  %>Help the Tioki Network recognize you<br />
-	<%= link_to "Update Photo", "#", :id => "occupation", :data => {:completionid => "3"},:class => "button complete_popup" %>
+	<%= link_to "Update Photo", "#", :id => "occupation", :data => {:completionid => @completions.index("picture")},:class => "button complete_popup" %>
 </div>
 <div id="social_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/social_grey.png", :width => 20  %>Connect your social networks for better sharing<br />
-	<%= link_to "Update Social Networks", "#", :id => "occupation", :data => {:completionid => "4"},:class => "button complete_popup" %>
+	<%= link_to "Update Social Networks", "#", :id => "occupation", :data => {:completionid => @completions.index("social")},:class => "button complete_popup" %>
 </div>
 <div id="subjects_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/subjects_grey.png", :width => 20  %>Let the world know what subjects you specialize in<br />
-	<%= link_to "Update Subjects", "#", :id => "occupation", :data => {:completionid => "5"},:class => "button complete_popup" %>
+	<%= link_to "Update Subjects", "#", :id => "occupation", :data => {:completionid => @completions.index("subjects")},:class => "button complete_popup" %>
 </div>
 <div id="skills_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/skills_grey.png", :width => 20  %>Skills make us unique.  What are some of your?<br />
-	<%= link_to "Update Skills", "#", :id => "occupation", :data => {:completionid => "6"},:class => "button complete_popup" %>
+	<%= link_to "Update Skills", "#", :id => "occupation", :data => {:completionid => @completions.index("skills")},:class => "button complete_popup" %>
 </div>
 <div id="education_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/education_grey.png", :width => 20  %>Find your classmates and school networks<br />
-	<%= link_to "Update Education", "#", :id => "occupation", :data => {:completionid => "7"},:class => "button complete_popup" %>
+	<%= link_to "Update Education", "#", :id => "occupation", :data => {:completionid => @completions.index("education")},:class => "button complete_popup" %>
 </div>
 <div id="experience_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/experience_grey.png", :width => 20  %>You're a professional.  Tell us where you practice<br />
-	<%= link_to "Update Work Experience", "#", :id => "occupation", :data => {:completionid => "8"},:class => "button complete_popup" %>
+	<%= link_to "Update Work Experience", "#", :id => "occupation", :data => {:completionid => @completions.index("picture")},:class => "button complete_popup" %>
 </div>
 <div id="video_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/video_grey.png", :width => 20  %>Add a video of you in the classroom<br />
-	<%= link_to "Add Video", "#", :id => "occupation", :data => {:completionid => "9"},:class => "button complete_popup" %>
+	<%= link_to "Add Video", "#", :id => "occupation", :data => {:completionid => @completions.index("video")},:class => "button complete_popup" %>
 </div>
