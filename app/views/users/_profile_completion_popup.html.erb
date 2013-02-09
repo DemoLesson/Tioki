@@ -249,18 +249,6 @@
 	<section class="section_video" style="display:none">
 		Videos:<br />
 		<%= link_to "Upload video", new_video_path %>
-
-		<em>or</em>
-
-		<div class="field" style="margin-top: 10px">
-			<strong>Youtube or Vimeo URL</strong>
-			<%= form_tag '/add_embed', :remote => true, :id => "video_form" do %>
-				<div class="field" style="margin-top: 10px">
-					<%= text_field_tag :video_embed_url, nil, { :placeholder => "http://www.youtube.com/watch?v=RagS0Rt2BMY&feature=youtu.be", :size => 36.5 } %>
-				</div>
-			<% end %>
-		</div>
-
 	</section>
 
 	<section>
@@ -355,7 +343,6 @@
 
 		$(".complete_popup").click(function (e) {
 			e.preventDefault();
-			//completionIndex = completions.indexOf($(this).attr('id'));
 			$("#profile_complete").click();
 		});
 		function unselect()
