@@ -57,6 +57,7 @@ gem 'acts_as_commentable_with_threading' # Threaded Comments
 gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
 # @todo deprecate smart_tuple replace with solr
 gem 'smart_tuple' # Tuple styled SQL Queries
+gem 'activeadmin'
 
 # Solr search
 # To install solr in a heartbeat run
