@@ -91,7 +91,8 @@ gem 'open4'
 group :development do
 	gem 'debugger'
 	gem 'debugger-ruby_core_source'
-	gem 'better_errors'
+	gem 'better_errors', '0.3.2'
+	gem "binding_of_caller"
 	gem 'thin'
 end
 
