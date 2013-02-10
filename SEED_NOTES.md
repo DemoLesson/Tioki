@@ -1,3 +1,11 @@
+v4.4.29 - Feb 9, 2013  4:28PM PST deployed by Kelly Becker
+==========================================================
+* 3e305f9: Kelly Becker - new administration link
+* 3aaa268: Kelly Becker - admin panel
+* 76943ef: Kelly Becker - better errors version
+* b2aee45: Kelly Becker - new error handler
+* a089dea: Kelly Becker - rbenv version and gemfile/lock
+
 v4.4.28 - Feb 8, 2013  2:41PM PST deployed by Aleks Stanisic
 ============================================================
 * ef20614: Aleks Stanisic - possible groups picture styling fix
