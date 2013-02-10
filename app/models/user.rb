@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
 
 	#scope to get empty relation
 	scope :none, where("1 = 0")
+	scope :admin, where(:is_admin => true)
+	scope :fake, where(:fake => true)
+	scope :all, unscoped
 
 	def reverse_geocode
 		#instead of reverse geocoding by coordinates
@@ -60,9 +63,6 @@ class User < ActiveRecord::Base
 	bitswitch :privacy_connected, APP_CONFIG['bitswitches']['user_privacy']
 	bitswitch :privacy_recruiter, APP_CONFIG['bitswitches']['user_privacy']
 	bitswitch :email_permissions, APP_CONFIG['bitswitches']['email_permissions']
-
-	# Default scope of a user
-	default_scope where(:deleted_at => nil)
 
 	# Attribute Access
 	attr_protected :id, :salt, :is_admin

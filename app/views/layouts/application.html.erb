@@ -171,6 +171,11 @@
 								</a>
 								
 								<ul>
+									<% if current_user.is_admin %>
+										<li><%= link_to 'Administration 2.0', administration_root_path %></li>
+										<hr>
+									<% end %>
+
 									<!-- Teacher Methods -->
 									<% unless currentUser.new_record? %>
 										<li>

@@ -1,14 +1,21 @@
 GIT
   remote: git://github.com/KellyLSB/Bitswitch.git
-  revision: 658b2119ca2b0a8690549afcf1cf0fc4fe334479
+  revision: 2cc14bb04d21849bcdc873b03cf5a40b01da14ce
   specs:
-    bitswitch (1.0.5)
+    bitswitch (1.1.0)
 
 GIT
   remote: git://github.com/KellyLSB/KVPair.git
   revision: 7320575d963fb2511ce8902e4fa9334dc998118f
   specs:
     kvpair (0.0.1)
+
+GIT
+  remote: git://github.com/KellyLSB/arbre.git
+  revision: edfa5bb0875879e13d63d15429dbb7e14bcda6f2
+  specs:
+    arbre (1.0.1)
+      activesupport (>= 3.0.0)
 
 GIT
   remote: git://github.com/KellyLSB/mailgun-rails.git
@@ -43,6 +50,18 @@ GEM
       rack-mount (~> 0.8.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.0.4)
+    activeadmin (0.5.1)
+      arbre (>= 1.0.1)
+      bourbon (>= 1.0.0)
+      devise (>= 1.1.2)
+      fastercsv
+      formtastic (>= 2.0.0)
+      inherited_resources (>= 1.3.1)
+      jquery-rails (>= 1.0.0)
+      kaminari (>= 0.13.0)
+      meta_search (>= 0.9.2)
+      rails (>= 3.0.0)
+      sass (>= 3.1.0)
     activemodel (3.1.10)
       activesupport (= 3.1.10)
       builder (~> 3.0.0)
@@ -73,8 +92,16 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
+    bcrypt-ruby (3.0.1)
+    better_errors (0.3.2)
+      coderay (>= 1.0.0)
+      erubis (>= 2.7.0)
+    binding_of_caller (0.6.8)
+    bourbon (3.1.0)
+      sass (>= 3.2.0)
+      thor
     builder (3.0.4)
-    capistrano (2.14.1)
+    capistrano (2.14.2)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -91,6 +118,7 @@ GEM
     cloudsponge (0.9.9)
       json (>= 1.6.1)
     cocaine (0.3.2)
+    coderay (1.0.8)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -98,25 +126,32 @@ GEM
     columnize (0.3.6)
     curb (0.8.3)
     daemons (1.1.9)
-    debugger (1.2.4)
+    debugger (1.3.1)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.7)
+      debugger-ruby_core_source (~> 1.1.8)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.7)
-    delayed_job (3.0.4)
+    debugger-ruby_core_source (1.1.8)
+    delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
+    devise (2.2.3)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (~> 3.1)
+      warden (~> 1.2.1)
     dnsruby (1.53)
     erubis (2.7.0)
+    eventmachine (1.0.0)
     excon (0.16.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    faraday (0.8.4)
+    faraday (0.8.5)
       multipart-post (~> 1.1)
+    fastercsv (1.5.5)
     fog (1.9.0)
       builder
       excon (~> 0.14)
@@ -128,26 +163,34 @@ GEM
       nokogiri (~> 1.5.0)
       ruby-hmac
     formatador (0.2.4)
-    gelf (1.3.2)
+    formtastic (2.2.1)
+      actionpack (>= 3.0)
+    gelf (1.4.0)
       json
     geocoder (1.1.6)
     gibberish (1.2.0)
     graylog2-resque (0.5.1)
       gelf
       resque
+    has_scope (0.5.1)
     hashie (1.2.0)
     highline (1.6.15)
     hike (1.2.1)
     htmlentities (4.3.1)
-    httparty (0.10.0)
+    httparty (0.10.2)
       multi_json (~> 1.0)
-      multi_xml
+      multi_xml (>= 0.5.2)
     i18n (0.6.1)
+    inherited_resources (1.3.1)
+      has_scope (~> 0.5.0)
+      responders (~> 0.6)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jruby-pageant (1.1.1)
     json (1.7.6)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.8.0)
     koala (1.1.0)
       multi_json (~> 1.0)
@@ -163,43 +206,50 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.19)
+    meta_search (1.1.3)
+      actionpack (~> 3.1)
+      activerecord (~> 3.1)
+      activesupport (~> 3.1)
+      polyamorous (~> 0.5.0)
+    mime-types (1.21)
     mini_magick (3.4)
       subexec (~> 0.2.1)
     multi_json (1.2.0)
-    multi_xml (0.5.2)
+    multi_xml (0.5.3)
     multimap (1.1.2)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.4.0)
-      jruby-pageant (>= 1.0.2)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
+    net-scp (1.0.6)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.5)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     newrelic_rpm (3.5.6.46)
     nokogiri (1.5.6)
     oauth (0.4.7)
     open4 (1.3.0)
+    orm_adapter (0.4.0)
     os (0.9.6)
     paperclip (2.7.5)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (~> 0.3.0)
       mime-types
+    polyamorous (0.5.0)
+      activerecord (~> 3.0)
     polyglot (0.3.3)
     possessive (1.0.1)
     pr_geohash (1.0.0)
-    rack (1.3.9)
+    rack (1.3.10)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rack-protection (1.3.2)
       rack
-    rack-ssl (1.3.2)
+    rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -220,12 +270,14 @@ GEM
       thor (~> 0.14.6)
     raindrops (0.10.0)
     rake (10.0.3)
-    rdoc (3.12)
+    rdoc (3.12.1)
       json (~> 1.4)
     redis (3.0.2)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
     remotipart (0.4.2)
+    responders (0.9.3)
+      railties (~> 3.1)
     resque (1.23.0)
       multi_json (~> 1.0)
       redis-namespace (~> 1.0)
@@ -233,12 +285,12 @@ GEM
       vegas (~> 0.1.2)
     rsolr (1.0.8)
       builder (>= 2.1.2)
-    rubber (2.1.2)
+    rubber (2.2.0)
       capistrano (~> 2.12)
       clamp
       fog (~> 1.6)
       json
-      net-ssh (~> 2.4.0)
+      net-ssh (~> 2.6)
       open4
       thor
     ruby-hmac (0.4.0)
@@ -269,6 +321,10 @@ GEM
     terminal-notifier (1.4.2)
     therubyracer (0.9.10)
       libv8 (~> 3.3.10)
+    thin (1.5.0)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.14.6)
     tilt (1.3.3)
     tinymce-rails (3.5.8)
@@ -276,7 +332,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter (4.4.4)
+    twitter (4.5.0)
       faraday (~> 0.8, < 0.10)
       multi_json (~> 1.0)
       simple_oauth (~> 0.2)
@@ -284,7 +340,7 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    unicorn (4.5.0)
+    unicorn (4.6.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -293,18 +349,24 @@ GEM
     uuidtools (2.1.3)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    warden (1.2.1)
+      rack (>= 1.0)
     will_paginate (3.0.4)
     xml-simple (1.1.2)
-    zencoder (2.4.3)
+    zencoder (2.4.4)
       multi_json
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activeadmin (= 0.5.1)
   acts_as_commentable_with_threading
+  arbre!
   aws-s3
   aws-sdk (~> 1.3.4)
+  better_errors (= 0.3.2)
+  binding_of_caller
   bitswitch!
   carrierwave
   carrierwave_direct
@@ -347,6 +409,7 @@ DEPENDENCIES
   sunspot_rails
   terminal-notifier
   therubyracer (~> 0.9.3.beta1)
+  thin
   tinymce-rails
   twitter
   uglifier
