@@ -50,6 +50,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+	# Is "TIOKI" admin
+	def require_admin
+		return redirect_to :root, :notice => "Access Denied" if current_user.nil? || !current_user.is_admin
+	end
+
 	# Sweep away old sessions
 	def sweep_session; Session.sweep("2 hours"); end
 
@@ -134,6 +139,11 @@ class ApplicationController < ActionController::Base
 	def current_user
 		# Get the currently logged in user and set to Model Access
 		@current_user ||= User.find(session[:user]) unless session[:user].nil?
+	end
+
+	def is_admin
+		user = current_user
+		!user.nil? && user.is_admin
 	end
 
 	# @todo deprecate?
@@ -279,6 +289,8 @@ class ApplicationController < ActionController::Base
 
 		# Security
 		def ensure_permission_to_create
+			return yield if is_admin
+
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
 			if !Module.const_defined?(class_name) || currentUser.can_create?(class_name.constantize.new())
 				yield
@@ -288,6 +300,8 @@ class ApplicationController < ActionController::Base
 		end
 
 		def ensure_permission_to_destroy
+			return yield if is_admin
+
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
 			if !Module.const_defined?(class_name) || currentUser.can_destroy?(class_name.constantize.find(params[:id]))
 				yield
@@ -297,6 +311,8 @@ class ApplicationController < ActionController::Base
 		end
 
 		def ensure_permission_to_update
+			return yield if is_admin
+
 			class_name = self.class.name.gsub(/Controller$/,'').singularize
 			if !params[:id] || !Module.const_defined?(class_name) || currentUser.can_update?(class_name.constantize.find(params[:id]))
 				yield
