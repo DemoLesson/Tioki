@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Rails Itself
-gem 'rails', '3.1.10'
+gem 'rails', '3.1.11'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 
 # Database Handler
