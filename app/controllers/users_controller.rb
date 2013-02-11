@@ -589,9 +589,8 @@ class UsersController < ApplicationController
 		@user = User.find(self.current_user.id)
 
 		if request.post?
-
 			# Get and update BitSwitch
-			@user.privacy_public = params[:public], true
+			@user.privacy_public = Hash[params[:public].map{|key,val| [key.to_sym, val == "1"]}]
 
 			# Reload page
 			redirect_to :action => :privacy
