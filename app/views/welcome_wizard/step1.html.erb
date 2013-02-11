@@ -81,6 +81,8 @@
 			<% elsif params[:discussion_id] %>
 				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
 				<%= hidden_field_tag :body, params[:body] %>
+			<% elsif params[:discussion_follow] %>
+				<%= hidden_field_tag :discussion_follow, params[:discussion_follow] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">

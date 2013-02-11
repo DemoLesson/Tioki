@@ -1,3 +1,11 @@
+v4.4.31 - Feb 11, 2013 12:57PM PST deployed by Elijah Green
+===========================================================
+* 580088e: Elijah Green - Use symbol instead of string for user_permission hashes
+
+v4.4.30 - Feb 11, 2013 11:50AM PST deployed by Elijah Green
+===========================================================
+* 65a6b0d: Elijah Green - Fix privacy permissions
+
 v4.4.29 - Feb 9, 2013  4:28PM PST deployed by Kelly Becker
 ==========================================================
 * 3e305f9: Kelly Becker - new administration link
