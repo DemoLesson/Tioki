@@ -121,7 +121,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Is the current user an administrator
-		admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		admin = @group.user_permissions.to_hash[:administrator] || User.current.is_admin
 		raise HTTPStatus::Unauthorized unless admin
 
 	end
@@ -135,7 +135,7 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 
 		# Is the current user an administrator
-		admin = @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		admin = @group.user_permissions.to_hash[:administrator] || User.current.is_admin
 		raise HTTPStatus::Unauthorized unless admin
 
 		# Update permissions
@@ -274,7 +274,7 @@ class GroupsController < ApplicationController
 
 	def message_all_create
 		@group = Group.find(params[:id])
-		if @group.user_permissions.to_hash['administrator'] || User.current.is_admin
+		if @group.user_permissions.to_hash[:administrator] || User.current.is_admin
 			@group = Group.find(params[:id])
 			message = "To all members of <a href='http://#{request.host_with_port}/groups/#{@group.id}'>#{@group.name}</a>: " + params[:message][:body]
 
@@ -291,9 +291,9 @@ class GroupsController < ApplicationController
 		group = Group.find(params[:id])
 
 		# Check for permissions
-		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+		raise HTTPStatus::Unauthorized unless group.user_permissions[:administrator] || User.current.is_admin
 
-		group.user_permissions(:update => {'administrator' => true}, :user => params[:user])
+		group.user_permissions(:update => {:administrator => true}, :user => params[:user])
 		redirect_to :back
 	end
 
@@ -301,9 +301,9 @@ class GroupsController < ApplicationController
 		group = Group.find(params[:id])
 
 		# Check for permissions
-		raise HTTPStatus::Unauthorized unless group.user_permissions['administrator'] || User.current.is_admin
+		raise HTTPStatus::Unauthorized unless group.user_permissions[:administrator] || User.current.is_admin
 
-		group.user_permissions(:update => {'administrator' => false}, :user => params[:user])
+		group.user_permissions(:update => {:administrator => false}, :user => params[:user])
 		redirect_to :back
 	end
 
