@@ -51,7 +51,7 @@
 						<div style= "float:right">
 							<label>
 								<span>Confirm Password</span>
-								<input type="password" name="user[confirmation_password]" />
+								<input type="password" name="user[password_confirmation]" />
 							</label>
 						</div>
 					</td>
@@ -81,6 +81,8 @@
 			<% elsif params[:discussion_id] %>
 				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
 				<%= hidden_field_tag :body, params[:body] %>
+			<% elsif params[:discussion_follow] %>
+				<%= hidden_field_tag :discussion_follow, params[:discussion_follow] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">

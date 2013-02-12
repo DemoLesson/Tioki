@@ -23,7 +23,7 @@
 						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
 					<% end %>
 				<% else %>
-					<%= link_to "Follow", '/welcome_wizard?x=step1&discussion_follow', :class => "action-button bg-green", :target => "_blank" %>
+					<%= link_to "Follow", "/welcome_wizard?x=step1&discussion_follow=#{@discussion.id}", :class => "action-button bg-green", :target => "_blank" %>
 				<% end %>
 				<% @discussion.following.each do |user| %>
 					<% if user %>

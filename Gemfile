@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Rails Itself
-gem 'rails', '3.1.10'
+gem 'rails', '3.1.11'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 
 # Database Handler
@@ -85,7 +85,7 @@ gem 'unicorn'
 gem 'terminal-notifier'
 
 # Rubber deployments
-gem 'rubber'
+gem 'rubber', '2.2.0'
 gem 'open4'
 
 # Debug tools
