@@ -104,6 +104,9 @@ class WelcomeWizardController < ApplicationController
 					else
 						return redirect_to @discussion
 					end
+				elsif params[:discussion_follow]
+					discussion = Discussion.find(params[:discussion_follow])
+					return redirect_to discussion
 				else
 					return redirect_to "#{@buri}?x=step2#{@url}"
 				end
