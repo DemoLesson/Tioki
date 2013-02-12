@@ -1,3 +1,10 @@
+v4.4.32 - Feb 11, 2013  4:24PM PST deployed by Elijah Green
+===========================================================
+* bf9dfca: Elijah Green - New users following a discussion redirects to the discussion after signup
+* b2eae99: Elijah Green - Change profile_stats ordering to be created_at DESC
+* 9b49608: Elijah Green - Upgrade rails to 3.1.11
+* 629322e: Elijah Green - Gemfile.lock
+
 v4.4.31 - Feb 11, 2013 12:57PM PST deployed by Elijah Green
 ===========================================================
 * 580088e: Elijah Green - Use symbol instead of string for user_permission hashes
