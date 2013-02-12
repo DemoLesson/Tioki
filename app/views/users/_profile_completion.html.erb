@@ -28,10 +28,6 @@
 	<%= image_tag "/assets/completion_icons/headline_grey.png", :width => 35  %><p class="completion">Tell us a bit about who you are and what you do</p>
 	<%= link_to "Update Headline", "#", :data => {:completionid => @completions.index("headline")},:class => "button complete_popup" %>
 </div>
-<div id="picture_select" style="display:none">
-	<%= image_tag "/assets/completion_icons/picture_grey.png", :width => 35  %><p class="completion">Help the Tioki Network recognize you by your picture</p>
-	<%= link_to "Update Photo", "#", :data => {:completionid => @completions.index("picture")},:class => "button complete_popup" %>
-</div>
 <div id="social_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/social_grey.png", :width => 35  %><p class="completion">Connect your social networks for better sharing</p>
 	<%= link_to "Update Social Networks", "#", :data => {:completionid => @completions.index("social")},:class => "button complete_popup" %>
@@ -51,6 +47,10 @@
 <div id="experience_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/experience_grey.png", :width => 35  %><p class="completion">You're a professional.  Tell us where you practice</p>
 	<%= link_to "Update Work Experience", "#", :data => {:completionid => @completions.index("experience")},:class => "button complete_popup" %>
+</div>
+<div id="picture_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/picture_grey.png", :width => 35  %><p class="completion">Help the Tioki Network recognize you by your picture</p>
+	<%= link_to "Update Photo", "#", :data => {:completionid => @completions.index("picture")},:class => "button complete_popup" %>
 </div>
 <div id="video_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/video_grey.png", :width => 35  %><p class="completion" style="margin-top:-35px">Add a video of you in the classroom to show your awesome talent</p>

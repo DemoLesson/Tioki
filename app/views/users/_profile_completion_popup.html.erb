@@ -10,9 +10,6 @@
 			<div class="text_headline" style="display:none">
 				Tell the education world a bit about yourself
 			</div>
-			<div class="text_picture" style="display:none">
-				Help the Tioki Network recognize you
-			</div>
 			<div class="text_social" style="display:none">
 				Link to your other online networks
 			</div>
@@ -27,6 +24,9 @@
 			</div>
 			<div class="text_experience" style="display:none">
 				You're a professional. Tell us where you practice
+			</div>
+			<div class="text_picture" style="display:none">
+				Help the Tioki Network recognize you
 			</div>
 			<div class="text_video" style="display:none">
 				Add a video of you doing amazing things in the classroom
@@ -47,10 +47,6 @@
 					<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
 					&middot;
 				<% end %>
-				<% if @completions.include?("picture") %>
-					<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
-					&middot;
-				<% end %>
 				<% if @completions.include?("social") %>
 					<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
 					&middot;
@@ -69,6 +65,10 @@
 				<% end %>
 				<% if @completions.include?("experience") %>
 					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("picture") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
 					&middot;
 				<% end %>
 				<% if @completions.include?("video") %>
@@ -121,21 +121,6 @@
 				<%= text_area_tag "user[headline]", currentUser.headline, :style => 'width:480px;height:75px', :placeholder => 'Teacher, Blogger, & Mother. Making the world better in every way!', :maxlength => 140 %>
 			</h5>
 		<% end %>
-	</section>
-
-	<section class="section_picture" style="display:none">
-		<p>
-		Help connections and the rest of the Tioki community recognize you. 
-		</p>
-		<div style="text-align:center">
-			<% if currentUser.avatar? %>
-				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
-			<% else %>
-				<%= image_tag 'dl_icons/no_avatar_huge.png', :style => "width:250px;border:5px solid #f1f1f1;" %>
-			<% end %>
-			<br/>
-			<%= link_to 'Choose a Picture to Upload', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
-		</div>
 	</section>
 
 	<section class="section_social" style="display:none">
@@ -280,6 +265,21 @@
 
 	</section>
 
+	<section class="section_picture" style="display:none">
+		<p>
+		Help connections and the rest of the Tioki community recognize you. 
+		</p>
+		<div style="text-align:center">
+			<% if currentUser.avatar? %>
+				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% else %>
+				<%= image_tag 'dl_icons/no_avatar_huge.png', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% end %>
+			<br/>
+			<%= link_to 'Choose a Picture to Upload', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
+		</div>
+	</section>
+
 	<section class="section_video" style="display:none">
 		<h5 style="margin-left:20px">Display your teaching craft by uploading a video:</h5>
 		<div style="text-align:center">	
@@ -395,6 +395,9 @@
 			$(".section_"+completions[completionsIndex]).show();
 			$(".text_"+completions[completionsIndex]).show();
 			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+			if(completionsIndex === completions.length - 1) {
+				$('.completionContinue').text('Finish');
+			}
 		}
 		function unselectpopupAll()
 		{
