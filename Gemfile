@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Rails Itself
-gem 'rails', '3.1.10'
+gem 'rails', '3.1.11'
 # (Bleeding Edge) # gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 
 # Database Handler
@@ -57,7 +57,8 @@ gem 'acts_as_commentable_with_threading' # Threaded Comments
 gem 'will_paginate', '~> 3.0.3' # Active Record Pagination
 # @todo deprecate smart_tuple replace with solr
 gem 'smart_tuple' # Tuple styled SQL Queries
-gem 'activeadmin'
+gem 'activeadmin', '0.5.1'
+gem 'arbre', :git => 'git://github.com/KellyLSB/arbre.git'
 
 # Solr search
 # To install solr in a heartbeat run
@@ -84,14 +85,15 @@ gem 'unicorn'
 gem 'terminal-notifier'
 
 # Rubber deployments
-gem 'rubber'
+gem 'rubber', '2.2.0'
 gem 'open4'
 
 # Debug tools
 group :development do
 	gem 'debugger'
 	gem 'debugger-ruby_core_source'
-	gem 'better_errors'
+	gem 'better_errors', '0.3.2'
+	gem "binding_of_caller"
 	gem 'thin'
 end
 

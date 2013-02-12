@@ -93,7 +93,7 @@ class Job < ActiveRecord::Base
 
 	def belongs_to_me(user)
 		if !group_id.nil?
-			return group.user_permissions['administrator']
+			return group.user_permissions[:administrator]
 		end
 
 		@school = School.find(self.school)
@@ -110,7 +110,7 @@ class Job < ActiveRecord::Base
 	#for limited admins look up it's row in SharedSchools
 	def shared_to_me(user)
 		if !group_id.nil?
-			return group.user_permissions['administrator']
+			return group.user_permissions[:administrator]
 		end
 
 		@school= School.find(self.school)

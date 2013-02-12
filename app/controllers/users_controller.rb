@@ -589,9 +589,8 @@ class UsersController < ApplicationController
 		@user = User.find(self.current_user.id)
 
 		if request.post?
-
 			# Get and update BitSwitch
-			@user.privacy_public = params[:public], true
+			@user.privacy_public = Hash[params[:public].map{|key,val| [key.to_sym, val == "1"]}]
 
 			# Reload page
 			redirect_to :action => :privacy
@@ -806,7 +805,10 @@ class UsersController < ApplicationController
 		@user = User.current
 
 		# Get a listing of who has viewed this teacher (IN ALL TIME)
-		@viewed = self.get_analytics(:view_user_profile, @user, nil, nil, true)
+		#@viewed = self.get_analytics(:view_user_profile, @user, nil, nil, true).order("created_at")
+		@viewed = Analytic.where("slug = ? && tag = ?", "view_user_profile", @user.tag!).
+			group('user_id').
+			order('created_at DESC')
 
 		# Get the dates to run the query by
 		tomorrow = Time.now.tomorrow
