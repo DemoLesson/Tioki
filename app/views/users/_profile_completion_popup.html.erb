@@ -349,13 +349,9 @@
 			});
 
 			$(".image_link").on("click", function () {
-				$(".section_"+completions[completionsIndex]).hide();
-				$(".text_"+completions[completionsIndex]).hide();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+				unselect();
 				completionsIndex = parseInt($(this).attr('data-complete'));
-				$(".section_"+completions[completionsIndex]).show();
-				$(".text_"+completions[completionsIndex]).show();
-				$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+				select();
 			});
 
 			 $('input[name="user[subject]"]').tokenInput("/api/subjects", {
@@ -397,16 +393,9 @@
 			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
 			if(completionsIndex === completions.length - 1) {
 				$('.completionContinue').text('Finish');
+			} else {
+				$('.completionContinue').text('Save & continue>>');
 			}
-		}
-		function unselectpopupAll()
-		{
-			temp = completionsIndex;
-			for(var i = 0; i < completions.length; i++){
-				completionsIndex = i;
-				unselect();
-			}
-			completionsIndex = temp;
 		}
 		function unselectcompleteAll()
 		{

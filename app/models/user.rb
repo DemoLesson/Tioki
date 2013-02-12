@@ -271,13 +271,13 @@ class User < ActiveRecord::Base
 		percent += 10 if self.social.first
 		percent += 10 if self.skills.first
 		percent += 10 if self.location.present?
-		percent += 10 if self.avatar?
 		percent += 10 if self.educations.first
 		percent += 5 if self.subjects.first
 		percent += 5 if self.grades.first
 		percent += 5 if self.occupation.present?
 		percent += 5 if !self.job_seeking.nil?
 		percent += 10 if self.experiences.first
+		percent += 10 if self.avatar?
 		percent += 10 if self.videos.first
 		return percent
 	end
@@ -288,12 +288,12 @@ class User < ActiveRecord::Base
 		options << "occupation" unless self.occupation.present? && !self.job_seeking.present?
 		options << "location" unless self.location.present?
 		options << "headline"  unless self.headline.present?
-		options << "picture" unless self.avatar?
 		options << "social" unless self.social.first
 		options << "subjects" unless self.subjects.first && self.grades.first
 		options << "skills" unless self.skills.first
 		options << "education" unless self.educations.first
 		options << "experience" unless self.experiences.first
+		options << "picture" unless self.avatar?
 		options << "video" unless self.videos.first
 
 		return options
