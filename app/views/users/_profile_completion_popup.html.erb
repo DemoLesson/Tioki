@@ -2,34 +2,34 @@
 	<div id="completionHeader">
 		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
 			<div class="text_occupation" style="display:none">
-				Are you a teacher, admin, or professor?
+				What is your occupation?
 			</div>
 			<div class="text_location" style="display:none">
-				Help your friends find you.
+				Help us plug you into your local networks
 			</div>
 			<div class="text_headline" style="display:none">
-				Tell us a bit about yourself
+				Tell the education world a bit about yourself
 			</div>
 			<div class="text_picture" style="display:none">
 				Help the Tioki Network recognize you
 			</div>
 			<div class="text_social" style="display:none">
-				Connect your social networks for better sharing
+				Link to your other online networks
 			</div>
 			<div class="text_subjects" style="display:none">
 				Let the world know what subjects you specialize in
 			</div>
 			<div class="text_skills" style="display:none">
-				Skills make us unique.  What are some of your?
+				Skills make us unique. What are some of yours?
 			</div>
 			<div class="text_education" style="display:none">
-				Find your classmates and school networks
+				Help us find your classmates and school networks
 			</div>
 			<div class="text_experience" style="display:none">
-				You're a professional.  Tell us where you practice
+				You're a professional. Tell us where you practice
 			</div>
 			<div class="text_video" style="display:none">
-				Add a video of you in the classroom
+				Add a video of you doing amazing things in the classroom
 			</div>
 		</h3>
 		<div id="completionIcons">
@@ -65,8 +65,8 @@
 				<% end %>
 				<% if @completions.include?("education") %>
 					<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
 				<% end %>
-				&middot;
 				<% if @completions.include?("experience") %>
 					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
 					&middot;
@@ -80,29 +80,46 @@
 	</div>
 
 	<section class="section_occupation" style="display:none">
+		<p>Help us connect you to the right opportunities by telling us your Occupation and Employment Status.</p>
 		<%= form_tag "/me/profile/edit/complete", :class => "occupation_form", :remote => true do %>
-				Occupation<br />
-				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %><br />
-				Are you currently seeking employment?<br />
-				<select name="user[job_seeking]">
-					<option value="yes">Yes</option>
-					<option value="no">No</option>
-				</select>
+				<h5>
+					Your Occupation:
+					<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+				</h5>
+				<h5>
+					Are you currently seeking employment?
+					<span style='font-size:11px'>
+						(kept confidential)
+					</span>
+					<select name="user[job_seeking]">
+						<option value="yes">Yes</option>
+						<option value="no">No</option>
+					</select>
+				</h5>
 		<% end %>
 	</section>
 
 	<section class="section_location" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
-			<p>
-				I currently live in... <%= text_field_tag "user[location]", currentUser.location, :placeholder => "Los Angeles, CA", :style => ":width:250px" %>
+			<p style='margin-left:15px'>
+				It's a big world out there. Let us know where your call home:
 			</p>
+			<h5 style ="margin-left:15px">
+				I currently live in... <%= text_field_tag "user[location]", currentUser.location, :placeholder => "Los Angeles, CA", :style => ":width:315px" %>
+	
+			</h5>
 		<% end %>
 	</section>
 
 	<section class="section_headline" style="display:none">
 		<%= form_tag "/me/profile/edit/complete", :class => "headline_form", :remote => true do %>
-				Headline<br />
-				<%= text_area_tag "user[headline]", currentUser.headline %>
+			<p>
+				Tell us a bit about who you are and what you do. Limit 140 characters, so make it count!
+			</p>
+			<h5>
+				My Headline:</br>
+				<%= text_area_tag "user[headline]", currentUser.headline, :style => 'width:480px;height:75px', :placeholder => 'Teacher, Blogger, & Mother. Making the world better in every way!', :maxlength => 140 %>
+			</h5>
 		<% end %>
 	</section>
 
@@ -114,141 +131,163 @@
 			<% if currentUser.avatar? %>
 				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
 			<% else %>
-				<%= image_tag 'dl_icons/no_avatar_large.jpg', :style => "width:250px;border:5px solid #f1f1f1;" %>
+				<%= image_tag 'dl_icons/no_avatar_huge.png', :style => "width:250px;border:5px solid #f1f1f1;" %>
 			<% end %>
 			<br/>
-			<%= link_to 'Upload Picture', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
+			<%= link_to 'Choose a Picture to Upload', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
 		</div>
 	</section>
 
 	<section class="section_social" style="display:none">
+		<p>Let the Tioki Network know where else you have a web presence.</p>
 		<%= form_tag "/me/profile/edit/complete", :class => "social_form", :remote => true do %>
 			<p>
 				<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-				<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "http://www.linkedin.com/" %>
-			</p>
-			<p>
+				<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "LinkedIn", :style => 'width: 190px;margin-right: 5px;' %>
+			
 				<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-				<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "http://twitter.com/" %>
+				<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "Twitter", :style => 'width:190px' %>
 			</p>
 			<p>
 				<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-				<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "http://www.pinterest.com/" %>
-			</p>
-			<p>
+				<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "Pinterest", :style => 'width: 190px;margin-right: 5px;' %>
+			
 				<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-				<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "http://www.edmodo.com/" %>
+				<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "Edmodo", :style => 'width:190px' %>
 			</p>
 			<p>
 				<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
-				<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "http://betterlesson.com/" %>
+				<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "Better Lesson", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "Teaching Channel", :style => 'width:190px' %>
 			</p>
 			<p>
-				<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
-				<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "http://www.teachingchannel.org/" %>
+				<%= image_tag('tioki/icons/blog_icon.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[blog]', @user.social[:blog], :placeholder => "Personal Blog", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/globe.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[website]', @user.social[:website], :placeholder => "Personal Website", :style => 'width:190px' %>
 			</p>
 		<% end %>
 	</section>
 
 	<section class="section_subjects" style="display:none">
-		<%= form_tag "/me/profile/edit/complete", :class => "subjects_form", :remote => true do %>
-			Subjects:
-			<input type="text" id="profile_subjects" name="user[subject]" />
-			Grades:
-			<input type="text" id="profile_subjects" name="user[grade]" />
+		<p>
+			Help us make better suggestions by letting us know what subjects and grade levels you teach. 
+		</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "subjects_form", :remote => true do %>	
+			<h5>
+				Subjects: <span style="font-size:11px">(ex. Algebra, Biology, Spanish)</span>
+				<input type="text" id="profile_subjects" name="user[subject]" />
+				<br/>
+				Grades: <span style="font-size:11px">(ex. 1st, 2nd, 3rd)</span>
+				<input type="text" id="profile_subjects" name="user[grade]" />
+			</h5>	
 		<% end %>
 	</section>
 
 	<section class="section_skills" style="display:none">
+		<p>
+			Add the skills you are great at. Your connections can vouch for your expertise.
+		</p>	
 		<%= form_tag "/me/profile/edit/complete", :class => "skills_form", :remote => true do %>
-			Skills:
-			<input type="text" name="user[skill]" />
+			<h5>
+				Skills: <span style="font-size:11px">(ex. Classroom Management, IPad, Flipped Classroom)</span>
+				<input type="text" name="user[skill]" />
+			</h5>
 		<% end %>
 	</section>
 
 	<section class="section_education" style="display:none">
+		<h5>Add your Education information</h5>
 		<%= form_tag "/me/profile/edit/complete", :class => "education_form", :remote => true do |f| %>
 			<fieldset>
 				<p>
-				School/University
+				School/University Name:<br/>
+				<%= text_field_tag "education[school]", nil, :placeholder => 'Stanford University', :style => 'width:460px' %>
 				</p>
-				<%= text_field_tag "education[school]" %>
 			</fieldset>
 			<fieldset>
 				<p>
-				Degree
+					Degree:
+					<span style="margin-left:150px">
+						Major/Subject:
+					</span>
+					<br/>
+					<%= text_field_tag "education[degree]", nil, :placeholder => "(e.g. B.A, Masters, etc.)", :style => 'width:150px' %>
+				
+					<%= text_field_tag "education[concentrations]", nil, :placeholder => "(e.g. Sociology, Chemistry, etc.)", :style => 'width:255px;margin-left:25px' %>
 				</p>
-				<%= text_field_tag "education[degree]", nil, :placeholder => "(e.g. B.A, Masters, etc.)" %>
 			</fieldset>
 			<fieldset>
 				<p>
-				Major
+					Start Year: 
+					<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+					<span style='margin-left:25px'>
+						Graduation Year: 
+						<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true, :style => 'width:105px') %>	
+					</span>
+					<span style="float:right;">
+					<label>
+						<%= check_box_tag "education[current]" %> 
+						Currently Attending
+					</label>
+					</span>
 				</p>
-				<%= text_field_tag "education[concentrations]", nil, :placeholder => "(e.g. Sociology, Chemistry, etc.)" %>
-			</fieldset>
-			<fieldset>
-				<p>
-				Start Year: 
-				<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
-				</p>	
-			</fielset>
-			<fieldset>
-				<p>
-				Graduation Year: 
-				<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true) %>	
-				</p>
-			</fieldset>	
-			<fieldset>
-				<label>
-					<%= check_box_tag "education[current]" %> 
-					I am currently attending here
-				</label>
 			</fieldset>
 		<% end %>
 
 	</section>
 
 	<section class="section_experience" style="display:none">
+		<h5>Add your Professional Experience</h5>
 		<%= form_tag "/me/profile/edit/complete", :class => "experience_form", :remote => true do |f| %>
 			<fieldset>
 				<p>
-				Company, District or School
+				Company, District or School:
+				<%= text_field_tag "experience[company]", nil, :placeholder => 'Notre Dame Academy', :style => 'width:460px' %>
 				</p>
-				<%= text_field_tag "experience[company]" %>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position:
+				<%= text_field_tag "experience[position]", nil, :placeholder => 'Resource Specialist', :style => 'width:460px' %>
+				</p>
 			</fieldset>
 			<fieldset>
 				<p>
 				Start Date: 
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
 				<%= select_year(Date.today, :field_name => "startYear", :start_year => 1940, :end_year => Time.now.year+1) %>
-				</p>
-			</fieldset>
-			<fieldset>
-				<p>
+				
+				<span style='margin-left:25px'>
 				End Date:
 				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
 				<%= select_year(Date.today, :field_name => "endYear", :start_year => 1940, :end_year => Time.now.year+1) %>
+				</span>
+				<br/>
+				<span style='float:right;margin-right:35px'>
+					<label>
+						<%= check_box_tag 'experience[current]', 'yes', false, :class => 'current' %> 
+						I currently work here
+					</label>
+				</span>
 				</p>
 			</fieldset>
-			<fieldset>
-				<label>
-					<%= check_box_tag 'experience[current]', 'yes', false, :class => 'current' %> 
-					I currently work here
-				</label>
-			</fieldset>
-			<fieldset>
-				<p>
-				Title/Position
-				</p>
-				<%= text_field_tag "experience[position]" %>
-			</fieldset>
+			
 		<% end %>
 
 	</section>
 
 	<section class="section_video" style="display:none">
-		Videos:<br />
-		<%= link_to "Upload video", new_video_path %>
+		<h5 style="margin-left:20px">Display your teaching craft by uploading a video:</h5>
+		<div style="text-align:center">	
+			<%= link_to image_tag('dl_icons/video_placeholder.jpg', :style => "width:450px;border:1px solid #000;"), new_video_path %>
+			<br/>
+			<%= link_to "Upload video", new_video_path, :style => 'color:#F66C4C' %>
+		</div>
+	
 	</section>
 
 	<section>
