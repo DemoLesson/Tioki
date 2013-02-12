@@ -136,7 +136,7 @@ GEM
     debugger-ruby_core_source (1.1.8)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
-    delayed_job_active_record (0.4.0)
+    delayed_job_active_record (0.4.1)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
     devise (2.2.3)
@@ -216,7 +216,7 @@ GEM
     mime-types (1.21)
     mini_magick (3.4)
       subexec (~> 0.2.1)
-    multi_json (1.5.1)
+    multi_json (1.6.0)
     multi_xml (0.5.3)
     multimap (1.1.2)
     multipart-post (1.1.5)
@@ -404,7 +404,7 @@ DEPENDENCIES
   possessive
   rails (= 3.1.11)
   remotipart (~> 0.4.1)
-  rubber
+  rubber (= 2.2.0)
   sass-rails
   smart_tuple
   sprockets
