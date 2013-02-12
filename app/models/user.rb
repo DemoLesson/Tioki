@@ -285,7 +285,7 @@ class User < ActiveRecord::Base
 	def completion_options
 		options = []
 
-		options << "occupation" unless self.occupation.present? && !self.job_seeking.present?
+		options << "occupation" unless self.occupation.present? && self.job_seeking.present?
 		options << "location" unless self.location.present?
 		options << "headline"  unless self.headline.present?
 		options << "picture" unless self.avatar?
