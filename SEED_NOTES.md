@@ -1,3 +1,7 @@
+v4.4.33 - Feb 11, 2013  4:47PM PST deployed by Elijah Green
+===========================================================
+* 5b8ca71: Elijah Green - Convert strings to symbols on profile
+
 v4.4.32 - Feb 11, 2013  4:24PM PST deployed by Elijah Green
 ===========================================================
 * bf9dfca: Elijah Green - New users following a discussion redirects to the discussion after signup
