@@ -1,3 +1,7 @@
+v4.4.35 - Feb 12, 2013  6:05PM PST deployed by Aleks Stanisic
+=============================================================
+* 284e16c: Aleks Stanisic - style change to group members page
+
 v4.4.34 - Feb 12, 2013  5:29PM PST deployed by Aleks Stanisic
 =============================================================
 * 6bf006f: Aleks Stanisic - style changes to groups and orgs
