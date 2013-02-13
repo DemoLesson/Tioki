@@ -110,7 +110,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     carrierwave (0.5.8)
       activesupport (~> 3.0)
-    carrierwave_direct (0.0.8)
+    carrierwave_direct (0.0.9)
       carrierwave
       fog
       uuid
