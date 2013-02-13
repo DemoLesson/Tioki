@@ -1,3 +1,7 @@
+v4.4.36 - Feb 13, 2013  3:02PM PST deployed by Aleks Stanisic
+=============================================================
+* 864884f: Elijah Green - Fix datepicker on application wizard
+
 v4.4.35 - Feb 12, 2013  6:05PM PST deployed by Aleks Stanisic
 =============================================================
 * 284e16c: Aleks Stanisic - style change to group members page
