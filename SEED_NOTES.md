@@ -1,3 +1,14 @@
+v4.4.35 - Feb 12, 2013  6:05PM PST deployed by Aleks Stanisic
+=============================================================
+* 284e16c: Aleks Stanisic - style change to group members page
+
+v4.4.34 - Feb 12, 2013  5:29PM PST deployed by Aleks Stanisic
+=============================================================
+* 6bf006f: Aleks Stanisic - style changes to groups and orgs
+* 0c43b9a: Aleks Stanisic - schema
+* 7cdbc7a: Elijah Green - Lock rubber to 2.2.0 temporarily
+* 668bf87: Elijah Green - Remove video snippet from videosupport page
+
 v4.4.33 - Feb 11, 2013  4:47PM PST deployed by Elijah Green
 ===========================================================
 * 5b8ca71: Elijah Green - Convert strings to symbols on profile
