@@ -106,7 +106,7 @@
 		</section>
 
 		<!-- START Suggested educators to connect with -->
-		<% if @completions.size > 1 %>
+		<% if @completions.size > 0 %>
 			<section id="list" class="panel one-column right-side">
 				<section style="margin 0;padding: 12px 15px 12px 15px !important">
 						<%= render "users/profile_completion" %>
@@ -511,6 +511,6 @@ $(document).ready(function() {
 	}
 });
 </script>
-<% if @completions.size > 1 %>
+<% if @completions.size > 0 %>
 	<%= render "users/profile_completion_popup" %>
 <% end %>
