@@ -344,7 +344,14 @@
 			});
 			
 			$(".completionContinue").on("click", function () {
-				$("."+completions[completionsIndex]+"_form").last().submit();
+				if(completionsIndex == completions.length - 1) {
+					$("."+completions[completionsIndex]+"_form").last().submit(function() {
+						window.location.reload();
+					});
+					window.location.reload();
+				}
+				$("."+completions[completionsIndex]+"_form").submit();
+
 				$(".skip").last().click();
 			});
 
