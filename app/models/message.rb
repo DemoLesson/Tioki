@@ -4,6 +4,7 @@ class Message < ActiveRecord::Base
 
 	has_many :replied_messages, :class_name => "Message", :foreign_key => "replied_to_id", :dependent => :nullify
 	belongs_to :message, :foreign_key => :replied_to_id
+	has_many :assets
 
 	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
 	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to

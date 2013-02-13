@@ -1,8 +1,10 @@
 class Asset < ActiveRecord::Base
-	belongs_to :teacher # Migration
+	# TODO change to polymorphic association
+	# TODO merge with attachments
 	belongs_to :user
 	belongs_to :application
 	belongs_to :job
+	belongs_to :owner, :polymorphic => true
 
 	validates_presence_of :name, :file, :alert => 'You need to select a file to upload and enter the document name.'
 
