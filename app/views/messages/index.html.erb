@@ -112,12 +112,14 @@
 							<%= link_to "read more", message %>
 						<% else %>
 							<%=h replied_message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
+							<%= link_to "...read more", message %>
 						<% end %>
 					<% else %>
 						<% if message.body.size > 80 %><%=h (message.body.gsub(%r{</?[^>]+?>}, '')[0..84]+'...').html_safe %>
 							<%= link_to "read more", message %>
 						<% else %>
 							<%=h message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
+							<%= link_to "...read more", message %>
 						<% end %>
 					<% end %>
 				</p>	
