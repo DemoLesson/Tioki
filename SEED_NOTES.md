@@ -1,3 +1,8 @@
+v4.4.37 - Feb 13, 2013  5:45PM PST deployed by Aleks Stanisic
+=============================================================
+* e4ef19b: Brian Martinez - commenting out Facebook iFrame on Signup page
+* 4bcbf6d: Brian Martinez - changes to welcome wizard layout
+
 v4.4.36 - Feb 13, 2013  3:02PM PST deployed by Aleks Stanisic
 =============================================================
 * 864884f: Elijah Green - Fix datepicker on application wizard
