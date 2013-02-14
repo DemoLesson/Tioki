@@ -1,6 +1,6 @@
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Add your personal info</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Let's start off with adding some personal info</h1>
 	</div>
 	<div class="clear"></div>
 
@@ -36,12 +36,13 @@
 				</td>
 			</tr>
 		</table>
+		<br/>
 		<form method="POST">
 			<table>
 				<tr>
 					<td>
 						<label>
-							<span>Where do you live?</span>
+							<span>What city do you live in?</span>
 							<%= text_field_tag "user[location]", currentUser.location, :placeholder => "(Los Angeles, CA)" %>
 						</label>
 					</td>
@@ -49,7 +50,8 @@
 				<tr>
 					<td>
 						<label>
-							<span>Add a Headline (limit 140 characters)</span>
+							<br/>
+							<span>Create a Professional Headline (limit 140 characters)</span>
 							<%= text_area_tag "user[headline]", currentUser.headline, :maxlength => 140, :placeholder => "Educator, Writer, Blogger, Student, Wife, & Soccer Mom. Wonder Woman, essentially!", :style => "height:80px" %>
 						</label>
 					</td>
@@ -57,7 +59,8 @@
 				<tr>
 					<td>
 						<label>
-							<span>Add a few skills (i.e. Ipad, Classroom Management, Lesson Planning)</span>
+							<br/>
+							<span>Add a few of your professional skills (i.e. Ipad, Classroom Management, etc.)</span>
 							<input type="text" name="user[skills]" />
 						</label>
 					</td>
@@ -75,7 +78,7 @@
 			</div>
 		
 			<div class="button_wrap" style="margin-top:320px">
-				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Final Step" />
+				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Continue to Final Step >>" />
 			</div>
 			<% if params[:user_connection] %>
 				<%= hidden_field_tag :user_connection, params[:user_connection] %>
