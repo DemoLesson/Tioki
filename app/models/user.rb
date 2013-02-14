@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
 	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
 	has_and_belongs_to_many :credentials
 	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
-	has_many :assets, :dependent => :destroy
+	has_many :assets, :as => :owner,:dependent => :destroy
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
 	validates_associated :assets
