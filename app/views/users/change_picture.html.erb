@@ -1,30 +1,32 @@
 <section id="main-content" class="inner-content">
-<h2>Change Profile Picture</h2>
+	<h2>Change Your Profile Picture</h2>
+	
+	<section>
+		<% if @user.avatar? %>
+			<h5>Current picture</h5>
+				<div class="bordered_image">
+					<%= image_tag @user.avatar.url(:medium), :id => "user_avatar", :style => "width:250px;border:10px solid #ccc;" %>
+				</div>
 
-<% if @user.avatar? %>
-<p>Current picture<br />
-	<div class="bordered_image">
-		<%= image_tag @user.avatar.url(:medium), :id => "user_avatar" %>
-	</div>
-</p>
-<% else %>
-<p>No picture uploaded yet.</p>
-<%= image_tag "dl_icons/no_avatar_large.jpg", :id => "user_avatar" %>
-<% end %>
+		<% else %>
+			<h5>No picture uploaded yet.</h5>
+				<%= image_tag "dl_icons/no_avatar_large.jpg", :id => "user_avatar", :style => "width:250px;border:10px solid #f1f1f1;" %>
+		<% end %>
 
 
-<%= form_for @user, :as => :user, :url => "/users/"+@user.id.to_s, :html => { :multipart => true }, :remote => true do |f| %>
-  <div class="field">
-	<%= f.file_field :avatar %>
-	<br/><span style= "font-size:12px; margin-left: 2px; text-align: center"><strong> PICTURE FILE SIZE LIMIT: 2MB</strong></span>
-  </div>
+		<%= form_for @user, :as => :user, :url => "/users/"+@user.id.to_s, :html => { :multipart => true }, :remote => true do |f| %>
+  			<div class="field">
+				<%= f.file_field :avatar %>
+				<br/>
+				<span style= "font-size:12px;"><strong> Max Picture Size: 2MB</strong></span>
+  			</div>
 
-  <div>
-  	<%= f.submit "Upload Picture", :class => "btn btn-success" %>
-  </div>
-<% end %>
+  			<div>
+  				<%= f.submit "Upload Picture", :class => "btn btn-success" %>
+  			</div>
+		<% end %>
 
-<div id="picture_frame">
-</div>
-
+		<div id="picture_frame">
+		</div>
+	</section>
 </section>
