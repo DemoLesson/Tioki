@@ -68,7 +68,7 @@ tr.seeking, tr.student {
 					<td>
 						<label>
 							<span>Start Date</span>
-							<input type="text" placeholder="Click to select..." class="datepicker" name="date[start_date]" />
+							<input type="text" placeholder="Click to select..." class="datePicker" name="date[start_date]" />
 						</label>
 						<p class="note">If you dont remember the exact date just enter the first of the month.</p>
 					</td>
@@ -77,7 +77,7 @@ tr.seeking, tr.student {
 					<td>
 						<label>
 							<span>End Date</span>
-							<input type="text" placeholder="Click to select..." class="datepicker" name="date[end_date]" />
+							<input type="text" placeholder="Click to select..." class="datePicker" name="date[end_date]" />
 						</label>
 					</td>
 				</tr>
@@ -111,3 +111,8 @@ tr.seeking, tr.student {
 	<div class="four columns">
 	</div>
 </div>
+<script type="text/coffeescript">
+$ ->
+  $('.datePicker').datepicker numberOfMonths: 1
+</script>
+
