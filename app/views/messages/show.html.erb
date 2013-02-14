@@ -39,6 +39,10 @@
 		</p>
 
 	</section>
+	<% @message.assets.each do |asset| %>
+		<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+	<% end %>
+
 	<% @message.replied_messages.each do |message| %>
 		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
 			<!-- Pulling the Teachers Picture or the No Avatar-->
@@ -70,5 +74,8 @@
 			</p>
 
 		</section>
+		<% message.assets.each do |asset| %>
+			<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+		<% end %>
 	<% end %>
 </section>

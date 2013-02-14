@@ -87,8 +87,6 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 	end
 
-	# GET /applications/1
-	# GET /applications/1.xmlst
 	def show
 		@application = Application.find(params[:id])
 
@@ -98,10 +96,9 @@ class ApplicationsController < ApplicationController
 		end
 	end
 
-	# Revise
 	def attachments
 		@application = Application.find(params[:id])
-		@profileassets = Asset.where('user_id = ? AND assetType = ?', @application.user_id, 0).all
+		@profileassets = @application.assets
 		respond_to do |format|
 			format.html # attachments.html.erb
 		end
