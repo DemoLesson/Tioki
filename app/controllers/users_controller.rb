@@ -55,24 +55,24 @@ class UsersController < ApplicationController
 		if request.post?
 			if session[:user] = User.authenticate(params[:user][:email], params[:user][:password])
 
-        # Log an analytic about the uer loggin in
+				# Log an analytic about the uer loggin in
 				self.log_analytic(:user_logged_in, "User logged in.")
 				Rails.logger.info "Login successful: #{params[:user][:email]} logged in."
 
-        # Up the user login count
-        currentUser.update_login_count
+				# Up the user login count
+				currentUser.update_login_count
 
-        # Remember the user
+				# Remember the user
 				if params[:remember_me]
 					login_token = LoginToken.generate_token_for!(session[:user])
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
-        end
+				end
 
-        # Is there a location we should return the user to
-        return_to = session[:return_to] || :root
-        session.delete(:return_to) if session[:return_to]
+				# Is there a location we should return the user to
+				return_to = session[:return_to] || :root
+				session.delete(:return_to) if session[:return_to]
 
 				return redirect_to return_to
 			else
@@ -146,6 +146,34 @@ class UsersController < ApplicationController
 		@skills = @user.skills
 		# Get the teachers last video
 		@video = @user.videos.last
+	end
+	
+	def profile_complete
+		params[:user].collect!{|k,v| v.split(',').collect{|x|x.to_i} if ['subject','grade','skill'].include?(k)} if params[:user]
+		currentUser.subjects = params[:user][:subject].collect{|x| Subject.find(x)} if params.user.try(:subject)
+		currentUser.grades = params[:user][:grade].collect{|x| Grade.find(x)} if params.user.try(:grade)
+		currentUser.skills = params[:user][:skill].collect{|x| Skill.find(x)} if params.user.try(:skill)
+
+		if params[:education]
+			currentUser.educations.build(params[:education])
+		end
+
+		if params[:experience]
+			params[:experience][:startMonth]= params[:date][:startMonth]
+			params[:experience][:startYear] = params[:date][:startYear]
+			params[:experience][:endMonth] = params[:date][:endMonth]
+			params[:experience][:endYear] = params[:date][:endYear]
+
+			currentUser.experiences.build(params[:experience])
+		end
+
+		currentUser.update_attributes(params[:user]) if params[:user]
+		currentUser.social = params[:social] if params[:social]
+		currentUser.save
+
+		respond_to do |format|
+			format.js {render :nothing => true}
+		end
 	end
 
 	def accounts
