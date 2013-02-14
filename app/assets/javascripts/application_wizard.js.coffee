@@ -4,18 +4,6 @@ $ ->
 	$dp2 = $('input[name="date[end_date]"]')
 	$current = $('input[name*="[current]"]')
 
-	$dp1.datepicker
-		changeMonth: true
-		changeYear: true
-		onClose: (selectedDate) ->
-			$dp2.datepicker "option", "minDate", selectedDate
-
-	$dp2.datepicker
-		changeMonth: true
-		changeYear: true
-		onClose: (selectedDate) ->
-			$dp1.datepicker "option", "maxDate", selectedDate
-
 	$current.change (e) ->
 		do e.preventDefault
 
