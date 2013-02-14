@@ -45,7 +45,9 @@
 	</fieldset>
 
 	<div class="actions">
-		<%= file_field_tag "file[]" %>
+		<%= f.fields_for :assets do |ff| %>
+			<%= ff.file_field :file %><br />
+		<% end %>
 		<%= f.submit "Send Message" %>
 		<%= link_to "Cancel", :back %>
 	</div>
