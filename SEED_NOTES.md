@@ -1,3 +1,7 @@
+v4.4.39 - Feb 13, 2013  7:59PM PST deployed by Elijah Green
+===========================================================
+* 98b7096: Brian Martinez - adding the term read more to all messages
+
 v4.4.38 - Feb 13, 2013  7:48PM PST deployed by Elijah Green
 ===========================================================
 * e252af1: Brian Martinez - slight changes to picture upload interface
