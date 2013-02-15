@@ -1,0 +1,442 @@
+<div id="completion">
+	<div id="completionHeader">
+		<h3 style="color:#fff; margin-top:0;margin-bottom:5px;">
+			<div class="text_occupation" style="display:none">
+				What is your occupation?
+			</div>
+			<div class="text_location" style="display:none">
+				Help us plug you into your local networks
+			</div>
+			<div class="text_headline" style="display:none">
+				Tell the education world a bit about yourself
+			</div>
+			<div class="text_social" style="display:none">
+				Link to your other online networks
+			</div>
+			<div class="text_subjects" style="display:none">
+				Let the world know what subjects you specialize in
+			</div>
+			<div class="text_skills" style="display:none">
+				Skills make us unique. What are some of yours?
+			</div>
+			<div class="text_education" style="display:none">
+				Help us find your classmates and school networks
+			</div>
+			<div class="text_experience" style="display:none">
+				You're a professional. Tell us where you practice
+			</div>
+			<div class="text_picture" style="display:none">
+				Help the Tioki Network recognize you
+			</div>
+			<div class="text_video" style="display:none">
+				Add a video of you doing amazing things in the classroom
+			</div>
+		</h3>
+		<div id="completionIcons">
+			<p style="font-size:17px;color:#fff;margin-top:0px">
+				<% ctr = -1 %>
+				<% if @completions.include?("occupation") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/occupation_unselected.png', :class => "popup_occupation", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("location") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/location_unselected.png', :class => "popup_location", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("headline") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/headline_unselected.png', :class => "popup_headline", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("social") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/social_unselected.png', :class => "popup_social", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("subjects") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/subjects_unselected.png', :class => "popup_subjects", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link",:data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("skills") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/skills_unselected.png', :class => "popup_skills", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("education") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/education_unselected.png', :class => "popup_education", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("experience") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/experience_unselected.png', :class => "popup_experience", :style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("picture") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/picture_unselected.png', :class => "popup_picture" ,:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => {:complete => ctr += 1} %>
+					&middot;
+				<% end %>
+				<% if @completions.include?("video") %>
+					<%= link_to image_tag('/assets/tioki/completion_icons2/video_unselected.png', :class => "popup_video",:style => "width:30px;margin-bottom:-10px;"), '#', :class => "image_link", :data => { :complete => ctr += 1} %>
+				<% end %>
+
+			</p>
+		</div>
+	</div>
+
+	<section class="section_occupation" style="display:none">
+		<p>Help us connect you to the right opportunities by telling us your Occupation and Employment Status.</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "occupation_form", :remote => true do %>
+				<h5>
+					Your Occupation:
+					<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+				</h5>
+				<h5>
+					Are you currently seeking employment?
+					<span style='font-size:11px'>
+						(kept confidential)
+					</span>
+					<select name="user[job_seeking]">
+						<option value="yes">Yes</option>
+						<option value="no">No</option>
+					</select>
+				</h5>
+		<% end %>
+	</section>
+
+	<section class="section_location" style="display:none">
+		<%= form_tag "/me/profile/edit/complete", :class => "location_form", :remote => true do %>
+			<p style='margin-left:15px'>
+				It's a big world out there. Let us know where your call home:
+			</p>
+			<h5 style ="margin-left:15px">
+				I currently live in... <%= text_field_tag "user[location]", currentUser.location, :placeholder => "Los Angeles, CA", :style => ":width:315px" %>
+	
+			</h5>
+		<% end %>
+	</section>
+
+	<section class="section_headline" style="display:none">
+		<%= form_tag "/me/profile/edit/complete", :class => "headline_form", :remote => true do %>
+			<p>
+				Tell us a bit about who you are and what you do. Limit 140 characters, so make it count!
+			</p>
+			<h5>
+				My Headline:</br>
+				<%= text_area_tag "user[headline]", currentUser.headline, :style => 'width:480px;height:75px', :placeholder => 'Teacher, Blogger, & Mother. Making the world better in every way!', :maxlength => 140 %>
+			</h5>
+		<% end %>
+	</section>
+
+	<section class="section_social" style="display:none">
+		<p>Let the Tioki Network know where else you have a web presence.</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "social_form", :remote => true do %>
+			<p>
+				<%= image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[linkedin]', currentUser.social[:linkedin] ,:placeholder => "LinkedIn", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/twitter2.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[twitter]', currentUser.social[:twitter] ,:placeholder => "Twitter", :style => 'width:190px' %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/pinterest.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[pinterest]', currentUser.social[:pinterest], :placeholder => "Pinterest", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/edmodo.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[edmodo]', currentUser.social[:edmodo], :placeholder => "Edmodo", :style => 'width:190px' %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/betterlesson.png', :border => 0, :style=>"margin-bottom:-7px;") %>
+				<%= text_field_tag 'social[betterlesson]', currentUser.social[:betterlesson],:placeholder => "Better Lesson", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/teachingchannel.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[teachingchannel]', currentUser.social[:teachingchannel], :placeholder => "Teaching Channel", :style => 'width:190px' %>
+			</p>
+			<p>
+				<%= image_tag('tioki/icons/blog_icon.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[blog]', @user.social[:blog], :placeholder => "Personal Blog", :style => 'width: 190px;margin-right: 5px;' %>
+			
+				<%= image_tag('tioki/icons/globe.png', :border => 0, :style=>"margin-bottom:-9px;") %>
+				<%= text_field_tag 'social[website]', @user.social[:website], :placeholder => "Personal Website", :style => 'width:190px' %>
+			</p>
+		<% end %>
+	</section>
+
+	<section class="section_subjects" style="display:none">
+		<p>
+			Help us make better suggestions by letting us know what subjects and grade levels you teach. 
+		</p>
+		<%= form_tag "/me/profile/edit/complete", :class => "subjects_form", :remote => true do %>	
+			<h5>
+				Subjects: <span style="font-size:11px">(ex. Algebra, Biology, Spanish)</span>
+				<input type="text" id="profile_subjects" name="user[subject]" />
+				<br/>
+				Grades: <span style="font-size:11px">(ex. 1st, 2nd, 3rd)</span>
+				<input type="text" id="profile_subjects" name="user[grade]" />
+			</h5>	
+		<% end %>
+	</section>
+
+	<section class="section_skills" style="display:none">
+		<p>
+			Add the skills you are great at. Your connections can vouch for your expertise.
+		</p>	
+		<%= form_tag "/me/profile/edit/complete", :class => "skills_form", :remote => true do %>
+			<h5>
+				Skills: <span style="font-size:11px">(ex. Classroom Management, IPad, Flipped Classroom)</span>
+				<input type="text" name="user[skill]" />
+			</h5>
+		<% end %>
+	</section>
+
+	<section class="section_education" style="display:none">
+		<h5>Add your Education information</h5>
+		<%= form_tag "/me/profile/edit/complete", :class => "education_form", :remote => true do |f| %>
+			<fieldset>
+				<p>
+				School/University Name:<br/>
+				<%= text_field_tag "education[school]", nil, :placeholder => 'Stanford University', :style => 'width:460px' %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+					Degree:
+					<span style="margin-left:150px">
+						Major/Subject:
+					</span>
+					<br/>
+					<%= text_field_tag "education[degree]", nil, :placeholder => "(e.g. B.A, Masters, etc.)", :style => 'width:150px' %>
+				
+					<%= text_field_tag "education[concentrations]", nil, :placeholder => "(e.g. Sociology, Chemistry, etc.)", :style => 'width:255px;margin-left:25px' %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+					Start Year: 
+					<%= select("education", "start_year", YEARS_ARRAY.reverse, :include_blank => true) %>
+					<span style='margin-left:25px'>
+						Graduation Year: 
+						<%= select("education", "year", YEARS_ARRAY.reverse, :include_blank => true, :style => 'width:105px') %>	
+					</span>
+					<span style="float:right;">
+					<label>
+						<%= check_box_tag "education[current]" %> 
+						Currently Attending
+					</label>
+					</span>
+				</p>
+			</fieldset>
+		<% end %>
+
+	</section>
+
+	<section class="section_experience" style="display:none">
+		<h5>Add your Professional Experience</h5>
+		<%= form_tag "/me/profile/edit/complete", :class => "experience_form", :remote => true do |f| %>
+			<fieldset>
+				<p>
+				Company, District or School:
+				<%= text_field_tag "experience[company]", nil, :placeholder => 'Notre Dame Academy', :style => 'width:460px' %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+				Title/Position:
+				<%= text_field_tag "experience[position]", nil, :placeholder => 'Resource Specialist', :style => 'width:460px' %>
+				</p>
+			</fieldset>
+			<fieldset>
+				<p>
+				Start Date: 
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :startMonth) %>
+				<%= select_year(Date.today, :field_name => "startYear", :start_year => 1940, :end_year => Time.now.year+1) %>
+				
+				<span style='margin-left:25px'>
+				End Date:
+				<%= select_month(Date.today, :add_month_numbers => false, :field_name => :endMonth) %>
+				<%= select_year(Date.today, :field_name => "endYear", :start_year => 1940, :end_year => Time.now.year+1) %>
+				</span>
+				<br/>
+				<span style='float:right;margin-right:35px'>
+					<label>
+						<%= check_box_tag 'experience[current]', 'yes', false, :class => 'current' %> 
+						I currently work here
+					</label>
+				</span>
+				</p>
+			</fieldset>
+			
+		<% end %>
+
+	</section>
+
+	<section class="section_picture" style="display:none">
+		<p>
+		Help connections and the rest of the Tioki community recognize you. 
+		</p>
+		<div style="text-align:center">
+			<% if currentUser.avatar? %>
+				<%= image_tag currentUser.avatar.url(:medium), :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% else %>
+				<%= image_tag 'dl_icons/no_avatar_huge.png', :style => "width:250px;border:5px solid #f1f1f1;" %>
+			<% end %>
+			<br/>
+			<%= link_to 'Choose a Picture to Upload', '/me/profile/edit/upload-avatar', :style => 'color:#F66C4C' %>
+		</div>
+	</section>
+
+	<section class="section_video" style="display:none">
+		<h5 style="margin-left:20px">Display your teaching craft by uploading a video:</h5>
+		<div style="text-align:center">	
+			<%= link_to image_tag('dl_icons/video_placeholder.jpg', :style => "width:450px;border:1px solid #000;"), new_video_path %>
+			<br/>
+			<%= link_to "Upload video", new_video_path, :style => 'color:#F66C4C' %>
+		</div>
+	
+	</section>
+
+	<section>
+		<%= link_to '<<Previous', '#', :class => "completionPrevious previous" %>
+		<%= link_to 'Skip', '#', :class => "completionPrevious skip", :id => "skip_completion" %>
+		<%= link_to 'Save & continue>>', '#', :class => "completionContinue" %>
+	</section>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var completions = <%= @completions.to_json.html_safe %>;
+		var completionsIndex = 0;
+		$("#"+completions[completionsIndex]+"_select").show();
+		$(".complete_popup").click(function () {
+			$('body').completionOverlay({
+				completionLength: 10000, // anything numeric no quotes
+				transitionSpeed: 400, // ditto
+				completionAutoFade: false, //timed fade on overlay...true or false
+				completionCloseBtn: true, //btn to close overlay...true or false
+				completionTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
+				openAnimation: true, //opening animation...true or false
+				completionSwitch: true,
+				completionContent: '#completion', //where the content is at, uses css selector # for id, and . for class
+				cookieActive : false,
+				/* also you can use 'href' to load content for a seperate page..
+				when using href it also uses the class of the clicked element to find the content...
+				it goes like this .load(href class); check source for use */ 
+				completionTemplate: 'full', // either 'full' or 'module'
+				completionTurnOffLights: false, //turn off and on lights...true or false
+			});
+			unselect();
+			completionsIndex = parseInt($(this).attr('data-completionid'));
+			select();
+
+			$(".previous").on("click", function () {
+				unselect();
+				if(completionsIndex > 0) {
+					completionsIndex--;
+				} else {
+					completionsIndex = completions.length - 1;
+				}
+				select();
+			});
+
+			$(".skip").on("click", function () {
+				unselect();
+				if(completionsIndex < completions.length - 1) {
+					completionsIndex++;
+				} else {
+					completionsIndex = 0;
+				}
+				select();
+			});
+			
+			$(".completionContinue").on("click", function () {
+				if(completionsIndex == completions.length - 1) {
+					$("."+completions[completionsIndex]+"_form").last().submit(function() {
+						window.location.reload();
+					});
+					window.location.reload();
+				}
+				$("."+completions[completionsIndex]+"_form").submit();
+
+				$(".skip").last().click();
+			});
+
+			$(".image_link").on("click", function () {
+				unselect();
+				completionsIndex = parseInt($(this).attr('data-complete'));
+				select();
+			});
+
+			 $('input[name="user[subject]"]').tokenInput("/api/subjects", {
+				 hintText: "Subjects...",
+				 theme: "facebook",
+				 resultsLimit: 10,
+				 prePopulate: 
+				 <%= currentUser.subjects.to_json(:only => [:id, :name] ).html_safe %>
+			 });
+			 $('input[name="user[grade]"]').tokenInput("/api/grades", {
+				 hintText: "Grades...",
+				 theme: "facebook",
+				 resultsLimit: 10,
+				 prePopulate: 
+				 <%= currentUser.grades.to_json(:only => [:id, :name] ).html_safe %>
+			 });
+				$('input[name="user[skill]"]').tokenInput("/api/skills", {
+					hintText: "Skills...",
+					theme: "facebook",
+					resultsLimit: 10,
+					prePopulate: <%= currentUser.skills.to_json(:only => [:id, :name]).html_safe %>
+				});
+			});
+
+		$(".complete_popup").click(function (e) {
+			e.preventDefault();
+			$("#profile_complete").click();
+		});
+		function unselect()
+		{
+			$(".section_"+completions[completionsIndex]).hide();
+			$(".text_"+completions[completionsIndex]).hide();
+			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_unselected.png");
+		}
+		function select()
+		{
+			$(".section_"+completions[completionsIndex]).show();
+			$(".text_"+completions[completionsIndex]).show();
+			$(".popup_"+completions[completionsIndex]).attr("src", "/assets/tioki/completion_icons2/"+completions[completionsIndex]+"_selected.png");
+			if(completionsIndex === completions.length - 1) {
+				$('.completionContinue').text('Finish');
+			} else {
+				$('.completionContinue').text('Save & continue>>');
+			}
+		}
+		function unselectcompleteAll()
+		{
+			temp = completionsIndex;
+			for(var i = 0; i < completions.length; i++){
+				completionsIndex = i;
+				$("#"+completions[completionsIndex]+"_select").hide();
+			}
+			completionsIndex = temp;
+		}
+		$("#completion_right").click( function () {
+			unselect();
+			unselectcompleteAll();
+			$("#"+completions[completionsIndex]+"_select").hide();
+			if(completionsIndex < completions.length - 1) {
+				completionsIndex++;
+			} else {
+				completionsIndex = 0;
+			}
+			$("#"+completions[completionsIndex]+"_select").fadeIn();
+			select();
+		});
+		$("#completion_left").click( function () {
+			unselect();
+			unselectcompleteAll();
+			$("#"+completions[completionsIndex]+"_select").hide();
+			if(completionsIndex > 0) {
+				completionsIndex--;
+			} else {
+				completionsIndex = completions.length - 1;
+			}
+			select();
+			$("#"+completions[completionsIndex]+"_select").fadeIn();
+		});
+	});
+</script>
+

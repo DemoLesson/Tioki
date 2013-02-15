@@ -1,3 +1,45 @@
+v4.4.39 - Feb 13, 2013  7:59PM PST deployed by Elijah Green
+===========================================================
+* 98b7096: Brian Martinez - adding the term read more to all messages
+
+v4.4.38 - Feb 13, 2013  7:48PM PST deployed by Elijah Green
+===========================================================
+* e252af1: Brian Martinez - slight changes to picture upload interface
+* fa87d10: Elijah Green - Fix off by one error in profile_completion
+* 476cf84: Elijah Green - Reload on finish
+* c4bb071: Elijah Green - change save and continue to finish if last step
+* d0a2b16: Elijah Green - Move picture
+* 1fa1255: Brian Martinez - changes to the profile completion popups
+* c6d15f0: Brian Martinez - style changes to profile completion bar container
+* 2399758: Brian Martinez - styling changes to completion box
+* 9b6ca64: Elijah Green - Finish completion forms
+* 186916d: Elijah Green - all form working except for video
+* f192efa: Elijah Green - Add completion info
+* cd41039: Elijah Green - reload page on popup close
+* cce927f: Elijah Green - Add reset of forms
+* c82ccf8: Elijah Green - Add subjects bar
+* c01c07a: Elijah Green - Add some more forms
+* a44f14c: Elijah Green - Add some forms for completion
+* 6f38c50: Elijah Green - Link popoup to profile completion
+* 60a16b1: Elijah Green - Add some more forms
+* 60dc8f0: Elijah Green - Have picture links work
+* f32f618: Elijah Green - give class to the image links
+* d0a4e01: Elijah Green - Change header text and pictures
+* c94813e: Elijah Green - Put completion popup in its own file
+* fbf95de: Elijah Green - Dismiss pop up on background click
+* e399c07: Elijah Green - All profile_completion options are there
+* dd67c0b: Elijah Green - overlay bar images
+* e436722: Elijah Green - Completion state
+
+v4.4.37 - Feb 13, 2013  5:45PM PST deployed by Aleks Stanisic
+=============================================================
+* e4ef19b: Brian Martinez - commenting out Facebook iFrame on Signup page
+* 4bcbf6d: Brian Martinez - changes to welcome wizard layout
+
+v4.4.36 - Feb 13, 2013  3:02PM PST deployed by Aleks Stanisic
+=============================================================
+* 864884f: Elijah Green - Fix datepicker on application wizard
+
 v4.4.35 - Feb 12, 2013  6:05PM PST deployed by Aleks Stanisic
 =============================================================
 * 284e16c: Aleks Stanisic - style change to group members page
