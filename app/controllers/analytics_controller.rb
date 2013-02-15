@@ -11,9 +11,6 @@ class AnalyticsController < ApplicationController
 	end
 
 	def index
-		get_all_analytics.each do |slug, data|
-			
-		end
 	end
 
 	def users
@@ -431,23 +428,4 @@ class AnalyticsController < ApplicationController
 		# Join the data indo an output array
 		dates.join(',')
 	end
-
-	private
-
-		def get_all_analytics(date_start = nil, date_end = nil, unique = false)
-
-			# Get a list of all the slugs in the DB
-			slugs = Array.new
-			ActiveRecord::Base.connection.execute("SELECT `slug` FROM `analytics` WHERE `slug` IS NOT NULL && `slug` != '' GROUP BY `slug`").each do |x|
-				slugs << x.first
-			end
-
-			# Loop through the slugs and get the results
-			results = Hash.new; slugs.each do |slug|
-				results[slug] = self.get_analytics(slug, nil, date_start, date_end, unique)
-			end
-
-			# Results
-			return results
-		end
 end
