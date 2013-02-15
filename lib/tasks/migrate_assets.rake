@@ -1,4 +1,4 @@
-desc "Migrate school gps data to jobs"
+desc "Migrate assets to use polymorphic associations"
 task :migrate_assets => :environment do
 	#job assets
 	Asset.where("job_id is not null AND assetType = 0").each do |asset|
