@@ -409,6 +409,14 @@ ActiveRecord::Schema.define(:version => 20130213222303) do
     t.string   "interview_type"
   end
 
+  create_table "job_answers", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "application_id"
+    t.text     "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "job_packs", :force => true do |t|
     t.integer  "group_id"
     t.integer  "jobs"
@@ -419,6 +427,13 @@ ActiveRecord::Schema.define(:version => 20130213222303) do
     t.integer  "refunded"
     t.integer  "amount"
     t.text     "additional_data"
+  end
+
+  create_table "job_questions", :force => true do |t|
+    t.integer  "job_id"
+    t.text     "question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "jobs", :force => true do |t|
@@ -449,9 +464,9 @@ ActiveRecord::Schema.define(:version => 20130213222303) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
     t.boolean  "allow_videos",        :default => true
     t.boolean  "allow_attachments",   :default => true
-    t.boolean  "featured",            :default => false
     t.boolean  "notification_sent",   :default => false
   end
 
