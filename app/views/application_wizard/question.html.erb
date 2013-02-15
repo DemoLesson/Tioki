@@ -29,7 +29,10 @@ tr.seeking, tr.student {
 					<td>
 						<label>
 							<span>Answer</span>
-							<textarea type="text_area" name="job_answer[answer]" maxlength="500" rows="10"/>  
+							<textarea type="text_area" name="job_answer[answer]" maxlength="500" rows="10"/> 
+								<% if @app.job_answers.where("question_id = ?", job_question.id).last != nil %>
+									<%= @app.job_answers.where("question_id = ?", job_question.id).last.answer %>
+								<% end %>
 							</textarea>
 						</label></br></br>
 					</td>

@@ -261,9 +261,9 @@
 					<div style ="float:right; margin-top:-68px; margin-right:-30px">
 						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button green"} %>
 					</div>
-					<div style="margin-left:5px">
-						<%= link_to "Back to Applicants", :back %>
-					</div>
+					<a style =" margin-left:5px; color:#2AA99B" href="<%= url_for([@application.job.group, @application.job, :applications])%>">
+						Back to Applicants
+					</a>
 				</section> <!-- END RECRUITOR TOOLS -->
 			<% end %>
 			<!-- Connection Information -->
