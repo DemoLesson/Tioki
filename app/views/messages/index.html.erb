@@ -96,6 +96,9 @@
 
 					<!-- Floating the Message Sent Date and Delete button to the right -->
 					<span style="float:right">
+						<% if message.assets.count > 0 %>
+							<%= image_tag('tioki/icons/attachment.png', :style => 'width:12px') %>
+						<% end %>
 						<%= message.created_at.to_s(:message_time)%> |
 						<% if message.replied_messages.count > 0 %>
 							<%= message.replied_messages.count + 1 %> Messages |

@@ -78,14 +78,12 @@
 				Job Attachments
 			</h3>
 			<% for asset in @job.assets %>
-				<% if asset.assetType != 1 %>
-					<div class="item">
-						<p>
-							<%= link_to asset.name, asset.file.url %><br />
-							<%= asset.description %>
-						</p>
-					</div>
-				<% end %>
+				<div class="item">
+					<p>
+						<%= link_to asset.name, asset.file.url %><br />
+						<%= asset.description %>
+					</p>
+				</div>
 			<% end %>
 		<% end %>
 		</section>
