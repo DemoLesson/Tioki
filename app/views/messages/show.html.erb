@@ -37,11 +37,22 @@
 		<p style="margin:20px 10px 0px 10px;width:auto">
 			<%= sanitize(@message.body.gsub(/\n/, '<br/>')) %>
 		</p>
-
+		<!-- Showing any attached documents to the message for download -->
+		<% if @message.assets.count > 0 %>
+			<section style='width:300px;border-top:1px dashed #cfd4d5;margin-top:10px'>	
+				<p style='margin-left:10px'>
+					<strong>
+						Attachments:
+					</strong>
+					<br/>
+					<% @message.assets.each do |asset| %>
+						<%= link_to image_tag('tioki/icons/attachment.png', :style => 'width:14px;margin-right:5px') + asset.name, asset.file.url %><br />
+					<% end %>
+				</p>
+			</section>
+		<% end %>
 	</section>
-	<% @message.assets.each do |asset| %>
-		<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
-	<% end %>
+	
 
 	<% @message.replied_messages.each do |message| %>
 		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">

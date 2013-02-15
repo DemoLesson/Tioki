@@ -30,10 +30,10 @@
 			Subject: 
 		</p>
 		<% if @replied_to_message %>
-			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:675px" %>
+			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:780px" %>
 			<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
 		<% else %>
-			<%= f.text_field :subject, :style => "width:675px" %>
+			<%= f.text_field :subject, :style => "width:780px" %>
 		<% end %>
 	</fieldset>
 
@@ -41,15 +41,24 @@
 		<p>
 			Message:
 		</p>
-		<%= f.text_area :body, :style => "width:675px" %>
+		<%= f.text_area :body, :style => "width:780px" %>
 	</fieldset>
 
-	<div class="actions">
-		Attachments:<br />
+	<div class="actions" style='width:800px'>
+		<span style='float:right'>
+			<%= f.submit "Send Message" %>
+			<%= link_to "Cancel", :back %>
+		</span>
+		<section style='width:500px'>
+		<strong style='color:#f66c4c'>
+			NEW:
+		</strong>
+		Attach Files
+		<br />
 		<%= f.fields_for :assets do |ff| %>
-			<%= ff.file_field :file %><br />
+			<%= ff.file_field :file %>
 		<% end %>
-		<a href="#" id="add_asset">Add more</a>
+		<a href="#" id="add_asset" style='color:#f66c4c'>Attach another file</a>
 		<script type="text/javascript">
 			$(document).ready( function () {
 				var ctr = 1;
@@ -60,8 +69,7 @@
 				});
 			});
 		</script>
-		<%= f.submit "Send Message" %>
-		<%= link_to "Cancel", :back %>
+		</section>
 	</div>
 <% end %>
 <% if @replied_to_message %>
