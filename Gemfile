@@ -7,9 +7,9 @@ gem 'rails', '3.2.12'
 gem 'mysql2'
 
 # Production only gems
-group :production do
-	gem 'therubyracer', '~> 0.9.3.beta1'
-end
+#group :production do
+#	gem 'therubyracer', '~> 0.9.3.beta1'
+#end
 
 # Assets
 # @todo remove these gems from running in production
@@ -21,7 +21,7 @@ end
 #end
 
 # Tiny-MCE / jQuery need to be global
-gem 'jquery-rails', '2.1.4'
+gem 'jquery-rails'#, '2.1.4'
 gem 'tinymce-rails'
 
 # Social Networks and oAuth
@@ -31,8 +31,8 @@ gem 'twitter'
 gem 'koala' # Facebook
 
 # General APIs
-gem 'cloudsponge', '~> 0.9.9'
-gem 'zencoder', '~> 2.4.0'
+gem 'cloudsponge'#, '~> 0.9.9'
+gem 'zencoder'#, '~> 2.4.0'
 # @todo build a new mailgun extension
 gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git' # Mailgun API Access
 
@@ -69,12 +69,12 @@ gem 'sunspot_rails'
 # @todo cleanup file upload process
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
-gem 'paperclip', '~> 2.7.5' # Depreciate
-gem 'aws-sdk', '~> 1.3.4'
+gem 'paperclip'#, '~> 2.7.5' # Depreciate
+gem 'aws-sdk'#, '~> 1.3.4'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip
 gem 'carrierwave_direct' # Direct uploads to S3
-gem 'remotipart', '~> 0.4.1' # Do we actually need this
+gem 'remotipart'#, '~> 0.4.1' # Do we actually need this
 gem 'fog'
 
 # Webserver
@@ -91,7 +91,7 @@ gem 'open4'
 group :development do
 	gem 'debugger'
 	gem 'debugger-ruby_core_source'
-	gem 'better_errors', '0.3.2'
+	gem 'better_errors'#, '0.3.2'
 	gem "binding_of_caller"
 	gem 'thin'
 end
