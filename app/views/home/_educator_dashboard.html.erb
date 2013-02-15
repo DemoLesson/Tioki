@@ -1,71 +1,3 @@
-<div id="intro">
-	<% if !User.current.school.nil? %>
-		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
-		Welcome to Tioki!
-		</h2>
-		<p style="margin:0;">
-		Administrators and Recruiters now have profiles!<br />
-		<a href="/me/settings/dashboard/recruiter">No thanks just take me to my recruiter dashboard.</a><br />
-
-		Here are a few tips on how to get the most out of Tioki.
-		</p>
-		<section>
-			<p>
-			<span class="bold caps">Find New Connections</span><br />
-			Use the connection suggestion box to find other educators.
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps">Explore</span><br />
-			Life is what you make it, and so is Tioki. Start exploring.
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps"> Events</span><br />
-			Search for events that interest you!
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps">The Whiteboard</span><br />
-			Update your status and check out what your connections are up to.
-			</p>
-		</section>
-	<% else %>
-		<h2 style="color:#2AA99B; margin-top:0;margin-bottom:5px;">
-		Welcome to your home page!
-		</h2>
-		<p style="margin:0;">
-		Here are a few tips on how to get the most out of Tioki.
-		</p>
-		<section>
-			<p>
-			<span class="bold caps">Find New Connections</span><br />
-			Use the connection suggestion box to find other educators.
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps">Explore</span><br />
-			Life is what you make it, and so is Tioki. Start exploring.
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps"> Events</span><br />
-			Search for events that interest you!
-			</p>
-		</section>
-		<section>
-			<p>
-			<span class="bold caps">The Whiteboard</span><br />
-			Update your status and check out what your connections are up to.
-			</p>
-		</section>
-	<% end %>
-</div>
 <section id="main-content" class="inner-content">
 	<section id="updates" style="margin-top:30px;">
 		<div class="profile-thumb-medium">
@@ -174,6 +106,13 @@
 		</section>
 
 		<!-- START Suggested educators to connect with -->
+		<% if @completions.size > 0 %>
+			<section id="list" class="panel one-column right-side">
+				<section style="margin 0;padding: 12px 15px 12px 15px !important">
+						<%= render "users/profile_completion" %>
+				</section>	
+			</section>
+		<% end %>
 		<section id="list" class="panel one-column right-side">
 			<h3 class="bottom-line">Suggested Educators</h3>
 			<div class="suggested-connections">
@@ -572,27 +511,6 @@ $(document).ready(function() {
 	}
 });
 </script>
-
-<% if !cookies[:teacherdashboard_viewed] %>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('body').introOverlay({
-				introLength: 10000, // anything numeric no quotes
-				transitionSpeed: 400, // ditto
-				introAutoFade: false, //timed fade on overlay...true or false
-				introCloseBtn: true, //btn to close overlay...true or false
-				introTransition: 'fade', //different transition options 'fade', 'slideUp', 'slideLeft', 'slideCenter'
-				openAnimation: true, //opening animation...true or false
-				introContent: '#intro', //where the content is at, uses css selector # for id, and . for class
-				cookieActive : false,
-				/* also you can use 'href' to load content for a seperate page..
-				when using href it also uses the class of the clicked element to find the content...
-				it goes like this .load(href class); check source for use */ 
-				introTemplate: 'full', // either 'full' or 'module'
-				introTurnOffLights: false, //turn off and on lights...true or false
-			});
-		});
-	</script>
-	<% cookies[:teacherdashboard_viewed] = { :value => true, :expires => 1.month.from_now } %>
+<% if @completions.size > 0 %>
+	<%= render "users/profile_completion_popup" %>
 <% end %>
-

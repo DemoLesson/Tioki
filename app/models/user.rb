@@ -265,38 +265,38 @@ class User < ActiveRecord::Base
 	end
 
 	def completion
-		return 0
+		#headline
+		percent = 0
+		percent += 10 if self.headline.present?
+		percent += 10 if self.social.first
+		percent += 10 if self.skills.first
+		percent += 10 if self.location.present?
+		percent += 10 if self.educations.first
+		percent += 5 if self.subjects.first
+		percent += 5 if self.grades.first
+		percent += 5 if self.occupation.present?
+		percent += 5 if !self.job_seeking.nil?
+		percent += 10 if self.experiences.first
+		percent += 10 if self.avatar?
+		percent += 10 if self.videos.first
+		return percent
+	end
+	
+	def completion_options
+		options = []
 
-		## Only update progress if the model is over a day old or empty
-		#if self.updated_at < Time.new.yesterday || super.nil? || super == 0
-		#	percent = 0
+		options << "occupation" unless self.occupation.present? && !self.job_seeking.present?
+		options << "location" unless self.location.present?
+		options << "headline"  unless self.headline.present?
+		options << "social" unless self.social.first
+		options << "subjects" unless self.subjects.first && self.grades.first
+		options << "skills" unless self.skills.first
+		options << "education" unless self.educations.first
+		options << "experience" unless self.experiences.first
+		options << "picture" unless self.avatar?
+		options << "video" unless self.videos.first
 
-		#	if !self.teacher.nil?
-		#		percent += 5 if self.teacher.headline.present?
-		#		percent += 15 if self.connections.count >= 5
-		#		percent += 5 if self.teacher.has_social?
-		#		percent += 10 if !self.teacher.educations.empty?
-		#		percent += 10 if !self.teacher.experiences.empty?
-		#		percent += 5 if !self.teacher.credentials.empty?
-		#		percent += 5 if self.avatar?
-		#		percent += 10 if self.skills.count >= 5
-
-		#		# Tech tags
-		#		percent += 10 if true
-
-		#		percent += 15 if self.vouched_skills.count > 3
-		#		percent += 10 if self.teacher.videos.count > 0
-		#	elsif !self.school.nil?
-		#		percent = 100
-		#	end
-
-		#	# Save the user with the updated completion
-		#	self.update_attribute(:completion, percent)
-		#else
-		#	percent = super
-		#end
-
-		#return percent
+		return options
 	end
 
 	def connections

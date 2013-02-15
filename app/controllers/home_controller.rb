@@ -68,6 +68,8 @@ class HomeController < ApplicationController
 				@featured_jobs = Job.where("featured = ?", true).limit(3)
 
 				@interviews = self.current_user.interviews
+
+				@completions = currentUser.completion_options
 			end
 		end
 
