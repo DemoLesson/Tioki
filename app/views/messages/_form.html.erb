@@ -64,7 +64,7 @@
 				var ctr = 1;
 				$("#add_asset").click( function(e) {
 					e.preventDefault();
-					$("#message_assets_attributes_"+ (ctr - 1) +"_file").after('<input id="message_assets_attributes_'+ctr+'_file" type="file" name="message[assets_attibutes]['+ctr+'][file]">');
+					$("#message_assets_attributes_"+ (ctr - 1) +"_file").after('<input id="message_assets_attributes_'+ctr+'_file" type="file" name="message[assets_attributes]['+ctr+'][file]">');
 					ctr += 1;
 				});
 			});
