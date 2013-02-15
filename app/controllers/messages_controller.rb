@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
   # GET /messages/new.xml
   def new
     @message = Message.new
-		3.times { @message.assets.build }
+		@message.assets.build
 
 		if params[:replied_to_id]
 			@replied_to_message = Message.find(params[:replied_to_id])

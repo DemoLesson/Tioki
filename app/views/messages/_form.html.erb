@@ -45,9 +45,21 @@
 	</fieldset>
 
 	<div class="actions">
+		Attachments:<br />
 		<%= f.fields_for :assets do |ff| %>
 			<%= ff.file_field :file %><br />
 		<% end %>
+		<a href="#" id="add_asset">Add more</a>
+		<script type="text/javascript">
+			$(document).ready( function () {
+				var ctr = 1;
+				$("#add_asset").click( function(e) {
+					e.preventDefault();
+					$("#message_assets_attributes_"+ (ctr - 1) +"_file").after('<input id="message_assets_attributes_'+ctr+'_file" type="file" name="message[assets_attibutes]['+ctr+'][file]">');
+					ctr += 1;
+				});
+			});
+		</script>
 		<%= f.submit "Send Message" %>
 		<%= link_to "Cancel", :back %>
 	</div>
