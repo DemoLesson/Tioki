@@ -1,5 +1,5 @@
 class Application < ActiveRecord::Base
-	has_many :assets, :dependent => :destroy
+	has_many :assets, :as => :owner,:dependent => :destroy
 	belongs_to :job
 	belongs_to :user
 

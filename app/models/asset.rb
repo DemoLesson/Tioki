@@ -1,10 +1,10 @@
 class Asset < ActiveRecord::Base
-	belongs_to :teacher # Migration
+	# TODO change to polymorphic association
+	# TODO merge with attachments
 	belongs_to :user
 	belongs_to :application
 	belongs_to :job
-
-	validates_presence_of :name, :file, :alert => 'You need to select a file to upload and enter the document name.'
+	belongs_to :owner, :polymorphic => true
 
 	has_attached_file :file,
 		:storage => :fog,
@@ -26,6 +26,7 @@ class Asset < ActiveRecord::Base
 		def randomize_file_name
 			extension = File.extname(file_file_name)
 			basename = File.basename(file_file_name, extension)
+			self.name = file_file_name
 			self.file.instance_write(:file_name, "#{basename}_#{ActiveSupport::SecureRandom.hex(16)}#{extension}")
 		end
 

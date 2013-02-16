@@ -276,7 +276,6 @@ class JobsController < ApplicationController
 	end
 
 	def attach
-		params[:asset][:assetType]=1
 		@user = User.find_by_id(self.current_user.id)
 		@user.new_asset_attributes = params[:asset]
 
@@ -289,7 +288,7 @@ class JobsController < ApplicationController
 
 	def jobattachpost
 		@job = Job.find_by_id(params[:id])
-		@assets= Asset.where('job_id = ? AND assetType = ?', params[:id], 0).all
+		@assets = @job.assets
 		if request.post?
 			@job.new_asset_attributes=params[:asset]
 

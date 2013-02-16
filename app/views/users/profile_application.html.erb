@@ -253,7 +253,7 @@
 						<td>
 							<label>
 							<% if @application.job_answers.where("question_id = ?", job_question.id).last != nil %>
-								 <%= @application.job_answers.where("question_id = ?", job_question.id).last.answer %>
+								 <%= h(@application.job_answers.where("question_id = ?", job_question.id).last.answer).gsub(/\n/, '<br/>').url2link %>
 							<% else %>
 								No Answer
 							<% end %>

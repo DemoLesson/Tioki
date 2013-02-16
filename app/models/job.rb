@@ -11,7 +11,7 @@ class Job < ActiveRecord::Base
 	has_many :applications
 	has_many :winks
 	has_many :interviews, :dependent => :destroy
-	has_many :assets, :dependent => :destroy
+	has_many :assets, :as => :owner,:dependent => :destroy
 	accepts_nested_attributes_for :assets, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
 	reverse_geocoded_by :latitude, :longitude
 

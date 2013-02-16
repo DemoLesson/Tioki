@@ -159,19 +159,8 @@ class ApplicationWizardController < ApplicationController
 		_loadSession
 
 		if request.post?
-
-			# Decide whether or not to show this on the profile
-			if params[:profile]
-				params[:asset][:assetType] = false
-			else
-				params[:asset][:assetType] = true
-			end
-
 			# Set the application id for the asset
-			params[:asset][:application_id] = @app.id
-			params[:asset][:user_id] = User.current.id
-
-			Asset.create(params[:asset])
+			@app.assets.create(params[:asset])
 		end
 	end
 

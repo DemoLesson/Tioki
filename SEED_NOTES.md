@@ -1,3 +1,19 @@
+v4.4.40 - Feb 15, 2013  1:01PM PST deployed by Elijah Green
+===========================================================
+* 4ff3955: Elijah Green - Fix typo
+* b6aee59: Brian Martinez - design changes to message attachments
+* fac8ca6: Elijah Green - Remove some unused code from analytics
+* 141878f: Elijah Green - Add more button on message assets
+* 8e462c2: Elijah Green - Attachments are now working.
+* 4297c04: Elijah Green - Delete useful assets view
+* 48a1ec4: Elijah Green - Remove assetType references
+* 7286d8a: Elijah Green - Change assets of other models
+* 3e75b83: Elijah Green - Messages asssets are now uploading
+* 91f57ab: Aleks Stanisic - schema
+* 431bdd0: Elijah Green - Add file_field_tag
+* 36693c5: Elijah Green - Add assets migration
+* 7297e0a: Elijah Green - Add polymorphic association to assets
+
 v4.4.39 - Feb 13, 2013  7:59PM PST deployed by Elijah Green
 ===========================================================
 * 98b7096: Brian Martinez - adding the term read more to all messages
