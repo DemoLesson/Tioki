@@ -72,6 +72,21 @@
 			</p>
 		<% end %>	
 
+		<!-- JOB APPLICATION Questions-->
+		<% if @job.job_questions.count > 0 %>
+			<h3 class="bottom-line">
+				Application Questions
+			</h3>
+			Be prepared to answer these questions in 500 characters or less when you apply:
+			<p style="width:auto">
+			<% @job.job_questions.each do |job| %>
+			<ul>
+				<li style="margin-left:10px"><%= job.question %></li>
+			</ul>
+			<% end %>
+			</p>
+		<% end %>
+
 		<!-- ATTACHMENTS -->
 		<% if @job.assets.count >= 1 %>
 			<h3 class="bottom-line">

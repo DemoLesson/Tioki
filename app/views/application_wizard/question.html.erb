@@ -1,0 +1,60 @@
+<style>
+tr.seeking, tr.student {
+	display:none;
+}
+</style>
+
+<div class="row kRap">
+	<div class="twelve columns">
+		<%= render "header" %>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Application Questions</h1>
+	</div>
+	<div class="clear"></div>
+
+	<div class="seven columns">
+		<h3 class="bottom-line" style="margin-bottom:0px">Please answer these questions in 500 characters or less.</h3></br>
+		<% @job.job_questions.each do |job_question| %>
+		<form method="POST">
+			<input type="hidden" name="add_job_answer" value="1" />
+			<table>
+				<tr>
+					<td>
+						<label>
+							<span><%= job_question.question %></span>
+							<input type="hidden" name="job_answer[question_id]" value="<%= job_question.id %>" />
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span>Answer</span>
+							<%= text_area_tag "job_answer[answer]",  @app.job_answers.where("question_id = ?", job_question.id).last.try(:answer), :maxlength => "500", :rows => "10" %>
+						</label></br></br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							<span></span>
+							<input type="submit" class="large button" value="Save Answer" style="width:350px" />
+						</label>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<% end %>
+	</div>
+	<div class="eleven columns">
+		<% if @app.job.allow_attachments %>
+			<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% elsif @app.job.allow_videos %>
+			<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% else %>
+			<a href="step7" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
+		<% end %>
+		<div style="clear:both;height:40px;"></div>
+	</div>
+	<div class="four columns">
+	</div>
+</div>

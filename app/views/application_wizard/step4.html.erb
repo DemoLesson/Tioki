@@ -82,7 +82,9 @@ tr.seeking, tr.student {
 		</form>
 	</div>
 	<div class="eleven columns">
-		<% if @app.job.allow_attachments %>
+		<% if @app.job.job_questions.count > 0 %>
+			<a href="question" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>		
+		<% elsif @app.job.allow_attachments %>
 			<a href="step5" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>
 		<% elsif @app.job.allow_videos %>
 			<a href="step6" class="secondary large button" style="padding:9px 50px;width:auto;float:right">Next Step  →</a>

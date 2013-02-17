@@ -92,6 +92,25 @@
       <% end %>
     </p>
   </fieldset>
+
+  <h3 class="bottom-line">
+  Applicant Questions
+  </h3>
+  Add questions you want your applicants to answer. Applicants will be instructed to reply to each question you post in 500 characters or less. 
+
+  <%= f.fields_for :job_questions do |question| %>
+    <div class="fields">
+      <p >
+        Question<br />
+        <%= question.text_field :question, :style => "width:375px" %>
+        <%= question.hidden_field :_destroy %>
+        <%= link_to "Remove Question", "#", :class => "remove_fields", :style => "color:#892A38"%>
+      </p>
+    </div>
+
+  <% end %>
+</br>
+  <%= link_to "Add Question", "#", :class => "add_fields", :style => "color:#F66C4C"%>
     
   <h3 class="bottom-line">
     Attachments <span style="font-size:15px">(optional)</span>
@@ -160,13 +179,35 @@
   <% end %>
   <br />
 
-	<%= f.check_box :allow_videos %> Allow applicants to attach videos<br />
-	<%= f.check_box :allow_attachments %>Allow applicants to attach other files<br />
+	<%= f.check_box :allow_videos %> Require applicants to attach videos<br />
+	<%= f.check_box :allow_attachments %> Allow applicants to attach other files<br />
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+// More tech
+$(document).ready(function() {
+  var ctr = <%= @counter %>;
+  $('.remove_fields').live("click", function(e) {
+    e.preventDefault();
+    $(this).prev("input[type=hidden]").val("1");
+    $(this).closest(".fields").hide();
+
+  });
+
+  $('.add_fields').live("click", function(e) {
+    e.preventDefault();
+
+    var newdiv = "<div class='fields'><p>Question " + " <br><input id='job_job_questions_attributes_"+ ctr +"_question' name='job[job_questions_attributes]["+ctr+"][question]'' size='30' style='width:375px' type='text'><input id='job_job_questions_attributes_"+ctr+"__destroy' name='job[job_questions_attributes]["+ctr+"][_destroy]'' type='hidden' value='false'>" + " " +"<a href='#'' class='remove_fields' style='color:#892A38'>Remove Question</a></br></p></div>";
+    $(".fields").last().after(newdiv);
+    ctr++; 
+  });
+
+});
+</script>
 
 <script type="text/coffeescript">
 $ ->

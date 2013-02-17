@@ -51,9 +51,15 @@
 					<div class="profile-thumb-big" style="max-width: 60px; max-height:60px">
 						<%= app.user.avatar? ? image_tag(app.user.avatar.url(:thumb)) : '' %>
 					</div>
-					<div style="margin-left:80px;margin-top:-60px">
-						<%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></br>
-					</div>
+					<% if app.job.job_questions.count > 0 %>
+						<div style="margin-left:80px;margin-top:-60px">
+							<%= link_to app.user.name, "/profile/#{app.user.slug}/application?application="+app.id.to_s(), :class => :salmon %></br>
+						</div>
+					<% else %>
+						<div style="margin-left:80px;margin-top:-60px">
+							<%= link_to app.user.name, "/profile/#{app.user.slug}/resume?application="+app.id.to_s(), :class => :salmon %></br>
+						</div>
+					<% end %>
 					<div style="margin-left:448px;margin-top:-20px">
 							<%= form_for([@source.group, @source, app]) do |f| %>
 								<select name="application[status]">

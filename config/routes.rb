@@ -187,6 +187,7 @@ Preview::Application.routes.draw do
 			#profile Views
 			match 'resume' => 'users#profile_resume'
 			match 'about' => 'users#profile_about'
+			match 'application' => 'users#profile_application'
 
 			# Misc
 			match 'stats' => 'users#profile_stats'
@@ -221,6 +222,8 @@ Preview::Application.routes.draw do
 		
 		# About 
 		match ':slug/about' => 'users#profile_about'
+
+		match ':slug/application' => 'users#profile_application'
 		
 		# Resume Info
 		match ':slug/resume' => 'users#profile_resume'

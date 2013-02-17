@@ -5,6 +5,7 @@ class Application < ActiveRecord::Base
 
 	belongs_to :video
 	has_one :interview, :dependent => :destroy
+	has_many :job_answers, :dependent => :destroy
 
 	scope :is_active, where(:status => 1)
 	scope :is_submitted, where(:submitted => 1)

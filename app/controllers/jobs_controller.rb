@@ -175,6 +175,10 @@ class JobsController < ApplicationController
 		@organizations = User.current.groups.my_permissions('administrator').organization
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@job = Job.new
+		JobQuestion.new
+		1.times { @job.job_questions.build }
+		@counter = 1 
+
 	end
 
 	# Edit a job posting
@@ -184,6 +188,11 @@ class JobsController < ApplicationController
 		@organizations = User.current.groups.my_permissions('administrator').organization
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
+		@counter = @job.job_questions.count
+		if @counter == 0
+			1.times { @job.job_questions.build }
+			@counter = 1
+		end
 	end
 
 	# create a new job posting
@@ -252,6 +261,7 @@ class JobsController < ApplicationController
 
 				@job.update_subjects(params[:subjects]) if params[:subjects]
 				@job.update_grades(params[:grades]) if params[:grades]
+				@job.update_question[:job_questions] if params[:job_questions]
 
 				format.html {
 					flash[:success] = "New job was successfully updates."
