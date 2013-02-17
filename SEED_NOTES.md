@@ -1,3 +1,22 @@
+v4.4.41 - Feb 16, 2013  4:26PM PST deployed by Aleks Stanisic
+=============================================================
+* 920774d: Aleks Stanisic - adding fixes to application questions
+* d2f5f39: Aleks Stanisic - schema
+* a21dcc2: Aleks Stanisic - changes to application profile
+* cc97e9d: Aleks Stanisic - changes
+* c7eb9f1: Aleks Stanisic - changes to questions step
+* 29ed7e5: Aleks Stanisic - adding ability to hve recruitor tool on all profile pages
+* ea3a061: Aleks Stanisic - application tab changes
+* 8b57c37: Aleks Stanisic - adding application tab to profiles
+* 25dd8c6: Aleks Stanisic - adding questions to applocation wizard
+* 2d7190b: Aleks Stanisic - adding job answers part 2
+* 82ae5ef: Aleks Stanisic - adding job answers
+* 0519afb: Aleks Stanisic - adding questions to display on jobs page
+* 587ad5b: Aleks Stanisic - changes to questions
+* 84655a3: Aleks Stanisic - more changes
+* 3354e73: Aleks Stanisic - changes to job questions
+* c7dbf9c: Aleks Stanisic - adding job questions table
+
 v4.4.40 - Feb 15, 2013  1:01PM PST deployed by Elijah Green
 ===========================================================
 * 4ff3955: Elijah Green - Fix typo
