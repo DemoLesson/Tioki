@@ -51,6 +51,45 @@ task :remove_flipped_classroom => :environment do
 	skill_to_delete.destroy
 end
 
+desc "Add and change skills 02/18/2013"
+task :change_skills3 => :environment do
+	#Technology
+  if ((skill_group = SkillGroup.where("name = ?", "Technology").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "MOOCs")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Digital Presentation")
+  end
+	
+	# Culture Building
+  if ((skill_group = SkillGroup.where("name = ?", "Culture Building").first) != nil)
+  end
+
+	# Assessment
+  if ((skill_group = SkillGroup.where("name = ?", "Assessment").first) != nil)
+  end
+
+	# Life Skills
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+		# Dependent detroy
+		skill_group.destroy
+  end
+
+	# Pedagogy Themes
+  if ((skill_group = SkillGroup.where("name = ?", "Pedagogy Themes").first) != nil)
+  end
+
+	# Specialized Training
+  if ((skill_group = SkillGroup.where("name = ?", "Specialized Training").first) != nil)
+  end
+
+	# Whatever this is
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+  end
+
+	# Lesson Plans & materials
+  if ((skill_group = SkillGroup.where("name = ?", "Lesson Plans & Materials").first) != nil)
+  end
+end
+
 desc "Add and change skills to what it had been on the production site"
 task :change_skills1 => :environment do
 
