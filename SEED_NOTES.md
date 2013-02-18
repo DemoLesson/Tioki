@@ -1,3 +1,7 @@
+v4.4.43 - Feb 18, 2013  1:44PM PST deployed by Elijah Green
+===========================================================
+
+
 v4.4.42 - Feb 18, 2013  1:14PM PST deployed by Aleks Stanisic
 =============================================================
 * 7e50569: Aleks Stanisic - adding video size limit to video upload page
