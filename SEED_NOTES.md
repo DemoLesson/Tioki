@@ -1,3 +1,11 @@
+v4.4.42 - Feb 18, 2013  1:14PM PST deployed by Aleks Stanisic
+=============================================================
+* 7e50569: Aleks Stanisic - adding video size limit to video upload page
+* c7c4dbb: Aleks Stanisic - adding back the add video button on the user's video page
+* bfbf79c: Elijah Green - Start skill change additions
+* bd71bf6: Elijah Green - Remove empty helpers
+* 30bf7ce: Elijah Green - Start skill migration
+
 v4.4.41 - Feb 16, 2013  4:26PM PST deployed by Aleks Stanisic
 =============================================================
 * 920774d: Aleks Stanisic - adding fixes to application questions
