@@ -8,9 +8,19 @@
 			<strong><%= @comment.user!.link %></strong>&nbsp;&nbsp;<small style="color:#b6b5b4;"><%= time_ago_in_words(@comment.created_at) %> ago</small>
 			<span class="icons" style="float:right;">
 				<% unless currentUser.new_record? %>
-				<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
-					<span class="iconic star"><%= favorites(@comment) %></span>
-				</a>
+					<% if Favorite.where(:model => @comment.tag!).map{|n| n.user.name}.count == 0 %>
+						<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title=" Favorite this Comment!">
+							<span class="iconic star"><%= favorites(@comment) %></span>
+						</a>
+					<% elsif Favorite.where(:model => @comment.tag!).map{|n| n.user.name}.count == 1 %>
+						<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model =>  @comment.tag!).map{|n| n.user.name}.to_sentence %> has favorited this comment">
+							<span class="iconic star"><%= favorites(@comment) %></span>
+						</a>
+					<% else %>
+						<a href="/comments/<%= @comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(@comment) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => @comment.tag!).map{|n| n.user.name}.to_sentence %> have favorited this comment">
+							<span class="iconic star"><%= favorites(@comment) %></span>
+						</a>
+					<% end %>
 				<% end %>
 				<% if @comment.user == User.current || (User.current && User.current.is_admin) %>
 					<a href="/comments/<%= @comment.id %>/delete" comment-action="delete" class="has-tip no-tip-dots tip-left action salmon" title="Delete Comment">
