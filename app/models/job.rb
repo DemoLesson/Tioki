@@ -5,7 +5,9 @@ class Job < ActiveRecord::Base
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
-
+	
+	has_many :job_questions, :dependent => :destroy
+	accepts_nested_attributes_for :job_questions, :reject_if => lambda { |a| a[:question].blank? }, :allow_destroy => true
 	has_many :applications
 	has_many :winks
 	has_many :interviews, :dependent => :destroy
@@ -51,6 +53,17 @@ class Job < ActiveRecord::Base
 			@grades_jobs.job_id = self.id
 			@grades_jobs.grade_id = grade.to_i
 			@grades_jobs.save
+		end
+	end
+
+	def update_question(job_questions)
+		JobQuestion.delete_all(["job_id = ?", self.id])
+
+		job_questions.each do |question|
+			@job_questions = JobQuestion.new
+			@job_questions.job_id = self.id
+			@job_questions.question = question
+			@job_questions.save
 		end
 	end
 

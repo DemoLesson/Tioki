@@ -71,7 +71,7 @@ gem 'sunspot_rails'
 # @todo depreciate paperclip in favor of carrierwave
 # File Uploading/Storage
 gem 'paperclip', '~> 2.7.5' # Depreciate
-gem 'aws-sdk', '~> 1.3.4'
+gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip
 gem 'carrierwave_direct' # Direct uploads to S3

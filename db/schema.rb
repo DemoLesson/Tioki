@@ -11,7 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
+
 ActiveRecord::Schema.define(:version => 20130213222303) do
+
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"

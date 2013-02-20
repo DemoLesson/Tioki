@@ -1,3 +1,95 @@
+desc "Remove second flipped classroom skill"
+task :remove_flipped_classroom => :environment do
+	current_skill = Skill.where("name = 'Flipped Classroom'").first
+	skill_to_delete = Skill.where("name = 'Flipped Classroom'").last
+
+	if current_skill.id == skill_to_delete.id
+		#protection from running twice
+		return
+	end
+
+	# Skill claims
+	user_ids = SkillClaim.where("skill_id = ?", current_skill.id).collect(&:user_id)
+	skill_claims = SkillClaim.where("skill_id = ?", skill_to_delete.id)
+
+	skill_claims.each do |skill_claim|
+		if !user_ids.include?(skill_claim.user_id)
+			SkillClaim.create!(:user_id => skill_claim.user_id, :skill_id => current_skill.id )
+		end
+	end
+
+	# Vouched Skills
+	user_ids = VouchedSkill.where("skill_id = ?", current_skill.id).collect(&:user_id)
+	skill_vouches = SkillClaim.where("skill_id = ?", skill_to_delete.id)
+
+	skill_vouches.each do |skill_vouch|
+		if !user_ids.include?(skill_claim.user_id)
+			SkillVouch.create!(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
+		end
+	end
+
+	# Technologies
+	technology_ids = TechnologyTag.where("skill_id = ?", current_skill.id).collect(&:technology_id)
+	technology_tags = TechnologyTag.where("skill_id = ?", skill_to_delete.id)
+
+	technology_tags.each do |technology_tag|
+		if !technology_ids.include?(technology_tag.technology_id)
+			TechnologyTag.create!(:technology_id => technology_tag.technology_id, :skill_id => current_skill.id)
+		end
+	end
+
+	# Discussions
+	discussion_ids = DiscussionTag.where("skill_id = ?", current_skill.id).collect(&:discussion_id)
+	discussion_tags = DiscussionTag.where("skill_id = ?", skill_to_delete.id)
+
+	discussion_tags.each do |discussion_tag|
+		if !discussion_ids.include?(discussion_tag.discussion_id)
+			DiscussionTag.create!(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
+		end
+	end
+
+	skill_to_delete.destroy
+end
+
+desc "Add and change skills 02/18/2013"
+task :change_skills3 => :environment do
+	#Technology
+  if ((skill_group = SkillGroup.where("name = ?", "Technology").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "MOOCs")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Digital Presentation")
+  end
+	
+	# Culture Building
+  if ((skill_group = SkillGroup.where("name = ?", "Culture Building").first) != nil)
+  end
+
+	# Assessment
+  if ((skill_group = SkillGroup.where("name = ?", "Assessment").first) != nil)
+  end
+
+	# Life Skills
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+		# Dependent detroy
+		skill_group.destroy
+  end
+
+	# Pedagogy Themes
+  if ((skill_group = SkillGroup.where("name = ?", "Pedagogy Themes").first) != nil)
+  end
+
+	# Specialized Training
+  if ((skill_group = SkillGroup.where("name = ?", "Specialized Training").first) != nil)
+  end
+
+	# Whatever this is
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+  end
+
+	# Lesson Plans & materials
+  if ((skill_group = SkillGroup.where("name = ?", "Lesson Plans & Materials").first) != nil)
+  end
+end
+
 desc "Add and change skills to what it had been on the production site"
 task :change_skills1 => :environment do
 

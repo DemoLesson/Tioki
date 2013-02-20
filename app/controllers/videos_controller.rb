@@ -7,6 +7,14 @@ class VideosController < ApplicationController
 	# GET /videos.xml
 	def index
 
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			if @application.belongs_to_me(self.current_user)
+			else
+				@application = nil
+			end
+		end
 		# Get all the videos
 		@videodb = Video.order("`created_at` DESC")
 

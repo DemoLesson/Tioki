@@ -6,6 +6,6 @@ class AssetsController < ApplicationController
 			flash[:error] = 'Attachment could not be deleted.'
 		end
 
-		redirect_to :attachments
+		redirect_to :back
 	end
 end

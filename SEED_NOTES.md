@@ -1,3 +1,47 @@
+v4.4.46 - Feb 19, 2013  6:09PM PST deployed by Aleks Stanisic
+=============================================================
+* b0878c1: Elijah Green - Fix application wizard problems
+
+v4.4.45 - Feb 19, 2013  4:57PM PST deployed by Aleks Stanisic
+=============================================================
+* cd2d0b9: Elijah Green - Update some gems
+* 2e0ecd0: Elijah Green - Don't use a sperate bucket for group pictures
+
+v4.4.44 - Feb 19, 2013  2:08PM PST deployed by Aleks Stanisic
+=============================================================
+* 5cb0d1b: Aleks Stanisic - adding the ability for users to see who has favortited thier comments on discussions and whiteboard replies
+
+v4.4.43 - Feb 18, 2013  1:44PM PST deployed by Elijah Green
+===========================================================
+
+
+v4.4.42 - Feb 18, 2013  1:14PM PST deployed by Aleks Stanisic
+=============================================================
+* 7e50569: Aleks Stanisic - adding video size limit to video upload page
+* c7c4dbb: Aleks Stanisic - adding back the add video button on the user's video page
+* bfbf79c: Elijah Green - Start skill change additions
+* bd71bf6: Elijah Green - Remove empty helpers
+* 30bf7ce: Elijah Green - Start skill migration
+
+v4.4.41 - Feb 16, 2013  4:26PM PST deployed by Aleks Stanisic
+=============================================================
+* 920774d: Aleks Stanisic - adding fixes to application questions
+* d2f5f39: Aleks Stanisic - schema
+* a21dcc2: Aleks Stanisic - changes to application profile
+* cc97e9d: Aleks Stanisic - changes
+* c7eb9f1: Aleks Stanisic - changes to questions step
+* 29ed7e5: Aleks Stanisic - adding ability to hve recruitor tool on all profile pages
+* ea3a061: Aleks Stanisic - application tab changes
+* 8b57c37: Aleks Stanisic - adding application tab to profiles
+* 25dd8c6: Aleks Stanisic - adding questions to applocation wizard
+* 2d7190b: Aleks Stanisic - adding job answers part 2
+* 82ae5ef: Aleks Stanisic - adding job answers
+* 0519afb: Aleks Stanisic - adding questions to display on jobs page
+* 587ad5b: Aleks Stanisic - changes to questions
+* 84655a3: Aleks Stanisic - more changes
+* 3354e73: Aleks Stanisic - changes to job questions
+* c7dbf9c: Aleks Stanisic - adding job questions table
+
 v4.4.40 - Feb 15, 2013  1:01PM PST deployed by Elijah Green
 ===========================================================
 * 4ff3955: Elijah Green - Fix typo
