@@ -43,7 +43,7 @@ task :remove_flipped_classroom => :environment do
 	discussion_tags = DiscussionTag.where("skill_id = ?", skill_to_delete.id)
 
 	discussion_tags.each do |discussion_tag|
-		if !discussion_ids.include?(discussion_tag.disucssion_id)
+		if !discussion_ids.include?(discussion_tag.discussion_id)
 			DiscussionTag.create(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
 		end
 	end

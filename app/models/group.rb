@@ -41,7 +41,7 @@ class Group < ActiveRecord::Base
 			},
 			:fog_public => true,
 			:fog_directory => 'tioki',
-			:path => 'groups/:style/' + (Rails.env == 'development' ? 'dev-' : '') + ':basename.:extension',
+			:path => 'groups/:style/:basename.:extension',
 			:processors => [:thumbnail, :timestamper],
 			:date_format => "%Y%m%d%H%M%S"
 
