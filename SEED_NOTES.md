@@ -1,3 +1,8 @@
+v4.4.49 - Feb 20, 2013  3:38PM PST deployed by Aleks Stanisic
+=============================================================
+* 3236ec0: Aleks Stanisic - adding drop window for managing jobs
+* 6aa1252: Elijah Green - Strip tags from job emails
+
 v4.4.48 - Feb 20, 2013  1:23PM PST deployed by Aleks Stanisic
 =============================================================
 * fb714d4: Aleks Stanisic - adding new grade range for orgs and adding new content to video upload page
