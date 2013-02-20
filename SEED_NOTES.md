@@ -1,3 +1,7 @@
+v4.4.48 - Feb 20, 2013  1:23PM PST deployed by Aleks Stanisic
+=============================================================
+* fb714d4: Aleks Stanisic - adding new grade range for orgs and adding new content to video upload page
+
 v4.4.47 - Feb 19, 2013  9:50PM PST deployed by Aleks Stanisic
 =============================================================
 * 55a4054: Aleks Stanisic - commenting out message and connect button on profile stats
