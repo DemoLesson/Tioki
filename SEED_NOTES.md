@@ -1,3 +1,8 @@
+v4.4.45 - Feb 19, 2013  4:57PM PST deployed by Aleks Stanisic
+=============================================================
+* cd2d0b9: Elijah Green - Update some gems
+* 2e0ecd0: Elijah Green - Don't use a sperate bucket for group pictures
+
 v4.4.44 - Feb 19, 2013  2:08PM PST deployed by Aleks Stanisic
 =============================================================
 * 5cb0d1b: Aleks Stanisic - adding the ability for users to see who has favortited thier comments on discussions and whiteboard replies
