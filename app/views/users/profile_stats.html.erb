@@ -50,7 +50,7 @@
 			</ul>
 		</nav>
 
-		<section class="sidebar">
+		<section class="sidebar" style="float:right">
 			<div class="profile-thumb-large">
 				<%= image_tag(@user.avatar.url(:medium), :width => "160") if @user.avatar? %>
 				<%= image_tag('dl_icons/no_avatar_large.jpg') unless @user.avatar? %>
@@ -60,7 +60,7 @@
 			<hr>
 			<section style="text-align:center;margin:15px 0 -14px 0;padding-top:5px;background:#fff;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
 				<strong>Want More Profile Views?</strong><br/>
-				Invite your Twitter and Facebook friends to bask in your awesomeness!
+				Invite your Twitter and Facebook friends to join your Tioki Network.
 				<p style="width:auto;margin-top:5px">
 					<%= link_to image_tag('/assets/tioki/icons/twitter_transparent.png', :style => "width:70px"), '/inviteconnections/twitter' %>
 					<%= link_to image_tag('/assets/tioki/icons/fb_transparent.png', :style => "width:70px"), '/inviteconnections/facebook' %>
@@ -69,55 +69,99 @@
 		</section>
 		
 
-		<section class="profile-content">	
+		<section class="profile-content" style="float:left;margin: 0px 15px 30px 15px;">	
 			<section class="info panel">
-				<h3>Profile views in the past week</h3>
+				<h3>
+					Profile views over the last 60 days. 
+					<span style="float:right">Total: 120</span><!-- I don't know how to pull out this data count total -->
+				</h3>
 
 				<section class="panel-actions">
 
-					<div id="profile_last_week" style="width:600px;height:250px;margin:10px 10px;"></div>
+					<div id="profile_last_eight" style="width:600px;height:250px;margin:10px 10px;"></div>
+					
+					<!-- ELIJAH: My notes on the graph are this. I would like for each data point to represent a week as opposed to a day. I would also like to display the number of connections over the time period above. Lastly, we will nick a tick under the graph for each of the 8 weeks over the 60 day period -->
 
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
 					$(function () {
-						var d = [<%= @data['profile_last_week'] %>];
+						var d = [<%= @data['profile_last_eight'] %>];
 						
 						var options = {
 							xaxis: { 
 								mode: "time",
-								tickLength: 5,
 								timeformat: "%b %0d",
-								autoscaleMargin: 1,
+								tickLength: 5,
+								
+							
+								
 							},
+							
 							yaxis: {
-								autoscaleMargin: 2,
 								tickFormatter: function(val, axis) {
-									return val + ' Visitors';
+									return val + ' Views';
 								}
 							},
+							
 							selection: { mode: "x" },
+							
+						
+						    series: {
+						        lines: { show: true, fill: true, fillColor: "rgba(105, 194, 185, 0.5)" },
+						        points: { show: true, fill: true, fillColor: "#ffffff" },
+						
+								color: "#2aa99b"
+								       
+							}
+							
+								
+							
 						};
 						
-						var plot = $.plot($("#profile_last_week"), [d], options);
+						var plot = $.plot($("#profile_last_eight"), [d], options);
 					});
 					</script>
 
 				</section>
 			</section>
 			<section class="info panel">
-				<h3>Who has viewed your profile</h3>
+				<h3>Who has viewed your profile?
+					 <span style='float:right'> Total: <%= @viewed.each.count %></span><!--This number needs to be over the last 60 days as well -->
+				</h3>
 				<ul>
 					<% @viewed.each do |view| %>
 						<% if view.user.nil?; view.destroy; next; end; %>
-						<li style="display:block;">
+						<li style="display:block;padding:12px 15px 12px 15px !important">
+							<!-- Pulling the image of the viewere -->
 							<div class="profile-thumb-small" style="float:left;">
 								<%= link_to image_tag(view.user.avatar.url(:tiny), :width => '45px', :height => '45px'), "/profile/#{view.user.slug}" if view.user.avatar? && !view.user.nil? %>
 								<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg"), "/profile/#{view.user.slug}" unless view.user.avatar? || view.user.nil? %>
 							</div>
-							<p style="float:none;">
+							
+							<!-- Pulling the name, position, and location of the viewer -->
+							<p style="float:left;width:475px">
 								<%= link_to view.user.name, "/profile/#{view.user.slug}" unless view.user.nil? %><br />
+								<% if view.user.current_job_string.present? %>
+									<% if view.user.current_job_string.size > 60 %>
+										<%= view.user.current_job_string.gsub(%r{</?[^>]+?>}, '')[0..64]+'...'.html_safe %><br/>
+									<% else %>
+										<%= view.user.current_job_string %><br/>
+									<% end %>
+								<% end %>
 								<%= view.user.location unless view.user.location.nil? || view.user.location.empty? %>
 							</p>
+							
+							<!-- Prompting the connection or messaging based on connection status -->
+							<div style='float:right;margin-top:15px'>
+								
+								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc -->
+									<%= link_to "Message", '#', :class => 'button bg-green', :style => 'color:#ffffff !important;' %>
+									<br/>
+									<%= link_to "Connect", '#', :class => "button bg-green", :style => 'color:#ffffff !important;' %>
+								
+								
+								
+							</div>
 						</li>
 					<% end %>
 				</ul>
