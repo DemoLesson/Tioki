@@ -43,12 +43,51 @@ task :remove_flipped_classroom => :environment do
 	discussion_tags = DiscussionTag.where("skill_id = ?", skill_to_delete.id)
 
 	discussion_tags.each do |discussion_tag|
-		if !discussion_ids.include?(discussion_tag.disucssion_id)
+		if !discussion_ids.include?(discussion_tag.discussion_id)
 			DiscussionTag.create(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
 		end
 	end
 
 	skill_to_delete.destroy
+end
+
+desc "Add and change skills 02/18/2013"
+task :change_skills3 => :environment do
+	#Technology
+  if ((skill_group = SkillGroup.where("name = ?", "Technology").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "MOOCs")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Digital Presentation")
+  end
+	
+	# Culture Building
+  if ((skill_group = SkillGroup.where("name = ?", "Culture Building").first) != nil)
+  end
+
+	# Assessment
+  if ((skill_group = SkillGroup.where("name = ?", "Assessment").first) != nil)
+  end
+
+	# Life Skills
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+		# Dependent detroy
+		skill_group.destroy
+  end
+
+	# Pedagogy Themes
+  if ((skill_group = SkillGroup.where("name = ?", "Pedagogy Themes").first) != nil)
+  end
+
+	# Specialized Training
+  if ((skill_group = SkillGroup.where("name = ?", "Specialized Training").first) != nil)
+  end
+
+	# Whatever this is
+  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
+  end
+
+	# Lesson Plans & materials
+  if ((skill_group = SkillGroup.where("name = ?", "Lesson Plans & Materials").first) != nil)
+  end
 end
 
 desc "Add and change skills to what it had been on the production site"
