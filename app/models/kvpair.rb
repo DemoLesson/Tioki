@@ -20,7 +20,11 @@ class Kvpair < ActiveRecord::Base
 		_, box = self.value.split(":")
 		lat1, long1, lat2, long2 = box.split(",")
 
-		job.group.latitude > lat1.to_f && job.group.latitude < lat2.to_f && job.group.longitude > long1.to_f && job.group.longitude < long2.to_f
+		if job.group.latitude && job.group.longitude
+			job.group.latitude > lat1.to_f && job.group.latitude < lat2.to_f && job.group.longitude > long1.to_f && job.group.longitude < long2.to_f
+		else
+			false
+		end
 	end
 
 	def self.seeking_location_box(location)

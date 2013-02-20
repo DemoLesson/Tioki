@@ -148,7 +148,7 @@
 																			<tr>
 																				<td style="padding-top:20px" align="left" valign="top"> 
 																						<span style="color:#4D4D4D; font-size:14px; font-family:Oswald, sans-serif;font-weight: normal;">
-																							<%= @job.description[0..150] %>...
+																							<%= strip_tags(@job.description[0..150]).html_safe %>...
 																							<a href="<%= @job.url %>" style="color:#f66c4d" target="_blank">(more)</a>"
 																						</span>
 																				</td>
