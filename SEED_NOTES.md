@@ -1,3 +1,7 @@
+v4.4.46 - Feb 19, 2013  6:09PM PST deployed by Aleks Stanisic
+=============================================================
+* b0878c1: Elijah Green - Fix application wizard problems
+
 v4.4.45 - Feb 19, 2013  4:57PM PST deployed by Aleks Stanisic
 =============================================================
 * cd2d0b9: Elijah Green - Update some gems
