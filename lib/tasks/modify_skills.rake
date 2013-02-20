@@ -14,7 +14,7 @@ task :remove_flipped_classroom => :environment do
 
 	skill_claims.each do |skill_claim|
 		if !user_ids.include?(skill_claim.user_id)
-			SkillClaim.create(:user_id => skill_claim.user_id, :skill_id => current_skill.id )
+			SkillClaim.create!(:user_id => skill_claim.user_id, :skill_id => current_skill.id )
 		end
 	end
 
@@ -24,7 +24,7 @@ task :remove_flipped_classroom => :environment do
 
 	skill_vouches.each do |skill_vouch|
 		if !user_ids.include?(skill_claim.user_id)
-			SkillVouch.create(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
+			SkillVouch.create!(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
 		end
 	end
 
@@ -34,7 +34,7 @@ task :remove_flipped_classroom => :environment do
 
 	technology_tags.each do |technology_tag|
 		if !technology_ids.include?(technology_tag.technology_id)
-			TechnologyTag.create(:technology_id => technology_tag.technology_id, :skill_id => current_skill.id)
+			TechnologyTag.create!(:technology_id => technology_tag.technology_id, :skill_id => current_skill.id)
 		end
 	end
 
@@ -44,7 +44,7 @@ task :remove_flipped_classroom => :environment do
 
 	discussion_tags.each do |discussion_tag|
 		if !discussion_ids.include?(discussion_tag.discussion_id)
-			DiscussionTag.create(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
+			DiscussionTag.create!(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
 		end
 	end
 
