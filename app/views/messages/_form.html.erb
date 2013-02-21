@@ -103,7 +103,7 @@
 		</p>
 
 	</section>
-	<% @replied_to_message.replied_messages.each do |message| %>
+	<% @replied_to_message.replied_messages.order("created_at").each do |message| %>
 		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
 			<!-- Pulling the Teachers Picture or the No Avatar-->
 			<% if message.sender.avatar? %>
