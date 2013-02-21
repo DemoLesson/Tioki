@@ -14,7 +14,7 @@ task :remove_flipped_classroom => :environment do
 
 	skill_claims.each do |skill_claim|
 		if !user_ids.include?(skill_claim.user_id)
-			SkillClaim.create(:user_id => skill_claim.user_id, :skill_id => current_skill.id )
+			SkillClaim.create!(:user_id => skill_claim.user_id, :skill_id => current_skill.id )
 		end
 	end
 
@@ -23,8 +23,8 @@ task :remove_flipped_classroom => :environment do
 	skill_vouches = SkillClaim.where("skill_id = ?", skill_to_delete.id)
 
 	skill_vouches.each do |skill_vouch|
-		if !user_ids.include?(skill_claim.user_id)
-			SkillVouch.create(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
+		if !user_ids.include?(skill_vouch.user_id)
+			SkillVouch.create!(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
 		end
 	end
 
@@ -34,7 +34,7 @@ task :remove_flipped_classroom => :environment do
 
 	technology_tags.each do |technology_tag|
 		if !technology_ids.include?(technology_tag.technology_id)
-			TechnologyTag.create(:technology_id => technology_tag.technology_id, :skill_id => current_skill.id)
+			TechnologyTag.create!(:technology_id => technology_tag.technology_id, :skill_id => current_skill.id)
 		end
 	end
 
@@ -44,7 +44,7 @@ task :remove_flipped_classroom => :environment do
 
 	discussion_tags.each do |discussion_tag|
 		if !discussion_ids.include?(discussion_tag.discussion_id)
-			DiscussionTag.create(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
+			DiscussionTag.create!(:discussion_id => discussion_tag.discussion_id, :skill_id => current_skill.id)
 		end
 	end
 
@@ -56,37 +56,60 @@ task :change_skills3 => :environment do
 	#Technology
   if ((skill_group = SkillGroup.where("name = ?", "Technology").first) != nil)
 		Skill.create!(:skill_group_id => skill_group.id, :name => "MOOCs")
-		Skill.create!(:skill_group_id => skill_group.id, :name => "Digital Presentation")
+		Skill.where("name = ?", "PowerPoint/Keynote").first.update_attribute(:skill_group_id, skill_group.id )
+		Skill.where("name = ?", "PowerPoint/Keynote").first.update_attribute(:name, "Digital Presentation")
   end
 	
 	# Culture Building
   if ((skill_group = SkillGroup.where("name = ?", "Culture Building").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Team Culture")
   end
 
 	# Assessment
   if ((skill_group = SkillGroup.where("name = ?", "Assessment").first) != nil)
+		Skill.where("name = ?", "Common Core").first.update_attribute(:skill_group_id, skill_group.id )
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Formative Assessments")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Summative Assessments")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "State Standards")
   end
 
 	# Life Skills
   if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
-		# Dependent detroy
+		# Dependent destroy
 		skill_group.destroy
   end
 
 	# Pedagogy Themes
   if ((skill_group = SkillGroup.where("name = ?", "Pedagogy Themes").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Progressive Education")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Place-based Education")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Blended Learning")
   end
 
 	# Specialized Training
   if ((skill_group = SkillGroup.where("name = ?", "Specialized Training").first) != nil)
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Google Certified")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "New Teacher Center")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Urban Teacher Center")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Encops")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "New Leaders")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Broad Center")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Building Excellent Schools")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Alaine Locke Initiative")
   end
 
-	# Whatever this is
-  if ((skill_group = SkillGroup.where("name = ?", "Life Skills").first) != nil)
-  end
-
-	# Lesson Plans & materials
-  if ((skill_group = SkillGroup.where("name = ?", "Lesson Plans & Materials").first) != nil)
+	# Leadership
+  if ((skill_group = SkillGroup.where("name = ?", "Teacher Leadership").first) != nil)
+		skill_group.update_attribute(:name, "Leadership")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Curriculum Design")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Coach/Mentor to Admin")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Operations Leader")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Instructional Leader")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Entrepreneurship")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Talent Recruitment")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Public Speaking")
+		Skill.create!(:skill_group_id => skill_group.id, :name => "Public Relations")
+		Skill.where("name = ?", "Fundraising").first.update_attribute(:skill_group_id, skill_group.id )
   end
 end
 
