@@ -1,3 +1,9 @@
+v4.4.51 - Feb 21, 2013  3:17PM PST deployed by Aleks Stanisic
+=============================================================
+* 90c808d: Aleks Stanisic - removing article photos when sharing with pictures
+* 43161dd: Elijah Green - Slight change to some spacing
+* 779944c: Elijah Green - Specift message order
+
 v4.4.50 - Feb 21, 2013 10:35AM PST deployed by Aleks Stanisic
 =============================================================
 * 8346f26: Aleks Stanisic - change to splash page
