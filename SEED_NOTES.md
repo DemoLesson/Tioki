@@ -1,3 +1,10 @@
+v4.4.50 - Feb 21, 2013 10:35AM PST deployed by Aleks Stanisic
+=============================================================
+* 8346f26: Aleks Stanisic - change to splash page
+* 33b309a: Brian Martinez - creating the profile views mailer
+* dd130b4: Elijah Green - Add skills
+* e4ac0df: Elijah Green - Flipped classroom rake task fix
+
 v4.4.49 - Feb 20, 2013  3:38PM PST deployed by Aleks Stanisic
 =============================================================
 * 3236ec0: Aleks Stanisic - adding drop window for managing jobs
