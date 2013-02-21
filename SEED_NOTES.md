@@ -1,3 +1,19 @@
+v4.4.49 - Feb 20, 2013  3:38PM PST deployed by Aleks Stanisic
+=============================================================
+* 3236ec0: Aleks Stanisic - adding drop window for managing jobs
+* 6aa1252: Elijah Green - Strip tags from job emails
+
+v4.4.48 - Feb 20, 2013  1:23PM PST deployed by Aleks Stanisic
+=============================================================
+* fb714d4: Aleks Stanisic - adding new grade range for orgs and adding new content to video upload page
+
+v4.4.47 - Feb 19, 2013  9:50PM PST deployed by Aleks Stanisic
+=============================================================
+* 55a4054: Aleks Stanisic - commenting out message and connect button on profile stats
+* fd8c38c: Aleks Stanisic - changes to splash tioki allstars
+* 0885714: Brian Martinez - changes to the profile stats for better engagement
+* 0f93c28: Elijah Green - Have skill rake tasks fail on bad validation
+
 v4.4.46 - Feb 19, 2013  6:09PM PST deployed by Aleks Stanisic
 =============================================================
 * b0878c1: Elijah Green - Fix application wizard problems
