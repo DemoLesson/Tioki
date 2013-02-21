@@ -23,7 +23,7 @@ task :remove_flipped_classroom => :environment do
 	skill_vouches = SkillClaim.where("skill_id = ?", skill_to_delete.id)
 
 	skill_vouches.each do |skill_vouch|
-		if !user_ids.include?(skill_claim.user_id)
+		if !user_ids.include?(skill_vouch.user_id)
 			SkillVouch.create!(:user_id => skill_vouch.user_id, :skill_id => current_skill.id, :vouch_id => skill_vouch.vouch_id, :voucher_id => skill_vouch.voucher_id )
 		end
 	end
