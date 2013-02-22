@@ -1,3 +1,9 @@
+v4.4.52 - Feb 21, 2013  8:18PM PST deployed by Aleks Stanisic
+=============================================================
+* b451b01: Brian Martinez - interview shceduling fixes
+* 0c6033a: Elijah Green - Deal with some alignment
+* c6774ac: Elijah Green - Don't create interview until its explicitly saves
+
 v4.4.51 - Feb 21, 2013  3:17PM PST deployed by Aleks Stanisic
 =============================================================
 * 90c808d: Aleks Stanisic - removing article photos when sharing with pictures
