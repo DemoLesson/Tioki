@@ -69,8 +69,8 @@ class User < ActiveRecord::Base
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
-					:location, :headline, :occupation, :years_teaching, :job_seeking
+	                :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
+	                :location, :headline, :occupation, :years_teaching, :job_seeking
 
 	# Has One Connections
 	has_one :login_token
@@ -137,20 +137,20 @@ class User < ActiveRecord::Base
 
 	# Handle avatar uploads to S3
 	has_attached_file :avatar,
-					  :storage => :fog,
-					  :styles => {:medium => "201x201>", :thumb => "100x100", :tiny => "45x45"},
-					  :content_type => ['image/jpeg', 'image/png'],
-					  :fog_credentials => {
-						  :provider => 'AWS',
-						  :aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-						  :aws_secret_access_key => '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',
-						  :region => 'us-west-2'
-					  },
-					  :fog_public => true,
-					  :fog_directory => 'tioki',
-					  :path => 'avatars/:style/:basename.:extension',
-					  :processors => [:thumbnail, :timestamper],
-					  :date_format => "%Y%m%d%H%M%S"
+	                  :storage => :fog,
+	                  :styles => {:medium => "201x201>", :thumb => "100x100", :tiny => "45x45"},
+	                  :content_type => ['image/jpeg', 'image/png'],
+	                  :fog_credentials => {
+	                    :provider => 'AWS',
+	                    :aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+	                    :aws_secret_access_key => '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',
+	                    :region => 'us-west-2'
+	                  },
+	                  :fog_public => true,
+	                  :fog_directory => 'tioki',
+	                  :path => 'avatars/:style/:basename.:extension',
+	                  :processors => [:thumbnail, :timestamper],
+	                  :date_format => "%Y%m%d%H%M%S"
 
 	# Validate that the image uplaoded was indeed an image
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'
@@ -243,11 +243,6 @@ class User < ActiveRecord::Base
 			school.remove_associated_data
 		end
 		@schools.map(&:destroy)
-
-		# Migration
-		# Delete Teachers
-		#@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
-		#@teachers.map(&:destroy)
 
 		# Delete Shared Users
 		# @todo is this still needed? / deprecate?

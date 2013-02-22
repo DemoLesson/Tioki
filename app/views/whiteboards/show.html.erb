@@ -92,7 +92,9 @@
 				<% end %>
 			</div>
 		</div>
-		<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen', :style => "margin-left:12px;" %>
+		<% if @post.attachments.empty? %>
+			<%= link_to image_tag(@post.data!['screens'].values.first, :width => '150px'), @post.data!['screens'].keys.first, :target => '_blank', :class => 'screen', :style => "margin-left:12px;" %>
+		<% end %>
 
 		<div class="budge">
 			<p><%= @post.getMessage.more!(266) %></p>
