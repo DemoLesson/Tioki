@@ -1,11 +1,11 @@
 <h1>
 	Schedule Interview with 
-	<%= link_to @application.user.name, @application.user if @source.is_a?(Job) %>
-	<%= link_to @application.job.group.name, @application.job.group if @source.is_a?(User) %>
+	<%= link_to @application.user.name, @application.user, :style => "color:#F66C4C" if @source.is_a?(Job) %>
+	<%= link_to @application.job.group.name, @application.job.group, :style => "color:#F66C4C" if @source.is_a?(User) %>
 </h1>
 
 <% if @source.is_a?(Job) %>
-	<p>Yay! Looks like you're ready to meet one of our amazing Tioki canidates. Simply select the 3 dates and times(PST) that work best for you, and we will let the candidiate know immediately. Once the candidate selects the interview date and time, you will be instantly notified on Tioki and via email.</p>
+	<p>Yay! Looks like you're ready to meet one of our amazing Tioki candidates. Simply select the 3 dates and times(PST) that work best for you, and we will let the candidate know immediately. Once the candidate selects the interview date and time, you will be instantly notified on Tioki and via email.</p>
 
 	<%= form_for([@source.group, @source, @application, @interview], :html => { :class => :gridded }) do |t| %>
 		<table style="width:100%;" class="applications">
@@ -58,14 +58,17 @@
 <% end %>
 
 <% if @source.is_a?(User) %>
-	<p>Yay! Looks like <%= link_to @application.job.group.name, @gpplication.job.group %> has taken up an interest in you. They have chosen three potential dates for the interview. Please select one, or if none of these work. Please fill out the message box below.</p>
+	<p>Congrats! It looks like <%= link_to @application.job.group.name, @application.job.group %> has taken a liking to you. They have chosen three potential dates for an interview. Please select one that works for you. If none work, please indicate so, and include a message below.</p>
 
 	<%= form_for([@source, @interview.application, @interview]) do |t| %>
 		<table style="width:100%;" class="applications">
 			<tr>
 				<td>
-					<label>
-						<span>Select an interview date</span><br />
+					<label style='font-weight:normal'>
+						Interview Type: <span style='color:#2AA99B'><%= @interview.interview_type %> Interview</span><br/>
+						Location / Contact: <span style='color:#2AA99B'><%= @interview.location %></span><br /><br />
+						
+						<strong>Please select the date & time that works best for you:</strong><br />
 						<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
 						<% if not @interview.datetime_2.nil? %>
 							<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
@@ -74,13 +77,12 @@
 							<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
 						<% end %>
 						<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
-						Location: <%= @interview.location %><br />
-						Type: <%= @interview.interview_type %>
+						
 				</label>
 			</td>
 			<td>
 				<p>
-					<span style="font-weight:bold;">Interview Date: </span> This the the interview date and time. Please keep in mind that though the interview time here is listed in your current timezone the interview itself may be in another timezone! Keep this in mind if you are travelling to your interview!
+					<span style="font-weight:bold;">TIP: </span> This the the interview date and time per <em>your</em> timezone. Please be mindful of possible timezone differences when traveling to an interview.
 				</p>
 			</td>
 		</tr>
@@ -93,13 +95,13 @@
 			</td>
 			<td>
 				<p>
-					<span style="font-weight:bold;">Message: </span> Is there a problem with the time or location listed above? Let the interviewer know here.
+					<span style="font-weight:bold;">TIP: </span> If none of the dates and times above work for you, please use this message to inform the recruiter of your need to reschedule. 
 				</p>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<%= t.submit "Respond Interview to Interview Request" %>
+				<%= t.submit "Respond to Interview Request" %>
 			</td>
 		</tr>
 	</table>

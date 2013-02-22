@@ -76,18 +76,21 @@
 				</div>
 				<div style="margin-left:80px; margin-top:-40px">
 					<% if int.intDate == 'Reschedule Requested' %>
+						<span style='color:#892A38'>Reschedule Requested</span>
 						<%= link_to 'Modify Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></br>
 					<% elsif int.intDate == 'Unscheduled' %>
-						Interview on: <%= int.intDate %> <%= link_to 'Edit Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></br>
+						Interview Status: Date/Time Unconfirmed <br/> <%= link_to 'Edit Interview', [:edit, @source.group, @source, int.application, int], :class => :salmon %></br>
 					<% else %>
-						Interview on: <%= int.intDate %></br>
+						<span style='color:#2aa99b'>Interview Confirmed </span> for: <%= int.intDate %></br>
+						<% if int.interview_type? %>
+							Type: <%= int.interview_type %></br>
+						<% end %>
+						<% if int.location? %>
+							Location: <%= int.location %>
+						<% end %>
+						
 					<% end %>
-					<% if int.location? %>
-						Location: <%= int.location %></br>
-					<% end %>
-					<% if int.interview_type? %>
-						Type: <%= int.interview_type %>
-					<% end %>
+					
 				</div>
 			</li>
 		</ul>
