@@ -21,7 +21,7 @@ gem 'mysql2'
 #end
 
 # Tiny-MCE / jQuery need to be global
-gem 'jquery-rails'#, '2.1.4'
+gem 'jquery-rails', '~> 2.1'
 gem 'tinymce-rails'
 
 # Social Networks and oAuth

@@ -8,7 +8,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require tinymce-jquery
-//= require jquery.form
 //= require jquery.remotipart
 //= require_tree .
 //= require_tree ./tioki

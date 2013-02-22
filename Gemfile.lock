@@ -386,7 +386,7 @@ DEPENDENCIES
   graylog2_exceptions!
   htmlentities
   httparty
-  jquery-rails
+  jquery-rails (~> 2.1)
   koala
   kvpair!
   linkedin
