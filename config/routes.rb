@@ -141,6 +141,15 @@ Preview::Application.routes.draw do
 			match 'application' => 'application_wizard#index'
 		end
 
+	# Edu Stats Controller
+		resources :edu_stats
+
+		scope '/edu_stats' do
+			match 'edu_stats' => 'edu_stats#index'
+			match 'edu_stats/:action' => 'edu_stats#:action'
+
+		end
+
 	# Whiteboard JSON Access
 	# Move to API
 		resource :whiteboard
