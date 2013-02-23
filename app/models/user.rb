@@ -107,6 +107,7 @@ class User < ActiveRecord::Base
 	has_many :connection_invites, :dependent => :destroy
 	has_many :connections, :dependent => :destroy
 	has_many :discussions
+	has_many :edu_stats
 	has_many :events
 	has_many :events_rsvps
 	has_many :favorites

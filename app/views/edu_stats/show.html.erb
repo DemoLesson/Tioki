@@ -1,0 +1,63 @@
+<div class="kRap">
+	<h1 class="title">LOOK at how much time of your life you spent Teaching......Cheers!</h1></br>
+
+	<h2> Total Hours Taught : <%= @edu_stats.total_hours_teaching %> hrs </h2></br>
+	<h2> Total Students Taught : <%= @edu_stats.total_students %> human beings </h2></br>
+
+	<h4 class="bottom-line">
+		Invite Friends to Join: <br />
+	</h4>
+	<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
+	<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: 'hello',
+			link: '<%= url_for(:only_path => false) %>',
+			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
+			caption: 'Come join this Group on Tioki.',
+			description: 'Come join the  group on Tioki; a professional networking site for educators!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: '<%= url_for(:only_path => false) %>',
+			text: 'Come join the  Group on Tioki!'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>

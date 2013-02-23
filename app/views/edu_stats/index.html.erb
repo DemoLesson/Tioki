@@ -1,0 +1,25 @@
+<div class="kRap">
+	<h1 class="title">What is Your Education Legacy?</h1>
+</div>
+
+<%= form_for(:edu_stats) do |f| %>
+
+	<fieldset>
+		<p>
+		<span style ="margin-left:0px">How many years have you been teaching?</span>
+		<span style ="margin-left:100px">What is your average class size?</span>
+		<span style ="margin-left:100px">How many classes do you teach a day?</span>
+		</p>
+		<%= f.text_field :yrs_teaching, :placeholder => "1,000,000", :style => "width:200px" %>
+		<%= f.text_field :avg_class_size, :placeholder => "Infinity", :style => "width:200px; margin-left:150px" %>
+		<%= f.text_field :class_perday, :placeholder => "100", :style => "width:200px; margin-left:80px" %>
+	</fieldset></br>
+
+	<% unless User.current.nil? %>
+		<%= hidden_field_tag "edu_stats[user_id]", self.current_user.id %>
+	<% end %>
+
+	<input type="submit" class="huge-button" value="Submit/Calculate">
+
+
+<% end %>
