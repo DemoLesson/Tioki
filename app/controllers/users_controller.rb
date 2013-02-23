@@ -827,6 +827,7 @@ class UsersController < ApplicationController
 
 	# Profile stats
 	def profile_stats
+		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 
 		@pendingcount = self.current_user.pending_connections.count
 		# Get the teacher id of the currently logged in user
