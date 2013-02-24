@@ -72,8 +72,8 @@
 		<section class="profile-content" style="float:left;margin: 0px 15px 30px 15px;">	
 			<section class="info panel">
 				<h3>
-					Profile views over the last 60 days. 
-					<span style="float:right">Total: <%= @viewed.where("created_at > ?", Time.now-60.days).length %></span>
+					Profile views over the last 8 weeks. 
+					<span style="float:right">Total: <%= @viewed.where("created_at > ?", Time.now-56.days).length %></span>
 				</h3>
 
 				<section class="panel-actions">
@@ -85,16 +85,15 @@
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
 					$(function () {
-						var d = [<%= @data['profile_last_eight'] %>];
+						var d = <%= @views %>;
 						
 						var options = {
 							xaxis: {
-								mode: "time",
-								timeformat: "%b %0d",
-								tickLength: 5,
+								ticks: <%= @labels.to_json.html_safe %>
 							},
 							
 							yaxis: {
+								tickDecimals: 0,
 								tickFormatter: function(val, axis) {
 									return val + ' Views';
 								}

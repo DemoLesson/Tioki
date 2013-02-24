@@ -829,86 +829,33 @@ class UsersController < ApplicationController
 	def profile_stats
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 
-		@pendingcount = self.current_user.pending_connections.count
-		# Get the teacher id of the currently logged in user
 		@user = User.current
 
 		# Get a listing of who has viewed this teacher (IN ALL TIME)
-		#@viewed = self.get_analytics(:view_user_profile, @user, nil, nil, true).order("created_at")
 		@viewed = Analytic.where("slug = ? && tag = ?", "view_user_profile", @user.tag!).
 			group('user_id').
 			order('created_at DESC')
 
 		# Get the dates to run the query by
 		tomorrow = Time.now.tomorrow
-		lastweek = Time.now.last_week
 		lasteight = Time.now - 8.weeks
 
-		# Create an empty private hash
-		data = Hash.new
-
 		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
-		data['profile_last_week'] = self.get_analytics(:view_user_profile, @user, lastweek.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
-			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
-			a = a.group('date(`created_at`)')
-		end
-		
-		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
-		data['profile_last_eight'] = self.get_analytics(:view_user_profile, @user, lasteight.utc.strftime("%Y-%m-%d"), tomorrow.utc.strftime("%Y-%m-%d"), false) do |a|
-			a = a.select('count(date(`created_at`)) as `views_per_day`, unix_timestamp(date(`created_at`)) as `view_on_day`')
-			a = a.group('date(`created_at`)')
-		end
+		view_analytics = Analytic.
+			where("tag = ?  AND slug = ? AND created_at > ? AND created_at < ?",
+			@user.tag!, "view_user_profile", lasteight, tomorrow)
 
-		# Create an empty public hash
-		@data = Hash.new
+		time_now = Time.now
+		@views = Array.new
+		@labels = Array.new
+		(1..8).each do |week|
+			date1 = time_now - (56 - ( week - 1 ) * 7).days
+			date2 = time_now - (56 - ( week * 7) ).days
 
-		# Loop through the data to graph by
-		data.each do |k,s|
-
-			# Parse all the dates
-			save_time = nil
-			dates = Array.new
-
-			# Loop through the actual query results
-			s.each do |x|
-				time = Time.at(x.view_on_day)
-
-				# If save time is nil ignore
-				unless save_time.nil?
-					i = 1
-
-					# Set the last time we had for adjusting
-					adjust_time = save_time
-
-					# Create empty days of zero if no days are logged
-					while i < (time.to_date - save_time.to_date)
-
-						# Adjust the time forward to the next day
-						adjust_time = adjust_time.tomorrow
-
-						# Get the right time in seconds (with the utc offset for the timezone)
-						tmp = (adjust_time.to_time.localtime.to_i + adjust_time.to_time.localtime.utc_offset) * 1000
-
-						# Add the date to the array of dates
-						dates << "[#{tmp}, 0]"
-
-						# Increase the pointer for the while llop
-						i += 1
-					end
-				end
-
-				# Set save time for any more upcoming loops
-				save_time = time
-
-				# Get the right time in seconds of a hit (witht the utc offset for the timezone)
-				view_on_day = (time.localtime.to_i + time.localtime.utc_offset) * 1000
-
-				# Add the date to the array of dates
-				dates << "[#{view_on_day}, #{x.views_per_day}]"
-			end
-
-			# Join the data indo an output array
-			@data[k] = dates.join(',')
+			analytics_on_week = view_analytics.select{ |a| a.created_at > date1 && a.created_at < date2 }
+			views_on_week = analytics_on_week.count
+			@views  << [week, views_on_week]
+			@labels << [week, "#{date1.month}/#{date1.day} - #{date2.month}/#{date2.day}"]
 		end
 	end
   
