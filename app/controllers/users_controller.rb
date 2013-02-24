@@ -825,14 +825,14 @@ class UsersController < ApplicationController
 		@comment =  Comment.where("commentable_type = 'Discussion' && comments.user_id = ?", self.current_user.id).first
 	end
 
-	# Profile stats
 	def profile_stats
 		@my_connections = Connection.mine(:pending => false).collect{ |connection| connection.not_me.id }
 
 		@user = User.current
 
 		# Get a listing of who has viewed this teacher (IN ALL TIME)
-		@viewed = Analytic.where("slug = ? && tag = ?", "view_user_profile", @user.tag!).
+		@viewed = Analytic.
+			where("slug = ? && tag = ?", "view_user_profile", @user.tag!).
 			group('user_id').
 			order('created_at DESC')
 
@@ -840,20 +840,19 @@ class UsersController < ApplicationController
 		tomorrow = Time.now.tomorrow
 		lasteight = Time.now - 8.weeks
 
-		# Get a listing of who has viewed this teachers profile use a block to further contrain the query
-		view_analytics = Analytic.
+		view_dates = Analytic.
 			where("tag = ?  AND slug = ? AND created_at > ? AND created_at < ?",
-			@user.tag!, "view_user_profile", lasteight, tomorrow)
+			@user.tag!, "view_user_profile", lasteight, tomorrow).collect(&:created_at)
 
 		time_now = Time.now
 		@views = Array.new
 		@labels = Array.new
+
 		(1..8).each do |week|
 			date1 = time_now - (56 - ( week - 1 ) * 7).days
 			date2 = time_now - (56 - ( week * 7) ).days
 
-			analytics_on_week = view_analytics.select{ |a| a.created_at > date1 && a.created_at < date2 }
-			views_on_week = analytics_on_week.count
+			views_on_week = view_dates.count{ |date| date > date1 && date < date2 }
 			@views  << [week, views_on_week]
 			@labels << [week, "#{date1.month}/#{date1.day} - #{date2.month}/#{date2.day}"]
 		end
