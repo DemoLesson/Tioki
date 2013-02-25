@@ -1,3 +1,11 @@
+v4.4.55 - Feb 22, 2013  5:18PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.54 - Feb 22, 2013  5:10PM PST deployed by Aleks Stanisic
+=============================================================
+* a4fb4e8: Aleks Stanisic - adding note to external url in jobs form
+
 v4.4.53 - Feb 21, 2013  8:26PM PST deployed by Aleks Stanisic
 =============================================================
 

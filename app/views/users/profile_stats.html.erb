@@ -72,8 +72,8 @@
 		<section class="profile-content" style="float:left;margin: 0px 15px 30px 15px;">	
 			<section class="info panel">
 				<h3>
-					Profile views over the last 60 days. 
-					<span style="float:right">Total: 120</span><!-- I don't know how to pull out this data count total -->
+					Profile views over the last 8 weeks. 
+					<span style="float:right">Total: <%= @viewed.where("created_at > ?", Time.now-56.days).length %></span>
 				</h3>
 
 				<section class="panel-actions">
@@ -85,19 +85,15 @@
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
 					$(function () {
-						var d = [<%= @data['profile_last_eight'] %>];
+						var d = <%= @views %>;
 						
 						var options = {
-							xaxis: { 
-								mode: "time",
-								timeformat: "%b %0d",
-								tickLength: 5,
-								
-							
-								
+							xaxis: {
+								ticks: <%= @labels.to_json.html_safe %>
 							},
 							
 							yaxis: {
+								tickDecimals: 0,
 								tickFormatter: function(val, axis) {
 									return val + ' Views';
 								}
@@ -154,10 +150,12 @@
 							<!-- Prompting the connection or messaging based on connection status -->
 							<div style='float:right;margin-top:15px'>
 								
-								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc 
-									<%= link_to "Message", '#', :class => 'button bg-green', :style => 'color:#ffffff !important;' %>
-									<br/>
-									<%= link_to "Connect", '#', :class => "button bg-green", :style => 'color:#ffffff !important;' %>-->
+								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc -->
+								<% if @my_connections.include?(view.user_id) %>
+									<%= link_to "Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id.to_s }, {:style => 'color:#ffffff !important;', :class => "button bg-green" } %>
+								<% else %>
+									<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id.to_s }, :style => "color:#ffffff !important;", :class => "button bg-green addconnection", :remote => true, :id => dom_id(@user) %>
+								<%  end %>
 								
 								
 								
