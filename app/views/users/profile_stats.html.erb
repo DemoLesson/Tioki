@@ -152,9 +152,9 @@
 								
 								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc -->
 								<% if @my_connections.include?(view.user_id) %>
-									<%= link_to "Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id.to_s }, {:style => 'color:#ffffff !important;', :class => "button bg-green" } %>
+									<%= link_to "Message", { :controller => 'messages', :action => 'new', :user_id_to => view.user_id }, {:style => 'color:#ffffff !important;', :class => "button bg-green" } %>
 								<% else %>
-									<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id.to_s }, :style => "color:#ffffff !important;", :class => "button bg-green addconnection", :remote => true, :id => dom_id(@user) %>
+									<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => view.user.id }, :style => "color:#ffffff !important;", :class => "button bg-green addconnection", :remote => true, :id => dom_id(view.user) %>
 								<%  end %>
 								
 								

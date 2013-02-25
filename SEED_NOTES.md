@@ -1,3 +1,35 @@
+v4.4.62 - Feb 25, 2013  1:09PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.61 - Feb 25, 2013 12:48PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.60 - Feb 25, 2013 12:38PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.59 - Feb 25, 2013 12:28PM PST deployed by Elijah Green
+===========================================================
+
+
+v4.4.58 - Feb 25, 2013 12:18PM PST deployed by Elijah Green
+===========================================================
+
+
+v4.4.57 - Feb 25, 2013 12:04PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.56 - Feb 25, 2013 12:00PM PST deployed by Aleks Stanisic
+=============================================================
+* 6dc7120: Elijah Green - Fix profile stats
+* 7d9d0da: Aleks Stanisic - changing order of applicants from newest to oldest on all applicant pages
+* 34c4ae5: Elijah Green - Slight change to profile stats
+* b174197: Elijah Green - Change profile views to weeks
+* fd51a75: Elijah Green - Changes to profile views
+
 v4.4.55 - Feb 22, 2013  5:18PM PST deployed by Aleks Stanisic
 =============================================================
 
