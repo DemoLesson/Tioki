@@ -39,7 +39,7 @@
 													<td style="font-family: Helvetica;padding-top: 10px;border-collapse: collapse">
 														<a href="http://tioki.com" style="color: #2aa99b;font-weight: normal;text-decoration: none !important;" target="_blank">
 															<img src="https://s3-us-west-2.amazonaws.com/tioki-marketing/Emails/Tioki_Dash_4.png" alt="Tioki" style="outline: 0;border: 0;height: 60px;width: 96px;text-decoration: none !important;vertical-align: bottom;line-height: 100% font-size: 34px" height="60" width="105"/></a>
-														</td>		
+														</td>
 													</tr>
 												</table>
 											</td>
@@ -58,7 +58,7 @@
 									<!-- // End Template Header \\ -->
 								</td>
 							</tr>
-							
+
 							<tr>
 								<td style="border-collapse: collapse" valign="top" align="center">
 									<!-- // Begin Template Body \\ -->
@@ -76,7 +76,7 @@
 
 															</span>
 														</td>
-													</tr>														
+													</tr>
 												</table>
 												<br>
 
@@ -90,11 +90,13 @@
 																<tr>
 																	<td align="center" >
 																		<a href="http://tioki.com/me/profile/stats" target="_blank" style="text-decoration:none">
-															
-																				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20120801034938-20120801034937-20120801034936-Brian_Linkedin%20Pic.jpg?1343792975"   style="border-width:5px;border-style:solid;border-color:#ccc;width:100px;">
-																				<!-- If they don't have an avatar, display this standard graph image
-																				<img src="http://tioki.com/assets/tioki/icons/graph_thumb.png"   style="border-width:5px;border-style:solid;border-color:#ccc;width:100px;">-->
-																		
+
+																			<%= if @user.avatar? %>
+																				<%= image_tag @user.avatar.url, :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
+																			<% else %>
+																				<%= image_tag "http://tioki.com/assets/tioki/icons/graph_thumb.png", :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;"  %>
+																			<% end %>
+
 																		</a>
 																	</td>
 																</tr>
@@ -113,7 +115,7 @@
 																			<tr>
 																				<td align="left" valign="top" style="text-align:center"> 
 																						<span style="color:#4D4D4D; font-size:18px; font-family:Oswald, sans-serif;font-weight: normal">
-																						Your profile was viewed 127 times this week.
+																							Your profile was viewed <%= @view_count %> time<% if @profile_views > 1%>s<% end %> this week.
 																						</span>
 																				</td>
 																			</tr>
@@ -147,7 +149,7 @@
 																				</td>
 																			</tr>
 																			
-																		</table>																										
+																		</table>
 																	</td>
 																</tr>
 																

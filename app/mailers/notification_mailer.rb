@@ -132,4 +132,22 @@ class NotificationMailer < ActionMailer::Base
 		# Return the mailer object
 		return mail
 	end
+
+	def profile_view(user, views)
+		@user = user
+		@profile_views = views.count
+		if @profile_views > 1
+			subject = "#{view.first.name} and #{@profile_views - 1} other viewed your profile"
+		else
+			subject = "#{view.first.name} viewed your profile"
+		end
+
+		mail = mail(:to => @user.email, :subject => subject)
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('job_alert')
+		end
+
+		return mail
+	end
 end
