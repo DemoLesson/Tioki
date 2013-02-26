@@ -199,8 +199,12 @@
 					<!-- Featured Group 1-->
 					<li style="padding:12px 15px 12px 15px !important;width:280px">
 						<%= link_to image_tag(group.picture(:thumb), :style => "width:45px"), group %>
-						<p style="margin:-40px 0px 0px 60px;width:220px">
-							<%= link_to group.name, group %>
+						<p style="margin:-30px 0px 0px 60px;width:220px">
+							<% if group.name.length < 21 %>
+								<%= link_to group.name[0..23], group %>
+							<% else %>
+								<%= link_to group.name[0..23]+"...", group %>
+							<% end %>
 							<%= link_to "Join", { :controller => 'groups', :action => "add_group", :id => group.id }, :style => "float:right;color:#F66C4C" %>
 							<br />
 							<%= group.users.count %> Members<br/>
