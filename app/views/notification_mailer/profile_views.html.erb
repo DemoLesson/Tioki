@@ -72,7 +72,7 @@
 															
 															<span style="color: #000;display: inline-block;font-family: Helvetica;font-size: 18px;font-weight: bold;line-height: 100%;margin-top: 0;margin-right: 0;margin-bottom: 0px;margin-left: 0;text-align: left">
 
-																Brian, you've had new visitors!
+																<%= @user.first_name %>, you've had new visitors!
 
 															</span>
 														</td>
@@ -161,7 +161,7 @@
 													<tr>
 														<td align="left">
 															<span style="color: #000;display: inline-block;font-family: Helvetica;font-size: 14px;font-weight: bold;line-height: 100%;margin-top: 0;margin-right: 0;margin-bottom: 0px;margin-left: 0;text-align: left"><strong>
-																Is your profile up to date?<a href="http://tioki.com/me/profile" target="_blank" style="color:#f66c4b;text-decoration:none"> Update it today.</a>
+																	Is your profile up to date?<a href="http://tioki.com/profile/<%= @user.slug %>" target="_blank" style="color:#f66c4b;text-decoration:none"> Update it today.</a>
 															</strong></span>
 														</td>
 													</tr>
