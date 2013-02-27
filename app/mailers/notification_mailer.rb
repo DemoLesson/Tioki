@@ -138,7 +138,8 @@ class NotificationMailer < ActionMailer::Base
 		@profile_views = views.count
 
 		if @profile_views > 1
-			subject = "#{views.first.name} and #{@profile_views - 1} other viewed your profile"
+			other = @profile_views > 2 ? "others" : "other"
+			subject = "#{views.first.name} and #{@profile_views - 1} #{other} viewed your profile"
 		else
 			subject = "#{views.first.name} viewed your profile"
 		end
