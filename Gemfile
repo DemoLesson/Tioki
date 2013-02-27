@@ -7,9 +7,10 @@ gem 'rails', '3.2.12'
 gem 'mysql2'
 
 # Production only gems
-#group :production do
-#	gem 'therubyracer', '~> 0.9.3.beta1'
-#end
+group :production do
+  gem 'therubyracer'
+	gem 'libv8'
+end
 
 # Assets
 # @todo remove these gems from running in production
