@@ -91,10 +91,10 @@
 																	<td align="center" >
 																		<a href="http://tioki.com/me/profile/stats" target="_blank" style="text-decoration:none">
 
-																			<%= if @user.avatar? %>
-																				<%= image_tag @user.avatar.url, :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
+																			<% if @user.avatar? %>
+																				<%= image_tag @user.avatar.url(:medium), :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
 																			<% else %>
-																				<%= image_tag "http://tioki.com/assets/tioki/icons/graph_thumb.png", :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;"  %>
+																				<%= image_tag "http://tioki.com/assets/tioki/icons/graph_thumb.png", :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
 																			<% end %>
 
 																		</a>
@@ -115,7 +115,7 @@
 																			<tr>
 																				<td align="left" valign="top" style="text-align:center"> 
 																						<span style="color:#4D4D4D; font-size:18px; font-family:Oswald, sans-serif;font-weight: normal">
-																							Your profile was viewed <%= @view_count %> time<% if @profile_views > 1%>s<% end %> this week.
+																							Your profile was viewed <%= @profile_views %> time<% if @profile_views > 1 %>s<% end %> this week.
 																						</span>
 																				</td>
 																			</tr>
