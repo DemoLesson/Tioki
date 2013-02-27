@@ -1,3 +1,10 @@
+v4.4.64 - Feb 26, 2013  6:52PM PST deployed by Aleks Stanisic
+=============================================================
+* 5323c1e: Elijah Green - Fix some profile view mailer errors
+* 0aa29ff: Aleks Stanisic - change to splash page
+* ceb0bab: Elijah Green - Profile view notifications
+* 11a9924: Elijah Green - Add no_image.png
+
 v4.4.63 - Feb 25, 2013  8:13PM PST deployed by Aleks Stanisic
 =============================================================
 * 9e6b5cf: Aleks Stanisic - adding new featured discussions on homepage
