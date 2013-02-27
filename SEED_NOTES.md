@@ -1,3 +1,9 @@
+v4.4.66 - Feb 27, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 69eb2c8: Elijah Green - Change the time for the cron job
+* 5313b87: Elijah Green - Fix error when no jobs in a location are found
+* 25a8894: Elijah Green - Add cron job
+
 v4.4.65 - Feb 27, 2013  7:55AM PST deployed by Aleks Stanisic
 =============================================================
 * b1d8c7b: Elijah Green - Fix to profile view pluralization
