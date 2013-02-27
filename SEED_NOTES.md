@@ -1,3 +1,7 @@
+v4.4.65 - Feb 27, 2013  7:55AM PST deployed by Aleks Stanisic
+=============================================================
+* b1d8c7b: Elijah Green - Fix to profile view pluralization
+
 v4.4.64 - Feb 26, 2013  6:52PM PST deployed by Aleks Stanisic
 =============================================================
 * 5323c1e: Elijah Green - Fix some profile view mailer errors
