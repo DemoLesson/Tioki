@@ -345,10 +345,26 @@ class Notification < ActiveRecord::Base
 			end
 
 			# Write the bucket to the DB
-		    update_attribute(:bucket, ret.to_s)
+			update_attribute(:bucket, ret.to_s)
 		rescue Exception
 		end
 
 		return ret.to_s
+	end
+
+	def self.profile_views
+		#Get profile view analytics from the last week
+		users = Analytic.where("analytics.created_at > ? && analytics.slug = ?",
+		                       Time.now-7.days,
+		                       "view_user_profile").collect(&:map_tag).uniq
+
+		users.each do |user|
+			views = Analytic.where("analytics.created_at > ? && analytics.slug = ? && analytics.tag = ?",
+			                       Time.now-7.days,
+			                       "view_user_profile",
+			                       user.tag!).collect(&:user).uniq
+
+			NotificationMailer.profile_views(user, views).deliver
+		end
 	end
 end

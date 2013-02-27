@@ -1,3 +1,8 @@
+v4.4.63 - Feb 25, 2013  8:13PM PST deployed by Aleks Stanisic
+=============================================================
+* 9e6b5cf: Aleks Stanisic - adding new featured discussions on homepage
+* 5bbebfb: Aleks Stanisic - fix to featured groups in educator dashboard
+
 v4.4.62 - Feb 25, 2013  1:09PM PST deployed by Aleks Stanisic
 =============================================================
 
