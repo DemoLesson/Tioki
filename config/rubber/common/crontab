@@ -18,3 +18,4 @@ RAILS_ENV=<%= Rubber.env %>
 # Site cron tasks
 * * * * * cd <%= current_path %> && RAILS_ENV=<%= Rubber.env %> bundle exec rake cron:notifications > <%= current_path %>/log/cron.log 2>&1
 0 0 * * * cd <%= current_path %> && RAILS_ENV=<%= Rubber.env %> bundle exec rake cron:digest_notifications > <%= current_path %>/log/cron.log 2>&1
+00 18 * * 4 cd <%= current_path %> && RAILS_ENV=<%= Rubber.env %> bundle exec rake cron:view_notifications > <%= current_path %>/log/cron.log 2>&1
