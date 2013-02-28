@@ -1,3 +1,17 @@
+v4.4.68 - Feb 28, 2013 11:42AM PST deployed by Aleks Stanisic
+=============================================================
+* 86704cb: Elijah Green - Change profile view cron job to Thurs 20:00
+* 7628108: Elijah Green - Profile view email permission
+* 32b035a: Elijah Green - Fix view profile notfications
+
+v4.4.67 - Feb 27, 2013  7:43PM PST deployed by Aleks Stanisic
+=============================================================
+* 8cc2dd8: Elijah Green - Change profile_view email time to thursday 4:00am utc
+* 1d2512d: Elijah Green - Default profile is about instead of activity
+* 1754fa2: Elijah Green - Remove total profile_Views
+* 53be757: Elijah Green - Fix interview edit labels
+* f77b5d8: Elijah Green - Just removing some trailing spaces
+
 v4.4.66 - Feb 27, 2013  1:11PM PST deployed by Aleks Stanisic
 =============================================================
 * 69eb2c8: Elijah Green - Change the time for the cron job
