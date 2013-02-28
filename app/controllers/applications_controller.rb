@@ -136,8 +136,7 @@ class ApplicationsController < ApplicationController
 	end
 
 	def interviews
-		@applications = @source.applications.is_submitted
-		@interviews = @source.interviews
+		@interviews = @source.interviews.order("created_at DESC")
 	end
 
 	def offered
