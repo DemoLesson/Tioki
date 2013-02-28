@@ -1,3 +1,7 @@
+v4.4.69 - Feb 28, 2013 12:24PM PST deployed by Aleks Stanisic
+=============================================================
+* 2a7f375: Elijah Green - crontab dates are 0 indexed
+
 v4.4.68 - Feb 28, 2013 11:42AM PST deployed by Aleks Stanisic
 =============================================================
 * 86704cb: Elijah Green - Change profile view cron job to Thurs 20:00
