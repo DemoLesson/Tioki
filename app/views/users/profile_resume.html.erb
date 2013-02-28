@@ -148,7 +148,7 @@
 			<nav class="subpage" style="width: 660px;margin-left: 15px;">
 				<ul>
 					<li>
-						<a href="/profile/<%= @user.slug %>?application=<%= @application.id.to_s() %>">
+						<a href="/profile/<%= @user.slug %>/activity?application=<%= @application.id.to_s() %>">
 							Activity
 						</a>
 					</li>
@@ -188,9 +188,9 @@
 						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
 						<li>
 							<% if @self %>
-							<a href="/me/profile">
+							<a href="/me/profile/activity">
 							<% else %>
-							<a href="/profile/<%= @user.slug %>">
+							<a href="/profile/<%= @user.slug %>/activity">
 							<% end %>
 								Activity
 							</a>
