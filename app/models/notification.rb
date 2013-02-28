@@ -369,13 +369,15 @@ class Notification < ActiveRecord::Base
 		                       "view_user_profile").collect{|analytic| analytic.map_tag rescue nil }.compact.uniq
 
 		users.each do |user|
-			views = Analytic.where("analytics.created_at > ? && analytics.slug = ? && analytics.tag = ?",
-			                       Time.now-7.days,
-			                       "view_user_profile",
-			                       user.tag!).collect(&:user).uniq
+			if !user.email_permissions[:profile_views]
+				views = Analytic.where("analytics.created_at > ? && analytics.slug = ? && analytics.tag = ?",
+				                        Time.now-7.days,
+				                        "view_user_profile",
+				                        user.tag!).collect(&:user).uniq
 
-			unless views.length == 1 && employees.include?(views.first)
-				NotificationMailer.profile_views(user, views).deliver
+				unless views.length == 1 && employees.include?(views.first)
+					NotificationMailer.profile_views(user, views).deliver
+				end
 			end
 		end
 	end
