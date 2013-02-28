@@ -80,8 +80,6 @@
 
 					<div id="profile_last_eight" style="width:600px;height:250px;margin:10px 10px;"></div>
 					
-					<!-- ELIJAH: My notes on the graph are this. I would like for each data point to represent a week as opposed to a day. I would also like to display the number of connections over the time period above. Lastly, we will nick a tick under the graph for each of the 8 weeks over the 60 day period -->
-
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
 					$(function () {
@@ -121,9 +119,7 @@
 				</section>
 			</section>
 			<section class="info panel">
-				<h3>Who has viewed your profile?
-					 <span style='float:right'> Total: <%= @viewed.each.count %></span><!--This number needs to be over the last 60 days as well -->
-				</h3>
+				<h3>Who has viewed your profile?</h3>
 				<ul>
 					<% @viewed.each do |view| %>
 						<% if view.user.nil?; view.destroy; next; end; %>
@@ -147,10 +143,8 @@
 								<%= view.user.location unless view.user.location.nil? || view.user.location.empty? %>
 							</p>
 							
-							<!-- Prompting the connection or messaging based on connection status -->
 							<div style='float:right;margin-top:15px'>
 								
-								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc -->
 								<% if @my_connections.include?(view.user_id) %>
 									<%= link_to "Message", { :controller => 'messages', :action => 'new', :user_id_to => view.user_id }, {:style => 'color:#ffffff !important;', :class => "button bg-green" } %>
 								<% else %>
