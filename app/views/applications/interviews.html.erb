@@ -41,12 +41,12 @@
 	</section>
 	<nav class="subpage" style="width:630px;float:right;">
 		<ul>
-			<li <%= "class='current'" if @round == 1%>>
+			<li class="<%= "current" if @round == 1 %>">
 				<a href='?round=1'>
 					First Round (<%= @source.interviews.where(:round => 1).count %>)
 				</a>
 			</li>
-			<li <%= "class='current'" if @round == 2 %>>
+			<li class="<%= "current" if @round == 2 %>">
 				<a href='?round=2'>
 					Second Round (<%= @source.interviews.where(:round => 2).count %>)
 				</a>
