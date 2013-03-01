@@ -50,6 +50,9 @@
 			</tr>
 			<tr>
 				<td colspan="2">
+					<% if params[:round] %>
+						<%= hidden_field_tag "interview[round]", params[:round] %>
+					<% end %>
 					<%= t.submit "Schedule Interview" %>
 				</td>
 			</tr>
