@@ -90,7 +90,7 @@
 								<option <%= int.application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
 							</select><br /><br />
 							<%= f.submit "Update Status", :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; margin-top:-10px" %>
-							<%= link_to( "Schedule Round #{@round+1}", new_group_job_application_interview_path(@source.group, @source, int.application, :round => @round+1), :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px;", :class => "button bg-green") if @round != 3 && int.scheduled? %>
+							<strong><%= link_to( "Schedule Round #{@round+1}", new_group_job_application_interview_path(@source.group, @source, int.application, :round => @round+1), :style => "padding:4px 4px;display:inline;width:auto;float:right;font-size:12px;margin-right:-20px; color:#2AA99B !important;") if @round != 3 && int.scheduled? %></strong>
 						<% end %>
 
 				</div>
