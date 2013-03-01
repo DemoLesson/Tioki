@@ -1,20 +1,34 @@
-<section id="main-content">
-	<div class="features-slider">
+<section id="main-content" style='padding-bottom:0px'>
+	<section class="grey-bg wrapper">
+		<section style='text-align:center;margin: 0 auto;position:relative;width:1020px;overflow:hidden'>
+			<h1 style='color:#2AA99B'>
+				<span style='font-size:41px'>Connect with Thousands of Fellow Educators</span><br>
+				Teachers, School Leaders, Entrepreneurs, and More
+			</h1>
+		</section>
+		<div class="features-slider">
 		<div id="featured">
-			<img src="/assets/tioki/features-slide/feature-one.jpg" data-caption="#one-caption" />
+			<img src="/assets/tioki/features-slide/chinedu_quote.png" data-caption="#one-caption" />
 			<img src="/assets/tioki/features-slide/feature-two.jpg" data-caption="#two-caption" />
-			<img src="/assets/tioki/features-slide/feature-four.jpg" data-caption="#three-caption" />
-			<img src="/assets/tioki/features-slide/feature-three.jpg" data-caption="#four-caption" />
+			<img src="/assets/tioki/features-slide/feature-three.jpg" data-caption="#three-caption" />
+			<img src="/assets/tioki/features-slide/feature-four.jpg" data-caption="#four-caption" />
 			
 		</div>
 		<!-- Captions for Orbit -->
 		<span class="orbit-caption" id="one-caption">
 			<div class="signup-form">
-				<h2>
+				<h2 style='color:#fff'>
 				Join For Free
 				</h2>
 		<form action="/create" id="signup-form" method="post">
 			<input type="hidden" name="_ak" value="splash" />
+			<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+				<img src="/assets/tioki/icons/Twitter-Login.png" />
+			</fieldset>
+			<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
+				<img src="/assets/tioki/icons/Facebook-Login.png" />
+			</fieldset>
+			<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
 			<fieldset>
 				<input name="user[first_name]" type="text" placeholder="First Name" />
 			</fieldset>
@@ -31,19 +45,17 @@
 				<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
 			</fieldset>
 			<fieldset>
-				I am a
-				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION) %>
+				<span style='color:#fff'>I plan to use Tioki as a...</span>
+				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
 			</fieldset>
-			<fieldset style="margin-right:0px !important">
-				<input type="submit" class="button med-button" value="Get Started" style="width:140px !important;padding: 6px 9px;"/>
+			<fieldset style="margin-right:0px !important;">
+				<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
 			</fieldset>
-			<p class="smalltext">
-			By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
-			</p>
-			<p class="smalltext">
-				<%= image_tag "tioki/icons/edu_icon.png", :style => "height:20px;margin-bottom:-7px" %> 
-					Schools and Companies <%= link_to "click here.", "/forschools" %>
-			</p>		
+			<fieldset style='width:300px'>
+				<p class="smalltext" style='text-align:center'>
+				By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
+				</p>
+			</fieldset>		
 			<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
 			</iframe>
 			<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
@@ -52,7 +64,15 @@
 			</div>
 			<div class="featured-quote">
 				<blockquote>
-				Tioki is the only place that connects everyone in the education community together.
+					<span style='font-size:30px'>
+						"Teachers are professionals too! Tioki let's me connect
+						with the people that get it."
+					</span>
+					<br/>
+					<em style='text-shadow:none'>
+						Chinedu Unaka, Resource Specialist<br/>
+						Green Dot Public Schools
+					</em>
 				</blockquote>
 			</div>
 		</span>
@@ -102,10 +122,46 @@
 			</div>
 		</span>
 	</div>
-	<section class="press inner-content">
-		<h1>
-		Meet Some of Our Tioki All-Stars!
-		</h1>
+	</section>
+	<section class="white-bg wrapper">
+	<!-- Request past verbiage. Save for later.  -->
+		<% if request.fullpath == "/forschools" || request.fullpath == "/school_signup" || request.fullpath == "/howitworks/schools" || request.fullpath == "/schoolpricing" %>
+		<% end %>
+		
+		<section class='inner-content'>
+			<h2 style="color: #2AA99B;padding-top: 20px;margin-top: 0px;">
+				How it Works	
+			</h2>
+			<section  style='font-size:16px'>
+				<section class="one-column left-side" style='text-align:center'>
+					<strong>Create your profile,</strong> telling us<br />
+					who you are and some of the<br>
+					things you care about.</br><br/>
+					<%= image_tag '/assets/tioki/splash/avatar.png' %>
+				</section>
+				
+				<section class="one-column left-side" style='text-align:center'>
+					<strong>Connect</strong> with professionals<br>
+					that share your interests and<br>
+					passion for education.<br><br/>
+					<%= image_tag '/assets/tioki/splash/connect.png' %>
+				</section>
+				
+				<section class="one-column right-side" style='text-align:center'>
+					<strong>Leverage your network</strong> for<br>
+					news, video, resources, tips<br>
+					technology, and more.<br><br/>
+					<%= image_tag '/assets/tioki/splash/leverage.png' %>
+				</section>
+			</section>
+		</section>
+	</section>	
+		
+		
+	<section class="press inner-content" style='height:330px'>
+		<h2 style="padding-top: 20px;margin-top: 0px;">
+			Meet Some of Our Tioki All-Stars!	
+		</h2>
 		<article class="featured-thumb">
 			<a href="http://tioki.com/profile/118549scottkinkoph" target="_blank">
 				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121127212313-20121127212313-20121127212312-me.jpg20121127-15683-2eqodz?1354051391" alt="" style="width:150px" />
@@ -176,6 +232,16 @@
 			Arcata, California
 			</p>
 		</article>
-		<div class="clearfloat"></div>
 	</section>
+	
+	
+	<section class='inner-content'>
+		<section class="three-column left-side" style='text-align:center' >
+			<h2>
+				Start Connecting with Educators Like You Today! 
+				<%= link_to 'Join Tioki', '/signup', :class => 'button med-button', :style => 'width:275px' %>
+			</h2>
+		</section>
+	</section>
+
 </section>

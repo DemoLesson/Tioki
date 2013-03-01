@@ -108,145 +108,172 @@
 			</section>
 		<% end %>
 
-		<!-- Header / User Dropdown -->
-		<section class="login-header wrapper">
-			<header class="inner-content">
-
-				<!-- Logo Link -->
-				<a href="/">
-					<div class="logo">
-					Tioki
-					</div>
-				</a>
-
-				<!-- Notifications Icon -->
-				<% unless currentUser.new_record? %>
-					<a href="#notifications" kmodal="1" class="notifications has-tip no-tip-dots tip-right" title="Notifications">
-						<span class="iconic rss_alt"></span>
+		<!-- Header for the Splash Pages (e.g when a user is not logged in)-->
+		<% if currentUser.new_record? %>
+			<section class="login-header wrapper" style='height:80px'>
+				<header class="inner-content">
+					<!-- Logo Link -->
+					<a href="/">
+						<div class="logo2">
+						Tioki
+						</div>
 					</a>
-				<% end %>
-
-				<!-- What is and how does tioki work -->
-				<% if currentUser.new_record? %>
-					<% if request.fullpath == "/forschools" || request.fullpath == "/school_signup" || request.fullpath == "/howitworks/schools" || request.fullpath == "/schoolpricing" %>
-						<h4 style="float:right;margin:20px 100px 0px 0px;">
-							<a href="/howitworks/schools" style="color:#4D4D4D;margin-right:7px">How it Works</a>
-							<span style="margin-right:7px">|</span>
-							<a href="/schoolpricing" style="color:#4D4D4D">Pricing</a>
-						</h4>
-					<% else %>
-						<h4 style="float:right;margin:20px 100px 0px 0px;">
-							<a href="/static/whatistioki" style="color:#4D4D4D;margin-right:15px">What is "Tioki?"</a>
-							<a href="/static/howitworks" style="color:#4D4D4D;margin-right:15px">How Tioki Works?</a>
-							<a href="/static/ourteam" style="color:#4D4D4D">Who are We?</a>
-						</h4>
-					<% end %>
 				
-					<a href="#" id="drawer-handle" class="button">
-					Login
+					<!-- What is and how does tioki work -->
+		
+						
+							<section class='header_icons'>
+								<%= image_tag '/assets/tioki/icons/universities_icon.png', :style => 'width:40px'%>
+								<br>Universities
+							</section>
+							
+							<section class='header_icons' style='right:225px;'>
+								<%= image_tag '/assets/tioki/icons/employers_icon.png', :style => 'width:40px'%>
+								<br>Employers
+							</section>
+							
+							<section class='header_icons' style='right:125px;'>
+								<%= image_tag '/assets/tioki/icons/job_seeker_icon.png', :style => 'width:40px'%>
+								<br>Job Seekers
+							</section>
+							
+							<!--h4 style="float:right;margin:20px 100px 0px 0px;">
+								<a href="/static/whatistioki" style="color:#4D4D4D;margin-right:15px">What is "Tioki?"</a>
+								<a href="/static/howitworks" style="color:#4D4D4D;margin-right:15px">How Tioki Works?</a>
+								<a href="/static/ourteam" style="color:#4D4D4D">Who are We?</a>
+							</h4-->
+						
+				
+						<a href="#" id="drawer-handle" class="button" style="top:20px">
+						Login
+						</a>
+				
+				
+				</header>
+			</section>
+			
+		<!-- Header controls for logged in users of various types -->	
+		<% else %>
+			<!-- Header / User Dropdown -->
+			<section class="login-header wrapper">
+				<header class="inner-content">
+
+					<!-- Logo Link -->
+					<a href="/">
+						<div class="logo">
+						Tioki
+						</div>
 					</a>
-				<% end %>
 
-				<!-- If the user is authenticated -->
-				<% unless currentUser.new_record? %>
-					<div id="user-actions">
-						<ul>
-							<li style="float:left">
-								<% if currentUser.organization? %>
-									<% if currentUser.dashboard == 'recruiter' %>
-										<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
-									<% else %>
-										<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
+					<!-- Notifications Icon -->
+					<% unless currentUser.new_record? %>
+						<a href="#notifications" kmodal="1" class="notifications has-tip no-tip-dots tip-right" title="Notifications">
+							<span class="iconic rss_alt"></span>
+						</a>
+					<% end %>
+
+				
+
+					<!-- If the user is authenticated -->
+					<% unless currentUser.new_record? %>
+						<div id="user-actions">
+							<ul>
+								<li style="float:left">
+									<% if currentUser.organization? %>
+										<% if currentUser.dashboard == 'recruiter' %>
+											<a href="/me/settings/dashboard/educator" style="color:#F66C4C;bold">Educator Dashboard</a>
+										<% else %>
+											<a href="/me/settings/dashboard/recruiter" style="color:#F66C4C;bold">Recruiter Dashboard</a>
+										<% end %>
 									<% end %>
-								<% end %>
-							</li>
-							<li style="float:left">
-								<a href="/get_started" style="color:#F66C4C;bold">GET STARTED</a>
-							</li>
-							<li class="user-name" style="float:left">
-								<a href="/me/profile">
-								<%= self.current_user.name %>
-								<div class="gear">
-								</div>
-								</a>
+								</li>
+								<li style="float:left">
+									<a href="/get_started" style="color:#F66C4C;bold">GET STARTED</a>
+								</li>
+								<li class="user-name" style="float:left">
+									<a href="/me/profile">
+									<%= self.current_user.name %>
+									<div class="gear">
+									</div>
+									</a>
 								
-								<ul>
-									<% if current_user.is_admin %>
-										<li><%= link_to 'Administration 2.0', administration_root_path %></li>
-										<hr>
-									<% end %>
+									<ul>
+										<% if current_user.is_admin %>
+											<li><%= link_to 'Administration 2.0', administration_root_path %></li>
+											<hr>
+										<% end %>
 
-									<!-- Teacher Methods -->
-									<% unless currentUser.new_record? %>
-										<li>
-											<a href="/inviteconnections/twitter">
-												Find Friends
-											</a>
-										</li>
-										<li>
-											<a href="/inviteconnections">
-												Invite Friends
-											</a>
-										</li>
+										<!-- Teacher Methods -->
+										<% unless currentUser.new_record? %>
+											<li>
+												<a href="/inviteconnections/twitter">
+													Find Friends
+												</a>
+											</li>
+											<li>
+												<a href="/inviteconnections">
+													Invite Friends
+												</a>
+											</li>
 										
-										<hr>
+											<hr>
+											<li>
+												<a href="/me/profile">
+													My Profile
+												</a>
+											</li>
+											<li>
+												<a href="/me/profile/edit">
+													Edit Profile
+												</a>
+											</li>
+											<hr>
+											<li>
+												<a href="/me/settings/privacy">
+												Privacy Settings
+												</a> 
+											</li>
+										
+										<% end %>
+									
+
+										<!-- All -->
 										<li>
-											<a href="/me/profile">
-												My Profile
-											</a>
-										</li>
-										<li>
-											<a href="/me/profile/edit">
-												Edit Profile
-											</a>
-										</li>
-										<hr>
-										<li>
-											<a href="/me/settings/privacy">
-											Privacy Settings
+											<a href="/me/settings">
+											Account Settings
 											</a> 
 										</li>
-										
-									<% end %>
 									
+										<!-- Admin Methods -->
+	                                    <% # Review %>
+										<% if self.current_user.is_admin? && !self.current_user.is_limited %>
+											<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
+										<% elsif self.current_user.is_admin? %>
+											<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
+										<% end %>
 
-									<!-- All -->
-									<li>
-										<a href="/me/settings">
-										Account Settings
-										</a> 
-									</li>
-									
-									<!-- Admin Methods -->
-                                    <% # Review %>
-									<% if self.current_user.is_admin? && !self.current_user.is_limited %>
-										<li><%= link_to 'Manage Users', '/accounts/'+self.current_user.id.to_s %></li>
-									<% elsif self.current_user.is_admin? %>
-										<li><%= link_to 'Account allowances', '/accounts/'+self.current_user.id.to_s %></li>
-									<% end %>
-
-									<!-- Schools -->
-									<li>
-										<a href="/me/settings/upgrade">
-											Upgrade Account
-										</a>
-									</li>
+										<!-- Schools -->
+										<li>
+											<a href="/me/settings/upgrade">
+												Upgrade Account
+											</a>
+										</li>
 
 									
-									<!-- Logout -->
-									<li>
-										<a href="/logout">
-										Logout
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				<% end %>
-			</header>
-		</section>
-
+										<!-- Logout -->
+										<li>
+											<a href="/logout">
+											Logout
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					<% end %>
+				</header>
+			</section>
+		<% end %>
 		<!-- Navigation Bar -->
 		<% unless currentUser.new_record? %>
 			<nav class="wrapper top-nav">
@@ -385,144 +412,179 @@
 		<%= yield %>
 
 		<div class="clearfloat" style="height:230px;"></div>
-
-		<!-- Load Footer -->
-		<section class="footer-wrapper wrapper">
+		
+		<!-- Footer for the Splash Pages (e.g when a user is not logged in)-->
+		<% if currentUser.new_record? %>
+		<section class="footer-wrapper wrapper" style="height:100px">
 			<footer class="inner-content">
 				<nav class="footer-nav">
-					<section class="footer-section">
-						<p class="bold">
-						About Tioki
-						</p>
-						<ul>
-							<li>
-								<a href="/static/whatistioki">
-								What is Tioki?
-								</a>
+					<section class="footer-section" style='width:756px'>
+						
+							<ul>
+								<li>
+							<%= link_to 'About Tioki', '/ourteam', :style => 'margin-right:25px' %>
+							<%= link_to 'For Employers', '/forschools', :style => 'margin-right:25px' %>
+							<%= link_to 'Job Seekers', '/ourteam', :style => 'margin-right:25px' %>
+							<%= link_to 'Universities', '/ourteam', :style => 'margin-right:25px' %>
+							<%= link_to 'Blog', 'http://blog.tioki.com/', :target => '_blank', :style => 'margin-right:25px' %>
+							<%= link_to 'Contact', '/static/resources/contactandsupport' %>
 							</li>
-							<li>
-								<a href="/static/ourteam">
-								Our Team
-								</a>
-							</li>
-							<li>
-								<a href="/static/howitworks">
-								How It Works
-								</a>
-							</li>
-							<li>
-								<a href="/static/ourcustomers">
-								Our Partners
-								</a>
-							</li>
-							<li>
-								<a href="/static/press">
-								Press
-								</a>
-							</li>
-						</ul>
-					</section>
-					<section class="footer-section">
-						<p class="bold">
-						Educator Resources
-						</p>
-						<ul>
-							<li>
-								<a href="http://blog.tioki.com/schedule-featured-events/" target="_blank">
-								Featured Events
-								</a>
-							</li>
-							<li>
-								<a href="http://blog.tioki.com" target="_blank">
-								Tioki Blog
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/teacherresourcehub">
-								Resource Hub
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/videosupport">
-								Video Support
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/faq">
-								FAQ
-								</a>
-							</li>
-						</ul>
-					</section>
-					<section class="footer-section">
-						<p class="bold">
-						Help &amp; Support
-						</p>
-						<ul>
-							<li>
-								<a href="/static/job_seekers">
-								Job Seekers
-								</a>
-							</li>
-							<li>
-								<a href="/forschools">
-								Schools & Companies
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/contactandsupport">
-								Contact and Support
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/terms">
-								Terms of Service
-								</a>
-							</li>
-							<li>
-								<a href="/static/resources/privacy">
-								Privacy
-								</a>
-							</li>
-						</ul>
-					</section>
-					<section class="footer-section">
-						<p class="bold">
-						Connect With Us
-						</p>
-						<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-						<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false">Follow @tioki</a>
-						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-						<ul class="social-icons">
-							<li>
-								<a href="http://twitter.com/tioki" target="_blank" class="twitter-icon">
-								Twitter
-								</a>
-							</li>
-							<li>
-								<a href="http://www.facebook.com/tiokiapp" target="_blank" class="facebook-icon">
-								Facebook
-								</a>
-							</li>
-							<li>
-								<a href="http://blog.tioki.com/" target="_blank" class="blog-icon">
-								Blog
-								</a>
-							</li>
-						</ul>
+							</ul>
+					
 					</section>
 					<section class="footer-section last-footer-section">
-						<a href="/inviteconnections" class="button refer-button">
+						<a href="/inviteconnections" class="button refer-button" style='margin-top:0px'>
 						Tell a Friend
 						</a>
 					</section>
-					<div class="clearfloat"></div>
 				</nav>
+				
 				<section class="copyright">
 					&copy; 2012 Tioki.com. All Rights Reserved.
 				</section>
+				
 			</footer>
-		</section><!-- End Footer Wrapper -->
+		</section>
+		<% else %>
+
+			<!-- Load Footer -->
+			<section class="footer-wrapper wrapper">
+				<footer class="inner-content">
+					<nav class="footer-nav">
+						<section class="footer-section">
+							<p class="bold">
+							About Tioki
+							</p>
+							<ul>
+								<li>
+									<a href="/static/whatistioki">
+									What is Tioki?
+									</a>
+								</li>
+								<li>
+									<a href="/static/ourteam">
+									Our Team
+									</a>
+								</li>
+								<li>
+									<a href="/static/howitworks">
+									How It Works
+									</a>
+								</li>
+								<li>
+									<a href="/static/ourcustomers">
+									Our Partners
+									</a>
+								</li>
+								<li>
+									<a href="/static/press">
+									Press
+									</a>
+								</li>
+							</ul>
+						</section>
+						<section class="footer-section">
+							<p class="bold">
+							Educator Resources
+							</p>
+							<ul>
+								<li>
+									<a href="http://blog.tioki.com/schedule-featured-events/" target="_blank">
+									Featured Events
+									</a>
+								</li>
+								<li>
+									<a href="http://blog.tioki.com" target="_blank">
+									Tioki Blog
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/teacherresourcehub">
+									Resource Hub
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/videosupport">
+									Video Support
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/faq">
+									FAQ
+									</a>
+								</li>
+							</ul>
+						</section>
+						<section class="footer-section">
+							<p class="bold">
+							Help &amp; Support
+							</p>
+							<ul>
+								<li>
+									<a href="/static/job_seekers">
+									Job Seekers
+									</a>
+								</li>
+								<li>
+									<a href="/forschools">
+									Schools & Companies
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/contactandsupport">
+									Contact and Support
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/terms">
+									Terms of Service
+									</a>
+								</li>
+								<li>
+									<a href="/static/resources/privacy">
+									Privacy
+									</a>
+								</li>
+							</ul>
+						</section>
+						<section class="footer-section">
+							<p class="bold">
+							Connect With Us
+							</p>
+							<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+							<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false">Follow @tioki</a>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+							<ul class="social-icons">
+								<li>
+									<a href="http://twitter.com/tioki" target="_blank" class="twitter-icon">
+									Twitter
+									</a>
+								</li>
+								<li>
+									<a href="http://www.facebook.com/tiokiapp" target="_blank" class="facebook-icon">
+									Facebook
+									</a>
+								</li>
+								<li>
+									<a href="http://blog.tioki.com/" target="_blank" class="blog-icon">
+									Blog
+									</a>
+								</li>
+							</ul>
+						</section>
+						<section class="footer-section last-footer-section">
+							<a href="/inviteconnections" class="button refer-button">
+							Tell a Friend
+							</a>
+						</section>
+						<div class="clearfloat"></div>
+					</nav>
+					<section class="copyright">
+						&copy; 2012 Tioki.com. All Rights Reserved.
+					</section>
+				</footer>
+			</section><!-- End Footer Wrapper -->
+		<% end %>
 	</div><!-- End Page Wrapper -->
 
 	<!-- Notifications Window -->  	

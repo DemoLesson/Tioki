@@ -389,6 +389,24 @@ section.notice {
 	}
 }
 
+.grey-bg {
+	z-index: 9999;
+	height: 692px;
+	background: url(image_path('tioki_grey_bg.jpg')) top left repeat;
+	-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    0px 0px 4px rgba(0, 0, 0, 0.3);
+	box-shadow:         0px 0px 4px rgba(0, 0, 0, 0.3);
+}
+
+.white-bg {
+	z-index: 9999;
+	height: 370px;
+	background-color: #fff;
+	-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    0px 0px 4px rgba(0, 0, 0, 0.3);
+	box-shadow:         0px 0px 4px rgba(0, 0, 0, 0.3);
+}
+
 .login-header {
 	position: relative;
 	z-index: 9999;
@@ -408,6 +426,25 @@ section.notice {
 			text-align: left;
 			text-indent: -9999em;
 			background: url(image_path('tioki/tioki_logo.png')) no-repeat;
+		}
+		.logo2 {
+			position: absolute;
+			top: 10px;
+			left: 30px;
+			width: 102px;
+			height: 51px;
+			overflow: hidden;
+			text-align: left;
+			text-indent: -9999em;
+			background: url(image_path('tioki/tioki_logo_big.png')) no-repeat;
+		}
+		.header_icons{
+			height: 62px;
+			width: 80px; 
+			position: absolute;
+			top: 10px;
+			right: 325px; 
+			text-align:center;
 		}
 		.notifications {
 			position: absolute;
@@ -446,11 +483,8 @@ section.notice {
 #featured {
 	width: 1020px;
 	height: 525px;
-	background: #000 url(image_path('tioki/icons/loading.gif')) no-repeat center center; 
+	background: none; 
 	overflow: hidden;
-	-moz-box-shadow: 2px 2px 4px #999;
-	-webkit-box-shadow: 2px 2px 4px #999;
-	box-shadow: 2px 2px 4px #999;
 }
 
 #featured>img,  
@@ -573,9 +607,6 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 	height: 525px;
 	margin: 0 auto;
 	overflow: hidden;  // TOGGLE THIS FOR TESTING
-	-webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow:    0px 2px 2px rgba(0, 0, 0, 0.3);
-	box-shadow:         0px 2px 2px rgba(0, 0, 0, 0.3);
 	.orbit-caption {
 		h1, h2 {
 			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -600,11 +631,11 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		}	
 		.signup-form {
 			position: absolute;
-			width: 300px;
+			width: 305px;
 			padding: 20px 30px;
-			top: 80px;
+			top: 170px;
 			right:80px;
-			background: rgba(255, 255, 255, 0.9);
+			background: rgba(77, 77, 77, 0.3);
 			#signup-form {
 				fieldset {
 					display: inline-block;
@@ -678,13 +709,14 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		}
 		.featured-quote {
 			position: absolute;
-			bottom: 60px;
-			left: 65px;
-			width: 425px;
+			top: 25px;
+			right: 80px;
+			width: 560px;
 			blockquote {
-				font: 32px/1.4 $oswald;
-				color: #fff;
-				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+				text-align: center;
+				font: 18px/1.4 $oswald;
+				color: #000;
+				text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 			}
 		}
 		.signup-form-schools {

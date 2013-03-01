@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130209230941) do
+ActiveRecord::Schema.define(:version => 20130222203001) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
     t.integer  "assetType",         :default => 0
     t.integer  "job_id"
     t.integer  "user_id"
+    t.string   "owner_type"
+    t.integer  "owner_id"
   end
 
   create_table "attachments", :force => true do |t|
@@ -236,6 +238,19 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
 
   add_index "discussions", ["owner"], :name => "index_discussions_on_owner"
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
+
+  create_table "edu_stats", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "yrs_teaching"
+    t.integer  "avg_class_size"
+    t.integer  "class_perday"
+    t.integer  "total_students"
+    t.integer  "total_hours_teaching"
+    t.integer  "total_hours_planning"
+    t.integer  "total_hours_grading"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "educations", :force => true do |t|
     t.string   "school"
@@ -407,6 +422,14 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
     t.string   "interview_type"
   end
 
+  create_table "job_answers", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "application_id"
+    t.text     "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "job_packs", :force => true do |t|
     t.integer  "group_id"
     t.integer  "jobs"
@@ -417,6 +440,13 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
     t.integer  "refunded"
     t.integer  "amount"
     t.text     "additional_data"
+  end
+
+  create_table "job_questions", :force => true do |t|
+    t.integer  "job_id"
+    t.text     "question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "jobs", :force => true do |t|
@@ -447,9 +477,9 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
     t.string   "external_url"
     t.integer  "group_id"
     t.string   "status"
+    t.boolean  "featured",            :default => false
     t.boolean  "allow_videos",        :default => true
     t.boolean  "allow_attachments",   :default => true
-    t.boolean  "featured",            :default => false
     t.boolean  "notification_sent",   :default => false
   end
 
@@ -773,6 +803,7 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
   end
 
   create_table "users", :force => true do |t|
+    t.boolean  "fake",                   :default => false
     t.string   "email",                                     :null => false
     t.string   "hashed_password",                           :null => false
     t.string   "salt",                                      :null => false
@@ -815,7 +846,6 @@ ActiveRecord::Schema.define(:version => 20130209230941) do
     t.integer  "privacy_connected"
     t.integer  "privacy_recruiter"
     t.text     "notification_intervals"
-    t.boolean  "fake",                   :default => false
     t.string   "occupation"
     t.integer  "years_teaching"
     t.boolean  "job_seeking",            :default => false
