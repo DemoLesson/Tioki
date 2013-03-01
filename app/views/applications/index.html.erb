@@ -6,36 +6,36 @@
 		<section class="applications sidebar" style="margin-left:32px">
 				<ul>
 					<li class="current">
-						New Applicants
+						New Applicants: <%= @source.applications.not_reviewed.count %>
 					</li>
 					<li>
 						<a  href= "applications/reviewed_applicants" >
-							Reviewed Applicants
+							Reviewed Applicants: <%= @source.applications.reviewed.count %>
 						</a>
 					</li>
 					<li>
 						<a href="applications/interviews">
-							Interviews
+							Interviews: <%= @source.applications.has_interviews.count %>
 						</a>
 					</li>
 					<li>
 						<a href="applications/offered">
-						Offered
+							Offered: <%= @source.applications.offered.count %>
 						</a>
 					</li>
 					<li>
 						<a href="applications/accepted">
-						Accepted
+							Accepted: <%= @source.applications.accepted.count %>
 						</a>
 					</li>
 					<li>
 						<a href="applications/hired">
-						Hired
+							Hired: <%= @source.applications.hired.count %>
 						</a>
 					</li>
 					<li>
 						<a href="applications/declined">
-						Declined
+							Declined: <%= @source.applications.declined.count %>
 						</a>
 					</li>
 				</ul>

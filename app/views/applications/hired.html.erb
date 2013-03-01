@@ -6,35 +6,36 @@
 			<ul>
 				<li>
 					<a  href="<%= url_for([@source.group, @source, :applications]) %>">
-						New Applicants
+						New Applicants: <%= @source.applications.not_reviewed.count %>
 					</a>
 				</li>
 				<li>
 					<a href="reviewed_applicants">
-						Reviewed Applicants
+						Reviewed Applicants: <%= @source.applications.reviewed.count %>
 					</a>
 				</li>
 				<li>
 					<a href="interviews">
-						Interviews
+						Interviews: <%= @source.applications.has_interviews.count %>
 					</a>
 				</li>
 				<li>
 					<a href="offered">
-					Offered
+						Offered: <%= @source.applications.offered.count %>
 					</a>
 				</li>
 				<li>
 					<a href="accepted">
-					Accepted
+						Accepted: <%= @source.applications.accepted.count %>
 					</a>
 				</li>
 				<li class="current">
 					Hired
+						Hired: <%= @source.applications.hired.count %>
 				</li>
 				<li>
 					<a href="declined">
-					Declined
+						Declined: <%= @source.applications.declined.count %>
 					</a>
 				</li>
 			</ul>
