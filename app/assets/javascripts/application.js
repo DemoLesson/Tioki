@@ -9,9 +9,7 @@
 //= require jquery-ui
 //= require tinymce-jquery
 //= require jquery.remotipart
-//= require_tree .
 //= require_tree ./tioki
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
 //= require_tree ./jquery-extensions
-//= require_tree ./cramp
