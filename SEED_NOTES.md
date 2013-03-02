@@ -1,3 +1,13 @@
+v4.4.70 - Mar 1, 2013  5:49PM PST deployed by Elijah Green
+==========================================================
+* 969df11: Elijah Green - Interview reminders
+* 6e9a7e4: Aleks Stanisic - changing round scheduling styling
+* 17494c6: Elijah Green - Schedule next round
+* 1028132: Elijah Green - Have rounds display correctly on every page
+* f66a78e: Elijah Green - Add interview round pages
+* aaadf7d: Elijah Green - Add numbers to the applications pages
+* f6b7a73: Elijah Green - Add numbers for applications
+
 v4.4.69 - Feb 28, 2013 12:24PM PST deployed by Aleks Stanisic
 =============================================================
 * 2a7f375: Elijah Green - crontab dates are 0 indexed
