@@ -4,6 +4,8 @@ class Interview < ActiveRecord::Base
 					:job_id, :user_id, :application_id,
 					:job, :user, :application, :round
 
+	after_create :create_reminder
+
 	# Relations
 	belongs_to :application
 	belongs_to :user
@@ -27,6 +29,16 @@ class Interview < ActiveRecord::Base
 
 	def scheduled?
 		self.datetime_selected == 1 || self.datetime_selected == 2 || self.datetime_selected == 3
+	end
+
+	def remind
+		if !self.scheduled?
+			NotificationMailer.interview_reminder(self.user, self.job.group).deliver
+		end
+	end
+
+	def create_reminder
+		self.delay({:run_at=> 3.days.from_now}).remind
 	end
 
 	# Stub

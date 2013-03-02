@@ -152,4 +152,15 @@ class NotificationMailer < ActionMailer::Base
 
 		return mail
 	end
+
+	def interview_reminder(user, group)
+		@user = user
+		@group = group
+
+		mail = mail(:to => @user.email, :subject => "You have an unscheduled email")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('interview_reminder')
+		end
+	end
 end
