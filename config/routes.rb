@@ -187,11 +187,12 @@ Preview::Application.routes.draw do
 			#profile Views
 			match 'resume' => 'users#profile_resume'
 			match 'about' => 'users#profile_about'
+			match 'activity' => 'users#profile_activity'
 			match 'application' => 'users#profile_application'
 
 			# Misc
 			match 'stats' => 'users#profile_stats'
-			root :to => 'users#profile'
+			root :to => 'users#profile_about'
 		end
 
 
@@ -220,13 +221,13 @@ Preview::Application.routes.draw do
 		# Connections
 		match ':slug/connections' => 'connections#profile_connections'
 		
-		# About 
 		match ':slug/about' => 'users#profile_about'
 
 		match ':slug/application' => 'users#profile_application'
 		
-		# Resume Info
 		match ':slug/resume' => 'users#profile_resume'
+
+		match ':slug/activity' => 'users#profile_activity'
 
 		# Skills
 		match ':slug/skills' => 'skills#my_skills'
@@ -236,10 +237,10 @@ Preview::Application.routes.draw do
 		match ':slug/more_tech' => 'users#more_tech'
 
 		# Guest Access
-		match ':slug/:guest_pass' => 'users#profile'
+		match ':slug/:guest_pass' => 'users#profile_about'
 		
 		# Normal Access
-		match ':slug' => 'users#profile'
+		match ':slug' => 'users#profile_about'
 
 	end
 

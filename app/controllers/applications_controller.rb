@@ -136,8 +136,9 @@ class ApplicationsController < ApplicationController
 	end
 
 	def interviews
-		@applications = @source.applications.is_submitted
-		@interviews = @source.interviews
+		@round = params[:round] ? params[:round].to_i : 1
+
+		@interviews = @source.interviews.where("round = ?", @round).order("created_at DESC")
 	end
 
 	def offered

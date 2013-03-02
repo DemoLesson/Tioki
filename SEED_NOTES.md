@@ -1,3 +1,48 @@
+v4.4.70 - Mar 1, 2013  5:49PM PST deployed by Elijah Green
+==========================================================
+* 969df11: Elijah Green - Interview reminders
+* 6e9a7e4: Aleks Stanisic - changing round scheduling styling
+* 17494c6: Elijah Green - Schedule next round
+* 1028132: Elijah Green - Have rounds display correctly on every page
+* f66a78e: Elijah Green - Add interview round pages
+* aaadf7d: Elijah Green - Add numbers to the applications pages
+* f6b7a73: Elijah Green - Add numbers for applications
+
+v4.4.69 - Feb 28, 2013 12:24PM PST deployed by Aleks Stanisic
+=============================================================
+* 2a7f375: Elijah Green - crontab dates are 0 indexed
+
+v4.4.68 - Feb 28, 2013 11:42AM PST deployed by Aleks Stanisic
+=============================================================
+* 86704cb: Elijah Green - Change profile view cron job to Thurs 20:00
+* 7628108: Elijah Green - Profile view email permission
+* 32b035a: Elijah Green - Fix view profile notfications
+
+v4.4.67 - Feb 27, 2013  7:43PM PST deployed by Aleks Stanisic
+=============================================================
+* 8cc2dd8: Elijah Green - Change profile_view email time to thursday 4:00am utc
+* 1d2512d: Elijah Green - Default profile is about instead of activity
+* 1754fa2: Elijah Green - Remove total profile_Views
+* 53be757: Elijah Green - Fix interview edit labels
+* f77b5d8: Elijah Green - Just removing some trailing spaces
+
+v4.4.66 - Feb 27, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 69eb2c8: Elijah Green - Change the time for the cron job
+* 5313b87: Elijah Green - Fix error when no jobs in a location are found
+* 25a8894: Elijah Green - Add cron job
+
+v4.4.65 - Feb 27, 2013  7:55AM PST deployed by Aleks Stanisic
+=============================================================
+* b1d8c7b: Elijah Green - Fix to profile view pluralization
+
+v4.4.64 - Feb 26, 2013  6:52PM PST deployed by Aleks Stanisic
+=============================================================
+* 5323c1e: Elijah Green - Fix some profile view mailer errors
+* 0aa29ff: Aleks Stanisic - change to splash page
+* ceb0bab: Elijah Green - Profile view notifications
+* 11a9924: Elijah Green - Add no_image.png
+
 v4.4.63 - Feb 25, 2013  8:13PM PST deployed by Aleks Stanisic
 =============================================================
 * 9e6b5cf: Aleks Stanisic - adding new featured discussions on homepage

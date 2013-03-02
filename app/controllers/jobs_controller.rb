@@ -45,20 +45,17 @@ class JobsController < ApplicationController
 					if @groups.size == 0
 						#will_paginate does not like nil objects or arrays so just 
 						#giving it something it will not have an error on
-						@groups = Job.unscoped.
-							is_active.near(
-								params[:location][:city], 
-								params[:radius]).
-							paginate(
-								:page => params[:page], 
-								:order => 'updated_at DESC')
+						@jobs = Job.unscoped.
+							is_active.near(params[:location][:city],
+							               params[:radius]).
+							               paginate(:page => params[:page],
+							                        :order => 'updated_at DESC')
 					else
 						@jobs = Job.where(:group_id => @groups).
-							is_active.paginate(
-								:page => params[:page],
-								:joins => :group,
-								:conditions => tup.compile,
-								:order => 'updated_at DESC')
+							      is_active.paginate(:page => params[:page],
+							                         :joins => :group,
+							                         :conditions => tup.compile,
+							                         :order => 'updated_at DESC')
 					end
 				else
 					@jobs = Job.is_active.paginate(

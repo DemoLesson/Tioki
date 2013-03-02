@@ -38,6 +38,7 @@ default:
       4: "event_approved_notification"
       5: "email_subscription"
       6: "connection_requests"
+      7: "profile_views"
   notification_buckets:
     - jobs
     - favorites

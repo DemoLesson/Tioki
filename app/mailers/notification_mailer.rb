@@ -138,7 +138,8 @@ class NotificationMailer < ActionMailer::Base
 		@profile_views = views.count
 
 		if @profile_views > 1
-			subject = "#{views.first.name} and #{@profile_views - 1} other viewed your profile"
+			other = @profile_views > 2 ? "others" : "other"
+			subject = "#{views.first.name} and #{@profile_views - 1} #{other} viewed your profile"
 		else
 			subject = "#{views.first.name} viewed your profile"
 		end
@@ -150,5 +151,16 @@ class NotificationMailer < ActionMailer::Base
 		end
 
 		return mail
+	end
+
+	def interview_reminder(user, group)
+		@user = user
+		@group = group
+
+		mail = mail(:to => @user.email, :subject => "You have an unscheduled email")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('interview_reminder')
+		end
 	end
 end

@@ -866,7 +866,8 @@ class UsersController < ApplicationController
 
 	def profile_application; profile(false); end
 
-	# Migrated from teacher_controller.rb
+	def profile_activity; profile(true); end
+
 	def profile(whiteboard = true)
 
 		@application = nil

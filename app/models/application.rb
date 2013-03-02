@@ -11,26 +11,14 @@ class Application < ActiveRecord::Base
 	scope :is_submitted, where(:submitted => 1)
 	scope :not_rejected, where("status is null || status != 'Deny Application'")
 
-	def self.mine(args = {})
+	scope :not_reviewed, where(:status => 'Not Reviewed')
+	scope :reviewed, where(:status => ['Profile Reviewed', 'Request An Interview'])
+	scope :has_interviews, joins(:interview)
+	scope :offered, where(:status => 'Offer Given')
+	scope :accepted, where(:status => 'Offer Accepted')
+	scope :hired, where(:status => 'Applicant Hired')
+	scope :declined, where(:status => 'Deny Application')
 
-		# Set the user to lookup
-		a = User.current.id if args[:user].nil?
-		a = args[:user] unless args[:user].nil?
-
-		# Get all my applications
-		tmp = self.where('`user_id` = ?', a)
-
-		# Filter down
-		tmp = tmp.where('`viewed` = ?', args[:viewed]) unless args[:viewed].nil?
-		tmp = tmp.where('`status` = ?', args[:status]) unless args[:status].nil?
-		tmp = tmp.where('`status` != ?', args[:status!]) unless args[:status!].nil?
-
-		return tmp
-	end
-
-	def self.find_by_user_job(user_id, job_id)
-		Application.where('user_id = ? AND job_id = ?', self.user_id, self.job_id).first
-	end
 
 	def reject
 		self.status = 0

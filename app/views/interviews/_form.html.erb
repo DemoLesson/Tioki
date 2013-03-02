@@ -50,6 +50,9 @@
 			</tr>
 			<tr>
 				<td colspan="2">
+					<% if params[:round] %>
+						<%= hidden_field_tag "interview[round]", params[:round] %>
+					<% end %>
 					<%= t.submit "Schedule Interview" %>
 				</td>
 			</tr>
@@ -64,21 +67,27 @@
 		<table style="width:100%;" class="applications">
 			<tr>
 				<td>
-					<label style='font-weight:normal'>
 						Interview Type: <span style='color:#2AA99B'><%= @interview.interview_type %> Interview</span><br/>
 						Location / Contact: <span style='color:#2AA99B'><%= @interview.location %></span><br /><br />
 						
 						<strong>Please select the date & time that works best for you:</strong><br />
-						<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
+						<label style='font-weight:normal'>
+							<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
+						</label>
 						<% if not @interview.datetime_2.nil? %>
-							<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
+							<label style='font-weight:normal'>
+								<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
+							</label>
 						<% end %>
 						<% if not @interview.datetime_3.nil? %>
-							<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
+							<label style='font-weight:normal'>
+								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
+							</label>
 						<% end %>
+					<label style='font-weight:normal'>
 						<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
+					</label>
 						
-				</label>
 			</td>
 			<td>
 				<p>
