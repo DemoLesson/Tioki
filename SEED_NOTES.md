@@ -1,3 +1,7 @@
+v4.4.72 - Mar 2, 2013  6:23PM PST deployed by Elijah Green
+==========================================================
+* 80e4f55: Elijah Green - Possible fix to net-scp error
+
 v4.4.71 - Mar 2, 2013  6:20PM PST deployed by Elijah Green
 ==========================================================
 * fe6ff13: Elijah Green - Upgrade rubber and fix dependency issue with net-scp
