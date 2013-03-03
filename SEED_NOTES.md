@@ -1,3 +1,9 @@
+v4.4.80 - Mar 2, 2013  9:55PM PST deployed by Elijah Green
+==========================================================
+* 3015ecc: Elijah Green - Use older version of jquery
+* ee8fcc1: Elijah Green - Revert unicorn Gemfile change
+* b955c56: Elijah Green - Update jcrop
+
 v4.4.79 - Mar 2, 2013  8:42PM PST deployed by Elijah Green
 ==========================================================
 * dc6dbc4: Elijah Green - Change the hostname of staging instance
