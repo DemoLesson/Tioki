@@ -85,7 +85,7 @@ gem 'unicorn'
 gem 'terminal-notifier'
 
 # Rubber deployments
-gem 'rubber', '2.2.0'
+gem 'rubber'
 gem 'open4'
 
 # Debug tools

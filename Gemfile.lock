@@ -140,7 +140,7 @@ GEM
     debugger-ruby_core_source (1.2.0)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
-    delayed_job_active_record (0.4.2)
+    delayed_job_active_record (0.4.3)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
     devise (2.2.3)
@@ -226,8 +226,8 @@ GEM
     multimap (1.1.2)
     multipart-post (1.2.0)
     mysql2 (0.3.11)
-    net-scp (1.0.6)
-      net-ssh (>= 2.6.5)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
     net-sftp (2.1.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.5)
@@ -292,7 +292,7 @@ GEM
       vegas (~> 0.1.2)
     rsolr (1.0.8)
       builder (>= 2.1.2)
-    rubber (2.2.0)
+    rubber (2.2.2)
       capistrano (~> 2.12)
       clamp
       fog (~> 1.6)
@@ -411,7 +411,7 @@ DEPENDENCIES
   possessive
   rails (= 3.2.12)
   remotipart
-  rubber (= 2.2.0)
+  rubber
   sass-rails
   smart_tuple
   sprockets
