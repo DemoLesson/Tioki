@@ -1,3 +1,7 @@
+v4.4.81 - Mar 2, 2013 11:12PM PST deployed by Elijah Green
+==========================================================
+* 552768c: Elijah Green - Staging server emails
+
 v4.4.80 - Mar 2, 2013  9:55PM PST deployed by Elijah Green
 ==========================================================
 * 3015ecc: Elijah Green - Use older version of jquery
