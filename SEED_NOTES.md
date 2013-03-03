@@ -1,3 +1,20 @@
+v4.4.71 - Mar 2, 2013  6:20PM PST deployed by Elijah Green
+==========================================================
+* fe6ff13: Elijah Green - Upgrade rubber and fix dependency issue with net-scp
+* 4047872: Elijah Green - Add staging instance
+* 6553bd1: Elijah Green - Don't do notifications on development
+* b2ab68e: Elijah Green - Gemfile.lock
+* d1ba362: Elijah Green - Gemfile.lock
+* ce2b523: Elijah Green - Gemfile.lock
+* 5caa647: Elijah Green - Fix some jquery errors
+* 52fe458: Elijah Green - Update gems
+* c529bda: Elijah Green - make most gems bleeding edge
+* 64318be: Elijah Green - Gemfile.lock
+* 6d7a9e4: Elijah Green - Add some recommended options to development.rb
+* b5f3c06: Elijah Green - Change from s3 to fog to avoid an error
+* 82dbaea: Elijah Green - update will_paginate
+* 30fadf1: Elijah Green - Commit new Gemfile
+
 v4.4.70 - Mar 1, 2013  5:49PM PST deployed by Elijah Green
 ==========================================================
 * 969df11: Elijah Green - Interview reminders
