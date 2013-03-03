@@ -276,7 +276,7 @@ class ApplicationController < ActionController::Base
 						:status => 404
 				else
 					# If staging use pretty on all except fatals
-					raise e if Rails.env == 'staging'
+					# raise e if Rails.env == 'staging'
 
 					# Hide fatal errors on production
 					@path = request.fullpath
