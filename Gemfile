@@ -16,7 +16,8 @@ end
 # @todo remove these gems from running in production
 #group :assets do
 	gem 'sprockets' # Assets pipeline
-	gem 'coffee-script' # Coffeescript
+	gem 'coffee-rails' # Coffeescript
+	gem 'coffee-script-source', '~> 1.4.0'
 	gem 'uglifier' # Minify JS
 	gem 'sass-rails' # SCSS Sheets
 #end

@@ -8,6 +8,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require tinymce-jquery
+//= require active_admin/base
 //= require jquery.remotipart
 //= require_tree ./tioki
 //= require_tree ./Jcrop
