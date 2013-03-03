@@ -1,3 +1,9 @@
+v4.4.82 - Mar 3, 2013 12:20AM PST deployed by Elijah Green
+==========================================================
+* 03e2662: Elijah Green - Don't log development errors to graylog
+* dbbeacc: Elijah Green - Give production errors in staging
+* 187b586: Elijah Green - Fix coffeescript
+
 v4.4.81 - Mar 2, 2013 11:12PM PST deployed by Elijah Green
 ==========================================================
 * 552768c: Elijah Green - Staging server emails
