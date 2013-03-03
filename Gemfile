@@ -80,7 +80,7 @@ gem 'remotipart'#, '~> 0.4.1' # Do we actually need this
 gem 'fog'
 
 # Webserver
-gem 'unicorn', '~> 4.6.0'
+gem 'unicorn'
 
 # Deploy script notifications
 gem 'terminal-notifier'
