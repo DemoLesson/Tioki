@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."
 
 	# Callbacks in order or processing
-	after_create :after_create
+	after_create :create_extra
 	before_save :before_save
 	after_find :_isorg
 
@@ -184,9 +184,7 @@ class User < ActiveRecord::Base
 		organization? if _up.nil? || 1.day.ago > _up
 	end
 
-	#after_save :add_ab_test_data
-
-	def after_create
+	def create_extra
 		# Create invite code
 		create_invite_code
 
@@ -200,7 +198,7 @@ class User < ActiveRecord::Base
 		TechnologyUser.create(:user => self, :technology_id => 15)
 
 		# Send out welcome email
-		UserMailer.user_welcome_email(self).deliver
+		UserMailer.user_welcome_email(self.id)
 	end
 
 	# Return jobs that I administrate
