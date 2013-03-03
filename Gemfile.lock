@@ -403,6 +403,7 @@ DEPENDENCIES
   mini_magick
   multimap
   mysql2
+  net-scp (~> 1.0.4)
   newrelic_rpm
   oauth
   open4

@@ -86,6 +86,7 @@ gem 'terminal-notifier'
 
 # Rubber deployments
 gem 'rubber'
+gem 'net-scp', '~> 1.0.4'
 gem 'open4'
 
 # Debug tools
