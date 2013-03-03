@@ -1,6 +1,6 @@
 ---
 - !ruby/object:Rubber::Configuration::InstanceItem
-  name: staging_elijahgreentiokicom_4931
+  name: staging
   domain: tioki.com
   roles:
   - !ruby/object:Rubber::Configuration::RoleItem
