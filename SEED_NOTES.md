@@ -1,3 +1,7 @@
+v4.4.79 - Mar 2, 2013  8:42PM PST deployed by Elijah Green
+==========================================================
+* dc6dbc4: Elijah Green - Change the hostname of staging instance
+
 v4.4.78 - Mar 2, 2013  8:08PM PST deployed by Elijah Green
 ==========================================================
 
