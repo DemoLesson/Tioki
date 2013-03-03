@@ -427,7 +427,7 @@ DEPENDENCIES
   tinymce-rails
   twitter
   uglifier
-  unicorn
+  unicorn (~> 4.6.0)
   uuidtools
   will_paginate
   zencoder
