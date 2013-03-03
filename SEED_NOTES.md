@@ -1,3 +1,8 @@
+v4.4.74 - Mar 2, 2013  7:10PM PST deployed by Elijah Green
+==========================================================
+* 40a4895: Elijah Green - Fix assets:precompile error
+* d478317: Elijah Green - Attempt at fixing unicorn error
+
 v4.4.73 - Mar 2, 2013  6:46PM PST deployed by Elijah Green
 ==========================================================
 
