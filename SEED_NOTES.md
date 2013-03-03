@@ -1,3 +1,7 @@
+v4.4.75 - Mar 2, 2013  7:26PM PST deployed by Elijah Green
+==========================================================
+* cb50216: Elijah Green - Another attempt at a unicorn fix
+
 v4.4.74 - Mar 2, 2013  7:10PM PST deployed by Elijah Green
 ==========================================================
 * 40a4895: Elijah Green - Fix assets:precompile error
