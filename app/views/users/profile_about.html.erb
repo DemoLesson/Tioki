@@ -440,7 +440,11 @@
 							<!-- We will display the first 8 of their groups -->
 								<% @user.groups.limit(8).each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>
@@ -476,7 +480,11 @@
 								<!-- If they have 9 groups or less, we will display the entire list -->
 								<% @user.groups.each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>
