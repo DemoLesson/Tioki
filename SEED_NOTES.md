@@ -1,3 +1,9 @@
+v5.0.2 - Mar 4, 2013  3:03PM PST deployed by Elijah Green
+=========================================================
+* 6ed9e78: Elijah Green - Fix deletions of authorizations keys
+* 8f2da9e: Elijah Green - Fix twitter
+* 8298c57: Elijah Green - Deal with groups that have no iamges
+
 v5.0.1 - Mar 3, 2013 11:54PM PST deployed by Elijah Green
 =========================================================
 * 520e748: Elijah Green - add deletetions
