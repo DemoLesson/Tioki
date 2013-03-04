@@ -26,6 +26,7 @@ class Asset < ActiveRecord::Base
 		def randomize_file_name
 			extension = File.extname(file_file_name)
 			basename = File.basename(file_file_name, extension)
+			self.original_filename = file_file_name
 			self.file.instance_write(:file_name, "#{basename}_#{SecureRandom.hex(16)}#{extension}")
 		end
 
