@@ -36,7 +36,7 @@ gem 'koala' # Facebook
 gem 'cloudsponge'#, '~> 0.9.9'
 gem 'zencoder'#, '~> 2.4.0'
 # @todo build a new mailgun extension
-gem 'mailgun-rails', :git => 'git://github.com/KellyLSB/mailgun-rails.git' # Mailgun API Access
+gem 'mailgun-rails', :git => 'git://github.com/DemoLesson/mailgun-rails.git' # Mailgun API Access
 
 # Ruby extenions
 gem 'multimap' # Ruby Multimapper
