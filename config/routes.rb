@@ -149,6 +149,7 @@ Preview::Application.routes.draw do
 		match 'whiteboard/:id/comment' => 'whiteboards#comment'
 		match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 		match 'whiteboard/user_profile' => 'whiteboards#user_profile'
+		match 'whiteboards/profile_whiteboard' => 'whiteboards#profile_whiteboard'
 	# Signup / Login
 		match 'signup' => 'users#signup'
 		match 'login' => 'users#login'

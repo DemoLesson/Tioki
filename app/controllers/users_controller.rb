@@ -916,7 +916,7 @@ class UsersController < ApplicationController
 			@whiteboard = Array.new
 			Whiteboard.where("user_id = ?", @user.id).order("created_at DESC").paginate(:per_page => 15, :page => params[:page]).each do |post|
 				@post = post
-				@whiteboard << render_to_string('whiteboards/profile_activity', :layout => false)
+				@whiteboard << render_to_string('whiteboards/profile_whiteboard', :layout => false)
 			end
 		end
 			
@@ -941,8 +941,8 @@ class UsersController < ApplicationController
 						format.html { redirect_to "/profile/#{@user.slug}/about"}
 						format.json  { render :json => @teacher } # profile.json
 					else
-						format.html # profile.html.erb
-						format.json  { render :json => @teacher } # profile.json
+						format.html # profile_activity.html.erb
+						format.json  { render :json => @teacher } # profile_activity.json
 					end
 				end
 			end
