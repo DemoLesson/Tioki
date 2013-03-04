@@ -77,9 +77,12 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def revoke_twitter
-		self.current_user.authorizations = self.current_user.authorizations.delete_if{
-			|key, value| key  == "twitter_oauth_token" || key == "twitter_oauth_secret" 
-		}
+		self.current_user.authorizations = self.current_user.authorizations.delete_if do |key, value|
+			key == "twitter_oauth_token" ||
+				key == "twitter_oauth_secret" ||
+				key == :twitter_oauth_token ||
+			 	key == :twitter_oauth_secret
+		end
 
 		redirect_to "/me/settings"
 	end
@@ -123,7 +126,7 @@ class AuthenticationsController < ApplicationController
 
 	def revoke_facebook
 		self.current_user.authorizations = self.current_user.authorizations.delete_if{
-			|key, value| key  == "facebook_access_token"
+			|key, value| key == "facebook_access_token" || key == :facebook_access_token
 		}
 
 		redirect_to "/me/settings"
