@@ -395,8 +395,8 @@ class ApplicationController < ActionController::Base
 			#specifically set the authorize ath for authenticate in order
 			#to only have to authorize once
 			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
-				APP_CONFIG.twitter.consumer_secret, 
-				{ :site => "http://twitter.com", 
+				APP_CONFIG.twitter.consumer_secret,
+				{ :site => "http://api.twitter.com",
 					:authorize_path => "/oauth/authenticate"
 				})
 		end
