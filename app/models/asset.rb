@@ -27,7 +27,7 @@ class Asset < ActiveRecord::Base
 			extension = File.extname(file_file_name)
 			basename = File.basename(file_file_name, extension)
 			self.name = file_file_name
-			self.file.instance_write(:file_name, "#{basename}_#{ActiveSupport::SecureRandom.hex(16)}#{extension}")
+			self.file.instance_write(:file_name, "#{basename}_#{SecureRandom.hex(16)}#{extension}")
 		end
 
 		# Delete file off S3
