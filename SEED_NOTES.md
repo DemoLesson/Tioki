@@ -1,3 +1,7 @@
+v4.4.83 - Mar 3, 2013  5:00PM PST deployed by Elijah Green
+==========================================================
+* b6dcb1b: Elijah Green - Replace depreciated function
+
 v4.4.82 - Mar 3, 2013 12:20AM PST deployed by Elijah Green
 ==========================================================
 * 03e2662: Elijah Green - Don't log development errors to graylog
