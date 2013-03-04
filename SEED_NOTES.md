@@ -1,3 +1,11 @@
+v5.0.1 - Mar 3, 2013 11:54PM PST deployed by Elijah Green
+=========================================================
+* 520e748: Elijah Green - add deletetions
+* e732589: Elijah Green - profile activity
+* a26d2dd: Elijah Green - Fix message attachment name commit
+* 83b2f1e: Elijah Green - Original filename on message attachments
+* e07cd0b: Elijah Green - Original file name
+
 v5.0.0 - Mar 3, 2013 10:36PM PST deployed by Elijah Green
 =========================================================
 * 531a2d0: Aleks Stanisic - changes to team page
