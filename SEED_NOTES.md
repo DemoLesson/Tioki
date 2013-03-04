@@ -1,3 +1,9 @@
+v4.4.84 - Mar 3, 2013  6:33PM PST deployed by Elijah Green
+==========================================================
+* c3608f6: Elijah Green - Mailgun
+* e6e187c: Elijah Green - Interviews
+* d04515f: Elijah Green - Deal with some broken interviews
+
 v4.4.83 - Mar 3, 2013  5:00PM PST deployed by Elijah Green
 ==========================================================
 * b6dcb1b: Elijah Green - Replace depreciated function
