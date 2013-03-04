@@ -4,7 +4,7 @@ class Application < ActiveRecord::Base
 	belongs_to :user
 
 	belongs_to :video
-	has_one :interview, :dependent => :destroy
+	has_many :interviews, :dependent => :destroy
 	has_many :job_answers, :dependent => :destroy
 
 	scope :is_active, where(:status => 1)
@@ -13,7 +13,7 @@ class Application < ActiveRecord::Base
 
 	scope :not_reviewed, where(:status => 'Not Reviewed')
 	scope :reviewed, where(:status => ['Profile Reviewed', 'Request An Interview'])
-	scope :has_interviews, joins(:interview)
+	scope :has_interviews, joins(:interviews)
 	scope :offered, where(:status => 'Offer Given')
 	scope :accepted, where(:status => 'Offer Accepted')
 	scope :hired, where(:status => 'Applicant Hired')

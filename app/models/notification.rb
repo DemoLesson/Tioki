@@ -151,7 +151,12 @@ class Notification < ActiveRecord::Base
 
 		_triggered = read_attribute :triggered_id
 
-		return User.find(_triggered) if !_triggered.nil?
+		begin
+			return User.find(_triggered) if !_triggered.nil?
+		rescue
+			self.destroy
+			return nil
+		end
 
 		_class = notifiable_type.split(':').first
 
