@@ -88,7 +88,7 @@
 		</section>
 		<% message.assets.each do |asset| %>
 			<% filename = asset.original_filename ? asset.original_filename : asset.name %>
-			<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+			<%= link_to image_tag('tioki/icons/attachment.png') + filename, asset.file.url %><br />
 		<% end %>
 	<% end %>
 </section>
