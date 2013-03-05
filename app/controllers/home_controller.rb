@@ -2,6 +2,11 @@ class HomeController < ApplicationController
 
 	def index
 
+		#AB Test for splash page
+		if currentUser.new_record? 
+			@ab = Abtests.use("static:splash", 0).to_s
+		end
+
 		# If logged in then load a dashboard
 		if !currentUser.new_record?
 

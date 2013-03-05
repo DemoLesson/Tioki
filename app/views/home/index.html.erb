@@ -1,5 +1,9 @@
 <% if currentUser.new_record? %>
-	<%= render :partial => 'splash' %>
+	<% if @ab == "0" %>
+		<%= render :partial => 'splash' %>
+	<% else %>
+		<%= render :partial => 'splash_b' %>
+	<% end %>
 <% elsif ['recruiter'].include?(currentUser.dashboard) %>
 	<%= render :partial => 'recruiter_dashboard' %>
 <% else %>
