@@ -7,26 +7,26 @@ Preview::Application.routes.draw do
 	match '/temp' => 'users#temp'
 
 	# API
-		scope '/api' do
-			match ':action/:id' => 'api#:action'
-			match ':action' => 'api#:action'
-		end
+	scope '/api' do
+		match ':action/:id' => 'api#:action'
+		match ':action' => 'api#:action'
+	end
 
 	# Authentication for twitter, facebook, linkedin etc.
-		resources :authentications do
-			collection do
-				get 'facebook_auth'
-				get 'whiteboard_share_twitter'
-				get 'whiteboard_share_facebook'
-				get 'revoke_twitter'
-				get 'revoke_facebook'
-			end
+	resources :authentications do
+		collection do
+			get 'facebook_auth'
+			get 'whiteboard_share_twitter'
+			get 'whiteboard_share_facebook'
+			get 'revoke_twitter'
+			get 'revoke_facebook'
 		end
-		match 'facebook_callback', :to => 'authentications#facebook_callback'
-		match 'twitter_callback', :to => 'authentications#twitter_callback' 
-		match 'twitter_auth', :to => 'authentications#twitter_auth'
-		match 'linkedinprofile', :to => 'users#linkedinprofile'
-		match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+	end
+	match 'facebook_callback', :to => 'authentications#facebook_callback'
+	match 'twitter_callback', :to => 'authentications#twitter_callback' 
+	match 'twitter_auth', :to => 'authentications#twitter_auth'
+	match 'linkedinprofile', :to => 'users#linkedinprofile'
+	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
 
 	# Groups
 

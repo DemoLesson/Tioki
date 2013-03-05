@@ -81,6 +81,7 @@ class User < ActiveRecord::Base
 
 	# Migrated from teacher.rb
 	has_many :applications
+	has_many :authentications
 	has_many :videos, :dependent => :destroy
 	has_many :interviews
 	has_many :awards, :dependent => :destroy

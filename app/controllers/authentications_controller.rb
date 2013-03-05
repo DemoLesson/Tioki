@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-	before_filter :login_required
+	before_filter :login_required, :except => [:twitter_auth, :facebook_auth]
 
 	def twitter_auth
 		callback_url = "http://#{request.host_with_port}/twitter_callback"
@@ -41,7 +41,6 @@ class AuthenticationsController < ApplicationController
 
 			if session[:wizard_url]
 				return redirect_to session[:wizard_url]
-				session[:wizard_url] = nil
 			else
 				return redirect_to "/welcome_wizard?x=step4"
 			end
@@ -57,15 +56,11 @@ class AuthenticationsController < ApplicationController
 				:whiteboard_id => session[:whiteboard_id]
 			)
 
-			session[:twitter_action] = nil
-			session[:whiteboard_id] = nil
-
 		elsif session[:twitter_action] == "get_contacts"
 			session[:twitter_action] = nil
 
 			if session[:wizard_url]
 				return redirect_to "#{session[:wizard_url]}&twitter_contacts=true"
-				session[:wizard_url] = nil
 			else
 				return redirect_to "/welcome_wizard?x=step4&twitter_contacts=true"
 			end
@@ -76,16 +71,6 @@ class AuthenticationsController < ApplicationController
 		redirect_to :root
 	end
 
-	def revoke_twitter
-		self.current_user.authorizations = self.current_user.authorizations.delete_if do |key, value|
-			key == "twitter_oauth_token" ||
-				key == "twitter_oauth_secret" ||
-				key == :twitter_oauth_token ||
-			 	key == :twitter_oauth_secret
-		end
-
-		redirect_to "/me/settings"
-	end
 
 	def facebook_auth
 		@oauth = facebook_oauth
@@ -124,14 +109,6 @@ class AuthenticationsController < ApplicationController
 		redirect_to :root
 	end
 
-	def revoke_facebook
-		self.current_user.authorizations = self.current_user.authorizations.delete_if{
-			|key, value| key == "facebook_access_token" || key == :facebook_access_token
-		}
-
-		redirect_to "/me/settings"
-	end
-
 	def linkedin_callback
 		@user = self.current_user
 		client = LinkedIn::Client.new(APP_CONFIG.linkedin.api_key, APP_CONFIG.linkedin.app_secret)
@@ -155,8 +132,8 @@ class AuthenticationsController < ApplicationController
 					year = education.end_date.year
 				end
 				education = @user.educations.build(
-					:school => school, :degree => degree, 
-					:concentrations => concentrations, 
+					:school => school, :degree => degree,
+					:concentrations => concentrations,
 					:year => year)
 
 				education.save
@@ -189,12 +166,12 @@ class AuthenticationsController < ApplicationController
 					current = false
 				end
 				experience = @user.experiences.build(
-					:company => company, 
-					:position => positiontitle, 
-					:startMonth => startMonth, 
-					:startYear => startYear, 
-					:endMonth => endMonth, 
-					:endYear => endYear, 
+					:company => company,
+					:position => positiontitle,
+					:startMonth => startMonth,
+					:startYear => startYear,
+					:endMonth => endMonth,
+					:endYear => endYear,
 					:current => current)
 
 				experience.save
@@ -280,8 +257,8 @@ class AuthenticationsController < ApplicationController
 			@graph.put_wall_post(message)
 		rescue Koala::Facebook::APIError => ex
 			if ex.fb_error_code == 190
-				#Oauthexception 
-				#most likely so bad or expired oauth keys
+				#Oauthexception
+				#most likely bad or expired oauth keys
 				session[:whiteboard_id] = whiteboard.id
 				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
 			else
@@ -292,5 +269,29 @@ class AuthenticationsController < ApplicationController
 		end
 
 		redirect_to :root, :notice => notice
+	end
+
+	def revoke_twitter
+		self.current_user.authorizations = self.current_user.authorizations.delete_if do |key, value|
+			key == "twitter_oauth_token" ||
+				key == "twitter_oauth_secret" ||
+				key == :twitter_oauth_token ||
+			 	key == :twitter_oauth_secret
+		end
+
+		redirect_to "/me/settings"
+	end
+
+	def revoke_facebook
+		self.current_user.authorizations = self.current_user.authorizations.delete_if{
+			|key, value| key == "facebook_access_token" || key == :facebook_access_token
+		}
+
+		redirect_to "/me/settings"
+	end
+	protected
+
+	def auth_hash
+		request.env['omniauth.auth']
 	end
 end
