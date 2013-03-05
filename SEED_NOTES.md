@@ -1,3 +1,8 @@
+v5.0.3 - Mar 4, 2013  5:57PM PST deployed by Aleks Stanisic
+===========================================================
+* d549438: Elijah Green - Connection request set for five days later
+* bbacb56: Aleks Stanisic - adding connections reminder and fixing inteviews reminder
+
 v5.0.2 - Mar 4, 2013  3:03PM PST deployed by Elijah Green
 =========================================================
 * 6ed9e78: Elijah Green - Fix deletions of authorizations keys
