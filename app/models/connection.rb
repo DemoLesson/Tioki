@@ -42,7 +42,7 @@ class Connection < ActiveRecord::Base
 		begin
 			_user_id = User.current.id if _user_id.nil?
 			user = self.owned_by.to_i == _user_id.to_i ? self.user : self.owner
-		rescue ActiveRecord::RecordNotFound => e
+		rescue ActiveRecord::RecordNotFound
 			self.destroy
 			return redirect_to request.path
 		end
@@ -122,6 +122,6 @@ class Connection < ActiveRecord::Base
 	end
 
 	def create_reminder
-		self.delay({:run_at=> 1.minute.from_now}).remind
+		self.delay({:run_at => 5.days.from_now }).remind
 	end
 end
