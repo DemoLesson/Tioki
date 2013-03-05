@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304071333) do
+ActiveRecord::Schema.define(:version => 20130305025608) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -112,6 +112,14 @@ ActiveRecord::Schema.define(:version => 20130304071333) do
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.string   "service"
+    t.integer  "user_id"
+    t.integer  "unique_identifier"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "awards", :force => true do |t|
@@ -239,19 +247,6 @@ ActiveRecord::Schema.define(:version => 20130304071333) do
 
   add_index "discussions", ["owner"], :name => "index_discussions_on_owner"
   add_index "discussions", ["user_id"], :name => "index_discussions_on_user_id"
-
-  create_table "edu_stats", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "yrs_teaching"
-    t.integer  "avg_class_size"
-    t.integer  "class_perday"
-    t.integer  "total_students"
-    t.integer  "total_hours_teaching"
-    t.integer  "total_hours_planning"
-    t.integer  "total_hours_grading"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "educations", :force => true do |t|
     t.string   "school"
