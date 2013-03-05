@@ -3,6 +3,7 @@ class Connection < ActiveRecord::Base
 	belongs_to :owner, :class_name => "User", :foreign_key => :owned_by, :counter_cache => true
 	scope :not_pending, where(:pending => false)
 	scope :pending, where(:pending => true)
+	after_create :create_reminder
 
 	# Get information on my connections
 	def self.mine(args = {})
@@ -110,5 +111,17 @@ class Connection < ActiveRecord::Base
 		else
 			return false
 		end
+	end
+
+	def remind
+		owner_id = self.owned_by
+		user_id = self.user_id
+		if self.pending
+			NotificationMailer.connection_reminder(user_id, owner_id).deliver
+		end
+	end
+
+	def create_reminder
+		self.delay({:run_at=> 1.minute.from_now}).remind
 	end
 end

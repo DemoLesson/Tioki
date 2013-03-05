@@ -157,10 +157,25 @@ class NotificationMailer < ActionMailer::Base
 		@user = user
 		@group = group
 
-		mail = mail(:to => @user.email, :subject => "You have an unscheduled email")
+		mail = mail(:to => @user.email, :subject => "You have an unscheduled interview")
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('interview_reminder')
 		end
+
+		return mail
+	end
+
+	def connection_reminder(user_id, owner_id)
+		@user = User.find(user_id)
+		@owner = User.find(owner_id)
+
+		mail = mail(:to => @user.email, :subject => "You have a pending connection!")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('connection_reminder')
+		end
+
+		return mail
 	end
 end
