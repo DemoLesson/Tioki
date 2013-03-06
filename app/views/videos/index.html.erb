@@ -69,20 +69,18 @@
 						Resume
 						</a>
 					</li>
-					<%unless currentUser.new_record? %>
-						<% if @user.videos.count > 0 %>
-						<li class="current">
-							<a href="/profile/<%= @user.slug %>/videos">
-							Videos
-							</a>
-						</li>
-						<% elsif !currentUser.new_record? && @self %>
-						<li>
-							<a href="/me/profile/edit/upload-video">
-							Upload Video
-							</a>
-						</li>
-						<% end %>
+					<% if @user.videos.count > 0 %>
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+						</a>
+					</li>
+					<% elsif !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/edit/upload-video">
+						Upload Video
+						</a>
+					</li>
 					<% end %>
 					<% if !currentUser.new_record? && @self %>
 					<li>
@@ -109,34 +107,34 @@
 			<section class="panel-actions" id="video">
 				<%= @video.embed_code(605, 350) %>
 				<hr />
-				<% if @video.user == self.current_user || self.current_user.is_admin %>
-					<span style="float:left;">	
-						<h4 style="margin-top:10px">Share:
+				<%unless currentUser.new_record? %>
+					<% if @video.user == self.current_user || self.current_user.is_admin %>
+						<span style="float:left;">	
+							<h4 style="margin-top:10px">Share:
+								<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
+								<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							</h4>
+						</span>
+						
+						<span style="float:right">
+							<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}",:class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
+							<%= link_to image_tag('/assets/tioki/icons/pencil.png', :style => "height:17px", :title => "Edit" ), edit_video_path(@video) %>
+							<a href="/videos/<%= @video.id%>" data-confirm="Are you sure?" data-method="delete" rel="nofollow" title="Delete Video">
+								<span class="iconic x" style="font-size:20px;color:#892A38"></span>
+							</a>
+						</span>
+						
+					<% else %>
+						<h4 style="margin-top:0px">Share:
 							<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
 							<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							<% if self.current_user %>
+								<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "height:26px;margin-bottom:-4px") %></a>
+							<% end %>
 						</h4>
-					</span>
-					
-					<span style="float:right">
-						<%= link_to 'Feature This Video', "/me/profile/edit/feature-video/#{@video.id}",:class => 'button' if @video.user == self.current_user && @video != self.current_user.video %>
-						<%= link_to image_tag('/assets/tioki/icons/pencil.png', :style => "height:17px", :title => "Edit" ), edit_video_path(@video) %>
-						<a href="/videos/<%= @video.id%>" data-confirm="Are you sure?" data-method="delete" rel="nofollow" title="Delete Video">
-							<span class="iconic x" style="font-size:20px;color:#892A38"></span>
-						</a>
-					</span>
-					
-				<% else %>
-					<h4 style="margin-top:0px">Share:
-						<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "height:26px;margin-bottom:-4px") %></a>
-						<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "height:26px;margin-bottom:-4px") %></a>
-						<% if self.current_user %>
-							<a href="#share_on_tioki" kmodal="1"><%= image_tag('tioki/icons/tioki.png', :style => "height:26px;margin-bottom:-4px") %></a>
-						<% end %>
-					</h4>
+					<% end %>
+				</br></br>
 				<% end %>
-				
-				<br/>
-				<br/>
 				
 				<h4>Video Description</h4>
 				<p><%= @video.description %></p>

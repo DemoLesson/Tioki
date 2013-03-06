@@ -248,7 +248,7 @@ class ConnectionsController < ApplicationController
 	def inviteconnections
 		@referred = self.current_user.successful_referrals.count
 		@my_connection = Connection.find_for_user(self.current_user.id)
-		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
+		@default_message = "Hey! I'd absolutely love to add you to my education network on Tioki."
 	end
 
 	def inviteconnection

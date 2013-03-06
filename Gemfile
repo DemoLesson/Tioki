@@ -23,7 +23,7 @@ end
 #end
 
 # Tiny-MCE / jQuery need to be global
-gem 'jquery-rails', '2.1.4' # '~> 2.1'
+gem 'jquery-rails', '2.1.4'
 gem 'tinymce-rails'
 
 # Social Networks and oAuth
@@ -35,14 +35,14 @@ gem 'twitter'
 gem 'koala' # Facebook
 
 # General APIs
-gem 'cloudsponge'#, '~> 0.9.9'
-gem 'zencoder'#, '~> 2.4.0'
+gem 'cloudsponge'
+gem 'zencoder'
 # @todo build a new mailgun extension
 gem 'mailgun-rails', :git => 'git://github.com/DemoLesson/mailgun-rails.git' # Mailgun API Access
 
 # Ruby extenions
 gem 'multimap' # Ruby Multimapper
-gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git' #, :path => '/Users/kbecker/Development/ruby/bitswitch' # Bitwise Booleans
+gem 'bitswitch', :git => 'git://github.com/KellyLSB/Bitswitch.git'
 gem 'kvpair', :git => 'git://github.com/KellyLSB/KVPair.git' # Rails 3.1 Key => Value Pairs
 gem 'dnsruby' # Provides DNS Record Details
 gem 'chronic' # Relative time engine
@@ -78,7 +78,7 @@ gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'carrierwave' # Use instead of paperclip
 gem 'carrierwave_direct' # Direct uploads to S3
-gem 'remotipart'#, '~> 0.4.1' # Do we actually need this
+gem 'remotipart'
 gem 'fog'
 
 # Webserver
@@ -96,7 +96,7 @@ gem 'open4'
 group :development do
 	gem 'debugger'
 	gem 'debugger-ruby_core_source'
-	gem 'better_errors'#, '0.3.2'
+	gem 'better_errors'
 	gem "binding_of_caller"
 	gem 'thin'
 end
