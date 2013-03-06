@@ -4,12 +4,12 @@ class AuthenticationsController < ApplicationController
 	def create
 		omniauth = request.env["omniauth.auth"]
 
-		authentication = Authentication.find_by_service_and_uid(omniauth['provider'], omniauth['uid'])
+		authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
 
 		if authentication
 			redirect_to :root
 		elsif self.current_user
-			self.current_user.authentications.create!(:service => omniauth['provider'], :uid => omniauth['uid'])
+			self.current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
 		else
 			render :template => "welcome_wizard/step1"
 		end
