@@ -1,3 +1,9 @@
+v5.0.6 - Mar 6, 2013 11:15AM PST deployed by Aleks Stanisic
+===========================================================
+* 33ec9d2: Aleks Stanisic - making attachments and prfile video tab public
+* e2cdfb0: Elijah Green - Remove extra gemfile comments
+* c563538: Aleks Stanisic - changes to connection invite email
+
 v5.0.5 - Mar 5, 2013  4:57PM PST deployed by Aleks Stanisic
 ===========================================================
 * 2e7a37a: Aleks Stanisic - fix to groups page
