@@ -1,3 +1,9 @@
+v5.0.4 - Mar 5, 2013  4:43PM PST deployed by Aleks Stanisic
+===========================================================
+* 559046e: Aleks Stanisic - fix to groups page
+* ff1a9f3: Aleks Stanisic - adding video file format to accepted list
+* ae98873: Elijah Green - Fix typo
+
 v5.0.3 - Mar 4, 2013  5:57PM PST deployed by Aleks Stanisic
 ===========================================================
 * d549438: Elijah Green - Connection request set for five days later
