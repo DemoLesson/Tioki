@@ -1,3 +1,7 @@
+v5.0.5 - Mar 5, 2013  4:57PM PST deployed by Aleks Stanisic
+===========================================================
+* 2e7a37a: Aleks Stanisic - fix to groups page
+
 v5.0.4 - Mar 5, 2013  4:43PM PST deployed by Aleks Stanisic
 ===========================================================
 * 559046e: Aleks Stanisic - fix to groups page
