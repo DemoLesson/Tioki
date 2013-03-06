@@ -56,6 +56,11 @@ class WelcomeWizardController < ApplicationController
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
+				if session[:omniauth]
+					@user.authentications.create(:provider => session[:omniauth][:provider],
+					                             :uid => session[:omniauth][
+				end
+
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
 

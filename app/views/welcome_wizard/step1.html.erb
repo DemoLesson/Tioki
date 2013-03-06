@@ -21,13 +21,13 @@
 						<div style= "float:left">
 							<label>
 								<span>First Name</span>
-								<input type="text" name="user[first_name]" style='width:230px' />
+								<input type="text" name="user[first_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:first) %>" style='width:230px' />
 							</label>
 						</div>
 						<div style= "float:right">
 							<label>
 								<span>Last Name</span>
-								<input type="text" name="user[last_name]" style='width:230px'/>
+								<input type="text" name="user[last_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:last) %>" style='width:230px'/>
 							</label>
 						</div>
 					</td>
