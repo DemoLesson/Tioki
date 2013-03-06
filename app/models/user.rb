@@ -908,4 +908,4 @@ class User < ActiveRecord::Base
 		update_attribute(:ab, 'A') unless id.even?
 	end
 end
- 
+

@@ -2,8 +2,17 @@ class AuthenticationsController < ApplicationController
 	before_filter :login_required, :except => [:twitter_auth, :facebook_auth, :create]
 
 	def create
-		auth = request.env["omniauth.auth"]
-		raise auth.inspect
+		omniauth = request.env["omniauth.auth"]
+
+		authentication = Authentication.find_by_service_and_uid(omniauth['provider'], omniauth['uid'])
+
+		if authentication
+			redirect_to :root
+		elsif self.current_user
+			self.current_user.authentications.create!(:service => omniauth['provider'], :uid => omniauth['uid'])
+		else
+			redirect_to :root, :notice => "error"
+		end
 	end
 
 	def twitter_auth
@@ -276,6 +285,7 @@ class AuthenticationsController < ApplicationController
 		redirect_to :root, :notice => notice
 	end
 
+	# todo change to new table
 	def revoke_twitter
 		self.current_user.authorizations = self.current_user.authorizations.delete_if do |key, value|
 			key == "twitter_oauth_token" ||
@@ -287,11 +297,29 @@ class AuthenticationsController < ApplicationController
 		redirect_to "/me/settings"
 	end
 
+	# TODO change to new table
 	def revoke_facebook
 		self.current_user.authorizations = self.current_user.authorizations.delete_if{
 			|key, value| key == "facebook_access_token" || key == :facebook_access_token
 		}
 
 		redirect_to "/me/settings"
+	end
+	
+	private
+
+	def redirect_after_auth(args)
+		if args[:provider] == 'twitter'
+			case args[:action]
+			when 'auth'
+				'/twitter_callback?twitter_action=auth'
+			when 'whiteboard'
+				'/facebook_callback?twitter_action=whiteboard'
+			when 'tweet'
+				'/facebook_callback?twitter_action=tweet'
+			end
+		else
+			'/'
+		end
 	end
 end
