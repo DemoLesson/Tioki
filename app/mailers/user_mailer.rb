@@ -78,8 +78,11 @@ class UserMailer < ActionMailer::Base
 		@owner = User.find(owner_id)
 		@user = User.find(user_id)
 
-		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
+ 		# Which template to use
+		#ab = Abtests.use("email:userconnect", 1).to_s
+		#template = "userconnect_" + ab
 
+		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('userconnect')
