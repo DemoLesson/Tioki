@@ -11,7 +11,7 @@ class AuthenticationsController < ApplicationController
 		elsif self.current_user
 			self.current_user.authentications.create!(:service => omniauth['provider'], :uid => omniauth['uid'])
 		else
-			redirect_to :root, :notice => "error"
+			render :template => "welcome_wizard/step1"
 		end
 	end
 

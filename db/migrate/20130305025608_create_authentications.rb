@@ -1,9 +1,11 @@
 class CreateAuthentications < ActiveRecord::Migration
   def change
     create_table :authentications do |t|
-      t.string :service
+      t.string :provider
       t.integer :user_id
-      t.integer :unique_identifier
+      t.string :uid
+      t.string :token
+      t.string :secret
 
       t.timestamps
     end
