@@ -27,6 +27,7 @@ Preview::Application.routes.draw do
 	match 'twitter_auth', :to => 'authentications#twitter_auth'
 	match 'linkedinprofile', :to => 'users#linkedinprofile'
 	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+	match '/auth/:provider/callback', :to => 'authentications#create'
 
 	# Groups
 

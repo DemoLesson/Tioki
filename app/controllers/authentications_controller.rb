@@ -1,5 +1,10 @@
 class AuthenticationsController < ApplicationController
-	before_filter :login_required, :except => [:twitter_auth, :facebook_auth]
+	before_filter :login_required, :except => [:twitter_auth, :facebook_auth, :create]
+
+	def create
+		auth = request.env["omniauth.auth"]
+		raise auth.inspect
+	end
 
 	def twitter_auth
 		callback_url = "http://#{request.host_with_port}/twitter_callback"
@@ -288,10 +293,5 @@ class AuthenticationsController < ApplicationController
 		}
 
 		redirect_to "/me/settings"
-	end
-	protected
-
-	def auth_hash
-		request.env['omniauth.auth']
 	end
 end
