@@ -7,11 +7,6 @@
 				</a>
 			</li>
 			<li>
-				<a href="/static/howitworks">
-				How it Works
-				</a>
-			</li>
-			<li>
 				<a href="/forschools">
 					Schools and Companies
 				</a>
@@ -19,11 +14,6 @@
 			<li>
 				<a href="/static/job_seekers">
 					Job Seekers
-				</a>
-			</li>
-			<li>
-				<a href="/static/ourcustomers">
-				Our Partners
 				</a>
 			</li>
 			<li class="current">
@@ -36,11 +26,13 @@
 			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="/static/resources/teacherresourcehub">
-				Educator Resources
-				</a>
-			</li>
+			<% if !currentUser.new_record? %>
+				<li>
+					<a href="/static/resources/teacherresourcehub">
+					Educator Resources
+					</a>
+				</li>
+			<% end %>
 			<li>
 				<a href="/static/resources/contactandsupport">
 				Help and Support

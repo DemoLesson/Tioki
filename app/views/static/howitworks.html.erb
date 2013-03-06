@@ -6,9 +6,6 @@
 				What is Tioki?
 				</a>
 			</li>
-			<li class="current">
-				How it Works
-			</li>
 			<li>
 				<a href="/forschools">
 					Schools and Companies
@@ -20,27 +17,19 @@
 				</a>
 			</li>
 			<li>
-				<a href="/static/ourcustomers">
-				Our Partners
-				</a>
-			</li>
-			<li>
-				<a href="/static/press">
-				Press
-				</a>
-			</li>
-			<li>
 				<a href="/static/ourteam">
 				Our Team
 				</a>
 			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="/static/resources/teacherresourcehub">
-				Educator Resources
-				</a>
-			</li>
+			<% if !currentUser.new_record? %>
+				<li>
+					<a href="/static/resources/teacherresourcehub">
+					Educator Resources
+					</a>
+				</li>
+			<% end %>
 			<li>
 				<a href="/static/resources/contactandsupport">
 				Help and Support

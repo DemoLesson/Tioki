@@ -9,8 +9,8 @@
 		<div class="features-slider">
 		<div id="featured">
 			<img src="/assets/tioki/features-slide/chinedu_quote.png" data-caption="#one-caption" />
-			<img src="/assets/tioki/features-slide/feature-two.jpg" data-caption="#two-caption" />
-			<img src="/assets/tioki/features-slide/feature-three.jpg" data-caption="#three-caption" />
+			<img src="/assets/tioki/features-slide/tyler_splash.png" data-caption="#two-caption" />
+			<img src="/assets/tioki/features-slide/sam_splash.png" data-caption="#three-caption" />
 			<img src="/assets/tioki/features-slide/feature-four.jpg" data-caption="#four-caption" />
 			
 		</div>
@@ -20,47 +20,47 @@
 				<h2 style='color:#fff'>
 				Join For Free
 				</h2>
-		<form action="/create" id="signup-form" method="post">
-			<input type="hidden" name="_ak" value="splash" />
-			<fieldset style='border-bottom: 1px solid #d4d4d4;'>
-				<img src="/assets/tioki/icons/Twitter-Login.png" />
-			</fieldset>
-			<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
-				<img src="/assets/tioki/icons/Facebook-Login.png" />
-			</fieldset>
-			<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
-			<fieldset>
-				<input name="user[first_name]" type="text" placeholder="First Name" />
-			</fieldset>
-			<fieldset id="lastnm">
-				<input name="user[last_name]" type="text" placeholder="Last Name" />
-			</fieldset>
-			<fieldset>
-				<input name="user[email]" type="email" placeholder="Email" />
-			</fieldset>
-			<fieldset id="enterpwd">
-				<input name="user[password]" type="password" placeholder="Password" />
-			</fieldset>
-			<fieldset id="confirmpwd">
-				<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
-			</fieldset>
-			<fieldset>
-				<span style='color:#fff'>I plan to use Tioki as a...</span>
-				<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
-			</fieldset>
-			<fieldset style="margin-right:0px !important;">
-				<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
-			</fieldset>
-			<fieldset style='width:300px'>
-				<p class="smalltext" style='text-align:center'>
-				By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
-				</p>
-			</fieldset>		
-			<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
-			</iframe>
-			<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
-		</form>
+				<form action="/create" id="signup-form" method="post">
+					<input type="hidden" name="_ak" value="splash" />
+					<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Twitter-Login.png" />
+					</fieldset>
+					<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Facebook-Login.png" />
+					</fieldset>
+					<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
+					<fieldset>
+						<input name="user[first_name]" type="text" placeholder="First Name" />
+					</fieldset>
+					<fieldset id="lastnm">
+						<input name="user[last_name]" type="text" placeholder="Last Name" />
+					</fieldset>
+					<fieldset>
+						<input name="user[email]" type="email" placeholder="Email" />
+					</fieldset>
+					<fieldset id="enterpwd">
+						<input name="user[password]" type="password" placeholder="Password" />
+					</fieldset>
+					<fieldset id="confirmpwd">
+						<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
+					</fieldset>
+					<fieldset>
+						<span style='color:#fff'>I plan to use Tioki as a...</span>
+						<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
+					</fieldset>
+					<fieldset style="margin-right:0px !important;">
+						<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
+					</fieldset>
+					<fieldset style='width:300px'>
+						<p class="smalltext" style='text-align:center'>
+						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
+						</p>
+					</fieldset>		
+					<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
+					</iframe>
+					<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
+				</form>
 			</div>
 			<div class="featured-quote">
 				<blockquote>
@@ -77,18 +77,64 @@
 			</div>
 		</span>
 		<span class="orbit-caption" id="two-caption">
-			<div class="featured-box featured-box-right">
-				<h1>
-				Pre K-12
-				</h1>
-				<div class="box-divider">
-				</div>
-				<p>
-				Teachers & School Leaders
-				</p>
-				<a href="signup.html" class="goto-signup">
-				Get Started
-				</a>
+			<div class="signup-form">
+				<h2 style='color:#fff'>
+				Join For Free
+				</h2>
+				<form action="/create" id="signup-form" method="post">
+					<input type="hidden" name="_ak" value="splash" />
+					<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Twitter-Login.png" />
+					</fieldset>
+					<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Facebook-Login.png" />
+					</fieldset>
+					<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
+					<fieldset>
+						<input name="user[first_name]" type="text" placeholder="First Name" />
+					</fieldset>
+					<fieldset id="lastnm">
+						<input name="user[last_name]" type="text" placeholder="Last Name" />
+					</fieldset>
+					<fieldset>
+						<input name="user[email]" type="email" placeholder="Email" />
+					</fieldset>
+					<fieldset id="enterpwd">
+						<input name="user[password]" type="password" placeholder="Password" />
+					</fieldset>
+					<fieldset id="confirmpwd">
+						<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
+					</fieldset>
+					<fieldset>
+						<span style='color:#fff'>I plan to use Tioki as a...</span>
+						<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
+					</fieldset>
+					<fieldset style="margin-right:0px !important;">
+						<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
+					</fieldset>
+					<fieldset style='width:300px'>
+						<p class="smalltext" style='text-align:center'>
+						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
+						</p>
+					</fieldset>		
+					<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
+					</iframe>
+					<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
+				</form>
+			</div>
+			<div class="featured-quote">
+				<blockquote>
+					<span style='font-size:30px'>
+						"Just a spoon full of sugar makes the medicine go down.
+						In a most exciting way."
+					</span>
+					<br/>
+					<em style='text-shadow:none'>
+						Tyler Elliot, Student<br/>
+						Some School in Washington
+					</em>
+				</blockquote>
 			</div>
 		</span>
 		<span class="orbit-caption" id="three-caption">
@@ -130,7 +176,7 @@
 		
 		<section class='inner-content'>
 			<h2 style="color: #2AA99B;padding-top: 20px;margin-top: 0px;">
-				How it Works	
+				How it Works<a name="works"></a>
 			</h2>
 			<section  style='font-size:16px'>
 				<section class="one-column left-side" style='text-align:center'>
@@ -235,12 +281,14 @@
 	</section>
 	
 	
-	<section class='inner-content'>
-		<section class="three-column left-side" style='text-align:center' >
+	<section class='inner-content' style='text-align:center'>
+		<section class="three-column left-side" >
 			<h2>
 				Start Connecting with Educators Like You Today! 
-				<%= link_to 'Join Tioki', '/signup', :class => 'button med-button', :style => 'width:275px' %>
+				<%= link_to 'Join Tioki', '/signup', :class => 'button med-button', :style => "text-align:center" %>
+			
 			</h2>
+			
 		</section>
 	</section>
 

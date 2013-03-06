@@ -422,6 +422,7 @@ Preview::Application.routes.draw do
 	match 'press' => 'home#press'
 	match 'school_thankyou' => 'home#school_thankyou'
 	match 'dmca' => 'home#dmca'
+	match 'jobseekers' => 'home#job_seekers'
 	
 	# Admin
 	match 'admin' => 'users#teacher_user_list'

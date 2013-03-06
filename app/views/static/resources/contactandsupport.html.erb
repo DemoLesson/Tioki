@@ -3,11 +3,11 @@
 		<ul>
 			<li>
 				<a href="/static/whatistioki">
-				What is Tioki?
+				About Tioki
 				</a>
 			</li>
 			<li>
-				<a href="/static/howitworks">
+				<a href="http://0.0.0.0:3000#works">
 				How it Works
 				</a>
 			</li>
@@ -21,28 +21,16 @@
 					Job Seekers
 				</a>
 			</li>
-			<li>
-				<a href="/static/ourcustomers">
-				Our Partners
-				</a>
-			</li>
-			<li>
-				<a href="/static/press">
-				Press
-				</a>
-			</li>
-			<li>
-				<a href="/static/ourteam">
-				Our Team
-				</a>
-			</li>
+		
 		</ul>
 		<ul>
-			<li>
-				<a href="/static/resources/teacherresourcehub">
-				Educator Resources
-				</a>
-			</li>
+			<% if !currentUser.new_record? %>
+				<li>
+					<a href="/static/resources/teacherresourcehub">
+					Educator Resources
+					</a>
+				</li>
+			<% end %>
 			<li class="current">
 				Help and Support
 			</li>
@@ -104,7 +92,7 @@
 				</p>
 				<ul class="social-icons">
 					<li>
-						<a href="http://twitter.com/tiokiapp" target="_blank" class="twitter-icon">
+						<a href="http://twitter.com/tioki" target="_blank" class="twitter-icon">
 						Twitter
 						</a>
 					</li>
@@ -114,7 +102,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="http://blog.tiokiapp.com/" target="_blank" class="blog-icon">
+						<a href="http://blog.tioki.com/" target="_blank" class="blog-icon">
 						Blog
 						</a>
 					</li>
