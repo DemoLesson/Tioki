@@ -1,6 +1,6 @@
 class VideosController < ApplicationController
 	protect_from_forgery :except => [:encode_notify]
-	before_filter :login_required
+	before_filter :login_required, :except => [:index]
 	
 	#REFACTOR
 	# GET /videos

@@ -208,20 +208,18 @@
 						Resume
 						</a>
 					</li>
-					<%unless currentUser.new_record? %>
-						<% if @user.videos.count > 0 %>
-						<li>
-							<a href="/profile/<%= @user.slug %>/videos">
-							Videos
-							</a>
-						</li>
-						<% elsif !currentUser.new_record? && @self %>
-						<li>
-							<a href="/me/profile/edit/upload-video">
-							Upload Video
-							</a>
-						</li>
-						<% end %>
+					<% if @user.videos.count > 0 %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+						</a>
+					</li>
+					<% elsif !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/edit/upload-video">
+						Upload Video
+						</a>
+					</li>
 					<% end %>
 					<% if !currentUser.new_record? && @self %>
 					<li>
@@ -670,16 +668,11 @@
 								Attachments
 							</h3>
 						<% end %>
-
-						<% if User.current.nil? %>
-							<p>Please <%= link_to "login", '/login' %> to view profile attachments.</p>
-						<% else %>
-							<% @user.assets.each do |asset| %>
-								<p>
-									<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
-									<%= asset.description %>
-								</p>
-							<% end %>
+						<% @user.assets.each do |asset| %>
+							<p>
+								<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+								<%= asset.description %>
+							</p>
 						<% end %>
 					</section>
 				<% end %>
