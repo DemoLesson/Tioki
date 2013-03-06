@@ -124,7 +124,7 @@
 
 					<% @featured_groups.each do |group| %>
 						<%= link_to image_tag(group.picture.url(:thumb), :style => "width:75px"), group %>
-						<h5 style="margin:-65px 0px 0px 90px">
+						<h5 style="margin:-50px 0px 0px 90px">
 							<%= group.name %>
 						</h5>
 						<p style="margin:0 0px 0px 90px">
@@ -145,7 +145,7 @@
 							<% else %>
 								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :style => "width:75px"), job %>
 							<% end %>
-							<h5 style="margin:-50px 0px 0px 90px">
+							<h5 style="margin:-65px 0px 0px 90px">
 								<% if job.title.length < 21 %>
 									<%= job.title[0..23] %>
 								<% else %>
