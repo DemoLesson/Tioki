@@ -340,7 +340,11 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.authorizations[:facebook_access_token].present?
+		!self.authenticates.where(:provider => 'facebok').empty?
+	end
+
+	def twitter_auth?
+		!self.authenticates.where(:provider => 'facebok').empty?
 	end
 
 	def got_started
@@ -555,9 +559,6 @@ class User < ActiveRecord::Base
 		return tioki_bucks
 	end
 
-	def twitter_auth?
-		self.authorizations[:twitter_oauth_token].present? && self.authorizations[:twitter_oauth_secret].present?
-	end
 
 	def update_login_count
 		puts "logincount update"

@@ -224,7 +224,7 @@ class HomeController < ApplicationController
 
 				# Store the whiteboard id in the session and redirect to auth page
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
+				return redirect_to "/auth/twitter?twitter_action=whiteboard_auth"
 
 			# If we were asked to share the whiteboard post on facebook check if were authorized
 			elsif self.current_user.facebook_auth? && params[:share_on_facebook]
@@ -238,7 +238,7 @@ class HomeController < ApplicationController
 
 				# Store the whiteboard id in the session and redirect to the auth page
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+				return redirect_to "/auth/facebook?facebook_action=whiteboard_auth"
 			end
 		end
 		if files != nil

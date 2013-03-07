@@ -1,16 +1,24 @@
 class AuthenticationsController < ApplicationController
-	before_filter :login_required, :except => [:twitter_auth, :facebook_auth, :create]
+	before_filter :login_required, :except => [:create]
 
 	def create
 		omniauth = request.env["omniauth.auth"]
 
 		authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
 
-		if authentication
+		if authentication && self.current_user.nil?
 			session[:user] = authentication.user_id
 			redirect_to :root
 		elsif self.current_user
-			self.current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+			if authentication
+				self.current_user.authentications.
+					where(:provider => omniauth['provider']).first.
+					update_attributes(:uid => omniauth['uid'],
+					                  :token => omniauth[:credentials][:token],
+					                  :secret => omniauth[:credentials][:secret])
+			else
+				self.current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+			end
 			redirect_to redirect_after_auth(params)
 		else
 			session[:omniauth] = omniauth
@@ -236,7 +244,7 @@ class AuthenticationsController < ApplicationController
 				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
 			else
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+				return redirect_to create_authentications_url(:facebook_action => "whiteboard_auth")
 			end
 		end
 
@@ -256,7 +264,7 @@ class AuthenticationsController < ApplicationController
 				#Oauthexception
 				#most likely bad or expired oauth keys
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+				return redirect_to create_authentications_url(:facebook_action => "whiteboard_auth")
 			else
 				#raise error so that it can be logged
 				#there are possible some errors that we aren't dealing with
