@@ -1,3 +1,7 @@
+v5.0.7 - Mar 6, 2013  5:15PM PST deployed by Aleks Stanisic
+===========================================================
+* fa01536: Aleks Stanisic - temorarily removing gamil and yahoo connection invites
+
 v5.0.6 - Mar 6, 2013 11:15AM PST deployed by Aleks Stanisic
 ===========================================================
 * 33ec9d2: Aleks Stanisic - making attachments and prfile video tab public
