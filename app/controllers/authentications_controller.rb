@@ -38,7 +38,7 @@ class AuthenticationsController < ApplicationController
 
 		if params[:twitter_action] == "tweet"
 			client.update("I just joined Tioki; a professional networking site for educators.  " +
-										"You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
+			              "You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 
 		elsif params[:twitter_action] == "auth"
 			return redirect_to "/me/settings", :notice => "Success"

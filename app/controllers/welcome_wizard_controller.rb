@@ -61,35 +61,38 @@ class WelcomeWizardController < ApplicationController
 					                             :uid => session[:omniauth][:uid],
 					                             :token => session[:omniauth][:credentials][:token],
 					                             :secret => session[:omniauth][:credentials][:secret])
+
+					# Upload twitter profile image
+					if !session[:omniauth][:default_profile_image]
+						@user.update_attribute(:avatar,
+						                       URI.parse(session[:omniauth][:info][:image]))
+					end
 				end
 
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
 
 					return redirect_to :controller => :connections,
-									   :action => :add_connection,
-									   :user_id => params[:user_connection],
-									   :to_wizard => true
+					                   :action => :add_connection,
+					                   :user_id => params[:user_connection],
+					                   :to_wizard => true
 
 				elsif @inviter
 
-					ConnectionInvite.create(
-						:user_id => @inviter.id,
-						:created_user_id => @user.id)
+					ConnectionInvite.create(:user_id => @inviter.id,
+					                        :created_user_id => @user.id)
 
-					Connection.create(
-						:owned_by => @inviter.id,
-						:user_id => @user.id,
-						:pending => false)
+					Connection.create(:owned_by => @inviter.id,
+					                  :user_id => @user.id,
+					                  :pending => false)
 
 				elsif params[:vouchstring]
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(
-							:user_id => @user.id, 
-							:skill_id => skill.skill_id, 
-							:voucher_id => @vouch.vouchee_id)
+						VouchedSkill.create(:user_id => @user.id,
+						                    :skill_id => skill.skill_id,
+						                    :voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end
