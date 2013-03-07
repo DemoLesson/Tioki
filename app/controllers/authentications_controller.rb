@@ -21,7 +21,8 @@ class AuthenticationsController < ApplicationController
 				          :token => omniauth[:credentials][:token],
 				          :secret => omniauth[:credentials][:secret])
 			end
-			redirect_to redirect_after_auth(params)
+			redirect_to redirect_after_auth(params[:provider],
+			                                request.env['omniauth.params'])
 		else
 			session[:omniauth] = omniauth
 			redirect_to '/welcome_wizard?x=step1'
@@ -54,7 +55,7 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def facebook_callback
-		auth = self.current_user.where(:provider => 'twitter').first
+		auth = self.current_user.authentications.where(:provider => 'facebook').first
 
 		if params[:facebook_action] == "auth"
 			return redirect_to "/me/settings", :notice => "Success"
@@ -249,9 +250,9 @@ class AuthenticationsController < ApplicationController
 	
 	private
 
-	def redirect_after_auth(args)
-		if args[:provider] == 'twitter'
-			case args[:twitter_action]
+	def redirect_after_auth(provider, args = {})
+		if provider == 'twitter'
+			case args["twitter_action"]
 			when 'auth'
 				'/twitter_callback?twitter_action=auth'
 			when 'whiteboard'
@@ -259,10 +260,10 @@ class AuthenticationsController < ApplicationController
 			when 'tweet'
 				'/twitter_callback?twitter_action=tweet'
 			end
-		elsif args[:provider] == 'facebook'
-			case args[:facebook_action]
+		elsif provider == 'facebook'
+			case args["facebook_action"]
 			when 'auth'
-				'/twitter_callback?facebook_action=auth'
+				'/facebook_callback?facebook_action=auth'
 			when 'whiteboard'
 				'/facebook_callback?facebook_action=whiteboard'
 			end
