@@ -340,11 +340,11 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		!self.authenticates.where(:provider => 'facebok').empty?
+		!self.authentications.where(:provider => 'facebook').empty?
 	end
 
 	def twitter_auth?
-		!self.authenticates.where(:provider => 'facebok').empty?
+		!self.authentications.where(:provider => 'twitter').empty?
 	end
 
 	def got_started

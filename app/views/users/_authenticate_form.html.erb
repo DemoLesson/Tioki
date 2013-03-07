@@ -1,20 +1,18 @@
 <section class="info panel" style="height:auto;width:400px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
 	<div style="margin-left:20px">
 		<h2> Social Integration Settings </h2>
-		Share whiteboard posts on twitter</br></br>
 		<% if self.current_user.twitter_auth? %>
 			<%= link_to 'Re-authorize with Twitter', '/auth/twitter?twitter_action=auth', :class => "button" %><br /><br />
-			<%= link_to 'Remove tioki access to Twitter', revoke_twitter_authentications_url, :class => "button" %>
+			<%= link_to 'Remove tioki access to Twitter', revoke_twitter_authentications_url, :class => "button" %><br />
 		<% else %>
-			<%= link_to 'Authorize with Twitter', "/twitter_auth?twitter_action=auth", :class => "button" %>
-		<% end %><br /><br />
+			<%= link_to 'Authorize with Twitter', '/auth/twitter?twitter_action=auth', :class => "button" %><br />
+		<% end %><br />
 
-		Share whiteboard posts on facebook</br></br>
 		<% if self.current_user.facebook_auth? %>
 			<%= link_to 'Re-authorize with Facebook', '/auth/facebook?facebook_action=auth', :class => "button" %><br /><br />
-			<%= link_to 'Remove tioki access to Facebook', revoke_facebook_authentications_url, :class => "button" %></br></br>
+			<%= link_to 'Remove tioki access to Facebook', revoke_facebook_authentications_url, :class => "button" %></br>
 		<% else %>
-			<%= link_to 'Authorize with Facebook', facebook_auth_authentications_url(:facebook_action => "auth"), :class => "button" %>
-		<% end %>
+			<%= link_to 'Authorize with Facebook', '/auth/facebook?facebook_action=auth', :class => "button" %><br /><br />
+		<% end %><br />
 	</div>
 </section>

@@ -7,7 +7,7 @@ class AuthenticationsController < ApplicationController
 		authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
 
 		if authentication && self.current_user.nil?
-			session[:user] = authentication.user_id
+			session[:user] = authentication.user
 			redirect_to :root
 		elsif self.current_user
 			if authentication
@@ -19,7 +19,7 @@ class AuthenticationsController < ApplicationController
 					create!(:provider => omniauth['provider'],
 				          :uid => omniauth['uid'],
 				          :token => omniauth[:credentials][:token],
-				          :secret => omniauth[:credentials][:secret]))
+				          :secret => omniauth[:credentials][:secret])
 			end
 			redirect_to redirect_after_auth(params)
 		else
@@ -29,7 +29,7 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def twitter_callback
-		auth = self.current_user.where(:provider => 'twitter').first
+		auth = self.current_user.authentications.where(:provider => 'twitter').first
 
 		client = Twitter::Client.new(
 			:oauth_token => auth.token,
@@ -236,14 +236,12 @@ class AuthenticationsController < ApplicationController
 		redirect_to :root, :notice => notice
 	end
 
-	# todo change to new table
 	def revoke_twitter
 		self.current_user.authentications.where(:provider => 'twitter').destroy_all
 
 		redirect_to "/me/settings"
 	end
 
-	# TODO change to new table
 	def revoke_facebook
 		self.current_user.authentications.where(:provider => 'facebook').destroy_all
 		redirect_to "/me/settings"
@@ -253,13 +251,20 @@ class AuthenticationsController < ApplicationController
 
 	def redirect_after_auth(args)
 		if args[:provider] == 'twitter'
-			case args[:action]
+			case args[:twitter_action]
 			when 'auth'
 				'/twitter_callback?twitter_action=auth'
 			when 'whiteboard'
-				'/facebook_callback?twitter_action=whiteboard'
+				'/twitter_callback?twitter_action=whiteboard'
 			when 'tweet'
-				'/facebook_callback?twitter_action=tweet'
+				'/twitter_callback?twitter_action=tweet'
+			end
+		elsif args[:provider] == 'facebook'
+			case args[:facebook_action]
+			when 'auth'
+				'/twitter_callback?facebook_action=auth'
+			when 'whiteboard'
+				'/facebook_callback?facebook_action=whiteboard'
 			end
 		else
 			'/'
