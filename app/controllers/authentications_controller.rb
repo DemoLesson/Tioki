@@ -11,13 +11,15 @@ class AuthenticationsController < ApplicationController
 			redirect_to :root
 		elsif self.current_user
 			if authentication
-				self.current_user.authentications.
-					where(:provider => omniauth['provider']).first.
-					update_attributes(:uid => omniauth['uid'],
-					                  :token => omniauth[:credentials][:token],
-					                  :secret => omniauth[:credentials][:secret])
+				# update authentiaction with new info
+				authentication.update_attributes(:token => omniauth[:credentials][:token],
+				                                 :secret => omniauth[:credentials][:secret])
 			else
-				self.current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+				self.current_user.authentications.
+					create!(:provider => omniauth['provider'],
+				          :uid => omniauth['uid'],
+				          :token => omniauth[:credentials][:token],
+				          :secret => omniauth[:credentials][:secret]))
 			end
 			redirect_to redirect_after_auth(params)
 		else
@@ -27,86 +29,46 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def twitter_callback
-		request_token = OAuth::RequestToken.new(twitter_oauth, session[:rtoken], session[:rsecret])
-		access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+		auth = self.current_user.where(:provider => 'twitter').first
 
 		client = Twitter::Client.new(
-			:oauth_token => access_token.token,
-			:oauth_token_secret => access_token.secret
+			:oauth_token => auth.token,
+			:oauth_token_secret => auth.secret
 		)
 
-		self.current_user.authorizations = self.current_user.authorizations.merge({
-			:twitter_oauth_token =>  access_token.token,
-			:twitter_oauth_secret => access_token.secret
-		})
+		if params[:twitter_action] == "tweet"
+			client.update("I just joined Tioki; a professional networking site for educators.  " +
+										"You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
 
-		#don't need these anymore
-		session[:rsecret] = nil
-		session[:rtoken] = nil
+		elsif params[:twitter_action] == "auth"
+			return redirect_to "/me/settings", :notice => "Success"
 
-		if session[:twitter_action] == "tweet"
-			client.update("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code} via @tioki")
-			session[:twitter_action] = nil
-
-			notice = "Success"
-
-			if session[:wizard_url]
-				return redirect_to session[:wizard_url]
-			else
-				return redirect_to "/welcome_wizard?x=step4"
-			end
-
-		elsif session[:twitter_action] == "auth"
-			session[:twitter_action] = nil
-			notice = "Success"
-
-			return redirect_to "/me/settings", :notice => notice
-		elsif session[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
-
+		elsif params[:twitter_action] == "whiteboard_auth" && session[:whiteboard_id]
 			return redirect_to whiteboard_share_twitter_authentications_url(
-				:whiteboard_id => session[:whiteboard_id]
-			)
+				:whiteboard_id => session[:whiteboard_id])
 
-		elsif session[:twitter_action] == "get_contacts"
-			session[:twitter_action] = nil
-
-			if session[:wizard_url]
-				return redirect_to "#{session[:wizard_url]}&twitter_contacts=true"
-			else
-				return redirect_to "/welcome_wizard?x=step4&twitter_contacts=true"
-			end
-		elsif session[:twitter_action] == "inviteconnections"
-			session[:twitter_action] = nil
+		elsif params[:twitter_action] == "inviteconnections"
 			return redirect_to "/inviteconnections/twitter"
 		end
 		redirect_to :root
 	end
 
 	def facebook_callback
-		access_token = facebook_oauth.get_access_token(params[:code])
+		auth = self.current_user.where(:provider => 'twitter').first
 
-		self.current_user.authorizations = self.current_user.authorizations.merge({
-			:facebook_access_token => access_token
-		})
+		if params[:facebook_action] == "auth"
+			return redirect_to "/me/settings", :notice => "Success"
 
-		if session[:facebook_action] == "auth"
-			session[:facebook_action] = nil
-
-			return redirect_to "/me/settings"
-
-		elsif session[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
+		elsif params[:facebook_action] == "whiteboard_auth" && session[:whiteboard_id]
 			whiteboard = Whiteboard.find(session[:whiteboard_id])
-
-			session[:whiteboard_id] = nil
-			session[:facebook_action] = nil
 
 			return redirect_to whiteboard_share_facebook_authentications_url(
 				:whiteboard_id => whiteboard.id)
 
 		elsif session[:facebook_action] == "wall_post"
-			session[:facebook_action] = nil
-			@graph = Koala::Facebook::API.new(access_token)
-			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
+			@graph = Koala::Facebook::API.new(auth.token)
+			@graph.put_wall_post("I just joined Tioki; a professional networking site for educators.  " +
+			                     "You should connect with me! http://www.tioki.com/dc/#{self.current_user.invite_code}")
 
 			return redirect_to "/tioki_bucks", :notice => "Successfully added a tioki wall post."
 		end
@@ -119,7 +81,6 @@ class AuthenticationsController < ApplicationController
 		pin = params[:oauth_verifier]
 		client.authorize_from_request(session[:rtoken], session[:rsecret], pin)
 
-		# Deprecate
 		#begin populating profile
 		#set teacher.linkedin
 		user = client.profile(:fields => %w(public-profile-url))
