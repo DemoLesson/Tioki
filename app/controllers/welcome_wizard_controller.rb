@@ -62,8 +62,9 @@ class WelcomeWizardController < ApplicationController
 					                             :token => session[:omniauth][:credentials][:token],
 					                             :secret => session[:omniauth][:credentials][:secret])
 
+					
 					# Upload twitter profile image
-					if !session[:omniauth][:default_profile_image]
+					if !session[:omniauth][:extra][:raw_info][:default_profile_image]
 						@user.update_attribute(:avatar,
 						                       URI.parse(session[:omniauth][:info][:image]))
 					end
