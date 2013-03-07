@@ -57,8 +57,10 @@ class WelcomeWizardController < ApplicationController
 				session[:user] = User.authenticate(@user.email, @user.password)
 
 				if session[:omniauth]
-					@user.authentications.create(:provider => session[:omniauth][:provider],
-					                             :uid => session[:omniauth][
+					@user.authentications.create!(:provider => session[:omniauth][:provider],
+					                             :uid => session[:omniauth][:uid],
+					                             :token => session[:omniauth][:credentials][:token],
+					                             :secret => session[:omniauth][:credentials][:secret])
 				end
 
 				#user was came from the attempting to connect from another users profile

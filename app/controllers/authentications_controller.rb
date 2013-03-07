@@ -7,27 +7,15 @@ class AuthenticationsController < ApplicationController
 		authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
 
 		if authentication
+			session[:user] = authentication.user_id
 			redirect_to :root
 		elsif self.current_user
 			self.current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+			redirect_to redirect_after_auth(params)
 		else
 			session[:omniauth] = omniauth
 			redirect_to '/welcome_wizard?x=step1'
 		end
-	end
-
-	def twitter_auth
-		callback_url = "http://#{request.host_with_port}/twitter_callback"
-		request_token = twitter_oauth.get_request_token(:oauth_callback => callback_url)
-		session[:rtoken] = request_token.token
-		session[:rsecret] = request_token.secret
-		session[:twitter_action] = params[:twitter_action]
-
-		if params[:twitter_action] == "tweet" || params[:twitter_action] == "get_contacts"
-			session[:wizard_url] = request.referer
-		end
-
-		redirect_to request_token.authorize_url
 	end
 
 	def twitter_callback
@@ -84,13 +72,6 @@ class AuthenticationsController < ApplicationController
 			return redirect_to "/inviteconnections/twitter"
 		end
 		redirect_to :root
-	end
-
-
-	def facebook_auth
-		@oauth = facebook_oauth
-		session[:facebook_action] = params[:facebook_action]
-		redirect_to @oauth.url_for_oauth_code(:permissions => "publish_stream")
 	end
 
 	def facebook_callback
@@ -288,22 +269,14 @@ class AuthenticationsController < ApplicationController
 
 	# todo change to new table
 	def revoke_twitter
-		self.current_user.authorizations = self.current_user.authorizations.delete_if do |key, value|
-			key == "twitter_oauth_token" ||
-				key == "twitter_oauth_secret" ||
-				key == :twitter_oauth_token ||
-			 	key == :twitter_oauth_secret
-		end
+		self.current_user.authentications.where(:provider => 'twitter').destroy_all
 
 		redirect_to "/me/settings"
 	end
 
 	# TODO change to new table
 	def revoke_facebook
-		self.current_user.authorizations = self.current_user.authorizations.delete_if{
-			|key, value| key == "facebook_access_token" || key == :facebook_access_token
-		}
-
+		self.current_user.authentications.where(:provider => 'facebook').destroy_all
 		redirect_to "/me/settings"
 	end
 	
