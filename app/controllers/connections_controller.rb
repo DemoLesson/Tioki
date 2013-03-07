@@ -248,7 +248,13 @@ class ConnectionsController < ApplicationController
 	def inviteconnections
 		@referred = self.current_user.successful_referrals.count
 		@my_connection = Connection.find_for_user(self.current_user.id)
-		@default_message = "Hey! I'd absolutely love to add you to my education network on Tioki."
+
+		@ab = Abtests.use("email:connection_invite", 1).to_s
+		if @ab == "1"
+			@default_message = "Hey! I'd absolutely love to add you to my education network on Tioki."
+		else
+			@default_message = "Hey!\n\nI would like you to join my education network on Tioki. Tioki is a place where educators gather, connect, and share new ideas! \n\nI think you would be a great fit for Tioki, so come join me!"
+		end
 	end
 
 	def inviteconnection
@@ -286,7 +292,7 @@ class ConnectionsController < ApplicationController
 					url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
 
 					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message], params[:ab]).deliver
 
 					# Notify the current session member that ht e email was sent
 					notice << "Your invite to " + demail + " has been sent."

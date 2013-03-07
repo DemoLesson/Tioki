@@ -371,14 +371,13 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def connection_invite(user, emails, url, message)
+	def connection_invite(user, emails, url, message, ab)
 		@username = user.name
 		@url = url
 		@message = message
 		@user = user
 
 		# Which template to use
-		ab = Abtests.use("email:connection_invite", 1).to_s
 		template = "connection_invite_" + ab
 
 		mail = mail(:to => emails, :subject => @username + " wants to connect on Tioki!") do |f|
