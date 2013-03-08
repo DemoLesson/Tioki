@@ -325,9 +325,10 @@ class ConnectionsController < ApplicationController
 
 	def invite_twitter
 		if self.current_user.twitter_auth?
+			auth = self.current_user.authentications.where(:provider => 'twitter').first
 			client = Twitter::Client.new(
-				:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
-				:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
+				:oauth_token => auth.token,
+				:oauth_token_secret => auth.secret
 			)
 
 			if request.post? && !params[:people].nil?

@@ -200,8 +200,8 @@ class AuthenticationsController < ApplicationController
 		end
 
 		if session[:share_on_facebook]
-				session[:share_on_facebook] = nil
-			if self.current_user.authorizations['facebook_access_token']
+			session[:share_on_facebook] = nil
+			if self.current_user.facebook_auth?
 				return redirect_to whiteboard_share_facebook_authentications_url(:whiteboard_id => whiteboard.id)
 			else
 				session[:whiteboard_id] = whiteboard.id
@@ -213,7 +213,8 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def whiteboard_share_facebook
-		@graph = Koala::Facebook::API.new(self.current_user.authorizations['facebook_access_token'])
+		auth = self.current_user.authentications.where(:provider => 'twitter').first
+		@graph = Koala::Facebook::API.new(auth.token)
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 
 		message = ActionController::Base.helpers.strip_links(whiteboard.message)
