@@ -2,7 +2,45 @@
 	<h1 class="title">LOOK at how much time of your life you spent Teaching......Cheers!</h1></br>
 
 	<h2> Total Hours Taught : <%= @edu_stats.total_hours_teaching %> hrs </h2></br>
+	
+		<% if @edu_stats.total_hours_teaching < 5202 %>
+			This is less than 5,202
+		<% elsif @edu_stats.total_hours_teaching > 5203 && @edu_stats.total_hours_teaching < 8670 %>
+			This is more than 5202 and less than 8670
+		<% elsif @edu_stats.total_hours_teaching > 8669 && @edu_stats.total_hours_teaching < 13005 %>
+			This is between 8670 and 13004
+		<% elsif @edu_stats.total_hours_teaching > 13004 && @edu_stats.total_hours_teaching < 17340 %>
+			This is between 13005 and 17339
+		<% elsif @edu_stats.total_hours_teaching > 17339 && @edu_stats.total_hours_teaching < 21675 %>
+			This is between 17340 and 21674
+		<% elsif @edu_stats.total_hours_teaching > 21674 && @edu_stats.total_hours_teaching < 28000 %>
+			This is between 21675 and 27999
+		<% elsif @edu_stats.total_hours_teaching > 27999 %>
+			This is above 28000
+		<% end %>	
+		
+		
 	<h2> Total Students Taught : <%= @edu_stats.total_students %> human beings </h2></br>
+	
+		<% if @edu_stats.total_students < 1000 %>
+			This is less than 1000
+		<% elsif @edu_stats.total_students > 999 && @edu_stats.total_students < 2000 %>
+			This is between 1000 and 2000
+		<% elsif @edu_stats.total_students > 1999 && @edu_stats.total_students < 3000 %>
+			This is between 2000 and 3000
+		<% elsif @edu_stats.total_students > 2999 && @edu_stats.total_students < 4600 %>
+			This is between 3000 and 4600
+		<% elsif @edu_stats.total_students > 4599 && @edu_stats.total_students < 5800 %>
+			This is between 4600 and 5800
+		<% elsif @edu_stats.total_students > 5799 %>
+			This is above 5800
+		<% end %>
+		
+	<h3>Total Public Network: <%= @edu_stats.edu_network_public %>  <br>
+		Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
+		Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
+		Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
+	</h3>
 
 	<h4 class="bottom-line">
 		Invite Friends to Join: <br />

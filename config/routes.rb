@@ -144,8 +144,8 @@ Preview::Application.routes.draw do
 	# Edu Stats Controller
 		resources :edu_stats
 
-		match 'edu_stats' => 'edu_stats#index'
-		match 'edu_stats/results' => 'edu_stats#show'
+		match 'impact' => 'edu_stats#index'
+		match 'impact/results' => 'edu_stats#show'
 
 	# Whiteboard JSON Access
 	# Move to API

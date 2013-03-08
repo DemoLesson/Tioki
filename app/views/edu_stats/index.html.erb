@@ -1,25 +1,51 @@
-<div class="kRap">
-	<h1 class="title">What is Your Education Legacy?</h1>
-</div>
+<section id="main-content">
+	<div class="features-slider" style='height:300px'>
+		<div id="featured">
+			<img src="/assets/tioki/impact/impact_header.png" data-caption="#one-caption" />
+			
+		</div>
+	
+		<span class="orbit-caption" id="one-caption">
+			<div class="impact-header">
+				<blockquote>
+					What Is Your Education Legacy?
+				</blockquote>
+			</div>
+		</span>
+	</div>
+	
+	<section class="inner-content">
+		<section class="three-column left-side" style='text-align:center;margin-top:20px;margin-bottom:20px'>
+			<h3 style='color:#2AA99B'>
+				Tell us a bit about your teaching experience, and we'll help you estimate your teaching impact.
+			</h3>
+		</section>
+	
 
-<%= form_for(:edu_stats) do |f| %>
+		<%= form_for(:edu_stats) do |f| %>
+			<section class="one-column left-side" style='text-align:center'>
+				<h5>How many years have you been teaching?</h5>
+				<%= f.text_field :yrs_teaching, :placeholder => "12", :style => "width:230px" %>
+			</section>
+			<section class="one-column left-side" style='text-align:center'>	
+				<h5> What is your average class size?</h5>
+				<%= f.text_field :avg_class_size, :placeholder => "25", :style => "width:230px;" %>
+			</section>
+			<section class="one-column right-side" style='text-align:center'>
+				<h5>How many sets of students do you teach?</h5>
+				<%= f.text_field :class_perday, :placeholder => "4", :style => "width:230px;" %>
+			</section>
+			</br>
+			
+			<section class="three-column left-side" style='text-align:center;margin:50px 0 200px 0'>
+			<% unless User.current.nil? %>
+				<%= hidden_field_tag "edu_stats[user_id]", self.current_user.id %>
+			<% end %>
 
-	<fieldset>
-		<p>
-		<span style ="margin-left:0px">How many years have you been teaching?</span>
-		<span style ="margin-left:100px">What is your average class size?</span>
-		<span style ="margin-left:100px">How many classes do you teach a day?</span>
-		</p>
-		<%= f.text_field :yrs_teaching, :placeholder => "1,000,000", :style => "width:200px" %>
-		<%= f.text_field :avg_class_size, :placeholder => "Infinity", :style => "width:200px; margin-left:150px" %>
-		<%= f.text_field :class_perday, :placeholder => "100", :style => "width:200px; margin-left:80px" %>
-	</fieldset></br>
-
-	<% unless User.current.nil? %>
-		<%= hidden_field_tag "edu_stats[user_id]", self.current_user.id %>
-	<% end %>
-
-	<input type="submit" class="huge-button" value="Submit/Calculate">
+			<input type="submit" class="huge-button" value="Submit/Calculate">
+			</section>
 
 
-<% end %>
+		<% end %>
+	</section>
+</section>
