@@ -214,7 +214,7 @@ class WelcomeWizardController < ApplicationController
 
 			@user.job_seeking = params[:user][:job_seeking] == "yes"
 
-			@user.years_teaching = params[:years_teaching]
+			@user.years_teaching = params[:user][:years_teaching]
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
