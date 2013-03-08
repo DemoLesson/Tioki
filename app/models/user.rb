@@ -198,7 +198,7 @@ class User < ActiveRecord::Base
 		TechnologyUser.create(:user => self, :technology_id => 15)
 
 		# Send out welcome email
-		UserMailer.user_welcome_email(self.id)
+		UserMailer.user_welcome_email(self).deliver
 	end
 
 	# Return jobs that I administrate
