@@ -16,10 +16,10 @@ class AuthenticationsController < ApplicationController
 				                                 :secret => omniauth[:credentials][:secret])
 			else
 				self.current_user.authentications.
-					create!(:provider => omniauth['provider'],
-				          :uid => omniauth['uid'],
-				          :token => omniauth[:credentials][:token],
-				          :secret => omniauth[:credentials][:secret])
+				     create!(:provider => omniauth['provider'],
+				             :uid => omniauth['uid'],
+				             :token => omniauth[:credentials][:token],
+				             :secret => omniauth[:credentials][:secret])
 			end
 			redirect_to redirect_after_auth(params[:provider],
 			                                request.env['omniauth.params'])
@@ -176,10 +176,9 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def whiteboard_share_twitter
-		client = Twitter::Client.new(
-			:oauth_token => self.current_user.authorizations['twitter_oauth_token'],
-			:oauth_token_secret => self.current_user.authorizations['twitter_oauth_secret']
-		)
+		auth = self.current_user.authentications.where(:provider => 'twitter').first
+		client = Twitter::Client.new(:oauth_token => auth.token,
+		                             :oauth_token_secret => auth.secret)
 
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 		whiteboard_message = ActionController::Base.helpers.strip_links(whiteboard.message)
@@ -239,7 +238,6 @@ class AuthenticationsController < ApplicationController
 
 	def revoke_twitter
 		self.current_user.authentications.where(:provider => 'twitter').destroy_all
-
 		redirect_to "/me/settings"
 	end
 
