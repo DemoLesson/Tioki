@@ -1,3 +1,8 @@
+v5.0.8 - Mar 8, 2013 12:02PM PST deployed by Aleks Stanisic
+===========================================================
+* 977e0e2: Aleks Stanisic - fix to the user welcome email
+* 434fe36: Aleks Stanisic - ab test on the invite connections emails
+
 v5.0.7 - Mar 6, 2013  5:15PM PST deployed by Aleks Stanisic
 ===========================================================
 * fa01536: Aleks Stanisic - temorarily removing gamil and yahoo connection invites
