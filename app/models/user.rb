@@ -340,11 +340,19 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		!self.authentications.where(:provider => 'facebook').empty?
+		!self.authentications.where(:provider => 'facebook').first.nil?
+	end
+
+	def facebook_auth
+		self.authentications.where(:provider => 'facebook').first
 	end
 
 	def twitter_auth?
-		!self.authentications.where(:provider => 'twitter').empty?
+		!self.authentications.where(:provider => 'twitter').first.nil?
+	end
+
+	def twitter_auth
+		self.authentications.where(:provider => 'twitter').first
 	end
 
 	def got_started
@@ -820,6 +828,27 @@ class User < ActiveRecord::Base
 	def application_for(user)
 		job_ids = self.applications.collect(&:job_id)
 		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id }
+	end
+
+	def twitter_friends
+		if self.twitter_auth?
+			client = Twitter::Client.new(:oauth_token => self.twitter_auth.token,
+			                             :oauth_secret => self.twitter_auth.secret)
+
+			client.friends
+		else
+			nil
+		end
+	end
+
+	def facebook_friends
+		if self.facebook_auth?
+			graph = Koala::Facebook::API.new(self.facebook_auth.token)
+
+			graph.friends
+		else
+			nil
+		end
 	end
 
 	# Connections
