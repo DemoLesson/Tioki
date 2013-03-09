@@ -45,11 +45,19 @@ class HomeController < ApplicationController
 
 				@ab = Abtests.use("conections:suggested", 1).to_s
 
-				@suggested_connections = User.joins(:subjects).
-					where("users.avatar_file_size IS NOT NULL && subjects_users.subject_id IN (?) && users.id NOT IN (?)", currentUser.subjects.collect(&:id), my_connections).
-					limit(3).
-					group("users.id").
-					order('(RAND() / COUNT(*) * 2)')
+				if @ab == "0"
+					@suggested_connections = User.joins(:subjects).
+						where("users.avatar_file_size IS NOT NULL && subjects_users.subject_id IN (?) && users.id NOT IN (?)", currentUser.subjects.collect(&:id), my_connections).
+						limit(3).
+						group("users.id").
+						order('(RAND() / COUNT(*) * 2)')
+				else
+					@suggested_connections = User.joins(:grades).
+						where("users.avatar_file_size IS NOT NULL && grades_users.grade_id IN (?) && users.id NOT IN (?)", currentUser.grades.collect(&:id), my_connections).
+						limit(3).
+						group("users.id").
+						order('(RAND() / COUNT(*) * 2)')
+				end
 
 				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
