@@ -845,7 +845,7 @@ class User < ActiveRecord::Base
 		if self.facebook_auth?
 			graph = Koala::Facebook::API.new(self.facebook_auth.token)
 
-			graph.friends
+			graph.put_connections("me", "friends")
 		else
 			nil
 		end
