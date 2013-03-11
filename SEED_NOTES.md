@@ -1,3 +1,11 @@
+v5.0.10 - Mar 9, 2013  4:37PM PST deployed by Aleks Stanisic
+============================================================
+* 38984f6: Aleks Stanisic - new featured jobs and groups
+
+v5.0.9 - Mar 8, 2013  1:43PM PST deployed by Aleks Stanisic
+===========================================================
+* 492fad4: Elijah Green - Fix years_teaching
+
 v5.0.8 - Mar 8, 2013 12:02PM PST deployed by Aleks Stanisic
 ===========================================================
 * 977e0e2: Aleks Stanisic - fix to the user welcome email
