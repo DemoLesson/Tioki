@@ -1,3 +1,7 @@
+v5.0.11 - Mar 11, 2013  5:02PM PDT deployed by Aleks Stanisic
+=============================================================
+* bebeee1: Elijah Green - Remove average completion
+
 v5.0.10 - Mar 9, 2013  4:37PM PST deployed by Aleks Stanisic
 ============================================================
 * 38984f6: Aleks Stanisic - new featured jobs and groups
