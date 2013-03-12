@@ -1,31 +1,35 @@
-User.all.each do |user|
-	# Twitter
-	if user.authorizations[:twitter_access_token]
-		begin
-			client = Twitter::Client.new(
-				:oauth_token => user.authorizations[:twitter_oauth_token],
-				:oauth_token => user.authorizations[:twitter_oauth_secret]
-			)
-			twitter_user = client.user
+desc "Migrate authorizations to a new table"
+task :migrate_authorizations => :environment do
+	User.all.each do |user|
+		if user.authorizations[:twitter_oauth_token]
 
-			user.authentications.create!(:provider => 'twitter',
-			                             :uid => twitter_user[:user_id],
-			                             :token => user.authorizations[:twitter_oauth_token],
-			                             :secret => user.authorizations[:twitter_oauth_secret])
+			begin
+				client = Twitter::Client.new(
+					:oauth_token => user.authorizations[:twitter_oauth_token],
+					:oauth_token_secret => user.authorizations[:twitter_oauth_secret]
+				)
 
-		rescue
-			# If access tokens are invalid don't do anything
+				twitter_user = client.user
+
+				user.authentications.create!(:provider => 'twitter',
+				                             :uid => twitter_user.id.to_s,
+				                             :token => user.authorizations[:twitter_oauth_token],
+				                             :secret => user.authorizations[:twitter_oauth_secret])
+
+			rescue
+				# If access tokens are invalid don't do anything
+			end
 		end
-	end
-	if user.authorizations[:facebook_access_token]
-		begin
-			graph = Koala::Facebook::API.new(self.current_user.authorizations['facebook_access_token'])
+		if user.authorizations[:facebook_access_token]
+			begin
+				graph = Koala::Facebook::GraphAPI.new(user.authorizations[:facebook_access_token])
 
-			user.authentications.create!(:provider => 'facebook',
-			                             :uid => graph.get_object["me"],
-			                             :token => user.authorizations[:facebook_access_token])
-		rescue
-			# If access tokens are invalid don't do anything
+				user.authentications.create!(:provider => 'facebook',
+				                             :uid => graph.get_object("me").id,
+				                             :token => user.authorizations[:facebook_access_token])
+			rescue
+				# If access tokens are invalid don't do anything
+			end
 		end
 	end
 end
