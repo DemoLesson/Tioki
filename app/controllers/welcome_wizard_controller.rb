@@ -58,9 +58,9 @@ class WelcomeWizardController < ApplicationController
 
 				if session[:omniauth]
 					@user.authentications.create!(:provider => session[:omniauth][:provider],
-					                             :uid => session[:omniauth][:uid],
-					                             :token => session[:omniauth][:credentials][:token],
-					                             :secret => session[:omniauth][:credentials][:secret])
+					                              :uid => session[:omniauth][:uid],
+					                              :token => session[:omniauth][:credentials][:token],
+					                              :secret => session[:omniauth][:credentials][:secret])
 
 					
 					# Upload twitter profile image
@@ -242,6 +242,16 @@ class WelcomeWizardController < ApplicationController
 		render :step3
 	end
 
+	def social_friends
+		if self.current_user.facebook_auth?
+			@users = self.current_user.facebook_friends
+		elsif self.current_user.twitter_auth?
+			@users = self.current_user.twitter_friends
+		else
+			redirect_to :root
+		end
+	end
+
 	# # # # # # # # # # # # # # # # # # # # # #
 	# # # # # # # # # # # # # # # # # # # # #
 	# # # # # # # # # # # # # # # # # # # # # #
@@ -346,7 +356,10 @@ class WelcomeWizardController < ApplicationController
 					pcontacts << contact
 				end
 
-				contacts = {"type" => 'success', "message" => "Successfully read #{pcontacts.count} contacts", "data" => pcontacts, "selected" => select}
+				contacts = {"type" => 'success',
+				            "message" => "Successfully read #{pcontacts.count} contacts",
+				            "data" => pcontacts,
+				            "selected" => select}
 			end
 
 			return render :json => contacts

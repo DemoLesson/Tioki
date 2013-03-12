@@ -833,9 +833,14 @@ class User < ActiveRecord::Base
 	def twitter_friends
 		if self.twitter_auth?
 			client = Twitter::Client.new(:oauth_token => self.twitter_auth.token,
-			                             :oauth_secret => self.twitter_auth.secret)
+			                             :oauth_token_secret => self.twitter_auth.secret)
 
-			client.friends
+			uids = client.friend_ids.ids | client.follower_ids.ids
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'twitter',
+			           uids)
 		else
 			nil
 		end
@@ -843,9 +848,14 @@ class User < ActiveRecord::Base
 
 	def facebook_friends
 		if self.facebook_auth?
-			graph = Koala::Facebook::API.new(self.facebook_auth.token)
+			graph = Koala::Facebook::GraphAPI.new(self.facebook_auth.token)
 
-			graph.put_connections("me", "friends")
+			uids = graph.get_connections("me", "friends").collect(&:id)
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'facebook',
+			           uids)
 		else
 			nil
 		end
