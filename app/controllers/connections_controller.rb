@@ -97,6 +97,7 @@ class ConnectionsController < ApplicationController
 		a = self.current_user.id
 		@user = User.find(params[:user_id])
 		b = params[:user_id]
+		@ab = params[:ab]
 		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
 		@redirect = !currentUser.id.even? ? '/profile/' + @user.slug + '/about?add_connection=b' : false
 
@@ -112,9 +113,10 @@ class ConnectionsController < ApplicationController
 			if @connection.save
 
 				# If we suggested the connection log it as an analytic
-				unless session[:data].nil? || session[:data][:suggested_connection].nil?
-					session[:data]['suggested_connection'].uniq.include? b
-					self.log_analytic(:suggested_connection_created, 'A user created a connection based off our suggestion', @connection)
+				if @ab == '0'
+					self.log_analytic(:suggested_connection_created_subjects, 'A user created a connection based off our suggestion', @connection, [], :connections)
+				elsif @ab == '1'
+					self.log_analytic(:suggested_connection_created_grades, 'A user created a connection based off our suggestion', @connection, [], :connections)
 				end
 
 				# Notify the other user of my connection request

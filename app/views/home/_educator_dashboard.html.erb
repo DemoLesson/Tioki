@@ -113,29 +113,31 @@
 				</section>	
 			</section>
 		<% end %>
-		<section id="list" class="panel one-column right-side">
-			<h3 class="bottom-line">Suggested Educators</h3>
-			<div class="suggested-connections">
-				<ul>
-					<% @suggested_connections.each do |user| %>
-				    	<li style="width:275px;padding: 5px 15px 0px 15px !important;">
-							<div class="profile-thumb-small" style="float:left;margin-right:10px;margin-bottom:5px;overflow:hidden;">
-								<%= link_to image_tag(user.avatar.url(:medium), :width => '45px', :height => '45px'), "/profile/#{user.slug}" if user.avatar? %>
-								<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :width => '45px', :height => '45px'), "/profile/#{user.slug}" unless user.avatar? %>
-							</div>
-							<p style="font-size:13px;margin-top:0px;width:auto;margin-left:55px">
-							<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline", :style => "color:#F66C4C" %>, <% unless user.currentJob.nil? %> <%= "#{user.currentJob.position}" %> in <% end %><%= "#{user.location}" %>
-								<br/>
-								<span class="iconic plus" style="color:#F66C4C"></span>
-								<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id }, :style => 'color:#F66C4C;', :remote => true, :id => dom_id(user) %>
-							</p>
-						</li>
-					<% end %>
-				</ul>
-				<%= link_to "Find Friends →", "/inviteconnections/twitter", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
-				<div class="clear"></div>
-			</div>
-		</section>
+		<% if @suggested_connections[0] %>
+			<section id="list" class="panel one-column right-side">
+				<h3 class="bottom-line">Suggested Educators</h3>
+				<div class="suggested-connections">
+					<ul>
+						<% @suggested_connections.each do |user| %>
+					    	<li style="width:275px;padding: 5px 15px 0px 15px !important;">
+								<div class="profile-thumb-small" style="float:left;margin-right:10px;margin-bottom:5px;overflow:hidden;">
+									<%= link_to image_tag(user.avatar.url(:medium), :width => '45px', :height => '45px'), "/profile/#{user.slug}" if user.avatar? %>
+									<%= link_to image_tag("dl_icons/no_avatar_medium.jpg", :width => '45px', :height => '45px'), "/profile/#{user.slug}" unless user.avatar? %>
+								</div>
+								<p style="font-size:13px;margin-top:0px;width:auto;margin-left:55px">
+								<%= link_to "#{user.name}", "/profile/#{user.slug}", :class => "byline", :style => "color:#F66C4C" %>, <% unless user.currentJob.nil? %> <%= "#{user.currentJob.position}" %> in <% end %><%= "#{user.location}" %>
+									<br/>
+									<span class="iconic plus" style="color:#F66C4C"></span>
+									<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => user.id, :ab => @ab }, :style => 'color:#F66C4C;', :remote => true, :id => dom_id(user) %>
+								</p>
+							</li>
+						<% end %>
+					</ul>
+					<%= link_to "Find Friends →", "/inviteconnections/twitter", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
+					<div class="clear"></div>
+				</div>
+			</section>
+		<% end %>
 		
 		<!-- START Who Viewed Your Profile -->
 		<section id="list" class="panel one-column right-side">
