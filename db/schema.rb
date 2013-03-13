@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304071333) do
+ActiveRecord::Schema.define(:version => 20130308080403) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -251,6 +251,10 @@ ActiveRecord::Schema.define(:version => 20130304071333) do
     t.integer  "total_hours_grading"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "edu_network_public"
+    t.integer  "edu_network_private"
+    t.integer  "edu_network_charter"
+    t.integer  "edu_network_catholic"
   end
 
   create_table "educations", :force => true do |t|
