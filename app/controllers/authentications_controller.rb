@@ -176,7 +176,7 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def whiteboard_share_twitter
-		auth = self.current_user.authentications.where(:provider => 'twitter').first
+		auth = self.current_user.twitter_auth
 		client = Twitter::Client.new(:oauth_token => auth.token,
 		                             :oauth_token_secret => auth.secret)
 
@@ -213,14 +213,14 @@ class AuthenticationsController < ApplicationController
 	end
 
 	def whiteboard_share_facebook
-		auth = self.current_user.authentications.where(:provider => 'twitter').first
-		@graph = Koala::Facebook::API.new(auth.token)
+		auth = self.current_user.facebook_auth
+		graph = Koala::Facebook::API.new(auth.token)
 		whiteboard = Whiteboard.find(params[:whiteboard_id])
 
 		message = ActionController::Base.helpers.strip_links(whiteboard.message)
 
 		begin
-			@graph.put_wall_post(message)
+			graph.put_wall_post(message)
 		rescue Koala::Facebook::APIError => ex
 			if ex.fb_error_code == 190
 				#Oauthexception
