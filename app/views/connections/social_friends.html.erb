@@ -1,0 +1,31 @@
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
+	<section id="panels" class="group">
+		<section id="list" class="panel two-column right-side">
+			<h3>
+				Connect to users you may know
+			</h3>
+			<ul>
+				<% @users.each do |user| %>
+					<li>
+						<div class="profile-thumb-big">
+							<% if user.avatar? %>
+								<%= link_to image_tag(user.avatar.url(:thumb)), "profile/#{user.slug}" %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{user.slug}" %>
+							<% end %>
+						</div>
+						<p>
+							<a href="/profile/<%= user.slug %>"><%= user.name %></a>
+							<br />
+							<%= user.current_job_string %><br />
+							<%= user.location %>
+						</p>
+						<div>
+							<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => user.id.to_s }, :class => "addconnection", :remote => true, :id => dom_id(user) %>
+						</div>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+	</section>
+</section>

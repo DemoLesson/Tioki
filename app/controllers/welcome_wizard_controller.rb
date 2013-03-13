@@ -242,16 +242,6 @@ class WelcomeWizardController < ApplicationController
 		render :step3
 	end
 
-	def social_friends
-		if self.current_user.facebook_auth?
-			@users = self.current_user.facebook_friends
-		elsif self.current_user.twitter_auth?
-			@users = self.current_user.twitter_friends
-		else
-			redirect_to :root
-		end
-	end
-
 	# # # # # # # # # # # # # # # # # # # # # #
 	# # # # # # # # # # # # # # # # # # # # #
 	# # # # # # # # # # # # # # # # # # # # # #

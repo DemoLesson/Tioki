@@ -537,6 +537,25 @@ class ConnectionsController < ApplicationController
 		render :json => divs
 	end
 
+	def social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		if @users.empty?
+			return redirect_to :root
+		end
+	end
+
 	# Review
 	def distance
 		result = User.find(117091).distance(params[:id])
