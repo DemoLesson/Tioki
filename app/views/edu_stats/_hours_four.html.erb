@@ -1,15 +1,17 @@
 <!--Section for the Result and Fun Fact-->
 <section class="panel half-width left-side" style='height:340px'>
 	<!--Create a Sub-Header that varies with the amount achieved-->
-	<h2>
+	<h2 style='margin-left:10px'>
 		You've taught an amazing <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> hours!<br>
 	</h2>
 	<!--Fun Fact for the specific range-->
-	FUN FACT:
+	<p style='margin-left:10px'>FUN FACT:
 	The time that you have spent in the classroom is equivalent to <%= @edu_stats.total_hours_teaching / 1656 %> trips on the Nina, Pinta, or Santa Maria with Christopher Columbus. The voyage from Spain to the New World took about 1,650 hours.
 <br>This is between 13005 and 17339
+	</p>
 </section>
+
 <!--Section for the impact image associated with that image-->
-<section class="panel half-width right-side">
-	<%= image_tag '/assets/tioki/impact/columbus_ship.gif', :style => 'width:250px' %>
+<section class="panel half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/columbus_ship.gif', :style => 'width:250px;' %>
 </section>

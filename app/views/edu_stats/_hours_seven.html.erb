@@ -1,1 +1,37 @@
-<%= render :partial => 'hours_six' %>
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:60px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px;color:#2AA99B;font-family: tekton pro;'>
+		You've taught an unbelievable <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> hours!<br>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>
+	FUN FACT:
+		
+	<% if (@edu_stats.total_hours_teaching / 27941.0) >= 1.5 && (@edu_stats.total_hours_teaching / 27941.0) < 2  %>
+	
+		That's just teaching time; imagine if we'd included all your planning and grading.
+		<br>
+		<br>
+		If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a subtle 7-minute-mile pace, not only would you have reached <strong style='color:#2AA99B'><em>the Moon</em></strong> by now, but you'd already be <strong style='color:#2AA99B'><em>half way back</em></strong> That's definitely an effort that is out of this world!
+		
+	<% elsif (@edu_stats.total_hours_teaching / 27941.0) > 2 %>
+	
+		That's just teaching time; imagine if we'd included all your planning and grading.
+		<br>
+		<br>
+		If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a subtle 7-minute-mile pace, you would have run to <strong style='color:#2AA99B'><em>the Moon</em></strong> and <strong style='color:#2AA99B'><em>BACK</em></strong> by now! That's an almost unfathomable accomplishment, and a tremendous impact!
+		
+	<% else %>
+	
+		That's just teaching time; imagine if we'd included all your planning and grading. If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a subtle 7-minute-mile pace, you would have reached <strong style='color:#2AA99B'>the Moon</strong> by now! That's definitely an effort that is out of this world!
+	<% end %>
+	</p>
+</section>
+
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/moon.png', :style => 'width:300px;' %>
+</section>
+
+

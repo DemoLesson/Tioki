@@ -389,6 +389,15 @@ section.notice {
 	}
 }
 
+.white-bg {
+	z-index: 9999;
+	height: 370px;
+	background-color: #fff;
+	-webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    0px 0px 4px rgba(0, 0, 0, 0.3);
+	box-shadow:         0px 0px 4px rgba(0, 0, 0, 0.3);
+}
+
 .login-header {
 	position: relative;
 	z-index: 9999;
