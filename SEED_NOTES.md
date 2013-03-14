@@ -1,3 +1,7 @@
+v5.0.13 - Mar 13, 2013 10:36PM PDT deployed by Elijah Green
+===========================================================
+* 5fd7b08: Brian Martinez - adding new partners to the partners page
+
 v5.0.12 - Mar 12, 2013  5:56PM PDT deployed by Aleks Stanisic
 =============================================================
 * 4db52cd: Aleks Stanisic - finishign touches to suggested connections for grades and subjects, added analytics
