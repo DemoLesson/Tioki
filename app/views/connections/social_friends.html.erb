@@ -26,6 +26,11 @@
 					</li>
 				<% end %>
 			</ul>
+			<% if self.current_user.job_seeking %>
+				<%= link_to "Next", "/jobs/preferences" %>
+			<% else %>
+				<%= link_to "Next", "/get_started" %>
+			<% end %>
 		</section>
 	</section>
 </section>

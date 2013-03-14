@@ -36,7 +36,7 @@
 					<td>
 						<label>
 							<span>Email Address</span>
-							<input type="text" name="user[email]" />
+							<input type="text" name="user[email]" value="<%= session.omniauth.try(:extra).try(:raw_info).try(:email) %>" />
 						</label>
 					</td>
 				</tr>
