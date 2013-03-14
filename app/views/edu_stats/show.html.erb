@@ -1,54 +1,72 @@
-<div class="kRap">
-	<h1 class="title">LOOK at how much time of your life you spent Teaching......Cheers!</h1></br>
-
-	<h2> Total Hours Taught : <%= @edu_stats.total_hours_teaching %> hrs </h2></br>
+<section id="main-content" class='inner-content'>
+	<h1 style='text-align:center'>
+		Your Results Are In!
+	</h1>
 	
-		<% if @edu_stats.total_hours_teaching < 5202 %>
-			This is less than 5,202
-		<% elsif @edu_stats.total_hours_teaching > 5203 && @edu_stats.total_hours_teaching < 8670 %>
-			This is more than 5202 and less than 8670
-		<% elsif @edu_stats.total_hours_teaching > 8669 && @edu_stats.total_hours_teaching < 13005 %>
-			This is between 8670 and 13004
-		<% elsif @edu_stats.total_hours_teaching > 13004 && @edu_stats.total_hours_teaching < 17340 %>
-			This is between 13005 and 17339
-		<% elsif @edu_stats.total_hours_teaching > 17339 && @edu_stats.total_hours_teaching < 21675 %>
-			This is between 17340 and 21674
-		<% elsif @edu_stats.total_hours_teaching > 21674 && @edu_stats.total_hours_teaching < 28000 %>
-			This is between 21675 and 27999
-		<% elsif @edu_stats.total_hours_teaching > 27999 %>
-			This is above 28000
-		<% end %>	
+	<!-- Figure out what bracket the teacher is in and return the appropriate results -->
+	<% if @edu_stats.total_hours_teaching < 5202 %>
+		<%= render :partial => 'hours_one' %>
 		
+	<% elsif @edu_stats.total_hours_teaching > 5203 && @edu_stats.total_hours_teaching < 8670 %>
+		<%= render :partial => 'hours_two' %>
 		
-	<h2> Total Students Taught : <%= @edu_stats.total_students %> human beings </h2></br>
+	<% elsif @edu_stats.total_hours_teaching > 8669 && @edu_stats.total_hours_teaching < 13005 %>
+		<%= render :partial => 'hours_three' %>
 	
-		<% if @edu_stats.total_students < 1000 %>
-			This is less than 1000
-		<% elsif @edu_stats.total_students > 999 && @edu_stats.total_students < 2000 %>
-			This is between 1000 and 2000
-		<% elsif @edu_stats.total_students > 1999 && @edu_stats.total_students < 3000 %>
-			This is between 2000 and 3000
-		<% elsif @edu_stats.total_students > 2999 && @edu_stats.total_students < 4600 %>
-			This is between 3000 and 4600
-		<% elsif @edu_stats.total_students > 4599 && @edu_stats.total_students < 5800 %>
-			This is between 4600 and 5800
-		<% elsif @edu_stats.total_students > 5799 %>
-			This is above 5800
-		<% end %>
+	<% elsif @edu_stats.total_hours_teaching > 13004 && @edu_stats.total_hours_teaching < 17340 %>
+		<%= render :partial => 'hours_four' %>
 		
+	<% elsif @edu_stats.total_hours_teaching > 17339 && @edu_stats.total_hours_teaching < 21675 %>
+		<%= render :partial => 'hours_five' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 21674 && @edu_stats.total_hours_teaching < 28000 %>
+		<%= render :partial => 'hours_six' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 27999 %>
+		<%= render :partial => 'hours_seven' %>
+		
+	<% end %>
+		
+	<section class='three-column left-side' style='border-bottom: 2px #2aa99b dashed'></section>	
+	<div class="clearfloat"></div>
+	
+	<% if @edu_stats.total_students < 1000 %>
+		<%= render :partial => 'students_one' %>
+		
+	<% elsif @edu_stats.total_students > 999 && @edu_stats.total_students < 2000 %>
+		<%= render :partial => 'students_two' %>
+		
+	<% elsif @edu_stats.total_students > 1999 && @edu_stats.total_students < 3000 %>
+		<%= render :partial => 'students_three' %>
+		
+	<% elsif @edu_stats.total_students > 2999 && @edu_stats.total_students < 4600 %>
+		<%= render :partial => 'students_four' %>
+		
+	<% elsif @edu_stats.total_students > 4599 && @edu_stats.total_students < 5800 %>
+		<%= render :partial => 'students_five' %>
+		
+	<% elsif @edu_stats.total_students > 5799 %>
+		<%= render :partial => 'students_six' %>
+		
+	<% end %>
+	
+	<section class='three-column left-side' style='border-bottom: 2px #2aa99b dashed'></section>	
+	<div class="clearfloat"></div>
+	
+	<h2 style="text-align:center">How Large Is You Educator Network?</h2>
 	<h3>Total Public Network: <%= @edu_stats.edu_network_public %>  <br>
 		Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
 		Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
 		Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
 	</h3>
 
-	<h4 class="bottom-line">
-		Invite Friends to Join: <br />
-	</h4>
+	<h3 class="bottom-line" style='text-align:center'>
+		Share Your Impact
+	</h3>
 	<a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
 	<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a>
 
-</div>
+</section>
 
 <script type="text/javascript">
 $(document).ready(function() {

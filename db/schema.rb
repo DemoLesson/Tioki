@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.integer  "user_id"
     t.string   "owner_type"
     t.integer  "owner_id"
+    t.string   "original_filename"
   end
 
   create_table "attachments", :force => true do |t|
@@ -424,6 +425,7 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.integer  "number"
     t.integer  "application_id"
     t.string   "interview_type"
+    t.integer  "round",             :default => 1
   end
 
   create_table "job_answers", :force => true do |t|
