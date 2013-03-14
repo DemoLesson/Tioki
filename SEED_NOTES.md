@@ -1,3 +1,18 @@
+v5.0.13 - Mar 13, 2013 10:36PM PDT deployed by Elijah Green
+===========================================================
+* 5fd7b08: Brian Martinez - adding new partners to the partners page
+
+v5.0.12 - Mar 12, 2013  5:56PM PDT deployed by Aleks Stanisic
+=============================================================
+* 4db52cd: Aleks Stanisic - finishign touches to suggested connections for grades and subjects, added analytics
+* e4ea507: Aleks Stanisic - some changes
+* bae16ec: Aleks Stanisic - adding grades to suggested connections
+* e8e360c: Aleks Stanisic - ab test
+
+v5.0.11 - Mar 11, 2013  5:02PM PDT deployed by Aleks Stanisic
+=============================================================
+* bebeee1: Elijah Green - Remove average completion
+
 v5.0.10 - Mar 9, 2013  4:37PM PST deployed by Aleks Stanisic
 ============================================================
 * 38984f6: Aleks Stanisic - new featured jobs and groups
