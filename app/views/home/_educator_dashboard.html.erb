@@ -115,7 +115,11 @@
 		<% end %>
 		<% if @suggested_connections[0] %>
 			<section id="list" class="panel one-column right-side">
-				<h3 class="bottom-line">Suggested Educators</h3>
+				<% if @ab == "0" %>
+					<h3 class="bottom-line"> Educators that share your subjects!</h3>
+				<% else %>
+					<h3 class="bottom-line"> Educators that share your grades!</h3>
+				<% end %>
 				<div class="suggested-connections">
 					<ul>
 						<% @suggested_connections.each do |user| %>
