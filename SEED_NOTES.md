@@ -1,3 +1,7 @@
+v5.0.15 - Mar 15, 2013  1:52PM PDT deployed by Aleks Stanisic
+=============================================================
+* ac47f1a: Aleks Stanisic - removing grades and subjects temorarily
+
 v5.0.14 - Mar 15, 2013  1:23PM PDT deployed by Aleks Stanisic
 =============================================================
 * 0683c3f: Aleks Stanisic - adding subjects and grades to user profiles
