@@ -135,6 +135,7 @@ class NotificationMailer < ActionMailer::Base
 
 	def profile_views(user, views)
 		@user = user
+		@views = views
 		@profile_views = views.count
 
 		if @profile_views > 1

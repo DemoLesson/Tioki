@@ -91,7 +91,9 @@
 																	<td align="center" >
 																		<a href="http://tioki.com/me/profile/stats" target="_blank" style="text-decoration:none">
 
-																			<% if @user.avatar? %>
+																			<% if @views.first.avatar? %>
+																				<%= image_tag @views.first.avatar.url(:medium), :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
+																			<% elsif @user.avatar? %>
 																				<%= image_tag @user.avatar.url(:medium), :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
 																			<% else %>
 																				<%= image_tag "http://tioki.com/assets/tioki/icons/graph_thumb.png", :style => "border-width:5px;border-style:solid;border-color:#ccc;width:100px;" %>
@@ -137,7 +139,7 @@
 
 																									<a style="text-decoration:none; color:#FFFFFF" href="http://tioki.com/me/profile/stats" target="_blank">
 																										<span style="color:#FFFFFF; text-decoration:none; padding-right:5px;padding-left:5px;font-family:'Helvetica Neue','Helvetica','Arial',serif;font-size:16px;font-weight:bold; text-decoration:none;padding-right:23px;padding-left:23px">
-																											<strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:10px;padding-left:10px">Sign in to see
+																											<strong style="color:#FFFFFF !important;text-decoration:none !important;padding-right:10px;padding-left:10px">Click here to see
 																											</strong>
 																										</span>
 																									</a>
@@ -161,7 +163,7 @@
 													<tr>
 														<td align="left">
 															<span style="color: #000;display: inline-block;font-family: Helvetica;font-size: 14px;font-weight: bold;line-height: 100%;margin-top: 0;margin-right: 0;margin-bottom: 0px;margin-left: 0;text-align: left"><strong>
-																	Is your profile up to date?<a href="http://tioki.com/profile/<%= @user.slug %>" target="_blank" style="color:#f66c4b;text-decoration:none"> Update it today.</a>
+																	Is your profile out-of-date?<a href="http://tioki.com/profile/<%= @user.slug %>" target="_blank" style="color:#f66c4b;text-decoration:none"> Update it today.</a>
 															</strong></span>
 														</td>
 													</tr>
@@ -174,7 +176,7 @@
 							</tr>
 							<tr>
 								<td align="center" valign="top" width="350" style="padding-top:10px; border-collapse: collapse;" cellpadding-top="10px" cellpadding-bottom="0px">
-									<span style="color: #6d6d6d; font: lighter 11px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;text-align: center;">2012 Copyright Tioki.com, 363 13th St, STE 300, Oakland, CA 94612<br> 
+									<span style="color: #6d6d6d; font: lighter 11px Helvetica, Arial, sans-serif;text-shadow: 0 1px 0 white;text-align: center;">2012 Copyright Tioki.com, 363 13th St, STE 300, Oakland, CA 94612<br>
 										<a href="http://tioki.com/me/settings" style="color:#6d6d6d" target="_blank">Adjust Email Settings</a>
 
 									</span>
