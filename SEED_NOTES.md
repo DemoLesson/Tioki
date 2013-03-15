@@ -1,3 +1,9 @@
+v5.0.14 - Mar 15, 2013  1:23PM PDT deployed by Aleks Stanisic
+=============================================================
+* 0683c3f: Aleks Stanisic - adding subjects and grades to user profiles
+* b995173: Elijah Green - Chagne to profile view notificaitons
+* 64a7f79: Aleks Stanisic - changes to suggested connections in dashboard
+
 v5.0.13 - Mar 13, 2013 10:36PM PDT deployed by Elijah Green
 ===========================================================
 * 5fd7b08: Brian Martinez - adding new partners to the partners page
