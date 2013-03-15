@@ -931,6 +931,9 @@ class UsersController < ApplicationController
 			@invite = ConnectionInvite.find(params[:invite_id])
 		end
 
+		@grades = @user.grades.collect(&:name)
+		@subjects = @user.subjects.collect(&:name)
+
 		if @user.nil?
 			redirect_to :root
 			flash[:alert]  = "User was not found"
