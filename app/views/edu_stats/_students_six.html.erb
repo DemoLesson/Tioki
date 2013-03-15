@@ -1,1 +1,16 @@
-This is above 5800
+<section class="half-width left-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/airplane_tilted.png', :style => 'width:375px' %>
+</section>
+<section class="half-width right-side" style='padding-top:15px'>
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You touched the lives of 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_students, :delimiter => ',') %> STUDENTS!
+			</span>
+	</h2>
+	<p style='margin-left:10px'>
+		Let's put this <strong style='color:#2AA99B'><em>insane accomplishment</em></strong> into perspective.
+		<br><br> 
+		If you threw a reunion for all of the <strong style='color:#2AA99B'><em>students and parents</em></strong> whose lives you have impacted, they would have to take <strong style='color:#2AA99B'><em><%= (@edu_stats.total_students * 3) / 525 %> Boeing 747's</em></strong> just to get to you. That makes you pretty freaking awesome!
+	</p>
+</section>
