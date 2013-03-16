@@ -15,7 +15,7 @@ class EduStatsController < ApplicationController
 			edu_stats[:total_students] = edu_stats[:yrs_teaching] * edu_stats[:avg_class_size] *edu_stats[:class_perday] 
 
       #Calculating the Total Hours Teaching by the teacher
-			edu_stats[:total_hours_teaching] = edu_stats[:yrs_teaching] * 180 * 7.5
+			edu_stats[:total_hours_teaching] = edu_stats[:yrs_teaching] * 867
       
       #Calculating the approximate size of their educator network
       # Determining based on their years teching, the number of times they have swithched schools. Assumed once every 6 years

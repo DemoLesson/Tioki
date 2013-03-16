@@ -4,10 +4,10 @@
 	</h1>
 	
 	<!-- Figure out what bracket the teacher is in and return the appropriate results -->
-	<% if @edu_stats.total_hours_teaching < 5202 %>
+	<% if @edu_stats.total_hours_teaching < 4335 %>
 		<%= render :partial => 'hours_one' %>
 		
-	<% elsif @edu_stats.total_hours_teaching > 5203 && @edu_stats.total_hours_teaching < 8670 %>
+	<% elsif @edu_stats.total_hours_teaching > 4334 && @edu_stats.total_hours_teaching < 8670 %>
 		<%= render :partial => 'hours_two' %>
 		
 	<% elsif @edu_stats.total_hours_teaching > 8669 && @edu_stats.total_hours_teaching < 13005 %>
