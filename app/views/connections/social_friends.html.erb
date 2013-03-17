@@ -26,11 +26,11 @@
 					</li>
 				<% end %>
 			</ul>
-			<% if self.current_user.job_seeking %>
-				<%= link_to "Next", "/jobs/preferences" %>
-			<% else %>
-				<%= link_to "Next", "/get_started" %>
-			<% end %>
 		</section>
 	</section>
+			<% if self.current_user.job_seeking %>
+				<%= link_to "Next", "/jobs/preferences", :class => 'action-button bg-green', :style => "float:right" %>
+			<% else %>
+				<%= link_to "Next", "/get_started", :class => 'action-button bg-green', :style => "float:right" %>
+			<% end %>
 </section>

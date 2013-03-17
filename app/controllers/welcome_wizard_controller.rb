@@ -64,7 +64,7 @@ class WelcomeWizardController < ApplicationController
 
 					
 					# Upload twitter profile image
-					if !session[:omniauth][:extra][:raw_info][:default_profile_image]
+					if session.omniauth[:provider] == 'twitter' && !session[:omniauth][:extra][:raw_info][:default_profile_image]
 						@user.update_attribute(:avatar,
 						                       URI.parse(session[:omniauth][:info][:image]))
 					end
@@ -189,6 +189,19 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = currentUser
+
+		@education = Hash.new
+		if session[:omniauth]
+			# Education
+			session.omniauth.raw_info.try.try(:education).try(:each) do |education|
+				if education.type == "College"
+					@education[:name] = education.name
+					@education[:year] = education.year.name
+					break
+				end
+			end
+		end
+
 		# Detect post variables
 		if request.post?
 			# Handle Subjects and Grades
