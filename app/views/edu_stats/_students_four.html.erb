@@ -1,1 +1,16 @@
-This is between 3000 and 4600
+<section class="half-width left-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/empire_students.png', :style => 'height:350px' %>
+</section>
+<section class="half-width right-side" style='padding-top:50px'>
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught over 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_students, :delimiter => ',') %> STUDENTS!
+			</span>
+	</h2>
+	<p style='margin-left:10px'>
+		Let's put this <strong style='color:#2AA99B'><em>insane accomplishment</em></strong> into perspective.
+		<br><br> 
+		If your full-grown students stood on each other's shoulders, they would be <strong style='color:#2AA99B'><em>Taller</em></strong> than the <strong style='color:#2AA99B'><em>Empire State Building!</em></strong> You've literally made an impact on this world that reaches to the heavens. That makes you pretty freaking awesome!
+	</p>
+</section>

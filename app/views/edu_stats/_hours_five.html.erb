@@ -1,1 +1,19 @@
-This is between 17340 and 21674
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:20px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px'>
+		You've taught an amazing 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> hours!
+			</span>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>FUN FACT:
+	That's an impact that is <strong style='color:#2AA99B'><em>out of this world!</em></strong> In fact, in the time that you've spent in the classroom, you could have taken a <strong style='color:#2AA99B'><em>trip to Mars</em></strong> on a NASA Rocket <strong style='color:#2AA99B'><em> <%= (@edu_stats.total_hours_teaching / 6072.0).round %> Times!</em></strong> Thanks for helping your students reach for the stars!
+	</p>
+</section>
+
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/rocket_to_mars.png', :style => 'height:300px;' %>
+</section>
