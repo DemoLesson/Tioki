@@ -193,9 +193,9 @@ class WelcomeWizardController < ApplicationController
 		@education = Hash.new
 		if session[:omniauth]
 			# Education
-			session.omniauth.raw_info.try.try(:education).try(:each) do |education|
+			session.omniauth.extra.raw_info.try(:education).try(:each) do |education|
 				if education.type == "College"
-					@education[:name] = education.name
+					@education[:name] = education.school.name
 					@education[:year] = education.year.name
 					break
 				end

@@ -40,10 +40,10 @@
 						<label>
 							<br/>
 							<span>Where did you go to school?</span>
-							<input type="text"  name="education[school]" placeholder="School Name" style="width:370px;float:left;margin-right:10px;" /> 
+							<input type="text"  name="education[school]" placeholder="School Name" value="<%= @education[:name] %>" style="width:370px;float:left;margin-right:10px;" /> 
 						</label>
 						<label>
-							<input type="text" name="education[year]"  placeholder="Graduation Year" style="width:170px;margin-left:20px" />
+							<input type="text" name="education[year]"  placeholder="Graduation Year" value="<%= @education[:year] %>"" style="width:170px;margin-left:20px" />
 						</label>
 					</td>
 				</tr>
