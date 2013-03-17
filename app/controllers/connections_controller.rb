@@ -558,6 +558,27 @@ class ConnectionsController < ApplicationController
 		end
 	end
 
+	def connect_social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		@users.each do |user|
+			Connection.delay.add_connect(self.current_user.id, user.id)
+		end
+
+		redirect_to :root
+	end
+
 	# Review
 	def distance
 		result = User.find(117091).distance(params[:id])
