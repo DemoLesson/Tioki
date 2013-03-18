@@ -1,3 +1,7 @@
+v5.0.17 - Mar 18, 2013 12:51PM PDT deployed by Aleks Stanisic
+=============================================================
+* 46852bf: Aleks Stanisic - changing character max of headline back to 140
+
 v5.0.16 - Mar 18, 2013 12:26PM PDT deployed by Aleks Stanisic
 =============================================================
 * 01aeaa4: Aleks Stanisic - changing student to student teacher
