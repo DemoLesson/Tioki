@@ -21,9 +21,9 @@
 						http://tioki.com/profile/<%= @user.slug %>
 					</a><br /><br />
 					<p>
-					My Headline (limited to 80 characters):
+					My Headline (limited to 140 characters):
 					</p>
-					<%= text_area_tag :headline, @user.headline, :maxlength => 83, :style => "width: 400px" %>
+					<%= text_area_tag :headline, @user.headline, :maxlength => 140, :style => "width: 400px" %>
 					<p>
 						Subjects:
 						<input type="text" id="profile_subjects" name="user[subject]" />
