@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
 	has_one :teacher
 
 	#User occupation constant
-	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student", "Entrepreneur", "Staff", "Other" ]
+	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student Teacher", "Entrepreneur", "Staff", "Other" ]
 
 	# Migrated from teacher.rb
 	has_many :applications
