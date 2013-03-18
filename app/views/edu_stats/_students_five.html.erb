@@ -1,1 +1,16 @@
-This is between 4600 and 5800
+<section class="half-width left-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/island.png', :style => 'height:350px' %>
+</section>
+<section class="half-width right-side" style='padding-top:50px'>
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught over 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_students, :delimiter => ',') %> STUDENTS!
+			</span>
+	</h2>
+	<p style='margin-left:10px'>
+		Let's put this <strong style='color:#2AA99B'><em>insane accomplishment</em></strong> into perspective.
+		<br><br> 
+		Your full grown students earn over <strong style='color:#2AA99B'><em>$200 Million</em></strong> each year. That means your network has more purchasing power than <strong style='color:#2AA99B'><em>5 Entire Countries.</em></strong> It's almost like you helped create a new <strong style='color:#2AA99B'><em>island kingdom.</em></strong> If only teachers received royalties for their impact on society!
+	</p>
+</section>
