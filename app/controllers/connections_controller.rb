@@ -576,7 +576,13 @@ class ConnectionsController < ApplicationController
 			Connection.delay.add_connect(self.current_user.id, user.id)
 		end
 
-		redirect_to :root
+		if self.current_user.facebook_auth?
+			redirect_to "/inviteconnections/facebook"
+		elsif self.current_user.twitter_auth?
+			redirect_to "/inviteconnections/twitter"
+		else
+			redirect_to :root
+		end
 	end
 
 	# Review

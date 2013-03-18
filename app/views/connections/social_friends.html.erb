@@ -1,8 +1,11 @@
 <section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
 	<section id="panels" class="group">
-		<section id="list" class="panel two-column right-side">
+		<section id="list" class="panel two-column left-side" style="margin-left:150px">
 			<h3>
 				Connect to users you may know
+				<div style="float:right">
+					<%= link_to "Add All", "/connections/connect_social_friends", :class => 'button' %>
+				</div>
 			</h3>
 			<ul>
 				<% @users.each do |user| %>
@@ -28,9 +31,11 @@
 			</ul>
 		</section>
 	</section>
-			<% if self.current_user.job_seeking %>
-				<%= link_to "Next", "/jobs/preferences", :class => 'action-button bg-green', :style => "float:right" %>
-			<% else %>
-				<%= link_to "Next", "/get_started", :class => 'action-button bg-green', :style => "float:right" %>
-			<% end %>
+	<% if self.current_user.twitter_auth? %>
+		<%= link_to "Next", "/inviteconnections/twitter", :class => 'action-button bg-green', :style => "float:right" %>
+	<% elsif self.current_user.facebook_auth? %>
+		<%= link_to "Next", "/inviteconnections/facebook", :class => 'action-button bg-green', :style => "float:right" %>
+	<% else %>
+		<%= link_to "Next", "/", :class => 'action-button bg-green', :style => "float:right" %>
+	<% end %>
 </section>

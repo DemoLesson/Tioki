@@ -272,6 +272,7 @@ Preview::Application.routes.draw do
 		collection do
 			get 'add_and_redir'
 			get 'social_friends'
+			get 'connect_social_friends'
 		end
 	end
 	match '/connections/user/:id' => 'connections#profile_connections'
