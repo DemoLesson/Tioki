@@ -49,31 +49,31 @@ class EduStatsController < ApplicationController
 
       elsif edu_stats[:yrs_teaching] > 24 && edu_stats[:yrs_teaching] < 31
 
-          edu_stats[:educator_network_public] = (33 * 5) + (5.3 * (edu_stats[:yrs_teaching] - 5))
-          edu_stats[:educator_network_private] = (16 * 5) + (2.6 * (edu_stats[:yrs_teaching] - 5))
-          edu_stats[:educator_network_charter] = (13 * 5) + (2.1 * (edu_stats[:yrs_teaching] - 5))
-          edu_stats[:educator_network_catholic] = (20 * 5) + (3.2 * (edu_stats[:yrs_teaching] - 5))
+          edu_stats[:edu_network_public] = (33 * 5) + (5.3 * (edu_stats[:yrs_teaching] - 5))
+          edu_stats[:edu_network_private] = (16 * 5) + (2.6 * (edu_stats[:yrs_teaching] - 5))
+          edu_stats[:edu_network_charter] = (13 * 5) + (2.1 * (edu_stats[:yrs_teaching] - 5))
+          edu_stats[:edu_network_catholic] = (20 * 5) + (3.2 * (edu_stats[:yrs_teaching] - 5))
 
       elsif edu_stats[:yrs_teaching] > 30 && edu_stats[:yrs_teaching] < 37
 
-          edu_stats[:educator_network_public] = (33 * 6) + (5.3 * (edu_stats[:yrs_teaching] - 6))
-          edu_stats[:educator_network_private] = (16 * 6) + (2.6 * (edu_stats[:yrs_teaching] - 6))
-          edu_stats[:educator_network_charter] = (13 * 6) + (2.1 * (edu_stats[:yrs_teaching] - 6))
-          edu_stats[:educator_network_catholic] = (20 * 6) + (3.2 * (edu_stats[:yrs_teaching] - 6))
+          edu_stats[:edu_network_public] = (33 * 6) + (5.3 * (edu_stats[:yrs_teaching] - 6))
+          edu_stats[:edu_network_private] = (16 * 6) + (2.6 * (edu_stats[:yrs_teaching] - 6))
+          edu_stats[:edu_network_charter] = (13 * 6) + (2.1 * (edu_stats[:yrs_teaching] - 6))
+          edu_stats[:edu_network_catholic] = (20 * 6) + (3.2 * (edu_stats[:yrs_teaching] - 6))
 
       elsif edu_stats[:yrs_teaching] > 36 && edu_stats[:yrs_teaching] < 43
 
-          edu_stats[:educator_network_public] = (33 * 7) + (5.3 * (edu_stats[:yrs_teaching] - 7))
-          edu_stats[:educator_network_private] = (16 * 7) + (2.6 * (edu_stats[:yrs_teaching] - 7))
-          edu_stats[:educator_network_charter] = (13 * 7) + (2.1 * (edu_stats[:yrs_teaching] - 7))
-          edu_stats[:educator_network_catholic] = (20 * 7) + (3.2 * (edu_stats[:yrs_teaching] - 7))
+          edu_stats[:edu_network_public] = (33 * 7) + (5.3 * (edu_stats[:yrs_teaching] - 7))
+          edu_stats[:edu_network_private] = (16 * 7) + (2.6 * (edu_stats[:yrs_teaching] - 7))
+          edu_stats[:edu_network_charter] = (13 * 7) + (2.1 * (edu_stats[:yrs_teaching] - 7))
+          edu_stats[:edu_network_catholic] = (20 * 7) + (3.2 * (edu_stats[:yrs_teaching] - 7))
 
       elsif edu_stats[:yrs_teaching] > 42
 
-          edu_stats[:educator_network_public] = (33 * 8) + (5.3 * (edu_stats[:yrs_teaching] - 8))
-          edu_stats[:educator_network_private] = (16 * 8) + (2.6 * (edu_stats[:yrs_teaching] - 8))
-          edu_stats[:educator_network_charter] = (13 * 8) + (2.1 * (edu_stats[:yrs_teaching] - 8))
-          edu_stats[:educator_network_catholic] = (20 * 8) + (3.2 * (edu_stats[:yrs_teaching] - 8))
+          edu_stats[:edu_network_public] = (33 * 8) + (5.3 * (edu_stats[:yrs_teaching] - 8))
+          edu_stats[:edu_network_private] = (16 * 8) + (2.6 * (edu_stats[:yrs_teaching] - 8))
+          edu_stats[:edu_network_charter] = (13 * 8) + (2.1 * (edu_stats[:yrs_teaching] - 8))
+          edu_stats[:edu_network_catholic] = (20 * 8) + (3.2 * (edu_stats[:yrs_teaching] - 8))
 
       end
 
