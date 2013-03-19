@@ -1,4 +1,4 @@
-<section id="main-content" class='inner-content white-bg' style='height:auto'>
+<section id="main-content" class='inner-content white-bg' style='height:auto;padding-bottom:70px;margin-bottom:100px'>
 	<h1 style='text-align:center;margin-top:1px;padding-top:30px'>
 		Your Results Are In!
 	</h1>
@@ -81,11 +81,11 @@ $(document).ready(function() {
 		// Trigger the facebook method
 		FB.ui({
 			method: 'feed',
-			name: 'hello',
+			name: 'Tioki Impact',
 			link: 'http://tioki.com/impact',
-			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
-			caption: 'Come join this Group on Tioki.',
-			description: 'Come join the  group on Tioki; a professional networking site for educators!'
+			picture: 'http://www.tioki.com/assets/tioki/impact/college_grad.png',
+			caption: 'Do you know your education impact?',
+			description: 'I have spent <%= @edu_stats.yrs_teaching %> years in the classroom, taught over <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours, and impacted the lives of over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> Students. Find out your impact!'
 		}
 		/*function(response) {
 			if (response && response.post_id) {
