@@ -82,7 +82,7 @@ $(document).ready(function() {
 		FB.ui({
 			method: 'feed',
 			name: 'Tioki Impact',
-			link: 'http://tioki.com/impact',
+			link: 'http://tioki.com/impact?facebook_share',
 			picture: 'http://www.tioki.com/assets/tioki/impact/college_grad.png',
 			caption: 'Do you know your education impact?',
 			description: 'I have spent <%= @edu_stats.yrs_teaching %> years in the classroom, taught over <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours, and impacted the lives of over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> Students. Find out your impact!'
@@ -105,7 +105,7 @@ $(document).ready(function() {
 		// Paramaters to build
 		var params = {
 			via: 'tioki',
-			url: 'http://tioki.com/impact',
+			url: 'http://tioki.com/impact?twitter_share',
 			text: '<%= @edu_stats.yrs_teaching %> years in the classroom, <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours taught & <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> lives changed. Whats your Education Impact?'
 		}
 
