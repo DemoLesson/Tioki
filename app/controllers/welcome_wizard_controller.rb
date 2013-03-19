@@ -61,6 +61,12 @@ class WelcomeWizardController < ApplicationController
 					                              :uid => session[:omniauth][:uid],
 					                              :token => session[:omniauth][:credentials][:token],
 					                              :secret => session[:omniauth][:credentials][:secret])
+
+					if session[:omniauth][:provider] == 'twitter'
+						self.log_analytic(:signup_twitter, "New user signed up with twitter.", @user)
+					elsif session[:omniauth][:provider] == 'twitter'
+						self.log_analytic(:signup_facebbok, "New user signed up with facebook.", @user)
+					end
 				end
 
 				#user was came from the attempting to connect from another users profile
