@@ -87,6 +87,8 @@
 
 			<div class="button_wrap" style="text-align:left">
 				<input type="submit" class="large button" style="padding:9px 50px;display:inline;width:auto;" value="Next Step" />
+				<%= link_to "Sign up with twitter", "/auth/twitter?#{session[:signup_key]}" %>
+				<%= link_to "Sign up with facebook", "/auth/facebook?#{session[:signup_key]}" %>
 				<br />
 				<p style="font-size: 12px">Already have a Tioki account? <span><a href="/login">Login.</a></span></p>
 				<p style="font-size: 12px">By clicking Next Step, you are agreeing to the <span><a href="/static/resources/terms">terms</a> and <span><a href="/static/resources/privacy">privacy policy.</a></p>	

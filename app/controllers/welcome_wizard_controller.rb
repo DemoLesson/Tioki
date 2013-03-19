@@ -15,9 +15,12 @@ class WelcomeWizardController < ApplicationController
 			@url = "&user_connection=#{params[:twittercode]}"
 		elsif params[:facebookcode].present?
 			@url = "&user_connection=#{params[:facebookcode]}"
+		elsif params[:discussion_id].present?
+			@url = "&discussion_id=#{params[:discussion_id]}&body=#{params[:body]}"
 		else
 			@url = ""
 		end
+		session[:signup_key] = @url
 
 		# Route to other steps/methods
 		return self.send(params[:x]) unless params[:x].nil?

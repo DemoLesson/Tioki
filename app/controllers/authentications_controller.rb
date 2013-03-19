@@ -25,7 +25,7 @@ class AuthenticationsController < ApplicationController
 			                                request.env['omniauth.params'])
 		else
 			session[:omniauth] = omniauth
-			redirect_to '/welcome_wizard?x=step1'
+			redirect_to "/welcome_wizard?x=step1#{session[:signup_key]}"
 		end
 	end
 
