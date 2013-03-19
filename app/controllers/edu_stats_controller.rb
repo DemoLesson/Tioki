@@ -83,7 +83,7 @@ class EduStatsController < ApplicationController
 
 		respond_to do |format|
 			if edu_stats.save
-				format.html { redirect_to '/impact/results', :notice => "Education details updated." }
+				format.html { redirect_to '/impact/results'}
 			else
 				format.html { redirect_to :back, :notice => "An error occurred."}
 			end
