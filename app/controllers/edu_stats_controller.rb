@@ -83,7 +83,11 @@ class EduStatsController < ApplicationController
 
 		respond_to do |format|
 			if edu_stats.save
-				self.log_analytic(:impact_created, "User created an impact score.", self.current_user)
+				if self.current_user
+					self.log_analytic(:impact_created, "User created an impact score.", self.current_user)
+				else
+					self.log_analytic(:impact_created, "User created an impact score.")
+				end
 				format.html { redirect_to '/impact/results'}
 			else
 				format.html { redirect_to :back, :notice => "Please input a number" }
