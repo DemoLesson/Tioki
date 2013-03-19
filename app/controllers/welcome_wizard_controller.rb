@@ -61,13 +61,6 @@ class WelcomeWizardController < ApplicationController
 					                              :uid => session[:omniauth][:uid],
 					                              :token => session[:omniauth][:credentials][:token],
 					                              :secret => session[:omniauth][:credentials][:secret])
-
-					
-					# Upload twitter profile image
-					if session.omniauth[:provider] == 'twitter' && !session[:omniauth][:extra][:raw_info][:default_profile_image]
-						@user.update_attribute(:avatar,
-						                       URI.parse(session[:omniauth][:info][:image]))
-					end
 				end
 
 				#user was came from the attempting to connect from another users profile
