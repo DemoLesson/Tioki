@@ -1,3 +1,10 @@
+v5.1.1 - Mar 18, 2013  8:11PM PDT deployed by Aleks Stanisic
+============================================================
+* 9a8b62e: Aleks Stanisic - adding subjects and grades to about page
+* cb3b277: Aleks Stanisic - fixing merge conflict
+* baa1fda: Aleks Stanisic - develop merge
+* 0b24c2f: Elijah Green - Fix file typo
+
 v5.1.0 - Mar 18, 2013  7:12PM PDT deployed by Aleks Stanisic
 ============================================================
 * 02f667c: Elijah Green - Fix facebook signup analytic
