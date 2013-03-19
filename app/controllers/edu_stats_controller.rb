@@ -12,14 +12,14 @@ class EduStatsController < ApplicationController
 		if edu_stats.save
 
       #Calculating the Total Students served by the teacher
-			edu_stats[:total_students] = edu_stats[:yrs_teaching] * edu_stats[:avg_class_size] *edu_stats[:class_perday] 
+			edu_stats[:total_students] = edu_stats[:yrs_teaching] * edu_stats[:avg_class_size] * edu_stats[:class_perday]
 
       #Calculating the Total Hours Teaching by the teacher
 			edu_stats[:total_hours_teaching] = edu_stats[:yrs_teaching] * 867
 
       #Calculating the approximate size of their educator network
       # Determining based on their years teching, the number of times they have swithched schools. Assumed once every 6 years
-      if  edu_stats[:yrs_teaching] < 7 
+      if  edu_stats[:yrs_teaching] < 7
 
           edu_stats[:edu_network_public] = 33 + (5.3 * (edu_stats[:yrs_teaching] - 1))
           edu_stats[:edu_network_private] = 16 + (2.6 * (edu_stats[:yrs_teaching] - 1))
@@ -85,7 +85,7 @@ class EduStatsController < ApplicationController
 			if edu_stats.save
 				format.html { redirect_to '/impact/results'}
 			else
-				format.html { redirect_to :back, :notice => "An error occurred."}
+				format.html { redirect_to :back, :notice => "Please input a number" }
 			end
 		end
 	end
