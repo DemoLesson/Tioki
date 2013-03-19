@@ -1,3 +1,10 @@
+v5.2.2 - Mar 19, 2013  4:15PM PDT deployed by Aleks Stanisic
+============================================================
+* eb9702d: Elijah Green - Analytics when not logged in
+* 9a8d97e: Elijah Green - Add link to welcome wizard step 1
+* a8791e2: Aleks Stanisic - fixed network size calculations
+* 47ae458: Elijah Green - Analytics
+
 v5.2.1 - Mar 19, 2013  2:09PM PDT deployed by Aleks Stanisic
 ============================================================
 * f7e4ee0: Elijah Green - Remove number spinners
