@@ -240,10 +240,10 @@ class WelcomeWizardController < ApplicationController
 				# And create an analytic
 				self.log_analytic(wKey, "User completed step 3 of the welcome wizard.", self.current_user)
 
-				if self.current_user.facebook_auth? || self.current_user.twitter_auth?
-					return redirect_to "/connections/social_friends"
-				elsif @user.job_seeking
+				if @user.job_seeking
 					return redirect_to "/jobs/preferences"
+				elsif self.current_user.facebook_auth? || self.current_user.twitter_auth?
+					return redirect_to "/connections/social_friends"
 				else
 					return redirect_to "/get_started"
 				end
