@@ -343,6 +343,72 @@
 				<% end %>
 			<% end %>
 			
+			<!-- START Grade & Subject Section-->
+			<!-- If grades is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @grades.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Grades", "/me/profile/edit", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit">  >> What Grade do you teach?</a>
+					</span>
+					</h3>
+				</section></br>
+				
+			<!-- If grades is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @grades.empty? %>
+			
+			<!-- If grades aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Grades", "/me/profile/edit", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Grades	
+						</h3>
+					<% end %>
+					<p class="bold">
+						<%= @grades.to_sentence %>
+					</p>
+				</section></br>
+			<% end %>
+
+			<!-- If Subject is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @subjects.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Subjects", "/me/profile/edit", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit">  >> What Subjects do you teach?</a>
+					</span>
+					</h3>
+				</section></br>
+				
+			<!-- If Subject is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @subjects.empty? %>
+			
+			<!-- If Subjects aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Subjects", "/me/profile/edit", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Subjects	
+						</h3>
+					<% end %>
+					<p class="bold">
+						<%= @subjects.to_sentence %>
+					</p>
+				</section></br>
+			<% end %>
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
