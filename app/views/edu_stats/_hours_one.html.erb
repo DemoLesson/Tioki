@@ -1,4 +1,35 @@
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:20px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught an oustanding
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> hours!
+			</span>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>FUN FACT:
+		<% if (@edu_stats.total_hours_teaching / 1680) >= 1 && (@edu_stats.total_hours_teaching / 1680) < 2 %>
+			You've spent some serious time in the classroom. In fact, you've already taught <strong style='color:#2AA99B'><em>longer</em></strong> than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+			
+		<% elsif (@edu_stats.total_hours_teaching / 1680) >= 2 %>
+			You've spent some serious time in the classroom. In fact, you've spent <strong style='color:#2AA99B'><em>twice as much time</em></strong> in the classroom as the <strong style='color:#2AA99B'><em>longest Monopoly Game ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+			
+		<% else %>
+			You're just getting started on your amazing teaching journey. If you spend just 
+				<strong style='color:#2AA99B'><em>
+				<%= number_with_delimiter(1680 - @edu_stats.total_hours_teaching, :delimiter => ',') %> More Hours
+				</em></strong> 
+				in the classroom, you would have taught more time than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+				
+		<% end %>
+	</p>
+</section>
 
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/monopoly_man.png', :style => 'width:350px;' %>
+</section>
 
 
 
