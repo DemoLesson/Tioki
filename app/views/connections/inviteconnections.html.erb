@@ -42,7 +42,7 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 					Facebook
 				</a>
 			</li>
-			<li>
+			<!--<li>
 				<a href="/inviteconnections/gmail">
 					Gmail
 				</a>
@@ -51,7 +51,7 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 				<a href="/inviteconnections/yahoo">
 					Yahoo
 				</a>
-			</li>
+			</li>-->
 		</ul>
 	</section>
 
@@ -94,8 +94,9 @@ domain_key:"<%= APP_CONFIG["cloudsponge"]["domainKey"] %>",
 							<%= text_area_tag :emails, nil, :placeholder => "Email Address", :row => 5, :cols => 43, :style => "padding:3px;width:415px"  %>
 						<p>
 							If you want to customize your own message, go for it:
-							<%= text_area_tag :message, @default_message, :rows=> 5, :cols => 43, :style => "padding:3px;width:415px" %>
+							<%= text_area_tag :message, @default_message, :rows=> 10, :cols => 43, :style => "padding:3px;width:415px" %>
 						</p>
+						<%= hidden_field_tag :ab, @ab %>
 						<div class="button_wrap">
 							<%= f.submit "Invite " + ablang('connection.plural'), :class => "button", :style => "padding:9px 25px;display:inline;width:auto;" %>
 						</div>

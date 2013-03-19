@@ -1,0 +1,41 @@
+<section id="main-content" class="inner-content connections-page" style="margin-bottom: 60px;margin-top: 30px">
+	<section id="panels" class="group">
+		<section id="list" class="panel two-column left-side" style="margin-left:150px">
+			<h3>
+				Connect to users you may know
+				<div style="float:right">
+					<%= link_to "Add All", "/connections/connect_social_friends", :class => 'button' %>
+				</div>
+			</h3>
+			<ul>
+				<% @users.each do |user| %>
+					<li>
+						<div class="profile-thumb-big">
+							<% if user.avatar? %>
+								<%= link_to image_tag(user.avatar.url(:thumb)), "profile/#{user.slug}" %>
+							<% else %>
+								<%= link_to image_tag("dl_icons/no_avatar_large.jpg"), "profile/#{user.slug}" %>
+							<% end %>
+						</div>
+						<p>
+							<a href="/profile/<%= user.slug %>"><%= user.name %></a>
+							<br />
+							<%= user.current_job_string %><br />
+							<%= user.location %>
+						</p>
+						<div>
+							<%= link_to "Add", { :controller => 'connections', :action => 'add_connection', :user_id => user.id.to_s }, :class => "addconnection", :remote => true, :id => dom_id(user) %>
+						</div>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+	</section>
+	<% if self.current_user.twitter_auth? %>
+		<%= link_to "Next", "/inviteconnections/twitter", :class => 'action-button bg-green', :style => "float:right" %>
+	<% elsif self.current_user.facebook_auth? %>
+		<%= link_to "Next", "/inviteconnections/facebook", :class => 'action-button bg-green', :style => "float:right" %>
+	<% else %>
+		<%= link_to "Next", "/", :class => 'action-button bg-green', :style => "float:right" %>
+	<% end %>
+</section>

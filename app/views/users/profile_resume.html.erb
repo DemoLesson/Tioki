@@ -47,6 +47,16 @@
 					<% end %>
 					<%= @user.location %>
 				</p>
+				<!--<p style="margin-left:10px; margin-top:-7px; margin-bottom: 5px; width:auto">
+					<% if @grades[0] %>
+						<strong style="color:#2AA99B">Grades:</strong>
+						<%= @grades.to_sentence %>
+					<% end %>
+					<% if @subjects[0] %>
+						<strong style="color:#2AA99B">Subjects:</strong>
+						<%= @subjects.to_sentence %>
+					<% end %>
+				</p>-->
 				</section>
 				<p>
 				<section id="updates" style="margin: 0px 0px 0px 10px;">
@@ -148,7 +158,7 @@
 			<nav class="subpage" style="width: 660px;margin-left: 15px;">
 				<ul>
 					<li>
-						<a href="/profile/<%= @user.slug %>?application=<%= @application.id.to_s() %>">
+						<a href="/profile/<%= @user.slug %>/activity?application=<%= @application.id.to_s() %>">
 							Activity
 						</a>
 					</li>
@@ -188,9 +198,9 @@
 						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
 						<li>
 							<% if @self %>
-							<a href="/me/profile">
+							<a href="/me/profile/activity">
 							<% else %>
-							<a href="/profile/<%= @user.slug %>">
+							<a href="/profile/<%= @user.slug %>/activity">
 							<% end %>
 								Activity
 							</a>
@@ -208,20 +218,18 @@
 						Resume
 						</a>
 					</li>
-					<%unless currentUser.new_record? %>
-						<% if @user.videos.count > 0 %>
-						<li>
-							<a href="/profile/<%= @user.slug %>/videos">
-							Videos
-							</a>
-						</li>
-						<% elsif !currentUser.new_record? && @self %>
-						<li>
-							<a href="/me/profile/edit/upload-video">
-							Upload Video
-							</a>
-						</li>
-						<% end %>
+					<% if @user.videos.count > 0 %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+						</a>
+					</li>
+					<% elsif !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/edit/upload-video">
+						Upload Video
+						</a>
+					</li>
 					<% end %>
 					<% if !currentUser.new_record? && @self %>
 					<li>
@@ -670,16 +678,11 @@
 								Attachments
 							</h3>
 						<% end %>
-
-						<% if User.current.nil? %>
-							<p>Please <%= link_to "login", '/login' %> to view profile attachments.</p>
-						<% else %>
-							<% @user.assets.each do |asset| %>
-								<p>
-									<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
-									<%= asset.description %>
-								</p>
-							<% end %>
+						<% @user.assets.each do |asset| %>
+							<p>
+								<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+								<%= asset.description %>
+							</p>
 						<% end %>
 					</section>
 				<% end %>

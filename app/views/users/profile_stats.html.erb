@@ -8,7 +8,7 @@
 		<nav class="subpage" style="width: 660px;margin-left: 15px;">
 			<ul>
 				<li>
-					<a href="/me/profile">
+					<a href="/me/profile/activity">
 						Activity
 					</a>
 				</li>
@@ -72,32 +72,26 @@
 		<section class="profile-content" style="float:left;margin: 0px 15px 30px 15px;">	
 			<section class="info panel">
 				<h3>
-					Profile views over the last 60 days. 
-					<span style="float:right">Total: 120</span><!-- I don't know how to pull out this data count total -->
+					Profile views over the last 8 weeks. 
+					<span style="float:right">Total: <%= @viewed.where("created_at > ?", Time.now-56.days).length %></span>
 				</h3>
 
 				<section class="panel-actions">
 
 					<div id="profile_last_eight" style="width:600px;height:250px;margin:10px 10px;"></div>
 					
-					<!-- ELIJAH: My notes on the graph are this. I would like for each data point to represent a week as opposed to a day. I would also like to display the number of connections over the time period above. Lastly, we will nick a tick under the graph for each of the 8 weeks over the 60 day period -->
-
 					<!-- Load Plot Points -->
 					<script type="text/javascript">
 					$(function () {
-						var d = [<%= @data['profile_last_eight'] %>];
+						var d = <%= @views %>;
 						
 						var options = {
-							xaxis: { 
-								mode: "time",
-								timeformat: "%b %0d",
-								tickLength: 5,
-								
-							
-								
+							xaxis: {
+								ticks: <%= @labels.to_json.html_safe %>
 							},
 							
 							yaxis: {
+								tickDecimals: 0,
 								tickFormatter: function(val, axis) {
 									return val + ' Views';
 								}
@@ -125,9 +119,7 @@
 				</section>
 			</section>
 			<section class="info panel">
-				<h3>Who has viewed your profile?
-					 <span style='float:right'> Total: <%= @viewed.each.count %></span><!--This number needs to be over the last 60 days as well -->
-				</h3>
+				<h3>Who has viewed your profile?</h3>
 				<ul>
 					<% @viewed.each do |view| %>
 						<% if view.user.nil?; view.destroy; next; end; %>
@@ -151,13 +143,13 @@
 								<%= view.user.location unless view.user.location.nil? || view.user.location.empty? %>
 							</p>
 							
-							<!-- Prompting the connection or messaging based on connection status -->
 							<div style='float:right;margin-top:15px'>
 								
-								<!-- ELIJAH: If the user is connected to me, I would like a 'Message' button. If they aren't connected, I would like a 'Connect' button. Would be awesome if the page didn't reload whenever I pressed the connect button. Lastly, we should limit the results to 15 users. Click a 'more' button should reveal another 15, etc 
-									<%= link_to "Message", '#', :class => 'button bg-green', :style => 'color:#ffffff !important;' %>
-									<br/>
-									<%= link_to "Connect", '#', :class => "button bg-green", :style => 'color:#ffffff !important;' %>-->
+								<% if @my_connections.include?(view.user_id) %>
+									<%= link_to "Message", { :controller => 'messages', :action => 'new', :user_id_to => view.user_id }, {:style => 'color:#ffffff !important;', :class => "button bg-green" } %>
+								<% else %>
+									<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => view.user.id }, :style => "color:#ffffff !important;", :class => "button bg-green addconnection", :remote => true, :id => dom_id(view.user) %>
+								<%  end %>
 								
 								
 								

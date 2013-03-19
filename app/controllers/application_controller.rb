@@ -276,7 +276,7 @@ class ApplicationController < ActionController::Base
 						:status => 404
 				else
 					# If staging use pretty on all except fatals
-					raise e if Rails.env == 'staging'
+					# raise e if Rails.env == 'staging'
 
 					# Hide fatal errors on production
 					@path = request.fullpath
@@ -387,24 +387,5 @@ class ApplicationController < ActionController::Base
 				Rails.logger.error(error) if severity == 4
 				Rails.logger.fatal(error) if severity == 3
 			end
-		end
-
-    # Twitter oAuth access
-    # @todo document
-		def twitter_oauth
-			#specifically set the authorize ath for authenticate in order
-			#to only have to authorize once
-			@consumer = OAuth::Consumer.new(APP_CONFIG.twitter.consumer_key, 
-				APP_CONFIG.twitter.consumer_secret, 
-				{ :site => "http://twitter.com", 
-					:authorize_path => "/oauth/authenticate"
-				})
-		end
-
-    # Facebook oAuth access
-    # @todo document
-		def facebook_oauth
-			callback_url = "http://#{request.host_with_port}/facebook_callback"
-			return Koala::Facebook::OAuth.new(APP_CONFIG.facebook.api_key, APP_CONFIG.facebook.app_secret, callback_url)
 		end
 end

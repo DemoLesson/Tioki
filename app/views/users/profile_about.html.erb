@@ -28,17 +28,17 @@
 				<% end %>
 
 				<!-- START Teacher INFO -->
-				<h2 style="margin: 10px 0px 10px 10px">
+				<h2 style="margin: 5px 0px 15px 10px">
 				<%= @user.name %>
 				</h2>
 				<section style= "height: 75px;">
 				<% if @user.headline? %>
-					<h4 style="margin-left:10px;margin-top:-10px;width:auto">
+					<h4 style="margin-left:10px;margin-top:-15px;width:auto">
 						"<%= @user.headline %>"
 					</h4>
 				<% end %>
 
-				<p style="margin-left:10px; margin-top:-15px; margin-bottom: 5px; width:auto">
+				<p style="margin-left:10px; margin-top:-20px; margin-bottom: 5px; width:auto">
 				  	<% if !(currentJob = @user.currentJob).nil? %>
 						<strong style="color:#2AA99B">
 							Currently:
@@ -47,7 +47,17 @@
 					<% end %>
 					<%= @user.location %>
 				</p>
-				</section>
+				<!--<p style="margin-left:10px; margin-top:-7px; margin-bottom: 5px; width:auto">
+					<% if @grades[0] %>
+						<strong style="color:#2AA99B">Grades:</strong>
+						<%= @grades.to_sentence %>
+					<% end %>
+					<% if @subjects[0] %>
+						<strong style="color:#2AA99B">Subjects:</strong>
+						<%= @subjects.to_sentence %>
+					<% end %>
+				</p>-->
+			</section>
 				<p>
 				<section id="updates" style="margin: 0px 0px 0px 10px;">
 					<!-- SOCIAL LINKS -->
@@ -148,7 +158,7 @@
 			<nav class="subpage" style="width: 660px;margin-left: 15px;">
 				<ul>
 					<li>
-						<a href="/profile/<%= @user.slug %>?application=<%= @application.id.to_s() %>">
+						<a href="/profile/<%= @user.slug %>/activity?application=<%= @application.id %>">
 							Activity
 						</a>
 					</li>
@@ -188,9 +198,9 @@
 						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
 						<li>
 							<% if @self %>
-							<a href="/me/profile">
+							<a href="/me/profile/activity">
 							<% else %>
-							<a href="/profile/<%= @user.slug %>">
+							<a href="/profile/<%= @user.slug %>/activity">
 							<% end %>
 								Activity
 							</a>
@@ -208,20 +218,18 @@
 						Resume
 						</a>
 					</li>
-					<%unless currentUser.new_record? %>
-						<% if @user.videos.count > 0 %>
-						<li>
-							<a href="/profile/<%= @user.slug %>/videos">
-							Videos
-							</a>
-						</li>
-						<% elsif !currentUser.new_record? && @self %>
-						<li>
-							<a href="/me/profile/edit/upload-video">
-							Upload Video
-							</a>
-						</li>
-						<% end %>
+					<% if @user.videos.count > 0 %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+						</a>
+					</li>
+					<% elsif !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/edit/upload-video">
+						Upload Video
+						</a>
+					</li>
 					<% end %>
 					<% if !currentUser.new_record? && @self %>
 					<li>
@@ -440,7 +448,11 @@
 							<!-- We will display the first 8 of their groups -->
 								<% @user.groups.limit(8).each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>
@@ -476,7 +488,11 @@
 								<!-- If they have 9 groups or less, we will display the entire list -->
 								<% @user.groups.each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>

@@ -46,7 +46,8 @@
 					</strong>
 					<br/>
 					<% @message.assets.each do |asset| %>
-						<%= link_to image_tag('tioki/icons/attachment.png', :style => 'width:14px;margin-right:5px') + asset.name, asset.file.url %><br />
+						<% filename = asset.original_filename ? asset.original_filename : asset.name %>
+						<%= link_to image_tag('tioki/icons/attachment.png', :style => 'width:14px;margin-right:5px') + filename, asset.file.url %><br />
 					<% end %>
 				</p>
 			</section>
@@ -86,7 +87,8 @@
 
 		</section>
 		<% message.assets.each do |asset| %>
-			<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+			<% filename = asset.original_filename ? asset.original_filename : asset.name %>
+			<%= link_to image_tag('tioki/icons/attachment.png') + filename, asset.file.url %><br />
 		<% end %>
 	<% end %>
 </section>

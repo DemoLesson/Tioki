@@ -114,6 +114,16 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.datetime "updated_at"
   end
 
+  create_table "authentications", :force => true do |t|
+    t.string   "provider"
+    t.integer  "user_id"
+    t.string   "uid"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "awards", :force => true do |t|
     t.string   "title"
     t.string   "issuer"
@@ -249,8 +259,8 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.integer  "total_hours_teaching"
     t.integer  "total_hours_planning"
     t.integer  "total_hours_grading"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "edu_network_public"
     t.integer  "edu_network_private"
     t.integer  "edu_network_charter"

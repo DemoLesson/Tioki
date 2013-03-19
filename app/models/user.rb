@@ -77,10 +77,11 @@ class User < ActiveRecord::Base
 	has_one :teacher
 
 	#User occupation constant
-	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student", "Entrepreneur", "Staff", "Other" ]
+	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student Teacher", "Entrepreneur", "Staff", "Other" ]
 
 	# Migrated from teacher.rb
 	has_many :applications
+	has_many :authentications, :dependent => :destroy
 	has_many :videos, :dependent => :destroy
 	has_many :interviews
 	has_many :awards, :dependent => :destroy
@@ -166,7 +167,7 @@ class User < ActiveRecord::Base
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."
 
 	# Callbacks in order or processing
-	after_create :after_create
+	after_create :create_extra
 	before_save :before_save
 	after_find :_isorg
 
@@ -185,9 +186,7 @@ class User < ActiveRecord::Base
 		organization? if _up.nil? || 1.day.ago > _up
 	end
 
-	#after_save :add_ab_test_data
-
-	def after_create
+	def create_extra
 		# Create invite code
 		create_invite_code
 
@@ -342,7 +341,19 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.authorizations[:facebook_access_token].present?
+		!self.authentications.where(:provider => 'facebook').first.nil?
+	end
+
+	def facebook_auth
+		self.authentications.where(:provider => 'facebook').first
+	end
+
+	def twitter_auth?
+		!self.authentications.where(:provider => 'twitter').first.nil?
+	end
+
+	def twitter_auth
+		self.authentications.where(:provider => 'twitter').first
 	end
 
 	def got_started
@@ -557,9 +568,6 @@ class User < ActiveRecord::Base
 		return tioki_bucks
 	end
 
-	def twitter_auth?
-		self.authorizations[:twitter_oauth_token].present? && self.authorizations[:twitter_oauth_secret].present?
-	end
 
 	def update_login_count
 		puts "logincount update"
@@ -823,6 +831,37 @@ class User < ActiveRecord::Base
 		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id }
 	end
 
+	def twitter_friends
+		if self.twitter_auth?
+			client = Twitter::Client.new(:oauth_token => self.twitter_auth.token,
+			                             :oauth_token_secret => self.twitter_auth.secret)
+
+			uids = client.friend_ids.ids | client.follower_ids.ids
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'twitter',
+			           uids)
+		else
+			nil
+		end
+	end
+
+	def facebook_friends
+		if self.facebook_auth?
+			graph = Koala::Facebook::GraphAPI.new(self.facebook_auth.token)
+
+			uids = graph.get_connections("me", "friends").collect(&:id)
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'facebook',
+			           uids)
+		else
+			nil
+		end
+	end
+
 	# Connections
 
 	def connected_to?(_user)
@@ -910,4 +949,4 @@ class User < ActiveRecord::Base
 		update_attribute(:ab, 'A') unless id.even?
 	end
 end
- 
+

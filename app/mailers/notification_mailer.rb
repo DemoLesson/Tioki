@@ -132,4 +132,51 @@ class NotificationMailer < ActionMailer::Base
 		# Return the mailer object
 		return mail
 	end
+
+	def profile_views(user, views)
+		@user = user
+		@views = views
+		@profile_views = views.count
+
+		if @profile_views > 1
+			other = @profile_views > 2 ? "others" : "other"
+			subject = "#{views.first.name} and #{@profile_views - 1} #{other} viewed your profile"
+		else
+			subject = "#{views.first.name} viewed your profile"
+		end
+
+		mail = mail(:to => @user.email, :subject => subject)
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('profile_views')
+		end
+
+		return mail
+	end
+
+	def interview_reminder(user, group)
+		@user = user
+		@group = group
+
+		mail = mail(:to => @user.email, :subject => "You have an unscheduled interview")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('interview_reminder')
+		end
+
+		return mail
+	end
+
+	def connection_reminder(user_id, owner_id)
+		@user = User.find(user_id)
+		@owner = User.find(owner_id)
+
+		mail = mail(:to => @user.email, :subject => "You have a pending connection!")
+
+		if mail.delivery_method.respond_to?('tag')
+			mail.delivery_method.tag('connection_reminder')
+		end
+
+		return mail
+	end
 end

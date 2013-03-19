@@ -1,3 +1,311 @@
+v5.1.0 - Mar 18, 2013  7:12PM PDT deployed by Aleks Stanisic
+============================================================
+* 02f667c: Elijah Green - Fix facebook signup analytic
+* b093683: Elijah Green - If job seeking go to job preferences
+* e7d9dd8: Aleks Stanisic - adding social buttons to wizard step 1
+* 9e0be5b: Elijah Green - Welcome wizard sign up keys
+* 2765eec: Aleks Stanisic - adding social buttons to login and sign up pages
+* 3ed02d9: Aleks Stanisic - adding fb and twitter sign up buttons on splash page
+* 340cca2: Elijah Green - twitter, facebook analytics
+* 98bdc38: Elijah Green - Don'tn upload profile image
+* cc30fbf: Aleks Stanisic - adding social auth links in log in tray
+* e72a77e: Elijah Green - Put add_all button on social_friends page
+* 2faed14: Elijah Green - Add controller method for adding all social friends
+* 1221a63: Elijah Green - populate education fields
+* b68e1ab: Elijah Green - Eduaction and next button
+* f910ac4: Elijah Green - Flow changes
+* 7ac2dd3: Elijah Green - Remove instance of old authorizations
+* 7ad56ee: Elijah Green - slight changes to whiteboard auth
+* 8adea4e: Elijah Green - Slight change to invite twitter
+* 6c630d2: Elijah Green - social friends page
+* 83964b8: Elijah Green - Authorizations migration
+* dc7a51c: Elijah Green - Functions to get twitter and facebook friends
+* c73e354: Elijah Green - Remove old oauth
+* 19b6754: Elijah Green - Start gettings friends
+* 979d3eb: Elijah Green - Migrating to new authentications
+* 5f86fd7: Elijah Green - Key migration
+* 7f6441d: Elijah Green - Fix facebook login
+* e9c026a: Elijah Green - Fix twitter picture upload
+* 2f46e1b: Elijah Green - Get twitter profile image
+* 0c5c72e: Elijah Green - Facebook
+* ceadf0b: Elijah Green - Dealing wiht old authentications
+* c03b10a: Elijah Green - Deal with some old authentications cases
+* 1f66718: Elijah Green - Twitter login works now
+* 7d1d0db: Elijah Green - Add twitter info
+* 855dac4: Elijah Green - Change from service to provider
+* 4efc07e: Elijah Green - add token and secret to authentications
+* c1fb7be: Elijah Green - Start adding redirects
+* 5ab82fe: Elijah Green - Specific omniauth gems
+* 68d93b9: Elijah Green - Fix up some things with authentications
+* 394754a: Elijah Green - more authentications table info
+* 71e2098: Elijah Green - Add authentications model
+
+v5.0.17 - Mar 18, 2013 12:51PM PDT deployed by Aleks Stanisic
+=============================================================
+* 46852bf: Aleks Stanisic - changing character max of headline back to 140
+
+v5.0.16 - Mar 18, 2013 12:26PM PDT deployed by Aleks Stanisic
+=============================================================
+* 01aeaa4: Aleks Stanisic - changing student to student teacher
+
+v5.0.15 - Mar 15, 2013  1:52PM PDT deployed by Aleks Stanisic
+=============================================================
+* ac47f1a: Aleks Stanisic - removing grades and subjects temorarily
+
+v5.0.14 - Mar 15, 2013  1:23PM PDT deployed by Aleks Stanisic
+=============================================================
+* 0683c3f: Aleks Stanisic - adding subjects and grades to user profiles
+* b995173: Elijah Green - Chagne to profile view notificaitons
+* 64a7f79: Aleks Stanisic - changes to suggested connections in dashboard
+
+v5.0.13 - Mar 13, 2013 10:36PM PDT deployed by Elijah Green
+===========================================================
+* 5fd7b08: Brian Martinez - adding new partners to the partners page
+
+v5.0.12 - Mar 12, 2013  5:56PM PDT deployed by Aleks Stanisic
+=============================================================
+* 4db52cd: Aleks Stanisic - finishign touches to suggested connections for grades and subjects, added analytics
+* e4ea507: Aleks Stanisic - some changes
+* bae16ec: Aleks Stanisic - adding grades to suggested connections
+* e8e360c: Aleks Stanisic - ab test
+
+v5.0.11 - Mar 11, 2013  5:02PM PDT deployed by Aleks Stanisic
+=============================================================
+* bebeee1: Elijah Green - Remove average completion
+
+v5.0.10 - Mar 9, 2013  4:37PM PST deployed by Aleks Stanisic
+============================================================
+* 38984f6: Aleks Stanisic - new featured jobs and groups
+
+v5.0.9 - Mar 8, 2013  1:43PM PST deployed by Aleks Stanisic
+===========================================================
+* 492fad4: Elijah Green - Fix years_teaching
+
+v5.0.8 - Mar 8, 2013 12:02PM PST deployed by Aleks Stanisic
+===========================================================
+* 977e0e2: Aleks Stanisic - fix to the user welcome email
+* 434fe36: Aleks Stanisic - ab test on the invite connections emails
+
+v5.0.7 - Mar 6, 2013  5:15PM PST deployed by Aleks Stanisic
+===========================================================
+* fa01536: Aleks Stanisic - temorarily removing gamil and yahoo connection invites
+
+v5.0.6 - Mar 6, 2013 11:15AM PST deployed by Aleks Stanisic
+===========================================================
+* 33ec9d2: Aleks Stanisic - making attachments and prfile video tab public
+* e2cdfb0: Elijah Green - Remove extra gemfile comments
+* c563538: Aleks Stanisic - changes to connection invite email
+
+v5.0.5 - Mar 5, 2013  4:57PM PST deployed by Aleks Stanisic
+===========================================================
+* 2e7a37a: Aleks Stanisic - fix to groups page
+
+v5.0.4 - Mar 5, 2013  4:43PM PST deployed by Aleks Stanisic
+===========================================================
+* 559046e: Aleks Stanisic - fix to groups page
+* ff1a9f3: Aleks Stanisic - adding video file format to accepted list
+* ae98873: Elijah Green - Fix typo
+
+v5.0.3 - Mar 4, 2013  5:57PM PST deployed by Aleks Stanisic
+===========================================================
+* d549438: Elijah Green - Connection request set for five days later
+* bbacb56: Aleks Stanisic - adding connections reminder and fixing inteviews reminder
+
+v5.0.2 - Mar 4, 2013  3:03PM PST deployed by Elijah Green
+=========================================================
+* 6ed9e78: Elijah Green - Fix deletions of authorizations keys
+* 8f2da9e: Elijah Green - Fix twitter
+* 8298c57: Elijah Green - Deal with groups that have no iamges
+
+v5.0.1 - Mar 3, 2013 11:54PM PST deployed by Elijah Green
+=========================================================
+* 520e748: Elijah Green - add deletetions
+* e732589: Elijah Green - profile activity
+* a26d2dd: Elijah Green - Fix message attachment name commit
+* 83b2f1e: Elijah Green - Original filename on message attachments
+* e07cd0b: Elijah Green - Original file name
+
+v5.0.0 - Mar 3, 2013 10:36PM PST deployed by Elijah Green
+=========================================================
+* 531a2d0: Aleks Stanisic - changes to team page
+* f7f617f: Elijah Green - Don't reset file name
+
+v4.4.84 - Mar 3, 2013  6:33PM PST deployed by Elijah Green
+==========================================================
+* c3608f6: Elijah Green - Mailgun
+* e6e187c: Elijah Green - Interviews
+* d04515f: Elijah Green - Deal with some broken interviews
+
+v4.4.83 - Mar 3, 2013  5:00PM PST deployed by Elijah Green
+==========================================================
+* b6dcb1b: Elijah Green - Replace depreciated function
+
+v4.4.82 - Mar 3, 2013 12:20AM PST deployed by Elijah Green
+==========================================================
+* 03e2662: Elijah Green - Don't log development errors to graylog
+* dbbeacc: Elijah Green - Give production errors in staging
+* 187b586: Elijah Green - Fix coffeescript
+
+v4.4.81 - Mar 2, 2013 11:12PM PST deployed by Elijah Green
+==========================================================
+* 552768c: Elijah Green - Staging server emails
+
+v4.4.80 - Mar 2, 2013  9:55PM PST deployed by Elijah Green
+==========================================================
+* 3015ecc: Elijah Green - Use older version of jquery
+* ee8fcc1: Elijah Green - Revert unicorn Gemfile change
+* b955c56: Elijah Green - Update jcrop
+
+v4.4.79 - Mar 2, 2013  8:42PM PST deployed by Elijah Green
+==========================================================
+* dc6dbc4: Elijah Green - Change the hostname of staging instance
+
+v4.4.78 - Mar 2, 2013  8:08PM PST deployed by Elijah Green
+==========================================================
+
+
+v4.4.77 - Mar 2, 2013  7:42PM PST deployed by Elijah Green
+==========================================================
+
+
+v4.4.76 - Mar 2, 2013  7:35PM PST deployed by Elijah Green
+==========================================================
+* 1cf7745: Elijah Green - Lets try the old version of unicorn
+
+v4.4.75 - Mar 2, 2013  7:26PM PST deployed by Elijah Green
+==========================================================
+* cb50216: Elijah Green - Another attempt at a unicorn fix
+
+v4.4.74 - Mar 2, 2013  7:10PM PST deployed by Elijah Green
+==========================================================
+* 40a4895: Elijah Green - Fix assets:precompile error
+* d478317: Elijah Green - Attempt at fixing unicorn error
+
+v4.4.73 - Mar 2, 2013  6:46PM PST deployed by Elijah Green
+==========================================================
+
+
+v4.4.72 - Mar 2, 2013  6:23PM PST deployed by Elijah Green
+==========================================================
+* 80e4f55: Elijah Green - Possible fix to net-scp error
+
+v4.4.71 - Mar 2, 2013  6:20PM PST deployed by Elijah Green
+==========================================================
+* fe6ff13: Elijah Green - Upgrade rubber and fix dependency issue with net-scp
+* 4047872: Elijah Green - Add staging instance
+* 6553bd1: Elijah Green - Don't do notifications on development
+* b2ab68e: Elijah Green - Gemfile.lock
+* d1ba362: Elijah Green - Gemfile.lock
+* ce2b523: Elijah Green - Gemfile.lock
+* 5caa647: Elijah Green - Fix some jquery errors
+* 52fe458: Elijah Green - Update gems
+* c529bda: Elijah Green - make most gems bleeding edge
+* 64318be: Elijah Green - Gemfile.lock
+* 6d7a9e4: Elijah Green - Add some recommended options to development.rb
+* b5f3c06: Elijah Green - Change from s3 to fog to avoid an error
+* 82dbaea: Elijah Green - update will_paginate
+* 30fadf1: Elijah Green - Commit new Gemfile
+
+v4.4.70 - Mar 1, 2013  5:49PM PST deployed by Elijah Green
+==========================================================
+* 969df11: Elijah Green - Interview reminders
+* 6e9a7e4: Aleks Stanisic - changing round scheduling styling
+* 17494c6: Elijah Green - Schedule next round
+* 1028132: Elijah Green - Have rounds display correctly on every page
+* f66a78e: Elijah Green - Add interview round pages
+* aaadf7d: Elijah Green - Add numbers to the applications pages
+* f6b7a73: Elijah Green - Add numbers for applications
+
+v4.4.69 - Feb 28, 2013 12:24PM PST deployed by Aleks Stanisic
+=============================================================
+* 2a7f375: Elijah Green - crontab dates are 0 indexed
+
+v4.4.68 - Feb 28, 2013 11:42AM PST deployed by Aleks Stanisic
+=============================================================
+* 86704cb: Elijah Green - Change profile view cron job to Thurs 20:00
+* 7628108: Elijah Green - Profile view email permission
+* 32b035a: Elijah Green - Fix view profile notfications
+
+v4.4.67 - Feb 27, 2013  7:43PM PST deployed by Aleks Stanisic
+=============================================================
+* 8cc2dd8: Elijah Green - Change profile_view email time to thursday 4:00am utc
+* 1d2512d: Elijah Green - Default profile is about instead of activity
+* 1754fa2: Elijah Green - Remove total profile_Views
+* 53be757: Elijah Green - Fix interview edit labels
+* f77b5d8: Elijah Green - Just removing some trailing spaces
+
+v4.4.66 - Feb 27, 2013  1:11PM PST deployed by Aleks Stanisic
+=============================================================
+* 69eb2c8: Elijah Green - Change the time for the cron job
+* 5313b87: Elijah Green - Fix error when no jobs in a location are found
+* 25a8894: Elijah Green - Add cron job
+
+v4.4.65 - Feb 27, 2013  7:55AM PST deployed by Aleks Stanisic
+=============================================================
+* b1d8c7b: Elijah Green - Fix to profile view pluralization
+
+v4.4.64 - Feb 26, 2013  6:52PM PST deployed by Aleks Stanisic
+=============================================================
+* 5323c1e: Elijah Green - Fix some profile view mailer errors
+* 0aa29ff: Aleks Stanisic - change to splash page
+* ceb0bab: Elijah Green - Profile view notifications
+* 11a9924: Elijah Green - Add no_image.png
+
+v4.4.63 - Feb 25, 2013  8:13PM PST deployed by Aleks Stanisic
+=============================================================
+* 9e6b5cf: Aleks Stanisic - adding new featured discussions on homepage
+* 5bbebfb: Aleks Stanisic - fix to featured groups in educator dashboard
+
+v4.4.62 - Feb 25, 2013  1:09PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.61 - Feb 25, 2013 12:48PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.60 - Feb 25, 2013 12:38PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.59 - Feb 25, 2013 12:28PM PST deployed by Elijah Green
+===========================================================
+
+
+v4.4.58 - Feb 25, 2013 12:18PM PST deployed by Elijah Green
+===========================================================
+
+
+v4.4.57 - Feb 25, 2013 12:04PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.56 - Feb 25, 2013 12:00PM PST deployed by Aleks Stanisic
+=============================================================
+* 6dc7120: Elijah Green - Fix profile stats
+* 7d9d0da: Aleks Stanisic - changing order of applicants from newest to oldest on all applicant pages
+* 34c4ae5: Elijah Green - Slight change to profile stats
+* b174197: Elijah Green - Change profile views to weeks
+* fd51a75: Elijah Green - Changes to profile views
+
+v4.4.55 - Feb 22, 2013  5:18PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.54 - Feb 22, 2013  5:10PM PST deployed by Aleks Stanisic
+=============================================================
+* a4fb4e8: Aleks Stanisic - adding note to external url in jobs form
+
+v4.4.53 - Feb 21, 2013  8:26PM PST deployed by Aleks Stanisic
+=============================================================
+
+
+v4.4.52 - Feb 21, 2013  8:18PM PST deployed by Aleks Stanisic
+=============================================================
+* b451b01: Brian Martinez - interview shceduling fixes
+* 0c6033a: Elijah Green - Deal with some alignment
+* c6774ac: Elijah Green - Don't create interview until its explicitly saves
+
 v4.4.51 - Feb 21, 2013  3:17PM PST deployed by Aleks Stanisic
 =============================================================
 * 90c808d: Aleks Stanisic - removing article photos when sharing with pictures

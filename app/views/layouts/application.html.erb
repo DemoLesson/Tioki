@@ -9,6 +9,10 @@
 	<title>Tioki &mdash; Be Seen. Be Heard. Be Connected.</title>
 
 	<%= javascript_include_tag "application" %>
+	<% if  Rails.env != "development" %>
+		<%= javascript_include_tag "cramp/jquery.eventsource" %>
+		<%= javascript_include_tag "cramp/sse" %>
+	<% end %>
 	<%= stylesheet_link_tag "application" %>
 	<%= csrf_meta_tags %>
 	
@@ -102,7 +106,10 @@
 						<%= password_field "user", "password", :placeholder => "Password" %>
 						<%= submit_tag "Login", :class => "button primary-button" %>
 						<%= check_box_tag :remember_me %>Stay Signed In?
-						<%= link_to 'Forgot my password', :forgot_password, :class => "forgot-password" %>
+						<%= link_to 'Forgot Password?', :forgot_password, :class => "forgot-password" %></br>
+						<%= link_to 'Login with Facebook', "/auth/facebook", :style => " color:#F66C4C; float: right; margin-top:-33px; margin-right:61px" %>
+						<%= link_to 'Login with Twitter', "/auth/twitter", :style  => " color:#F66C4C; margin-top:-17px; float: right; margin-right:80px"%>
+
 					<% end %>
 				</div>
 			</section>

@@ -151,7 +151,12 @@ class Notification < ActiveRecord::Base
 
 		_triggered = read_attribute :triggered_id
 
-		return User.find(_triggered) if !_triggered.nil?
+		begin
+			return User.find(_triggered) if !_triggered.nil?
+		rescue
+			self.destroy
+			return nil
+		end
 
 		_class = notifiable_type.split(':').first
 
@@ -345,10 +350,40 @@ class Notification < ActiveRecord::Base
 			end
 
 			# Write the bucket to the DB
-		    update_attribute(:bucket, ret.to_s)
+			update_attribute(:bucket, ret.to_s)
 		rescue Exception
 		end
 
 		return ret.to_s
+	end
+
+	def self.profile_views
+		#IF there is a single viewer and its an emplyee
+		#
+		employees = Array.new
+
+		employees << User.find(51)  #pete
+		employees << User.find(3)   #mandela
+		employees << User.find(25)  #aleks
+		employees << User.find(55)  #brian
+		employees << User.find(9)   #jerry
+
+		#Get profile view analytics from the last week
+		users = Analytic.where("analytics.created_at > ? && analytics.slug = ?",
+		                       Time.now-7.days,
+		                       "view_user_profile").collect{|analytic| analytic.map_tag rescue nil }.compact.uniq
+
+		users.each do |user|
+			if !user.email_permissions[:profile_views]
+				views = Analytic.where("analytics.created_at > ? && analytics.slug = ? && analytics.tag = ?",
+				                        Time.now-7.days,
+				                        "view_user_profile",
+				                        user.tag!).collect(&:user).uniq
+
+				unless views.length == 1 && employees.include?(views.first)
+					NotificationMailer.profile_views(user, views).deliver
+				end
+			end
+		end
 	end
 end
