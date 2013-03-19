@@ -14,6 +14,12 @@ class UsersController < ApplicationController
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
+				# Edu Stats
+				if session[:edu_stats]
+					EduStats.find(session[:edu_stats]).update_attribute(:user_id, @user.id)
+					session[:edu_stats] = nil
+				end
+
 				# Log the signup
 				self.log_analytic(:user_signup, "New user signed up.", @user)
 
@@ -68,6 +74,12 @@ class UsersController < ApplicationController
 					cookies[:login_token_user] = { :value => login_token.user_id, :expires => login_token.expires_at }
 					cookies[:login_token_value] = { :value => login_token.token_value, :expires => login_token.expires_at }
 					Session.where(:session_id => request.session_options[:id]).first.update_attribute(:remember, true)
+				end
+
+				# Edu Stats
+				if session[:edu_stats]
+					EduStats.find(session[:edu_stats]).update_attribute(:user_id, self.current_user.id)
+					session[:edu_stats] = nil
 				end
 
 				# Is there a location we should return the user to

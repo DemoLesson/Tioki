@@ -72,6 +72,12 @@ class WelcomeWizardController < ApplicationController
 					end
 				end
 
+				# Edu Stats
+				if session[:edu_stats]
+					EduStats.find(session[:edu_stats]).update_attribute(:user_id, @user.id)
+					session[:edu_stats] = nil
+				end
+
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
 
