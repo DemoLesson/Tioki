@@ -1,3 +1,29 @@
+v5.2.0 - Mar 19, 2013  1:02PM PDT deployed by Aleks Stanisic
+============================================================
+* 742b276: Elijah Green - Number field shim
+* a26e67c: Brian Martinez - one more change to stats
+* 2f05515: Brian Martinez - final changes for first draft of impact
+* 2930a27: Aleks Stanisic - changing links on social shares
+* afa9fb0: Elijah Green - Use number fields
+* c3b144d: Elijah Green - Remove edu stats updated notice
+* 55098a1: Elijah Green - Remove trailing white space
+* 7624301: Brian Martinez - changes to impact precision and students one
+* a8b3b63: Brian Martinez - changes to impact show file
+* 2f0d275: Brian Martinez - impact social share changes
+* 6b0af38: Brian Martinez - changes to hours for tioki impact
+* 9f5c56e: Brian Martinez - completing changes to students taught for impact
+* 18a4488: Brian Martinez - new impact designs
+* 9159bd1: Brian Martinez - changes to tioki Impact algorithm
+* 00fc450: Brian Martinez - Impact Hours Four Layout
+* 3a20247: Brian Martinez - Impact Student Set 6
+* d2e0816: Brian Martinez - updates to tioki Impact
+* cd357bb: Brian Martinez - partial files for the impact stats
+* b67a57b: Brian Martinez - changes to imapct desing and layout
+* c7deb40: Brian Martinez - algorithms for Tioki Impact and complete design of Impact Page
+* 85f7a49: Aleks Stanisic - adding migration and views
+* 004e082: Aleks Stanisic - adding routes to edu stats
+* 38b8a28: Aleks Stanisic - adding controller and layout for edu_stats
+
 v5.1.1 - Mar 18, 2013  8:11PM PDT deployed by Aleks Stanisic
 ============================================================
 * 9a8b62e: Aleks Stanisic - adding subjects and grades to about page
