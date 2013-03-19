@@ -63,11 +63,11 @@
 	<h3 class="bottom-line" style='text-align:center'>
 		Share Your Impact
 	</h3>
-	<a href="#facebook" class="button">Share On Facebook Button</a>
-	<a href="#twitter" class="button">Share On Twitter Button</a>
-	<a href="#twitter" class="button">Add To Tioki Profile Button</a>
-	<!--a href="#facebook"><%= image_tag('tioki/icons/facebook.png', :style => "width:30px") %></a>
-	<a href="#twitter"><%= image_tag('tioki/icons/twitter.png', :style => "width:30px") %></a-->
+	
+	<section class='three-column left-side' style='text-align:center'>
+	<a href="#facebook" style='margin-right:50px'><%= image_tag('tioki/impact/facebook_share.png') %></a>
+	<a href="#twitter"><%= image_tag('tioki/impact/twitter_share.png') %></a>
+	</section>
 
 </section>
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
 		FB.ui({
 			method: 'feed',
 			name: 'hello',
-			link: '<%= url_for(:only_path => false) %>',
+			link: 'http://tioki.com/impact',
 			picture: 'http://www.tioki.com/assets/images/tioki/tioki-logo.png',
 			caption: 'Come join this Group on Tioki.',
 			description: 'Come join the  group on Tioki; a professional networking site for educators!'
@@ -105,8 +105,8 @@ $(document).ready(function() {
 		// Paramaters to build
 		var params = {
 			via: 'tioki',
-			url: '<%= url_for(:only_path => false) %>',
-			text: 'Come join the  Group on Tioki!'
+			url: 'http://tioki.com/impact',
+			text: '<%= @edu_stats.yrs_teaching %> years in the classroom, <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours taught & <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> lives changed. Whats your Education Impact?'
 		}
 
 		// URL plus params
