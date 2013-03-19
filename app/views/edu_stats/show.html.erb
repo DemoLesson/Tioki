@@ -55,6 +55,7 @@
 	
 	<h2 style="text-align:center">How Large Is You Educator Network?</h2>
 	<h3>Total Public Network: <%= @edu_stats.edu_network_public %>  <br>
+	<%= link_to "signup", "/welcome_wizard?x=step1", :style => "float:right" %>
 		Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
 		Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
 		Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
