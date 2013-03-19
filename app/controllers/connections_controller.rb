@@ -327,9 +327,10 @@ class ConnectionsController < ApplicationController
 
 	def invite_twitter
 		if self.current_user.twitter_auth?
+			auth = self.current_user.twitter_auth
 			client = Twitter::Client.new(
-				:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
-				:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
+				:oauth_token => auth.token,
+				:oauth_token_secret => auth.secret
 			)
 
 			if request.post? && !params[:people].nil?
@@ -536,6 +537,52 @@ class ConnectionsController < ApplicationController
 		end
 
 		render :json => divs
+	end
+
+	def social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		if @users.empty?
+			return redirect_to :root
+		end
+	end
+
+	def connect_social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		@users.each do |user|
+			Connection.delay.add_connect(self.current_user.id, user.id)
+		end
+
+		if self.current_user.facebook_auth?
+			redirect_to "/inviteconnections/facebook"
+		elsif self.current_user.twitter_auth?
+			redirect_to "/inviteconnections/twitter"
+		else
+			redirect_to :root
+		end
 	end
 
 	# Review

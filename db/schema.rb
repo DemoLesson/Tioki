@@ -114,6 +114,16 @@ ActiveRecord::Schema.define(:version => 20130304071333) do
     t.datetime "updated_at"
   end
 
+  create_table "authentications", :force => true do |t|
+    t.string   "provider"
+    t.integer  "user_id"
+    t.string   "uid"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "awards", :force => true do |t|
     t.string   "title"
     t.string   "issuer"

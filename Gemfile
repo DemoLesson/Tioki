@@ -28,6 +28,8 @@ gem 'tinymce-rails'
 
 # Social Networks and oAuth
 gem 'oauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 gem 'linkedin'
 gem 'twitter'
 gem 'koala' # Facebook

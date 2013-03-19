@@ -12,7 +12,13 @@
 			<% end %>
 		</h1>
 	</div>
-
+	<div style="height:50px; width:250px; margin-left:-165px; margin-top:-100px">
+		<h4>
+		<span style="float:right;margin-right:-40px">Sign Up With:</span>
+		<a href="/auth/twitter?<%= session[:signup_key] %>"><%= image_tag "tioki/icons/twitter3.png", :style => "float:right;margin-right:-160px; margin-top:-4px" %></a>
+		<a href="/auth/facebook?<%= session[:signup_key] %>"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:0px;float:right;margin-right:-190px;height:29px" %></a>
+		</h4>
+	</div>
 	<div class="six columns">
 		<form method="POST">
 			<table>
@@ -21,13 +27,13 @@
 						<div style= "float:left">
 							<label>
 								<span>First Name</span>
-								<input type="text" name="user[first_name]" style='width:230px' />
+								<input type="text" name="user[first_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:first) %>" style='width:230px' />
 							</label>
 						</div>
 						<div style= "float:right">
 							<label>
 								<span>Last Name</span>
-								<input type="text" name="user[last_name]" style='width:230px'/>
+								<input type="text" name="user[last_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:last) %>" style='width:230px'/>
 							</label>
 						</div>
 					</td>
@@ -36,7 +42,7 @@
 					<td>
 						<label>
 							<span>Email Address</span>
-							<input type="text" name="user[email]" />
+							<input type="text" name="user[email]" value="<%= session.omniauth.try(:extra).try(:raw_info).try(:email) %>" />
 						</label>
 					</td>
 				</tr>

@@ -1,3 +1,45 @@
+v5.1.0 - Mar 18, 2013  7:12PM PDT deployed by Aleks Stanisic
+============================================================
+* 02f667c: Elijah Green - Fix facebook signup analytic
+* b093683: Elijah Green - If job seeking go to job preferences
+* e7d9dd8: Aleks Stanisic - adding social buttons to wizard step 1
+* 9e0be5b: Elijah Green - Welcome wizard sign up keys
+* 2765eec: Aleks Stanisic - adding social buttons to login and sign up pages
+* 3ed02d9: Aleks Stanisic - adding fb and twitter sign up buttons on splash page
+* 340cca2: Elijah Green - twitter, facebook analytics
+* 98bdc38: Elijah Green - Don'tn upload profile image
+* cc30fbf: Aleks Stanisic - adding social auth links in log in tray
+* e72a77e: Elijah Green - Put add_all button on social_friends page
+* 2faed14: Elijah Green - Add controller method for adding all social friends
+* 1221a63: Elijah Green - populate education fields
+* b68e1ab: Elijah Green - Eduaction and next button
+* f910ac4: Elijah Green - Flow changes
+* 7ac2dd3: Elijah Green - Remove instance of old authorizations
+* 7ad56ee: Elijah Green - slight changes to whiteboard auth
+* 8adea4e: Elijah Green - Slight change to invite twitter
+* 6c630d2: Elijah Green - social friends page
+* 83964b8: Elijah Green - Authorizations migration
+* dc7a51c: Elijah Green - Functions to get twitter and facebook friends
+* c73e354: Elijah Green - Remove old oauth
+* 19b6754: Elijah Green - Start gettings friends
+* 979d3eb: Elijah Green - Migrating to new authentications
+* 5f86fd7: Elijah Green - Key migration
+* 7f6441d: Elijah Green - Fix facebook login
+* e9c026a: Elijah Green - Fix twitter picture upload
+* 2f46e1b: Elijah Green - Get twitter profile image
+* 0c5c72e: Elijah Green - Facebook
+* ceadf0b: Elijah Green - Dealing wiht old authentications
+* c03b10a: Elijah Green - Deal with some old authentications cases
+* 1f66718: Elijah Green - Twitter login works now
+* 7d1d0db: Elijah Green - Add twitter info
+* 855dac4: Elijah Green - Change from service to provider
+* 4efc07e: Elijah Green - add token and secret to authentications
+* c1fb7be: Elijah Green - Start adding redirects
+* 5ab82fe: Elijah Green - Specific omniauth gems
+* 68d93b9: Elijah Green - Fix up some things with authentications
+* 394754a: Elijah Green - more authentications table info
+* 71e2098: Elijah Green - Add authentications model
+
 v5.0.17 - Mar 18, 2013 12:51PM PDT deployed by Aleks Stanisic
 =============================================================
 * 46852bf: Aleks Stanisic - changing character max of headline back to 140
