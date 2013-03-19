@@ -62,11 +62,10 @@ class WelcomeWizardController < ApplicationController
 					                              :token => session[:omniauth][:credentials][:token],
 					                              :secret => session[:omniauth][:credentials][:secret])
 
-					
-					# Upload twitter profile image
-					if session.omniauth[:provider] == 'twitter' && !session[:omniauth][:extra][:raw_info][:default_profile_image]
-						@user.update_attribute(:avatar,
-						                       URI.parse(session[:omniauth][:info][:image]))
+					if session[:omniauth][:provider] == 'twitter'
+						self.log_analytic(:signup_twitter, "New user signed up with twitter.", @user)
+					elsif session[:omniauth][:provider] == 'twitter'
+						self.log_analytic(:signup_facebbok, "New user signed up with facebook.", @user)
 					end
 				end
 
