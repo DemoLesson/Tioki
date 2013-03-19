@@ -1,3 +1,11 @@
+v5.2.1 - Mar 19, 2013  2:09PM PDT deployed by Aleks Stanisic
+============================================================
+* f7e4ee0: Elijah Green - Remove number spinners
+* 0c4db92: Elijah Green - On login or sign up update edu stats
+* 705da1a: Aleks Stanisic - fixing pic in facebook share
+* 65835bc: Elijah Green - Add css for number input shim
+* a46d259: Elijah Green - Add some validations to edu_stats
+
 v5.2.0 - Mar 19, 2013  1:02PM PDT deployed by Aleks Stanisic
 ============================================================
 * 742b276: Elijah Green - Number field shim
