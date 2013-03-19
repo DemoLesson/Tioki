@@ -67,8 +67,8 @@ class WelcomeWizardController < ApplicationController
 
 					if session[:omniauth][:provider] == 'twitter'
 						self.log_analytic(:signup_twitter, "New user signed up with twitter.", @user)
-					elsif session[:omniauth][:provider] == 'twitter'
-						self.log_analytic(:signup_facebbok, "New user signed up with facebook.", @user)
+					elsif session[:omniauth][:provider] == 'facebook'
+						self.log_analytic(:signup_facebook, "New user signed up with facebook.", @user)
 					end
 				end
 
