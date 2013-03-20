@@ -88,8 +88,15 @@ class ConnectionsController < ApplicationController
 		@user = User.find_by_slug(findby) if findby.is_a?(String)
 		@user = User.find(findby) if findby.is_a?(Fixnum)
 
-		@connections = Connection.user(@user.id).paginate(:per_page => 20, :page => params[:page])
-		@my_connections = Connection.mine
+		@connections = @user.connections.
+		                     not_pending.
+		                     collect{|connection| connection.not_me(@user.id)}.
+		                     paginate(:per_page => 20, :page => params[:page])
+
+		@my_connections = self.current_user.
+		                       connections.
+		                       not_pending.
+		                       collect{|connection| connection.not_me_id(self.current_user.id)}
 	end
 
 	def add_connection(respond = true)
