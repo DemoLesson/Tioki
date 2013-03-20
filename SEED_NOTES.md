@@ -1,3 +1,9 @@
+v5.2.3 - Mar 19, 2013  6:12PM PDT deployed by Aleks Stanisic
+============================================================
+* 3a33d8a: Aleks Stanisic - featured job styling fix
+* 295f022: Aleks Stanisic - fixing styling of featured groups
+* 69cb1d4: Aleks Stanisic - changes to facebook share and adding new featured discussion
+
 v5.2.2 - Mar 19, 2013  4:15PM PDT deployed by Aleks Stanisic
 ============================================================
 * eb9702d: Elijah Green - Analytics when not logged in
