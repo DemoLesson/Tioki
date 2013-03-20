@@ -1,3 +1,9 @@
+v5.2.4 - Mar 19, 2013  8:31PM PDT deployed by Aleks Stanisic
+============================================================
+* 8ba0f76: Aleks Stanisic - adding users to the new connection about page feature
+* c2aaaf0: Aleks Stanisic - adding new connections display for tioki admins on about page
+* bedc0ec: Elijah Green - Fix up profile connections
+
 v5.2.3 - Mar 19, 2013  6:12PM PDT deployed by Aleks Stanisic
 ============================================================
 * 3a33d8a: Aleks Stanisic - featured job styling fix
