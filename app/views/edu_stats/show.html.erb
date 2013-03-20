@@ -85,8 +85,8 @@ $(document).ready(function() {
 			name: 'Tioki Impact',
 			link: 'http://tioki.com/impact?facebook_share',
 			picture: 'http://tioki.com/assets/tioki/impact/college_grad.png',
-			caption: 'Do you know your education impact?',
-			description: 'I have spent <%= @edu_stats.yrs_teaching %> years in the classroom, taught over <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours, and impacted the lives of over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> Students. Find out your impact!'
+			caption: 'I just found out my educator impact!',
+			description: 'I have taught <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours and impacted over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> Students. Find out your impact!'
 		}
 		/*function(response) {
 			if (response && response.post_id) {
