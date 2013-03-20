@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130222203001) do
+ActiveRecord::Schema.define(:version => 20130308080403) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20130222203001) do
     t.integer  "user_id"
     t.string   "owner_type"
     t.integer  "owner_id"
+    t.string   "original_filename"
   end
 
   create_table "attachments", :force => true do |t|
@@ -111,6 +112,16 @@ ActiveRecord::Schema.define(:version => 20130222203001) do
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.string   "provider"
+    t.integer  "user_id"
+    t.string   "uid"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "awards", :force => true do |t|
@@ -250,6 +261,10 @@ ActiveRecord::Schema.define(:version => 20130222203001) do
     t.integer  "total_hours_grading"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "edu_network_public"
+    t.integer  "edu_network_private"
+    t.integer  "edu_network_charter"
+    t.integer  "edu_network_catholic"
   end
 
   create_table "educations", :force => true do |t|
@@ -420,6 +435,7 @@ ActiveRecord::Schema.define(:version => 20130222203001) do
     t.integer  "number"
     t.integer  "application_id"
     t.string   "interview_type"
+    t.integer  "round",             :default => 1
   end
 
   create_table "job_answers", :force => true do |t|

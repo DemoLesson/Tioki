@@ -2,16 +2,16 @@
 	<section class="grey-bg wrapper">
 		<section style='text-align:center;margin: 0 auto;position:relative;width:1020px;overflow:hidden'>
 			<h1 style='color:#2AA99B'>
-				<span style='font-size:41px'>Connect with Thousands of Fellow Educators</span><br>
+				<span style='font-size:41px'>Connect With People Who Share Your Passion for Education</span><br>
 				Teachers, School Leaders, Entrepreneurs, and More
 			</h1>
 		</section>
 		<div class="features-slider">
 		<div id="featured">
-			<img src="/assets/tioki/features-slide/chinedu_quote.png" data-caption="#one-caption" />
-			<img src="/assets/tioki/features-slide/tyler_splash.png" data-caption="#two-caption" />
-			<img src="/assets/tioki/features-slide/sam_splash.png" data-caption="#three-caption" />
-			<img src="/assets/tioki/features-slide/feature-four.jpg" data-caption="#four-caption" />
+			<img src="/assets/tioki/features-slide/randi_bg.png" data-caption="#one-caption" />
+			<img src="/assets/tioki/features-slide/casie_bg.png" data-caption="#two-caption" />
+			<img src="/assets/tioki/features-slide/john_bg.png" data-caption="#three-caption" />
+			<img src="/assets/tioki/features-slide/rojas_bg.png" data-caption="#four-caption" />
 			
 		</div>
 		<!-- Captions for Orbit -->
@@ -56,22 +56,16 @@
 						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
 						</p>
 					</fieldset>		
-					<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
-					</iframe>
-					<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
 				</form>
 			</div>
 			<div class="featured-quote">
 				<blockquote>
-					<span style='font-size:30px'>
-						"Teachers are professionals too! Tioki let's me connect
-						with the people that get it."
+					<span style='font-size:22px'>
+						"I don't feel like I'm alone in this anymore. Being connected to others has really opened my mind to what's possible"
 					</span>
 					<br/>
 					<em style='text-shadow:none'>
-						Chinedu Unaka, Resource Specialist<br/>
-						Green Dot Public Schools
+						Chinedu Unaka, Resource Specialist
 					</em>
 				</blockquote>
 			</div>
@@ -117,10 +111,6 @@
 						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
 						</p>
 					</fieldset>		
-					<!--<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftiokiapp&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=440391786011809" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true">
-					</iframe>
-					<a href="https://twitter.com/tioki" class="twitter-follow-button" data-show-count="false" >Follow @tioki</a>
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
 				</form>
 			</div>
 			<div class="featured-quote">
@@ -138,33 +128,117 @@
 			</div>
 		</span>
 		<span class="orbit-caption" id="three-caption">
-			<div class="featured-box featured-box-right">
-				<h1>
-				Higher Education
-				</h1>
-				<div class="box-divider">
-				</div>
-				<p>
-				Student Teachers <br/>& Education Researchers
-				</p>
-				<a href="signup.html" class="goto-signup button">
-				Get Started
-				</a>
+			<div class="signup-form">
+				<h2 style='color:#fff'>
+				Join For Free
+				</h2>
+				<form action="/create" id="signup-form" method="post">
+					<input type="hidden" name="_ak" value="splash" />
+					<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Twitter-Login.png" />
+					</fieldset>
+					<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Facebook-Login.png" />
+					</fieldset>
+					<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
+					<fieldset>
+						<input name="user[first_name]" type="text" placeholder="First Name" />
+					</fieldset>
+					<fieldset id="lastnm">
+						<input name="user[last_name]" type="text" placeholder="Last Name" />
+					</fieldset>
+					<fieldset>
+						<input name="user[email]" type="email" placeholder="Email" />
+					</fieldset>
+					<fieldset id="enterpwd">
+						<input name="user[password]" type="password" placeholder="Password" />
+					</fieldset>
+					<fieldset id="confirmpwd">
+						<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
+					</fieldset>
+					<fieldset>
+						<span style='color:#fff'>I plan to use Tioki as a...</span>
+						<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
+					</fieldset>
+					<fieldset style="margin-right:0px !important;">
+						<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
+					</fieldset>
+					<fieldset style='width:300px'>
+						<p class="smalltext" style='text-align:center'>
+						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
+						</p>
+					</fieldset>		
+				</form>
+			</div>
+			<div class="featured-quote">
+				<blockquote>
+					<span style='font-size:30px'>
+						"Just a spoon full of sugar makes the medicine go down.
+						In a most exciting way."
+					</span>
+					<br/>
+					<em style='text-shadow:none'>
+						Tyler Elliot, Student<br/>
+						Some School in Washington
+					</em>
+				</blockquote>
 			</div>
 		</span>
 		<span class="orbit-caption" id="four-caption">
-			<div class="featured-box featured-box-right">
-				<h1>
-				Broader Education Community
-				</h1>
-				<div class="box-divider">
-				</div>
-				<p>
-				Education Organizations,<br/> Companies, & Networks
-				</p>
-				<a href="signup.html" class="goto-signup">
-				Get Started
-				</a>
+			<div class="signup-form">
+				<h2 style='color:#fff'>
+				Join For Free
+				</h2>
+				<form action="/create" id="signup-form" method="post">
+					<input type="hidden" name="_ak" value="splash" />
+					<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Twitter-Login.png" />
+					</fieldset>
+					<fieldset id="lastnm" style='border-bottom: 1px solid #d4d4d4;'>
+						<img src="/assets/tioki/icons/Facebook-Login.png" />
+					</fieldset>
+					<fieldset style='width:300px;text-align:center;color:#fff;float:right;margin-top:-14px;margin-bottom:5px'>or</fieldset>
+					<fieldset>
+						<input name="user[first_name]" type="text" placeholder="First Name" />
+					</fieldset>
+					<fieldset id="lastnm">
+						<input name="user[last_name]" type="text" placeholder="Last Name" />
+					</fieldset>
+					<fieldset>
+						<input name="user[email]" type="email" placeholder="Email" />
+					</fieldset>
+					<fieldset id="enterpwd">
+						<input name="user[password]" type="password" placeholder="Password" />
+					</fieldset>
+					<fieldset id="confirmpwd">
+						<input name="user[password_confirmation]" type="password" placeholder="Confirm Password" />
+					</fieldset>
+					<fieldset>
+						<span style='color:#fff'>I plan to use Tioki as a...</span>
+						<%= select_tag "user[occupation]", options_for_select(User::OCCUPATION), {:style => 'width:134px', :prompt => "Choose one"} %>
+					</fieldset>
+					<fieldset style="margin-right:0px !important;">
+						<input type="submit" class="button med-button" value="Get Started" style="width:300px !important;padding: 6px 9px;"/>
+					</fieldset>
+					<fieldset style='width:300px'>
+						<p class="smalltext" style='text-align:center'>
+						By getting started, I agree to the <span><a href="/static/resources/terms">terms</a></span>.
+						</p>
+					</fieldset>		
+				</form>
+			</div>
+			<div class="featured-quote">
+				<blockquote>
+					<span style='font-size:30px'>
+						"Just a spoon full of sugar makes the medicine go down.
+						In a most exciting way."
+					</span>
+					<br/>
+					<em style='text-shadow:none'>
+						Tyler Elliot, Student<br/>
+						Some School in Washington
+					</em>
+				</blockquote>
 			</div>
 		</span>
 	</div>
@@ -188,8 +262,8 @@
 				
 				<section class="one-column left-side" style='text-align:center'>
 					<strong>Connect</strong> with professionals<br>
-					that share your interests and<br>
-					passion for education.<br><br/>
+					that share your particular<br>
+					interests in education.<br><br/>
 					<%= image_tag '/assets/tioki/splash/connect.png' %>
 				</section>
 				
@@ -209,73 +283,73 @@
 			Meet Some of Our Tioki All-Stars!	
 		</h2>
 		<article class="featured-thumb">
-			<a href="http://tioki.com/profile/118549scottkinkoph" target="_blank">
-				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121127212313-20121127212313-20121127212312-me.jpg20121127-15683-2eqodz?1354051391" alt="" style="width:150px" />
+			<a href="http://tioki.com/profile/119183courtneynemeth" target="_blank">
+				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121220143426-20121220143424-20121220143422-IMG_0709.jpg20121220-1893-dnk4wi?1356014060" alt="" style="width:150px" />
 			</a>
 			<h4 style="margin-bottom:-11px">
-				<a href="http://tioki.com/profile/118549scottkinkoph" target="_blank" style="color:#2AA99B;">
-				Scott Kinkoph
+				<a href="http://tioki.com/profile/119183courtneynemeth" target="_blank" style="color:#2AA99B;">
+				Courtney Nemeth
 				</a>
 			</h4>
 			<p>
-			Tech Integration Stud<br/>
-			Northfield, OH
+			Primary Teacher<br/>
+			Nantucket, MA
 			</p>
 		</article>
 		<article class="featured-thumb">
-			<a href="http://tioki.com/profile/118832paulineroberts" target="_blank">
-				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121121200749-20121121200747-20121121200744-me3.jpg20121121-28448-ifikby?1353528463" alt="" style="width:150px"/>
+			<a href="http://tioki.com/profile/118639julianrojas" target="_blank">
+				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20130124072534-20130124072533-20130124072533-photo-44-jpg20130124-24357-9bxld1.?1359012332" alt="" style="width:150px"/>
 			</a>
 			<h4 style="margin-bottom:-11px">
-				<a href="http://tioki.com/profile/118832paulineroberts" target="_blank" style="color:#2AA99B;">
-				Pauline Roberts
+				<a href="http://tioki.com/profile/118639julianrojas" target="_blank" style="color:#2AA99B;">
+				Julian Rojas
 				</a>
 			</h4>
 			<p>
-			Math/Science Wizard<br/>
-			Detroit (Go Lions!)
+			UCLA Masters Student<br/>
+			Los Angeles, CA
 			</p>
 		</article>
 		<article class="featured-thumb">
-			<a href="http://tioki.com/profile/118656angelaestrella" target="_blank">
-				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121112024149-20121112024148-20121112024146-Picture_of_me_1.png20121112-28262-1kaqw31?1352688105" alt="" style="width:150px"/>
+			<a href="http://tioki.com/profile/karlabarrios" target="_blank">
+				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121215002019-20121215002018-20121215002018-Tioki_Profile.JPG20121215-23444-kqx1o7?1355530817" alt="" style="width:150px"/>
 			</a>
 			<h4 style="margin-bottom:-11px">
-				<a href="http://tioki.com/profile/118656angelaestrella" target="_blank" style="color:#2AA99B;">
-				Angela Estrella
+				<a href="http://tioki.com/profile/karlabarrios" target="_blank" style="color:#2AA99B;">
+				Karla Barrios
 				</a>
 			</h4>
 			<p>
-			PD Facilitator<br/>
-			Lynbrook High School
+			Talent Recruiter<br/>
+			Oakland Unified SD
 			</p>
 		</article>
 		<article class="featured-thumb">
-			<a href="http://tioki.com/profile/118377dancarroll" target="_blank">
-				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121018000149-20121018000148-20121018000147-1c2fe94.jpg20121018-28591-6xi59r?1350518506" alt="" style="width:150px" />
+			<a href="http://tioki.com/profile/jimshelton" target="_blank">
+				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20130206010953-20130206010953-20130206010952-jim-shelton-pic_updated-jpg.?1360112992" alt="" style="width:150px" />
 			</a>
 			<h4 style="margin-bottom:-11px">
-				<a href="http://tioki.com/profile/118377dancarroll" target="_blank" style="color:#2AA99B;">
-				Dan Carroll
+				<a href="http://tioki.com/profile/jimshelton" target="_blank" style="color:#2AA99B;">
+				Jim Shelton
 				</a>
 			</h4>
 			<p>
-			Co-Founder of Clever<br/>
-			San Francisco, CA
+			U.S. Dept of Education<br/>
+			Washington D.C.
 			</p>
 		</article>
 		<article class="featured-thumb last-thumb">
-			<a href="http://tioki.com/profile/119154tylerelliott" target="_blank">
-				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121218000747-20121218000746-20121218000745-432032_10150577536972808_970293066_n.jpg20121218-20704-1jj11o?1355789265" alt="" style="width:150px" />
+			<a href="http://tioki.com/profile/118238samchaudhary" target="_blank">
+				<img src="https://tioki.s3.amazonaws.com/avatars/medium/20121002202830-20121002202829-20121002202829-Sam%20pro%20pic.jpg20121002-15756-aapzor?1349209709" alt="" style="width:150px" />
 			</a>
 			<h4 style="margin-bottom:-11px">
-				<a href="http://tioki.com/profile/119154tylerelliott" target="_blank" style="color:#2AA99B;">
-				Tyler Elliot
+				<a href="http://tioki.com/profile/118238samchaudhary" target="_blank" style="color:#2AA99B;">
+				Sam Chaudhary
 				</a>
 			</h4>
 			<p>
-			Student Teacher<br/>
-			Arcata, California
+			CoFounder, Class Dojo<br/>
+			San Francisco, CA
 			</p>
 		</article>
 	</section>
@@ -284,7 +358,7 @@
 	<section class='inner-content' style='text-align:center'>
 		<section class="three-column left-side" >
 			<h2>
-				Start Connecting with Educators Like You Today! 
+				Start Connecting With People Like You Today! 
 				<%= link_to 'Join Tioki', '/signup', :class => 'button med-button', :style => "text-align:center" %>
 			
 			</h2>
