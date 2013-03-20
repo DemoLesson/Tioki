@@ -152,6 +152,20 @@
 				<% end %>
 			</section>
 	</section>
+
+	<% if @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 %>
+		<div style="padding:10px 0px 0px 20px;width:960px; color:#2AA99B;">
+			<h3 style="margin-top:-15px; margin-bottom:-20px">
+				<%= @user.first_name%>'s Network
+			</h3><br />
+			<% @user.connections.includes(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..39].each do |c| %>
+				<div class="profile-thumb-small" style="float:left;margin:0px 1px 1px 0px;overflow:hidden;background:none">
+					<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;border-radius:5px'), "/profile/#{c.not_me(@user.id).slug}" %>
+				</div>
+			<% end %>
+			<div style="clear:both;"></div>
+		</div>
+	<% end %>
 	
 	<section class="profile group">
 		<% if @application != nil %>
@@ -275,6 +289,7 @@
 				</section> <!-- END RECRUITOR TOOLS -->
 			<% end %>
 			<!-- Connection Information -->
+			<% unless @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 %>
 			<section class="info">
 				<a href="/profile/<%= @user.slug %>/connections" style="float:right;color:#2AA99B;margin:17px 5px 0 0">View All</a>
 				<h5 class="bottom-line">
@@ -289,6 +304,7 @@
 					<div style="clear:both;"></div>
 				</div>
 			</section>
+			<% end %>
 
 			<% if self.current_user %>
 				<% if @connected || @guest || !@user.privacy_public[:contact_info] %>
