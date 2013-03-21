@@ -1,3 +1,7 @@
+v5.2.12 - Mar 21, 2013  3:31PM PDT deployed by Aleks Stanisic
+=============================================================
+* 8a51abc: Aleks Stanisic - adding imapct to header
+
 v5.2.11 - Mar 21, 2013  2:28PM PDT deployed by Aleks Stanisic
 =============================================================
 * 4b14723: Brian Martinez - changes to make splash pages ready to launch
