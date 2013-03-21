@@ -1,3 +1,16 @@
+v5.2.11 - Mar 21, 2013  2:28PM PDT deployed by Aleks Stanisic
+=============================================================
+* 4b14723: Brian Martinez - changes to make splash pages ready to launch
+* d495844: Brian Martinez - job-seeker page changes
+* b88d94d: Brian Martinez - changes to the For Schools Page for launch
+* 7433524: Brian Martinez - Changes to the Splash Page desing for push
+* 7cf92f8: Brian Martinez - changes to splash page
+* f72d906: Brian Martinez - splash site changes for push
+* 82094f4: Brian Martinez - additional changes to splash pages
+* 21ae366: Brian Martinez - new schools splash page
+* 3f0b59c: Brian Martinez - new splash page, minus the educator images and quotes
+* 431baa1: Brian Martinez - changes to model on profile completion
+
 v5.2.10 - Mar 21, 2013  1:12PM PDT deployed by Aleks Stanisic
 =============================================================
 * 8783f6d: Aleks Stanisic - changes to impact
