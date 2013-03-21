@@ -2,17 +2,17 @@
 	<h2>
 	Educators join free!
 	</h2>
-	<div style="height:50px; width:250px; margin-right:0px; margin-top:-70px">
-		<h4>
-		<span style="float:right;margin-right:-40px">Sign Up With:</span>
-		<br/>
-		<a href="/auth/twitter"><%= image_tag "tioki/icons/twitter3.png", :style => "float:right;margin-right:-30px" %></a>
-		<a href="/auth/facebook"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:4px;float:right;margin-right:10px;height:29px" %></a>
-		</h4>
-	</div>
 	<section class="one-column left-side" >
 		<form action="/create" id="signup-form" method="post">
 			<input type="hidden" name="_ak" value="splash" />
+			<fieldset style='border-bottom: 1px solid #d4d4d4;'>
+				<a href="/auth/twitter">
+					<%= image_tag "/assets/tioki/icons/Twitter-Login.png" %>
+				</a>
+				<a href="/auth/facebook" style='float;right'>
+					<%= image_tag "/assets/tioki/icons/Facebook-Login.png" %>
+				</a>
+			</fieldset>
 			<fieldset>
 				<input name="user[first_name]" type="text" placeholder="First Name" />
 			</fieldset>
@@ -40,10 +40,10 @@
 			</p>
 		</form>
 	</section>
-	<section class="two-column right-side" style="margin-top:-50px">
+	<section class="two-column right-side" style="margin-top:-25px">
 		<h3 style="margin-left: 150px;color:#2AA99B">
 			Start connecting with amazing educators today.
 		</h3>
-			<%= image_tag 'tioki/connected_map.png', :style => "width:500px;margin-left:100px" %>
+			<%= image_tag 'tioki/impact/impact_network.png', :style => "width:500px;margin-left:100px" %>
 	</section>
 </section> <!-- End Main Content -->

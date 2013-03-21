@@ -2,47 +2,40 @@
 	<section class="sidebar">
 		<ul>
 			<li>
-				<a href="/static/whatistioki.html">
-				What is Tioki?
+				<a href="/static/whatistioki">
+				About Tioki
 				</a>
 			</li>
 			<li>
-				<a href="/static/howitworks.html">
-				How it Works
+				<a href="/static/whatistioki#team">
+				Our Team
 				</a>
 			</li>
 			<li>
-				<a href="/forschools">
-					Schools and Companies
-				</a>
-			</li>
-			<li>
-				<a href="/static/job_seekers">
-					Job Seekers
-				</a>
-			</li>
-			<li>
-				<a href="/static/ourcustomers.html">
+				<a href="/static/ourcustomers">
 				Our Partners
 				</a>
 			</li>
 			<li>
-				<a href="/static/press.html">
-				Press
+				<a href="/forschools">
+					For Schools and Companies
 				</a>
 			</li>
 			<li>
-				<a href="/static/ourteam.html">
-				Our Team
+				<a href="/jobseekers">
+					For Job Seekers
 				</a>
 			</li>
+		
 		</ul>
 		<ul>
-			<li>
-				<a href="/static/resources/teacherresourcehub.html">
-				Educator Resources
-				</a>
-			</li>
+			<% if !currentUser.new_record? %>
+				<li>
+					<a href="/static/resources/teacherresourcehub">
+					Educator Resources
+					</a>
+				</li>
+			<% end %>
 			<li class="current">
 				Help and Support
 			</li>
