@@ -1,0 +1,29 @@
+<section class="half-width left-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/college_grad.png', :style => 'height:300px' %>
+</section>
+<section class="half-width right-side" style='padding-top:20px'>
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught over 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_students, :delimiter => ',') %> Students!
+			</span>
+	</h2>
+	<p style='margin-left:10px'>
+		Because of your amazing efforts, about 
+		<strong style='color:#2AA99B'><em>
+			<%= number_with_precision(@edu_stats.total_students * (68.0/100.0), :delimiter => ',', :precision => 0) %> students
+		</em></strong> 
+		will go on to College and 
+		<strong style='color:#2AA99B'><em>
+			<%= number_with_precision(@edu_stats.total_students * (33.0/100.0), :delimiter => ',', :precision => 0) %> students 
+		</em></strong> 
+		will receive their Bachelor's Degree! 
+		
+		If that doesn't put a smile on your face,  perhaps knowing that 
+		<strong style='color:#2AA99B'><em> 
+			<%= number_with_precision(@edu_stats.total_students * (2.7/100.0), :delimiter => ',', :precision => 0) %> of them will become teachers</em></strong> like you will!
+		<br><br>
+		Keep up the <strong style='color:#2AA99B'><em>awesome work.</em></strong> Your legacy becomes more incredible with each passing school year!
+	</p>
+</section>
+

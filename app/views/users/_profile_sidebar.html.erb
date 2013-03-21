@@ -1,0 +1,30 @@
+<% if self.current_user == @user %>
+	<% @completions = self.current_user.completion_options %>
+	<%= render "profile_completion" %>
+<% end %>
+
+<% if self.current_user %>
+	<% if @connected || @guest || !@user.privacy_public[:contact_info] %>
+		<!-- Contact Information-->
+		<section class="info">
+			<h5 class="bottom-line">
+				Contact Information
+			</h5>
+			<p>
+				<span class="bold black"><%= @user.name %></span>
+			</p>
+			<% if !@user.location.empty? %>
+				<p>
+					<span class="bold black">Location:</span>
+					<%= @user.location %><br/>
+				</p>
+			<% end %>
+			<p>
+				<span class="bold black">Tioki URL:</span>
+				<span style="font-size:12px">
+					<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/...</a>
+				</span>
+			</p>
+		</section>
+	<% end %>
+<% end %>

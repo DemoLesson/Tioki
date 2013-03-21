@@ -15,9 +15,12 @@ class WelcomeWizardController < ApplicationController
 			@url = "&user_connection=#{params[:twittercode]}"
 		elsif params[:facebookcode].present?
 			@url = "&user_connection=#{params[:facebookcode]}"
+		elsif params[:discussion_id].present?
+			@url = "&discussion_id=#{params[:discussion_id]}&body=#{params[:body]}"
 		else
 			@url = ""
 		end
+		session[:signup_key] = @url
 
 		# Route to other steps/methods
 		return self.send(params[:x]) unless params[:x].nil?
@@ -56,33 +59,50 @@ class WelcomeWizardController < ApplicationController
 				# Authenticate the user
 				session[:user] = User.authenticate(@user.email, @user.password)
 
+				if session[:omniauth]
+					@user.authentications.create!(:provider => session[:omniauth][:provider],
+					                              :uid => session[:omniauth][:uid],
+					                              :token => session[:omniauth][:credentials][:token],
+					                              :secret => session[:omniauth][:credentials][:secret])
+
+					if session[:omniauth][:provider] == 'twitter'
+						self.log_analytic(:signup_twitter, "New user signed up with twitter.", @user)
+					elsif session[:omniauth][:provider] == 'facebook'
+						self.log_analytic(:signup_facebook, "New user signed up with facebook.", @user)
+					end
+				end
+
+				# Edu Stats
+				if session[:edu_stats]
+					EduStats.find(session[:edu_stats]).update_attribute(:user_id, @user.id)
+					self.log_analytic(:impact_signup, "User signed up after tioki impact.", @user)
+					session[:edu_stats] = nil
+				end
+
 				#user was came from the attempting to connect from another users profile
 				if params[:user_connection]
 
 					return redirect_to :controller => :connections,
-									   :action => :add_connection,
-									   :user_id => params[:user_connection],
-									   :to_wizard => true
+					                   :action => :add_connection,
+					                   :user_id => params[:user_connection],
+					                   :to_wizard => true
 
 				elsif @inviter
 
-					ConnectionInvite.create(
-						:user_id => @inviter.id,
-						:created_user_id => @user.id)
+					ConnectionInvite.create(:user_id => @inviter.id,
+					                        :created_user_id => @user.id)
 
-					Connection.create(
-						:owned_by => @inviter.id,
-						:user_id => @user.id,
-						:pending => false)
+					Connection.create(:owned_by => @inviter.id,
+					                  :user_id => @user.id,
+					                  :pending => false)
 
 				elsif params[:vouchstring]
 
 					# Loop through the skills attached to the vouch
 					@vouch.returned_skills.each do |skill|
-						VouchedSkill.create(
-							:user_id => @user.id, 
-							:skill_id => skill.skill_id, 
-							:voucher_id => @vouch.vouchee_id)
+						VouchedSkill.create(:user_id => @user.id,
+						                    :skill_id => skill.skill_id,
+						                    :voucher_id => @vouch.vouchee_id)
 					end
 					session[:_ak] = "unlock_vouches"
 				end
@@ -104,6 +124,9 @@ class WelcomeWizardController < ApplicationController
 					else
 						return redirect_to @discussion
 					end
+				elsif params[:discussion_follow]
+					discussion = Discussion.find(params[:discussion_follow])
+					return redirect_to discussion
 				else
 					return redirect_to "#{@buri}?x=step2#{@url}"
 				end
@@ -175,6 +198,19 @@ class WelcomeWizardController < ApplicationController
 		end
 
 		@user = currentUser
+
+		@education = Hash.new
+		if session[:omniauth]
+			# Education
+			session.omniauth.extra.raw_info.try(:education).try(:each) do |education|
+				if education.type == "College"
+					@education[:name] = education.school.name
+					@education[:year] = education.year.name
+					break
+				end
+			end
+		end
+
 		# Detect post variables
 		if request.post?
 			# Handle Subjects and Grades
@@ -200,7 +236,7 @@ class WelcomeWizardController < ApplicationController
 
 			@user.job_seeking = params[:user][:job_seeking] == "yes"
 
-			@user.years_teaching = params[:years_teaching]
+			@user.years_teaching = params[:user][:years_teaching]
 
 			# Attempt to save the user
 			if @user.save(:validate => false)
@@ -213,6 +249,8 @@ class WelcomeWizardController < ApplicationController
 
 				if @user.job_seeking
 					return redirect_to "/jobs/preferences"
+				elsif self.current_user.facebook_auth? || self.current_user.twitter_auth?
+					return redirect_to "/connections/social_friends"
 				else
 					return redirect_to "/get_started"
 				end
@@ -332,7 +370,10 @@ class WelcomeWizardController < ApplicationController
 					pcontacts << contact
 				end
 
-				contacts = {"type" => 'success', "message" => "Successfully read #{pcontacts.count} contacts", "data" => pcontacts, "selected" => select}
+				contacts = {"type" => 'success',
+				            "message" => "Successfully read #{pcontacts.count} contacts",
+				            "data" => pcontacts,
+				            "selected" => select}
 			end
 
 			return render :json => contacts
@@ -343,8 +384,8 @@ class WelcomeWizardController < ApplicationController
 
 	def get_twitter_contacts
 		client = Twitter::Client.new(
-			:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
-			:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
+			:oauth_token => self.current_user.twitter_auth.token,
+			:oauth_token_secret => self.current_user.twitter_auth.secret
 		)
 		pcontacts = []
 

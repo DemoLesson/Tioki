@@ -96,6 +96,9 @@
 
 					<!-- Floating the Message Sent Date and Delete button to the right -->
 					<span style="float:right">
+						<% if message.assets.count > 0 %>
+							<%= image_tag('tioki/icons/attachment.png', :style => 'width:12px') %>
+						<% end %>
 						<%= message.created_at.to_s(:message_time)%> |
 						<% if message.replied_messages.count > 0 %>
 							<%= message.replied_messages.count + 1 %> Messages |
@@ -112,12 +115,14 @@
 							<%= link_to "read more", message %>
 						<% else %>
 							<%=h replied_message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
+							<%= link_to "...read more", message %>
 						<% end %>
 					<% else %>
 						<% if message.body.size > 80 %><%=h (message.body.gsub(%r{</?[^>]+?>}, '')[0..84]+'...').html_safe %>
 							<%= link_to "read more", message %>
 						<% else %>
 							<%=h message.body.gsub(%r{</?[^>]+?>}, '').html_safe %>
+							<%= link_to "...read more", message %>
 						<% end %>
 					<% end %>
 				</p>	

@@ -1,0 +1,40 @@
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:30px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught an unbelievable 
+		<span style='color:#2AA99B;'>
+			<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> Hours!<br>
+		</span>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>
+	FUN FACT:
+		
+	<% if (@edu_stats.total_hours_teaching / 27941.0) >= 1.5 && (@edu_stats.total_hours_teaching / 27941.0) < 2  %>
+	
+		If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a 7-minute-mile pace, not only would you have reached <strong style='color:#2AA99B'><em>the Moon</em></strong> by now, but you'd already be <strong style='color:#2AA99B'><em>half way back.</em></strong> Congratulations, you've definitely given an <strong style='color:#2AA99B'><em>"out-of-this-world"</em></strong> effort! 
+		<br><br>
+		Oh, and by the way: that's just your time spent teaching. Imagine if we included all of your planning and grading time too; you probably would of ran yourself out of this solar system like Voyager I!
+		
+	<% elsif (@edu_stats.total_hours_teaching / 27941.0) > 2 %>
+	
+		If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a 7-minute-mile pace, you would have run to <strong style='color:#2AA99B'><em>the Moon</em></strong> and <strong style='color:#2AA99B'><em>back</em></strong> by now! That's an almost <strong style='color:#2AA99B'><em>unfathomable accomplishment,</em></strong> and a tremendous impact!
+		<br><br>
+		Oh, and by the way: that's just your time spent teaching. Imagine if we included all of your planning and grading time too; you probably would of ran yourself out of this solar system like Voyager I!
+		
+	<% else %>
+	
+		If you had spent all those hours <strong style='color:#2AA99B'><em>running</em></strong> at a 7-minute-mile pace, you would have reached <strong style='color:#2AA99B'>the Moon</strong> by now! Congratulations, you've definitely given an <strong style='color:#2AA99B'><em>"out-of-this-world"</em></strong> effort! 
+		<br><br>
+		Oh, and by the way: that's just your time spent teaching. Imagine if we included all of your planning and grading time too; you probably would of ran yourself out of this solar system like Voyager I!
+	<% end %>
+	</p>
+</section>
+
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/moon.png', :style => 'width:300px;' %>
+</section>
+
+

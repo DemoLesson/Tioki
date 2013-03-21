@@ -7,26 +7,25 @@ Preview::Application.routes.draw do
 	match '/temp' => 'users#temp'
 
 	# API
-		scope '/api' do
-			match ':action/:id' => 'api#:action'
-			match ':action' => 'api#:action'
-		end
+	scope '/api' do
+		match ':action/:id' => 'api#:action'
+		match ':action' => 'api#:action'
+	end
 
 	# Authentication for twitter, facebook, linkedin etc.
-		resources :authentications do
-			collection do
-				get 'facebook_auth'
-				get 'whiteboard_share_twitter'
-				get 'whiteboard_share_facebook'
-				get 'revoke_twitter'
-				get 'revoke_facebook'
-			end
+	resources :authentications do
+		collection do
+			get 'whiteboard_share_twitter'
+			get 'whiteboard_share_facebook'
+			get 'revoke_twitter'
+			get 'revoke_facebook'
 		end
-		match 'facebook_callback', :to => 'authentications#facebook_callback'
-		match 'twitter_callback', :to => 'authentications#twitter_callback' 
-		match 'twitter_auth', :to => 'authentications#twitter_auth'
-		match 'linkedinprofile', :to => 'users#linkedinprofile'
-		match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+	end
+	match 'facebook_callback', :to => 'authentications#facebook_callback'
+	match 'twitter_callback', :to => 'authentications#twitter_callback' 
+	match 'linkedinprofile', :to => 'users#linkedinprofile'
+	match 'linkedin_callback', :to => 'authentications#linkedin_callback'
+	match '/auth/:provider/callback', :to => 'authentications#create'
 
 	# Groups
 
@@ -141,6 +140,12 @@ Preview::Application.routes.draw do
 			match 'application' => 'application_wizard#index'
 		end
 
+	# Edu Stats Controller
+		resources :edu_stats
+
+		match 'impact' => 'edu_stats#index'
+		match 'impact/results' => 'edu_stats#show'
+
 	# Whiteboard JSON Access
 	# Move to API
 		resource :whiteboard
@@ -149,6 +154,7 @@ Preview::Application.routes.draw do
 		match 'whiteboard/:id/comment' => 'whiteboards#comment'
 		match 'whiteboard/favorite/:post' => 'whiteboards#favorite'
 		match 'whiteboard/user_profile' => 'whiteboards#user_profile'
+		match 'whiteboards/profile_whiteboard' => 'whiteboards#profile_whiteboard'
 	# Signup / Login
 		match 'signup' => 'users#signup'
 		match 'login' => 'users#login'
@@ -187,10 +193,12 @@ Preview::Application.routes.draw do
 			#profile Views
 			match 'resume' => 'users#profile_resume'
 			match 'about' => 'users#profile_about'
+			match 'activity' => 'users#profile_activity'
+			match 'application' => 'users#profile_application'
 
 			# Misc
 			match 'stats' => 'users#profile_stats'
-			root :to => 'users#profile'
+			root :to => 'users#profile_about'
 		end
 
 
@@ -219,11 +227,13 @@ Preview::Application.routes.draw do
 		# Connections
 		match ':slug/connections' => 'connections#profile_connections'
 		
-		# About 
 		match ':slug/about' => 'users#profile_about'
+
+		match ':slug/application' => 'users#profile_application'
 		
-		# Resume Info
 		match ':slug/resume' => 'users#profile_resume'
+
+		match ':slug/activity' => 'users#profile_activity'
 
 		# Skills
 		match ':slug/skills' => 'skills#my_skills'
@@ -233,10 +243,10 @@ Preview::Application.routes.draw do
 		match ':slug/more_tech' => 'users#more_tech'
 
 		# Guest Access
-		match ':slug/:guest_pass' => 'users#profile'
+		match ':slug/:guest_pass' => 'users#profile_about'
 		
 		# Normal Access
-		match ':slug' => 'users#profile'
+		match ':slug' => 'users#profile_about'
 
 	end
 
@@ -267,6 +277,8 @@ Preview::Application.routes.draw do
 	resources :connections do
 		collection do
 			get 'add_and_redir'
+			get 'social_friends'
+			get 'connect_social_friends'
 		end
 	end
 	match '/connections/user/:id' => 'connections#profile_connections'

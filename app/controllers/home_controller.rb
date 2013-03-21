@@ -43,11 +43,21 @@ class HomeController < ApplicationController
 				# Don't show the current user either
 				my_connections.push(currentUser.id)
 
-				@suggested_connections = User.joins(:skill_claims).
-					where("users.avatar_file_size IS NOT NULL && skill_claims.skill_id IN (?) && users.id NOT IN (?)", currentUser.skills.collect(&:id), my_connections).
-					limit(3).
-					group("users.id").
-					order('(RAND() / COUNT(*) * 2)')
+				@ab = Abtests.use("conections:suggested", 1).to_s
+
+				if @ab == "0"
+					@suggested_connections = User.joins(:subjects).
+						where("users.avatar_file_size IS NOT NULL && subjects_users.subject_id IN (?) && users.id NOT IN (?)", currentUser.subjects.collect(&:id), my_connections).
+						limit(3).
+						group("users.id").
+						order('(RAND() / COUNT(*) * 2)')
+				else
+					@suggested_connections = User.joins(:grades).
+						where("users.avatar_file_size IS NOT NULL && grades_users.grade_id IN (?) && users.id NOT IN (?)", currentUser.grades.collect(&:id), my_connections).
+						limit(3).
+						group("users.id").
+						order('(RAND() / COUNT(*) * 2)')
+				end
 
 				@latest_dl = Whiteboard.where("`slug` = ?", 'video_upload').order('`created_at`').limit(3)
 
@@ -224,7 +234,7 @@ class HomeController < ApplicationController
 
 				# Store the whiteboard id in the session and redirect to auth page
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to "/twitter_auth?twitter_action=whiteboard_auth"
+				return redirect_to "/auth/twitter?twitter_action=whiteboard_auth"
 
 			# If we were asked to share the whiteboard post on facebook check if were authorized
 			elsif self.current_user.facebook_auth? && params[:share_on_facebook]
@@ -238,7 +248,7 @@ class HomeController < ApplicationController
 
 				# Store the whiteboard id in the session and redirect to the auth page
 				session[:whiteboard_id] = whiteboard.id
-				return redirect_to facebook_auth_authentications_url(:facebook_action => "whiteboard_auth")
+				return redirect_to "/auth/facebook?facebook_action=whiteboard_auth"
 			end
 		end
 		if files != nil

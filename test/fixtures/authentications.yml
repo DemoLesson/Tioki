@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  service: MyString
+  user_id: 1
+  unique_identifier: 1
+
+two:
+  service: MyString
+  user_id: 1
+  unique_identifier: 1

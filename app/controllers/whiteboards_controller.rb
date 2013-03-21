@@ -146,7 +146,7 @@ class WhiteboardsController < ApplicationController
 		divs = Array.new
 		w.each do |post|
 			@post = post
-			divs << render_to_string('whiteboards/profile_activity', :layout => false)
+			divs << render_to_string('whiteboards/profile_whiteboard', :layout => false)
 		end
 
 		render :json => divs

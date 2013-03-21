@@ -10,7 +10,7 @@
 	<% end %>
 </h3>
 
-<%= form_for(@message) do |f| %>
+<%= form_for @message, :html => {:multipart => true} do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -30,10 +30,10 @@
 			Subject: 
 		</p>
 		<% if @replied_to_message %>
-			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:675px" %>
+			<%= f.text_field :subject, :value => "Re: #{@replied_to_message.subject}", :style => "width:780px" %>
 			<%= f.text_field :replied_to_id, :value => @replied_to_message.id, :type => :hidden %>
 		<% else %>
-			<%= f.text_field :subject, :style => "width:675px" %>
+			<%= f.text_field :subject, :style => "width:780px" %>
 		<% end %>
 	</fieldset>
 
@@ -41,12 +41,35 @@
 		<p>
 			Message:
 		</p>
-		<%= f.text_area :body, :style => "width:675px" %>
+		<%= f.text_area :body, :style => "width:780px" %>
 	</fieldset>
 
-	<div class="actions">
-		<%= f.submit "Send Message" %>
-		<%= link_to "Cancel", :back %>
+	<div class="actions" style='width:800px'>
+		<span style='float:right'>
+			<%= f.submit "Send Message" %>
+			<%= link_to "Cancel", :back %>
+		</span>
+		<section style='width:500px'>
+		<strong style='color:#f66c4c'>
+			NEW:
+		</strong>
+		Attach Files
+		<br />
+		<%= f.fields_for :assets do |ff| %>
+			<%= ff.file_field :file %>
+		<% end %>
+		<a href="#" id="add_asset" style='color:#f66c4c'>Attach another file</a>
+		<script type="text/javascript">
+			$(document).ready( function () {
+				var ctr = 1;
+				$("#add_asset").click( function(e) {
+					e.preventDefault();
+					$("#message_assets_attributes_"+ (ctr - 1) +"_file").after('<input id="message_assets_attributes_'+ctr+'_file" type="file" name="message[assets_attributes]['+ctr+'][file]">');
+					ctr += 1;
+				});
+			});
+		</script>
+		</section>
 	</div>
 <% end %>
 <% if @replied_to_message %>
@@ -80,7 +103,7 @@
 		</p>
 
 	</section>
-	<% @replied_to_message.replied_messages.each do |message| %>
+	<% @replied_to_message.replied_messages.order("created_at").each do |message| %>
 		<section class="panel two-column left-side" style="border-radius:0px;padding:5px 0px 5px 0px;width:800px;float:none">
 			<!-- Pulling the Teachers Picture or the No Avatar-->
 			<% if message.sender.avatar? %>

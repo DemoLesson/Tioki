@@ -8,11 +8,10 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require tinymce-jquery
-//= require jquery.form
+//= require active_admin/base
 //= require jquery.remotipart
-//= require_tree .
 //= require_tree ./tioki
 //= require_tree ./Jcrop
 //= require_tree ./shadowbox
 //= require_tree ./jquery-extensions
-//= require_tree ./cramp
+//= require_tree ./misc

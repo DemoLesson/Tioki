@@ -78,8 +78,11 @@ class UserMailer < ActionMailer::Base
 		@owner = User.find(owner_id)
 		@user = User.find(user_id)
 
-		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
+ 		# Which template to use
+		#ab = Abtests.use("email:userconnect", 1).to_s
+		#template = "userconnect_" + ab
 
+		mail = mail(:to => @user.email, :subject => "Pending Tioki connection with #{@owner.name}!")
 
 		if mail.delivery_method.respond_to?('tag')
 			mail.delivery_method.tag('userconnect')
@@ -368,26 +371,17 @@ class UserMailer < ActionMailer::Base
 		return mail
 	end
 
-	def connection_invite(user, emails, url, message)
+	def connection_invite(user, emails, url, message, ab)
 		@username = user.name
 		@url = url
 		@message = message
 		@user = user
 
 		# Which template to use
-		ab = Abtests.use("email:connection_invite", 1).to_s
 		template = "connection_invite_" + ab
 
-		# Send out the email
-		# Use new subject lines
-		if ab == 0.to_s
-			mail = mail(:to => emails, :subject => @username + " wants you to checkout Tioki!") do |f|
-				f.html { render template }
-			end
-		else
-			mail = mail(:to => emails, :subject => @username + " wants to connect on Tioki!") do |f|
-				f.html { render template }
-			end
+		mail = mail(:to => emails, :subject => @username + " wants to connect on Tioki!") do |f|
+			f.html { render template }
 		end
 
 		if mail.delivery_method.respond_to?('tag')
@@ -446,6 +440,7 @@ class UserMailer < ActionMailer::Base
 		# Set the subject for the email
 		subject =  'Job Credit Request'
 
+		template = "credit_request_email"
 		# Send out the email
 		mail = mail(:to => 'sales@tioki.com', :subject => subject) do |f|
 			f.html { render template }

@@ -1,0 +1,21 @@
+<section class="half-width left-side" style='padding-top:40px'>
+	
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught an amazing 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> Hours!
+			</span>
+	</h2>
+	
+	<p style='margin-left:10px'>FUN FACT:
+	If you had spent that time <strong style='color:#2AA99B'><em>walking</em></strong> non-stop as opposed to teaching, you would have walked <strong style='color:#2AA99B'><em>around the Earth <%= number_with_precision((@edu_stats.total_hours_teaching / 7523.0), :precision => 0) %> times already!</em></strong> 
+	Fortunately for us, you've chosen to <strong style='color:#2AA99B'><em>change the world</em></strong> as opposed to walk around it.
+	<br><br>
+	Your sacrifice is heart warming, and your impact is global!
+	</p>
+</section>
+
+
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/around_earth.png', :style => 'height:300px;' %>
+</section>

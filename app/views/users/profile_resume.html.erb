@@ -1,176 +1,71 @@
 <section id="main-content" class="inner-content">
-	<section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-			<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
-				<!-- EDIT AND FOLLOW BUTTONS -->
-				<% if self.current_user != nil %>
-					<div style="float:right;margin-top:0px">
-                    
-					<!-- Connection Options -->
-					<% # IF this is my profile allow me to edit %>
-					<% if @self %>
-						<a href="/me/profile/edit" class="action-button bg-salmon">
-							Edit My Profile
-						</a>
-					<% # IF im not a user then let me register %>
-					<% elsif !self.current_user %>
-						<a href="/welcome_wizard?x=step1&user_connection=<%= @user.id %>" class="action-button bg-salmon">
-							<%= ablang('connection.connect') %>
-						</a>
-					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif Connection.mine.collect{|x| x.not_me_id(self.current_user.id)}.include? @user.id %>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
-					<% # IF we are not connected then display "connect" button %>
-					<% else %>
-						<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
-					<% end %>
-                    
-					</div>
-				<% end %>
-
-				<!-- START Teacher INFO -->
-				<h2 style="margin: 10px 0px 10px 10px">
-				<%= @user.name %>
-				</h2>
-				<section style= "height: 75px;">
-				<% if @user.headline? %>
-					<h4 style="margin-left:10px;margin-top:-10px;width:auto">
-						"<%= @user.headline %>"
-					</h4>
-				<% end %>
-
-				<p style="margin-left:10px; margin-top:-15px; margin-bottom: 5px; width:auto">
-				  	<% if !(currentJob = @user.currentJob).nil? %>
-						<strong style="color:#2AA99B">
-							Currently:
-						</strong> 
-						<%= currentJob.position %> at <%= currentJob.company %> in  
-					<% end %>
-					<%= @user.location %>
-				</p>
-				</section>
-				<p>
-				<section id="updates" style="margin: 0px 0px 0px 10px;">
-					<!-- SOCIAL LINKS -->
-						<% if @self %>
-							<a href="/my_connections" style= "margin-right:10px;">
-							<div class="count connections" style= "margin-bottom:0px;">
-							<%= User.current.pending_connections(false).count %>
-							</div>
-							<%= ablang('connection.plural') %>
-							</a>
-						<% else %>
-							<a href="/profile/<%= @user.slug %>/connections" style= "margin-right:10px;">
-							<div class="count connections" style= "margin-bottom:0px;">
-							<%= @user.pending_connections(false).count %>
-							</div>
-							<%= ablang('connection.plural') %>
-							</a>
-						<% end %>
-                        
-                        <% social = @user.social %>
-						<% if !social['twitter'].nil? %>
-							<% if social['twitter'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), social['twitter'], :target => "_blank" %>
-							<% elsif social['twitter'].include? 'twitter' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//' + social['twitter'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/' + social['twitter'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['linkedin'].nil? %>
-							<% if social['linkedin'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), social['linkedin'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + social['linkedin'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['edmodo'].nil? %>
-							<% if social['edmodo'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), social['edmodo'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['edmodo'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['betterlesson'].nil? %>
-							<% if social['betterlesson'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), social['betterlesson'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['betterlesson'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['teachingchannel'].nil? %>
-							<% if social['teachingchannel'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), social['teachingchannel'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['teachingchannel'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						
-						<% if !social['blog'].nil? %>
-							<% if social['blog'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), social['blog'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['blog'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						
-						<% if !social['website'].nil? %>
-							<% if social['website'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), social['website'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['website'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						<span style="float:right;font-size:12px">
-							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/<%= @user.slug %></a>
-						</span>
-				</section>
-				</p>
-			</section>
-			<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
-				<% if @self %>
-					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
-				<% end %>
-				<% if (@connected || @guest || !@user.privacy_public["avatar"]) && @user.avatar? %>
-					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
-				<% else %>
-					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
-				<% end %>
-			</section>
-	</section>
+	<%= render "profile_header" %>
 	
 	<section class="profile group">
-		<nav class="subpage" style="width: 660px;margin-left: 15px;">
-			<ul>
-				<%unless currentUser.new_record? %>
-					<% @self || @connected || !@user.privacy_public[:whiteboard] %>
+		<% if @application != nil %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
+				<ul>
 					<li>
-						<% if @self %>
-						<a href="/me/profile">
-						<% else %>
-						<a href="/profile/<%= @user.slug %>">
-						<% end %>
+						<a href="/profile/<%= @user.slug %>/activity?application=<%= @application.id.to_s() %>">
 							Activity
 						</a>
 					</li>
-				<% end %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/about?application=<%= @application.id.to_s() %>">
+						About
+						</a>
+					</li>
 
-				<li>
-					<a href="/profile/<%= @user.slug %>/about">
-					About
-					</a>
-				</li>
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/resume?application=<%= @application.id.to_s() %>">
+						Resume
+						</a>
+					</li>
+					<% if @application.job.job_questions.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/application?application=<%= @application.id.to_s() %>">
+							Application
+							</a>
+						</li>
+					<% end %>
+					<%unless currentUser.new_record? %>
+						<% if @user.videos.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/videos?application=<%= @application.id.to_s() %>">
+							Videos
+							</a>
+						</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</nav>
+		<% else %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
+				<ul>
+					<%unless currentUser.new_record? %>
+						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
+						<li>
+							<% if @self %>
+							<a href="/me/profile/activity">
+							<% else %>
+							<a href="/profile/<%= @user.slug %>/activity">
+							<% end %>
+								Activity
+							</a>
+						</li>
+					<% end %>
 
-				<li class="current">
-					<a href="/profile/<%= @user.slug %>/resume">
-					Resume
-					</a>
-				</li>
-				<%unless currentUser.new_record? %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/about">
+						About
+						</a>
+					</li>
+
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/resume">
+						Resume
+						</a>
+					</li>
 					<% if @user.videos.count > 0 %>
 					<li>
 						<a href="/profile/<%= @user.slug %>/videos">
@@ -184,17 +79,17 @@
 						</a>
 					</li>
 					<% end %>
-				<% end %>
-				<% if !currentUser.new_record? && @self %>
-				<li>
-					<a href="/me/profile/stats">
-					Stats
-					</a>
-				</li>
-				<% end %>
+					<% if !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/stats">
+						Stats
+						</a>
+					</li>
+					<% end %>
 
-			</ul>
-		</nav>
+				</ul>
+			</nav>
+		<% end %>
 		
 		<section class="sidebar" style="float:right;margin-top:-17px;" >
 			<% if @application != nil %>
@@ -222,9 +117,9 @@
 					<div style ="float:right; margin-top:-68px; margin-right:-30px">
 						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button green"} %>
 					</div>
-					<div style="margin-left:5px">
-						<%= link_to "Back to Applicants", :back %>
-					</div>
+					<a style =" margin-left:5px; color:#2AA99B" href="<%= url_for([@application.job.group, @application.job, :applications])%>">
+						Back to Applicants
+					</a>
 				</section> <!-- END RECRUITOR TOOLS -->
 			<% end %>
 
@@ -244,32 +139,8 @@
 				</div>
 			</section>
 
-			<% if self.current_user %>
-				<% if @connected || @guest || !@user.privacy_public["contact_info"] %>
-					<!-- Contact Information-->
-					<section class="info">
-					<h5 class="bottom-line">
-					Contact Information
-					</h5>
-					<p>
-						<span class="bold black"><%= @user.name %></span>
-					</p>
-					<% if !@user.location.empty? %>
-						<p>
-						<span class="bold black">Location:</span>
-						<%= @user.location %><br/>
-						</p>
-					<% end %>
-					<p>
-					<span class="bold black">Tioki URL:</span>
-					<span style="font-size:12px">
-							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/...</a>
-					</span>
-					</p>
-					</section>
-				<% end %>
-			<% end %>
-			
+			<%= render "profile_sidebar" %>
+
 			<!--Request Vouch
 			<% if @self && @user.skills.size > 0  %>
 				<section class="info">
@@ -298,7 +169,7 @@
 			<% end %>
 			
 			<!-- Video -->
-			<% if @connected || @guest || !@user.privacy_public["video"] %>
+			<% if @connected || @guest || !@user.privacy_public[:video] %>
 				<% unless @user.video.nil? %>
 					<div class="profile-video panel">
 						<%= @user.video.embed_code %>
@@ -602,7 +473,7 @@
 			<% end %>
 			
 			<!-- START Attachments Section -->
-			<% if @connected || @guest || !@user.privacy_public["attachments"] %>
+			<% if @connected || @guest || !@user.privacy_public[:attachments] %>
 			
 				<!-- If Attachments are blank and you do own the profile, we encourage you to complete it.--> 
 				<% if @user.assets.empty? && @self %>
@@ -631,18 +502,11 @@
 								Attachments
 							</h3>
 						<% end %>
-
-						<% if User.current.nil? %>
-							<p>Please <%= link_to "login", '/login' %> to view profile attachments.</p>
-						<% else %>
-							<% @user.assets.each do |asset| %>
-								<% if asset.assetType != 1 %>
-									<p>
-									<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
-									<%= asset.description %>
-									</p>
-								<% end %>
-							<% end %>
+						<% @user.assets.each do |asset| %>
+							<p>
+								<%= link_to image_tag('tioki/icons/attachment.png') + asset.name, asset.file.url %><br />
+								<%= asset.description %>
+							</p>
 						<% end %>
 					</section>
 				<% end %>
@@ -724,181 +588,6 @@ $(document).ready(function() {
 		});
 	</script>
 <% end %>
-
-<script type="text/javascript">
-// White board more
-$(document).ready(function() {
-	window.whiteboardPage = 1;
-	window.whiteboardMax = false;
-
-	// Load more whiteboard posts
-	$('a[href="#whiteboard-more"]').click(function(e) {
-		e.preventDefault();
-
-		// If we have already reached the end of the whiteboard then stop
-		if(window.whiteboardMax) return false;
-		
-		// Get the number for the next page of data to pull
-		window.whiteboardPage++;
-
-		// Store for future use down the stack
-		more = $(this);
-
-		// Get the next pieces of activity via JSON
-		$.getJSON('/whiteboard/user_profile?user_id=<%= @user.id %>&page=' + window.whiteboardPage, function(data) {
-
-			// If no data was returned handle by removing the button and erroring
-			if(data.length == 0) {
-				more.animate({"opacity": 0}, 700, function() {
-					window.whiteboardMax = true;
-					more.text('No More Updates');
-					setTimeout(function() {
-						more.animate({"opacity": 1}, 1000);
-					}, 50);
-				});
-			}
-
-			// For every element
-			for(var x in data) {
-
-				// Create the object, insert, and fade it in
-				$(data[x]).css('display','block').insertBefore(more.closest('li'))
-			}
-		});
-
-		return false;
-	});
-
-	// Favorite a whiteboard post
-	$('a[whiteboard-action="favorite"]').on('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
-
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
-		});
-
-		return false;
-	});
-
-	// Show the comments
-	$('a[whiteboard-action="show-comments"]').on('click', function(e) {
-		e.preventDefault();
-
-		// Show the comments wrapper
-		$(this).closest('div.bar').next('div.comments').slideDown(500);
-
-		return false;
-	});
-
-	// Hide a whiteboard post
-	$('a[whiteboard-action="hide"], a[whiteboard-action="delete"]').on('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	$('form#post-comment').submit(function(e) {
-		e.preventDefault();
-
-		var form = $(this);
-		$.post(form.attr('action') + '.json', form.serialize(), function(r) {
-			if(r.id !== undefined && r.type == 'success') {
-				form.find('textarea').val('Posted!').prop('disabled', true);
-				$.get('/comments/' + r.id, function(d) {
-					comment = $(d).css({'display': 'none', 'background-color': '#F66C4C'});
-					form.prev('ul').append(comment);
-					comment.slideDown(500, function() {
-						$('ul').scrollTo('100%', 800);
-						setTimeout(function() {
-							comment.animate({backgroundColor: '#FFF'}, 600, function() {
-								comment.css('background-color', '');
-							});
-							form.find('textarea').val('').prop('disabled', false);
-						}, 1000);
-					});
-				});
-			}
-		})
-
-		return false;
-	});
-
-	// Favorite a comment
-	$('a[comment-action="favorite"]').on('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-
-			// Star the post
-			if(r.type == 'success' && r.new) {
-				link.addClass('salmon').removeClass('gray');;
-				var inc = parseInt(link.children('span').text()) + 1;
-				if(isNaN(inc)) link.children('span').text('1');
-				else link.children('span').text(inc);
-			}
-
-			// Unstar the post
-			if(r.type == 'success' && !r.new) {
-				link.removeClass('salmon').addClass('gray');;
-				var dec = parseInt(link.children('span').text()) - 1;
-				if(isNaN(dec) || dec === 0) link.children('span').text('');
-				else link.children('span').text(dec);
-			}
-		});
-
-		return false;
-	});
-
-	// Delete a comment
-	$('a[comment-action="delete"]').on('click', function(e) {
-		e.preventDefault();
-
-		var link = $(this);
-		$.get(link.attr('href') + '.json', function(r) {
-			var li = link.closest('li');
-
-			// Hide the post
-			if(r.type == 'success') li.slideUp(500, function() {
-				$('span.tooltip').remove();
-				$(this).remove();
-			});
-		});
-
-		return false;
-	});
-
-	//Came to comments from email
-	if(window.location.hash.indexOf("whiteboard_comments") >= 0){
-		var hash = window.location.hash;
-		$(hash).click();
-	}
-});
-</script>
+<% if self.current_user == @user %>
+	<%= render "profile_completion_popup" %>
+<% end %>

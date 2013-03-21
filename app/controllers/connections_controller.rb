@@ -88,8 +88,15 @@ class ConnectionsController < ApplicationController
 		@user = User.find_by_slug(findby) if findby.is_a?(String)
 		@user = User.find(findby) if findby.is_a?(Fixnum)
 
-		@connections = Connection.user(@user.id).paginate(:per_page => 20, :page => params[:page])
-		@my_connections = Connection.mine
+		@connections = @user.connections.
+		                     not_pending.
+		                     collect{|connection| connection.not_me(@user.id)}.
+		                     paginate(:per_page => 20, :page => params[:page])
+
+		@my_connections = self.current_user.
+		                       connections.
+		                       not_pending.
+		                       collect{|connection| connection.not_me_id(self.current_user.id)}
 	end
 
 	def add_connection(respond = true)
@@ -97,6 +104,7 @@ class ConnectionsController < ApplicationController
 		a = self.current_user.id
 		@user = User.find(params[:user_id])
 		b = params[:user_id]
+		@ab = params[:ab]
 		@previous = Connection.where('(`owned_by` = ? && `user_id` = ?) || (`user_id` = ? && `owned_by` = ?)', a, b, a, b).first
 		@redirect = !currentUser.id.even? ? '/profile/' + @user.slug + '/about?add_connection=b' : false
 
@@ -112,9 +120,10 @@ class ConnectionsController < ApplicationController
 			if @connection.save
 
 				# If we suggested the connection log it as an analytic
-				unless session[:data].nil? || session[:data][:suggested_connection].nil?
-					session[:data]['suggested_connection'].uniq.include? b
-					self.log_analytic(:suggested_connection_created, 'A user created a connection based off our suggestion', @connection)
+				if @ab == '0'
+					self.log_analytic(:suggested_connection_created_subjects, 'A user created a connection based off our suggestion', @connection, [], :connections)
+				elsif @ab == '1'
+					self.log_analytic(:suggested_connection_created_grades, 'A user created a connection based off our suggestion', @connection, [], :connections)
 				end
 
 				# Notify the other user of my connection request
@@ -248,7 +257,13 @@ class ConnectionsController < ApplicationController
 	def inviteconnections
 		@referred = self.current_user.successful_referrals.count
 		@my_connection = Connection.find_for_user(self.current_user.id)
-		@default_message = "Hey! I'd absolutely love to add you to my educator network on Tioki."
+
+		@ab = Abtests.use("email:connection_invite", 1).to_s
+		if @ab == "1"
+			@default_message = "Hey! I'd absolutely love to add you to my education network on Tioki."
+		else
+			@default_message = "Hey!\n\nI would like you to join my education network on Tioki. Tioki is a place where educators gather, connect, and share new ideas! \n\nI think you would be a great fit for Tioki, so come join me!"
+		end
 	end
 
 	def inviteconnection
@@ -286,7 +301,7 @@ class ConnectionsController < ApplicationController
 					url = "http://#{request.host_with_port}/dc/#{User.current.invite_code}"
 
 					# Send out the email
-					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message]).deliver
+					mail = UserMailer.connection_invite(self.current_user, email, url, params[:message], params[:ab]).deliver
 
 					# Notify the current session member that ht e email was sent
 					notice << "Your invite to " + demail + " has been sent."
@@ -319,9 +334,10 @@ class ConnectionsController < ApplicationController
 
 	def invite_twitter
 		if self.current_user.twitter_auth?
+			auth = self.current_user.twitter_auth
 			client = Twitter::Client.new(
-				:oauth_token => self.current_user.authorizations[:twitter_oauth_token],
-				:oauth_token_secret => self.current_user.authorizations[:twitter_oauth_secret]
+				:oauth_token => auth.token,
+				:oauth_token_secret => auth.secret
 			)
 
 			if request.post? && !params[:people].nil?
@@ -528,6 +544,52 @@ class ConnectionsController < ApplicationController
 		end
 
 		render :json => divs
+	end
+
+	def social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		if @users.empty?
+			return redirect_to :root
+		end
+	end
+
+	def connect_social_friends
+		facebook_users = []
+		twitter_users = []
+
+		if self.current_user.facebook_auth?
+			facebook_users = self.current_user.facebook_friends
+		end
+
+		if self.current_user.twitter_auth?
+			twitter_users = self.current_user.twitter_friends
+		end
+
+		@users = facebook_users | twitter_users
+
+		@users.each do |user|
+			Connection.delay.add_connect(self.current_user.id, user.id)
+		end
+
+		if self.current_user.facebook_auth?
+			redirect_to "/inviteconnections/facebook"
+		elsif self.current_user.twitter_auth?
+			redirect_to "/inviteconnections/twitter"
+		else
+			redirect_to :root
+		end
 	end
 
 	# Review

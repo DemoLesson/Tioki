@@ -19,7 +19,7 @@
 					</h5>
 				<% end %>
 				<ul id="unpublished">
-					<li class="dropzone">
+					<li class="dropzone" style="background-color:#2AA99B; height:200px;">
 					</li>
 					<% @jobs.where(:status => ['unpublished', nil]).each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
@@ -43,12 +43,12 @@
 				
 				<!--If you have posted unpublished positions, we want you to start running them. If you can't run them, contact us for assistance -->
 				<% if @jobs.where(:status => 'running').count < 1 %>
-					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting here to start receiving applicants.</h5>
 					<p>Can't drag and drop? You likely need job credits. 
 						<%= link_to 'Contact us', 'mailto:support@tioki.com?subject=Need%20Job%20Credits%20To%20Run%20My%20Posting' %> for assistance.</p>
+					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting under here to start receiving applicants.</h5>
 				<% end %>
 				<ul id="running">
-					<li class="dropzone">
+					<li class="dropzone" style="background-color:#2AA99B; height:200px;">
 					</li>
 					<% @jobs.where(:status => 'running').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">
@@ -72,10 +72,10 @@
 				
 				<!--If you have don't have any positions in the completed pile, we let you know how to drag them here to complete the posting -->
 				<% if @jobs.where(:status => 'completed').count < 1 %>
-					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting here once applications are closed.</h5>
+					<h5><span style="color:#2AA99B">TIP:</span> Drag and Drop posting under here once applications are closed.</h5>
 				<% end %>
 				<ul id="completed">
-					<li class="dropzone">
+					<li class="dropzone" style="background-color:#2AA99B; height:200px;">
 					</li>
 					<% @jobs.where(:status => 'completed').each do |job| %>
 						<li class="job" data-job-id="<%= job.id %>">

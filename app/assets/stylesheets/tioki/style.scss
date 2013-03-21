@@ -317,6 +317,12 @@ ul {
 	min-width: 1020px;
 }
 
+.image-shadow {
+	-webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    2px 2px 2px rgba(0, 0, 0, 0.3);
+	box-shadow:         2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
 .inner-content {
 	width: 960px;
 	position: relative;
@@ -388,6 +394,7 @@ section.notice {
 		}
 	}
 }
+
 
 .grey-bg {
 	z-index: 9999;
@@ -731,6 +738,22 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 				color: #fff;
 				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 				margin-bottom: -15px;
+			}
+		}
+		.impact-header {
+			position: relative;
+			width: 960px;
+			height: 40px;
+			padding: 20px 30px;
+			top: 110px;
+			left: 0px;
+			background: rgba(29, 29, 29, 0.7);
+			blockquote {
+				font: 32px/1.4 $oswald;
+				color: #fff;
+				text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+				margin-bottom: -15px;
+				text-align: center;
 			}
 		}
 		.featured-quote-schools {

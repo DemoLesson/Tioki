@@ -37,7 +37,7 @@
 	<% @technologies.each do |technology| %>
 		<div class="item_jobs" style="height:auto;margin-left: -30px">
 			<div class="item_picture">
-				<% if technology.picture? %><%= link_to image_tag(technology.picture.url(:thumb)), technology %><% else %><%= link_to image_tag("no_image.png"), technology %><% end %>
+				<% if technology.picture? %><%= link_to image_tag(technology.picture.url(:thumb)), technology %><% else %><%= link_to image_tag("dl_icons/no_image.png"), technology %><% end %>
 			</div>
 			<div class ="item_desc">
 				<p>

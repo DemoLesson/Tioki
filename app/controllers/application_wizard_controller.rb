@@ -41,7 +41,10 @@ class ApplicationWizardController < ApplicationController
 			session[:application] = @app.id
 			if User.current.submitted_application?
 
-				if @job.allow_attachments
+				if @job.job_questions.count > 0
+					redirect_to :question
+
+				elsif @job.allow_attachments
 					redirect_to :step5
 
 				elsif @job.allow_videos
@@ -142,23 +145,22 @@ class ApplicationWizardController < ApplicationController
 		end
 	end
 
+	def question
+		_loadSession
+		@job = Job.find_by_id(@app.job_id)
+		if request.post?
+
+			answer = JobAnswer.create(params[:job_answer])
+			@app.job_answers << answer
+		end
+	end
+
 	def step5
 		_loadSession
 
 		if request.post?
-
-			# Decide whether or not to show this on the profile
-			if params[:profile]
-				params[:asset][:assetType] = false
-			else
-				params[:asset][:assetType] = true
-			end
-
 			# Set the application id for the asset
-			params[:asset][:application_id] = @app.id
-			params[:asset][:user_id] = User.current.id
-
-			Asset.create(params[:asset])
+			@app.assets.create(params[:asset])
 		end
 	end
 

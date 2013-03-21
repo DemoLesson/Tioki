@@ -29,14 +29,8 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 
 		# If an interview was requested go ahead and create the interview
-		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interview.nil?
-			interview = Interview.create(
-				:application_id => @application.id,
-				:user_id => @application.user_id,
-				:job_id => @application.job_id)
-
-			# Redirect Path
-			redirect = [:edit, @source.group, @source, @application, interview]
+		if !params[:application].nil? && params[:application][:status] == 'Request an Interview' && @application.interviews.empty?
+			redirect = new_group_job_application_interview_path(@source.group, @source, @application)
 		end
 
 		# Handle rejection letter
@@ -87,8 +81,6 @@ class ApplicationsController < ApplicationController
 		@application = Application.find(params[:id])
 	end
 
-	# GET /applications/1
-	# GET /applications/1.xmlst
 	def show
 		@application = Application.find(params[:id])
 
@@ -98,10 +90,9 @@ class ApplicationsController < ApplicationController
 		end
 	end
 
-	# Revise
 	def attachments
 		@application = Application.find(params[:id])
-		@profileassets = Asset.where('user_id = ? AND assetType = ?', @application.user_id, 0).all
+		@profileassets = @application.assets
 		respond_to do |format|
 			format.html # attachments.html.erb
 		end
@@ -145,8 +136,9 @@ class ApplicationsController < ApplicationController
 	end
 
 	def interviews
-		@applications = @source.applications.is_submitted
-		@interviews = @source.interviews
+		@round = params[:round] ? params[:round].to_i : 1
+
+		@interviews = @source.interviews.where("round = ?", @round).order("created_at DESC")
 	end
 
 	def offered

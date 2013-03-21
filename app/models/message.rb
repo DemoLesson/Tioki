@@ -1,9 +1,12 @@
 class Message < ActiveRecord::Base
-	attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id, :replied_at
+	attr_accessible :user_id_to, :user_id_from, :read, :subject, :body, :tag, :replied_to_id, :replied_at, :assets_attributes
 	validates_presence_of :subject, :body, :message => "Please enter a subject and/or message."
 
 	has_many :replied_messages, :class_name => "Message", :foreign_key => "replied_to_id", :dependent => :nullify
 	belongs_to :message, :foreign_key => :replied_to_id
+
+	has_many :assets, :as => :owner, :dependent => :destroy
+	accepts_nested_attributes_for :assets, :allow_destroy => true
 
 	belongs_to :sender, :class_name => "User", :foreign_key => :user_id_from
 	belongs_to :receiver, :class_name => "User", :foreign_key => :user_id_to

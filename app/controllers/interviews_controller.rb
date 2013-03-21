@@ -1,12 +1,55 @@
 class InterviewsController < ApplicationController
   before_filter :source_owner
 
-  # Edit the interview in question
-  # Author: Kelly Lauren Summer Becker
-  # GET /users/:user_id/applications/:application_id/interviews/:interview_id/edit
-  # GET /group/:group_id/job/:job_id/applications/:application_id/interviews/:interview_id/edit
+	def new
+		@interview = Interview.new
+		@application = Application.find(params[:application_id])
+      @message = <<-END
+Dear #{@application.user.name},
+
+After reviewing your profile, video, and documents, we would like to invite you to interview for the #{@application.job.title} position available at #{@application.job.group.name}. Please click the <a href="http://tioki.com/users/#{@application.user.id}/applications">Interview Request</a> to confirm if any of these dates and times work for you. We look forward to meeting with you!
+
+Kind Regards,
+#{currentUser.name}
+#{@application.job.group.name}
+END
+	end
+
+	def create
+		application = Application.find(params[:application_id])
+		params[:interview][:datetime_1] = Chronic.parse(params[:interview][:datetime_1])
+		params[:interview][:datetime_2] = Chronic.parse(params[:interview][:datetime_2])
+		params[:interview][:datetime_3] = Chronic.parse(params[:interview][:datetime_3])
+		params[:interview][:application_id] = params[:application_id]
+		params[:interview][:user_id] = application.user_id
+		params[:interview][:job_id] = params[:job_id]
+
+		interview = Interview.new(params[:interview])
+
+		# Send a message to the application regarding the interview
+		respond_to do |format|
+			if interview.save
+				if !params[:interview][:message].nil?
+					Message.send!(
+						interview.user, 
+						:subject => "Re: Interview with #{interview.job.group.name} for #{interview.job.title} position", 
+						:body => params[:interview][:message], 
+						:tag => interview.tag!)
+				end
+				goto = [@source, :applications]
+				goto = goto.unshift(@source.group) if @source.is_a?(Job)
+
+				format.html { redirect_to goto, notice: 'Interview details have been updated.' }
+				format.json { head :ok }
+			else
+				format.html{ redirect_to :back, notice: "Could not save interview" }
+			end
+		end
+	end
+
   def edit
     @interview = Interview.find(params[:id])
+		@application = Application.find(params[:application_id])
 
     if @interview.datetime_selected == 4
       @message = <<-END
@@ -37,6 +80,7 @@ END
       format.json { render json: @interview }
     end
   end
+
 
   # Update the interview
   # Author: Kelly Lauren Summer Becker

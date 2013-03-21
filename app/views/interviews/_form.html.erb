@@ -1,219 +1,118 @@
-<link type="text/css" href="/assets/jquery-ui-1.8.20.custom/css/blitzer/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />	
-<script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/assets/jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
-<%= form_for(@interview) do |f| %>
-	<% if @interview.errors.any? %>
-		<div id="error_explanation">
-			<h2><%= pluralize(@interview.errors.count, "error") %> prohibited this interview from being saved:</h2>
+<h1>
+	Schedule Interview with 
+	<%= link_to @application.user.name, @application.user, :style => "color:#F66C4C" if @source.is_a?(Job) %>
+	<%= link_to @application.job.group.name, @application.job.group, :style => "color:#F66C4C" if @source.is_a?(User) %>
+</h1>
 
-			<ul>
-			<% @interview.errors.full_messages.each do |msg| %>
-				<li><%= msg %></li>
-			<% end %>
-			</ul>
-		</div>
+<% if @source.is_a?(Job) %>
+	<p>Yay! Looks like you're ready to meet one of our amazing Tioki candidates. Simply select the 3 dates and times(PST) that work best for you, and we will let the candidate know immediately. Once the candidate selects the interview date and time, you will be instantly notified on Tioki and via email.</p>
+
+	<%= form_for([@source.group, @source, @application, @interview], :html => { :class => :gridded }) do |t| %>
+		<table style="width:100%;" class="applications">
+			<tr>
+				<td style ="width:100%">
+					<p>Input the 3 dates AND times(PST) that work best for you. </p>
+					<label>
+						<span>First Date and Time</span>
+						<input type="text" name="interview[datetime_1]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_1.to_s(:datetimez) if @interview.datetime_1 %>" />
+					</label>
+					<label style="margin-left:300px; margin-top:-52px">
+						<span>Second Date and Time</span>
+						<input type="text" name="interview[datetime_2]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_2.to_s(:datetimez) if @interview.datetime_2 %>" />
+					</label>
+					<label style="margin-left:600px; margin-top:-52px">
+						<span>Third Date and Time</span>
+						<input type="text" name="interview[datetime_3]" placeholder="MM/DD/YYYY 12:00am" value="<%= @interview.datetime_3.to_s(:datetimez) if @interview.datetime_3 %>" />
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>Type in a physical address, phone number, online video chat username, etc. </p>
+					<label style=" margin-top:30px">
+						<span>Interview Type: </span>
+						<%= select(:interview, :interview_type, { "In-Person" => "In-Person", "Phone" => "Phone", "Skype" => "Skype", "Google Hangout" => "Google Hangout", "Other" => "Other"}) %>
+					</label>
+					<label style="margin-left:250px; margin-top: -45px">
+						<span>Interview Location</span>
+						<input type="text" name="interview[location]" placeholder="e.g. 101 S. Olive St. Los Angeles, CA"  value="<%= @interview.location %>"/>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>Use this preformatted message or create your own. </p>
+					<label>
+						<span>Message</span>
+						<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"><%= @message %></textarea>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<% if params[:round] %>
+						<%= hidden_field_tag "interview[round]", params[:round] %>
+					<% end %>
+					<%= t.submit "Schedule Interview" %>
+				</td>
+			</tr>
+		</table>
 	<% end %>
-
-	<div class="field">
-		<%= f.label "Interview Type" %><br />
-	<%= select(:interview, :interview_type, [ ["In-Person", 1], ["Phone", 2], ["Video Chat", 3] ]) %>
-	</div>  
-
-	<div class="field">
-		<%= f.label "Location" %><br />
-		<%= f.text_field :location, :placeholder => '(i.e. address, phone number, skype username)', :size => 50 %>
-	<%= f.check_box :school_location %> <strong>Use school address</strong>
-	</div>
-
-	<div class="field">
-		<label for="interview_Date &amp; Time">Date & Time</label><br />
-		<script>
-		$(function() {
-			$( ".datePicker" ).datepicker({ numberOfMonths: 2 });
-			var hour = [
-				"00",
-				"01",
-				"02",
-				"03",
-				"04",
-				"05",
-				"06",
-				"07",
-				"08",
-				"09",
-				"10",
-				"11",
-				"12"        
-			];
-			var minute = [
-				"00",
-				"01",
-				"02",
-				"03",
-				"04",
-				"05",
-				"06",
-				"07",
-				"08",
-				"09",
-				"10",
-				"11",
-				"12",
-				"13",
-				"14",
-				"15",
-				"16",
-				"17",
-				"18",
-				"19",
-				"20",
-				"21",
-				"22",
-				"23",
-				"24",
-				"25",
-				"26",
-				"27",
-				"28",
-				"29",
-				"30",
-				"31",
-				"32",
-				"33",
-				"34",
-				"35",
-				"36",
-				"37",
-				"38",
-				"39",
-				"40",
-				"41",
-				"42",
-				"43",
-				"44",
-				"45",
-				"46",
-				"47",
-				"48",
-				"49",
-				"50",
-				"51",
-				"52",
-				"53",
-				"54",
-				"55",
-				"56",
-				"57",
-				"58",
-				"59"
-			];
-
-			$( "#hour" ).autocomplete({
-				source: hour
-			});
-			$( "#minute" ).autocomplete({
-				source: minute
-			});
-			$( "#hour1" ).autocomplete({
-				source: hour
-			});
-			$( "#minute1" ).autocomplete({
-				source: minute
-			});
-			$( "#hour2" ).autocomplete({
-				source: hour
-			});
-			$( "#minute2" ).autocomplete({
-				source: minute
-			});
-						
-			$( "#hour" ).keyup(function() {
-				if (isNaN($("#hour").val())) {
-					$("#hour").val("");
-				}
-			});
-			$( "#minute" ).keyup(function() {
-				if (isNaN($("#minute").val())) {
-					$("#minute").val("");
-				}
-			});
-			$( "#hour1" ).keyup(function() {
-				if (isNaN($("#hour1").val())) {
-					$("#hour1").val("");
-				}
-			});
-			$( "#minute1" ).keyup(function() {
-				if (isNaN($("#minute1").val())) {
-					$("#minute1").val("");
-				}
-			});
-			$( "#hour2" ).keyup(function() {
-				if (isNaN($("#hour2").val())) {
-					$("#hour2").val("");
-				}
-			});
-			$( "#minute2" ).keyup(function() {
-				if (isNaN($("#minute2").val())) {
-					$("#minute2").val("");
-				}
-			});
-		});
-		</script>
-
-		<input type="text" id = "date" class="datePicker" placeholder = "mm/dd/yyyy" name=date>
-		<input type = "text" id = "hour" placeholder = "00" style="width:20px" maxlength = "2" name=hour> :
-		<input type = "text" id = "minute" placeholder = "00" style="width:20px" maxlength = "2" name=minute>
-		<input type = "radio" id = "am" class = "daynight" name = "ampm" value = "AM" checked = "checked" size = "1"/> 
-		<strong>AM</strong>
-		<input type = "radio" id = "pm" class = "daynight" name = "ampm" value = "PM" />
-		<strong>PM</strong><br />
-		<label for="alternateDate">Alternate Date & Time:</label><br />
-		<input type="text" id = "alternateDate" class="datePicker" placeholder = "mm/dd/yyyy" name=alternateDate >
-		<input type = "text" id = "hour1" placeholder = "00" style="width:20px" maxlength = "2" name=hour1> :
-		<input type = "text" id = "minute1" placeholder = "00" style="width:20px" maxlength = "2" name=minute1>
-		<input type = "radio" id = "am1" class = "daynight" name = "ampm1" value = "AM" checked = "checked" /> 
-		<strong>AM</strong>
-		<input type = "radio" id = "pm1" class = "daynight" name = "ampm1" value = "PM" />
-		<strong>PM</strong><br />
-		<label for="alternateDate2">Alternate Date & Time:</label><br />
-		<input type="text" id = "alternateDate2" class="datePicker" placeholder = "mm/dd/yyyy" name=alternateDate2>
-		<input type = "text" id = "hour2" placeholder = "00" style="width:20px" maxlength = "2" name=hour2> :
-		<input type = "text" id = "minute2" placeholder = "00" style="width:20px" maxlength = "2" name=minute2>
-		<input type = "radio" id = "am2" class = "daynight" name = "ampm2" value = "AM" checked = "checked" /> 
-		<strong>AM</strong>
-		<input type = "radio" id = "pm2" class = "daynight" name = "ampm2" value = "PM" />
-		<strong>PM</strong><br />
-	</div>
-
-	<%= f.text_field :user_id, :value => @user.id.to_s, :hidden => true %>
-	<%= f.text_field :job_id, :value => @job.id.to_s, :hidden => true %>
-
-	<div class="field">
-	<%= f.label "Personal Message" %><br />
-	<%= f.text_area :message, :value => "Dear #{@user.name},\n\nAfter reviewing your profile, video, and documents, we would like to invite you to interview for the #{@job.title} position available at #{@job.group_id.nil? ? @job.school.name : @job.group.name}. Please confirm if any of these dates and times work for you. We look forward to meeting with you!\n\nKind Regards,\n#{current_user.name}", :rows => 9, :cols => 55 %>
-	</div>
-
-	<div>
-		<%= f.submit 'Send', :class => "btn btn-success" %>
-		<%= link_to 'Back', :back %>
-	</div>
 <% end %>
 
-<div style="display:none">
-	<%= javascript_tag " $(\"#interview_interview_type\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_1i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_2i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_3i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_4i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_5i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_1i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_2i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_3i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_4i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_5i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_second_1i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_second_2i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_second_3i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_second_4i\").chosen() "%>
-	<%= javascript_tag " $(\"#interview_date_alternate_second_5i\").chosen() "%>
-</div>
+<% if @source.is_a?(User) %>
+	<p>Congrats! It looks like <%= link_to @application.job.group.name, @application.job.group %> has taken a liking to you. They have chosen three potential dates for an interview. Please select one that works for you. If none work, please indicate so, and include a message below.</p>
+
+	<%= form_for([@source, @interview.application, @interview]) do |t| %>
+		<table style="width:100%;" class="applications">
+			<tr>
+				<td>
+						Interview Type: <span style='color:#2AA99B'><%= @interview.interview_type %> Interview</span><br/>
+						Location / Contact: <span style='color:#2AA99B'><%= @interview.location %></span><br /><br />
+						
+						<strong>Please select the date & time that works best for you:</strong><br />
+						<label style='font-weight:normal'>
+							<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
+						</label>
+						<% if not @interview.datetime_2.nil? %>
+							<label style='font-weight:normal'>
+								<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
+							</label>
+						<% end %>
+						<% if not @interview.datetime_3.nil? %>
+							<label style='font-weight:normal'>
+								<input type="radio" name="interview[datetime_selected]" value="3" /> <%= @interview.datetime_3.to_s(:datetime) %><br />
+							</label>
+						<% end %>
+					<label style='font-weight:normal'>
+						<input type="radio" name="interview[datetime_selected]" value="4" /> None of these times work for me<br /><br />
+					</label>
+						
+			</td>
+			<td>
+				<p>
+					<span style="font-weight:bold;">TIP: </span> This the the interview date and time per <em>your</em> timezone. Please be mindful of possible timezone differences when traveling to an interview.
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label>
+					<span>Message (optional)</span>
+					<textarea name="interview[message]" style="width:100%;" class="css3-border-box" rows="10"></textarea>
+				</label>
+			</td>
+			<td>
+				<p>
+					<span style="font-weight:bold;">TIP: </span> If none of the dates and times above work for you, please use this message to inform the recruiter of your need to reschedule. 
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<%= t.submit "Respond to Interview Request" %>
+			</td>
+		</tr>
+	</table>
+<% end %>
+	<% end %>

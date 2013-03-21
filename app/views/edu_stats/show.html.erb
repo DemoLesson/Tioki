@@ -1,0 +1,155 @@
+<section id="main-content" class='inner-content white-bg' style='height:auto;padding-bottom:450px;margin-bottom:100px;z-index:0'>
+	<h1 style='text-align:center;margin-top:1px;padding-top:30px'>
+		Your Results Are In!
+	</h1>
+	
+	<!-- Figure out what bracket the teacher is in and return the appropriate results -->
+	<% if @edu_stats.total_hours_teaching < 4335 %>
+		<%= render :partial => 'hours_one' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 4334 && @edu_stats.total_hours_teaching < 8670 %>
+		<%= render :partial => 'hours_two' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 8669 && @edu_stats.total_hours_teaching < 13005 %>
+		<%= render :partial => 'hours_three' %>
+	
+	<% elsif @edu_stats.total_hours_teaching > 13004 && @edu_stats.total_hours_teaching < 17340 %>
+		<%= render :partial => 'hours_four' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 17339 && @edu_stats.total_hours_teaching < 21675 %>
+		<%= render :partial => 'hours_five' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 21674 && @edu_stats.total_hours_teaching < 28000 %>
+		<%= render :partial => 'hours_six' %>
+		
+	<% elsif @edu_stats.total_hours_teaching > 27999 %>
+		<%= render :partial => 'hours_seven' %>
+		
+	<% end %>
+		
+	<section class='three-column left-side' style='border-bottom: 2px #2aa99b dashed;margin: 30px 0 30px 0;'></section>	
+	<div class="clearfloat"></div>
+	
+	<% if @edu_stats.total_students < 1000 %>
+		<%= render :partial => 'students_one' %>
+		
+	<% elsif @edu_stats.total_students > 999 && @edu_stats.total_students < 2000 %>
+		<%= render :partial => 'students_two' %>
+		
+	<% elsif @edu_stats.total_students > 1999 && @edu_stats.total_students < 3000 %>
+		<%= render :partial => 'students_three' %>
+		
+	<% elsif @edu_stats.total_students > 2999 && @edu_stats.total_students < 4600 %>
+		<%= render :partial => 'students_four' %>
+		
+	<% elsif @edu_stats.total_students > 4599 && @edu_stats.total_students < 5800 %>
+		<%= render :partial => 'students_five' %>
+		
+	<% elsif @edu_stats.total_students > 5799 %>
+		<%= render :partial => 'students_six' %>
+		
+	<% end %>
+	
+	<section class='three-column left-side' style='border-bottom: 2px #2aa99b dashed'></section>	
+	<div class="clearfloat"></div>
+	
+	<!-- How Large is You Educator Network -->
+	<section class="half-width left-side" style='height:280px'>
+		<h2 style="font-family: tekton pro;">
+			Your Educator Network: 
+				<strong style='color:#2AA99B;'>
+					<%= @edu_stats.edu_network_charter %> to <%= @edu_stats.edu_network_public %> Teachers!
+				</strong>
+		</h2>
+		<!--h3 style='margin-left:10px;font-family: tekton pro;'>
+			
+			Total Public Network: <span style='color:#2AA99B;'><%= @edu_stats.edu_network_public %></span>  <br>
+
+			Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
+			Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
+			Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
+		</h3-->
+		
+		<p>
+			After reading all of this, you must be feeling pretty good about yourself, right? Well, Good! You deserve to relish in your accomplishments! Go ahead, scream it out for all to hear: YOU, the teacher, are making an <strong style='color:#2AA99B;'>incredible impact on the world!</strong> And just imagine if we totaled up the cumulative impact of all the teachers out there? <strong style='color:#2AA99B;'>It would be incredibly MASSIVE!</strong> 
+			<br><br>
+			We can't track everyone, but <strong style='color:#2AA99B;'>you can</strong> find out the impact your teacher network is making by
+				<% if currentUser.new_record? %>
+					<%= link_to 'connecting with them today!', "/welcome_wizard?x=step1", :target => '_blank' %> 
+				<% else %>
+					<%= link_to 'connecting with them today!', "/inviteconnections/twitter", :target => '_blank' %>
+				<% end %>
+			
+			<br>
+			<br>
+		</p>
+		<% if currentUser.new_record? %>
+			<%= link_to "Find Your Network On Tioki", "/welcome_wizard?x=step1", :class => 'button med-button', :target => '_blank', :style => 'margin-left:100px' %>
+		<% end %>
+	</section>
+
+	<!--Section for the impact image associated with that image-->
+	<section class="half-width right-side" style='text-align:center;height:280px'>
+		<%= image_tag '/assets/tioki/impact/impact_network.png', :style => 'margin-top:25px;width:400px' %>
+	</section>
+
+
+	<section class='three-column left-side' style='text-align:center;padding-top:25px'>
+		<h3 class="bottom-line" style='text-align:center'>
+			Share Your Impact
+		</h3>
+	<a href="#facebook" style='margin-right:50px'><%= image_tag('tioki/impact/facebook_share.png') %></a>
+	<a href="#twitter"><%= image_tag('tioki/impact/twitter_share.png') %></a>
+	</section>
+
+</section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a[href="#facebook"]').click(function(e) {
+
+		// Block the link
+		e.preventDefault();
+
+		// Trigger the facebook method
+		FB.ui({
+			method: 'feed',
+			name: 'Tioki Impact',
+			link: 'http://tioki.com/impact?facebook_share',
+			picture: 'http://tioki.com/assets/tioki/impact/college_grad.png',
+			caption: 'I just found out my educator impact!',
+			description: 'I have taught <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours and inspired over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> students. What is your impact? Find out today!'
+		}
+		/*function(response) {
+			if (response && response.post_id) {
+				alert('Post was published.');
+			} else {
+				alert('Post was not published.');
+			}
+		}*/);
+
+		return false;
+	});
+	$('a[href="#twitter"]').click(function(e) {
+
+		// URL to go to
+		url = 'https://twitter.com/share';
+
+		// Paramaters to build
+		var params = {
+			via: 'tioki',
+			url: 'http://tioki.com/impact?twitter_share',
+			text: 'I just found out my Educator Impact! <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours taught & <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> lives changed. Find our your Impact?'
+		}
+
+		// URL plus params
+		url += '?' + $.param(params);
+
+		// Apply to the link
+		$(this).attr('href', url).attr('target', '_blank');
+
+		// GO!
+		return true;
+	});
+});
+</script>

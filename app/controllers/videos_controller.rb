@@ -1,12 +1,20 @@
 class VideosController < ApplicationController
 	protect_from_forgery :except => [:encode_notify]
-	before_filter :login_required
+	before_filter :login_required, :except => [:index]
 	
 	#REFACTOR
 	# GET /videos
 	# GET /videos.xml
 	def index
 
+		@application = nil
+		if params[:application] != nil
+			@application = Application.find(params[:application])
+			if @application.belongs_to_me(self.current_user)
+			else
+				@application = nil
+			end
+		end
 		# Get all the videos
 		@videodb = Video.order("`created_at` DESC")
 

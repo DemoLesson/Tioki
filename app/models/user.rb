@@ -69,18 +69,19 @@ class User < ActiveRecord::Base
 	attr_accessor :password, :password_confirmation
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 	attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-					:avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
-					:location, :headline, :occupation, :years_teaching, :job_seeking
+	                :avatar, :crop_x, :crop_y, :crop_w, :crop_h, :email_permissions,
+	                :location, :headline, :occupation, :years_teaching, :job_seeking
 
 	# Has One Connections
 	has_one :login_token
 	has_one :teacher
 
 	#User occupation constant
-	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student", "Entrepreneur", "Staff", "Other" ]
+	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student Teacher", "Entrepreneur", "Staff", "Other" ]
 
 	# Migrated from teacher.rb
 	has_many :applications
+	has_many :authentications, :dependent => :destroy
 	has_many :videos, :dependent => :destroy
 	has_many :interviews
 	has_many :awards, :dependent => :destroy
@@ -88,7 +89,7 @@ class User < ActiveRecord::Base
 	has_many :experiences, :dependent => :destroy, :order => 'startYear DESC'
 	has_and_belongs_to_many :credentials
 	has_many :educations, :dependent => :destroy, :order => 'current DESC, year DESC, start_year DESC'
-	has_many :assets, :dependent => :destroy
+	has_many :assets, :as => :owner,:dependent => :destroy
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
 	validates_associated :assets
@@ -107,6 +108,7 @@ class User < ActiveRecord::Base
 	has_many :connection_invites, :dependent => :destroy
 	has_many :connections, :dependent => :destroy
 	has_many :discussions
+	has_many :edu_stats
 	has_many :events
 	has_many :events_rsvps
 	has_many :favorites
@@ -137,20 +139,20 @@ class User < ActiveRecord::Base
 
 	# Handle avatar uploads to S3
 	has_attached_file :avatar,
-					  :storage => :fog,
-					  :styles => {:medium => "201x201>", :thumb => "100x100", :tiny => "45x45"},
-					  :content_type => ['image/jpeg', 'image/png'],
-					  :fog_credentials => {
-						  :provider => 'AWS',
-						  :aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
-						  :aws_secret_access_key => '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',
-						  :region => 'us-west-2'
-					  },
-					  :fog_public => true,
-					  :fog_directory => 'tioki',
-					  :path => 'avatars/:style/:basename.:extension',
-					  :processors => [:thumbnail, :timestamper],
-					  :date_format => "%Y%m%d%H%M%S"
+	                  :storage => :fog,
+	                  :styles => {:medium => "201x201>", :thumb => "100x100", :tiny => "45x45"},
+	                  :content_type => ['image/jpeg', 'image/png'],
+	                  :fog_credentials => {
+	                    :provider => 'AWS',
+	                    :aws_access_key_id => 'AKIAJIHMXETPW2S76K4A',
+	                    :aws_secret_access_key => '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',
+	                    :region => 'us-west-2'
+	                  },
+	                  :fog_public => true,
+	                  :fog_directory => 'tioki',
+	                  :path => 'avatars/:style/:basename.:extension',
+	                  :processors => [:thumbnail, :timestamper],
+	                  :date_format => "%Y%m%d%H%M%S"
 
 	# Validate that the image uplaoded was indeed an image
 	validates_attachment_content_type :avatar, :content_type => [/^image\/(?:jpeg|gif|png)$/, nil], :message => 'Uploading picture failed.'
@@ -165,7 +167,7 @@ class User < ActiveRecord::Base
 	validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email address."
 
 	# Callbacks in order or processing
-	after_create :after_create
+	after_create :create_extra
 	before_save :before_save
 	after_find :_isorg
 
@@ -184,9 +186,7 @@ class User < ActiveRecord::Base
 		organization? if _up.nil? || 1.day.ago > _up
 	end
 
-	#after_save :add_ab_test_data
-
-	def after_create
+	def create_extra
 		# Create invite code
 		create_invite_code
 
@@ -244,11 +244,6 @@ class User < ActiveRecord::Base
 		end
 		@schools.map(&:destroy)
 
-		# Migration
-		# Delete Teachers
-		#@teachers = Teacher.find(:all, :conditions => ['user_id = ?', self.id])
-		#@teachers.map(&:destroy)
-
 		# Delete Shared Users
 		# @todo is this still needed? / deprecate?
 		@sharedusers = SharedUsers.where('user_id = ?', self.id).all
@@ -271,13 +266,13 @@ class User < ActiveRecord::Base
 		percent += 10 if self.social.first
 		percent += 10 if self.skills.first
 		percent += 10 if self.location.present?
-		percent += 10 if self.avatar?
 		percent += 10 if self.educations.first
 		percent += 5 if self.subjects.first
 		percent += 5 if self.grades.first
 		percent += 5 if self.occupation.present?
 		percent += 5 if !self.job_seeking.nil?
 		percent += 10 if self.experiences.first
+		percent += 10 if self.avatar?
 		percent += 10 if self.videos.first
 		return percent
 	end
@@ -288,12 +283,12 @@ class User < ActiveRecord::Base
 		options << "occupation" unless self.occupation.present? && self.job_seeking.present?
 		options << "location" unless self.location.present?
 		options << "headline"  unless self.headline.present?
-		options << "picture" unless self.avatar?
 		options << "social" unless self.social.first
 		options << "subjects" unless self.subjects.first && self.grades.first
 		options << "skills" unless self.skills.first
 		options << "education" unless self.educations.first
 		options << "experience" unless self.experiences.first
+		options << "picture" unless self.avatar?
 		options << "video" unless self.videos.first
 
 		return options
@@ -346,7 +341,19 @@ class User < ActiveRecord::Base
 	end
 
 	def facebook_auth?
-		self.authorizations[:facebook_access_token].present?
+		!self.authentications.where(:provider => 'facebook').first.nil?
+	end
+
+	def facebook_auth
+		self.authentications.where(:provider => 'facebook').first
+	end
+
+	def twitter_auth?
+		!self.authentications.where(:provider => 'twitter').first.nil?
+	end
+
+	def twitter_auth
+		self.authentications.where(:provider => 'twitter').first
 	end
 
 	def got_started
@@ -561,9 +568,6 @@ class User < ActiveRecord::Base
 		return tioki_bucks
 	end
 
-	def twitter_auth?
-		self.authorizations[:twitter_oauth_token].present? && self.authorizations[:twitter_oauth_secret].present?
-	end
 
 	def update_login_count
 		puts "logincount update"
@@ -827,6 +831,37 @@ class User < ActiveRecord::Base
 		user.my_jobs.collect(&:id).any? { |job_id| job_ids.include? job_id }
 	end
 
+	def twitter_friends
+		if self.twitter_auth?
+			client = Twitter::Client.new(:oauth_token => self.twitter_auth.token,
+			                             :oauth_token_secret => self.twitter_auth.secret)
+
+			uids = client.friend_ids.ids | client.follower_ids.ids
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'twitter',
+			           uids)
+		else
+			nil
+		end
+	end
+
+	def facebook_friends
+		if self.facebook_auth?
+			graph = Koala::Facebook::GraphAPI.new(self.facebook_auth.token)
+
+			uids = graph.get_connections("me", "friends").collect(&:id)
+
+			User.joins(:authentications).
+			     where("authentications.provider = ? and authentications.uid IN (?)",
+			           'facebook',
+			           uids)
+		else
+			nil
+		end
+	end
+
 	# Connections
 
 	def connected_to?(_user)
@@ -914,4 +949,4 @@ class User < ActiveRecord::Base
 		update_attribute(:ab, 'A') unless id.even?
 	end
 end
- 
+

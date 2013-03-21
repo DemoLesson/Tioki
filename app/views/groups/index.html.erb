@@ -123,8 +123,8 @@
 					</h4>
 
 					<% @featured_groups.each do |group| %>
-						<%= link_to image_tag(group.picture.url(:thumb), :style => "width:75px"), group %>
-						<h5 style="margin:-65px 0px 0px 90px">
+						<%= link_to image_tag(group.picture.url(:thumb), :style => "width:75px; margin-top:25px;"), group %>
+						<h5 style="margin:-85px 0px 0px 90px">
 							<%= group.name %>
 						</h5>
 						<p style="margin:0 0px 0px 90px">
@@ -139,7 +139,7 @@
 					</h4>
 
 					<% @featured_jobs.each do |job| %>
-						<div style="margin-top:50px">
+						<div style="margin-top:30px">
 							<% if job.group.picture? %>
 								<%= link_to image_tag(job.group.picture.url(:thumb), :style => "width:75px"), job %>
 							<% else %>

@@ -8,12 +8,18 @@
 			<% elsif params[:welcomecode] %>
 				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% else %>
-				Create your Tioki account to join the premiere professional education network.
+				Join Tioki to start connecting with amazing educators today.
 			<% end %>
 		</h1>
 	</div>
-
-	<div class="seven columns">
+	<div style="height:50px; width:250px; margin-left:-165px; margin-top:-100px">
+		<h4>
+		<span style="float:right;margin-right:-40px">Sign Up With:</span>
+		<a href="/auth/twitter?<%= session[:signup_key] %>"><%= image_tag "tioki/icons/twitter3.png", :style => "float:right;margin-right:-160px; margin-top:-4px" %></a>
+		<a href="/auth/facebook?<%= session[:signup_key] %>"><%= image_tag "tioki/icons/fb_button.png", :style => "margin-top:0px;float:right;margin-right:-190px;height:29px" %></a>
+		</h4>
+	</div>
+	<div class="six columns">
 		<form method="POST">
 			<table>
 				<tr>
@@ -21,13 +27,13 @@
 						<div style= "float:left">
 							<label>
 								<span>First Name</span>
-								<input type="text" name="user[first_name]" />
+								<input type="text" name="user[first_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:first) %>" style='width:230px' />
 							</label>
 						</div>
 						<div style= "float:right">
 							<label>
 								<span>Last Name</span>
-								<input type="text" name="user[last_name]"/>
+								<input type="text" name="user[last_name]" value="<%= session.omniauth.try(:info).try(:name).try(:split).try(:last) %>" style='width:230px'/>
 							</label>
 						</div>
 					</td>
@@ -36,7 +42,7 @@
 					<td>
 						<label>
 							<span>Email Address</span>
-							<input type="text" name="user[email]" />
+							<input type="text" name="user[email]" value="<%= session.omniauth.try(:extra).try(:raw_info).try(:email) %>" />
 						</label>
 					</td>
 				</tr>
@@ -45,13 +51,13 @@
 						<div style= "float:left">
 							<label>
 								<span>Password</span>
-								<input type="password" name="user[password]" />
+								<input type="password" name="user[password]" style='width:230px' />
 							</label>
 						</div>
 						<div style= "float:right">
 							<label>
 								<span>Confirm Password</span>
-								<input type="password" name="user[confirmation_password]" />
+								<input type="password" name="user[password_confirmation]" style='width:230px' />
 							</label>
 						</div>
 					</td>
@@ -81,6 +87,8 @@
 			<% elsif params[:discussion_id] %>
 				<%= hidden_field_tag :discussion_id, params[:discussion_id] %>
 				<%= hidden_field_tag :body, params[:body] %>
+			<% elsif params[:discussion_follow] %>
+				<%= hidden_field_tag :discussion_follow, params[:discussion_follow] %>
 			<% end %>
 
 			<div class="button_wrap" style="text-align:left">
@@ -92,15 +100,15 @@
 		</form>
 	</div>
 	
-	<section class="panel right-side" style="width: 384px; border:solid 1px #2AA99B">
-		<h3><span class="green bold">What Tioki means to you...</span></h3>
+	<section class="panel right-side" style="width: 400px; border:solid 1px #2AA99B;margin-right:20px">
+		<h3><span class="green bold">What Tioki means for you...</span></h3>
 		<ul>
 			<% mandelas_profile = User.find(3).slug %>
-			<li>Establish your online <span style="color:#2AA99B">Presence</span></li>
-			<li>Connect with others to collaborate & <span style="color:#2AA99B">Grow</span></li>
-			<li>Find <span style="color:#2AA99B">Education Events</span> that appeal to you</li>
-			<li>Explore cutting edge <span style="color:#2AA99B">Classroom Technology</span></li>
-			<li>Participate in <span style="color:#2AA99B">Educational Discussions</span></li>
+			<li style='padding-right:15px !important;'>Establishing your online <span style="color:#2AA99B">Presence</span></li>
+			<li style='padding-right:15px !important;'>Connecting with others to collaborate & <span style="color:#2AA99B">Grow</span></li>
+			<li style='padding-right:15px !important;'>Finding <span style="color:#2AA99B">Education Events</span> that appeal to you</li>
+			<li style='padding-right:15px !important;'>Exploring cutting edge <span style="color:#2AA99B">Classroom Technology</span></li>
+			<li style='padding-right:15px !important;'>Participating in <span style="color:#2AA99B">Educational Discussions</span></li>
 		</ul>
 	</section>
 </div>

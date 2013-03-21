@@ -23,7 +23,7 @@
 						<%= link_to "Follow", { :action => "follow_discussion", :id => @discussion.id }, :class => "action-button bg-green" %>
 					<% end %>
 				<% else %>
-					<%= link_to "Follow", '/welcome_wizard?x=step1&discussion_follow', :class => "action-button bg-green", :target => "_blank" %>
+					<%= link_to "Follow", "/welcome_wizard?x=step1&discussion_follow=#{@discussion.id}", :class => "action-button bg-green", :target => "_blank" %>
 				<% end %>
 				<% @discussion.following.each do |user| %>
 					<% if user %>
@@ -138,9 +138,19 @@
 								<div class="bar">
 									<span class="icons">
 										<% if self.current_user %>
-											<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="Favorite Comment">
-												<span class="iconic star"><%= favorites(comment) %></span>
-											</a>
+											<% if Favorite.where(:model => comment.tag!).map{|n| n.user.name}.count == 0 %>
+												<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title=" Favorite this comment!">
+													<span class="iconic star"><%= favorites(comment) %></span>
+												</a>
+											<% elsif Favorite.where(:model => comment.tag!).map{|n| n.user.name}.count == 1 %>
+												<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model =>  comment.tag!).map{|n| n.user.name}.to_sentence %> has favorited this comment">
+													<span class="iconic star"><%= favorites(comment) %></span>
+												</a>
+											<% else %>
+												<a href="/comments/<%= comment.id %>/favorite" comment-action="favorite" class="has-tip no-tip-dots tip-left action<%= favorited(comment) ? ' salmon' : ' gray' %>" title="<%= Favorite.where(:model => comment.tag!).map{|n| n.user.name}.to_sentence %> have favorited this comment">
+													<span class="iconic star"><%= favorites(comment) %></span>
+												</a>
+											<% end %>
 										<% end %>
 									</span>
 								</div>

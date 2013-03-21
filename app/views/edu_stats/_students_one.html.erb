@@ -1,0 +1,40 @@
+<section class="half-width left-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/space_shuttle.png', :style => 'width:350px' %>
+</section>
+<section class="half-width right-side" style='padding-top:50px;'>
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught over 
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_students, :delimiter => ',') %> Students!
+			</span>
+	</h2>
+	<% if @edu_stats.total_students >= 530 %>
+		<p style='margin-left:10px'>
+			You are well on your way towards making a huge societal impact. You have already <strong style='color:#2AA99B'><em>taught more</em></strong> students than there have been <strong style='color:#2AA99B'><em>Astronauts in Space!</em></strong> 
+			<br><br> 
+			If you continue teaching for just <strong style='color:#2AA99B'><em>3 more years,</em></strong> you will help <strong style='color:#2AA99B'><em><%= number_with_precision(((@edu_stats.total_students / @edu_stats.yrs_teaching) * 3 * (68.0/100.0)), :precision => 0) %> More Students reach College</em></strong> than if you left teaching today. You're changing the world every time you step into that classroom!
+		</p>
+	<% else %>
+	 	<p style='margin-left:10px'>
+			You are well on your way towards making an incredible societal impact. About 
+			<strong style='color:#2AA99B'><em>
+				<%= number_with_precision(@edu_stats.total_students * (68.0/100.0), :delimiter => ',', :precision => 0) %> 
+			</em></strong>
+			of your students will go on to <strong style='color:#2AA99B'><em>College</em></strong> and 
+			<strong style='color:#2AA99B'><em>
+				<%= number_with_precision(@edu_stats.total_students * (33.0/100.0), :delimiter => ',', :precision => 0) %>
+			</em></strong>
+			of them will attain a <strong style='color:#2AA99B'><em>Bachelor's Degree.</em></strong>
+			
+			
+			<br>
+			<br> 
+			If you continue teaching for just 
+			<strong style='color:#2AA99B'><em>
+				<%= number_with_precision((530.0 - @edu_stats.total_students) / (@edu_stats.total_students / @edu_stats.yrs_teaching), :precision => 0) %> more year(s),
+			</em></strong> you will have taught more students than the number of 
+			<strong style='color:#2AA99B'><em>Astronauts that have been in space!</em></strong> 
+			You're changing the world every time you step into that classroom! Keep it up!
+		</p>
+	<% end %>
+</section>

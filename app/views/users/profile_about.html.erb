@@ -1,196 +1,98 @@
 <section id="main-content" class="inner-content">
-	<section class="info panel" style="height:180px;background-color:#FFF; border: 1px solid #ccc; border-radius: 0; margin:30px 0px 10px 0px">
-			<section class="two-column right-side" style ="width:765px;margin:0px 10px 10px -100px">
-				<!-- EDIT AND FOLLOW BUTTONS -->
-				<% if self.current_user != nil %>
-					<div style="float:right;margin-top:0px">
-                    
-					<!-- Connection Options -->
-					<% # IF this is my profile allow me to edit %>
-					<% if @self %>
-						<a href="/me/profile/edit" class="action-button bg-salmon">
-							Edit My Profile
-						</a>
-					<% # IF im not a user then let me register %>
-					<% elsif !self.current_user %>
-						<a href="/welcome_wizard?x=step1&user_connection=<%= @user.id %>" class="action-button bg-salmon">
-							<%= ablang('connection.connect') %>
-						</a>
-					<% # IF we are already connected or if i am a school allow me to send a message %>
-					<% elsif Connection.mine.collect{|x| x.not_me_id(self.current_user.id)}.include? @user.id %>
-						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
-					<% # IF we are not connected then display "connect" button %>
-					<% else %>
-						<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
-					<% end %>
-                    
-					</div>
-				<% end %>
+	<%= render "profile_header" %>
 
-				<!-- START Teacher INFO -->
-				<h2 style="margin: 10px 0px 10px 10px">
-				<%= @user.name %>
-				</h2>
-				<section style= "height: 75px;">
-				<% if @user.headline? %>
-					<h4 style="margin-left:10px;margin-top:-10px;width:auto">
-						"<%= @user.headline %>"
-					</h4>
-				<% end %>
-
-				<p style="margin-left:10px; margin-top:-15px; margin-bottom: 5px; width:auto">
-				  	<% if !(currentJob = @user.currentJob).nil? %>
-						<strong style="color:#2AA99B">
-							Currently:
-						</strong> 
-						<%= currentJob.position %> at <%= currentJob.company %> in  
-					<% end %>
-					<%= @user.location %>
-				</p>
-				</section>
-				<p>
-				<section id="updates" style="margin: 0px 0px 0px 10px;">
-					<!-- SOCIAL LINKS -->
-						<% if @self %>
-							<a href="/my_connections" style= "margin-right:10px;">
-							<div class="count connections" style= "margin-bottom:0px;">
-							<%= User.current.pending_connections(false).count %>
-							</div>
-							<%= ablang('connection.plural') %>
-							</a>
-						<% else %>
-							<a href="/profile/<%= @user.slug %>/connections" style= "margin-right:10px;">
-							<div class="count connections" style= "margin-bottom:0px;">
-							<%= @user.pending_connections(false).count %>
-							</div>
-							<%= ablang('connection.plural') %>
-							</a>
-						<% end %>
-                        
-                        <% social = @user.social %>
-						<% if !social['twitter'].nil? %>
-							<% if social['twitter'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), social['twitter'], :target => "_blank" %>
-							<% elsif social['twitter'].include? 'twitter' %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//' + social['twitter'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), '//twitter.com/' + social['twitter'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['linkedin'].nil? %>
-							<% if social['linkedin'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), social['linkedin'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), '//' + social['linkedin'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['edmodo'].nil? %>
-							<% if social['edmodo'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), social['edmodo'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['edmodo'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['betterlesson'].nil? %>
-							<% if social['betterlesson'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), social['betterlesson'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['betterlesson'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-
-						<% if !social['teachingchannel'].nil? %>
-							<% if social['teachingchannel'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), social['teachingchannel'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), '//' + social['teachingchannel'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						
-						<% if !social['blog'].nil? %>
-							<% if social['blog'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), social['blog'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['blog'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						
-						<% if !social['website'].nil? %>
-							<% if social['website'].include? '//' %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), social['website'], :target => "_blank" %>
-							<% else %>
-								<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), 'http://' + social['website'], :target => "_blank" %>
-							<% end %>
-						<% end %>
-						<span style="float:right;font-size:12px">
-							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/<%= @user.slug %></a>
-						</span>
-				</section>
-				</p>
-			</section>
-			<section class="profile-thumb-large" style="margin: 10px 0px 10px 10px;">
-				<% if @self %>
-					<a href="/me/profile/edit/upload-avatar" class="edit"><span class="iconic pen"></span> Edit</a>
-				<% end %>
-				<% if (@connected || @guest || !@user.privacy_public["avatar"]) && @user.avatar? %>
-					<%= image_tag(@user.avatar.url(:medium), :width => "160") %>
-				<% else %>
-					<%= image_tag('dl_icons/no_avatar_large.jpg') %>
-				<% end %>
-			</section>
-	</section>
+	<% if @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
+		<div style="padding:10px 0px 0px 20px;width:960px; color:#2AA99B;">
+			<h3 style="margin-top:-15px; margin-bottom:-20px">
+				<%= @user.first_name%>'s Network
+			</h3><br />
+			<% @user.connections.includes(:user, :owner).where("((users.id = ? && owners_connections.avatar_file_name is not null) || (owners_connections.id = ? && users.avatar_file_name is not null)) && pending = false", @user.id, @user.id).shuffle[0..39].each do |c| %>
+				<div class="profile-thumb-small" style="float:left;margin:0px 1px 1px 0px;overflow:hidden;background:none">
+					<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;border-radius:5px'), "/profile/#{c.not_me(@user.id).slug}" %>
+				</div>
+			<% end %>
+			<div style="clear:both;"></div>
+		</div>
+	<% end %>
 	
 	<section class="profile group">
-		<nav class="subpage" style="width: 660px;margin-left: 15px;">
-		
+		<% if @application != nil %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
+				<ul>
+					<li>
+						<a href="/profile/<%= @user.slug %>/activity?application=<%= @application.id %>">
+							Activity
+						</a>
+					</li>
+					<li class="current">
+						<a href="/profile/<%= @user.slug %>/about?application=<%= @application.id.to_s() %>">
+						About
+						</a>
+					</li>
+
+					<li>
+						<a href="/profile/<%= @user.slug %>/resume?application=<%= @application.id.to_s() %>">
+						Resume
+						</a>
+					</li>
+					<% if @application.job.job_questions.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/application?application=<%= @application.id.to_s() %>">
+							Application
+							</a>
+						</li>
+					<% end %>
+					<%unless currentUser.new_record? %>
+						<% if @user.videos.count > 0 %>
+						<li>
+							<a href="/profile/<%= @user.slug %>/videos?application=<%= @application.id.to_s() %>">
+							Videos
+							</a>
+						</li>
+						<% end %>
+					<% end %>
+				</ul>
+			</nav>
+		<% else %>
+			<nav class="subpage" style="width: 660px;margin-left: 15px;">
 				<ul>
 					<%unless currentUser.new_record? %>
-						<% if @self  || @connected || !@user.privacy_public[:whiteboard] %>
-							<li>
-								<% if @self %>
-									<a href="/me/profile">
-									<% else %>
-										<a href="/profile/<%= @user.slug %>">
-										<% end %>
-										Activity
-									</a>
-								</li>
+						<% @self || @connected || !@user.privacy_public[:whiteboard] %>
+						<li>
+							<% if @self %>
+							<a href="/me/profile/activity">
+							<% else %>
+							<a href="/profile/<%= @user.slug %>/activity">
 							<% end %>
+								Activity
+							</a>
+						</li>
 					<% end %>
 
-					<li  class="current">
+					<li class="current">
 						<a href="/profile/<%= @user.slug %>/about">
 						About
 						</a>
 					</li>
 
-					<% if @self || !@user.privacy_public[:resume] || @user.application_for(self.currentUser)%>
-						<li>
-							<a href="/profile/<%= @user.slug %>/resume">
-								Resume
-							</a>
-						</li>
+					<li>
+						<a href="/profile/<%= @user.slug %>/resume">
+						Resume
+						</a>
+					</li>
+					<% if @user.videos.count > 0 %>
+					<li>
+						<a href="/profile/<%= @user.slug %>/videos">
+						Videos
+						</a>
+					</li>
+					<% elsif !currentUser.new_record? && @self %>
+					<li>
+						<a href="/me/profile/edit/upload-video">
+						Upload Video
+						</a>
+					</li>
 					<% end %>
-
-					<%unless currentUser.new_record? %>
-						<% if @user.videos.count > 0 %>
-						<li>
-							<a href="/profile/<%= @user.slug %>/videos">
-							Videos
-							</a>
-						</li>
-						<% elsif !currentUser.new_record? && @self %>
-						<li>
-							<a href="/me/profile/edit/upload-video">
-							Upload Video
-							</a>
-						</li>
-						<% end %>
-					<% end %>
-
 					<% if !currentUser.new_record? && @self %>
 					<li>
 						<a href="/me/profile/stats">
@@ -200,11 +102,42 @@
 					<% end %>
 
 				</ul>
-			
-		</nav>
+			</nav>
+		<% end %>
 		
 		<section class="sidebar" style="float:right;margin-top:-17px" >
+			<% if @application != nil %>
+				<!-- START Recruitor Tools -->
+				<section id="info" class="panel one-column right-side" style="width:230px; background-color:#FBEFD5; margin-top:18px">
+					<h5 class="bottom-line" style="margin-left:5px">
+						Recruiter Tools 
+					</h5>
+					<div style ="margin-left:5px">
+						Application Status:</br>
+						<%= form_for([@application]) do |f| %>
+							<select name="application[status]">
+								<option <%= @application.status == 'Not Reviewed' ? 'selected' : '' %>>Not Reviewed</option>
+								<option <%= @application.status == 'Profile Reviewed' ? 'selected' : '' %>>Profile Reviewed</option>
+								<option <%= @application.status == 'Request an Interview' ? 'selected' : '' %>>Request an Interview</option>
+								<option <%= @application.status == 'Offer Given' ? 'selected' : '' %>>Offer Given</option>
+								<option <%= @application.status == 'Offer Accepted' ? 'selected' : '' %>>Offer Accepted</option>
+								<option <%= @application.status == 'Applicant Hired' ? 'selected' : '' %>>Applicant Hired</option>
+								<option <%= @application.status == 'Deny Application' ? 'selected' : '' %>>Deny Application</option>
+							</select><br /></br>
+							<%= hidden_field_tag :job_id, @application.job_id %> 
+							<%= f.submit "Update Status" %>
+						<% end %>
+					</div>
+					<div style ="float:right; margin-top:-68px; margin-right:-30px">
+						<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button green"} %>
+					</div>
+					<a style =" margin-left:5px; color:#2AA99B" href="<%= url_for([@application.job.group, @application.job, :applications])%>">
+						Back to Applicants
+					</a>
+				</section> <!-- END RECRUITOR TOOLS -->
+			<% end %>
 			<!-- Connection Information -->
+			<% unless @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
 			<section class="info">
 				<a href="/profile/<%= @user.slug %>/connections" style="float:right;color:#2AA99B;margin:17px 5px 0 0">View All</a>
 				<h5 class="bottom-line">
@@ -219,33 +152,10 @@
 					<div style="clear:both;"></div>
 				</div>
 			</section>
-
-			<% if self.current_user %>
-				<% if @connected || @guest || !@user.privacy_public["contact_info"] %>
-					<!-- Contact Information-->
-					<section class="info">
-					<h5 class="bottom-line">
-					Contact Information
-					</h5>
-					<p>
-						<span class="bold black"><%= @user.name %></span>
-					</p>
-					<% if !@user.location.empty? %>
-						<p>
-						<span class="bold black">Location:</span>
-						<%= @user.location %><br/>
-						</p>
-					<% end %>
-					<p>
-					<span class="bold black">Tioki URL:</span>
-					<span style="font-size:12px">
-							<a href="/profile/<%= @user.slug %>" style="color:#2AA99B">www.tioki.com/profile/...</a>
-					</span>
-					</p>
-					</section>
-				<% end %>
 			<% end %>
-			
+
+			<%= render "profile_sidebar" %>
+
 			<!--Request Vouch
 			<% if @self && @user.skills.size > 0  %>
 				<section class="info">
@@ -273,6 +183,72 @@
 				<% end %>
 			<% end %>
 			
+			<!-- START Grade & Subject Section-->
+			<!-- If grades is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @grades.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Grades", "/me/profile/edit", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit">  >> What Grade do you teach?</a>
+					</span>
+					</h3>
+				</section></br>
+				
+			<!-- If grades is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @grades.empty? %>
+			
+			<!-- If grades aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Grades", "/me/profile/edit", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Grades	
+						</h3>
+					<% end %>
+					<p class="bold">
+						<%= @grades.to_sentence %>
+					</p>
+				</section></br>
+			<% end %>
+
+			<!-- If Subject is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @subjects.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Subjects", "/me/profile/edit", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/me/profile/edit">  >> What Subjects do you teach?</a>
+					</span>
+					</h3>
+				</section></br>
+				
+			<!-- If Subject is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @subjects.empty? %>
+			
+			<!-- If Subjects aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Subjects", "/me/profile/edit", :style => "color:#4D4D4D" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/me/profile/edit" %>
+						</h3>
+					<% else %>
+						<h3 class="bottom-line">
+							Subjects	
+						</h3>
+					<% end %>
+					<p class="bold">
+						<%= @subjects.to_sentence %>
+					</p>
+				</section></br>
+			<% end %>
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
@@ -378,7 +354,11 @@
 							<!-- We will display the first 8 of their groups -->
 								<% @user.groups.limit(8).each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>
@@ -414,7 +394,11 @@
 								<!-- If they have 9 groups or less, we will display the entire list -->
 								<% @user.groups.each do |group| %>
 									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% if group.picture? %>
+											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% else %>
+											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+										<% end %>
 										<p style="margin:10px 0 0 0;width:120px;float:right">
 											<strong>
 											<% if group.name.size > 24 %>
@@ -643,3 +627,6 @@ $(document).ready(function() {
 
 });
 </script>
+<% if self.current_user == @user %>
+	<%= render "profile_completion_popup" %>
+<% end %>

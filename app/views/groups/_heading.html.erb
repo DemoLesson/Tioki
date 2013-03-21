@@ -76,7 +76,7 @@
 		</p>	
 	</section>
 </section>
-<nav class="subpage" style="background:rgb(255, 255, 255)">
+<nav class="subpage" style="background:rgb(255, 255, 255); width:722px; float:right;">
 	<ul>
 		<% unless @group.long_description.nil? %>
 			<li class="<%= currentPath.split('/')[3].nil? ? 'current' : '' %>">
@@ -110,7 +110,7 @@
 				</a>
 			</li>
 		<% end %>
-		<% if @group.user_permissions['administrator'] || (self.current_user && self.current_user.is_admin) %>
+		<% if @group.user_permissions[:administrator] || (self.current_user && self.current_user.is_admin) %>
 			<li style="float:right;">
 				<span>
 					Manage

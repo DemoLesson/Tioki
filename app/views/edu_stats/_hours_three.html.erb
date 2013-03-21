@@ -1,0 +1,19 @@
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:20px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught an outstanding
+			<span style='color:#2AA99B;'>
+				<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> Hours!
+			</span>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>FUN FACT:
+	You've really gone a long way on your <strong style='color:#2AA99B'><em>Educator Journey.</em></strong> In that amount of time, you could have made <strong style='color:#2AA99B'><em> <%= (@edu_stats.total_hours_teaching / 92.0).round %> Road Trips</em></strong> from <strong style='color:#2AA99B'><em>Los Angeles</em></strong> to <strong style='color:#2AA99B'><em>New York</em></strong> and <strong style='color:#2AA99B'><em>Back!</em></strong> All that effort truly has your students on the road to success, and we applaud your contribution!
+	</p>
+</section>
+
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/road_trip.png', :style => 'width:350px;' %>
+</section>

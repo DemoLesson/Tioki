@@ -5,11 +5,13 @@ class Job < ActiveRecord::Base
 	has_and_belongs_to_many :credentials
 	has_and_belongs_to_many :subjects
 	has_and_belongs_to_many :grades
-
+	
+	has_many :job_questions, :dependent => :destroy
+	accepts_nested_attributes_for :job_questions, :reject_if => lambda { |a| a[:question].blank? }, :allow_destroy => true
 	has_many :applications
 	has_many :winks
 	has_many :interviews, :dependent => :destroy
-	has_many :assets, :dependent => :destroy
+	has_many :assets, :as => :owner,:dependent => :destroy
 	accepts_nested_attributes_for :assets, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
 	reverse_geocoded_by :latitude, :longitude
 
@@ -54,6 +56,17 @@ class Job < ActiveRecord::Base
 		end
 	end
 
+	def update_question(job_questions)
+		JobQuestion.delete_all(["job_id = ?", self.id])
+
+		job_questions.each do |question|
+			@job_questions = JobQuestion.new
+			@job_questions.job_id = self.id
+			@job_questions.question = question
+			@job_questions.save
+		end
+	end
+
 	def zipcode
 		return self.school.map_zip
 	end
@@ -80,7 +93,7 @@ class Job < ActiveRecord::Base
 
 	def belongs_to_me(user)
 		if !group_id.nil?
-			return group.user_permissions['administrator']
+			return group.user_permissions[:administrator]
 		end
 
 		@school = School.find(self.school)
@@ -97,7 +110,7 @@ class Job < ActiveRecord::Base
 	#for limited admins look up it's row in SharedSchools
 	def shared_to_me(user)
 		if !group_id.nil?
-			return group.user_permissions['administrator']
+			return group.user_permissions[:administrator]
 		end
 
 		@school= School.find(self.school)

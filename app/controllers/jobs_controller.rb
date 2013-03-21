@@ -45,20 +45,17 @@ class JobsController < ApplicationController
 					if @groups.size == 0
 						#will_paginate does not like nil objects or arrays so just 
 						#giving it something it will not have an error on
-						@groups = Job.unscoped.
-							is_active.near(
-								params[:location][:city], 
-								params[:radius]).
-							paginate(
-								:page => params[:page], 
-								:order => 'updated_at DESC')
+						@jobs = Job.unscoped.
+							is_active.near(params[:location][:city],
+							               params[:radius]).
+							               paginate(:page => params[:page],
+							                        :order => 'updated_at DESC')
 					else
 						@jobs = Job.where(:group_id => @groups).
-							is_active.paginate(
-								:page => params[:page],
-								:joins => :group,
-								:conditions => tup.compile,
-								:order => 'updated_at DESC')
+							      is_active.paginate(:page => params[:page],
+							                         :joins => :group,
+							                         :conditions => tup.compile,
+							                         :order => 'updated_at DESC')
 					end
 				else
 					@jobs = Job.is_active.paginate(
@@ -175,6 +172,10 @@ class JobsController < ApplicationController
 		@organizations = User.current.groups.my_permissions('administrator').organization
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@job = Job.new
+		JobQuestion.new
+		1.times { @job.job_questions.build }
+		@counter = 1 
+
 	end
 
 	# Edit a job posting
@@ -184,6 +185,11 @@ class JobsController < ApplicationController
 		@organizations = User.current.groups.my_permissions('administrator').organization
 		raise HTTPStatus::Unauthorized unless @organizations.include?(@org = Group.find(params[:group_id])) || currentUser.is_admin
 		@jobs = @org.jobs; raise HTTPStatus::Unauthorized unless @jobs.include?(@job = Job.find(params[:id]))
+		@counter = @job.job_questions.count
+		if @counter == 0
+			1.times { @job.job_questions.build }
+			@counter = 1
+		end
 	end
 
 	# create a new job posting
@@ -252,6 +258,7 @@ class JobsController < ApplicationController
 
 				@job.update_subjects(params[:subjects]) if params[:subjects]
 				@job.update_grades(params[:grades]) if params[:grades]
+				@job.update_question[:job_questions] if params[:job_questions]
 
 				format.html {
 					flash[:success] = "New job was successfully updates."
@@ -266,7 +273,6 @@ class JobsController < ApplicationController
 	end
 
 	def attach
-		params[:asset][:assetType]=1
 		@user = User.find_by_id(self.current_user.id)
 		@user.new_asset_attributes = params[:asset]
 
@@ -279,7 +285,7 @@ class JobsController < ApplicationController
 
 	def jobattachpost
 		@job = Job.find_by_id(params[:id])
-		@assets= Asset.where('job_id = ? AND assetType = ?', params[:id], 0).all
+		@assets = @job.assets
 		if request.post?
 			@job.new_asset_attributes=params[:asset]
 

@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 	<%= render 'heading' %>
 
-	<h2><%= @group.type? %> Members</h2>
+	<h2 style ="margin-top:100px"><%= @group.type? %> Members</h2>
 
 	<section class="panels" style="background:rgb(255, 255, 255)">
 		<!-- Populating the Group Member list -->
@@ -32,10 +32,10 @@
 							<% end %>
 							<!-- Allowing an admin to create other admins -->
 							<span style="float:right">
-								<% if self.current_user && (@group.user_permissions['administrator'] || User.current.is_admin) %>
+								<% if self.current_user && (@group.user_permissions[:administrator] || User.current.is_admin) %>
 									<% unless self.current_user == user %>
-										<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)['administrator'] %>
-										<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)['administrator'] %>
+										<%= link_to "(Make Admin)", group_path(@group) + "/add_admin/#{user.id}" unless @group.user_permissions(:user => user.id)[:administrator] %>
+										<%= link_to "(Remove Admin)", group_path(@group) + "/rmv_admin/#{user.id}" if @group.user_permissions(:user => user.id)[:administrator] %>
 									<% end %>
 								<% end %>
 							</span>	
@@ -54,7 +54,7 @@
 				<h3 class="bottom-line">
 					<%= @group.type? %> Administrators
 				</h3>
-				<% @group.users('administrator').each do |user| %>
+				<% @group.users(:administrator).each do |user| %>
 					<%= link_to image_tag(user.avatar.url(:thumb), :width => '40px', :height => '40px'), '/profile/' + user.slug if user.avatar? %>
 					<%= link_to image_tag("dl_icons/no_avatar_tiny.jpg", :width => '40px', :height => '40px'), '/profile/' + user.slug if !user.avatar? %>
 					<p style="margin:-40px 0 5px 50px">

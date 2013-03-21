@@ -1,0 +1,21 @@
+<!--Section for the Result and Fun Fact-->
+<section class="half-width left-side" style='padding-top:40px'>
+	<!--Create a Sub-Header that varies with the amount achieved-->
+	<h2 style='margin-left:10px;font-family: tekton pro;'>
+		You've taught an amazing
+			<span style='color:#2AA99B;'>
+		 		<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> Hours!
+			</span>
+	</h2>
+	<!--Fun Fact for the specific range-->
+	<p style='margin-left:10px'>FUN FACT:
+	The time that you have spent in the classroom is equivalent to <strong style='color:#2AA99B'><em><%= @edu_stats.total_hours_teaching / 1656 %> trips</em></strong> on the Nina, Pinta, or Santa Maria with Christopher Columbus. The voyage from Spain to the New World took about <strong style='color:#2AA99B'><em>1,650 hours.</em></strong>
+	<br><br>
+	Your efforts are literally creating a <strong style='color:#2AA99B'><em>new world.</em></strong> 
+	</p>
+</section>
+
+<!--Section for the impact image associated with that image-->
+<section class="half-width right-side" style='text-align:center'>
+	<%= image_tag '/assets/tioki/impact/columbus_ship.png', :style => 'height:300px;' %>
+</section>

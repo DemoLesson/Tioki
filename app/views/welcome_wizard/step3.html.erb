@@ -1,6 +1,6 @@
 <div class="row kRap">
 	<div class="twelve columns">
-		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Your Professional Info</h1>
+		<h1 class="smaller" style="margin: 14px 0px 14px 0px">Let's finish up with some Professional information</h1>
 	</div>
 	<div class="clear"></div>
 
@@ -15,18 +15,19 @@
 							<% else %>
 								<%= image_tag('dl_icons/no_avatar_tiny.jpg') %>
 							<% end %>
-							<div style="float:left">
-								<h4 style="color:#000;margin-top:5px;margin-left:10px">
-								<%= currentUser.name %>
-								</h4>
-							</div>
+							
+							<h4 style="color:#000;margin-top:-40px;margin-left:55px">
+							<%= currentUser.name %>
+							</h4>
+						
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<span>Where do you work?</span>
+							<br/>
+							<span>Where do you currently work?</span>
 							<input type="text" name="experience[company]" placeholder="Employer" style="width:270px;float:left;margin-right:10px;"/>
 						</label>
 						<label>
@@ -37,11 +38,12 @@
 				<tr>
 					<td>
 						<label>
+							<br/>
 							<span>Where did you go to school?</span>
-							<input type="text"  name="education[school]" placeholder="School Name" style="width:370px;float:left;margin-right:10px;" /> 
+							<input type="text"  name="education[school]" placeholder="School Name" value="<%= @education[:name] %>" style="width:370px;float:left;margin-right:10px;" /> 
 						</label>
 						<label>
-							<input type="text" name="education[year]"  placeholder="Graduation Year" style="width:170px;margin-left:20px" />
+							<input type="text" name="education[year]"  placeholder="Graduation Year" value="<%= @education[:year] %>"" style="width:170px;margin-left:20px" />
 						</label>
 					</td>
 				</tr>
@@ -49,7 +51,8 @@
 					<tr>
 						<td>
 							<label>
-								<span>What grade levels do you teacher?</span>
+								<br/>
+								<span>What grade level(s) do you teach?</span>
 								<input type="text" name="user[grades]" />
 							</label>
 						</td>
@@ -57,7 +60,8 @@
 					<tr>
 						<td>
 							<label>
-								<span>What subjects do you teacher?</span>
+								<br/>
+								<span>What subject(s) do you teach?</span>
 								<input type="text" name="user[subjects]" />
 							</label>
 						</td>
@@ -66,7 +70,7 @@
 						<td>
 							<label style="margin-top:10px">
 								How many years of teaching experience do you have?
-								<%= select_tag "user[years_teaching]", options_for_select((0...61).to_a), :style => "width:100px;margin-left:21px" %>
+								<%= select_tag "user[years_teaching]", options_for_select((0...61).to_a), :style => "width:100px;margin-left:75px" %>
 							</label>
 						</td>
 					</tr>
@@ -74,8 +78,8 @@
 				<tr>
 					<td>
 						<label style="margin-top:10px">
-							Are you currently seeking employment?
-							<select name="user[job_seeking]" style="width:100px;margin-left:120px">
+							Are you currently seeking employment? (confidential)
+							<select name="user[job_seeking]" style="width:100px;margin-left:80px">
 								<option value="yes">Yes</option>
 								<option value="no">No</option>
 							</select>
@@ -89,9 +93,9 @@
 				<h3><span class="green bold">Almost done!</span></h3>
 				<ul>
 					Filling out this information will help you: <br/><br/>
-					<li>Find your friends on Tioki</li>
-					<li>Find your Alumni groups</li>
-					<li>Find more value in the site</li>
+					<li>Find people you know on Tioki</li>
+					<li>Locate your Alumni groups</li>
+					<li>Find discussions that interest you</li>
 				</ul>
 			</div>
 			<div class="button_wrap" style="margin-top:270px;">
