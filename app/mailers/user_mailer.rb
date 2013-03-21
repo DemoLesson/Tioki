@@ -440,6 +440,7 @@ class UserMailer < ActionMailer::Base
 		# Set the subject for the email
 		subject =  'Job Credit Request'
 
+		template = "credit_request_email"
 		# Send out the email
 		mail = mail(:to => 'sales@tioki.com', :subject => subject) do |f|
 			f.html { render template }

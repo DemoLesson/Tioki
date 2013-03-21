@@ -1,18 +1,12 @@
-<div id="completion_right" style="position:absolute;top:240px;right:45px">
-	<%= image_tag "/assets/completion_icons/arrow_right.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer'%>
-</div>
-<div id="completion_left" style="position:absolute;top:240px;right:70px">
-	<%= image_tag "/assets/completion_icons/arrow_left.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer'%>
-</div>
 
 <h3 style="padding: 5px 15px 15px 0 !important;">Complete Your Profile</h3>
 
 
+<div id="profile_complete" style="font-size:10px">
+<%= currentUser.completion %>% Complete
+</div><br />
 <%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
 <%= image_tag "/assets/completion_icons/completion-bar.png", :width => (currentUser.completion/100.0)*183, :height => 12, :style => "position:absolute" %>
-<div id="profile_complete" style="float:right;font-size:10px;margin-right:20px">
-	<%= currentUser.completion %>% Complete
-</div>
 
 <br />
 
@@ -55,4 +49,11 @@
 <div id="video_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/video_grey.png", :width => 35  %><p class="completion" style="margin-top:-35px">Add a video of you in the classroom to show your awesome talent</p>
 	<%= link_to "Add Video", "#", :data => {:completionid => @completions.index("video")},:class => "button complete_popup" %>
+</div><br />
+
+<div id="completion_right" style="top:240px;right:45px;float:right;padding-left:5px">
+	<%= image_tag "/assets/completion_icons/arrow_right.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
+</div>
+<div id="completion_left" style="top:240px;right:70px;float:right">
+	<%= image_tag "/assets/completion_icons/arrow_left.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
 </div>

@@ -1,3 +1,11 @@
+v5.2.6 - Mar 20, 2013  3:09PM PDT deployed by Aleks Stanisic
+============================================================
+* 079aec2: Aleks Stanisic - job credit request email fix
+
+v5.2.5 - Mar 20, 2013  1:29PM PDT deployed by Elijah Green
+==========================================================
+* 3dfbcf7: Brian Martinez - change to the imact header image
+
 v5.2.4 - Mar 19, 2013  8:31PM PDT deployed by Aleks Stanisic
 ============================================================
 * 8ba0f76: Aleks Stanisic - adding users to the new connection about page feature
