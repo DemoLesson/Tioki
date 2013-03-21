@@ -75,17 +75,17 @@
 			<br><br>
 			We can't track everyone, but <strong style='color:#2AA99B;'>you can</strong> find out the impact your teacher network is making by
 				<% if currentUser.new_record? %>
-					<%= link_to 'connecting with them today!', "/welcome_wizard?x=step1", :target => '_blank' %> 
+					<%= link_to 'connecting with them today!', "/welcome_wizard?x=step1&tioki_impact", :target => '_blank' %> 
 				<% else %>
-					<%= link_to 'connecting with them today!', "/inviteconnections/twitter", :target => '_blank' %>
+					<%= link_to 'connecting with them today!', "/inviteconnections?tioki_impact", :target => '_blank' %>
 				<% end %>
 			
 			<br>
 			<br>
 		</p>
-		<% if currentUser.new_record? %>
+		<!--<% if currentUser.new_record? %>
 			<%= link_to "Find Your Network On Tioki", "/welcome_wizard?x=step1", :class => 'button med-button', :target => '_blank', :style => 'margin-left:100px' %>
-		<% end %>
+		<% end %>-->
 	</section>
 
 	<!--Section for the impact image associated with that image-->
@@ -139,7 +139,7 @@ $(document).ready(function() {
 		var params = {
 			via: 'tioki',
 			url: 'http://tioki.com/impact?twitter_share',
-			text: 'I just found out my Educator Impact! <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours taught & <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> lives changed. Find our your Impact?'
+			text: 'I just found out my Educator Impact! <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours taught & <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> lives changed. Find our your Impact!'
 		}
 
 		// URL plus params
