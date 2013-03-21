@@ -317,6 +317,12 @@ ul {
 	min-width: 1020px;
 }
 
+.image-shadow {
+	-webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    2px 2px 2px rgba(0, 0, 0, 0.3);
+	box-shadow:         2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
 .inner-content {
 	width: 960px;
 	position: relative;

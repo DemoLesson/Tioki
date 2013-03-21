@@ -53,13 +53,36 @@
 	<section class='three-column left-side' style='border-bottom: 2px #2aa99b dashed'></section>	
 	<div class="clearfloat"></div>
 	
-	<h2 style="text-align:center">How Large Is You Educator Network?</h2>
-	<h3>Total Public Network: <%= @edu_stats.edu_network_public %>  <br>
-	<%= link_to "signup", "/welcome_wizard?x=step1", :style => "float:right" %>
-		Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
-		Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
-		Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
-	</h3>
+	<!-- How Large is You Educator Network -->
+	<section class="half-width left-side" style='height:280px'>
+		<h2 style="font-family: tekton pro;">
+			Your Educator Network: 
+				<strong style='color:#2AA99B;'>
+					<%= @edu_stats.edu_network_charter %> to <%= @edu_stats.edu_network_public %> Teachers!
+				</strong>
+		</h2>
+		<!--h3 style='margin-left:10px;font-family: tekton pro;'>
+			
+			Total Public Network: <span style='color:#2AA99B;'><%= @edu_stats.edu_network_public %></span>  <br>
+
+			Total Private Network: <%= @edu_stats.edu_network_private %>  <br>
+			Total Charter Network: <%= @edu_stats.edu_network_charter %>  <br>
+			Total Catholic Network: <%= @edu_stats.edu_network_catholic %> <br>
+		</h3-->
+		
+		<p>
+			Your Educator Network ranges from <strong style='color:#2AA99B;'><%= @edu_stats.edu_network_charter %></strong> to <strong style='color:#2AA99B;'><%= @edu_stats.edu_network_public %></strong> based on a number of factors, such as the types of schools you have taught at, and the number of times you have changed schools. And that only includes <strong style='color:#2AA99B;'>teachers you have taught with</strong>. If you include Administrators and Classmates, your network is much larger! 
+			<br>
+			<br>
+			<strong style='color:#2AA99B;'>Are you connected to your Educator Network?</strong>
+		</p>
+		<%= link_to "Find You Network On Tioki", "/welcome_wizard?x=step1", :class => "button med-button" %>
+	</section>
+
+	<!--Section for the impact image associated with that image-->
+	<section class="half-width right-side" style='text-align:center;height:280px'>
+		<%= image_tag '/assets/tioki/impact/impact_network.png', :style => 'margin-top:25px;width:400px' %>
+	</section>
 
 	<h3 class="bottom-line" style='text-align:center'>
 		Share Your Impact
