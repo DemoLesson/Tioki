@@ -1,3 +1,7 @@
+v5.2.9 - Mar 21, 2013 10:51AM PDT deployed by Aleks Stanisic
+============================================================
+* 279e8bf: Brian Martinez - changes to final show paragraph and container z-index
+
 v5.2.8 - Mar 21, 2013 12:24AM PDT deployed by Aleks Stanisic
 ============================================================
 * 6d89a68: Aleks Stanisic - changes to impact
