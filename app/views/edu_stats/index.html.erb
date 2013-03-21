@@ -25,15 +25,15 @@
 		<%= form_for(:edu_stats) do |f| %>
 			<section class="one-column left-side" style='text-align:center'>
 				<h5>How many years have you been teaching?</h5>
-				<%= f.number_field :yrs_teaching, :placeholder => "12", :min => 1, :style => "width:230px", :class => "stat" %>
+				<%= f.text_field :yrs_teaching, :placeholder => "12", :style => "width:230px" %>
 			</section>
 			<section class="one-column left-side" style='text-align:center'>
 				<h5> What is your average class size?</h5>
-				<%= f.number_field :avg_class_size, :placeholder => "25", :min => 1, :style => "width:230px;", :class => "stat" %>
+				<%= f.text_field :avg_class_size, :placeholder => "25", :style => "width:230px;" %>
 			</section>
 			<section class="one-column right-side" style='text-align:center'>
 				<h5>How many different sets of students do you teach?</h5>
-				<%= f.number_field :class_perday, :placeholder => "4", :min => 1, :style => "width:230px;", :class => "stat" %>
+				<%= f.text_field :class_perday, :placeholder => "4", :style => "width:230px;" %>
 			</section>
 			</br>
 			
