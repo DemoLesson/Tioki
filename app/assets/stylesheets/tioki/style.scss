@@ -563,12 +563,12 @@ div.orbit-wrapper div.slider-nav span.right {
     cursor: pointer;
 	position: absolute;
 	top: 1px;
-	right: 40px;
+	right: 15px;
 	width: 22px;
 	height: 42px;
 	padding: 50px 25px;
 	overflow: hidden;
-	opacity: 0.55;
+	opacity: 0.35;
 	transition: opacity 0.3s;
 	-webkit-transition: opacity 0.3s;
 	-moz-transition:    opacity 0.3s;
@@ -582,12 +582,12 @@ div.orbit-wrapper div.slider-nav span.right:hover {
 div.orbit-wrapper div.slider-nav span.left {
     background: url(image_path('tioki/icons/featured-previous-hover.png')) 25px 50px no-repeat;
     top: 1px;
-	right: 600px;
+	right: 440px;
 	width: 22px;
 	height: 42px;
 	padding: 50px 25px;
 	overflow: hidden;
-	opacity: 0.55;
+	opacity: 0.35;
 	transition: opacity 0.3s;
 	-webkit-transition: opacity 0.3s;
 	-moz-transition:    opacity 0.3s;
@@ -710,8 +710,8 @@ div.orbit-wrapper div.slider-nav span.left:hover {
 		.featured-quote {
 			position: absolute;
 			top: 25px;
-			right: 80px;
-			width: 560px;
+			right: 65px;
+			width: 400px;
 			blockquote {
 				text-align: center;
 				font: 18px/1.4 $oswald;
