@@ -1,3 +1,8 @@
+v5.2.10 - Mar 21, 2013  1:12PM PDT deployed by Aleks Stanisic
+=============================================================
+* 8783f6d: Aleks Stanisic - changes to impact
+* b177dba: Elijah Green - Remove number_field css and js
+
 v5.2.9 - Mar 21, 2013 10:51AM PDT deployed by Aleks Stanisic
 ============================================================
 * 279e8bf: Brian Martinez - changes to final show paragraph and container z-index
