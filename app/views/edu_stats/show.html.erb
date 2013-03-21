@@ -73,12 +73,17 @@
 		<p>
 			After reading all of this, you must be feeling pretty good about yourself, right? Good! You deserve to relish in your accomplishments! Go ahead, scream it out for all to hear: YOU, the teacher, are making an <strong style='color:#2AA99B;'>incredible impact on the world!</strong> And just imagine if we totaled up the cumulative impact of the entire teaching force? <strong style='color:#2AA99B;'>It would be incredibly MASSIVE!</strong> 
 			<br><br>
-			You can't track everyone, but you can see what the teachers in your network are up to. <%= link_to 'Connect with them today!', "/welcome_wizard?x=step1_link", :target => '_blank' %> 
+			You can't track everyone, but you can see what the teachers in your network are up to. 
+			<% if currentUser.new_record? %>
+				<%= link_to 'Connect with them today!', "/welcome_wizard?x=step1", :target => '_blank' %> 
+			<% end %>
 			
 			<br>
 			<br>
 		</p>
-		<%= link_to "Find Your Network On Tioki", "/welcome_wizard?x=step1_button", :class => 'button med-button', :target => '_blank', :style => 'margin-left:100px' %>
+		<% if currentUser.new_record? %>
+			<%= link_to "Find Your Network On Tioki", "/welcome_wizard?x=step1", :class => 'button med-button', :target => '_blank', :style => 'margin-left:100px' %>
+		<% end %>
 	</section>
 
 	<!--Section for the impact image associated with that image-->
