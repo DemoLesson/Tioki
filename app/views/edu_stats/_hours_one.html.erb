@@ -10,17 +10,24 @@
 	<!--Fun Fact for the specific range-->
 	<p style='margin-left:10px'>FUN FACT:
 		<% if (@edu_stats.total_hours_teaching / 1680) >= 1 && (@edu_stats.total_hours_teaching / 1680) < 2 %>
-			You've spent some serious time in the classroom. In fact, you've already taught <strong style='color:#2AA99B'><em>longer</em></strong> than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+			You've spent some serious time in the classroom. In fact, you've already taught <strong style='color:#2AA99B'><em>longer</em></strong> than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> 
+			<br><br>
+			Of course, your contribution to society is no game at all. Forget claiming plastic hotels and exchanging colorful dollars, your time has been spent teaching valuable skills, inspiring creativity, and positively impacting thousands of lives.  Thank you for using your time to make this world a better place!
+			
 			
 		<% elsif (@edu_stats.total_hours_teaching / 1680) >= 2 %>
-			You've spent some serious time in the classroom. In fact, you've spent <strong style='color:#2AA99B'><em>twice as much time</em></strong> in the classroom as the <strong style='color:#2AA99B'><em>longest Monopoly Game ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+			You've spent some serious time in the classroom. In fact, you've spent <strong style='color:#2AA99B'><em>twice as much time</em></strong> in the classroom as the <strong style='color:#2AA99B'><em>longest Monopoly Game ever!</em></strong> 
+			<br><br>
+			Of course, your contribution to society is no game at all. Forget claiming plastic hotels and exchanging colorful dollars, your time has been spent teaching valuable skills, inspiring creativity, and positively impacting thousands of lives.  Thank you for using your time to make this world a better place! 
 			
 		<% else %>
 			You're just getting started on your amazing teaching journey. If you spend just 
 				<strong style='color:#2AA99B'><em>
-				<%= number_with_delimiter(1680 - @edu_stats.total_hours_teaching, :delimiter => ',') %> More Hours
+				<%= number_with_precision((1680.0 - @edu_stats.total_hours_teaching) * (60.0 / 289.0), :precision => 0, :delimiter => ',') %> more days
 				</em></strong> 
-				in the classroom, you would have taught more time than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> Of course, your contribution to society is no game at all, and your efforts are truly making the world a better place!
+				in the classroom, you would have taught more time than the longest <strong style='color:#2AA99B'><em>Monopoly Game Ever!</em></strong> 
+				<br><br>
+				Of course, your contribution to society is no game at all. Forget claiming plastic hotels and exchanging colorful dollars, your time has been spent teaching valuable skills, inspiring creativity, and positively impacting thousands of lives.  Thank you for using your time to make this world a better place!
 				
 		<% end %>
 	</p>

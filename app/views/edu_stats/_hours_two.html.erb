@@ -4,15 +4,14 @@
 	<h2 style='margin-left:10px;font-family: tekton pro;'>
 		You've taught a crucial 
 		<span style='color:#2AA99B;'>
-			<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> HOURS!<br>
+			<%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ',') %> Hours!<br>
 		</span>
 	</h2>
 	<!--Fun Fact for the specific range-->
 	<p style='margin-left:10px'>
-		FUN FACT: That's just teaching time; imagine if we'd included all your planning and grading.
-		<br>
-		<br>	
-		The time that you have spent in the classroom is equivalent to watching every episode of Friends <strong style='color:#2AA99B'><em><%= (@edu_stats.total_hours_teaching * 60) / 5192 %> TIMES!</em></strong> But instead, you're using your time to <strong style='color:#2AA99B'><em>change lives</em></strong> and leave a <strong style='color:#2AA99B'><em>positive impact</em></strong> on this planet.  
+		FUN FACT: The time that you have spent in the classroom is equivalent to watching every episode of Friends <strong style='color:#2AA99B'><em><%= (@edu_stats.total_hours_teaching * 60) / 5192 %> TIMES!</em></strong> But instead, you're using your time to <strong style='color:#2AA99B'><em>change lives</em></strong> and leave a <strong style='color:#2AA99B'><em>positive impact</em></strong> on this planet.
+		<br><br>
+		Oh, and by the way: that's just your time spent teaching. Imagine if we included all of your planning and grading time too; you probably would had every line of every show memorized!  
 	
 	</p>
 </section>
