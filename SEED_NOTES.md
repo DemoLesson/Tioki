@@ -1,3 +1,7 @@
+v5.2.8 - Mar 21, 2013 12:24AM PDT deployed by Aleks Stanisic
+============================================================
+* 6d89a68: Aleks Stanisic - changes to impact
+
 v5.2.7 - Mar 20, 2013  8:32PM PDT deployed by Aleks Stanisic
 ============================================================
 * 05e0042: Brian Martinez - final changes to impact
