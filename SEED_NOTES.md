@@ -1,3 +1,14 @@
+v5.2.7 - Mar 20, 2013  8:32PM PDT deployed by Aleks Stanisic
+============================================================
+* 05e0042: Brian Martinez - final changes to impact
+* dfd77fb: Brian Martinez - Mandela and Pete changes to Hours Impact
+* c7d46a6: Brian Martinez - making Mandela and Pete changes to Student side of Impact
+* 8ee7a16: Elijah Green - Add some more edu stats validations
+* 1f94076: Elijah Green - Use flash error instead of notice
+* 390555a: Brian Martinez - changes to impact
+* 2fc72eb: Elijah Green - Add completion to profile
+* be98ff4: Elijah Green - Change cron job times
+
 v5.2.6 - Mar 20, 2013  3:09PM PDT deployed by Aleks Stanisic
 ============================================================
 * 079aec2: Aleks Stanisic - job credit request email fix
