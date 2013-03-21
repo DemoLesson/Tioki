@@ -90,7 +90,8 @@ class EduStatsController < ApplicationController
 				end
 				format.html { redirect_to '/impact/results'}
 			else
-				format.html { redirect_to :back, :notice => "Please Input A WHOLE Number" }
+				flash[:error] = "Please Input A WHOLE Number"
+				format.html { redirect_to :back }
 			end
 		end
 	end
