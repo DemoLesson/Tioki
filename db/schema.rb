@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308080403) do
+ActiveRecord::Schema.define(:version => 20130322195603) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -259,8 +259,8 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.integer  "total_hours_teaching"
     t.integer  "total_hours_planning"
     t.integer  "total_hours_grading"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "edu_network_public"
     t.integer  "edu_network_private"
     t.integer  "edu_network_charter"
@@ -865,6 +865,7 @@ ActiveRecord::Schema.define(:version => 20130308080403) do
     t.string   "occupation"
     t.integer  "years_teaching"
     t.boolean  "job_seeking",            :default => false
+    t.text     "social"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
