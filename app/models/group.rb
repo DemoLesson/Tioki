@@ -8,9 +8,11 @@ class Group < ActiveRecord::Base
 
 	# Social KVPair
 	kvpair :social
-	kvpair :location
+	#kvpair :location
 	kvpair :contact
 	kvpair :misc
+
+	store :location
 
 	after_validation :geocode
 	geocoded_by :address
@@ -24,9 +26,9 @@ class Group < ActiveRecord::Base
 	
 	# Discussions stuff
 
-		def discussions
-			Discussion.where(:owner => "#{self.class}:#{self.id}")
-		end
+	def discussions
+		Discussion.where(:owner => "#{self.class}:#{self.id}")
+	end
 	
 	# Picture Support
 		has_attached_file :picture,
