@@ -1,3 +1,7 @@
+v5.2.14 - Mar 21, 2013  6:25PM PDT deployed by Aleks Stanisic
+=============================================================
+* 7e7b773: Elijah Green - Set layout to false for connection templates
+
 v5.2.13 - Mar 21, 2013  5:49PM PDT deployed by Aleks Stanisic
 =============================================================
 * c529d33: Elijah Green - Fix redirect to question_url
