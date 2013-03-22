@@ -11,6 +11,7 @@ class ApplicationWizardController < ApplicationController
 	def step5_url; url + '/step5'; end
 	def step6_url; url + '/step6'; end
 	def step7_url; url + '/step7'; end
+	def question_url; url + '/question' end
 
 	def index
 		redirect_to :root if params[:job].nil?
