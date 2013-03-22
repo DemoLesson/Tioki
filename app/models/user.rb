@@ -48,10 +48,10 @@ class User < ActiveRecord::Base
 	#end
 
 	# Key Value Pairs
+	# TODO transfer to rails 3.2 kvpairs
 	kvpair :social
 	kvpair :contact
 	kvpair :seeking
-	kvpair :authorizations
 	kvpair :social_actions
 	kvpair :cache
 
