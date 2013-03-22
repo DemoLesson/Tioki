@@ -1,3 +1,8 @@
+v5.2.15 - Mar 21, 2013  7:26PM PDT deployed by Aleks Stanisic
+=============================================================
+* cecbec5: Aleks Stanisic - fix to updating email settings
+* 2d6f777: Elijah Green - fix email permissions
+
 v5.2.14 - Mar 21, 2013  6:25PM PDT deployed by Aleks Stanisic
 =============================================================
 * 7e7b773: Elijah Green - Set layout to false for connection templates
