@@ -1,3 +1,8 @@
+v5.2.13 - Mar 21, 2013  5:49PM PDT deployed by Aleks Stanisic
+=============================================================
+* c529d33: Elijah Green - Fix redirect to question_url
+* 680fb95: Elijah Green - Remove constantly running notifcations cron task
+
 v5.2.12 - Mar 21, 2013  3:31PM PDT deployed by Aleks Stanisic
 =============================================================
 * 8a51abc: Aleks Stanisic - adding imapct to header
