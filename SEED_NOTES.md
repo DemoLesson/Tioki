@@ -1,3 +1,7 @@
+v5.2.16 - Mar 21, 2013  7:36PM PDT deployed by Aleks Stanisic
+=============================================================
+
+
 v5.2.15 - Mar 21, 2013  7:26PM PDT deployed by Aleks Stanisic
 =============================================================
 * cecbec5: Aleks Stanisic - fix to updating email settings
