@@ -494,7 +494,7 @@ class ConnectionsController < ApplicationController
 		divs = Array.new
 		users.each do |user|
 			@user = user
-			divs << render_to_string
+			divs << render_to_string(:layout => false)
 		end
 
 		render :json => divs
@@ -540,7 +540,7 @@ class ConnectionsController < ApplicationController
 		divs = Array.new
 		users.each do |user|
 			@user = user
-			divs << render_to_string
+			divs << render_to_string(:layout => false)
 		end
 
 		render :json => divs
