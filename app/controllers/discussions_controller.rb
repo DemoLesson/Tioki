@@ -1,5 +1,5 @@
 class DiscussionsController < ApplicationController
-	before_filter :login_required, :except => [:index, :show, :reply_nologin]
+	before_filter :login_required, :except => [:index, :show, :reply_nologin, :ama]
 
   # GET /discussions
   # GET /discussions.json
