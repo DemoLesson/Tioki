@@ -249,6 +249,189 @@
 					</p>
 				</section></br>
 			<% end %>
+				
+			<!-- START Group Tag Section-->
+			<!-- If Group is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.groups.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Groups", "/groups", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/groups">  >> Join a few groups that interest you.</a>
+					</span>
+					</h3>
+				</section>
+
+			<!-- If Group is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @user.groups.empty? %>
+
+			<!-- If Groups aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<!-- Giving the profile owner the ability to edit -->
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Groups", "/groups", :style => "color:#4D4D4D", :id => "groups" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/groups" %>
+						</h3>
+					<!-- Restricting that ability to everyone else -->
+					<% else %>
+						<h3 class="bottom-line">
+							<a id="groups" style="color:#4D4D4D">Groups</a>	
+						</h3>
+					<% end %>
+					
+					<!-- Actual Styling of the Group Tags, 3 wide -->
+					<div style="padding:0px 5px;">
+						
+						<!-- Check if the user is part of more than 9 Groups -->
+						<% if @user.groups.count > 9 %>
+						<!-- We will display the first 8 of their groups -->
+							<% @user.groups.limit(8).each do |group| %>
+								<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
+									<% if group.picture? %>
+										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+									<% else %>
+										<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+									<% end %>
+									<p style="margin:10px 0 0 0;width:120px;float:right">
+										<strong>
+										<% if group.name.size > 24 %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
+										<% else %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
+										<% end %>
+										</strong><br/>
+										<!--<%= group.users.count %> Members<br>-->
+										<% unless !self.current_user %>
+											<% unless self.current_user.groups.include? group %>
+												<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% end %>
+										<% end %>
+									</p>
+								</div>
+							<% end %>
+							<div id="more_groups">
+							</div>
+						
+							<!-- And we will include the "View More" Container to prompt the user to see the full list -->
+								<div id="group-more" class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px;text-align:center">
+									<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:15px 89px 0px 89px;'), "/" %>
+									<div style="width:205px">
+										<h5 style="margin-top:5px;"> 
+											<a href="/" style="color:#2AA99B"> View <%= @user.groups.count - 8 %> More ></a>
+										</h5>
+									</div>
+								</div>
+							
+							
+						<% else %>
+							<!-- If they have 9 groups or less, we will display the entire list -->
+							<% @user.groups.each do |group| %>
+								<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
+									<% if group.picture? %>
+										<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+									<% else %>
+										<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
+									<% end %>
+									<p style="margin:10px 0 0 0;width:120px;float:right">
+										<strong>
+										<% if group.name.size > 24 %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
+										<% else %>
+											<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
+										<% end %>
+										</strong><br/>
+										<!--<%= group.users.count %> Members<br>-->
+										<% unless !self.current_user %>
+											<% unless self.current_user.groups.include? group %>
+												<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
+											<% end %>
+										<% end %>
+									</p>
+								</div>
+
+							<% end %>
+						<% end %>
+						<div style="clear:both;"></div>
+					</div>
+				</section>
+				<div style="clear:both;"></div>
+			<% end %>
+				
+			<!-- START Tech Tag Section-->
+			<!-- If Tech is blank and you do own the profile, we encourage you to complete it.--> 
+			<% if @user.technologies.empty? && @self %>
+				<section class="profile-info group">
+					<h3 class="bottom-line">
+					<%= link_to "Ed Tech", "/technologies", :style => "color:#4D4D4D" %>
+					<span style="font-size:16px; margin-left:5px">
+						<a href="/technologies">  >> What Ed Tech tools do you use?</a>
+					</span>
+					</h3>
+				</section>
+
+			<!-- If Technology is blank and you do not own the profile, you will see nothing. --> 
+			<% elsif @user.technologies.empty? %>
+
+			<!-- If Technology aren't nil, no matter who you are, you will see them suckers. -->
+			<% else %>
+				<section class="profile-info group">
+					<!-- Giving the profile owner the ability to edit -->
+					<% if !currentUser.new_record? && @self %>
+						<h3 class="bottom-line">
+							<%= link_to "Technology", "/technologies", :style => "color:#4D4D4D", :id => "technology" %>	
+							<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/technologies" %>
+						</h3>
+					<!-- Restricting that ability from everyone else -->
+					<% else %>
+						<h3 class="bottom-line">
+							<a id="technology" style="color:#4D4D4D">Technology</a>	
+						</h3>
+					<% end %>
+					
+					<!-- Actual Styling of the Technology Tags, 5 wide -->
+					<div style="padding:0px 5px;">
+						<!-- Check if the user has more than 10 Technologies on their profile -->
+						<% if @user.technologies.count > 10 %>
+						
+							<!-- If they have more than 10 Technologies we will display 9 of them -->
+							<% @user.technologies.limit(9).each do |technology| %>
+								<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
+									<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
+									<div style="float:left;width:100px">
+										<h5 style="margin-top:0px;"><%= technology.name %></h5>
+									</div>
+								</div>
+							<% end %>
+							
+							<!-- And we will include the "View More" Container to prompt the user to see the full list -->
+								<div  id="tech-more" class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px;text-align:center">
+									<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:25px 0 25px 0;'), "/" %>
+									<div style="float:left;width:100px">
+										<h5 style="margin-top:0px;"> 
+											<a href='/' style="color:#2AA99B"> View <%= @user.technologies.count - 9 %> More ></a>
+										</h5>
+									</div>
+								</div>
+								
+						<% else %>
+						
+							<!-- If the user has 10 or fewer technologies, we will display all the technologies without a "More" Container -->
+							<% @user.technologies.each do |technology| %>
+								<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
+									<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
+									<div style="float:left;width:100px">
+										<h5 style="margin-top:0px;"><%= technology.name %></h5>
+									</div>
+								</div>
+							<% end %>
+						<% end %>
+						<div style="clear:both;"></div>
+					</div>
+				</section>
+				<div style="clear:both;"></div>
+			<% end %>
 
 			<!-- START Skills Section-->
 			<!-- If Skills are blank and you do own the profile, we encourage you to complete it.-->
@@ -314,189 +497,6 @@
 				</section>
 				</br>
 			<% end %>
-				
-				<!-- START Group Tag Section-->
-				<!-- If Group is blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @user.groups.empty? && @self %>
-					<section class="profile-info group">
-						<h3 class="bottom-line">
-						<%= link_to "Groups", "/groups", :style => "color:#4D4D4D" %>
-						<span style="font-size:16px; margin-left:5px">
-							<a href="/groups">  >> Join a few groups that interest you.</a>
-						</span>
-						</h3>
-					</section>
-
-				<!-- If Group is blank and you do not own the profile, you will see nothing. --> 
-				<% elsif @user.groups.empty? %>
-
-				<!-- If Groups aren't nil, no matter who you are, you will see them suckers. -->
-				<% else %>
-					<section class="profile-info group">
-						<!-- Giving the profile owner the ability to edit -->
-						<% if !currentUser.new_record? && @self %>
-							<h3 class="bottom-line">
-								<%= link_to "Groups", "/groups", :style => "color:#4D4D4D", :id => "groups" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/groups" %>
-							</h3>
-						<!-- Restricting that ability to everyone else -->
-						<% else %>
-							<h3 class="bottom-line">
-								<a id="groups" style="color:#4D4D4D">Groups</a>	
-							</h3>
-						<% end %>
-						
-						<!-- Actual Styling of the Group Tags, 3 wide -->
-						<div style="padding:0px 5px;">
-							
-							<!-- Check if the user is part of more than 9 Groups -->
-							<% if @user.groups.count > 9 %>
-							<!-- We will display the first 8 of their groups -->
-								<% @user.groups.limit(8).each do |group| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<% if group.picture? %>
-											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<% else %>
-											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<% end %>
-										<p style="margin:10px 0 0 0;width:120px;float:right">
-											<strong>
-											<% if group.name.size > 24 %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
-											<% else %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
-											<% end %>
-											</strong><br/>
-											<!--<%= group.users.count %> Members<br>-->
-											<% unless !self.current_user %>
-												<% unless self.current_user.groups.include? group %>
-													<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
-												<% end %>
-											<% end %>
-										</p>
-									</div>
-								<% end %>
-								<div id="more_groups">
-								</div>
-							
-								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div id="group-more" class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px;text-align:center">
-										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:15px 89px 0px 89px;'), "/" %>
-										<div style="width:205px">
-											<h5 style="margin-top:5px;"> 
-												<a href="/" style="color:#2AA99B"> View <%= @user.groups.count - 8 %> More ></a>
-											</h5>
-										</div>
-									</div>
-								
-								
-							<% else %>
-								<!-- If they have 9 groups or less, we will display the entire list -->
-								<% @user.groups.each do |group| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 10px 20px 0px; overflow:visible; width:205px; height:100px; background:white;">
-										<% if group.picture? %>
-											<%= link_to image_tag(group.picture(:medium), :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<% else %>
-											<%= link_to image_tag('/assets/dl_icons/no_image.png', :style => 'float:left;max-height:75px;max-width:75px;margin:12px 5px 0 5px'), group %>
-										<% end %>
-										<p style="margin:10px 0 0 0;width:120px;float:right">
-											<strong>
-											<% if group.name.size > 24 %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')[0..19]+'...').html_safe, group, :style => "color:#000" %>
-											<% else %>
-												<%= link_to h(group.name.gsub(%r{</?[^>]+?>}, '')).html_safe, group, :style => "color:#000" %>
-											<% end %>
-											</strong><br/>
-											<!--<%= group.users.count %> Members<br>-->
-											<% unless !self.current_user %>
-												<% unless self.current_user.groups.include? group %>
-													<%= link_to "+ Join Group", { :controller => "groups", :action => "add_group", :id => group.id }, :style => "color:#2AA99B" if group.permissions['public'] %>
-												<% end %>
-											<% end %>
-										</p>
-									</div>
-
-								<% end %>
-							<% end %>
-							<div style="clear:both;"></div>
-						</div>
-					</section>
-					<div style="clear:both;"></div>
-				<% end %>
-				
-				<!-- START Tech Tag Section-->
-				<!-- If Tech is blank and you do own the profile, we encourage you to complete it.--> 
-				<% if @user.technologies.empty? && @self %>
-					<section class="profile-info group">
-						<h3 class="bottom-line">
-						<%= link_to "Ed Tech", "/technologies", :style => "color:#4D4D4D" %>
-						<span style="font-size:16px; margin-left:5px">
-							<a href="/technologies">  >> What Ed Tech tools do you use?</a>
-						</span>
-						</h3>
-					</section>
-
-				<!-- If Technology is blank and you do not own the profile, you will see nothing. --> 
-				<% elsif @user.technologies.empty? %>
-
-				<!-- If Technology aren't nil, no matter who you are, you will see them suckers. -->
-				<% else %>
-					<section class="profile-info group">
-						<!-- Giving the profile owner the ability to edit -->
-						<% if !currentUser.new_record? && @self %>
-							<h3 class="bottom-line">
-								<%= link_to "Technology", "/technologies", :style => "color:#4D4D4D", :id => "technology" %>	
-								<%= link_to image_tag("/assets/tioki/icons/pencil.png", :style => "float:right;height:16px;margin-top:10px"), "/technologies" %>
-							</h3>
-						<!-- Restricting that ability from everyone else -->
-						<% else %>
-							<h3 class="bottom-line">
-								<a id="technology" style="color:#4D4D4D">Technology</a>	
-							</h3>
-						<% end %>
-						
-						<!-- Actual Styling of the Technology Tags, 5 wide -->
-						<div style="padding:0px 5px;">
-							<!-- Check if the user has more than 10 Technologies on their profile -->
-							<% if @user.technologies.count > 10 %>
-							
-								<!-- If they have more than 10 Technologies we will display 9 of them -->
-								<% @user.technologies.limit(9).each do |technology| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
-										<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"><%= technology.name %></h5>
-										</div>
-									</div>
-								<% end %>
-								
-								<!-- And we will include the "View More" Container to prompt the user to see the full list -->
-									<div  id="tech-more" class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px;text-align:center">
-										<%= link_to image_tag("/assets/tioki/icons/slide-next-hover.png", :style => 'height:50px;margin:25px 0 25px 0;'), "/" %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"> 
-												<a href='/' style="color:#2AA99B"> View <%= @user.technologies.count - 9 %> More ></a>
-											</h5>
-										</div>
-									</div>
-									
-							<% else %>
-							
-								<!-- If the user has 10 or fewer technologies, we will display all the technologies without a "More" Container -->
-								<% @user.technologies.each do |technology| %>
-									<div class="profile-thumb-large shadow" style="float:left;margin:15px 20px 20px 10px; overflow:visible; width:100px; height:100px; background:transparent;text-align:center">
-										<%= link_to image_tag(technology.picture(:medium), :style => 'max-height:100px;max-width:100px;'), technology %>
-										<div style="float:left;width:100px">
-											<h5 style="margin-top:0px;"><%= technology.name %></h5>
-										</div>
-									</div>
-								<% end %>
-							<% end %>
-							<div style="clear:both;"></div>
-						</div>
-					</section>
-					<div style="clear:both;"></div>
-				<% end %>
 				
 		</section> <!-- End Profile Content -->
 	</section> <!-- End Profile -->
