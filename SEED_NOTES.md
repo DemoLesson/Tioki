@@ -1,3 +1,20 @@
+v5.2.18 - Mar 24, 2013 10:55AM PDT deployed by Aleks Stanisic
+=============================================================
+* a7231d9: Aleks Stanisic - chnaging discussions to featured amas
+
+v5.2.17 - Mar 22, 2013  6:06PM PDT deployed by Aleks Stanisic
+=============================================================
+* ca5c044: Brian Martinez - changes to splash apge and AMA page
+
+v5.2.16 - Mar 21, 2013  7:36PM PDT deployed by Aleks Stanisic
+=============================================================
+
+
+v5.2.15 - Mar 21, 2013  7:26PM PDT deployed by Aleks Stanisic
+=============================================================
+* cecbec5: Aleks Stanisic - fix to updating email settings
+* 2d6f777: Elijah Green - fix email permissions
+
 v5.2.14 - Mar 21, 2013  6:25PM PDT deployed by Aleks Stanisic
 =============================================================
 * 7e7b773: Elijah Green - Set layout to false for connection templates

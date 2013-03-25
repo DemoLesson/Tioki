@@ -387,13 +387,8 @@ class UsersController < ApplicationController
 	end
 
 	def email_settings
-		@user = User.find(self.current_user.id)
-
 		# Update BitSwitch with the new permissions
-		@user.email_permissions = params[:permissions], true
-
-		# Update changed attributes
-		@user.update_attributes params[:user]
+		self.current_user.email_permissions = Hash[params[:permissions].map{|key,val| [key.to_sym, val == "1"]}]
 
 		# Log this change
 		self.log_analytic(:user_changed_email_settings, "A user changed their email settings.")
