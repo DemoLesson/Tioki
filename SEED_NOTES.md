@@ -1,3 +1,7 @@
+v5.2.19 - Mar 25, 2013 12:27PM PDT deployed by Aleks Stanisic
+=============================================================
+* f25b980: Aleks Stanisic - changes to invite connections page
+
 v5.2.18 - Mar 24, 2013 10:55AM PDT deployed by Aleks Stanisic
 =============================================================
 * a7231d9: Aleks Stanisic - chnaging discussions to featured amas
