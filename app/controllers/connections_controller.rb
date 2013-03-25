@@ -262,7 +262,7 @@ class ConnectionsController < ApplicationController
 		if @ab == "1"
 			@default_message = "Hey! I'd absolutely love to add you to my education network on Tioki."
 		else
-			@default_message = "Hey!\n\nI would like you to join my education network on Tioki. Tioki is a place where educators gather, connect, and share new ideas! \n\nI think you would be a great fit for Tioki, so come join me!"
+			@default_message = "Hey!\n\nI would like you to join my education network on Tioki. It's the only place online where people passionate about education can easily find each other and share ideas. I've gotten so much out of the site, and knowing you, I'm sure you will too! \n\nSee you on Tioki,"
 		end
 	end
 
