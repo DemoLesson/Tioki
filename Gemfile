@@ -94,7 +94,6 @@ gem 'open4'
 
 # Debug tools
 group :development do
-	gem 'debugger'
 	gem 'debugger-ruby_core_source'
 	gem 'better_errors'
 	gem "binding_of_caller"
