@@ -5,19 +5,19 @@ namespace :key_value do
 			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'location', "Group:#{group.id}")
 
 			if kvpairs.where('kvpairs.key = ?', 'address').first
-				group.location[:address] = kvpairs.where('kvpairs.key = ?', 'address').first.value
+				group.location['address'] = kvpairs.where('kvpairs.key = ?', 'address').first.value
 			end
 
 			if kvpairs.where('kvpairs.key = ?', 'city').first
-				group.location[:city] = kvpairs.where('kvpairs.key = ?', 'city').first.value
+				group.location['city'] = kvpairs.where('kvpairs.key = ?', 'city').first.value
 			end
 
 			if kvpairs.where('kvpairs.key = ?', 'region').first
-				group.location[:region] = kvpairs.where('kvpairs.key = ?', 'region').first.value
+				group.location['region'] = kvpairs.where('kvpairs.key = ?', 'region').first.value
 			end
 
 			if kvpairs.where('kvpairs.key = ?', 'postal').first
-				group.location[:postal] = kvpairs.where('kvpairs.key = ?', 'postal').first.value
+				group.location['postal'] = kvpairs.where('kvpairs.key = ?', 'postal').first.value
 			end
 
 			group.save
