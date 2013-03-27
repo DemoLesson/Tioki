@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 				# Edu Stats
 				if session[:edu_stats]
 					EduStats.find(session[:edu_stats]).update_attribute(:user_id, @user.id)
+					self.log_analytic(:impact_signup, "User signed up after tioki impact.", @user)
 					session[:edu_stats] = nil
 				end
 
