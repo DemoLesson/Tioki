@@ -1,3 +1,21 @@
+v5.2.21 - Mar 27, 2013 12:02PM PDT deployed by Aleks Stanisic
+=============================================================
+* 9964a74: Aleks Stanisic - fixes to profile header
+* 1010d2b: Elijah Green - Don't show placeholder if there is currently a value
+* 55c25c3: Elijah Green - Remove borders from imgage links
+
+v5.2.20 - Mar 25, 2013  5:14PM PDT deployed by Aleks Stanisic
+=============================================================
+* e5ef62e: Aleks Stanisic - fix to location in groups
+* b9cbec3: Elijah Green - Change some symbols to string in hash
+* eb66e90: Elijah Green - Use string as key for hash
+* f0b7e67: Elijah Green - Don't add to location if there is no kvpair
+* 8c07690: Elijah Green - Organization location migration
+* 554faa5: Elijah Green - Remove debugger from gemfile
+* d2b3960: Elijah Green - Group location migration
+* 478f689: Elijah Green - Add social text field
+* 851597d: Elijah Green - Remove authorizations
+
 v5.2.19 - Mar 25, 2013 12:27PM PDT deployed by Aleks Stanisic
 =============================================================
 * f25b980: Aleks Stanisic - changes to invite connections page

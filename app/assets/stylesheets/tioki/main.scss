@@ -679,6 +679,23 @@ span.connection_degree {
 			border-top: 1px solid $ltgray;
 		}
 	}
+	h5 {
+		&.AMA {
+			padding: 15px;
+			
+			&.break {
+				border-top: 1px solid $ltgray;
+			}
+			a {
+			color: #F66C4C;
+			}
+		}
+	}
+	&.square {
+		-moz-border-radius: 	0px;
+		-webkit-border-radius: 	0px;
+		border-radius: 			0px;
+	}
 	a.refer-button {
 		display: block;
 		margin: 0 0 10px 0;

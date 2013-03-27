@@ -16,10 +16,10 @@
 			<span style ="margin-left:207px">Region</span>
 			<span style ="margin-left:185px">Postal Code</span>
 			</p>
-			<%= text_field_tag 'group[location][address]', @group.location[:address], :placeholder => "Ex: 222 E. 4th St.", :style => "width:200px" %>
-			<%= text_field_tag 'group[location][city]', @group.location[:city], :placeholder => "Ex: Oakland", :style => "width:200px" %>
-			<%= text_field_tag 'group[location][region]', @group.location[:region], :placeholder => "Ex: CA", :style => "width:200px" %>
-			<%= text_field_tag 'group[location][postal]', @group.location[:postal], :placeholder => "Ex: 92245", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][address]', @group.location['address'], :placeholder => "Ex: 222 E. 4th St.", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][city]', @group.location['city'], :placeholder => "Ex: Oakland", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][region]', @group.location['region'], :placeholder => "Ex: CA", :style => "width:200px" %>
+			<%= text_field_tag 'group[location][postal]', @group.location['postal'], :placeholder => "Ex: 92245", :style => "width:200px" %>
 		</fieldset><br/>
 		<fieldset>
 			<p>
