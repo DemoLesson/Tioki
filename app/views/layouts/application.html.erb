@@ -647,7 +647,10 @@
 
 			// If no place holder dont bother doing this
 			if(placeholder == null || placeholder.length == 0)
-			return;
+				return;
+
+			if($(this).attr("value") != "" )
+				return;
 
 		$(this).wrap('<span class="x-input-wrap" style="position:relative;" />');
 		$('<span class="x-placeholder" style="position:absolute;top:0px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
