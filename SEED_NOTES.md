@@ -1,3 +1,9 @@
+v5.2.21 - Mar 27, 2013 12:02PM PDT deployed by Aleks Stanisic
+=============================================================
+* 9964a74: Aleks Stanisic - fixes to profile header
+* 1010d2b: Elijah Green - Don't show placeholder if there is currently a value
+* 55c25c3: Elijah Green - Remove borders from imgage links
+
 v5.2.20 - Mar 25, 2013  5:14PM PDT deployed by Aleks Stanisic
 =============================================================
 * e5ef62e: Aleks Stanisic - fix to location in groups
