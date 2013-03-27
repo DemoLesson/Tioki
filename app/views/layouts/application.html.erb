@@ -647,6 +647,7 @@
 	$(document).ready(function() {
 		$('input, textarea').each(function() {
 			var placeholder = $(this).attr('placeholder');
+			var displayAttr = $(this).css('display');
 
 			// If no place holder dont bother doing this
 			if(placeholder == null || placeholder.length == 0)
@@ -655,8 +656,8 @@
 			if($(this).attr("value") != "" )
 				return;
 
-		$(this).wrap('<span class="x-input-wrap" style="position:relative;" />');
-		$('<span class="x-placeholder" style="position:absolute;top:0px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
+		$(this).wrap('<span class="x-input-wrap" style="position:relative;display:' + displayAttr + '" />');
+		$('<span class="x-placeholder" style="position:absolute;top:5px;left:10px;">' + placeholder + '</span>').insertAfter($(this));
 		});
 
 		$('span.x-input-wrap input, span.x-input-wrap textarea').on('focusin', function(e) {
