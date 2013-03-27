@@ -122,7 +122,7 @@ $(document).ready(function() {
 		},
 		function(response) {
 			if(response && response.post_id) {
-				window.open("/");
+				window.open("/?facebook_share");
 			}
 		});
 		return false;
@@ -144,7 +144,7 @@ $(document).ready(function() {
 
 		// Apply to the link
 		$(this).attr('href', url).attr('target', '_blank');
-		window.open("/");
+		window.open("/?twitter_share");
 
 		// GO!
 		return true;
