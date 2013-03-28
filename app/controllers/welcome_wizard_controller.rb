@@ -205,7 +205,7 @@ class WelcomeWizardController < ApplicationController
 			session.omniauth.extra.raw_info.try(:education).try(:each) do |education|
 				if education.type == "College"
 					@education[:name] = education.school.name
-					@education[:year] = education.year.name
+					@education[:year] = education.year.try(:name)
 					break
 				end
 			end
