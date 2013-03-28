@@ -119,15 +119,12 @@ $(document).ready(function() {
 			picture: 'http://tioki.com/assets/tioki/impact/college_grad.png',
 			caption: 'I just found out my educator impact!',
 			description: 'I have taught <%= number_with_delimiter(@edu_stats.total_hours_teaching, :delimiter => ",") %> hours and inspired over <%= number_with_delimiter(@edu_stats.total_students, :delimiter => ",") %> students. What is your impact? Find out today!'
-		}
-		/*function(response) {
-			if (response && response.post_id) {
-				alert('Post was published.');
-			} else {
-				alert('Post was not published.');
+		},
+		function(response) {
+			if(response && response.post_id) {
+				window.open("/?facebook_share");
 			}
-		}*/);
-
+		});
 		return false;
 	});
 	$('a[href="#twitter"]').click(function(e) {
@@ -147,6 +144,7 @@ $(document).ready(function() {
 
 		// Apply to the link
 		$(this).attr('href', url).attr('target', '_blank');
+		window.open("/?twitter_share");
 
 		// GO!
 		return true;
