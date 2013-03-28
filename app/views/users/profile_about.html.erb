@@ -211,9 +211,11 @@
 							Grades	
 						</h3>
 					<% end %>
-					<p class="bold">
-						<%= @grades.to_sentence %>
-					</p>
+					<% @grades.each do |grade| %>
+						<div class="profile-thumb-large" style="float:left;margin:5px 5px 1px 0px; border: 2px solid black; padding: 5px; overflow:visible; width:auto; height:auto; background: #2AA99B;">
+							<span style = "color: white"><%= grade %></span>
+						</div>
+					<% end %>
 				</section></br>
 			<% end %>
 
@@ -244,9 +246,11 @@
 							Subjects	
 						</h3>
 					<% end %>
-					<p class="bold">
-						<%= @subjects.to_sentence %>
-					</p>
+					<% @subjects.each do |subject| %>
+						<div class="profile-thumb-large" style="float:left;margin:5px 5px 1px 0px; border: 2px solid black; padding: 5px; overflow:visible; width:auto; height:auto; background: #2AA99B;">
+							<span style = "color: white"><%= subject %></span>
+						</div>
+					<% end %>
 				</section></br>
 			<% end %>
 				
