@@ -75,17 +75,14 @@
 			<br><br>
 			We can't track everyone, but <strong style='color:#2AA99B;'>you can</strong> find out the impact your teacher network is making by
 				<% if currentUser.new_record? %>
-					<%= link_to 'connecting with them today!', "/welcome_wizard?x=step1&tioki_impact", :target => '_blank' %> 
+					<%= link_to 'connecting with them today!', "/welcome_wizard?x=step1&tioki_impact_link", :target => '_blank' %> 
 				<% else %>
-					<%= link_to 'connecting with them today!', "/inviteconnections?tioki_impact", :target => '_blank' %>
+					<%= link_to 'connecting with them today!', "/inviteconnections?tioki_impact_link", :target => '_blank' %>
 				<% end %>
 			
 			<br>
 			<br>
 		</p>
-		<!--<% if currentUser.new_record? %>
-			<%= link_to "Find Your Network On Tioki", "/welcome_wizard?x=step1", :class => 'button med-button', :target => '_blank', :style => 'margin-left:100px' %>
-		<% end %>-->
 	</section>
 
 	<!--Section for the impact image associated with that image-->
@@ -93,12 +90,24 @@
 		<%= image_tag '/assets/tioki/impact/impact_network.png', :style => 'margin-top:25px;width:400px' %>
 	</section>
 
+	<!-- Tioki Sharing Links -->
+	<section class='half-width left-side' style='text-align:center;padding-top:25px'>
+		<h3 class="bottom-line" style='text-align:center'>
+			Connect With Educators You Know on Tioki
+		</h3>
+		<% if currentUser.new_record? %>
+			<a href="/signup/?tioki_impact_button" target="_blank" ><%= image_tag('tioki/impact/tioki_find.png') %></a>	
+		<% else %>
+			<a href="/inviteconnections/?tioki_impact_button" target="_blank"><%= image_tag('tioki/impact/tioki_share.png') %></a>
+		<% end %>
+	
+	</section>
 
-	<section class='three-column left-side' style='text-align:center;padding-top:25px'>
+	<section class='half-width right-side' style='text-align:center;padding-top:25px'>
 		<h3 class="bottom-line" style='text-align:center'>
 			Share Your Impact
 		</h3>
-	<a href="#facebook" style='margin-right:50px'><%= image_tag('tioki/impact/facebook_share.png') %></a>
+	<a href="#facebook" style='margin-right:20px'><%= image_tag('tioki/impact/facebook_share.png') %></a>
 	<a href="#twitter"><%= image_tag('tioki/impact/twitter_share.png') %></a>
 	</section>
 
