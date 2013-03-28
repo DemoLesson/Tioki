@@ -1,3 +1,9 @@
+v5.2.24 - Mar 27, 2013  8:03PM PDT deployed by Aleks Stanisic
+=============================================================
+* 0772a5b: Elijah Green - Deal with the possibilty that there is no education year
+* 1a59861: Brian Martinez - reorganizing splash header icons
+* f077586: Brian Martinez - changing Impact Twitter Message
+
 v5.2.23 - Mar 27, 2013  7:11PM PDT deployed by Aleks Stanisic
 =============================================================
 * 684f39f: Brian Martinez - final changes to AMA page and Impact share options
