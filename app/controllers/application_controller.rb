@@ -26,7 +26,6 @@ class ApplicationController < ActionController::Base
 	around_filter :ensure_permission_to_destroy, :only => :destroy
 
 	skip_before_filter :verify_authenticity_token
-	before_filter :sweep_session
 	before_filter :check_login_token
 	# Helper methods
 	helper_method :currentHost
@@ -55,9 +54,6 @@ class ApplicationController < ActionController::Base
 		return redirect_to :root, :notice => "Access Denied" if current_user.nil? || !current_user.is_admin
 	end
 
-	# Sweep away old sessions
-	def sweep_session; Session.sweep("2 hours"); end
-
 	# Require the user to login
 	# @todo change to an around_filter
 	def login_required
@@ -77,24 +73,6 @@ class ApplicationController < ActionController::Base
   # Check to see if a user is logged in and set session level args
   # @todo cleanup, streamline, and rename method
 	def check_login_token
-
-		# Bump updated_timestamp every page load
-		_session = Session.where(:session_id => request.session_options[:id]).first
-		
-		unless _session.nil?
-
-			# Set the user id on the session
-			if session[:user].is_a?(User)
-				_session.user_id = session[:user].id
-			else
-				_session.user_id = nil
-			end
-
-			# Update the timestamp
-			_session.updated_at = Time.now.to_s(:db)
-			_session.save
-		end
-
 		# HACK: Make this run on every page load.
 		# If there is a referer set in the page url then
 		# Save it to the session for use during registration
