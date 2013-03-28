@@ -13,4 +13,9 @@ namespace :cron do
 	task :view_notifications => :environment do
 		Notification.profile_views
 	end
+
+	desc "Sweep old sessions"
+	task :sweep_session => :environment do
+		Session.sweep(24.hours)
+	end
 end
