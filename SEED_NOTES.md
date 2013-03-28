@@ -1,3 +1,8 @@
+v5.2.23 - Mar 27, 2013  7:11PM PDT deployed by Aleks Stanisic
+=============================================================
+* 684f39f: Brian Martinez - final changes to AMA page and Impact share options
+* 174b310: Elijah Green - Don't open splash page is user is logged in
+
 v5.2.22 - Mar 27, 2013  5:39PM PDT deployed by Aleks Stanisic
 =============================================================
 * 1ed4e98: Aleks Stanisic - styling changes to subjects and grades'
