@@ -1,3 +1,9 @@
+v5.2.25 - Mar 28, 2013  3:35PM PDT deployed by Elijah Green
+===========================================================
+* 7b3957f: Elijah Green - Change how session are swept
+* b92df4b: Elijah Green - Remove some comments
+* 7e56ddc: Elijah Green - Remove organization cache
+
 v5.2.24 - Mar 27, 2013  8:03PM PDT deployed by Aleks Stanisic
 =============================================================
 * 0772a5b: Elijah Green - Deal with the possibilty that there is no education year
