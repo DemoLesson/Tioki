@@ -7,12 +7,12 @@ class Group < ActiveRecord::Base
 	bitswitch :permissions, APP_CONFIG['bitswitches']['group_permissions']
 
 	# Social KVPair
-	kvpair :social
-	#kvpair :location
+	#kvpair :social
 	kvpair :contact
 	kvpair :misc
 
 	store :location
+	store :social
 
 	after_validation :geocode
 	geocoded_by :address
