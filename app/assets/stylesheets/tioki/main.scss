@@ -683,6 +683,21 @@ span.connection_degree {
 		&.AMA {
 			padding: 15px;
 			
+			
+			&.break {
+				border-top: 1px solid $ltgray;
+			}
+			a {
+			color: #F66C4C;
+			}
+		}
+	}
+	
+	p {
+		&.AMA {
+			padding: 15px;
+			width: auto;
+			
 			&.break {
 				border-top: 1px solid $ltgray;
 			}

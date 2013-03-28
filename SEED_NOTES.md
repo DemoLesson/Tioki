@@ -1,3 +1,24 @@
+v5.2.24 - Mar 27, 2013  8:03PM PDT deployed by Aleks Stanisic
+=============================================================
+* 0772a5b: Elijah Green - Deal with the possibilty that there is no education year
+* 1a59861: Brian Martinez - reorganizing splash header icons
+* f077586: Brian Martinez - changing Impact Twitter Message
+
+v5.2.23 - Mar 27, 2013  7:11PM PDT deployed by Aleks Stanisic
+=============================================================
+* 684f39f: Brian Martinez - final changes to AMA page and Impact share options
+* 174b310: Elijah Green - Don't open splash page is user is logged in
+
+v5.2.22 - Mar 27, 2013  5:39PM PDT deployed by Aleks Stanisic
+=============================================================
+* 1ed4e98: Aleks Stanisic - styling changes to subjects and grades'
+* d0be533: Elijah Green - Give parameter to edu_stats link to the root page
+* d83163c: Elijah Green - Splash page from edu_stats
+* 9a46f43: Brian Martinez - almost the last changes to the AMA page
+* bb7a702: Elijah Green - Inherit display style of text field for placeholders
+* ffb1c94: Brian Martinez - changes to ama page for launch of the page
+* f4fb8af: Aleks Stanisic - chnages to about profile
+
 v5.2.21 - Mar 27, 2013 12:02PM PDT deployed by Aleks Stanisic
 =============================================================
 * 9964a74: Aleks Stanisic - fixes to profile header
