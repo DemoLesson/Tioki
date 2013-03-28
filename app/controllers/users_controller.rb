@@ -443,19 +443,21 @@ class UsersController < ApplicationController
 		# Limit to teachers that have job applications
 		@users = @users.joins(:applications).where('users.id = applications.user_id') if params[:applied]
 
-		@educatorcount = User.organization?.count
-
-		#count videos as 1 per user
 		@videos = User.joins(:videos).where('users.id IN (?)', @users.collect(&:id)).count
 
 		# Paginate the users
 		@users = @users.paginate :page => params[:page], :per_page => 100
 
+		@organization_count = User_Group.joins(:user).
+		                                 group(:user_id).
+		                                 where("POW(2, ?) & users_groups.permissions > 0", 2).
+		                                 length
+
 		# Prepare the stats for the admin page
 		@stats = []
 		@stats.push({:name => 'Registered Users', :value => User.count})
 		@stats.push({:name => 'Videos Uploaded', :value => @videos})
-		@stats.push({:name => 'Number of Organization Owners', :value => @educatorcount})
+		@stats.push({:name => 'Number of Organization Owners', :value => @organization_count})
 
 		# Render the page
 		render :teacher_user_list

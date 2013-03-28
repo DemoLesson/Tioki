@@ -53,7 +53,6 @@ class User < ActiveRecord::Base
 	kvpair :contact
 	kvpair :seeking
 	kvpair :social_actions
-	kvpair :cache
 
 	# Serialized data
 	serialize :notification_intervals, Hash
@@ -169,7 +168,7 @@ class User < ActiveRecord::Base
 	# Callbacks in order or processing
 	after_create :create_extra
 	before_save :before_save
-	after_find :_isorg
+	#after_find :_isorg
 
 	# Delete all connections associated with the user
 	before_destroy :remove_connections
@@ -178,13 +177,13 @@ class User < ActiveRecord::Base
 		Connection.mine(:user => self).map(&:destroy)
 	end
 
-	def _isorg
+	#def _isorg
 
-		_up = read_attribute(:updated_at)
+	#	_up = read_attribute(:updated_at)
 
-		# Cache organization value
-		organization? if _up.nil? || 1.day.ago > _up
-	end
+	#	# Cache organization value
+	#	organization? if _up.nil? || 1.day.ago > _up
+	#end
 
 	def create_extra
 		# Create invite code
@@ -814,12 +813,7 @@ class User < ActiveRecord::Base
 
 	def organization?
 		isorg = self.groups.my_permissions(:administrator).organization.count > 0
-		self.cache = {'organization' => isorg ? 'true' : nil} #if updated_at < 1.day.ago
 		return isorg
-	end
-
-	def self.organization?
-		cache(:organization => 'true')
 	end
 
 	def submitted_application?
