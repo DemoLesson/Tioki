@@ -168,7 +168,6 @@ class User < ActiveRecord::Base
 	# Callbacks in order or processing
 	after_create :create_extra
 	before_save :before_save
-	#after_find :_isorg
 
 	# Delete all connections associated with the user
 	before_destroy :remove_connections
@@ -176,14 +175,6 @@ class User < ActiveRecord::Base
 	def remove_connections;
 		Connection.mine(:user => self).map(&:destroy)
 	end
-
-	#def _isorg
-
-	#	_up = read_attribute(:updated_at)
-
-	#	# Cache organization value
-	#	organization? if _up.nil? || 1.day.ago > _up
-	#end
 
 	def create_extra
 		# Create invite code
@@ -812,8 +803,7 @@ class User < ActiveRecord::Base
 	end
 
 	def organization?
-		isorg = self.groups.my_permissions(:administrator).organization.count > 0
-		return isorg
+		self.groups.my_permissions(:administrator).organization.count > 0
 	end
 
 	def submitted_application?
