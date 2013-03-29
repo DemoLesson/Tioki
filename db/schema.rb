@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329015800) do
+ActiveRecord::Schema.define(:version => 20130329184610) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -870,6 +870,7 @@ ActiveRecord::Schema.define(:version => 20130329015800) do
     t.integer  "years_teaching"
     t.boolean  "job_seeking",            :default => false
     t.text     "social"
+    t.text     "contact"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
