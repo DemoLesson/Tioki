@@ -31,6 +31,7 @@ namespace :key_value do
 			kvpairs.each do |kvpair|
 				group.social[kvpair.key] = kvpair.value
 			end
+			group.save
 		end
 	end
 
@@ -41,6 +42,7 @@ namespace :key_value do
 			kvpairs.each do |kvpair|
 				user.social[kvpair.key] = kvpair.value
 			end
+		user.save
 		end
 	end
 end

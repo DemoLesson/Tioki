@@ -7,7 +7,6 @@ class Group < ActiveRecord::Base
 	bitswitch :permissions, APP_CONFIG['bitswitches']['group_permissions']
 
 	# Social KVPair
-	#kvpair :social
 	kvpair :contact
 	kvpair :misc
 
