@@ -45,4 +45,26 @@ namespace :key_value do
 		user.save
 		end
 	end
+
+	desc "Migrate group contact to rails 3.2 key values"
+	task :group_contact => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'contact', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.social[kvpair.key] = kvpair.value
+			end
+		group.save
+		end
+	end
+
+	desc "Migrate group misc to rails 3.2 key values"
+	task :user_contact => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'misc', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.social[kvpair.key] = kvpair.value
+			end
+		group.save
+		end
+	end
 end
