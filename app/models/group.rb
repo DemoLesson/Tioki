@@ -6,10 +6,8 @@ class Group < ActiveRecord::Base
 	# Instantiate BitSwitch
 	bitswitch :permissions, APP_CONFIG['bitswitches']['group_permissions']
 
-	# Social KVPair
-	kvpair :contact
-	kvpair :misc
-
+	store :contact
+	store :misc
 	store :location
 	store :social
 
@@ -46,9 +44,9 @@ class Group < ActiveRecord::Base
 			:processors => [:thumbnail, :timestamper],
 			:date_format => "%Y%m%d%H%M%S"
 
-		def picture_from_url(url)
-    		self.picture = download_remote_file(url)
-  		end
+			def picture_from_url(url)
+				self.picture = download_remote_file(url)
+			end
 
 	# User permissions
 
