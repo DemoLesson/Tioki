@@ -23,4 +23,24 @@ namespace :key_value do
 			group.save
 		end
 	end
+
+	desc "Migrate group social to rails 3.2 key values"
+	task :group_social => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'social', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.social[kvpair.key] = kvpair.value
+			end
+		end
+	end
+
+	desc "Migrate user social to rails 3.2 key values"
+	task :user_social => :environment do
+		User.all.each do |user|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'social', "User:#{user.id}")
+			kvpairs.each do |kvpair|
+				user.social[kvpair.key] = kvpair.value
+			end
+		end
+	end
 end
