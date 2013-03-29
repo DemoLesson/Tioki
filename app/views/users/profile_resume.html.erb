@@ -589,5 +589,7 @@ $(document).ready(function() {
 	</script>
 <% end %>
 <% if self.current_user == @user %>
-	<%= render "profile_completion_popup" %>
+	<% if @completions.size > 0 %>
+		<%= render "profile_completion_popup" %>
+	<% end %>
 <% end %>
