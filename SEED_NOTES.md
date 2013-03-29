@@ -1,3 +1,8 @@
+v5.2.26 - Mar 28, 2013  5:31PM PDT deployed by Aleks Stanisic
+=============================================================
+* 5c67a11: Elijah Green - Check for profile completions size
+* 7d65f66: Elijah Green - Use nil? instead of present
+
 v5.2.25 - Mar 28, 2013  3:35PM PDT deployed by Elijah Green
 ===========================================================
 * 7b3957f: Elijah Green - Change how session are swept
