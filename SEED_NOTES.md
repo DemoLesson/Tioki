@@ -1,3 +1,7 @@
+v5.2.28 - Mar 30, 2013  5:37PM PDT deployed by Aleks Stanisic
+=============================================================
+
+
 v5.2.27 - Mar 30, 2013  5:33PM PDT deployed by Aleks Stanisic
 =============================================================
 * f97dc23: Aleks Stanisic - fixes to featured group styling
