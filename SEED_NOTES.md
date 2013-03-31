@@ -1,3 +1,8 @@
+v5.2.27 - Mar 30, 2013  5:33PM PDT deployed by Aleks Stanisic
+=============================================================
+* f97dc23: Aleks Stanisic - fixes to featured group styling
+* bc7d003: Elijah Green - Update rake
+
 v5.2.26 - Mar 28, 2013  5:31PM PDT deployed by Aleks Stanisic
 =============================================================
 * 5c67a11: Elijah Green - Check for profile completions size
