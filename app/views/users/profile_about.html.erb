@@ -10,6 +10,7 @@
 				<div class="profile-thumb-small" style="float:left;margin:0px 1px 1px 0px;overflow:hidden;background:none">
 					<%= link_to image_tag(c.not_me(@user.id).avatar(:medium), :style => 'min-height:45px;min-width:45px;border-radius:5px'), "/profile/#{c.not_me(@user.id).slug}" %>
 				</div>
+				<div class='popup_avatar'> <%= c.not_me(@user.id).name %> </div>
 			<% end %>
 			<div style="clear:both;"></div>
 		</div>
@@ -629,6 +630,16 @@ $(document).ready(function() {
 		return false;
 	});
 
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.profile-thumb-small').hover(function() {
+        $('.popup_avatar').show();
+    }, function() {
+        $('.popup_avatar').hide();
+    });
 });
 </script>
 <% if self.current_user == @user %>
