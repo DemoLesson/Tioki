@@ -65,15 +65,18 @@
 
 	<%= form_for([@source, @interview.application, @interview]) do |t| %>
 		<table style="width:100%;" class="applications">
+				<% if @interview.datetime_1 || @interview.datetime_2 || @interview.datetime_3 %>
 			<tr>
 				<td>
 						Interview Type: <span style='color:#2AA99B'><%= @interview.interview_type %> Interview</span><br/>
 						Location / Contact: <span style='color:#2AA99B'><%= @interview.location %></span><br /><br />
 						
 						<strong>Please select the date & time that works best for you:</strong><br />
-						<label style='font-weight:normal'>
-							<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
-						</label>
+						<% if not @interview.datetime_1.nil? %>
+							<label style='font-weight:normal'>
+								<input type="radio" name="interview[datetime_selected]" value="1" /> <%= @interview.datetime_1.to_s(:datetime) %><br />
+							</label>
+						<% end %>
 						<% if not @interview.datetime_2.nil? %>
 							<label style='font-weight:normal'>
 								<input type="radio" name="interview[datetime_selected]" value="2" /> <%= @interview.datetime_2.to_s(:datetime) %><br />
@@ -95,6 +98,7 @@
 				</p>
 			</td>
 		</tr>
+	<% end %>
 		<tr>
 			<td>
 				<label>
@@ -103,9 +107,15 @@
 				</label>
 			</td>
 			<td>
-				<p>
-					<span style="font-weight:bold;">TIP: </span> If none of the dates and times above work for you, please use this message to inform the recruiter of your need to reschedule. 
-				</p>
+				<% if @interview.datetime_1 || @interview.datetime_2 || @interview.datetime_3 %>
+					<p>
+						<span style="font-weight:bold;">TIP: </span> If none of the dates and times above work for you, please use this message to inform the recruiter of your need to reschedule. 
+					</p>
+				<% else %>
+					<% if @interview_message %>
+								<%= sanitize(@interview_message.body.gsub(/\n/, '<br/>')) %>
+					<% end %>
+				<% end %>
 			</td>
 		</tr>
 		<tr>
