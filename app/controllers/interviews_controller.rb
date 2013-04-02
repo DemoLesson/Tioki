@@ -50,6 +50,7 @@ END
   def edit
     @interview = Interview.find(params[:id])
 		@application = Application.find(params[:application_id])
+		@interview_message = Message.find_by_tag(@interview.tag!)
 
     if @interview.datetime_selected == 4
       @message = <<-END
