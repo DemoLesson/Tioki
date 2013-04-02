@@ -200,7 +200,7 @@
 									<% end %>
 								</li>
 								<li style="float:left">
-									<a href="/get_started" style="color:#F66C4C;bold">GET STARTED</a>
+									<a href="/get_started/?header_link" style="color:#F66C4C;bold">GET STARTED</a>
 								</li>
 								<li class="user-name" style="float:left">
 									<a href="/me/profile">
@@ -603,6 +603,7 @@
 	<!-- Notifications Window -->  	
 	<% unless currentUser.new_record? %>
 		<div id="notifications" kmodal-resize="false">
+			<h3>Notifications</h3>
 			<ul>
 			</ul>
 		</div>
