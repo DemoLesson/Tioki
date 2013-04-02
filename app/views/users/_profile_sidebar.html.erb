@@ -1,6 +1,8 @@
 <% if self.current_user == @user %>
 	<% @completions = self.current_user.completion_options %>
-	<%= render "profile_completion" %>
+	<% if @completions.size > 0 %>
+		<%= render "profile_completion" %>
+	<% end %>
 <% end %>
 
 <% if self.current_user %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130322202903) do
+ActiveRecord::Schema.define(:version => 20130329184610) do
 
   create_table "abtests", :force => true do |t|
     t.string  "slug"
@@ -416,6 +416,9 @@ ActiveRecord::Schema.define(:version => 20130322202903) do
     t.float    "longitude"
     t.boolean  "featured",             :default => false
     t.text     "location"
+    t.text     "social"
+    t.text     "contact"
+    t.text     "misc"
   end
 
   create_table "helpful_queries", :force => true do |t|
@@ -867,6 +870,7 @@ ActiveRecord::Schema.define(:version => 20130322202903) do
     t.integer  "years_teaching"
     t.boolean  "job_seeking",            :default => false
     t.text     "social"
+    t.text     "contact"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

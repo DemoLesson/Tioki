@@ -49,11 +49,10 @@ class User < ActiveRecord::Base
 
 	# Key Value Pairs
 	# TODO transfer to rails 3.2 kvpairs
-	kvpair :social
-	kvpair :contact
 	kvpair :seeking
-	kvpair :social_actions
-	kvpair :cache
+
+	store :social
+	store :contact
 
 	# Serialized data
 	serialize :notification_intervals, Hash
@@ -169,21 +168,12 @@ class User < ActiveRecord::Base
 	# Callbacks in order or processing
 	after_create :create_extra
 	before_save :before_save
-	after_find :_isorg
 
 	# Delete all connections associated with the user
 	before_destroy :remove_connections
 
 	def remove_connections;
 		Connection.mine(:user => self).map(&:destroy)
-	end
-
-	def _isorg
-
-		_up = read_attribute(:updated_at)
-
-		# Cache organization value
-		organization? if _up.nil? || 1.day.ago > _up
 	end
 
 	def create_extra
@@ -280,7 +270,7 @@ class User < ActiveRecord::Base
 	def completion_options
 		options = []
 
-		options << "occupation" unless self.occupation.present? && self.job_seeking.present?
+		options << "occupation" unless self.occupation.present? && !self.job_seeking.nil?
 		options << "location" unless self.location.present?
 		options << "headline"  unless self.headline.present?
 		options << "social" unless self.social.first
@@ -813,13 +803,7 @@ class User < ActiveRecord::Base
 	end
 
 	def organization?
-		isorg = self.groups.my_permissions(:administrator).organization.count > 0
-		self.cache = {'organization' => isorg ? 'true' : nil} #if updated_at < 1.day.ago
-		return isorg
-	end
-
-	def self.organization?
-		cache(:organization => 'true')
+		self.groups.my_permissions(:administrator).organization.count > 0
 	end
 
 	def submitted_application?

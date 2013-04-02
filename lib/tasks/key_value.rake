@@ -23,4 +23,59 @@ namespace :key_value do
 			group.save
 		end
 	end
+
+	desc "Migrate group social to rails 3.2 key values"
+	task :group_social => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'social', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.social[kvpair.key] = kvpair.value
+			end
+			group.save
+		end
+	end
+
+	desc "Migrate group contact to rails 3.2 key values"
+	task :group_contact => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'contact', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.contact[kvpair.key] = kvpair.value
+			end
+		group.save
+		end
+	end
+
+	desc "Migrate group misc to rails 3.2 key values"
+	task :group_misc => :environment do
+		Group.all.each do |group|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'misc', "Group:#{group.id}")
+			kvpairs.each do |kvpair|
+				group.misc[kvpair.key] = kvpair.value
+			end
+			group.save
+		end
+	end
+
+	desc "Migrate user social to rails 3.2 key values"
+	task :user_social => :environment do
+		User.all.each do |user|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'social', "User:#{user.id}")
+			kvpairs.each do |kvpair|
+				user.social[kvpair.key] = kvpair.value
+			end
+			user.save
+		end
+	end
+
+	desc "Migrate user contact to rails 3.2 key values"
+	task :user_contact => :environment do
+		User.all.each do |user|
+			kvpairs = Kvpair.where('kvpairs.namespace = ? and kvpairs.owner = ?', 'contact', "User:#{user.id}")
+			kvpairs.each do |kvpair|
+				user.contact[kvpair.key] = kvpair.value
+			end
+			user.save
+		end
+	end
 end
