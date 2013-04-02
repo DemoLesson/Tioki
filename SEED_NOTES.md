@@ -1,3 +1,8 @@
+v5.2.30 - Apr 2, 2013  2:53PM PDT deployed by Aleks Stanisic
+============================================================
+* 78b95f2: Brian Martinez - updating Michelle Rhee's information
+* f1634aa: Brian Martinez - changes to AMA page to include Michelle Rhee
+
 v5.2.29 - Apr 2, 2013 11:57AM PDT deployed by Elijah Green
 ==========================================================
 * 9d9d84c: Elijah Green - Fix kvpair migrations
