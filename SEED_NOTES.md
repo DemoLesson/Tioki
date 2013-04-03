@@ -1,3 +1,21 @@
+v5.2.30 - Apr 2, 2013  2:53PM PDT deployed by Aleks Stanisic
+============================================================
+* 78b95f2: Brian Martinez - updating Michelle Rhee's information
+* f1634aa: Brian Martinez - changes to AMA page to include Michelle Rhee
+
+v5.2.29 - Apr 2, 2013 11:57AM PDT deployed by Elijah Green
+==========================================================
+* 9d9d84c: Elijah Green - Fix kvpair migrations
+* ed53e22: Elijah Green - Add message to interview form if there are no dates
+* 2dbf7ba: Elijah Green - kvpair migrations
+* c303784: Elijah Green - Correctly set some kvpairs
+* e06dfe3: Elijah Green - Remove kvpairs except seeking
+* 92f7ae2: Elijah Green - Group kvpair migration
+* 115329b: Elijah Green - Add rest of kvpairs to groups
+* 5c766f0: Elijah Green - Fix social migration
+* 3287272: Elijah Green - Social key value migrations
+* 44732fd: Elijah Green - Add store for group social
+
 v5.2.28 - Mar 30, 2013  5:37PM PDT deployed by Aleks Stanisic
 =============================================================
 
