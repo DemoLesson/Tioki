@@ -80,17 +80,17 @@
 						<!-- LOCATION -->
 						<% location = @group.location %>
 						<strong style="color:#2AA99B">
-						Location: 
+						Location:
 						</strong>
-						<%= location['address'] %>, <%= location['city'] %>, 
-							<% if !location['region'].nil? %> 
+						<%= location['address'] %>, <%= location['city'] %>,
+							<% if location['region'].present? %>
 								<%= location['region'] %>,
-							<% end %> 
+							<% end %>
 						<%= location['postal'] %></br></br>
 
 						<!-- SOCIAL LINKS -->
 						<% social = @group.social %>
-						<% if !social['website'].nil? %>
+						<% if social['website'].present? %>
 						  <% if social['website'].include? '//' %>
 						    <%= link_to image_tag('tioki/icons/globe.png'), social['website'], :target => "_blank" %>
 						  <% else %>
@@ -98,7 +98,7 @@
 						  <% end %>
 						<% end %>
 
-						<% if !social['twitter'].nil? %>
+						<% if social['twitter'].present? %>
 						  <% if social['twitter'].include? '//' %>
 						    <%= link_to image_tag('tioki/icons/twitter2.png'), social['twitter'], :target => "_blank" %>
 						  <% else %>
@@ -106,7 +106,7 @@
 						  <% end %>
 						<% end %>
 						
-						<% if !social['facebook'].nil?  %>
+						<% if social['facebook'].present?  %>
 						  <% if social['facebook'].include? '//' %>
 						    <%= link_to image_tag('tioki/icons/fb_button.png'), social['facebook'], :target => "_blank" %>
 						  <% else %>
@@ -114,7 +114,7 @@
 						  <% end %>
 						<% end %>
 						
-						<% if !social['greatschools'].nil? %>
+						<% if social['greatschools'].present? %>
 						  <% if social['greatschools'].include? '//' %>
 						    <%= link_to image_tag('tioki/icons/greatschools.png'), social['greatschools'], :target => "_blank", :style => "height:25px" %>
 						  <% else %>
