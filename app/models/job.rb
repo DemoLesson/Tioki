@@ -237,4 +237,10 @@ class Job < ActiveRecord::Base
 			NotificationMailer.job_alert(user, self).deliver
 		end
 	end
+
+	def notify_educators_migrated
+		users.each do |user|
+			NotificationMailer.job_alert(user, self).deliver
+		end
+	end
 end
