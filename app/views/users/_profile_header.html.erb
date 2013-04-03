@@ -65,9 +65,9 @@
 					<%= ablang('connection.plural') %>
 					</a>
 				<% end %>
-                
-                <% social = @user.social %>
-				<% if !social['twitter'].nil? %>
+
+				<% social = @user.social %>
+				<% if social['twitter'].present? %>
 					<% if social['twitter'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/twitter2.png', :style=>"margin-top:-20px"), social['twitter'], :target => "_blank" %>
 					<% elsif social['twitter'].include? 'twitter' %>
@@ -77,7 +77,7 @@
 					<% end %>
 				<% end %>
 
-				<% if !social['linkedin'].nil? %>
+				<% if social['linkedin'].present? %>
 					<% if social['linkedin'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/LinkedIn_IN_Icon_25px.png', :border => 0, :style=>"margin-bottom:-0px; margin-left:10px; margin-top:-20px"), social['linkedin'], :target => "_blank" %>
 					<% else %>
@@ -85,7 +85,7 @@
 					<% end %>
 				<% end %>
 
-				<% if !social['edmodo'].nil? %>
+				<% if social['edmodo'].present? %>
 					<% if social['edmodo'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/edmodo.png', :style=>"margin-left:10px; margin-top:-20px"), social['edmodo'], :target => "_blank" %>
 					<% else %>
@@ -93,7 +93,7 @@
 					<% end %>
 				<% end %>
 
-				<% if !social['betterlesson'].nil? %>
+				<% if social['betterlesson'].present? %>
 					<% if social['betterlesson'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/betterlesson.png', :style=>"margin-left:10px; margin-top:-20px"), social['betterlesson'], :target => "_blank" %>
 					<% else %>
@@ -101,7 +101,7 @@
 					<% end %>
 				<% end %>
 
-				<% if !social['teachingchannel'].nil? %>
+				<% if social['teachingchannel'].present? %>
 					<% if social['teachingchannel'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/teachingchannel.png', :style=>"margin-left:10px; margin-top:-20px"), social['teachingchannel'], :target => "_blank" %>
 					<% else %>
@@ -109,7 +109,7 @@
 					<% end %>
 				<% end %>
 				
-				<% if !social['blog'].nil? %>
+				<% if social['blog'].present? %>
 					<% if social['blog'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/blog_icon.png', :style=>"margin-left:10px; margin-top:-20px"), social['blog'], :target => "_blank" %>
 					<% else %>
@@ -117,7 +117,7 @@
 					<% end %>
 				<% end %>
 				
-				<% if !social['website'].nil? %>
+				<% if social['website'].present? %>
 					<% if social['website'].include? '//' %>
 						<%= link_to image_tag('tioki/icons/globe.png', :style=>"margin-left:10px; margin-top:-20px"), social['website'], :target => "_blank" %>
 					<% else %>
