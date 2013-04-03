@@ -13,24 +13,24 @@
 <%= form_tag "/jobs/preferences" do %>
 	<p style="width:auto">
 		Where would you ideally like to work?<br />
-		<%= text_field_tag "user[seeking][location]", @location, :placeholder => "e.g. Brooklyn, NY" %> 
+		<%= text_field_tag "job_seeker[location]", job_seeker.location, :placeholder => "e.g. Brooklyn, NY" %> 
 		<span style="margin-left:15px;margin-right:15px"><em>or</em></span> 
-		<%= check_box_tag "any_location", 1, currentUser.seeking[:location] == "any" %> ANY LOCATION
+		<%= check_box_tag "any_location", 1, job_seeker.any_location %> ANY LOCATION
 	</p>
 
 	<p style="width:auto">
 		What Subject(s) are you seeking employment for?<br />
-		<input type="text" name="user[seeking][subjects]" placeholder="Algebra I, Geometry, Algebra II" />
+		<input type="text" name="job_seeker[subjects]" placeholder="Algebra I, Geometry, Algebra II" />
 	</p>
 
 	<p style="width:auto">
 		Which Grade Level(s) do you prefer?<br />
-		<input type="text" name="user[seeking][grades]" />
+		<input type="text" name="user[grades]" />
 	</p>
 
 	<p style="width:auto">
 		<span style="margin-right:15px">What Organization Type?</span>
-		<%= select_tag('user[seeking][school_type]', options_for_select([["All", "All"], ["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], currentUser.seeking[:school_type])) %>
+		<%= select_tag('job_seeker[school_type]', options_for_select([["All", "All"], ["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], @job_seeker.school_type)) %>
 	</p>
 
 	<p>
@@ -46,14 +46,14 @@
 
 <script type="text/javascript">
  $(document).ready(function() {
-	 $('input[name="user[seeking][subjects]"]').tokenInput("/api/subjects", {
+	 $('input[name="job_seeker[subjects]"]').tokenInput("/api/subjects", {
 		 hintText: "Subjects...",
 		 theme: "facebook",
 		 resultsLimit: 10,
 		 prePopulate:
 		 <%= @subjects.to_json(:only => [:id, :name] ).html_safe %>
 	 });
-	$('input[name="user[seeking][grades]"]').tokenInput("/api/grades", {
+	$('input[name="job_seeker[grades]"]').tokenInput("/api/grades", {
 		hintText: "Grades...",
 		theme: "facebook",
 		resultsLimit: 10,

@@ -3,8 +3,7 @@ class JobSeeker < ActiveRecord::Base
 
 	def job_within?(job)
 		#Formatted As Location:Point1Lat,Point1Long,Point2Lat,Point2Long
-		_, box = self.value.split(":")
-		lat1, long1, lat2, long2 = box.split(",")
+		lat1, long1, lat2, long2 = self.box.split(",")
 
 		if job.group.latitude && job.group.longitude
 			job.group.latitude > lat1.to_f && job.group.latitude < lat2.to_f && job.group.longitude > long1.to_f && job.group.longitude < long2.to_f
