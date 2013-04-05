@@ -343,6 +343,7 @@ GEM
     sunspot_rails (2.0.0)
       nokogiri
       sunspot (= 2.0.0)
+    sunspot_solr (2.0.0)
     systemu (2.5.2)
     terminal-notifier (1.4.2)
     therubyracer (0.11.4)
@@ -438,6 +439,7 @@ DEPENDENCIES
   smart_tuple
   sprockets
   sunspot_rails
+  sunspot_solr
   terminal-notifier
   therubyracer
   thin

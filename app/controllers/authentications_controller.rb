@@ -144,21 +144,6 @@ class AuthenticationsController < ApplicationController
 			end
 		end
 
-		#phone number
-		user= client.profile(:fields => %w(phone-numbers))
-		phone=nil
-		if user.phone_numbers.all != nil
-			user.phone_numbers.all.each do |number|
-				if number.phone_type == "home" || number.phone_type == "mobile"
-					phone = number.phone_number
-					break
-				end
-			end
-		end
-		if phone != nil
-			@user.contact['phone'] = phone
-		end
-
 		#Linkedin integration is currently a one time thing so deleting session keys
 		#and redirecting to profile like create_profile does
 		session[:rtoken] = nil
