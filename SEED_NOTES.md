@@ -1,3 +1,9 @@
+v5.2.32 - Apr 5, 2013  4:19PM PDT deployed by Aleks Stanisic
+============================================================
+* 48d788e: Elijah Green - Add file type extension validation
+* 30698f5: Brian Martinez - update to ama page to reflect new AMA scheduled
+* 8dbab77: Elijah Green - Put sunspot_solr in development
+
 v5.2.31 - Apr 3, 2013  3:42PM PDT deployed by Aleks Stanisic
 ============================================================
 * 5c90a1d: Elijah Green - Remove some references to phone contact information
