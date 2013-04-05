@@ -372,19 +372,19 @@ class JobsController < ApplicationController
 	end
 
 	def preferences
-		if currentUser.jobSeeker
+		if currentUser.job_seeker
 			@job_seeker = currentUser.job_seeker
 		else
 			@job_seeker = JobSeeker.new
 		end
 
-		if currentUser.seeking[:subjects]
-			subject_ids = job_seeker.subject_ids.split(",")
+		if @job_seeker.subject_ids
+			subject_ids = @job_seeker.subject_ids.split(",")
 			@subjects = Subject.where(:id => subject_ids)
 		end
 
-		if @job_seeker.seeking[:grades]
-			grades_ids = job_seeker.grade_ids.split(",")
+		if @job_seeker.grade_ids
+			grades_ids = @job_seeker.grade_ids.split(",")
 			@grades = Grade.where(:id => grades_ids)
 		end
 
@@ -396,13 +396,14 @@ class JobsController < ApplicationController
 				box = Kvpair.seeking_location_box(params[:job_seeker][:location])
 
 				if box
-					@job_seeker.location = "params[:user][:seeking][:location]"
+					@job_seeker.location = params[:job_seeker][:location]
 					@job_seeker.box = box.join(",")
 				else
 					redirect_to :back, "Could not identify location."
 				end
 			end
-
+			@job_seeker.grade_ids = params[:job_seeker][:grade_ids]
+			@job_seeker.subject_ids = params[:job_seeker][:subject_ids]
 
 			@job_seeker.save!
 			self.log_analytic(:user_job_preferences, "User used job preferences",
