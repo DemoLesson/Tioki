@@ -1,0 +1,60 @@
+
+<h5 class='bottom-line' style="padding: 5px 15px 5px 0 !important;">Complete Your Profile</h5>
+
+<div id="profile_complete" style="font-size:10px">
+	<%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
+	<%= image_tag "/assets/completion_icons/completion-bar.png", :width => (currentUser.completion/100.0)*183, :height => 12, :style => "position:absolute" %>
+	<span style='float:right'><%= currentUser.completion %>% </span>
+</div>
+
+
+<br />
+
+<div id="occupation_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/occupation_grey.png", :width => 35  %><p class="completion">Are you a Teacher, Administrator, or Student?  Professor?</p>
+	<%= link_to "Update Occupation", "#", :data => {:completionid => @completions.index("occupation")},:class => "button complete_popup" %>
+</div>
+
+<div id="location_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 35  %><p class="completion">Help your friends find you when searches and sorting</p>
+	<%= link_to "Add Location", "#", :data => {:completionid => @completions.index("location")},:class => "button complete_popup" %>
+</div>
+<div id="headline_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/headline_grey.png", :width => 35  %><p class="completion">Tell us a bit about who you are and what you do</p>
+	<%= link_to "Update Headline", "#", :data => {:completionid => @completions.index("headline")},:class => "button complete_popup" %>
+</div>
+<div id="social_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/social_grey.png", :width => 35  %><p class="completion">Connect your social networks for better sharing</p>
+	<%= link_to "Update Social Networks", "#", :data => {:completionid => @completions.index("social")},:class => "button complete_popup" %>
+</div>
+<div id="subjects_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/subjects_grey.png", :width => 35  %><p class="completion">Let the world know what subjects you specialize in</p>
+	<%= link_to "Update Subjects", "#", :data => {:completionid => @completions.index("subjects")},:class => "button complete_popup" %>
+</div>
+<div id="skills_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/skills_grey.png", :width => 35  %><p class="completion">Skills make us unique.  What are some of your?</p>
+	<%= link_to "Update Skills", "#", :data => {:completionid => @completions.index("skills")},:class => "button complete_popup" %>
+</div>
+<div id="education_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/education_grey.png", :width => 35  %><p class="completion" style="margin-top:-35px">Find your classmates and school networks</p>
+	<%= link_to "Update Education", "#", :data => {:completionid => @completions.index("education")},:class => "button complete_popup" %>
+</div>
+<div id="experience_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/experience_grey.png", :width => 35  %><p class="completion">You're a professional.  Tell us where you practice</p>
+	<%= link_to "Update Work Experience", "#", :data => {:completionid => @completions.index("experience")},:class => "button complete_popup" %>
+</div>
+<div id="picture_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/picture_grey.png", :width => 35  %><p class="completion">Help the Tioki Network recognize you by your picture</p>
+	<%= link_to "Update Photo", "#", :data => {:completionid => @completions.index("picture")},:class => "button complete_popup" %>
+</div>
+<div id="video_select" style="display:none">
+	<%= image_tag "/assets/completion_icons/video_grey.png", :width => 35  %><p class="completion" style="margin-top:-35px">Add a video of you in the classroom to show your awesome talent</p>
+	<%= link_to "Add Video", "#", :data => {:completionid => @completions.index("video")},:class => "button complete_popup" %>
+</div><br />
+
+<div id="completion_right" style="float:right;margin-top:-38px">
+	<%= image_tag "/assets/completion_icons/arrow_right.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
+</div>
+<div id="completion_left" style="float:right;margin-top:-38px;margin-right:25px">
+	<%= image_tag "/assets/completion_icons/arrow_left.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
+</div>
