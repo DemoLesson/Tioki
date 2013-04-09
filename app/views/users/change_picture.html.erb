@@ -3,13 +3,15 @@
 	
 	<section>
 		<% if @user.avatar? %>
+			<div id="new_picture">
+			</div>
 			<h5>Current picture</h5>
 				<div class="bordered_image">
 					<%= image_tag @user.avatar.url(:medium), :id => "user_avatar", :style => "width:250px;border:10px solid #ccc;" %>
 				</div>
 
 		<% else %>
-			<div id="no_picture">
+			<div id="new_picture">
 				<h5>No picture uploaded yet.</h5>
 			</div>
 				<%= image_tag "dl_icons/no_avatar_large.jpg", :id => "user_avatar", :style => "width:250px;border:10px solid #f1f1f1;" %>
