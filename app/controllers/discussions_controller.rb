@@ -350,6 +350,14 @@ BODY
 		return redirect_to :back
 	end
 
+	def approve_comment
+		comment = Comment.find(params[:id])
+		if self.current_user.is_admin
+			comment.update_attribute(:approved, true)
+		end
+		redirect_to comment.root.commentable
+	end
+
   # DELETE /discussions/1
   # DELETE /discussions/1.json
   def destroy

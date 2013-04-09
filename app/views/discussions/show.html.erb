@@ -87,8 +87,8 @@
 			<!-- Start of Replies to Discussion-->
 			<ul>
 				<% @discussion.comment_threads.includes(:user).order("lft").each do |comment| %>
-					<% unless comment.deleted_at && comment.leaf? %>
-						<li style="width:700px;padding:12px 0px 12px 15px !important" id="comment<%=comment.id%>">
+					<% unless (comment.deleted_at && comment.leaf?) || (@discussion.approval && !comment.approved && !self.current_user.is_admin) %>
+						<li style="width:700px;padding:12px 0px 12px 15px !important;<%= "background-color:#FF9999" if @discussion.approval && !comment.approved %>" id="comment<%=comment.id%>">
 							<a name="c<%= comment.id %>"></a>
 
 							<div <% if comment.child? %>style="margin-left:65px"<% end %> class="comments">
@@ -126,6 +126,10 @@
 										<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
 										|
 										<%= link_to "Delete", { :action => "destroy_comment", :id => comment.id } %>
+										<% if self.current_user.is_admin %>
+											|
+											<%= link_to "Approve", { :action => "approve_comment", :id => comment.id } %>
+										<% end %>
 									<% end %>
 								</p>
 							<% else %>
