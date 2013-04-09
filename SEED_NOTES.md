@@ -1,3 +1,8 @@
+v5.2.34 - Apr 9, 2013 11:39AM PDT deployed by Aleks Stanisic
+============================================================
+* 5553008: Elijah Green - Note that picture has been updated
+* 3d309a2: Elijah Green - Don't show "No picture uploaded" if new picture is uploaded
+
 v5.2.33 - Apr 9, 2013 11:03AM PDT deployed by Aleks Stanisic
 ============================================================
 * 3a2d1f4: Brian Martinez - fixing the profile completion sidebar
