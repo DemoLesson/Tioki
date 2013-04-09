@@ -9,7 +9,9 @@
 				</div>
 
 		<% else %>
-			<h5>No picture uploaded yet.</h5>
+			<div id="no_picture">
+				<h5>No picture uploaded yet.</h5>
+			</div>
 				<%= image_tag "dl_icons/no_avatar_large.jpg", :id => "user_avatar", :style => "width:250px;border:10px solid #f1f1f1;" %>
 		<% end %>
 
