@@ -74,6 +74,12 @@
 		</script>
 	</div>
 
+  <div class="field" style="margin-left:75px" >
+		<br /><% if self.current_user.is_admin %>
+			<%= f.check_box :approval %> This Discussion requires approval for comments
+		<% end %>
+	</div>
+
   <div class="actions">
     <%= f.submit :style => "margin:10px 0px 0px 60px" %> <%= link_to ' Cancel', discussions_path %>
   </div>

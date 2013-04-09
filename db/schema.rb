@@ -261,8 +261,8 @@ ActiveRecord::Schema.define(:version => 20130409190219) do
     t.integer  "total_hours_teaching"
     t.integer  "total_hours_planning"
     t.integer  "total_hours_grading"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "edu_network_public"
     t.integer  "edu_network_private"
     t.integer  "edu_network_charter"
