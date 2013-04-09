@@ -1,3 +1,8 @@
+v5.2.33 - Apr 9, 2013 11:03AM PDT deployed by Aleks Stanisic
+============================================================
+* 3a2d1f4: Brian Martinez - fixing the profile completion sidebar
+* 8209b55: Aleks Stanisic - ama page change
+
 v5.2.32 - Apr 5, 2013  4:19PM PDT deployed by Aleks Stanisic
 ============================================================
 * 48d788e: Elijah Green - Add file type extension validation
