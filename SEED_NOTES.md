@@ -1,3 +1,19 @@
+v5.2.34 - Apr 9, 2013 11:39AM PDT deployed by Aleks Stanisic
+============================================================
+* 5553008: Elijah Green - Note that picture has been updated
+* 3d309a2: Elijah Green - Don't show "No picture uploaded" if new picture is uploaded
+
+v5.2.33 - Apr 9, 2013 11:03AM PDT deployed by Aleks Stanisic
+============================================================
+* 3a2d1f4: Brian Martinez - fixing the profile completion sidebar
+* 8209b55: Aleks Stanisic - ama page change
+
+v5.2.32 - Apr 5, 2013  4:19PM PDT deployed by Aleks Stanisic
+============================================================
+* 48d788e: Elijah Green - Add file type extension validation
+* 30698f5: Brian Martinez - update to ama page to reflect new AMA scheduled
+* 8dbab77: Elijah Green - Put sunspot_solr in development
+
 v5.2.31 - Apr 3, 2013  3:42PM PDT deployed by Aleks Stanisic
 ============================================================
 * 5c90a1d: Elijah Green - Remove some references to phone contact information

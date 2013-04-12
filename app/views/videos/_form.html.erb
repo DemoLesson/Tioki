@@ -70,13 +70,27 @@
 
 <br /><br />
 
-<%= direct_upload_form_for @uploader do |f| %>
-  	<div class="field">
+<%= direct_upload_form_for @uploader, :html => {:onsubmit => "return videoValidate();"} do |f| %>
+	<div class="field">
 	<h7>Upload file from Your Computer</h7><br / >
 	<%= f.file_field :video %>
-	<%= f.submit "     Upload     ", :class => "btn btn-success" %> 
-	</div> 
+	<%= f.submit "     Upload     ", :class => "btn btn-success" %>
+	</div>
 <% end %>
+<script type="text/javascript">
+	var validExts = [ 'avi', 'dv', 'mov', 'qt', 'mpg', 'm4v', 'mpg2', 'mpeg2', 'mpeg4', 'mp4', '3gp', '3g2', 'asf', 'wmv', 'flv' ];
+
+	function videoValidate() {
+		var filename = $("#video_uploader_video").val();
+		var ext = filename.split('.').pop();
+		if(!(validExts.indexOf(ext) > -1)) {
+			alert("The file type you are trying to upload is not supported. The file must be one of these following types: " + validExts.join(", ") + ".");
+			return false;
+		}
+		return true;
+	}
+
+</script>
 
 <em>or</em>
 	
