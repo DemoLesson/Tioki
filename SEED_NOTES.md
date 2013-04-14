@@ -1,3 +1,9 @@
+v5.2.35 - Apr 14, 2013 12:25PM PDT deployed by Aleks Stanisic
+=============================================================
+* 348b4b7: Aleks Stanisic - chnages to featured jobs
+* 7a6c814: Brian Martinez - super important changes to the AMA page
+* 06e74d9: Brian Martinez - changes to the profile completion partial
+
 v5.2.34 - Apr 9, 2013 11:39AM PDT deployed by Aleks Stanisic
 ============================================================
 * 5553008: Elijah Green - Note that picture has been updated
