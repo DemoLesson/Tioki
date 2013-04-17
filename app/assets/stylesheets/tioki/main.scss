@@ -363,6 +363,11 @@ span.connection_degree {
 						font-weight: bold;
 						color: #000;
 					}
+					&.completion{
+						width:180px;
+						margin-left:40px;
+						margin-top:-40px;
+					}
 				}
 				.info { 
 					padding: 10px 0;

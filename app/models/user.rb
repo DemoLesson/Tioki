@@ -49,10 +49,10 @@ class User < ActiveRecord::Base
 
 	# Key Value Pairs
 	# TODO transfer to rails 3.2 kvpairs
-	kvpair :social
-	kvpair :contact
 	kvpair :seeking
-	kvpair :social_actions
+
+	store :social
+	store :contact
 
 	# Serialized data
 	serialize :notification_intervals, Hash

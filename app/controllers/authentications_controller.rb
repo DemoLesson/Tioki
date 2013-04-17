@@ -85,7 +85,7 @@ class AuthenticationsController < ApplicationController
 		#begin populating profile
 		#set teacher.linkedin
 		user = client.profile(:fields => %w(public-profile-url))
-		@user.social << {:linkedin => user.public_profile_url}
+		@user.social['linkedin'] = user.public_profile_url
 
 		#educations
 		user = client.profile(:fields => %w(educations))
@@ -142,21 +142,6 @@ class AuthenticationsController < ApplicationController
 
 				experience.save
 			end
-		end
-
-		#phone number
-		user= client.profile(:fields => %w(phone-numbers))
-		phone=nil
-		if user.phone_numbers.all != nil
-			user.phone_numbers.all.each do |number|
-				if number.phone_type == "home" || number.phone_type == "mobile"
-					phone = number.phone_number
-					break
-				end
-			end
-		end
-		if phone != nil
-			@user.contact << {:phone => phone}
 		end
 
 		#Linkedin integration is currently a one time thing so deleting session keys

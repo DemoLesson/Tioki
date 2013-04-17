@@ -389,7 +389,6 @@ Preview::Application.routes.draw do
 	match 'profileattachments' => 'attachments#profileattachments'
 	match 'techsuggestion' => 'technologies#techsuggestion'
 	match 'sendtechsuggestion' => 'technologies#sendtechsuggestion'
-	match 'tioki_bucks' => 'users#tioki_bucks'
 	match 'get_started' => 'users#get_started'
 
 	#Invite connection

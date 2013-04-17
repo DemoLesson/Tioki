@@ -1,3 +1,49 @@
+v5.2.35 - Apr 14, 2013 12:25PM PDT deployed by Aleks Stanisic
+=============================================================
+* 348b4b7: Aleks Stanisic - chnages to featured jobs
+* 7a6c814: Brian Martinez - super important changes to the AMA page
+* 06e74d9: Brian Martinez - changes to the profile completion partial
+
+v5.2.34 - Apr 9, 2013 11:39AM PDT deployed by Aleks Stanisic
+============================================================
+* 5553008: Elijah Green - Note that picture has been updated
+* 3d309a2: Elijah Green - Don't show "No picture uploaded" if new picture is uploaded
+
+v5.2.33 - Apr 9, 2013 11:03AM PDT deployed by Aleks Stanisic
+============================================================
+* 3a2d1f4: Brian Martinez - fixing the profile completion sidebar
+* 8209b55: Aleks Stanisic - ama page change
+
+v5.2.32 - Apr 5, 2013  4:19PM PDT deployed by Aleks Stanisic
+============================================================
+* 48d788e: Elijah Green - Add file type extension validation
+* 30698f5: Brian Martinez - update to ama page to reflect new AMA scheduled
+* 8dbab77: Elijah Green - Put sunspot_solr in development
+
+v5.2.31 - Apr 3, 2013  3:42PM PDT deployed by Aleks Stanisic
+============================================================
+* 5c90a1d: Elijah Green - Remove some references to phone contact information
+* f96342a: Elijah Green - More empty string checks
+* cfafbb0: Elijah Green - Check if social links are empty string
+
+v5.2.30 - Apr 2, 2013  2:53PM PDT deployed by Aleks Stanisic
+============================================================
+* 78b95f2: Brian Martinez - updating Michelle Rhee's information
+* f1634aa: Brian Martinez - changes to AMA page to include Michelle Rhee
+
+v5.2.29 - Apr 2, 2013 11:57AM PDT deployed by Elijah Green
+==========================================================
+* 9d9d84c: Elijah Green - Fix kvpair migrations
+* ed53e22: Elijah Green - Add message to interview form if there are no dates
+* 2dbf7ba: Elijah Green - kvpair migrations
+* c303784: Elijah Green - Correctly set some kvpairs
+* e06dfe3: Elijah Green - Remove kvpairs except seeking
+* 92f7ae2: Elijah Green - Group kvpair migration
+* 115329b: Elijah Green - Add rest of kvpairs to groups
+* 5c766f0: Elijah Green - Fix social migration
+* 3287272: Elijah Green - Social key value migrations
+* 44732fd: Elijah Green - Add store for group social
+
 v5.2.28 - Mar 30, 2013  5:37PM PDT deployed by Aleks Stanisic
 =============================================================
 

@@ -1,12 +1,12 @@
 
-<h3 style="padding: 5px 15px 15px 0 !important;">Complete Your Profile</h3>
+<h5 class='bottom-line' style="padding: 5px 15px 5px 0 !important;">Complete Your Profile</h5>
 
-
-<div id="profile_complete" style="font-size:10px;float:right;margin-right:15px">
-<%= currentUser.completion %>% Complete
+<div id="profile_complete" style="font-size:10px">
+	<%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
+	<%= image_tag "/assets/completion_icons/completion-bar.png", :width => (currentUser.completion/100.0)*183, :height => 12, :style => "position:absolute" %>
+	<span style='float:right'><%= currentUser.completion %>% </span>
 </div>
-<%= image_tag "/assets/completion_icons/completion-container.png", :style => "position:absolute" %>
-<%= image_tag "/assets/completion_icons/completion-bar.png", :width => (currentUser.completion/100.0)*183, :height => 12, :style => "position:absolute" %>
+
 
 <br />
 
@@ -14,6 +14,7 @@
 	<%= image_tag "/assets/completion_icons/occupation_grey.png", :width => 35  %><p class="completion">Are you a Teacher, Administrator, or Student?  Professor?</p>
 	<%= link_to "Update Occupation", "#", :data => {:completionid => @completions.index("occupation")},:class => "button complete_popup" %>
 </div>
+
 <div id="location_select" style="display:none">
 	<%= image_tag "/assets/completion_icons/location_grey.png", :width => 35  %><p class="completion">Help your friends find you when searches and sorting</p>
 	<%= link_to "Add Location", "#", :data => {:completionid => @completions.index("location")},:class => "button complete_popup" %>
@@ -51,9 +52,9 @@
 	<%= link_to "Add Video", "#", :data => {:completionid => @completions.index("video")},:class => "button complete_popup" %>
 </div><br />
 
-<div id="completion_right" style="float:right;margin-top:-20px;margin-right:15px">
+<div id="completion_right" style="float:right;margin-top:-38px">
 	<%= image_tag "/assets/completion_icons/arrow_right.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
 </div>
-<div id="completion_left" style="float:right;margin-top:-20px;margin-right:5px">
+<div id="completion_left" style="float:right;margin-top:-38px;margin-right:25px">
 	<%= image_tag "/assets/completion_icons/arrow_left.png", :style => 'height:20px;background-color:#ccc;padding:0px 3px;cursor:pointer' %>
 </div>

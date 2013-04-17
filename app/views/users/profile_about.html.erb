@@ -1,7 +1,7 @@
 <section id="main-content" class="inner-content">
 	<%= render "profile_header" %>
 
-	<% if @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
+	<% if @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
 		<div style="padding:10px 0px 0px 20px;width:960px; color:#2AA99B;">
 			<h3 style="margin-top:-15px; margin-bottom:-20px">
 				<%= @user.first_name%>'s Network
@@ -108,7 +108,8 @@
 		
 		<section class="sidebar" style="float:right;margin-top:-17px" >
 			<% if @application != nil %>
-				<!-- START Recruitor Tools -->
+			
+				<!-- START Recruiter Tools -->
 				<section id="info" class="panel one-column right-side" style="width:230px; background-color:#FBEFD5; margin-top:18px">
 					<h5 class="bottom-line" style="margin-left:5px">
 						Recruiter Tools 
@@ -135,10 +136,13 @@
 					<a style =" margin-left:5px; color:#2AA99B" href="<%= url_for([@application.job.group, @application.job, :applications])%>">
 						Back to Applicants
 					</a>
-				</section> <!-- END RECRUITOR TOOLS -->
+				</section> 
+				<!-- END RECRUITOR TOOLS -->
 			<% end %>
+			
+			
 			<!-- Connection Information -->
-			<% unless @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 55 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
+			<% unless @user.id == 25 || @user.id == 3 || @user.id == 51 || @user.id == 9 || @user.id == 119183 || @user.id == 118450 || @user.id == 119076 || @user.id == 118211 || @user.id == 119154 %>
 			<section class="info">
 				<a href="/profile/<%= @user.slug %>/connections" style="float:right;color:#2AA99B;margin:17px 5px 0 0">View All</a>
 				<h5 class="bottom-line">
