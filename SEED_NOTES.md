@@ -1,3 +1,7 @@
+v5.2.37 - Apr 19, 2013 11:06PM PDT deployed by Aleks Stanisic
+=============================================================
+* 64cf3c4: Elijah Green - Change wording of accept connections and redirect correctly
+
 v5.2.36 - Apr 19, 2013 10:12PM PDT deployed by Aleks Stanisic
 =============================================================
 * aa7cb11: Brian Martinez - changes to AMA page
