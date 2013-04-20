@@ -1,3 +1,10 @@
+v5.2.36 - Apr 19, 2013 10:12PM PDT deployed by Aleks Stanisic
+=============================================================
+* aa7cb11: Brian Martinez - changes to AMA page
+* 579a58a: Elijah Green - Stay on page where logged in from
+* 86e4f05: Elijah Green - Allow users to accepted connections from profile
+* d8ded98: Elijah Green - Change --pid=dir= to --pid-dir=
+
 v5.2.35 - Apr 14, 2013 12:25PM PDT deployed by Aleks Stanisic
 =============================================================
 * 348b4b7: Aleks Stanisic - chnages to featured jobs
