@@ -35,8 +35,8 @@
 
 	<p style="width:auto">
 		Do you want to be actively recruited from schools?
-		<%= radio_button_tag 'user[seeking][recruitable]', 'yes', currentUser.seeking.recruitable == 'yes' %> Yes
-		<%= radio_button_tag 'user[seeking][recruitable]', 'no', currentUser.seeking.recruitable == 'no' %> No
+		<%= radio_button_tag 'job_seeker[recruitable]', true, @job_seeker.recruitable %> Yes
+		<%= radio_button_tag 'job_seeker[recruitable]', false, !@job_seeker.recruitable %> No
 	</p>
 
 	<p>

@@ -80,16 +80,17 @@ namespace :key_value do
 	end
 
 	desc "Migrating seeking kvpairs to rails 3.2 key values"
-	task :user_contact => :environment do
+	task :user_seeking => :environment do
 		User.all.each do |user|
 			if user.seeking.count > 0
 				job_seeker = JobSeeker.new
+				job_seeker.user_id = user.id
 				job_seeker.grade_ids = user.seeking.grades
 				job_seeker.subject_ids = user.seeking.subjects
-				if user.seeking.location == "any"
+				if user.seeking.location == 'any'
 					job_seeker.any_location = true
 				else
-					location, box = user.seeking.location.split(":")
+					location, box = user.seeking.location.split(':')
 					job_seeker.location = location
 					job_seeker.box = box
 				end

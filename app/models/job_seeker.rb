@@ -1,5 +1,6 @@
 class JobSeeker < ActiveRecord::Base
   attr_accessible :any_location, :box, :grade_ids, :location, :school_type, :subject_ids, :user_id
+	belongs_to :user
 
 	def job_within?(job)
 		#Formatted As Location:Point1Lat,Point1Long,Point2Lat,Point2Long

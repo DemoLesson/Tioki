@@ -389,11 +389,12 @@ class JobsController < ApplicationController
 		end
 
 		if request.post?
-			if params[:any_location]
+			if params[:job_seeker][:any_location]
 				@job_seeker.any_location = true
+					@job_seeker.location = nil
 			else
 				@job_seeker.any_location = false
-				box = Kvpair.seeking_location_box(params[:job_seeker][:location])
+				box = JobSeeker.seeking_location_box(params[:job_seeker][:location])
 
 				if box
 					@job_seeker.location = params[:job_seeker][:location]
@@ -402,8 +403,9 @@ class JobsController < ApplicationController
 					redirect_to :back, "Could not identify location."
 				end
 			end
-			@job_seeker.grade_ids = params[:job_seeker][:grade_ids]
-			@job_seeker.subject_ids = params[:job_seeker][:subject_ids]
+			@job_seeker.grade_ids = params[:job_seeker][:grades]
+			@job_seeker.subject_ids = params[:job_seeker][:subjects]
+			@job_seeker.recruitable = params[:job_seeker][:recruitable] == 'true'
 
 			@job_seeker.save!
 			self.log_analytic(:user_job_preferences, "User used job preferences",
