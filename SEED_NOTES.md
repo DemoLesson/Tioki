@@ -1,3 +1,20 @@
+v5.2.37 - Apr 19, 2013 11:06PM PDT deployed by Aleks Stanisic
+=============================================================
+* 64cf3c4: Elijah Green - Change wording of accept connections and redirect correctly
+
+v5.2.36 - Apr 19, 2013 10:12PM PDT deployed by Aleks Stanisic
+=============================================================
+* aa7cb11: Brian Martinez - changes to AMA page
+* 579a58a: Elijah Green - Stay on page where logged in from
+* 86e4f05: Elijah Green - Allow users to accepted connections from profile
+* d8ded98: Elijah Green - Change --pid=dir= to --pid-dir=
+
+v5.2.35 - Apr 14, 2013 12:25PM PDT deployed by Aleks Stanisic
+=============================================================
+* 348b4b7: Aleks Stanisic - chnages to featured jobs
+* 7a6c814: Brian Martinez - super important changes to the AMA page
+* 06e74d9: Brian Martinez - changes to the profile completion partial
+
 v5.2.34 - Apr 9, 2013 11:39AM PDT deployed by Aleks Stanisic
 ============================================================
 * 5553008: Elijah Green - Note that picture has been updated

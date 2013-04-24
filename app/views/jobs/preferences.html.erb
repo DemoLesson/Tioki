@@ -33,6 +33,12 @@
 		<%= select_tag('job_seeker[school_type]', options_for_select([["All", "All"], ["District", "District"], ["Charter","Charter"], ["Private", "Private"], ["Other","Other"]], @job_seeker.school_type)) %>
 	</p>
 
+	<p style="width:auto">
+		Do you want to be actively recruited from schools?
+		<%= radio_button_tag 'user[seeking][recruitable]', 'yes', currentUser.seeking.recruitable == 'yes' %> Yes
+		<%= radio_button_tag 'user[seeking][recruitable]', 'no', currentUser.seeking.recruitable == 'no' %> No
+	</p>
+
 	<p>
 		<%= submit_tag "Save 'em" %>
 	</p>

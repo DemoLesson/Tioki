@@ -15,12 +15,12 @@ namespace :rubber do
 
 		desc "Stops the solr server"
 		task :stop, :roles => :solr do
-			rsudo "if [ -f /var/run/sunspot-solr.pid ]; then cd #{current_path} && RAILS_ENV=#{Rubber.env} sunspot-solr --pid=dir=/var/run stop; fi"
+			rsudo "if [ -f /var/run/sunspot-solr.pid ]; then cd #{current_path} && RAILS_ENV=#{Rubber.env} sunspot-solr --pid-dir=/var/run stop; fi"
 		end
 
 		desc "Starts the solr server"
 		task :start, :roles => :solr do
-			rsudo "cd #{current_path} && RAILS_ENV=#{Rubber.env} sunspot-solr --pid=dir=/var/run start"
+			rsudo "cd #{current_path} && RAILS_ENV=#{Rubber.env} sunspot-solr --pid-dir=/var/run start"
 		end
 
 		desc "Restarts the solr server"
