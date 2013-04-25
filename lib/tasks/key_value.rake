@@ -94,7 +94,7 @@ namespace :key_value do
 					job_seeker.location = location
 					job_seeker.box = box
 				end
-				job_seeker.school_type
+				job_seeker.school_type = user.seeking.school_type
 				job_seeker.save!
 			end
 		end

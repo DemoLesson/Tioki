@@ -405,6 +405,7 @@ class JobsController < ApplicationController
 			end
 			@job_seeker.grade_ids = params[:job_seeker][:grades]
 			@job_seeker.subject_ids = params[:job_seeker][:subjects]
+			@job_seeker.school_type = params[:job_seeker][:school_type]
 			@job_seeker.recruitable = params[:job_seeker][:recruitable] == 'true'
 
 			@job_seeker.save!
