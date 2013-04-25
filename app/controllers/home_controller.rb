@@ -34,7 +34,7 @@ class HomeController < ApplicationController
 				end
 
 				# Prepare the new connections bin
-				connections = Whiteboard.getActivity(true, :restrict => :connection).limit(6).all.recurse{|w| w.getModels}
+				connections = Whiteboard.getActivity(true, :restrict => :connection).limit(15).all.recurse{|w| w.getModels}
 				@post = {:slug => 'connections', :data => connections}
 				@whiteboard.unshift(render_to_string('whiteboards/show', :layout => false))
 

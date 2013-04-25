@@ -57,7 +57,7 @@
 	<section id="panels">
 
 		<!-- START Whiteboard -->
-		<section class="panel two-column left-side">
+		<section class="panel three-column left-side">
 			<h3>
 				<a href="#">
 				Whiteboard
@@ -105,8 +105,8 @@
 			</ul>
 		</section>
 
-		<!-- START Suggested educators to connect with -->
-		<% if @completions.size > 0 %>
+		<!-- START Suggested educators to connect with-->
+		<!--<% if @completions.size > 0 %>
 			<section id="list" class="panel one-column right-side">
 				<section style="margin 0;padding: 12px 15px 12px 15px !important">
 						<%= render "users/profile_completion" %>
@@ -141,10 +141,10 @@
 					<div class="clear"></div>
 				</div>
 			</section>
-		<% end %>
+		<% end %>-->
 		
 		<!-- START Who Viewed Your Profile -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<h3>
 				<a href="/me/profile/stats">
 				Who's Viewed Your Profile? 
@@ -160,10 +160,10 @@
 					</p>
 				<li>
 			</ul>
-		</section> <!-- END WHO'S VIEWED YOUR PROFILE -->
+		</section>--> <!-- END WHO'S VIEWED YOUR PROFILE -->
 		
 		<!-- START Featured Jobs -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<h3>
 				Featured Jobs
 			</h3>
@@ -193,17 +193,17 @@
 					<%= link_to "View More Jobs →", "/jobs", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				</li>
 			</ul>
-		</section><!-- END Featured Jobs -->
+		</section>--><!-- END Featured Jobs -->
 		
 		<!-- START Featured Groups -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<h3>
 				Featured Groups
 			</h3>
 			<ul>
-				<% @featured_groups.each do |group| %>
+				<% @featured_groups.each do |group| %>-->
 					<!-- Featured Group 1-->
-					<li style="padding:12px 15px 12px 15px !important;width:280px">
+					<!--<li style="padding:12px 15px 12px 15px !important;width:280px">
 						<%= link_to image_tag(group.picture(:thumb), :style => "width:45px"), group %>
 						<p style="margin:-25px 0px 0px 60px;width:220px; height:auto;">
 							<% if group.name.length < 21 %>
@@ -223,10 +223,10 @@
 				<%= link_to "View More Groups →", "/groups", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				</li>
 			</ul>
-		</section><!-- END Featued Groups -->
+		</section>--><!-- END Featued Groups -->
 		
 		<!-- START Discussions -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<h3>Featured AMA's</h3>
 			<ul>
 				<% @discussions.where(:id => [ '157', '159', '149']).each do |discussion| %>
@@ -257,10 +257,10 @@
 					<%= link_to "View More Discussions →", "/discussions", :style => 'float:right;margin-right:5px;color:#F44C4C'%>
 				</li>
 			</ul>
-		</section><!-- END Discussions -->
+		</section>--><!-- END Discussions -->
 		
 		<!-- START Upcoming Events -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<%= link_to image_tag("tioki/icons/calendar.png"), "/events/new", :style => "float:right;margin:17px 15px 0px 0px;" %>
 			<h3>
 				<a href="#">
@@ -283,9 +283,9 @@
 							</div>
 							<p>
 							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
-							</p>
+							</p>-->
 							<!--div class=" quick-action star-gold"></div-->
-						</li>
+						<!--</li>
 					<% end %>
 				<% else %>
 					<% rsvp.each do |event| %>
@@ -311,8 +311,8 @@
 				Create New Event
 				</a>
 			</section>		
-		</section> <!-- END UPCOMING EVENTS -->
-		<div class="clearfloat"></div>
+		</section>--> <!-- END UPCOMING EVENTS -->
+		<!--<div class="clearfloat"></div>-->
 	</section>
 	<div class="clearfloat"></div>
 </section> <!-- End Main Content -->
