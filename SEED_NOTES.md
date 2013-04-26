@@ -1,3 +1,12 @@
+v5.2.39 - Apr 26, 2013  4:21PM PDT deployed by Elijah Green
+===========================================================
+* fb5195b: Aleks Stanisic - removing upcomming events from dashboard
+* 0bebfad: Elijah Green - New job seeker
+* 78b5b67: Elijah Green - Add recruitable
+* eec7677: Elijah Green - seeking migration
+* 399bd0f: Elijah Green - Changes to job preferences page
+* c051c92: Elijah Green - Add job_seeker
+
 v5.2.38 - Apr 24, 2013  1:07PM PDT deployed by Aleks Stanisic
 =============================================================
 * 233fb03: Aleks Stanisic - changes to featured AMA on dashboard
