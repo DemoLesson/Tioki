@@ -1,3 +1,8 @@
+v5.2.38 - Apr 24, 2013  1:07PM PDT deployed by Aleks Stanisic
+=============================================================
+* 233fb03: Aleks Stanisic - changes to featured AMA on dashboard
+* b1c8acd: Elijah Green - Add whether not a user can be recruited by schools
+
 v5.2.37 - Apr 19, 2013 11:06PM PDT deployed by Aleks Stanisic
 =============================================================
 * 64cf3c4: Elijah Green - Change wording of accept connections and redirect correctly

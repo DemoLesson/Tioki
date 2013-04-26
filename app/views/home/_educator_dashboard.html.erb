@@ -229,7 +229,7 @@
 		<section id="list" class="panel one-column right-side">
 			<h3>Featured AMA's</h3>
 			<ul>
-				<% @discussions.where(:id => [ '149', '147', '141']).each do |discussion| %>
+				<% @discussions.where(:id => [ '157', '159', '149']).each do |discussion| %>
 					<li style="padding:12px 15px 12px 5px !important;width:290px">
 					<%  if self.current_user %>
 						<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }, :style => "float:right" %>
@@ -260,7 +260,7 @@
 		</section><!-- END Discussions -->
 		
 		<!-- START Upcoming Events -->
-		<section id="list" class="panel one-column right-side">
+		<!--<section id="list" class="panel one-column right-side">
 			<%= link_to image_tag("tioki/icons/calendar.png"), "/events/new", :style => "float:right;margin:17px 15px 0px 0px;" %>
 			<h3>
 				<a href="#">
@@ -285,7 +285,7 @@
 							<%= link_to event.name, event %> &mdash; <%= event.description.split(' ')[0..10].join(' ') + "..." %>
 							</p>
 							<!--div class=" quick-action star-gold"></div-->
-						</li>
+						<!--</li>
 					<% end %>
 				<% else %>
 					<% rsvp.each do |event| %>
@@ -311,7 +311,7 @@
 				Create New Event
 				</a>
 			</section>		
-		</section> <!-- END UPCOMING EVENTS -->
+		</section>--> <!-- END UPCOMING EVENTS -->
 		<div class="clearfloat"></div>
 	</section>
 	<div class="clearfloat"></div>
