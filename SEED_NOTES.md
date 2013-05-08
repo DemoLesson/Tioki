@@ -1,3 +1,7 @@
+v5.2.40 - May 8, 2013  2:51PM PDT deployed by Aleks Stanisic
+============================================================
+* 827d8ce: Aleks Stanisic - changes to the ama page and header
+
 v5.2.39 - Apr 26, 2013  4:21PM PDT deployed by Elijah Green
 ===========================================================
 * fb5195b: Aleks Stanisic - removing upcomming events from dashboard
