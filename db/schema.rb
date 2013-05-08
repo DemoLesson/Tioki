@@ -156,14 +156,13 @@ ActiveRecord::Schema.define(:version => 20130424032612) do
     t.string   "title",            :default => ""
     t.text     "body"
     t.string   "subject",          :default => ""
-    t.integer  "user_id",          :default => 0,     :null => false
+    t.integer  "user_id",          :default => 0,  :null => false
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "approved",         :default => false
   end
 
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
@@ -246,7 +245,6 @@ ActiveRecord::Schema.define(:version => 20130424032612) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "owner"
-    t.boolean  "approval",   :default => false
   end
 
   add_index "discussions", ["owner"], :name => "index_discussions_on_owner"
