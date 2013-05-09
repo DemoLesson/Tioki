@@ -1,3 +1,7 @@
+v5.2.41 - May 8, 2013 11:14PM PDT deployed by Aleks Stanisic
+============================================================
+* c94eb06: Aleks Stanisic - updating featured amas
+
 v5.2.40 - May 8, 2013  2:51PM PDT deployed by Aleks Stanisic
 ============================================================
 * 827d8ce: Aleks Stanisic - changes to the ama page and header
