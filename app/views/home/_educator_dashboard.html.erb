@@ -229,7 +229,7 @@
 		<section id="list" class="panel one-column right-side">
 			<h3>Featured AMA's</h3>
 			<ul>
-				<% @discussions.where(:id => [ '157', '159', '149']).each do |discussion| %>
+				<% @discussions.where(:id => [ '159', '157', '152']).each do |discussion| %>
 					<li style="padding:12px 15px 12px 5px !important;width:290px">
 					<%  if self.current_user %>
 						<%= link_to "Follow", { :controller => "discussions",:action => "follow_discussion", :id => discussion.id }, :style => "float:right" %>
