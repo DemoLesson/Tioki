@@ -1,3 +1,7 @@
+v5.2.42 - May 20, 2013 11:16PM PDT deployed by Aleks Stanisic
+=============================================================
+* 228b483: Aleks Stanisic - changes to job preferences page
+
 v5.2.41 - May 8, 2013 11:14PM PDT deployed by Aleks Stanisic
 ============================================================
 * c94eb06: Aleks Stanisic - updating featured amas
