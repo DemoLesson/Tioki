@@ -1,5 +1,4 @@
 class JobsController < ApplicationController
- 	# Deprecate
 	before_filter :login_required, :except => ['index', 'show', 'job_referral', 'job_referral_email', 'preferences']
 	before_filter :login_required_signup, :only => ['preferences']
 
@@ -373,36 +372,45 @@ class JobsController < ApplicationController
 	end
 
 	def preferences
-		if currentUser.seeking[:location]
-			@location = currentUser.seeking[:location].split(":").first unless currentUser.seeking[:location] == "any"
+		if currentUser.job_seeker
+			@job_seeker = currentUser.job_seeker
+		else
+			@job_seeker = JobSeeker.new
 		end
 
-		if currentUser.seeking[:subjects]
-			subject_ids = currentUser.seeking[:subjects].split(",")
+		if @job_seeker.subject_ids
+			subject_ids = @job_seeker.subject_ids.split(",")
 			@subjects = Subject.where(:id => subject_ids)
 		end
 
-		if currentUser.seeking[:grades]
-			grades_ids = currentUser.seeking[:grades].split(",")
+		if @job_seeker.grade_ids
+			grades_ids = @job_seeker.grade_ids.split(",")
 			@grades = Grade.where(:id => grades_ids)
 		end
 
 		if request.post?
-			if params[:any_location]
-				params[:user][:seeking][:location] = "any"
+			if params[:job_seeker][:any_location]
+				@job_seeker.any_location = true
+					@job_seeker.location = nil
 			else
-				box = Kvpair.seeking_location_box(params[:user][:seeking][:location])
+				@job_seeker.any_location = false
+				box = JobSeeker.seeking_location_box(params[:job_seeker][:location])
 
 				if box
-					location = "#{params[:user][:seeking][:location]}:#{box.join(",")}"
-					params[:user][:seeking][:location] = location
+					@job_seeker.location = params[:job_seeker][:location]
+					@job_seeker.box = box.join(",")
 				else
 					redirect_to :back, "Could not identify location."
 				end
 			end
+			@job_seeker.grade_ids = params[:job_seeker][:grades]
+			@job_seeker.subject_ids = params[:job_seeker][:subjects]
+			@job_seeker.school_type = params[:job_seeker][:school_type]
+			@job_seeker.recruitable = params[:job_seeker][:recruitable] == 'true'
 
-			self.log_analytic(:user_job_preferences, "User used job preferences", currentUser, [], :jobs)
-			currentUser.seeking = params[:user][:seeking]
+			@job_seeker.save!
+			self.log_analytic(:user_job_preferences, "User used job preferences",
+			                  currentUser, [], :jobs)
 
 			redirect_to jobs_url
 		end
@@ -410,17 +418,17 @@ class JobsController < ApplicationController
 
 	protected
 
-		# Jobs source
-		def source_owner
-			unless params[:user_id].nil?
-				ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).map(&:id)
-				@source = Job.joins(:group).where('`groups`.`id` IN (?)', ids)
-				@org = true
-			end
-
-			# Source the group
-			unless params[:group_id].nil?
-				@source = Group.find(params[:group_id])
-			end
+	# Jobs source
+	def source_owner
+		unless params[:user_id].nil?
+			ids = User.find(params[:user_id]).groups.select('`groups`.`id`').organization.my_permissions(:administrator).map(&:id)
+			@source = Job.joins(:group).where('`groups`.`id` IN (?)', ids)
+			@org = true
 		end
+
+		# Source the group
+		unless params[:group_id].nil?
+			@source = Group.find(params[:group_id])
+		end
+	end
 end

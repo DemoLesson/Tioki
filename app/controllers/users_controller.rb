@@ -84,7 +84,7 @@ class UsersController < ApplicationController
 				end
 
 				# Is there a location we should return the user to
-				return_to = session[:return_to] || :root
+				return_to = session[:return_to] || request.referer || :root
 				session.delete(:return_to) if session[:return_to]
 
 				return redirect_to return_to

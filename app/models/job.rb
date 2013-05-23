@@ -213,26 +213,29 @@ class Job < ActiveRecord::Base
 
 	def notify_educators
 		#location
-		kvpairs = Kvpair.where("kvpairs.namespace = ? && kvpairs.key = ?", "seeking", "location")
-		kvpairs.select!{ |kvpair| kvpair.value == "any" || kvpair.job_within?(self) }
+		seekers = JobSeeker.all.select{ |job_seeker| job_seeker.any_location || job_seeker.job_within?(self) }
 
-		user_ids = kvpairs.collect(&:map_id)
-
-		users = User.where(:id => user_ids)
+		users = seekers.collect(&:user)
 
 		#subjects
 		#Only users seeking subjects and those specific ones
 		jobs_subjects_ids = self.subjects.collect(&:id)
-		users = users.select{|user| user.seeking[:subjects] && user.seeking[:subjects].split(",").any?{|subject_id| jobs_subjects_ids.include?(subject_id.to_i) } }
+		users = users.select{|user| user.job_seeker.subject_ids && user.job_seeker.subject_ids.split(",").any?{|subject_id| jobs_subjects_ids.include?(subject_id.to_i) } }
 
 		#grades
 		#Only users seeking grades and those specific ones
 		jobs_grades_ids = self.grades.collect(&:id)
-		users = users.select{|user| user.seeking[:grades] && user.seeking[:grades].split(",").any?{|grade_id| jobs_grades_ids.include?(grade_id.to_i) } }
+		users = users.select{|user| user.job_seeker.grade_ids && user.job_seeker.grade_ids.split(",").any?{|grade_id| jobs_grades_ids.include?(grade_id.to_i) } }
 
 		#School type
-		users = users.select{|user| user.seeking[:school_type] && (user.seeking[:school_type] == "All" || user.seeking[:school_type] == self.group.misc[:school_type])}
+		users = users.select{|user| user.job_seeker.school_type.nil? || user.job_seeker.school_type == "All" || user.job_seeker.school_type == self.group.misc[:school_type]}
 
+		users.each do |user|
+			NotificationMailer.job_alert(user, self).deliver
+		end
+	end
+
+	def notify_educators_migrated
 		users.each do |user|
 			NotificationMailer.job_alert(user, self).deliver
 		end

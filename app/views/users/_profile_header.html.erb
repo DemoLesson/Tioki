@@ -15,12 +15,12 @@
 				<a href="/welcome_wizard?x=step1&user_connection=<%= @user.id %>" class="action-button bg-salmon">
 					<%= ablang('connection.connect') %>
 				</a>
-			<% # IF we are already connected or if i am a school allow me to send a message %>
-			<% elsif Connection.mine.collect{|x| x.not_me_id(self.current_user.id)}.include? @user.id %>
+			<% elsif Connection.mine.not_pending.collect{|x| x.not_me_id(self.current_user.id)}.include? @user.id %>
 				<%= link_to "Send Message", { :controller => 'messages', :action => 'new', :user_id_to => @user.id }, {:class => "action-button bg-salmon"} %>
-			<% # IF we are not connected then display "connect" button %>
+			<% elsif Connection.mine.pending.where('connections.owned_by = ?', @user.id).first %>
+				<%= link_to "Accept Connection", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
 			<% else %>
-				<%= link_to ablang('connection.connect'), { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
+				<%= link_to "Connect", { :controller => 'connections', :action => 'add_connection', :user_id => @user.id }, :class => "action-button bg-salmon" %>
 			<% end %>
 
 			</div>

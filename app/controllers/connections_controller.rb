@@ -215,7 +215,7 @@ class ConnectionsController < ApplicationController
 
 			# Redirect to My Connections page
 			respond_to do |format|
-				format.html { redirect_to :my_connections }
+				format.html { redirect_to :back }
 				format.js { render :action => "add_connection" }
 			end
 		end
