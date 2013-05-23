@@ -166,7 +166,11 @@ class DiscussionsController < ApplicationController
 					end
 				end
 				self.log_analytic(:discussion_comment, "User posted comment in discussion.", @discussion, [], :discussions)
-				redirect_to  @discussion
+				if @discussion.approval == false 
+					redirect_to  @discussion
+				else
+					redirect_to  @discussion, :notice => "Thank You for Submitting Your Comment for Approval"
+				end
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
 			end
@@ -190,7 +194,11 @@ class DiscussionsController < ApplicationController
 					end
 				end
 				self.log_analytic(:discussion_comment_reply, "User posted reply to comment in discussion.", @discussion, [], :discussions)
-				redirect_to @discussion
+				if @discussion.approval == false 
+					redirect_to  @discussion
+				else
+					redirect_to  @discussion, :notice => "Thank You for Submitting Your Comment for Approval"
+				end
 			else
 				redirect_to :back, :notice => @comment.errors.full_messages.to_sentence
 			end
