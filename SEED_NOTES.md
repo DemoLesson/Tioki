@@ -1,3 +1,7 @@
+v5.3.1 - May 23, 2013  3:13PM PDT deployed by Aleks Stanisic
+============================================================
+* 9faf4e0: Aleks Stanisic - changes to AMA page
+
 v5.3.0 - May 23, 2013  1:35PM PDT deployed by Aleks Stanisic
 ============================================================
 * ecca176: Aleks Stanisic - adding notifications for users that their comments need to be approved
