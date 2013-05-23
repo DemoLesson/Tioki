@@ -1,3 +1,10 @@
+v5.3.0 - May 23, 2013  1:35PM PDT deployed by Aleks Stanisic
+============================================================
+* ecca176: Aleks Stanisic - adding notifications for users that their comments need to be approved
+* 0b4e20d: Elijah Green - Comment approval
+* d57acb1: Elijah Green - Add that this dicussion requires approval
+* 947f993: Elijah Green - Discussion approval migrations
+
 v5.2.42 - May 20, 2013 11:16PM PDT deployed by Aleks Stanisic
 =============================================================
 * 228b483: Aleks Stanisic - changes to job preferences page
