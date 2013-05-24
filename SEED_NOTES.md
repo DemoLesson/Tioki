@@ -1,3 +1,7 @@
+v5.3.2 - May 23, 2013 11:57PM PDT deployed by Aleks Stanisic
+============================================================
+* a00f6ee: Aleks Stanisic - chnaged to AMA page
+
 v5.3.1 - May 23, 2013  3:13PM PDT deployed by Aleks Stanisic
 ============================================================
 * 9faf4e0: Aleks Stanisic - changes to AMA page
