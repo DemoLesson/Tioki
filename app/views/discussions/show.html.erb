@@ -87,7 +87,7 @@
 			<!-- Start of Replies to Discussion-->
 			<ul>
 				<% @discussion.comment_threads.includes(:user).order("lft").each do |comment| %>
-					<% unless (comment.deleted_at && comment.leaf?) || (@discussion.approval && !comment.approved && !self.current_user.is_admin) %>
+					<% unless (comment.deleted_at && comment.leaf?) || (@discussion.approval && !comment.approved && !self.current_user.try(:is_admin)) %>
 						<li style="width:700px;padding:12px 0px 12px 15px !important;<%= "background-color:#FF9999" if @discussion.approval && !comment.approved %>" id="comment<%=comment.id%>">
 							<a name="c<%= comment.id %>"></a>
 
