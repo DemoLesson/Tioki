@@ -1,3 +1,7 @@
+v5.3.4 - Jun 3, 2013  1:29PM PDT deployed by Aleks Stanisic
+===========================================================
+
+
 v5.3.3 - May 30, 2013  2:09PM PDT deployed by Elijah Green
 ==========================================================
 * 63249be: Elijah Green - Fix discussion that need approval for users that are not logged in
