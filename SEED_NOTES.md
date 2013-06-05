@@ -1,3 +1,7 @@
+v5.4.0 - Jun 5, 2013  3:15PM PDT deployed by Aleks Stanisic
+===========================================================
+* 6713bde: Aleks Stanisic - making all discussions private and requiring sign up to view
+
 v5.3.6 - Jun 5, 2013  1:56AM PDT deployed by Aleks Stanisic
 ===========================================================
 * 4a67cff: Aleks Stanisic - removing edit and delete option from users for approval based discussions
