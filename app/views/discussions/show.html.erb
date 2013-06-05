@@ -121,7 +121,7 @@
 									<div class ="reply_to_comment">
 										<a>Reply</a>
 									</div>
-									<% if self.current_user.id == comment.user_id || self.current_user.is_admin && !comment.deleted_at %>
+									<% if self.current_user.id == comment.user_id && !@discussion.approval || self.current_user.is_admin && !comment.deleted_at %>
 										|
 										<%= link_to "Edit", {:action => "edit_comment", :id => comment.id } %>
 										|
