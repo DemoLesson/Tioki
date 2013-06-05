@@ -118,12 +118,13 @@ class WelcomeWizardController < ApplicationController
 				flash[:notice] = "Signup successful"
 				if params[:discussion_id]
 					@discussion = Discussion.find(params[:discussion_id])
-					comment = Comment.build_from(@discussion, @user.id, params[:body])
-					if comment.save
-						return redirect_to @discussion
-					else
-						return redirect_to @discussion
-					end
+					#comment = Comment.build_from(@discussion, @user.id, params[:body])
+					#if comment.save
+					#	return redirect_to @discussion
+					#else
+					#	return redirect_to @discussion
+					#end
+					return redirect_to @discussion
 				elsif params[:discussion_follow]
 					discussion = Discussion.find(params[:discussion_follow])
 					return redirect_to discussion
