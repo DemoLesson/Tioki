@@ -99,16 +99,20 @@
 			</div>
 		</form>
 	</div>
-	
+	<!-- Marketing -->
 	<section class="panel right-side" style="width: 400px; border:solid 1px #2AA99B;margin-right:20px">
-		<h3><span class="green bold">What Tioki means for you...</span></h3>
-		<ul>
-			<% mandelas_profile = User.find(3).slug %>
-			<li style='padding-right:15px !important;'>Establishing your online <span style="color:#2AA99B">Presence</span></li>
-			<li style='padding-right:15px !important;'>Connecting with others to collaborate & <span style="color:#2AA99B">Grow</span></li>
-			<li style='padding-right:15px !important;'>Finding <span style="color:#2AA99B">Education Events</span> that appeal to you</li>
-			<li style='padding-right:15px !important;'>Exploring cutting edge <span style="color:#2AA99B">Classroom Technology</span></li>
-			<li style='padding-right:15px !important;'>Participating in <span style="color:#2AA99B">Educational Discussions</span></li>
-		</ul>
+		<% if params[:discussion_id] %>
+			Insert stuff here Brian
+		<% else %>
+			<h3><span class="green bold">What Tioki means for you...</span></h3>
+			<ul>
+				<% mandelas_profile = User.find(3).slug %>
+				<li style='padding-right:15px !important;'>Establishing your online <span style="color:#2AA99B">Presence</span></li>
+				<li style='padding-right:15px !important;'>Connecting with others to collaborate & <span style="color:#2AA99B">Grow</span></li>
+				<li style='padding-right:15px !important;'>Finding <span style="color:#2AA99B">Education Events</span> that appeal to you</li>
+				<li style='padding-right:15px !important;'>Exploring cutting edge <span style="color:#2AA99B">Classroom Technology</span></li>
+				<li style='padding-right:15px !important;'>Participating in <span style="color:#2AA99B">Educational Discussions</span></li>
+			</ul>
+		<% end %>
 	</section>
 </div>
