@@ -1,3 +1,7 @@
+v5.4.2 - Jun 6, 2013  1:50PM PDT deployed by Elijah Green
+=========================================================
+
+
 v5.4.1 - Jun 6, 2013 11:50AM PDT deployed by Aleks Stanisic
 ===========================================================
 * 48b4190: Brian Martinez - change to discussion signup partial
