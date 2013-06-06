@@ -7,6 +7,8 @@
 				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
 			<% elsif params[:welcomecode] %>
 				Create your Tioki account to join <%= @inviter.first_name %>'s professional network.
+			<% elsif params[:discussion_id] %>
+			  Register in one step to participate in the discussion.
 			<% else %>
 				Join Tioki to start connecting with amazing educators today.
 			<% end %>
@@ -102,7 +104,13 @@
 	<!-- Marketing -->
 	<section class="panel right-side" style="width: 400px; border:solid 1px #2AA99B;margin-right:20px">
 		<% if params[:discussion_id] %>
-			Insert stuff here Brian
+			<h3><span class="green bold">In just a couple seconds, you can...</span></h3>
+			<ul>
+				<li style='padding-right:15px !important;'><span style="color:#2AA99B">Like</span> comments posted by others</li>
+				<li style='padding-right:15px !important;'><span style="color:#2AA99B">Post</span> your own replies to the discussion</li>
+				<li style='padding-right:15px !important;'><span style="color:#2AA99B">Start</span> a discussion about a topic of your liking</li>
+				<li style='padding-right:15px !important;'><span style="color:#2AA99B">Connect</span> with other Educators</li>
+			</ul>
 		<% else %>
 			<h3><span class="green bold">What Tioki means for you...</span></h3>
 			<ul>
