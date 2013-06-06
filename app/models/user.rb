@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
 
 	# Has One Connections
 	has_one :login_token
-	has_one :teacher
+	has_one :job_seeker
 
 	#User occupation constant
 	OCCUPATION = [ "Teacher", "Professor", "Administrator", "Student Teacher", "Entrepreneur", "Staff", "Other" ]

@@ -1,3 +1,75 @@
+v5.4.0 - Jun 5, 2013  3:15PM PDT deployed by Aleks Stanisic
+===========================================================
+* 6713bde: Aleks Stanisic - making all discussions private and requiring sign up to view
+
+v5.3.6 - Jun 5, 2013  1:56AM PDT deployed by Aleks Stanisic
+===========================================================
+* 4a67cff: Aleks Stanisic - removing edit and delete option from users for approval based discussions
+
+v5.3.5 - Jun 4, 2013  2:54PM PDT deployed by Aleks Stanisic
+===========================================================
+* 49f82d1: Aleks Stanisic - chnaging ama pic of michelle rhe
+
+v5.3.4 - Jun 3, 2013  1:29PM PDT deployed by Aleks Stanisic
+===========================================================
+
+
+v5.3.3 - May 30, 2013  2:09PM PDT deployed by Elijah Green
+==========================================================
+* 63249be: Elijah Green - Fix discussion that need approval for users that are not logged in
+
+v5.3.2 - May 23, 2013 11:57PM PDT deployed by Aleks Stanisic
+============================================================
+* a00f6ee: Aleks Stanisic - chnaged to AMA page
+
+v5.3.1 - May 23, 2013  3:13PM PDT deployed by Aleks Stanisic
+============================================================
+* 9faf4e0: Aleks Stanisic - changes to AMA page
+
+v5.3.0 - May 23, 2013  1:35PM PDT deployed by Aleks Stanisic
+============================================================
+* ecca176: Aleks Stanisic - adding notifications for users that their comments need to be approved
+* 0b4e20d: Elijah Green - Comment approval
+* d57acb1: Elijah Green - Add that this dicussion requires approval
+* 947f993: Elijah Green - Discussion approval migrations
+
+v5.2.42 - May 20, 2013 11:16PM PDT deployed by Aleks Stanisic
+=============================================================
+* 228b483: Aleks Stanisic - changes to job preferences page
+
+v5.2.41 - May 8, 2013 11:14PM PDT deployed by Aleks Stanisic
+============================================================
+* c94eb06: Aleks Stanisic - updating featured amas
+
+v5.2.40 - May 8, 2013  2:51PM PDT deployed by Aleks Stanisic
+============================================================
+* 827d8ce: Aleks Stanisic - changes to the ama page and header
+
+v5.2.39 - Apr 26, 2013  4:21PM PDT deployed by Elijah Green
+===========================================================
+* fb5195b: Aleks Stanisic - removing upcomming events from dashboard
+* 0bebfad: Elijah Green - New job seeker
+* 78b5b67: Elijah Green - Add recruitable
+* eec7677: Elijah Green - seeking migration
+* 399bd0f: Elijah Green - Changes to job preferences page
+* c051c92: Elijah Green - Add job_seeker
+
+v5.2.38 - Apr 24, 2013  1:07PM PDT deployed by Aleks Stanisic
+=============================================================
+* 233fb03: Aleks Stanisic - changes to featured AMA on dashboard
+* b1c8acd: Elijah Green - Add whether not a user can be recruited by schools
+
+v5.2.37 - Apr 19, 2013 11:06PM PDT deployed by Aleks Stanisic
+=============================================================
+* 64cf3c4: Elijah Green - Change wording of accept connections and redirect correctly
+
+v5.2.36 - Apr 19, 2013 10:12PM PDT deployed by Aleks Stanisic
+=============================================================
+* aa7cb11: Brian Martinez - changes to AMA page
+* 579a58a: Elijah Green - Stay on page where logged in from
+* 86e4f05: Elijah Green - Allow users to accepted connections from profile
+* d8ded98: Elijah Green - Change --pid=dir= to --pid-dir=
+
 v5.2.35 - Apr 14, 2013 12:25PM PDT deployed by Aleks Stanisic
 =============================================================
 * 348b4b7: Aleks Stanisic - chnages to featured jobs

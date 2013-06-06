@@ -70,6 +70,7 @@ Preview::Application.routes.draw do
 		match 'followed_discussions' => 'discussions#followed_discussions'
 		match 'my_discussions' => 'discussions#my_discussions'
 		match 'destroy_comment/:id' => 'discussions#destroy_comment'
+		match 'approve_comment/:id' => 'discussions#approve_comment'
 		match 'edit_comment/:id' => 'discussions#edit_comment'
 		match 'update_comment/:id' => 'discussions#update_comment'
 		match 'discussions/:id/invite' => 'discussions#invite'
