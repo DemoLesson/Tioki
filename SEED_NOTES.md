@@ -1,3 +1,9 @@
+v5.4.1 - Jun 6, 2013 11:50AM PDT deployed by Aleks Stanisic
+===========================================================
+* 48b4190: Brian Martinez - change to discussion signup partial
+* 2ee49eb: Brian Martinez - changes to splash page currently commented out
+* 0f97d15: Aleks Stanisic - template for step 1 wizard discussion sign up marketing
+
 v5.4.0 - Jun 5, 2013  3:15PM PDT deployed by Aleks Stanisic
 ===========================================================
 * 6713bde: Aleks Stanisic - making all discussions private and requiring sign up to view
