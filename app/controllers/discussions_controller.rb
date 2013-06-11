@@ -4,7 +4,12 @@ class DiscussionsController < ApplicationController
   # GET /discussions
   # GET /discussions.json
   def index
-    @discussions = Discussion.where(:owner => nil).order("created_at DESC")
+    #@discussions = Discussion.where(:owner => nil).order("created_at DESC")
+	@discussions = Discussion.joins(:comments).
+					select('discussions.*, count(comments.id) as comments_count').
+					where("discussions.owner IS NULL").
+					group("discussions.id").
+					order('comments_count DESC')
 
     respond_to do |format|
       format.html # index.html.erb
