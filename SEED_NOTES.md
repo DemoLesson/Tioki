@@ -1,3 +1,8 @@
+v5.4.3 - Jun 11, 2013  4:16PM PDT deployed by Aleks Stanisic
+============================================================
+* b3fd7f8: Aleks Stanisic - style fix to discussion index page
+* 57f2e7d: Aleks Stanisic - re-ordering discussions
+
 v5.4.2 - Jun 6, 2013  1:50PM PDT deployed by Elijah Green
 =========================================================
 
