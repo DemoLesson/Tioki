@@ -1,3 +1,7 @@
+v5.4.4 - Jul 8, 2013  1:56AM PDT deployed by Aleks Stanisic
+===========================================================
+* 095bf56: Aleks Stanisic - changes to ama page
+
 v5.4.3 - Jun 11, 2013  4:16PM PDT deployed by Aleks Stanisic
 ============================================================
 * b3fd7f8: Aleks Stanisic - style fix to discussion index page
