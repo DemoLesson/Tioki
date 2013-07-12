@@ -1,3 +1,7 @@
+v5.4.5 - Jul 12, 2013 12:51PM PDT deployed by Aleks Stanisic
+============================================================
+* 0e6351b: Aleks Stanisic - erasing whitesapce from AMA page
+
 v5.4.4 - Jul 8, 2013  1:56AM PDT deployed by Aleks Stanisic
 ===========================================================
 * 095bf56: Aleks Stanisic - changes to ama page
