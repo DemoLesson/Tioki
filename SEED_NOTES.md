@@ -1,3 +1,7 @@
+v5.4.9 - Sep 17, 2013 12:54AM PDT deployed by Aleks Stanisic
+============================================================
+* 624e60f: Aleks Stanisic - launching new instance attempt number two
+
 v5.4.8 - Sep 17, 2013 12:50AM PDT deployed by Aleks Stanisic
 ============================================================
 
