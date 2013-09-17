@@ -1,3 +1,7 @@
+v5.4.7 - Sep 17, 2013 12:45AM PDT deployed by Aleks Stanisic
+============================================================
+
+
 v5.4.6 - Sep 17, 2013 12:41AM PDT deployed by Aleks Stanisic
 ============================================================
 * 5a07dd7: Aleks Stanisic - booting new instance
