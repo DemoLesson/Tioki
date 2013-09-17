@@ -1,3 +1,7 @@
+v5.4.12 - Sep 17, 2013  1:20AM PDT deployed by Aleks Stanisic
+=============================================================
+
+
 v5.4.11 - Sep 17, 2013  1:13AM PDT deployed by Aleks Stanisic
 =============================================================
 * 588b0d1: Aleks Stanisic - launching a 3rd instance
