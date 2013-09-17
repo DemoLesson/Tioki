@@ -1,3 +1,7 @@
+v5.4.6 - Sep 17, 2013 12:41AM PDT deployed by Aleks Stanisic
+============================================================
+* 5a07dd7: Aleks Stanisic - booting new instance
+
 v5.4.5 - Jul 12, 2013 12:51PM PDT deployed by Aleks Stanisic
 ============================================================
 * 0e6351b: Aleks Stanisic - erasing whitesapce from AMA page
