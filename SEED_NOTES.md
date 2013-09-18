@@ -1,3 +1,7 @@
+v5.4.15 - Sep 18, 2013  3:35PM PDT deployed by Aleks Stanisic
+=============================================================
+* 2ca1399: Aleks Stanisic - removing keypair
+
 v5.4.14 - Sep 18, 2013  3:31PM PDT deployed by Aleks Stanisic
 =============================================================
 * f73c1b5: Aleks Stanisic - keypair
