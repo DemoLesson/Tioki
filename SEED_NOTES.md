@@ -1,3 +1,11 @@
+v5.4.14 - Sep 18, 2013  3:31PM PDT deployed by Aleks Stanisic
+=============================================================
+* f73c1b5: Aleks Stanisic - keypair
+
+v5.4.13 - Sep 17, 2013  1:30AM PDT deployed by Aleks Stanisic
+=============================================================
+
+
 v5.4.12 - Sep 17, 2013  1:20AM PDT deployed by Aleks Stanisic
 =============================================================
 
