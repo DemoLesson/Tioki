@@ -1,3 +1,7 @@
+v5.4.20 - Sep 18, 2013  6:27PM PDT deployed by Aleks Stanisic
+=============================================================
+* 003a10e: Aleks Stanisic - changes
+
 v5.4.19 - Sep 18, 2013  5:19PM PDT deployed by Aleks Stanisic
 =============================================================
 * 3f9a926: Aleks Stanisic - new instance
