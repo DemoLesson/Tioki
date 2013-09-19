@@ -1,3 +1,7 @@
+v5.4.24 - Sep 18, 2013 10:05PM PDT deployed by Elijah Green
+===========================================================
+* 31a88df: Elijah Green - New production instance
+
 v5.4.23 - Sep 18, 2013  9:15PM PDT deployed by Elijah Green
 ===========================================================
 * cf7c455: Elijah Green - Update yml
