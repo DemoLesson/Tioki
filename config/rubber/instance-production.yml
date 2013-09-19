@@ -1,6 +1,6 @@
 ---
 - !ruby/object:Rubber::Configuration::InstanceItem
-  name: www
+  name: www1
   domain: tioki.com
   roles:
   - !ruby/object:Rubber::Configuration::RoleItem
